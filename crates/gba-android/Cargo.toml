@@ -1,0 +1,14 @@
+[package]
+name = "gba-android"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "gba_android"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gba-core = { path = "../gba-core" }
+armv4t = { path = "../armv4t" }
+recomp-core = { path = "../recomp-core" }
+jni-sys = "0.3.0"

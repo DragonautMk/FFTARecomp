@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = ["crates/ffta-play", 
+    "crates/armv4t",
+    "crates/gba-core",
+    "crates/gamedb",
+    "crates/input-config",
+    "crates/launcher",
+    "crates/menu",
+    "crates/recomp",
+    "crates/recomp-core",
+    "crates/screen",
+    "crates/installer",
+    "crates/wasm-poc",
+    "crates/cl-spike",
+    "crates/gba-android",
+]
+
+[workspace.package]
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+
+# Testing profile
+[profile.release]
+debug = false
+strip = true
+lto = "thin"
+codegen-units = 16
+
+# Distribution profile
+[profile.dist]
+inherits = "release"
+debug = false
+strip = true

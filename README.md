@@ -41,28 +41,34 @@
 
 ## 🔨 Building from source
 
-The project is built in two separate steps, one folder after the other.
-You need [Rust](https://rustup.rs) installed.
-
-**Step 1: build the first project**
+You need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
 
 ```powershell
-cd E:\AI\ARC\FFTARecomp
-cargo build --release
+git clone https://github.com/Jorge262007/FFTARecomp.git
+cd FFTARecomp
+.\build-all.ps1
 ```
 
-**Step 2: build the second project (the installer)**
+The script does everything in order:
+
+1. Builds the whole workspace (`cargo build --release`).
+2. Builds the installer (`cargo build --release -p installer`).
+3. Copies `installer.exe` into `Installer\`, next to the static `payload` folder.
+4. Downloads the compiler toolchain ([w64devkit](https://github.com/skeeto/w64devkit) 2.10.0) into `Installer\payload\toolchain`, only if it is missing.
+
+When it finishes, the final installer is in:
+
+```
+FFTARecomp\Installer\
+```
+
+If PowerShell blocks the script, run it with:
 
 ```powershell
-cd E:\AI\ARC\Newfolder\FFTARecomp
-cargo build --release
+powershell -ExecutionPolicy Bypass -File .\build-all.ps1
 ```
 
-After the second build finishes, the final executable is in:
-
-```
-E:\AI\ARC\Newfolder\FFTARecomp\target\release
-```
+To force a fresh toolchain download, delete `Installer\payload\toolchain` and run the script again.
 
 > ⏱️ The first build can take several minutes.
 

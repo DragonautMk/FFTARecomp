@@ -1697,23 +1697,9 @@ impl FifoInterp {
 }
 
 /// Vendored community controller mapping DB (zlib; see THIRD-PARTY.md).
-/// gilrs bundles its own snapshot, but it lags newer controllers — this
-/// fresher copy is fed on top so the packaged play binary recognizes the
-/// broadest possible set of pads with no external file dependency.
-const CONTROLLER_DB: &str = include_str!("../../../assets/gamecontrollerdb.txt");
-
-/// Build a gilrs context with the vendored DB layered over the built-in
-/// mappings. Falls back to a plain context if the builder rejects (the
-/// dummy backend on headless hosts), so the play loop never hard-fails
-/// over input init.
 fn build_gilrs() -> Option<gilrs::Gilrs> {
-    gilrs::GilrsBuilder::new()
-        .add_mappings(CONTROLLER_DB)
-        .build()
-        .ok()
-        .or_else(|| gilrs::Gilrs::new().ok())
+    gilrs::Gilrs::new().ok()
 }
-
 /// Gilrs button name (the launcher stores `{:?}` of the button) to a
 /// gilrs `Button`. Stick-direction tokens are handled elsewhere (they
 /// read axes, not buttons) and return `None` here.

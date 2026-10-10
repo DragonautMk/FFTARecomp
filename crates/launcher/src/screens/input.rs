@@ -7,19 +7,9 @@ use input_config::{Button, Device, DpadSource, InputConfig, StickToken};
 use crate::theme;
 
 /// Vendored community controller mapping DB (zlib; see THIRD-PARTY.md).
-/// Fed on top of gilrs's built-in snapshot so the launcher recognizes the
-/// same broad controller set the play runtime does — both must agree on
-/// pad names, or a binding made here wouldn't fire there.
-const CONTROLLER_DB: &str = include_str!("../../../../assets/gamecontrollerdb.txt");
-
 fn build_gilrs() -> Option<gilrs::Gilrs> {
-    gilrs::GilrsBuilder::new()
-        .add_mappings(CONTROLLER_DB)
-        .build()
-        .ok()
-        .or_else(|| gilrs::Gilrs::new().ok())
+    gilrs::Gilrs::new().ok()
 }
-
 pub struct InputScreen {
     cfg: InputConfig,
     gilrs: Option<gilrs::Gilrs>,

@@ -39,6 +39,33 @@
 
 > 💡 You need your own copy of *Final Fantasy Tactics Advance (USA)*. This project does not include any game data.
 
+## 🔨 Building from source
+
+The project is built in two separate steps, one folder after the other.
+You need [Rust](https://rustup.rs) installed.
+
+**Step 1: build the first project**
+
+```powershell
+cd E:\AI\ARC\FFTARecomp
+cargo build --release
+```
+
+**Step 2: build the second project (the installer)**
+
+```powershell
+cd E:\AI\ARC\Newfolder\FFTARecomp
+cargo build --release
+```
+
+After the second build finishes, the final executable is in:
+
+```
+E:\AI\ARC\Newfolder\FFTARecomp\target\release
+```
+
+> ⏱️ The first build can take several minutes.
+
 ## ⚠️ Good to know
 
 - 🐢 The first installation builds the game on your PC and can take several minutes. It is normal for the PC to slow down and for CPU/RAM usage to rise. This only happens once.
@@ -52,9 +79,10 @@
 
 ## 📜 License and credits
 
-- License: see [LICENSE](LICENSE). It keeps the original author's copyright line.
-- Based on [gba-recomp](https://github.com/JRickey/gba-recomp) (MIT OR Apache-2.0).
-- Includes w64devkit/GCC, with their licenses in `payload/toolchain`.
+- License: MIT, see [LICENSE](LICENSE). It keeps the original author's copyright line.
+- Based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey (MIT OR Apache-2.0).
+- `gamedb.sqlite` is by JRickey, released under CC0 1.0.
+- Includes [w64devkit](https://github.com/skeeto/w64devkit) (GCC, binutils and other tools under GPL and compatible licenses), unmodified. Their licenses are in `payload/toolchain`.
 - *Final Fantasy Tactics Advance* is owned by Square Enix / Nintendo. This project is not affiliated with them and does not distribute ROMs or copyrighted game data.
 
 ---

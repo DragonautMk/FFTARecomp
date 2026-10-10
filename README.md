@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Image/logo.png" alt="FFTARecomp logo" width="100%">
+  <img src="Image/logo.png" alt="FFTARecomp logo" width="50%">
 </p>
 
 <h1 align="center">FFTARecomp</h1>
@@ -19,9 +19,7 @@
 
 ## ✨ What is this?
 
-**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native Windows program. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options.
-
-It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey. Thank you for the great work! 💛
+**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native Windows program. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
 
 ## 🎮 Features
 
@@ -45,14 +43,12 @@ It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey. T
 
 - 🐢 The first installation builds the game on your PC and can take several minutes. It is normal for the PC to slow down and for CPU/RAM usage to rise. This only happens once.
 - 💾 The install is larger than the game alone because it includes the compiler toolchain needed to build it.
-- 🛡️ The executables are not code-signed, so Windows SmartScreen or your antivirus may show a warning. Click **More info → Run anyway**, or right-click the `.rar` → Properties → tick **Unblock** before extracting.
-- 🔎 Some antivirus engines (for example Bkav) may flag the files as a false positive because they are unsigned and the installer builds the game on your PC. You can check the VirusTotal report below.
 - 🐛 This is a work in progress. If you find a bug, please open an [issue](https://github.com/Jorge262007/FFTARecomp/issues) and tell us what happened and your PC specs.
 
-## 🔐 Verify your download
-
-- SHA-256: `66edaef53bd5e8553bb13ec6d01463ddacbc105e191170edaa7808921666a5dc`
-- VirusTotal: [View report](https://www.virustotal.com/gui/file/66edaef53bd5e8553bb13ec6d01463ddacbc105e191170edaa7808921666a5dc)
+> ### 🛡️ Windows or your antivirus shows a warning?
+> **The executables are not code-signed**, so Windows SmartScreen or your antivirus may show a warning. Click **More info → Run anyway**, or right-click the `.rar` → Properties → tick **Unblock** before extracting.
+>
+> If you have any doubts, you can check the **VirusTotal report** included in each release.
 
 ## 📜 License and credits
 
@@ -63,4 +59,4 @@ It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey. T
 
 ---
 
-<p align="center">Made with ❤️ for FFTA fans</p>
+<p align="center">Made by a fan, for fans.</p>

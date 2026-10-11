@@ -31,6 +31,26 @@
 - 📦 **One-click installer:** pick your ROM and you're done.
 - 🚫 **No console BIOS needed.**
 
+## 🕹️ Controls
+
+> 💡 To open the **Options Menu**, press **Esc** while in-game.
+
+| PC | Game Boy Advance |
+|----|------------------|
+| Z | A |
+| X | B |
+| A | L |
+| S | R |
+| Enter | Start |
+| Right Shift | Select |
+| Up Arrow | Up |
+| Down Arrow | Down |
+| Left Arrow | Left |
+| Right Arrow | Right |
+| Tab | Fast Forward |
+
+Controls can be remapped from the Options Menu.
+
 ## 🚀 Installation
 
 1. Download `FFTARecomp.rar` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.

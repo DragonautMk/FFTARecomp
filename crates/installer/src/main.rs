@@ -3,6 +3,8 @@
 use eframe::egui::{self, Align2, Color32, FontId, RichText, Rounding, Sense, Stroke, Vec2};
 mod rom_policy;
 mod platform;
+mod path_picker;
+mod native_picker;
 #[path = "../../gba-core/src/ffta_rom.rs"]
 mod ffta_rom;
 use std::io::{BufRead, BufReader};
@@ -50,6 +52,8 @@ struct App {
     rom_status: Option<Result<String, String>>,
     warning: Option<String>,
     install_dir: PathBuf,
+    path_picker: Option<path_picker::PathPicker>,
+    native_picker: Option<(path_picker::Kind, Receiver<native_picker::Result>)>,
     shortcut: bool,
     rx: Option<Receiver<Msg>>,
     progress: f32,
@@ -97,6 +101,8 @@ impl App {
             .join(APP_NAME);
         Self {
             screen: Screen::Intro, logo, rom: None, rom_status: None, warning: None, install_dir,
+            path_picker: None,
+            native_picker: None,
             shortcut: true, rx: None, progress: 0.0, status: String::new(), error: None,
             creeping: false, base: 0.0, span: 0.0, since: Instant::now(),
         }
@@ -105,6 +111,16 @@ impl App {
     fn set_rom(&mut self, path: PathBuf) {
         self.rom_status = Some(validate_rom(&path));
         self.rom = Some(path);
+    }
+
+    fn choose_path(&mut self, kind: path_picker::Kind, ctx: &egui::Context) {
+        let (tx, rx) = channel();
+        self.native_picker = Some((kind, rx));
+        let ctx = ctx.clone();
+        std::thread::spawn(move || {
+            let _ = tx.send(native_picker::pick(kind));
+            ctx.request_repaint();
+        });
     }
 
     fn rom_ok(&self) -> bool { matches!(self.rom_status, Some(Ok(_))) }
@@ -392,6 +408,23 @@ fn card(ui: &mut egui::Ui, add: impl FnOnce(&mut egui::Ui)) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
         self.poll();
+        if let Some((kind, rx)) = &self.native_picker {
+            if let Ok(result) = rx.try_recv() {
+                let kind = *kind;
+                self.native_picker = None;
+                match result {
+                    native_picker::Result::Selected(path) => match kind {
+                        path_picker::Kind::Rom => self.set_rom(path),
+                        path_picker::Kind::Folder => self.install_dir = path.join(APP_NAME),
+                    },
+                    native_picker::Result::Cancelled => {},
+                    native_picker::Result::Unavailable(message) => {
+                        eprintln!("Native file selector unavailable: {message}");
+                        self.path_picker = Some(path_picker::PathPicker::new(kind));
+                    }
+                }
+            }
+        }
 
         if matches!(self.screen, Screen::Rom) && self.rx.is_none() {
             let dropped = ctx.input(|i| i.raw.dropped_files.first().and_then(|f| f.path.clone()));
@@ -405,15 +438,26 @@ impl eframe::App for App {
                 Screen::Rom => self.ui_rom(ui, ctx),
                 Screen::Done => self.ui_done(ui),
             });
+        if let Some(picker) = &mut self.path_picker {
+            if let Some(result) = picker.show(ctx) {
+                self.path_picker = None;
+                match result {
+                    path_picker::Selection::Rom(path) => self.set_rom(path),
+                    path_picker::Selection::Folder(path) => self.install_dir = path.join(APP_NAME),
+                    path_picker::Selection::Cancel => {}
+                }
+            }
+        }
     }
 }
 
 impl App {
     fn ui_intro(&mut self, ui: &mut egui::Ui) {
+        let logo_size = (ui.available_height() - 160.0).clamp(96.0, 176.0);
         ui.vertical_centered(|ui| {
             ui.add_space(16.0);
             if let Some(t) = &self.logo {
-                ui.image((t.id(), Vec2::splat(176.0)));
+                ui.image((t.id(), Vec2::splat(logo_size)));
             }
             ui.add_space(12.0);
             ui.label(RichText::new(APP_NAME).size(32.0).strong());
@@ -427,6 +471,13 @@ impl App {
 
     fn ui_rom(&mut self, ui: &mut egui::Ui, ctx: &egui::Context) {
         let installing = self.rx.is_some();
+        let scroll_height = (ui.available_height() - 56.0).max(1.0);
+        egui::ScrollArea::vertical()
+            .id_salt("rom_setup")
+            .max_height(scroll_height)
+            .auto_shrink([false, false])
+            .stick_to_bottom(installing)
+            .show(ui, |ui| {
         ui.label(RichText::new("Important").size(22.0).strong());
         ui.add_space(8.0);
         card(ui, |ui| {
@@ -463,25 +514,21 @@ impl App {
         });
         ui.add_space(12.0);
         card(ui, |ui| {
-            ui.horizontal(|ui| {
+            ui.horizontal_wrapped(|ui| {
                 ui.label(RichText::new("Install to").color(TEXT_DIM));
                 ui.label(self.install_dir.display().to_string());
-                if !installing && ui.button("Change").clicked() {
-                    if let Some(d) = rfd::FileDialog::new().pick_folder() {
-                        self.install_dir = d.join(APP_NAME);
-                    }
+                if ui.add_enabled(!installing && self.native_picker.is_none(), egui::Button::new("Change")).clicked() {
+                    self.choose_path(path_picker::Kind::Folder, ctx);
                 }
             });
             ui.add_space(8.0);
-            ui.horizontal(|ui| {
+            ui.horizontal_wrapped(|ui| {
                 match &self.rom {
                     Some(p) => ui.label(p.file_name().unwrap_or_default().to_string_lossy().to_string()),
                     None => ui.label(RichText::new("Drag your ROM (.gba) here").color(TEXT_DIM)),
                 };
-                if !installing && ui.button("Browse").clicked() {
-                    if let Some(p) = rfd::FileDialog::new().add_filter("GBA ROM", &["gba"]).pick_file() {
-                        self.set_rom(p);
-                    }
+                if ui.add_enabled(!installing && self.native_picker.is_none(), egui::Button::new("Browse")).clicked() {
+                    self.choose_path(path_picker::Kind::Rom, ctx);
                 }
             });
             match &self.rom_status {
@@ -489,6 +536,7 @@ impl App {
                 Some(Err(e)) => { ui.label(RichText::new(e).color(ERR)); }
                 None => {}
             }
+            if self.native_picker.is_some() { ui.label("Choose a file or folder in the desktop dialog..."); }
             ui.add_space(8.0);
             ui.add_enabled(!installing, egui::Checkbox::new(&mut self.shortcut, "Create desktop shortcut"));
         });
@@ -511,16 +559,22 @@ impl App {
         }
         if let Some(warning) = &self.warning { ui.label(RichText::new(warning).color(ERR)); }
 
+            });
+
         ui.with_layout(egui::Layout::bottom_up(egui::Align::Max), |ui| {
-            if accent_button(ui, "Recompile & Install", self.rom_ok() && !installing, 210.0).clicked() {
+            if accent_button(ui, "Recompile & Install", self.rom_ok() && !installing && self.native_picker.is_none() && self.path_picker.is_none(), 210.0).clicked() {
                 self.start_install(ctx);
             }
         });
     }
 
     fn ui_done(&mut self, ui: &mut egui::Ui) {
+        egui::ScrollArea::vertical()
+            .id_salt("installation_complete")
+            .auto_shrink([false, false])
+            .show(ui, |ui| {
         ui.vertical_centered(|ui| {
-            ui.add_space(50.0);
+            ui.add_space(16.0);
             if let Some(t) = &self.logo { ui.image((t.id(), Vec2::splat(112.0))); }
             ui.add_space(10.0);
             ui.label(RichText::new("Installation complete").size(26.0).strong());
@@ -538,13 +592,15 @@ impl App {
             ui.add_space(8.0);
             if ui.button("Close").clicked() { std::process::exit(0); }
         });
+            });
     }
 }
 
 fn main() -> eframe::Result<()> {
     let mut vb = egui::ViewportBuilder::default()
         .with_inner_size([720.0, 640.0])
-        .with_resizable(false)
+        .with_min_inner_size([400.0, 320.0])
+        .with_resizable(true)
         .with_title(format!("{APP_NAME} - Installer"));
     if let Some((rgba, [w, h])) = load_rgba(LOGO) {
         vb = vb.with_icon(egui::IconData { rgba, width: w as u32, height: h as u32 });

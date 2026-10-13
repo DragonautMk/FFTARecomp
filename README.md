@@ -5,13 +5,13 @@
 <h1 align="center">FFTARecomp</h1>
 
 <p align="center">
-  <b>Final Fantasy Tactics Advance, running natively on your Windows or Linux PC.</b><br>
+  <b>Final Fantasy Tactics Advance, running natively on your Windows PC, Linux PC or Steam Deck.</b><br>
   Widescreen, video and audio options, and a one-click installer.
 </p>
 
 <p align="center">
   <a href="https://github.com/Jorge262007/FFTARecomp/releases"><img src="https://img.shields.io/github/v/release/Jorge262007/FFTARecomp?include_prereleases&label=release" alt="Release"></a>
-  <img src="https://img.shields.io/badge/platform-Windows%2010%2F11%20%7C%20Linux-blue" alt="Platforms">
+  <img src="https://img.shields.io/badge/platform-Windows%2010%2F11%20%7C%20Linux%20%7C%20Steam%20Deck-blue" alt="Platforms">
   <img src="https://img.shields.io/badge/built%20with-Rust-orange" alt="Rust">
 </p>
 
@@ -19,13 +19,15 @@
 
 ## ✨ What is this?
 
-**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native program for Windows and Linux. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
+**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native program for Windows, Linux and Steam Deck. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
 
 ## 🆕 What's new in v2.0
 
 - 🎛️ **Completely redesigned menu.**
 - 🔍 **Zoom in and out.**
 - 🐧 **Native Linux version.**
+- 🕹️ **Steam Deck support.**
+- 📜 **Installer scroll on small screens:** you can now scroll down to reach the rest of the installer and continue the installation.
 - 🎮 **Gamepad support** (generic XInput).
 - 🐛 **Many bugs fixed** related to very wide aspect ratios.
 - 🔊 **New Normal audio mode:** the game fast-forwards while the audio keeps playing at normal speed.
@@ -92,17 +94,19 @@ Controls can be remapped from the Options Menu.
 
 ### Windows
 
-1. Download `FFTARecomp-windows-x86_64.rar` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.
+1. Download `FFTARecomp-windows-x86_64.zip` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.
 2. Run `FFTARecomp.exe`, choose your ROM and press **Recompile & Install**.
 3. Wait for the five steps to finish, then press **Play**. ▶️
 
-### Linux
+### Linux / Steam Deck
 
 Download `FFTARecomp-linux-x86_64.tar.gz` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and run:
 
 ```bash
 mkdir -p FFTARecomp-linux && tar -xzf FFTARecomp-linux-x86_64.tar.gz -C FFTARecomp-linux && cd FFTARecomp-linux && ./FFTAInstaller
 ```
+
+On Steam Deck, run it from Desktop Mode.
 
 > 💡 You need your own copy of *Final Fantasy Tactics Advance (USA)*. This project does not include any game data.
 
@@ -148,16 +152,16 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 
 - 🐢 The first installation builds the game on your PC and can take several minutes. It is normal for the PC to slow down and for CPU/RAM usage to rise. This only happens once.
 - 💾 The install is larger than the game alone because it includes the compiler toolchain needed to build it.
-- 🐛 This is a work in progress. If you find a bug, please open an [issue](https://github.com/Jorge262007/FFTARecomp/issues) and tell us what happened and your PC specs.
+- 🚧 This is a work in progress.
 
 > ### 🛡️ Windows or your antivirus shows a warning?
-> **The executables are not code-signed**, so Windows SmartScreen or your antivirus may show a warning. Click **More info → Run anyway**, or right-click the `.rar` → Properties → tick **Unblock** before extracting.
+> **The executables are not code-signed**, so Windows SmartScreen or your antivirus may show a warning. Click **More info → Run anyway**, or right-click the `.zip` → Properties → tick **Unblock** before extracting.
 >
 > If you have any doubts, you can check the **VirusTotal report** included in each release.
 
 ## 📜 License and credits
 
-- License: MIT, see [LICENSE](LICENSE). It keeps the original author's copyright line.
+- License: MIT, see [LICENSE](Licenses/LICENSE). It keeps the original author's copyright line.
 - Based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey (MIT OR Apache-2.0).
 - `gamedb.sqlite` is by JRickey, released under CC0 1.0.
 - Includes [w64devkit](https://github.com/skeeto/w64devkit) (GCC, binutils and other tools under GPL and compatible licenses), unmodified. Their licenses are in `payload/toolchain`.

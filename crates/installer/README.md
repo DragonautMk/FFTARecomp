@@ -37,5 +37,8 @@ runtime assets directory is included. Source assets remain necessary for builds.
 
 The installer uses the same ROM hash/byte checks on Windows and Linux. Linux
 shortcuts are desktop entries, and installed binaries receive execute permission.
+File selection uses Windows native dialogs, KDE `kdialog`, or GTK `zenity`.
+On Linux the desktop's selector is preferred when installed; if neither tool
+can run, the installer opens its built-in browser. Cancelling closes the dialog.
 The manual workflow `installer-linux.yml` builds and packages on Ubuntu; it does
 not publish a release. Linux execution has not been tested on the Windows host.

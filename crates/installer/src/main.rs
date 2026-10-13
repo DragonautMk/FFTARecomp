@@ -1,7 +1,10 @@
-#![windows_subsystem = "windows"]
+#![cfg_attr(windows, windows_subsystem = "windows")]
 
 use eframe::egui::{self, Align2, Color32, FontId, RichText, Rounding, Sense, Stroke, Vec2};
-use sha1::{Digest, Sha1};
+mod rom_policy;
+mod platform;
+#[path = "../../gba-core/src/ffta_rom.rs"]
+mod ffta_rom;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
@@ -20,11 +23,10 @@ const TEXT_DIM: Color32 = Color32::from_rgb(0x8B, 0x8B, 0x96);
 const OK: Color32 = Color32::from_rgb(0x4C, 0xD1, 0x7E);
 const ERR: Color32 = Color32::from_rgb(0xE5, 0x5B, 0x5B);
 
-const GAME_CODES: &[(&str, &str)] = &[("AFXE", "USA"), ("AFXP", "Europe"), ("AFXJ", "Japan")];
 const KNOWN_SHA1: &[&str] = &["4ac05441f4de70a4ec3dd932116346c61b8783d9"]; // USA
 
 const ROM_FILE: &str = "ffta.gba";
-const PLAYER_EXE: &str = "FFTARecomp.exe"; // stub that launches the game directly
+const PLAYER_EXE: &str = platform::PLAYER;
 
 const LOGO: &[u8] = include_bytes!("../assets/logo.png");
 // -----------------------------------------------------------------------
@@ -36,6 +38,7 @@ enum Msg {
     /// Phase with unknown duration: bar creeps from `base` towards `base + span`.
     Creep(f32, f32, String),
     Text(String),
+    Warning(String),
     Finished,
     Failed(String),
 }
@@ -45,6 +48,7 @@ struct App {
     logo: Option<egui::TextureHandle>,
     rom: Option<PathBuf>,
     rom_status: Option<Result<String, String>>,
+    warning: Option<String>,
     install_dir: PathBuf,
     shortcut: bool,
     rx: Option<Receiver<Msg>>,
@@ -92,7 +96,7 @@ impl App {
             .unwrap_or_else(|| PathBuf::from("."))
             .join(APP_NAME);
         Self {
-            screen: Screen::Intro, logo, rom: None, rom_status: None, install_dir,
+            screen: Screen::Intro, logo, rom: None, rom_status: None, warning: None, install_dir,
             shortcut: true, rx: None, progress: 0.0, status: String::new(), error: None,
             creeping: false, base: 0.0, span: 0.0, since: Instant::now(),
         }
@@ -113,6 +117,7 @@ impl App {
         self.rx = Some(rx);
         self.progress = 0.0;
         self.error = None;
+        self.warning = None;
         let ctx = ctx.clone();
         std::thread::spawn(move || {
             let send = |m: Msg| { let _ = tx.send(m); ctx.request_repaint(); };
@@ -121,6 +126,14 @@ impl App {
                 Ok(d) => d,
                 Err(e) => return send(Msg::Failed(format!("Could not read the ROM: {e}"))),
             };
+            // Eligibility uses these exact bytes, before mkdir/copy/compile or patch work.
+            let plan = match rom_policy::plan(&data) {
+                Ok(plan) => plan,
+                Err(message) => return send(Msg::Failed(message)),
+            };
+            if let rom_policy::InstallPlan::Unpatched(message) = &plan {
+                send(Msg::Warning(message.clone()));
+            }
             send(Msg::Progress(0.05, "Step 1/5 · Creating folder...".into()));
             if let Err(e) = std::fs::create_dir_all(&dir) {
                 return send(Msg::Failed(format!("Could not create the folder: {e}")));
@@ -141,24 +154,33 @@ impl App {
             if !dir.join(PLAYER_EXE).exists() {
                 return send(Msg::Failed(format!("{PLAYER_EXE} is missing from 'payload'.")));
             }
+            for name in [PLAYER_EXE,platform::RECOMP] {
+                if let Err(error)=platform::executable(&dir.join(name)) {
+                    return send(Msg::Failed(format!("Could not prepare {name}: {error}")));
+                }
+            }
 
             // ---- Recompile step -------------------------------------------------
             send(Msg::Creep(0.20, 0.06, "Step 4/5 · Recompiling the game (this may take several minutes)...".into()));
-            let mut cmd = Command::new(dir.join("recomp.exe"));
+            let mut cmd = Command::new(dir.join(platform::RECOMP));
             cmd.current_dir(&dir)
                 .arg("play")
                 .arg("--status")
-                .arg("--gamedb")
-                .arg(dir.join("gamedb.sqlite"))
-                .arg(dir.join(ROM_FILE))
                 .stdout(Stdio::piped())
                 .stderr(Stdio::piped());
+            if dir.join("gamedb.sqlite").is_file() {cmd.arg("--gamedb").arg(dir.join("gamedb.sqlite"));}
+            cmd.arg(dir.join(ROM_FILE));
             let tool_bin = dir.join("toolchain").join("bin");
             let old = std::env::var_os("PATH").unwrap_or_default();
             let mut paths = vec![tool_bin];
             paths.extend(std::env::split_paths(&old));
             if let Ok(p) = std::env::join_paths(paths) { cmd.env("PATH", p); }
             cmd.env("RECOMP_JOBS", "2");
+            #[cfg(any(target_os = "linux", windows))]
+            cmd.env("FFTA_FRAME_PACING", std::env::var_os("FFTA_FRAME_PACING").unwrap_or_else(|| "clock".into()));
+            if matches!(plan, rom_policy::InstallPlan::Unpatched(_)) {
+                cmd.env("FFTA_PATCH_BG", "0").env("FFTA_PATCH_SPR", "0");
+            }
             #[cfg(windows)]
             {
                 use std::os::windows::process::CommandExt;
@@ -230,6 +252,7 @@ impl App {
                         self.since = Instant::now(); self.status = s;
                     }
                     Msg::Text(s) => self.status = s,
+                    Msg::Warning(s) => self.warning = Some(s),
                     Msg::Finished => finished = true,
                     Msg::Failed(e) => { self.error = Some(e); self.rx = None; break; }
                 }
@@ -256,6 +279,7 @@ fn parse_frac(s: &str) -> Option<(u32, u32)> {
     None
 }
 
+#[cfg(windows)]
 fn create_shortcut(dir: &Path) {
     let Some(desktop) = dirs::desktop_dir() else { return };
     let exe = dir.join(PLAYER_EXE);
@@ -275,6 +299,22 @@ fn create_shortcut(dir: &Path) {
     }
     let _ = cmd.status();
 }
+
+#[cfg(target_os="linux")]
+fn create_shortcut(dir:&Path) {
+    let Ok(entry)=platform::desktop_entry(dir) else{return;};
+    if let Some(data)=dirs::data_local_dir() {
+        let applications=data.join("applications");
+        if std::fs::create_dir_all(&applications).is_ok() {let _=std::fs::write(applications.join("FFTARecomp.desktop"),&entry);}
+    }
+    if let Some(desktop)=dirs::desktop_dir() {
+        let path=desktop.join("FFTARecomp.desktop");
+        if std::fs::write(&path,entry).is_ok(){let _=platform::executable(&path);}
+    }
+}
+
+#[cfg(not(any(windows,target_os="linux")))]
+fn create_shortcut(_:&Path) {}
 
 fn find_payload() -> Option<PathBuf> {
     let beside = std::env::current_exe().ok()?.parent()?.join("payload");
@@ -299,17 +339,9 @@ fn copy_dir(from: &Path, to: &Path) -> std::io::Result<()> {
 
 fn validate_rom(path: &Path) -> Result<String, String> {
     let data = std::fs::read(path).map_err(|e| format!("Could not read the file: {e}"))?;
-    if data.len() < 0xC0 {
-        return Err("The file is too small to be a GBA ROM.".into());
-    }
-    let hash: String = Sha1::digest(&data).iter().map(|b| format!("{b:02x}")).collect();
-    if KNOWN_SHA1.contains(&hash.as_str()) {
-        return Ok("ROM verified".into());
-    }
-    let code = String::from_utf8_lossy(&data[0xAC..0xB0]).to_string();
-    match GAME_CODES.iter().find(|(c, _)| *c == code) {
-        Some((_, region)) => Ok(format!("FFTA ROM detected ({region})")),
-        None => Err("This ROM does not look like Final Fantasy Tactics Advance.".into()),
+    match rom_policy::plan(&data)? {
+        rom_policy::InstallPlan::Verified => Ok("ROM verified (SHA1, SHA256 and all hook bytes)".into()),
+        rom_policy::InstallPlan::Unpatched(message) => Ok(message),
     }
 }
 
@@ -386,6 +418,7 @@ impl App {
             ui.add_space(12.0);
             ui.label(RichText::new(APP_NAME).size(32.0).strong());
             ui.label(RichText::new(format!("A project by {AUTHORS}")).color(TEXT_DIM));
+            ui.label(RichText::new("v2.0").color(TEXT_DIM));
         });
         ui.with_layout(egui::Layout::bottom_up(egui::Align::Max), |ui| {
             if accent_button(ui, "Next", true, 150.0).clicked() { self.screen = Screen::Rom; }
@@ -452,7 +485,7 @@ impl App {
                 }
             });
             match &self.rom_status {
-                Some(Ok(m)) => { ui.label(RichText::new(m).color(OK)); }
+                Some(Ok(m)) => { ui.label(RichText::new(m).color(if m.starts_with("WARNING") { ERR } else { OK })); }
                 Some(Err(e)) => { ui.label(RichText::new(e).color(ERR)); }
                 None => {}
             }
@@ -476,6 +509,7 @@ impl App {
             ui.add_space(8.0);
             ui.label(RichText::new(e).color(ERR));
         }
+        if let Some(warning) = &self.warning { ui.label(RichText::new(warning).color(ERR)); }
 
         ui.with_layout(egui::Layout::bottom_up(egui::Align::Max), |ui| {
             if accent_button(ui, "Recompile & Install", self.rom_ok() && !installing, 210.0).clicked() {
@@ -491,11 +525,14 @@ impl App {
             ui.add_space(10.0);
             ui.label(RichText::new("Installation complete").size(26.0).strong());
             ui.label(RichText::new("The game is recompiled and ready to play.").color(TEXT_DIM));
+            if let Some(warning) = &self.warning { ui.label(RichText::new(warning).color(ERR)); }
             ui.add_space(20.0);
             if accent_button(ui, "Play", true, 150.0).clicked() {
-                let _ = Command::new(self.install_dir.join(PLAYER_EXE))
-                    .current_dir(&self.install_dir)
-                    .spawn();
+                let mut command = Command::new(self.install_dir.join(PLAYER_EXE));
+                command.current_dir(&self.install_dir);
+                #[cfg(any(target_os = "linux", windows))]
+                command.env("FFTA_FRAME_PACING", std::env::var_os("FFTA_FRAME_PACING").unwrap_or_else(|| "clock".into()));
+                let _ = command.spawn();
                 std::process::exit(0);
             }
             ui.add_space(8.0);

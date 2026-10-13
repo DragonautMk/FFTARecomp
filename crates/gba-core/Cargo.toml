@@ -7,6 +7,7 @@ description = "GBA machine model: ARM7TDMI interpreter, memory map, hardware"
 
 [dependencies]
 armv4t = { path = "../armv4t" }
+sha2 = "0.11.0"
 
 # Host clock for the cartridge RTC, per platform. Unix uses libc's
 # localtime_r (glibc/musl/bionic/BSD — no distro assumptions); Windows uses

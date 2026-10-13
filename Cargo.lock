@@ -2153,6 +2153,7 @@ dependencies = [
 name = "ffta-play"
 version = "0.1.0"
 dependencies = [
+ "dirs 6.0.0",
  "winresource",
 ]
 
@@ -2354,6 +2355,7 @@ version = "0.2.0"
 dependencies = [
  "armv4t",
  "libc",
+ "sha2 0.11.0",
  "windows-sys 0.59.0",
 ]
 
@@ -2370,6 +2372,16 @@ dependencies = [
  "screen",
  "sha2 0.11.0",
  "winit",
+]
+
+[[package]]
+name = "gba-pack"
+version = "0.2.0"
+dependencies = [
+ "flate2",
+ "serde",
+ "sha2 0.11.0",
+ "toml 0.8.23",
 ]
 
 [[package]]
@@ -2965,6 +2977,9 @@ dependencies = [
 [[package]]
 name = "input-config"
 version = "0.2.0"
+dependencies = [
+ "windows 0.62.2",
+]
 
 [[package]]
 name = "installer"
@@ -2975,6 +2990,7 @@ dependencies = [
  "image",
  "rfd 0.15.4",
  "sha1",
+ "sha2 0.11.0",
  "winresource",
 ]
 
@@ -3319,8 +3335,10 @@ dependencies = [
 name = "menu"
 version = "0.2.0"
 dependencies = [
+ "ab_glyph",
  "input-config",
  "screen",
+ "tiny-skia",
 ]
 
 [[package]]

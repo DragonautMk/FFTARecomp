@@ -5,13 +5,13 @@
 <h1 align="center">FFTARecomp</h1>
 
 <p align="center">
-  <b>Final Fantasy Tactics Advance, running natively on your Windows PC.</b><br>
+  <b>Final Fantasy Tactics Advance, running natively on your Windows or Linux PC.</b><br>
   Widescreen, video and audio options, and a one-click installer.
 </p>
 
 <p align="center">
   <a href="https://github.com/Jorge262007/FFTARecomp/releases"><img src="https://img.shields.io/github/v/release/Jorge262007/FFTARecomp?include_prereleases&label=release" alt="Release"></a>
-  <img src="https://img.shields.io/badge/platform-Windows%2010%2F11-blue" alt="Windows">
+  <img src="https://img.shields.io/badge/platform-Windows%2010%2F11%20%7C%20Linux-blue" alt="Platforms">
   <img src="https://img.shields.io/badge/built%20with-Rust-orange" alt="Rust">
 </p>
 
@@ -19,15 +19,25 @@
 
 ## ✨ What is this?
 
-**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native Windows program. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
+**FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native program for Windows and Linux. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
+
+## 🆕 What's new in v2.0
+
+- 🎛️ **Completely redesigned menu.**
+- 🔍 **Zoom in and out.**
+- 🐧 **Native Linux version.**
+- 🎮 **Gamepad support** (generic XInput).
+- 🐛 **Many bugs fixed** related to very wide aspect ratios.
+- 🔊 **New Normal audio mode:** the game fast-forwards while the audio keeps playing at normal speed.
 
 ## 🎮 Features
 
-- 🖥️ **Widescreen:** Auto, 16:10, 16:9 (default), 20:9, 21:9 and experimental 32:9.
+- 🖥️ **Widescreen:** Auto, 16:10, 16:9 (default), 20:9, 21:9 and 32:9.
+- 🔍 **Zoom in and out.**
 - 🎨 **Video options:** screen model, grid, scaling and vsync.
 - 🔊 **Audio options** and volume control.
 - ⏩ **Fast forward.**
-- 🕹️ **Remappable controls.**
+- 🕹️ **Remappable controls** and generic XInput gamepad support.
 - 📦 **One-click installer:** pick your ROM and you're done.
 - 🚫 **No console BIOS needed.**
 
@@ -48,14 +58,51 @@
 | Left Arrow | Left |
 | Right Arrow | Right |
 | Tab | Fast Forward |
+| + | Zoom in |
+| - | Zoom out |
 
 Controls can be remapped from the Options Menu.
 
+## 🎮 Gamepad default
+
+| Gamepad | Action |
+|---------|--------|
+| A | GBA A |
+| B | GBA B |
+| LT | GBA L |
+| RT | GBA R |
+| LB | Zoom out |
+| RB | Zoom in |
+| Left stick click | Hold Fast Forward |
+| Right stick click | Toggle Fast Forward |
+| Start / Menu | Start |
+| Back / View | Select |
+| D-pad or left stick | Move |
+| Guide | Options Menu |
+
+## ⏩ Fast forward modes
+
+| Mode | Behavior |
+|------|----------|
+| Silent | No audio (default) |
+| Fast audio | Audio speed follows the fast forward speed |
+| Normal | Audio keeps playing at normal speed |
+
 ## 🚀 Installation
 
-1. Download `FFTARecomp.rar` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.
+### Windows
+
+1. Download `FFTARecomp-windows-x86_64.rar` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.
 2. Run `FFTARecomp.exe`, choose your ROM and press **Recompile & Install**.
 3. Wait for the five steps to finish, then press **Play**. ▶️
+
+### Linux
+
+Download `FFTARecomp-linux-x86_64.tar.gz` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and run:
+
+```bash
+mkdir -p FFTARecomp-linux && tar -xzf FFTARecomp-linux-x86_64.tar.gz -C FFTARecomp-linux && cd FFTARecomp-linux && ./FFTAInstaller
+```
 
 > 💡 You need your own copy of *Final Fantasy Tactics Advance (USA)*. This project does not include any game data.
 
@@ -91,6 +138,11 @@ powershell -ExecutionPolicy Bypass -File .\build-all.ps1
 To force a fresh toolchain download, delete `Installer\payload\toolchain` and run the script again.
 
 > ⏱️ The first build can take several minutes.
+
+## 🐞 Known issues
+
+- 👻 In the first level, some sprite silhouettes may appear on screen for 1 to 3 seconds. They don't show up again for the rest of the game.
+- 🎮 The first time you launch the game, the gamepad may not be detected until you open Options > Input and try to remap a button. It then activates on its own.
 
 ## ⚠️ Good to know
 

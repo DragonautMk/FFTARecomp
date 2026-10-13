@@ -2,7 +2,7 @@
 //!
 //!     cargo run -p gba-launcher --bin gba-dmg-bg
 //!
-//! Optional arg: output path (default: the repo's assets/macos_dmg_banner.png).
+//! Optional arg: output path (default: the repo's target/macos_dmg_banner.png).
 
 use std::path::PathBuf;
 
@@ -11,7 +11,7 @@ fn main() {
         .nth(1)
         .map(PathBuf::from)
         .unwrap_or_else(|| {
-            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../assets/macos_dmg_banner.png")
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../target/macos_dmg_banner.png")
         });
     if let Some(parent) = out.parent() {
         std::fs::create_dir_all(parent).expect("create asset dir");

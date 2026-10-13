@@ -7,6 +7,7 @@ edition = "2021"
 eframe = "0.29"
 rfd = "0.15"
 sha1 = "0.10"
+sha2 = "0.11.0"
 image = { version = "0.25", default-features = false, features = ["png"] }
 dirs = "5"
 

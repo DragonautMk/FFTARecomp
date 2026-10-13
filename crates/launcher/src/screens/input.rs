@@ -7,12 +7,24 @@ use input_config::{Button, Device, DpadSource, InputConfig, StickToken};
 use crate::theme;
 
 /// Vendored community controller mapping DB (zlib; see THIRD-PARTY.md).
+/// Fed on top of gilrs's built-in snapshot so the launcher recognizes the
+/// same broad controller set the play runtime does — both must agree on
+/// pad names, or a binding made here wouldn't fire there.
+const CONTROLLER_DB: &str = include_str!("../../../../assets/gamecontrollerdb.txt");
+
 fn build_gilrs() -> Option<gilrs::Gilrs> {
-    gilrs::Gilrs::new().ok()
+    gilrs::GilrsBuilder::new()
+        .add_mappings(CONTROLLER_DB)
+        .build()
+        .ok()
+        .or_else(|| gilrs::Gilrs::new().ok())
 }
+
 pub struct InputScreen {
     cfg: InputConfig,
     gilrs: Option<gilrs::Gilrs>,
+    directinput: Option<input_config::directinput::DirectInput>,
+    direct_tokens: Vec<String>,
     capture: Option<Button>,
     status: String,
 }
@@ -22,6 +34,8 @@ impl InputScreen {
         Self {
             cfg: InputConfig::load(),
             gilrs: build_gilrs(),
+            directinput: input_config::directinput::DirectInput::new(),
+            direct_tokens: Vec::new(),
             capture: None,
             status: String::new(),
         }
@@ -52,6 +66,15 @@ impl InputScreen {
                 }
             }
             pads = g.gamepads().map(|(_, gp)| gp.name().to_string()).collect();
+        }
+        if let Some(d)=self.directinput.as_mut() {
+            pads.extend(d.names());
+            if self.cfg.gamepad_name.starts_with("DirectInput:") {
+                pad_presses.clear();
+                let tokens=d.poll(&self.cfg.gamepad_name).map(|p|p.capture_tokens()).unwrap_or_default();
+                pad_presses.extend(tokens.iter().filter(|t|!self.direct_tokens.contains(t)).cloned());
+                self.direct_tokens=tokens;
+            }
         }
 
         theme::glass_frame().show(ui, |ui| {
@@ -281,7 +304,10 @@ impl InputScreen {
     /// the pad state directly — gilrs keeps it updated as events pump.
     fn input_monitor(&mut self, ui: &mut Ui) {
         let dz = self.cfg.stick_deadzone;
-        let active: Vec<bool> = {
+        let active: Vec<bool> = if self.cfg.gamepad_name.starts_with("DirectInput:") {
+            let pad=self.directinput.as_mut().and_then(|d|d.poll(&self.cfg.gamepad_name));
+            Button::ALL.iter().map(|b|pad.as_ref().is_some_and(|p|p.active(&self.cfg.pads[b.index()],self.cfg.dpad_source,dz,*b))).collect()
+        }else{
             let gp = self.gilrs.as_ref().and_then(|g| {
                 g.gamepads()
                     .find(|(_, gp)| gp.name() == self.cfg.gamepad_name)

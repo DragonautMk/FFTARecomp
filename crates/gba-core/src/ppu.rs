@@ -25,12 +25,14 @@ type Line = [u16; MAX_RENDER_WIDTH];
 
 #[derive(Clone, Copy)]
 struct ObjPixel {
+    owner:u32,
     color: u16,
     priority: u8,
     semi: bool,
 }
 
 const OBJ_EMPTY: ObjPixel = ObjPixel {
+    owner:0,
     color: TRANSPARENT,
     priority: 0xFF,
     semi: false,
@@ -42,6 +44,34 @@ fn io16(mem: &MemMap, off: usize) -> u16 {
 
 fn pal16(mem: &MemMap, index: usize) -> u16 {
     u16::from_le_bytes([mem.palette[index * 2], mem.palette[index * 2 + 1]]) & 0x7FFF
+}
+
+// The battle sky is drawn by changing palette entry 0 on each hardware line.
+// Extend that measured gradient into host-only rows instead of freezing its
+// first/last color. The 240x160 hardware frame still uses its live palette.
+fn extend_sky(top: u16, bottom: u16, line: i32) -> u16 {
+    let mut result = 0u16;
+    for shift in [0, 5, 10] {
+        let a = ((top >> shift) & 31) as i32;
+        let b = ((bottom >> shift) & 31) as i32;
+        let v = (a + (b - a) * line / 159).clamp(0, 31) as u16;
+        result |= v << shift;
+    }
+    result
+}
+
+#[cfg(test)]
+mod sky_extension_tests {
+    use super::extend_sky;
+    #[test]
+    fn continues_the_raster_colors_beyond_both_hardware_edges() {
+        let top = 0x7d21;
+        let bottom = 0x7fcc;
+        assert_eq!(extend_sky(top, bottom, 0), top);
+        assert_eq!(extend_sky(top, bottom, 159), bottom);
+        assert_ne!(extend_sky(top, bottom, -80), top);
+        assert_ne!(extend_sky(top, bottom, 239), bottom);
+    }
 }
 
 /// Screen column (0..VISIBLE_WIDTH) of render-buffer index `i`, or None
@@ -60,13 +90,54 @@ fn win_x(i: usize) -> u8 {
 /// legacy 240-wide framebuffer when the column is on the visible screen.
 fn put_pixel(mem: &mut MemMap, line: usize, i: usize, color: u16) {
     let rw = render_width();
-    mem.wide_framebuffer[line * rw + i] = color;
-    if let Some(x) = visible_col(i) {
+    let row=if mem.ffta_movement.zoom_output {
+        (line as isize+crate::mem::extra_y() as isize) as usize
+    } else {line};
+    mem.wide_framebuffer[row * rw + i] = color;
+    if !mem.ffta_movement.zoom_output {if let Some(x) = visible_col(i) {
         mem.framebuffer[line * VISIBLE_WIDTH + x] = color;
+    }}
+}
+
+/// Complete the host view after the 160 hardware scanlines. No guest writes,
+/// no extra video events, and no changes to the existing sprite/terrain hooks.
+pub fn render_ffta_zoom_rows(mem:&mut MemMap) {
+    let ey=crate::mem::extra_y();
+    if ey==0 || !(mem.ffta_movement.enabled || mem.ffta_stage.enabled)
+        || !(0..4).any(|bg|ffta_terrain(mem,bg) || crate::ffta_stage::layer(mem,bg).is_some()) {return;}
+    let rw=render_width();
+    mem.wide_framebuffer.copy_within(0..160*rw,ey*rw);
+    mem.ffta_movement.zoom_output=true;
+    let dispcnt=io16(mem,0);
+    if dispcnt&0x80!=0 {
+        mem.wide_framebuffer[..rw*crate::mem::render_height()].fill(0x7fff);
+        mem.ffta_movement.zoom_output=false;return;
     }
+    for sy in (-(ey as isize)..0).chain(160..160+ey as isize) {
+        let line=sy as usize;
+        let mut backgrounds=[[TRANSPARENT;MAX_RENDER_WIDTH];4];
+        let mut used=[false;4];
+        for bg in 0..4 {
+            // UI text planes belong to this scanline too: omitting them
+            // leaves extended OBJ text without its panel background.
+            if dispcnt&(0x100<<bg)!=0 {
+                render_text_bg(mem,bg,line,&mut backgrounds[bg]);used[bg]=true;
+            }
+        }
+        let mut objects=[OBJ_EMPTY;MAX_RENDER_WIDTH];let mut window=[false;MAX_RENDER_WIDTH];
+        let semi=if dispcnt&0x1000!=0 {render_sprites(mem,dispcnt,line,&mut objects,&mut window)}else{false};
+        compose(mem,dispcnt,line,&backgrounds,&used,&objects,&window,semi);
+    }
+    mem.ffta_movement.zoom_output=false;
 }
 
 pub fn render_scanline(mem: &mut MemMap, line: usize) {
+    if line==0 {mem.ffta_movement.sky_edges[0]=pal16(mem,0);}
+    if line==159 {mem.ffta_movement.sky_edges[1]=pal16(mem,0);}
+    if crate::ffta_log::enabled() && mem.frames==13100 && matches!(line,0|40|80|120|159) {
+        eprintln!("FFTA_SKY frame={} line={} palette0={:04x} bldcnt={:04x} bldy={:04x} dispcnt={:04x}",mem.frames,line,pal16(mem,0),io16(mem,0x50),io16(mem,0x54),io16(mem,0));
+    }
+    if line==0 && crate::ffta_log::enabled() {mem.ffta_sprites.pixel_counts.clear();}
     let dispcnt = io16(mem, 0x00);
 
     if dispcnt & 0x80 != 0 {
@@ -190,7 +261,328 @@ fn sign_extend28(v: u32) -> i32 {
 
 // ---- text backgrounds ----
 
+/// Read-only layer isolation for the requested movement-grid measurements.
+pub fn dump_ffta_text_layers(mem: &MemMap) -> Result<(), String> {
+    if !crate::ffta_log::enabled() { return Ok(()); }
+    let Ok(prefix) = std::env::var("FFTA_BG_DUMP_PREFIX") else { return Ok(()); };
+    if io16(mem, 0) & 7 != 0 { return Err("FFTA_BG_DUMP requires text mode 0".into()); }
+    let width = render_width();
+    for bg in 0..4 {
+        if io16(mem, 0) & (0x100 << bg) == 0 { continue; }
+        let mut ppm = format!("P6\n{width} 160\n255\n").into_bytes();
+        for y in 0..160 {
+            let mut pixels = [TRANSPARENT; MAX_RENDER_WIDTH];
+            render_text_bg(mem, bg, y, &mut pixels);
+            for &pixel in &pixels[..width] {
+                let pixel = if pixel == TRANSPARENT { 0 } else { pixel };
+                let r=(pixel & 31) as u8; let g=((pixel >> 5)&31) as u8; let b=((pixel >> 10)&31) as u8;
+                ppm.extend_from_slice(&[r<<3 | r>>2,g<<3 | g>>2,b<<3 | b>>2]);
+            }
+        }
+        let path=format!("{prefix}-bg{bg}.ppm");
+        let mut file=std::fs::OpenOptions::new().write(true).create_new(true).open(&path).map_err(|e| format!("{path}: {e}"))?;
+        std::io::Write::write_all(&mut file,&ppm).map_err(|e| e.to_string())?;
+        let cnt=io16(mem,8+bg*2);
+        let (w,h)=match cnt>>14 {0=>(256,256),1=>(512,256),2=>(256,512),_=>(512,512)};
+        println!("FFTA_BG_LAYER frame={} bg={bg} cnt=0x{cnt:04X} map=0x{:08X} char=0x{:08X} size={w}x{h} priority={} hofs={} vofs={} path={path}",
+            mem.frames,0x06000000 + ((cnt as u32 >> 8)&31)*0x800,0x06000000 + ((cnt as u32 >> 2)&3)*0x4000,
+            cnt&3,io16(mem,0x10+bg*4)&511,io16(mem,0x12+bg*4)&511);
+    }
+    Ok(())
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum FftaBgEdge { Wrap, Transparent, Clamp }
+
+impl FftaBgEdge {
+    pub(crate) fn for_rom(rom: &[u8]) -> Self {
+        use sha2::{Digest, Sha256};
+        if std::env::var("FFTA_PATCH_BG").as_deref() == Ok("0") {
+            return Self::Wrap;
+        }
+        let hash: String = Sha256::digest(rom).iter().map(|b| format!("{b:02x}")).collect();
+        if hash != "43fc8204c6dceee58828aebc7af0c72eb807e99f35ad641c8bb0a4fa8b6edc19" {
+            return Self::Wrap;
+        }
+        match std::env::var("FFTA_BG_EDGE").as_deref() {
+            Ok("wrap") => Self::Wrap,
+            Ok("clamp") => Self::Clamp,
+            _ => Self::Transparent,
+        }
+    }
+}
+
+// Require the paired terrain layers, not a single register signature.
+// Semantic identification remains a hypothesis until battle visual validation.
+pub fn ffta_terrain(mem: &MemMap, bg: usize) -> bool {
+    if io16(mem, 0) & 7 != 0 { return false; }
+    for first in [0usize, 2] {
+        if bg != first && bg != first + 1 { continue; }
+        if io16(mem, 0) & (3 << (8 + first)) != 3 << (8 + first) { continue; }
+        if io16(mem, 8 + first * 2) != 0x4c03
+            || io16(mem, 10 + first * 2) != 0x4e02 { continue; }
+        if io16(mem, 0x10 + first * 4) == io16(mem, 0x14 + first * 4)
+            && io16(mem, 0x12 + first * 4) == io16(mem, 0x16 + first * 4) {
+            return true;
+        }
+    }
+    false
+}
+
+// Measured movement overlay: BG0 contains the blue cells and BG1 their
+// foreground fragments. Require their paired battle layout and local scroll;
+// static UI (HOFS=0), title/cloud layouts and other background assignments fail.
+fn ffta_movement_grid(mem: &MemMap, bg: usize) -> bool {
+    if bg > 1 || io16(mem, 0) & 0x0f07 != 0x0f00 || !ffta_terrain(mem, 2) {
+        return false;
+    }
+    if io16(mem, 8) != 0x0a0b || io16(mem, 10) != 0x0b0a { return false; }
+    let h=io16(mem,0x10)&511;
+    let v=io16(mem,0x12)&511;
+    (8..=15).contains(&h) && h==io16(mem,0x14)&511 && v==io16(mem,0x16)&511
+}
+
+#[cfg(test)]
+mod ffta_bg_tests {
+    use super::*;
+    #[test]
+    fn stats_body_extends_toward_edge_and_keeps_cap_and_alpha() {
+        let mut m=MemMap::new(vec![0;192]);
+        for o in m.oam.chunks_exact_mut(8) {o[..2].copy_from_slice(&0x200u16.to_le_bytes());}
+        m.vram[0x10000+0x208*32..0x10000+0x228*32].fill(0x66);
+        m.palette[0x36c..0x36e].copy_from_slice(&0x7c00u16.to_le_bytes());
+        let original=m.oam.clone();
+        let mut out=[OBJ_EMPTY;MAX_RENDER_WIDTH];let mut window=[false;MAX_RENDER_WIDTH];
+        for flip in [0,0x1000] {
+            let cap_x=if flip==0 {90}else{170};
+            m.ffta_sprites.active=Some(vec![
+                crate::ffta_sprites::HostSprite {x:100,y:10,attrs:[0x440a,0xc064|flip,0xb208],slot:0,replaces:true,stats_background:true,..Default::default()},
+                crate::ffta_sprites::HostSprite {x:cap_x,y:10,attrs:[0x040a,cap_x as u16,0xb1f0],slot:1,replaces:true,stats_background:true,..Default::default()}
+            ]);
+            out.fill(OBJ_EMPTY);
+            render_sprites_extent(&m,0x1040,10,&mut out,&mut window,164,568);
+            let edge=if flip==0 {567}else{0};
+            assert_eq!(out[edge].color,0x7c00);assert!(out[edge].semi);
+            assert_eq!(out[cap_x as usize+164].priority,0xff);
+            m.ffta_sprites.active.as_mut().unwrap()[0].stats_background=false;
+            out.fill(OBJ_EMPTY);
+            render_sprites_extent(&m,0x1040,10,&mut out,&mut window,164,568);
+            assert_eq!(out[edge].priority,0xff);
+        }
+        out.fill(OBJ_EMPTY);
+        render_sprites_extent(&m,0x1040,10,&mut out,&mut window,0,240);
+        assert_eq!(out[239].priority,0xff);
+        assert_eq!(m.oam,original);
+    }
+    #[test]
+    fn stats_backing_keeps_original_transparency_and_preserves_oam() {
+        let mut m=MemMap::new(vec![0;192]);
+        for o in m.oam.chunks_exact_mut(8) {o[..2].copy_from_slice(&0x200u16.to_le_bytes());}
+        let attrs=[0x040au16,10,0xb001];
+        for (i,a) in attrs.iter().enumerate() {m.oam[2*i..2*i+2].copy_from_slice(&a.to_le_bytes());}
+        m.vram[0x10020..0x10040].fill(0x11);
+        m.palette[0x362..0x364].copy_from_slice(&0x7c00u16.to_le_bytes());
+        m.ffta_sprites.active=Some(vec![crate::ffta_sprites::HostSprite {
+            x:10,y:10,attrs,slot:0,replaces:true,stats_background:true,..Default::default()
+        }]);
+        let original=m.oam.clone();
+        let mut out=[OBJ_EMPTY;MAX_RENDER_WIDTH];let mut window=[false;MAX_RENDER_WIDTH];
+        render_sprites_extent(&m,0x1040,10,&mut out,&mut window,164,568);
+        assert_eq!(out[174].color,0x7c00);assert!(out[174].semi);
+        out.fill(OBJ_EMPTY);
+        render_sprites_extent(&m,0x1040,10,&mut out,&mut window,0,240);
+        assert_eq!(out[10].color,0x7c00);assert!(out[10].semi);
+        assert_eq!(m.oam,original);
+    }
+    #[test]
+    fn zoom_ui_rows_keep_panel_and_do_not_repeat_outside_map() {
+        let mut m=MemMap::new(vec![0;192]);
+        m.io.fill(0);
+        m.io[8..10].copy_from_slice(&0x0800u16.to_le_bytes());
+        m.vram[..32].fill(0x11);
+        m.palette[2..4].copy_from_slice(&0x1234u16.to_le_bytes());
+        let mut row=[TRANSPARENT;MAX_RENDER_WIDTH];
+        m.ffta_movement.zoom_output=true;
+        render_text_bg_extent(&m,0,180,&mut row,164,568);
+        assert_eq!(row[164],0x1234);
+        for line in [(-1isize) as usize,256] {
+            render_text_bg_extent(&m,0,line,&mut row,164,568);
+            assert!(row[..568].iter().all(|p|*p==TRANSPARENT));
+        }
+        m.ffta_movement.zoom_output=false;
+        render_text_bg_extent(&m,0,256,&mut row,0,240);
+        assert_eq!(row[0],0x1234);
+    }
+    #[test]
+    fn verified_stage_survives_hidden_partner_and_bg_reassignment() {
+        let mut m=MemMap::new(vec![0;192]);
+        m.ffta_stage.enabled=true;
+        m.ffta_stage.bases=[Some(0x020091a0),Some(0x0200b1a0)];
+        m.ffta_stage.origins=[Some((0,0)),Some((0,0))];
+        m.ffta_stage.valid=[true,true];
+        m.vram[0..32].fill(0x11);
+        m.palette[2..4].copy_from_slice(&0x1234u16.to_le_bytes());
+        // Tile 0 is colored; tile 1 is empty. The host plane extends below
+        // the hardware's 32 tile rows, independently of the partner layer.
+        m.vram[0x6000..0x8000].chunks_exact_mut(2).for_each(|b|b.copy_from_slice(&1u16.to_le_bytes()));
+        for bg in [0,2] {
+            m.io.fill(0);
+            m.io[0..2].copy_from_slice(&(0x100u16<<bg).to_le_bytes());
+            m.io[8+bg*2..10+bg*2].copy_from_slice(&0x4c03u16.to_le_bytes());
+            assert!(!ffta_terrain(&m,bg));
+            let mut wide=[TRANSPARENT;MAX_RENDER_WIDTH];
+            render_text_bg_extent(&m,bg,300,&mut wide,164,568);
+            assert_eq!(wide[164],0x1234);
+            m.ffta_stage.enabled=false;
+            render_text_bg_extent(&m,bg,300,&mut wide,164,568);
+            assert_eq!(wide[164],TRANSPARENT);
+            // 600 synthetic frames: the original-width path is identical.
+            for frame in 0..600 {
+                let mut off=[TRANSPARENT;MAX_RENDER_WIDTH];
+                let mut on=off;
+                render_text_bg_extent(&m,bg,frame%160,&mut off,0,240);
+                m.ffta_stage.enabled=true;
+                render_text_bg_extent(&m,bg,frame%160,&mut on,0,240);
+                assert_eq!(off,on);
+                m.ffta_stage.enabled=false;
+            }
+            m.ffta_stage.enabled=true;
+        }
+        m.io[8..10].copy_from_slice(&0x0a0bu16.to_le_bytes());
+        assert_eq!(crate::ffta_stage::layer(&m,0),None);
+        m.ffta_stage.valid=[false,false];
+        assert_eq!(crate::ffta_stage::layer(&m,2),None);
+    }
+    #[test]
+    fn ffta_movement_edges_preserve_hardware_and_exclude_ui() {
+        let mut m=MemMap::new(vec![0;192]);
+        for (off,value) in [(0,0x0f00u16),(8,0x0a0b),(10,0x0b0a),(12,0x4c03),(14,0x4e02),
+            (0x10,8),(0x14,8),(0x12,88),(0x16,88),(0x18,200),(0x1c,200),(0x1a,56),(0x1e,56)] {
+            m.io[off..off+2].copy_from_slice(&value.to_le_bytes());
+        }
+        m.vram[0x8000..0x8020].fill(0x11);
+        m.palette[2..4].copy_from_slice(&0x7c00u16.to_le_bytes());
+        assert!(ffta_movement_grid(&m,0));
+        assert!(ffta_movement_grid(&m,1));
+        for bg in 0..2 {
+            let mut baseline=[TRANSPARENT;MAX_RENDER_WIDTH];
+            m.ffta_bg_edge=FftaBgEdge::Wrap;
+            render_text_bg_extent(&m,bg,0,&mut baseline,0,240);
+            for edge in [FftaBgEdge::Wrap,FftaBgEdge::Transparent,FftaBgEdge::Clamp] {
+                m.ffta_bg_edge=edge;
+                let mut hardware=[TRANSPARENT;MAX_RENDER_WIDTH];
+                render_text_bg_extent(&m,bg,0,&mut hardware,0,240);
+                assert_eq!(hardware,baseline);
+                let mut wide=[TRANSPARENT;MAX_RENDER_WIDTH];
+                render_text_bg_extent(&m,bg,0,&mut wide,164,568);
+                let expected=if edge==FftaBgEdge::Transparent {TRANSPARENT} else {0x7c00};
+                assert_eq!(wide[0],expected);
+                assert_eq!(wide[567],expected);
+                assert_eq!(wide[164],0x7c00);
+            }
+        }
+        // In-battle static menu scroll must keep its previous rendering policy.
+        m.io[0x10]=0; m.io[0x14]=0;
+        assert!(!ffta_movement_grid(&m,0));
+        // A repeated cloud/title map with the same overlay registers is insufficient.
+        m.io[0x10]=8; m.io[0x14]=8; m.io[12]=0;
+        assert!(!ffta_movement_grid(&m,0));
+        m.io[12]=3; m.io[14]=0;
+        assert!(!ffta_movement_grid(&m,1));
+    }
+    #[test]
+    fn ffta_host_coordinates_unlimited_order_affine_and_semi() {
+        use crate::ffta_sprites::HostSprite;
+        let mut m = MemMap::new(vec![0; 192]);
+        for entry in m.oam.chunks_exact_mut(8) { entry[..2].copy_from_slice(&0x200u16.to_le_bytes()); }
+        m.vram[0x10020..0x10040].fill(0x11);
+        m.vram[0x10040..0x10060].fill(0x22);
+        m.palette[0x202..0x204].copy_from_slice(&0x03e0u16.to_le_bytes());
+        m.palette[0x204..0x206].copy_from_slice(&0x001fu16.to_le_bytes());
+        // Original affine matrix #0: identity. Host objects use the same matrix words.
+        m.oam[6..8].copy_from_slice(&0x100u16.to_le_bytes());
+        m.oam[30..32].copy_from_slice(&0x100u16.to_le_bytes());
+        let mut objects = vec![HostSprite { x: -10000, y: 20, attrs: [20, 0, 1], slot: 0, replaces: false,..HostSprite::default() }; 200];
+        objects.push(HostSprite { x: 700, y: 20, attrs: [20 | 0x500, 0, 1], slot: 0, replaces: false,..HostSprite::default() });
+        // Same priority, later object: first must win and keep semitransparency.
+        objects.push(HostSprite { x: 700, y: 20, attrs: [20, 0, 2], slot: 0, replaces: false,..HostSprite::default() });
+        objects.push(HostSprite { x: -600, y: 20, attrs: [20, 0, 1], slot: 0, replaces: false,..HostSprite::default() });
+        // Higher priority wins, regardless of insertion order.
+        objects.push(HostSprite { x: 600, y: 20, attrs: [20, 0, 0x401], slot: 0, replaces: false,..HostSprite::default() });
+        objects.push(HostSprite { x: 600, y: 20, attrs: [20, 0, 2], slot: 0, replaces: false,..HostSprite::default() });
+        // Partial submissions can place unlimited host entries past slot 128.
+        objects.push(HostSprite { x: 800, y: 20, attrs: [20, 0, 1], slot: 200, replaces: false,..HostSprite::default() });
+        m.ffta_sprites.active = Some(objects);
+        let mut out = [OBJ_EMPTY; MAX_RENDER_WIDTH];
+        let mut window = [false; MAX_RENDER_WIDTH];
+        assert!(render_sprites_extent(&m, 0x1040, 22, &mut out, &mut window, 648, 1536));
+        assert_eq!(out[1348].color, 0x03e0);
+        assert!(out[1348].semi);
+        assert_eq!(out[48].color, 0x03e0);
+        assert_eq!(out[1248].color, 0x001f);
+        assert_eq!(out[1448].color, 0x03e0);
+        let mut hardware = [OBJ_EMPTY; MAX_RENDER_WIDTH];
+        assert!(!render_sprites_extent(&m, 0x1040, 22, &mut hardware, &mut window, 0, 240));
+        assert!(hardware[..240].iter().all(|p| p.priority == 0xff));
+    }
+
+    fn scene() -> MemMap {
+        let mut m = MemMap::new(vec![0; 192]);
+        for (off, value) in [(0, 0x0300u16), (8, 0x4c03), (10, 0x4e02), (0x10, 17), (0x14, 17)] {
+            m.io[off..off+2].copy_from_slice(&value.to_le_bytes());
+        }
+        m.vram[..32].fill(0x11);
+        m.palette[2..4].copy_from_slice(&0x1234u16.to_le_bytes());
+        m
+    }
+    #[test]
+    fn ffta_bg_wrap_and_zero_extra_preserve_pixels() {
+        let mut m = scene();
+        let mut baseline = [TRANSPARENT; MAX_RENDER_WIDTH];
+        render_text_bg_extent(&m, 0, 0, &mut baseline, 0, 240);
+        for policy in [FftaBgEdge::Wrap, FftaBgEdge::Transparent, FftaBgEdge::Clamp] {
+            m.ffta_bg_edge = policy;
+            let mut actual = [TRANSPARENT; MAX_RENDER_WIDTH];
+            render_text_bg_extent(&m, 0, 0, &mut actual, 0, 240);
+            assert_eq!(actual, baseline);
+        }
+    }
+    #[test]
+    fn ffta_bg_edges_and_unrelated_layers() {
+        let mut m = scene();
+        assert!(ffta_terrain(&m, 0));
+        assert!(!ffta_terrain(&m, 2));
+        for (policy, expected) in [(FftaBgEdge::Wrap, 0x1234), (FftaBgEdge::Clamp, 0x1234), (FftaBgEdge::Transparent, TRANSPARENT)] {
+            m.ffta_bg_edge = policy;
+            let mut pixels = [TRANSPARENT; MAX_RENDER_WIDTH];
+            render_text_bg_extent(&m, 0, 0, &mut pixels, 648, 1536);
+            assert_eq!(pixels[0], expected);
+            assert_eq!(pixels[1535], expected);
+            assert_eq!(pixels[648], 0x1234);
+        }
+        m.io[10] = 0;
+        assert!(!ffta_terrain(&m, 0));
+        m.ffta_bg_edge = FftaBgEdge::Transparent;
+        let mut pixels = [TRANSPARENT; MAX_RENDER_WIDTH];
+        render_text_bg_extent(&m, 0, 0, &mut pixels, 164, 568);
+        assert_eq!(pixels[0], 0x1234);
+        assert_eq!(FftaBgEdge::for_rom(&[0; 192]), FftaBgEdge::Wrap);
+    }
+}
+
+fn edge_coordinate(value: isize, size: isize, policy: FftaBgEdge) -> Option<usize> {
+    match policy {
+        FftaBgEdge::Wrap => Some(value.rem_euclid(size) as usize),
+        FftaBgEdge::Transparent => (0..size).contains(&value).then_some(value as usize),
+        FftaBgEdge::Clamp => Some(value.clamp(0, size - 1) as usize),
+    }
+}
+
 fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
+    render_text_bg_extent(mem, bg, line, out, extra(), render_width());
+}
+
+fn render_text_bg_extent(mem: &MemMap, bg: usize, line: usize, out: &mut Line, ex: usize, rw: usize) {
     let cnt = io16(mem, 0x08 + bg * 2);
     let char_base = ((cnt >> 2) & 3) as usize * 0x4000;
     let eight_bpp = cnt & 0x80 != 0;
@@ -200,6 +592,33 @@ fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
     let hofs = (io16(mem, 0x10 + bg * 4) & 0x1FF) as usize;
     let vofs = (io16(mem, 0x12 + bg * 4) & 0x1FF) as usize;
 
+    if ex>0 && crate::ffta_stage::layer(mem,bg).is_some() {
+        for sx in 0..rw {
+            let x=sx as i32-ex as i32+hofs as i32;let y=(line as isize+vofs as isize) as i32;
+            let Some(entry)=crate::ffta_stage::entry(mem,bg,x,y) else{out[sx]=TRANSPARENT;continue;};
+            let mut px=x.rem_euclid(8) as usize;let mut py=y.rem_euclid(8) as usize;
+            if entry&0x0400!=0{px=7-px;}if entry&0x0800!=0{py=7-py;}
+            let byte=mem.vram[char_base+(entry as usize&1023)*32+py*4+px/2];let index=(byte>>(4*(px%2)))&15;
+            out[sx]=if index==0{TRANSPARENT}else{pal16(mem,(entry as usize>>12)*16+index as usize)};
+        }
+        return;
+    }
+
+    if ex>0 && ffta_movement_grid(mem,bg) && mem.ffta_movement.enabled && mem.ffta_movement.valid[bg] {
+        for sx in 0..rw {
+            let x=sx as i32-ex as i32+hofs as i32;
+            let y=(line as isize+vofs as isize) as i32;
+            let entry=crate::ffta_movement::entry(mem,bg,x,y).unwrap_or(0);
+            let mut px=x.rem_euclid(8) as usize;let mut py=y.rem_euclid(8) as usize;
+            if entry&0x0400!=0 {px=7-px;}if entry&0x0800!=0 {py=7-py;}
+            let tile=(entry&1023) as usize;
+            let byte=mem.vram[char_base+tile*32+py*4+px/2];
+            let index=(byte>>(4*(px%2)))&15;
+            out[sx]=if index==0 {TRANSPARENT}else{pal16(mem,((entry>>12) as usize)*16+index as usize)};
+        }
+        return;
+    }
+
     let (w_tiles, h_tiles) = match size {
         0 => (32, 32),
         1 => (64, 32),
@@ -207,7 +626,19 @@ fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
         _ => (64, 64),
     };
 
-    let y = (line + vofs) & (h_tiles * 8 - 1);
+    let policy = if ex > 0 && (ffta_terrain(mem, bg) || ffta_movement_grid(mem,bg)) {
+        mem.ffta_bg_edge
+    } else { FftaBgEdge::Wrap };
+    // Extend menu panels only within their real tile plane. Do not repeat
+    // a static UI into the rows above/below it when zooming out.
+    let vertical_policy = if mem.ffta_movement.zoom_output
+        && !ffta_terrain(mem,bg) && !ffta_movement_grid(mem,bg) {
+        FftaBgEdge::Transparent
+    } else { policy };
+    let Some(y) = edge_coordinate(line as isize + vofs as isize, (h_tiles * 8) as isize, vertical_policy) else {
+        out[..rw].fill(TRANSPARENT);
+        return;
+    };
     let ty = y / 8;
     let py = y % 8;
     let map_w = (w_tiles * 8) as isize;
@@ -217,14 +648,16 @@ fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
     // wide buffer; margin columns read the map at negative / past-240
     // screen positions (wrapping at the map width, like the hardware).
     let mut sx = 0usize;
-    let rw = render_width();
-    let ex = extra();
     while sx < rw {
         let screen_x = sx as isize - ex as isize;
-        let x = (screen_x + hofs as isize).rem_euclid(map_w) as usize;
+        let Some(x) = edge_coordinate(screen_x + hofs as isize, map_w, policy) else {
+            out[sx] = TRANSPARENT;
+            sx += 1;
+            continue;
+        };
         let tx = x / 8;
         let px = x % 8;
-        let span = (8 - px).min(rw - sx);
+        let span = if policy == FftaBgEdge::Wrap { (8 - px).min(rw - sx) } else { 1 };
 
         // Static (unscrolled) layers such as dialog boxes and HUD were built
         // for exactly 240 px. Their map holds leftovers past column 240 and
@@ -232,7 +665,7 @@ fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
         // margin, so leave the margins empty for them. Scrolling layers
         // (hofs != 0) keep real map content and still read through.
         let in_margin = screen_x < 0 || screen_x >= VISIBLE_WIDTH as isize;
-        if in_margin && (margin_debug().1 || hofs == 0) {
+        if in_margin && (margin_debug().1 || (hofs == 0 && policy == FftaBgEdge::Wrap)) {
             for i in 0..span {
                 out[sx + i] = TRANSPARENT;
             }
@@ -298,7 +731,7 @@ fn render_text_bg(mem: &MemMap, bg: usize, line: usize, out: &mut Line) {
     // panels and menu boxes reach the edges of the wide frame instead of
     // ending 22 px short. Content stays where the game put it; only the
     // empty margin is filled, and only where the edge pixel is opaque.
-    if hofs == 0 && ex > 0 && !margin_debug().1 {
+    if hofs == 0 && ex > 0 && !margin_debug().1 && policy == FftaBgEdge::Wrap {
         let l = ex;
         let r = ex + VISIBLE_WIDTH - 1;
         let (cl, cr) = (out[l], out[r]);
@@ -438,15 +871,41 @@ fn render_sprites(
     out: &mut [ObjPixel; MAX_RENDER_WIDTH],
     window: &mut [bool; MAX_RENDER_WIDTH],
 ) -> bool {
+    render_sprites_extent(mem, dispcnt, line, out, window, extra(), render_width())
+}
+
+fn render_sprites_extent(
+    mem: &MemMap, dispcnt: u16, line: usize,
+    out: &mut [ObjPixel; MAX_RENDER_WIDTH], window: &mut [bool; MAX_RENDER_WIDTH],
+    ex: usize, rw: usize,
+) -> bool {
     let mut any_semi = false;
     let one_dim = dispcnt & 0x40 != 0;
     let bitmap_mode = (dispcnt & 7) >= 3;
     let line = line as i32;
 
-    for i in 0..128 {
-        let a0 = u16::from_le_bytes([mem.oam[i * 8], mem.oam[i * 8 + 1]]);
-        let a1 = u16::from_le_bytes([mem.oam[i * 8 + 2], mem.oam[i * 8 + 3]]);
-        let a2 = u16::from_le_bytes([mem.oam[i * 8 + 4], mem.oam[i * 8 + 5]]);
+    let host = if ex > 0 { mem.ffta_sprites.active.as_deref().unwrap_or(&[]) } else { &[] };
+    // Published host entries are stably sorted. Merge in linear time without
+    // scanline allocations; guest OAM and affine words remain live reads.
+    let (mut slot,mut cursor,mut replaced)=(0usize,0usize,false);
+    let expanded=std::iter::from_fn(|| {
+        loop {
+            if cursor < host.len() && (host[cursor].slot <= slot || slot >= 128) {
+                let sprite=&host[cursor]; cursor+=1;
+                replaced |= sprite.replaces;
+                return Some((sprite.attrs,Some((sprite.x,sprite.y)),sprite.owner,sprite.stats_background));
+            }
+            if slot >= 128 { return None; }
+            let i=slot; slot+=1;
+            let emit=!replaced; replaced=false;
+            if emit {
+                let p=&mem.oam[i*8..i*8+6];
+                return Some(([u16::from_le_bytes([p[0],p[1]]),u16::from_le_bytes([p[2],p[3]]),
+                    u16::from_le_bytes([p[4],p[5]])],None,mem.ffta_sprites.oam_owners.get(i).copied().unwrap_or(0),false));
+            }
+        }
+    });
+    for ([a0, a1, a2], coordinates,owner,stats_background) in expanded {
 
         let affine = a0 & 0x100 != 0;
         if !affine && a0 & 0x200 != 0 {
@@ -469,9 +928,10 @@ fn render_sprites(
         // 9-bit X wraps. Values past the right margin read as negative
         // (hardware: >= 240). With EXTRA > 0, a sprite parked in the
         // 240..240+EXTRA range will show in the right margin.
-        if x >= (VISIBLE_WIDTH + extra()) as i32 {
+        if x >= (VISIBLE_WIDTH + ex) as i32 {
             x -= 512;
         }
+        if let Some((host_x, host_y)) = coordinates { x = host_x; y = host_y; }
         if line < y || line >= y + bh {
             continue;
         }
@@ -481,6 +941,13 @@ fn render_sprites(
         let tile_base = (a2 & 0x3FF) as usize;
         let priority = ((a2 >> 10) & 3) as u8;
         let palette = ((a2 >> 12) & 0xF) as usize;
+        // The game uploads temporary snowball pieces before the matching OBJ
+        // palette bank. A host sprite may reach the widened area at that point.
+        // Check this piece's own bank; a nonempty palette elsewhere is no proof.
+        if ex > 0 && !eight_bpp {
+            let colors = &mem.palette[0x200 + palette * 32 + 2..0x200 + palette * 32 + 32];
+            if colors.iter().all(|&byte| byte == 0) { continue; }
+        }
 
         // Affine parameters.
         let (pa, pb, pc, pd) = if affine {
@@ -500,11 +967,19 @@ fn render_sprites(
         };
 
         let ly = line - y;
-        for bx in 0..bw {
+        // Stretch only the rectangular half toward its screen edge. The
+        // curved cap and the text keep their original geometry and alpha.
+        let stats_body = stats_background && tile_base == 0x208 && !affine && !eight_bpp;
+        let (start,end) = if stats_body && a1 & 0x1000 != 0 {
+            (-((ex as i32)+x).max(0),bw)
+        } else if stats_body {
+            (0,(rw as i32-ex as i32-x).max(bw))
+        } else {(0,bw)};
+        for bx in start..end {
             let sx = x + bx;
             // Buffer index = screen column + EXTRA (margins included).
-            let idx = sx + extra() as i32;
-            if !(0..render_width() as i32).contains(&idx) {
+            let idx = sx + ex as i32;
+            if !(0..rw as i32).contains(&idx) {
                 continue;
             }
             if margin_debug().0 && (sx < 0 || sx >= VISIBLE_WIDTH as i32) {
@@ -523,7 +998,7 @@ fn render_sprites(
                 }
                 (u, v)
             } else {
-                let mut u = bx;
+                let mut u = bx.clamp(0,w-1);
                 let mut v = ly;
                 // OBJ attr1 flips: bit 12 horizontal, bit 13 vertical
                 // (unlike BG map entries, where flips are bits 10/11).
@@ -573,6 +1048,7 @@ fn render_sprites(
                 window[sx_usize] = true;
             } else if out[sx_usize].priority == 0xFF || priority < out[sx_usize].priority {
                 out[sx_usize] = ObjPixel {
+                    owner,
                     color,
                     priority,
                     semi: mode == 1,
@@ -598,7 +1074,10 @@ fn compose(
     obj_window: &[bool; MAX_RENDER_WIDTH],
     line_has_semi: bool,
 ) {
-    let backdrop = pal16(mem, 0);
+    let backdrop = if mem.ffta_movement.zoom_output {
+        let [top,bottom] = mem.ffta_movement.sky_edges;
+        extend_sky(top,bottom,line as i32)
+    } else {pal16(mem, 0)};
 
     // Background priorities (compose ties: lower BG number wins; sort
     // keys are unique, so unstable sort matches the old stable sort).
@@ -626,8 +1105,9 @@ fn compose(
     let win0v = io16(mem, 0x44);
     let win1v = io16(mem, 0x46);
 
-    let in_win0_y = win0_on && in_window_range((win0v >> 8) as u8, win0v as u8, line as u8);
-    let in_win1_y = win1_on && in_window_range((win1v >> 8) as u8, win1v as u8, line as u8);
+    let window_y=if mem.ffta_movement.zoom_output {(line as isize).clamp(0,159) as u8}else{line as u8};
+    let in_win0_y = win0_on && in_window_range((win0v >> 8) as u8, win0v as u8, window_y);
+    let in_win1_y = win1_on && in_window_range((win1v >> 8) as u8, win1v as u8, window_y);
 
     let bldcnt = io16(mem, 0x50);
     let blend_mode = (bldcnt >> 6) & 3;
@@ -672,6 +1152,7 @@ fn compose(
             let obj = &obj_line[x];
             if obj.priority != 0xFF && control & 0x10 != 0 && obj.priority <= top_prio {
                 color = obj.color;
+                if obj.owner!=0 && crate::ffta_sprites::trace_enabled(mem.frames) {*mem.ffta_sprites.pixel_counts.entry(obj.owner).or_default()+=1;}
             }
             put_pixel(mem, line, x, color);
         }
@@ -724,6 +1205,7 @@ fn compose(
             }
         }
         let (fc, fl) = first.unwrap_or((backdrop, 5));
+        if fl==4 && obj.owner!=0 && crate::ffta_sprites::trace_enabled(mem.frames) {*mem.ffta_sprites.pixel_counts.entry(obj.owner).or_default()+=1;}
         let (sc, sl) = second.unwrap_or((backdrop, 5));
 
         let effects_allowed = control & 0x20 != 0;

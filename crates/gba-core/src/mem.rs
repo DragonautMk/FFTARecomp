@@ -24,6 +24,11 @@
 use crate::backup::{self, BackupKind, Eeprom, Flash};
 use crate::bus::Bus;
 
+fn ffta_oam_log_enabled() -> bool {
+    static ENABLED: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ENABLED.get_or_init(|| std::env::var("FFTA_OAM_LOG").as_deref() == Ok("1"))
+}
+
 const DISPSTAT: u32 = 0x0400_0004;
 const VCOUNT: u32 = 0x0400_0006;
 const KEYINPUT: u32 = 0x0400_0130;
@@ -163,6 +168,7 @@ enum VPhase {
 }
 
 pub struct MemMap {
+    pub ffta_diagnostics: Option<Box<crate::ffta_log::Diagnostics>>,
     pub bios: Vec<u8>,
     pub ewram: Vec<u8>,
     pub iwram: Vec<u8>,
@@ -171,6 +177,11 @@ pub struct MemMap {
     pub vram: Vec<u8>,
     pub oam: Vec<u8>,
     pub rom: Vec<u8>,
+    /// Verified, per-cartridge terrain edge policy; never modifies guest memory.
+    pub(crate) ffta_bg_edge: crate::ppu::FftaBgEdge,
+    pub ffta_sprites: crate::ffta_sprites::SpriteState,
+    pub ffta_movement: crate::ffta_movement::MovementState,
+    pub ffta_stage: crate::ffta_stage::StageState,
     pub sram: Vec<u8>,
 
     /// Master cycle counter.
@@ -307,6 +318,11 @@ impl MemMap {
             None
         };
         MemMap {
+            ffta_bg_edge: crate::ppu::FftaBgEdge::for_rom(&rom),
+            ffta_sprites: crate::ffta_sprites::SpriteState::new(&rom),
+            ffta_movement: crate::ffta_movement::MovementState::new(&rom),
+            ffta_stage: crate::ffta_stage::StageState::new(&rom),
+            ffta_diagnostics: crate::ffta_log::enabled().then(|| Box::new(crate::ffta_log::Diagnostics::default())),
             bios: vec![0; 0x4000],
             ewram: vec![0; 0x4_0000],
             iwram: vec![0; 0x8000],
@@ -673,8 +689,45 @@ impl MemMap {
                     self.raise_irq(irq::VCOUNT);
                 }
                 if line == VISIBLE_SCANLINES {
+                    crate::ppu::render_ffta_zoom_rows(self);
                     self.frame_ready = true;
                     self.frames += 1;
+                    if self.frames % 30 == 0 {
+                        if let Some(log) = self.ffta_diagnostics.as_mut() {
+                            log.sample(self.frames, &self.io, &self.ewram, &self.iwram, &self.vram);
+                        }
+                    }
+                    if ffta_oam_log_enabled() && self.frames % 30 == 0 {
+                        let sizes = [ [(8,8),(16,16),(32,32),(64,64)],
+                            [(16,8),(32,8),(32,16),(64,32)],
+                            [(8,16),(8,32),(16,32),(32,64)] ];
+                        let (mut enabled, mut visible, mut outside_x, mut vertical) = (0,0,0,0);
+                        for entry in self.oam.chunks_exact(8) {
+                            let a0 = u16::from_le_bytes([entry[0],entry[1]]);
+                            let a1 = u16::from_le_bytes([entry[2],entry[3]]);
+                            let shape = (a0 >> 14) as usize;
+                            if shape == 3 || (a0 & 0x100 == 0 && a0 & 0x200 != 0) { continue; }
+                            enabled += 1;
+                            let (mut w, mut h) = sizes[shape][(a1 >> 14) as usize];
+                            if a0 & 0x300 == 0x300 { w *= 2; h *= 2; }
+                            let mut y = (a0 & 255) as i32;
+                            if y >= 160 { y -= 256; }
+                            // Canonical signed 9-bit X for diagnostics, independent of zoom.
+                            let raw_x = (a1 & 511) as i32;
+                            let x = if raw_x >= 256 { raw_x - 512 } else { raw_x };
+                            if x < -16 || x >= 240 { outside_x += 1; }
+                            if y < 160 && y + h > 0 {
+                                vertical += 1;
+                                if x < 240 && x + w > 0 { visible += 1; }
+                            }
+                        }
+                        let obj_nonzero = self.vram[0x10000..0x18000].iter().filter(|&&b| b != 0).count();
+                        eprintln!("FFTA_OAM frame={} enabled={} visible_bbox_240x160={} outside_x={} vertical={} obj_vram_nonzero_bytes={} extra={}", self.frames, enabled, visible, outside_x, vertical, obj_nonzero, extra());
+                        for bg in 0..4 {
+                            let word_at = |off: usize| u16::from_le_bytes([self.io[off], self.io[off + 1]]);
+                            eprintln!("FFTA_BG frame={} bg={} control=0x{:04X} hofs={} vofs={} dispcnt=0x{:04X}", self.frames, bg, word_at(8 + bg * 2), word_at(0x10 + bg * 4) & 511, word_at(0x12 + bg * 4) & 511, word_at(0));
+                        }
+                    }
                     if dispstat & 0x08 != 0 {
                         self.raise_irq(irq::VBLANK);
                     }
@@ -888,6 +941,19 @@ impl MemMap {
 
         let mut src = ch.cur_src & if word { !3 } else { !1 };
         let mut dst = ch.cur_dst & if word { !3 } else { !1 };
+        let sprite_transfer = (src, dst);
+
+        if let Some(log) = self.ffta_diagnostics.as_mut() {
+            if (0x06000000..0x07000400).contains(&dst) {
+                let context = log.dma_context[i];
+                eprintln!("FFTA_DMA_CALLER frame={} channel={} src=0x{:08X} dst=0x{:08X} count={} unit={} timing={} arm_pc=0x{:08X} arm_lr=0x{:08X} arm_mode={}", self.frames,i,src,dst,count,unit,ch.timing(),context.pc,context.lr,if context.thumb { "Thumb" } else { "ARM" });
+            }
+            log.dma_depth += 1;
+        }
+
+        if ffta_oam_log_enabled() && (dst >> 24 == 7 || (0x0600_0000..0x0601_8000).contains(&dst)) {
+            eprintln!("FFTA_DMA frame={} channel={} src=0x{:08X} dst=0x{:08X} count={} unit={} timing={} control=0x{:04X}", self.frames, i, src, dst, count, unit, ch.timing(), ch.control);
+        }
 
         let mut done = 0u32;
         for _ in 0..count {
@@ -922,6 +988,14 @@ impl MemMap {
         }
 
         self.dma[i].cur_src = src;
+        self.ffta_movement.observe_dma(sprite_transfer.0,sprite_transfer.1,count,unit,ch.control,&self.ewram,&self.vram);
+        self.ffta_stage.observe_dma(sprite_transfer.0,sprite_transfer.1,count,unit,ch.control,&self.ewram,&self.vram);
+        self.ffta_sprites.publish(sprite_transfer.0, sprite_transfer.1, (count * unit) as usize, extra() > 0, &self.oam);
+        if ffta_oam_log_enabled() && self.frames % 30 == 0
+            && (0x07000000..0x07000400).contains(&sprite_transfer.1) {
+            crate::ffta_sprites::tile_diagnostics(self);
+        }
+        if let Some(log) = self.ffta_diagnostics.as_mut() { log.dma_depth -= 1; }
         // Rough cycle cost: 2 cycles per unit transferred plus setup
         // (minus what the chunked accounting above already added).
         let accounted = if sound_mode {
@@ -961,6 +1035,7 @@ impl MemMap {
         let was_enabled = self.dma[i].enabled();
         self.dma[i].control = (self.dma[i].control & 0x00FF) | ((value as u16) << 8);
         if !was_enabled && self.dma[i].enabled() {
+            if let Some(log) = self.ffta_diagnostics.as_mut() { log.dma_context[i] = log.context; }
             // Latch internal registers on enable.
             self.dma[i].cur_src = self.dma[i].src;
             self.dma[i].cur_dst = self.dma[i].dst;
@@ -1246,6 +1321,7 @@ impl Bus for MemMap {
     }
 
     fn write8(&mut self, addr: u32, value: u8) {
+        if let Some(log) = self.ffta_diagnostics.as_mut() { log.write(self.frames, addr, 1, value as u32); }
         match addr >> 24 {
             0x02 => self.ewram[(addr & 0x3_FFFF) as usize] = value,
             0x03 => self.iwram[(addr & 0x7FFF) as usize] = value,
@@ -1430,6 +1506,7 @@ impl Bus for MemMap {
     }
 
     fn write16(&mut self, addr: u32, value: u16) {
+        if let Some(log) = self.ffta_diagnostics.as_mut() { log.write(self.frames, addr, 2, value as u32); }
         // Bypass the byte-write quirks for naturally sized accesses.
         match addr >> 24 {
             0x02 => {
@@ -1470,6 +1547,7 @@ impl Bus for MemMap {
     }
 
     fn write32(&mut self, addr: u32, value: u32) {
+        if let Some(log) = self.ffta_diagnostics.as_mut() { log.write(self.frames, addr, 4, value); }
         let a = addr & !1;
         match a >> 24 {
             0x02 => {

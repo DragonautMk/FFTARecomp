@@ -40,6 +40,41 @@ pub enum StepEvent {
 }
 
 impl Machine {
+    /// Instruction observations only: CPU, memory and emulated time remain untouched.
+    pub fn ffta_log_instruction(&mut self, pc: u32, native: bool) {
+        if crate::ffta_sprites::trace_enabled(self.bus.frames) && pc==0x030068a4 {
+            println!("FFTA_OTHER_PRODUCER frame={} pc={pc:08x} lr={:08x} regs={:08x?}",self.bus.frames,self.cpu.regs[14],self.cpu.regs);
+        }
+        if crate::ffta_sprites::trace_enabled(self.bus.frames)
+            && ((12038..12046).contains(&self.bus.frames) || (12406..12414).contains(&self.bus.frames))
+            && (0x03006170..0x030065a8).contains(&pc) {
+            println!("FFTA_CULL_INSTR frame={} pc={pc:08x} native={native} cpsr={:08x} regs={:08x?}",self.bus.frames,self.cpu.cpsr,self.cpu.regs);
+        }
+        if let Some(log) = self.bus.ffta_diagnostics.as_mut() {
+            log.observation_frame = self.bus.frames;
+            log.native_pc = if native { Some(pc) } else { None };
+            log.instruction(pc, &self.cpu.regs, self.cpu.cpsr, &self.bus.ewram, &self.bus.iwram, &self.bus.rom);
+        }
+    }
+    /// Read-only diagnostics at known FFTA sprite routine entries.
+    pub fn ffta_log_sprite_entry(&self, key: u32) {
+        static ENABLED: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+        if !*ENABLED.get_or_init(|| std::env::var("FFTA_OAM_LOG").as_deref() == Ok("1"))
+            || self.bus.frames % 30 != 0
+            || !matches!(key, 0x0800_14c9 | 0x0800_16d5 | 0x0800_12bd)
+        { return; }
+        let stack = (0..6).map(|i| {
+            let addr = self.cpu.regs[13].wrapping_add(i * 4);
+            let (ram, offset) = match addr >> 24 {
+                2 => (&self.bus.ewram, (addr & 0x3ffff) as usize),
+                3 => (&self.bus.iwram, (addr & 0x7fff) as usize),
+                _ => return None,
+            };
+            ram.get(offset..offset + 4).map(|s| u32::from_le_bytes(s.try_into().unwrap()))
+        }).collect::<Vec<_>>();
+        eprintln!("FFTA_SPRITE_ENTRY frame={} key=0x{:08X} lr=0x{:08X} r0=0x{:08X} r1=0x{:08X} r2=0x{:08X} r3=0x{:08X} stack={:X?}", self.bus.frames, key, self.cpu.regs[14], self.cpu.regs[0], self.cpu.regs[1], self.cpu.regs[2], self.cpu.regs[3], stack);
+    }
+
     pub fn new(rom: Vec<u8>) -> Machine {
         Machine {
             cpu: Cpu::new(),
@@ -89,6 +124,10 @@ impl Machine {
             return StepEvent::Idle;
         }
 
+        self.ffta_log_sprite_entry(self.cpu.regs[15] | self.cpu.thumb() as u32);
+        self.ffta_visibility_entry();
+        self.ffta_sprite_entry();
+        self.ffta_log_instruction(self.cpu.regs[15], false);
         // MP2K HLE: PC landing on SoundMainRAM means the track engine
         // has finalized this tick's channel state — snapshot it for the
         // shadow mixer (read-only; the guest mixer still runs).

@@ -121,11 +121,24 @@ impl Presenter {
             .create_surface(window.clone())
             .map_err(|e| format!("surface: {e}"))?;
         let adapter = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
-            power_preference: wgpu::PowerPreference::LowPower,
+            power_preference: if cfg!(target_os = "linux") {
+                wgpu::PowerPreference::HighPerformance
+            } else {
+                wgpu::PowerPreference::LowPower
+            },
             compatible_surface: Some(&surface),
             force_fallback_adapter: false,
         }))
         .map_err(|e| format!("no graphics adapter: {e}"))?;
+        let adapter_info = adapter.get_info();
+        eprintln!(
+            "video: adapter={} backend={:?} type={:?} driver={} ({})",
+            adapter_info.name,
+            adapter_info.backend,
+            adapter_info.device_type,
+            adapter_info.driver,
+            adapter_info.driver_info,
+        );
         let (device, queue) = pollster::block_on(adapter.request_device(&wgpu::DeviceDescriptor {
             label: Some("screen-presenter"),
             ..Default::default()
@@ -338,6 +351,50 @@ impl Presenter {
             self.surface.configure(&self.device, &self.config);
         }
 
+        // Menus have their own high-resolution canvas; grow once when needed.
+        // Gameplay frame dimensions and filtering remain unchanged.
+        if frame_dims.0 > self.src_size.0 || frame_dims.1 > self.src_size.1 {
+            let width = frame_dims.0.max(self.src_size.0);
+            let height = frame_dims.1.max(self.src_size.1);
+            if width > self.device.limits().max_texture_dimension_2d
+                || height > self.device.limits().max_texture_dimension_2d
+            {
+                return Err("UI texture exceeds device limits".into());
+            }
+            self.texture = self.device.create_texture(&wgpu::TextureDescriptor {
+                label: Some("screen-src"),
+                size: wgpu::Extent3d {
+                    width,
+                    height,
+                    depth_or_array_layers: 1,
+                },
+                mip_level_count: 1,
+                sample_count: 1,
+                dimension: wgpu::TextureDimension::D2,
+                format: wgpu::TextureFormat::Rgba8Unorm,
+                usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+                view_formats: &[],
+            });
+            self.bind_group = self.device.create_bind_group(&wgpu::BindGroupDescriptor {
+                label: Some("screen-bind"),
+                layout: &self.pipeline.get_bind_group_layout(0),
+                entries: &[
+                    wgpu::BindGroupEntry {
+                        binding: 0,
+                        resource: wgpu::BindingResource::TextureView(
+                            &self
+                                .texture
+                                .create_view(&wgpu::TextureViewDescriptor::default()),
+                        ),
+                    },
+                    wgpu::BindGroupEntry {
+                        binding: 1,
+                        resource: self.uniforms.as_entire_binding(),
+                    },
+                ],
+            });
+            self.src_size = (width, height);
+        }
         let (tw, th) = self.src_size;
         let (sw, sh) = (frame_dims.0.clamp(1, tw), frame_dims.1.clamp(1, th));
         debug_assert_eq!(rgba.len(), (sw * sh) as usize);

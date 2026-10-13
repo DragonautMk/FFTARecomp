@@ -228,6 +228,11 @@ pub fn build_library(
         }
         Backend::External(prog) => prog,
     };
+    // The translated guest code is the steady-state CPU hot path. Linux
+    // laptops often run this game on a shared-memory iGPU/low-power CPU, so
+    // spend more time optimizing the one-time native build for better play
+    // speed. Keep Windows at the existing compile-time/runtime balance.
+    let optimization = if cfg!(target_os = "linux") { "-O2" } else { "-O1" };
 
     // External-compiler path: one job per core keeps every core busy without
     // blowing memory (each 16 MB unit's cc stays modest); RECOMP_JOBS
@@ -260,7 +265,7 @@ pub fn build_library(
                     }
                     let (c_path, o_path) = &units[i];
                     match std::process::Command::new(prog)
-                        .args(["-O1", "-fPIC", "-c", "-o", o_path, c_path])
+                        .args([optimization, "-fPIC", "-c", "-o", o_path, c_path])
                         .status()
                     {
                         Ok(st) if st.success() => {

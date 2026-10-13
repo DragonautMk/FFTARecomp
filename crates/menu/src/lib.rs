@@ -1,7 +1,7 @@
 //! In-game pause/settings overlay for the play runtime.
 //!
-//! This crate owns the overlay's state machine, a small embedded bitmap
-//! font, and rgba compositing — everything the play loop needs to draw a
+//! This crate owns the overlay's state machine, embedded scalable
+//! fonts, and rgba compositing — everything the play loop needs to draw a
 //! settings panel over the last composed frame and steer it with the same
 //! keyboard/gamepad poll it already runs. It deliberately knows nothing
 //! about windows, audio rings, or the emulator: the play loop feeds it
@@ -11,20 +11,12 @@
 //! The settings vocabulary mirrors the launcher's A/V surface, parsed
 //! through the `screen` crate's enums so the two frontends never drift.
 
-mod font;
+mod canvas;
+mod controller_icons;
+mod theme;
 
-use input_config::{AvConfig, Button};
+use input_config::{AvConfig, Button, Device, InputConfig};
 use screen::{ResponseMode, ScreenKind};
-
-// Overlay palette — drawn into the BGR555-derived frame, so these are
-// plain sRGB-ish bytes. Tuned to echo the launcher's procedural chrome.
-const PANEL_BG: [u8; 3] = [16, 18, 34];
-const PANEL_EDGE: [u8; 3] = [0x6f, 0x66, 0xdd]; // launcher VIOLET
-const TITLE_FG: [u8; 3] = [0xee, 0xf1, 0xf8]; // launcher SILVER_HI
-const ROW_FG: [u8; 3] = [188, 198, 222];
-const VALUE_FG: [u8; 3] = [0x7d, 0xe8, 0xff]; // launcher CYAN
-const SELECT_FG: [u8; 3] = [255, 240, 150]; // amber, the selected row
-const SELECT_BAR: [u8; 3] = [44, 50, 96];
 
 /// One edge-triggered navigation event. The play loop debounces its own
 /// keyboard/gamepad poll into these (a held direction yields one event on
@@ -53,6 +45,8 @@ pub enum MenuAction {
     /// writes `av.cfg`. The variant says which surface moved so the loop
     /// only rebuilds what it must.
     Changed(Changed),
+    InputDevice(Device),
+    ResetGamepad,
 }
 
 /// Which A/V surface a [`MenuAction::Changed`] touched, so the play loop
@@ -76,17 +70,28 @@ pub enum Changed {
 pub enum Bind {
     /// A GBA pad button.
     Button(Button),
+    Gamepad(Button),
     /// The hold-to-fast-forward key.
     FastForward,
+    ZoomIn,
+    FastForwardToggle,
+    ZoomOut,
+    GamepadZoomIn,
+    GamepadZoomOut,
+    GamepadFastForward,
+    GamepadFastForwardToggle,
 }
 
 /// Which page of the menu is showing.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Page {
     Main,
+    Exit,
+    FastForward,
     Audio,
     Video,
     Inputs,
+    Gamepad,
 }
 
 /// The rows of the menu. Action rows (`Resume`, `Quit`, the submenu
@@ -95,11 +100,16 @@ enum Page {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Row {
     Resume,
+    FastForwardMenu,
     FastForward,
     AudioMenu,
+    FastForwardAudio,
     VideoMenu,
     InputsMenu,
+    ResetGamepad,
     Quit,
+    QuitYes,
+    QuitNo,
     Volume,
     Audio,
     Screen,
@@ -112,12 +122,15 @@ enum Row {
     Vsync,
     Key(Button),
     FfKey,
+    FfToggleKey,
+    ZoomIn,
+    ZoomOut,
     Back,
 }
 
 const MAIN_ROWS: [Row; 6] = [
     Row::Resume,
-    Row::FastForward,
+    Row::FastForwardMenu,
     Row::AudioMenu,
     Row::VideoMenu,
     Row::InputsMenu,
@@ -125,6 +138,8 @@ const MAIN_ROWS: [Row; 6] = [
 ];
 
 const AUDIO_ROWS: [Row; 3] = [Row::Volume, Row::Audio, Row::Back];
+const EXIT_ROWS: [Row; 2] = [Row::QuitYes, Row::QuitNo];
+const FAST_FORWARD_ROWS: [Row; 3] = [Row::FastForward, Row::FastForwardAudio, Row::Back];
 
 /// Scaling modes offered by the menu (`av.scaling`): "off" keeps the
 /// original exact area-average scaler.
@@ -145,7 +160,7 @@ const VIDEO_ROWS: [Row; 9] = [
     Row::Back,
 ];
 
-const INPUT_ROWS: [Row; 12] = [
+const INPUT_ROWS: [Row; 15] = [
     Row::Key(Button::A),
     Row::Key(Button::B),
     Row::Key(Button::L),
@@ -157,30 +172,59 @@ const INPUT_ROWS: [Row; 12] = [
     Row::Key(Button::Left),
     Row::Key(Button::Right),
     Row::FfKey,
+    Row::FfToggleKey,
+    Row::ZoomIn,
+    Row::ZoomOut,
+    Row::Back,
+];
+const GAMEPAD_ROWS: [Row; 16] = [
+    Row::Key(Button::A),
+    Row::Key(Button::B),
+    Row::Key(Button::L),
+    Row::Key(Button::R),
+    Row::Key(Button::Start),
+    Row::Key(Button::Select),
+    Row::Key(Button::Up),
+    Row::Key(Button::Down),
+    Row::Key(Button::Left),
+    Row::Key(Button::Right),
+    Row::FfKey,
+    Row::FfToggleKey,
+    Row::ZoomIn,
+    Row::ZoomOut,
+    Row::ResetGamepad,
     Row::Back,
 ];
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
         Page::Main => &MAIN_ROWS,
+        Page::Exit => &EXIT_ROWS,
+        Page::FastForward => &FAST_FORWARD_ROWS,
         Page::Audio => &AUDIO_ROWS,
         Page::Video => &VIDEO_ROWS,
         Page::Inputs => &INPUT_ROWS,
+        Page::Gamepad => &GAMEPAD_ROWS,
     }
 }
 
-/// Fast-forward speeds offered by the menu (1 = off).
-const FF_SPEEDS: [u32; 4] = [1, 2, 4, 8];
+/// Fast-forward multipliers offered by the menu.
+const FF_SPEEDS: [u32; 3] = [2, 4, 8];
 
 impl Row {
     fn label(self) -> &'static str {
         match self {
             Row::Resume => "Resume",
-            Row::FastForward => "Fast Forward",
+            Row::FastForwardMenu => "Fast forward",
+            Row::FastForward => "Multiplier",
+            Row::FastForwardAudio => "Audio mode",
             Row::AudioMenu => "Audio",
             Row::VideoMenu => "Video",
-            Row::InputsMenu => "Inputs",
-            Row::Quit => "Quit",
+            Row::InputsMenu => "Input",
+            Row::ResetGamepad => "Default layout",
+            Row::Quit => "Exit",
+            Row::QuitYes => "Yes, exit",
+            Row::QuitNo => "No, go back",
             Row::Volume => "Volume",
             Row::Audio => "Enhanced Audio",
             Row::Screen => "Screen",
@@ -202,6 +246,9 @@ impl Row {
             Row::Key(Button::Left) => "Left",
             Row::Key(Button::Right) => "Right",
             Row::FfKey => "Fast Fwd",
+            Row::FfToggleKey => "Toggle Fast Fwd",
+            Row::ZoomIn => "Zoom In",
+            Row::ZoomOut => "Zoom Out",
             Row::Back => "Back",
         }
     }
@@ -212,11 +259,18 @@ impl Row {
             self,
             Row::Resume
                 | Row::Quit
+                | Row::QuitYes
+                | Row::QuitNo
+                | Row::FastForwardMenu
                 | Row::AudioMenu
                 | Row::VideoMenu
                 | Row::InputsMenu
+                | Row::ResetGamepad
                 | Row::Key(_)
                 | Row::FfKey
+                | Row::FfToggleKey
+                | Row::ZoomIn
+                | Row::ZoomOut
                 | Row::Back
         )
     }
@@ -224,6 +278,8 @@ impl Row {
     /// The submenu this row opens, if any.
     fn opens(self) -> Option<Page> {
         match self {
+            Row::Quit => Some(Page::Exit),
+            Row::FastForwardMenu => Some(Page::FastForward),
             Row::AudioMenu => Some(Page::Audio),
             Row::VideoMenu => Some(Page::Video),
             Row::InputsMenu => Some(Page::Inputs),
@@ -244,26 +300,39 @@ struct Layout {
     line_h: usize,
     /// Text-top y of the first row (its highlight bar starts 2 px above).
     rows_y: usize,
+    visible_rows: usize,
 }
 
-/// Panel geometry for `n` rows in a `w` x `h` frame. The GBA frame is
-/// 240x160; a 1px font scale keeps the whole menu on-screen with room to
-/// spare, and stays crisp at the window's integer scale.
+/// Responsive panel geometry in UI pixels, independent of the game resolution.
 fn layout(n: usize, w: usize, h: usize) -> Layout {
-    let pad = 6usize;
-    let panel_y = 6usize;
-    let panel_w = w.saturating_sub(20).min(220);
-    // Centered, so it stays in the middle of a widescreen frame (and of the
-    // zoom crop, which is centered too).
+    let main = n == MAIN_ROWS.len();
+    let inputs = n == INPUT_ROWS.len() || n == GAMEPAD_ROWS.len();
+    let scale = (h as f32 / 480.).min(w as f32 / 560.).clamp(0.28, 1.35);
+    let pad = (20. * scale).round() as usize;
+    let panel_w = w
+        .saturating_sub(pad * 2)
+        .min(((if main { 320. } else { 512. }) * scale) as usize);
     let panel_x = w.saturating_sub(panel_w) / 2;
-    // Shrink the row pitch if needed so every row fits in the frame.
-    let avail = h.saturating_sub(panel_y * 2);
-    let mut line_h = font::H + 4;
-    while line_h > font::H + 1 && pad * 2 + 12 + (n + 1) * line_h > avail {
-        line_h -= 1;
-    }
-    let panel_h = (pad * 2 + line_h + 6 + n * line_h + 6).min(avail);
-    let rows_y = panel_y + pad + line_h + 6;
+    let avail = h
+        .saturating_sub(pad * 2)
+        .min(if inputs { (460. * scale) as usize } else { h });
+    let line_h = (44. * scale).round().max(12.) as usize;
+    let header = if main {
+        0
+    } else if inputs {
+        (82. * scale) as usize
+    } else if n == 2 {
+        (90. * scale) as usize
+    } else {
+        (50. * scale) as usize
+    };
+    let footer = if inputs { (50. * scale) as usize } else { 0 };
+    let visible_rows = ((avail.saturating_sub(pad * 2 + header + footer)) / line_h)
+        .max(1)
+        .min(if inputs { n - 1 } else { n });
+    let panel_h = (pad * 2 + header + visible_rows * line_h + footer).min(avail);
+    let panel_y = h.saturating_sub(panel_h) / 2;
+    let rows_y = panel_y + pad + header;
     Layout {
         panel_x,
         panel_y,
@@ -272,6 +341,7 @@ fn layout(n: usize, w: usize, h: usize) -> Layout {
         pad,
         line_h,
         rows_y,
+        visible_rows,
     }
 }
 
@@ -287,6 +357,14 @@ pub struct Menu {
     /// The play loop owns the keyboard: it reads [`Menu::capturing`], and
     /// calls [`Menu::end_capture`] once it has taken (or cancelled) the key.
     capture: Option<Bind>,
+    scroll: std::cell::Cell<usize>,
+    dropdown: Option<Dropdown>,
+    input_gamepad: std::cell::Cell<bool>,
+}
+struct Dropdown {
+    row: Row,
+    index: usize,
+    first: std::cell::Cell<usize>,
 }
 
 impl Menu {
@@ -300,6 +378,9 @@ impl Menu {
             selected: 0,
             audio_live,
             capture: None,
+            scroll: std::cell::Cell::new(0),
+            dropdown: None,
+            input_gamepad: std::cell::Cell::new(false),
         }
     }
 
@@ -309,6 +390,8 @@ impl Menu {
         self.page = Page::Main;
         self.selected = 0;
         self.capture = None;
+        self.scroll.set(0);
+        self.dropdown = None;
     }
 
     /// The button currently waiting for a key press, if any.
@@ -323,18 +406,64 @@ impl Menu {
 
     fn open(&mut self, page: Page) {
         self.page = page;
-        self.selected = 0;
+        self.selected = if page == Page::Exit { 1 } else { 0 };
+        self.scroll.set(0);
+        self.dropdown = None;
     }
 
     fn back_to_main(&mut self) {
+        self.scroll.set(0);
+        self.dropdown = None;
         let parent = match self.page {
+            Page::Exit => Row::Quit,
+            Page::FastForward => Row::FastForwardMenu,
             Page::Audio => Row::AudioMenu,
             Page::Video => Row::VideoMenu,
             Page::Inputs => Row::InputsMenu,
+            Page::Gamepad => Row::InputsMenu,
             Page::Main => Row::Resume,
         };
         self.page = Page::Main;
         self.selected = MAIN_ROWS.iter().position(|r| *r == parent).unwrap_or(0);
+    }
+    fn first_visible(&self, l: Layout) -> usize {
+        let len = rows_of(self.page).len()
+            - usize::from(matches!(self.page, Page::Inputs | Page::Gamepad));
+        let mut first = self.scroll.get().min(len.saturating_sub(l.visible_rows));
+        if self.selected < len {
+            if self.selected < first {
+                first = self.selected;
+            }
+            if self.selected >= first + l.visible_rows {
+                first = self.selected + 1 - l.visible_rows;
+            }
+        }
+        self.scroll.set(first);
+        first
+    }
+    fn input_tab(&mut self, gamepad: bool) -> Option<MenuAction> {
+        self.input_gamepad.set(gamepad);
+        self.open(if gamepad { Page::Gamepad } else { Page::Inputs });
+        Some(MenuAction::InputDevice(if gamepad {
+            Device::Gamepad
+        } else {
+            Device::Keyboard
+        }))
+    }
+    fn open_dropdown(&mut self, row: Row, av: &AvConfig) {
+        let opts = setting_options(row);
+        if opts.is_empty() {
+            return;
+        }
+        let index = opts
+            .iter()
+            .position(|s| *s == setting_value(row, av))
+            .unwrap_or(0);
+        self.dropdown = Some(Dropdown {
+            row,
+            index,
+            first: std::cell::Cell::new(0),
+        });
     }
 
     /// Feed one navigation event. Mutates `av` for value changes and
@@ -348,6 +477,26 @@ impl Menu {
     pub fn handle(&mut self, input: MenuInput, av: &mut AvConfig) -> Option<MenuAction> {
         if self.capture.is_some() {
             return None;
+        }
+        if let Some(mut dd) = self.dropdown.take() {
+            let opts = setting_options(dd.row);
+            match input {
+                MenuInput::Cancel => return None,
+                MenuInput::Confirm => {
+                    return choose_setting(dd.row, &opts[dd.index], av).map(MenuAction::Changed)
+                }
+                MenuInput::Up | MenuInput::Left => {
+                    dd.index = (dd.index + opts.len() - 1) % opts.len()
+                }
+                MenuInput::Down | MenuInput::Right => dd.index = (dd.index + 1) % opts.len(),
+            }
+            self.dropdown = Some(dd);
+            return None;
+        }
+        if matches!(self.page, Page::Inputs | Page::Gamepad)
+            && matches!(input, MenuInput::Left | MenuInput::Right)
+        {
+            return self.input_tab(input == MenuInput::Right);
         }
         let rows = rows_of(self.page);
         let row = rows[self.selected];
@@ -370,17 +519,59 @@ impl Menu {
             }
             MenuInput::Confirm => match row {
                 Row::Resume => Some(MenuAction::Resume),
-                Row::Quit => Some(MenuAction::Quit),
+                Row::Quit => {
+                    self.open(Page::Exit);
+                    None
+                }
+                Row::QuitYes => Some(MenuAction::Quit),
+                Row::QuitNo => {
+                    self.back_to_main();
+                    None
+                }
                 Row::Back => {
                     self.back_to_main();
                     None
                 }
                 Row::Key(b) => {
-                    self.capture = Some(Bind::Button(b));
+                    self.capture = Some(if self.page == Page::Gamepad {
+                        Bind::Gamepad(b)
+                    } else {
+                        Bind::Button(b)
+                    });
                     None
                 }
+                Row::InputsMenu => self.input_tab(self.input_gamepad.get()),
+                Row::ResetGamepad => Some(MenuAction::ResetGamepad),
                 Row::FfKey => {
-                    self.capture = Some(Bind::FastForward);
+                    self.capture = Some(if self.page == Page::Gamepad {
+                        Bind::GamepadFastForward
+                    } else {
+                        Bind::FastForward
+                    });
+                    None
+                }
+                Row::FfToggleKey => {
+                    self.capture = Some(if self.page == Page::Gamepad {
+                        Bind::GamepadFastForwardToggle
+                    } else {
+                        Bind::FastForwardToggle
+                    });
+                    None
+                }
+                Row::ZoomIn => {
+                    self.capture = Some(if self.page == Page::Gamepad {
+                        Bind::GamepadZoomIn
+                    } else {
+                        Bind::ZoomIn
+                    });
+                    None
+                }
+                Row::ZoomOut => {
+                    self.capture = Some(if self.page == Page::Gamepad {
+                        Bind::GamepadZoomOut
+                    } else {
+                        Bind::ZoomOut
+                    });
                     None
                 }
                 r if r.opens().is_some() => {
@@ -389,7 +580,10 @@ impl Menu {
                 }
                 // Confirm does nothing on value settings: they change with
                 // Left/Right only (so Enter can't flip an ON/OFF by accident).
-                _ => None,
+                _ => {
+                    self.open_dropdown(row, av);
+                    None
+                }
             },
             MenuInput::Left => {
                 if row.is_action() {
@@ -399,7 +593,9 @@ impl Menu {
                 }
             }
             MenuInput::Right => {
-                if let Some(p) = row.opens() {
+                if row == Row::InputsMenu {
+                    self.handle(MenuInput::Confirm, av)
+                } else if let Some(p) = row.opens() {
                     self.open(p);
                     None
                 } else if row.is_action() {
@@ -415,6 +611,14 @@ impl Menu {
     fn row_at(&self, x: usize, y: usize, w: usize, h: usize) -> Option<usize> {
         let rows = rows_of(self.page);
         let l = layout(rows.len(), w, h);
+        if matches!(self.page, Page::Inputs | Page::Gamepad)
+            && y >= l.panel_y + l.panel_h - l.pad - l.line_h + 6
+            && y < l.panel_y + l.panel_h - l.pad
+            && x >= l.panel_x + l.panel_w - l.pad - l.line_h * 3
+            && x < l.panel_x + l.panel_w - l.pad
+        {
+            return Some(rows.len() - 1);
+        }
         if x < l.panel_x + 2 || x >= l.panel_x + l.panel_w - 2 {
             return None;
         }
@@ -423,13 +627,26 @@ impl Menu {
             return None;
         }
         let i = (y - top) / l.line_h;
-        (i < rows.len()).then_some(i)
+        if i >= l.visible_rows {
+            return None;
+        }
+        let index = i + self.first_visible(l);
+        if rows[index] == Row::Back && x < l.panel_x + l.panel_w - l.pad - l.line_h * 3 {
+            return None;
+        }
+        Some(index)
     }
 
     /// Pointer moved: highlight the row under it (ignored while a key
     /// capture is pending). `(x, y)` are frame pixels, `w`/`h` the frame size.
     pub fn hover(&mut self, x: usize, y: usize, w: usize, h: usize) {
         if self.capture.is_some() {
+            return;
+        }
+        if let Some(dd) = self.dropdown.as_mut() {
+            if let Some(i) = theme::dropdown_hit(dd, x, y, w, h) {
+                dd.index = i;
+            }
             return;
         }
         if let Some(i) = self.row_at(x, y, w, h) {
@@ -453,10 +670,49 @@ impl Menu {
         if self.capture.is_some() {
             return None;
         }
+        if let Some(dd) = self.dropdown.as_ref() {
+            let hit = theme::dropdown_hit(dd, x, y, w, h);
+            if left {
+                if let Some(i) = hit {
+                    self.dropdown.as_mut().unwrap().index = i;
+                    return self.handle(MenuInput::Confirm, av);
+                }
+            }
+            self.dropdown = None;
+            return None;
+        }
+        if matches!(self.page, Page::Inputs | Page::Gamepad) {
+            let l = layout(rows_of(self.page).len(), w, h);
+            if y >= l.panel_y + l.pad + l.line_h
+                && y < l.rows_y - 2
+                && x >= l.panel_x + l.pad
+                && x < l.panel_x + l.panel_w - l.pad
+            {
+                return self.input_tab(x >= l.panel_x + l.panel_w / 2);
+            }
+        }
         match self.row_at(x, y, w, h) {
             Some(i) => {
                 self.selected = i;
                 let row = rows_of(self.page)[i];
+                if left {
+                    if let Some(choice) =
+                        theme::segment_hit(row, layout(rows_of(self.page).len(), w, h), x)
+                    {
+                        match row {
+                            Row::FastForward => av.ff_speed = FF_SPEEDS[choice],
+                            Row::FastForwardAudio => {
+                                av.ff_audio = ["normal", "silent", "fast"][choice].into()
+                            }
+                            _ => unreachable!(),
+                        }
+                        return Some(MenuAction::Changed(Changed::Gamut));
+                    }
+                    if !setting_options(row).is_empty() {
+                        self.open_dropdown(row, av);
+                        return None;
+                    }
+                }
                 let input = if row.is_action() {
                     if left {
                         MenuInput::Confirm
@@ -479,124 +735,77 @@ impl Menu {
     /// row-major, RGBA bytes — the alpha channel is left at 255 and
     /// ignored by both present paths). `keys` are the current keyboard
     /// bindings (indexed by `Button::index`), shown on the Inputs page.
-    /// Drawn entirely in the frame's own pixel space so it scales with the
-    /// window at present time and works identically under the GPU
-    /// presenter and the CPU blit.
-    ///
-    /// Palette echoes the launcher's Y2K chrome (violet edge, silver
-    /// title, cyan values, amber selection) so the two settings surfaces
-    /// read as one product.
+    /// The play loop supplies a high-resolution pause canvas independent
+    /// of the GBA frame. Both GPU and CPU presenters display that canvas.
+    /// Its parchment and brass palette follows the supplied HTML reference.
     pub fn draw(
         &self,
         av: &AvConfig,
         keys: &[String; 10],
         ff_key: &str,
+        ff_toggle_key: &str,
+        zoom_in: &str,
+        zoom_out: &str,
         rgba: &mut [[u8; 4]],
         w: usize,
         h: usize,
     ) {
-        // Darken the whole frame so the panel reads regardless of scene.
-        for px in rgba.iter_mut() {
-            px[0] = (px[0] as u16 * 5 / 16) as u8;
-            px[1] = (px[1] as u16 * 5 / 16) as u8;
-            px[2] = (px[2] as u16 * 5 / 16) as u8;
-        }
-
-        let rows = rows_of(self.page);
-        let Layout {
-            panel_x,
-            panel_y,
-            panel_w,
-            panel_h,
-            pad,
-            line_h,
-            ..
-        } = layout(rows.len(), w, h);
-
-        fill_rect(rgba, w, h, panel_x, panel_y, panel_w, panel_h, PANEL_BG);
-        frame_rect(rgba, w, h, panel_x, panel_y, panel_w, panel_h, PANEL_EDGE);
-
-        let tx = panel_x + pad;
-        let mut ty = panel_y + pad;
-
-        let title = match self.page {
-            Page::Main => "PAUSED",
-            Page::Audio => "AUDIO",
-            Page::Video => "VIDEO",
-            Page::Inputs => "INPUTS",
-        };
-        draw_text(rgba, w, h, tx, ty, title, TITLE_FG, 1);
-        ty += line_h;
-        // Title rule, in the launcher's accent — ties the surfaces together.
-        fill_rect(
+        theme::draw(
+            self,
+            av,
+            keys,
+            ff_key,
+            ff_toggle_key,
+            zoom_in,
+            zoom_out,
             rgba,
             w,
             h,
-            panel_x + pad,
-            ty,
-            panel_w - pad * 2,
-            1,
-            PANEL_EDGE,
         );
-        ty += 6;
+    }
 
-        for (i, row) in rows.iter().enumerate() {
-            let sel = i == self.selected;
-            if sel {
-                // Selection highlight bar behind the row.
-                fill_rect(
-                    rgba,
-                    w,
-                    h,
-                    panel_x + 2,
-                    ty - 2,
-                    panel_w - 4,
-                    line_h,
-                    SELECT_BAR,
-                );
-            }
-            let fg = if sel { SELECT_FG } else { ROW_FG };
-            let cursor = if sel { ">" } else { " " };
-            draw_text(rgba, w, h, tx, ty, cursor, fg, 1);
-
-            let mut label = row.label().to_string();
-            // Annotate the row that only applies on next launch.
-            if matches!(row, Row::Audio) && !self.audio_live {
-                label.push_str(" (restart)");
-            }
-
-            // The value (right-aligned) is laid out first so the label can
-            // be clipped to never collide with it — a long label + wide
-            // value must read cleanly, not overlap into garbage.
-            let val = value_of(*row, av, keys, ff_key, self.capture);
-            let glyph = font::W + 1;
-            let lx = tx + glyph;
-            let val_left = val
-                .as_ref()
-                .map(|v| panel_x + panel_w - pad - v.chars().count() * glyph);
-            let label_cap = match val_left {
-                Some(vl) if vl > lx => (vl - lx) / glyph,
-                Some(_) => 0,
-                None => (panel_x + panel_w - pad).saturating_sub(lx) / glyph,
-            };
-            if label.chars().count() > label_cap {
-                label.truncate(label_cap.saturating_sub(1).min(label.len()));
-            }
-            draw_text(rgba, w, h, lx, ty, &label, fg, 1);
-            if let (Some(v), Some(vx)) = (val, val_left) {
-                draw_text(
-                    rgba,
-                    w,
-                    h,
-                    vx,
-                    ty,
-                    &v,
-                    if sel { SELECT_FG } else { VALUE_FG },
-                    1,
-                );
-            }
-            ty += line_h;
+    pub fn draw_inputs(
+        &self,
+        av: &AvConfig,
+        cfg: &InputConfig,
+        rgba: &mut [[u8; 4]],
+        w: usize,
+        h: usize,
+    ) {
+        if !matches!(self.page, Page::Inputs | Page::Gamepad) {
+            self.input_gamepad.set(cfg.device == Device::Gamepad);
         }
+        self.draw(
+            av,
+            if self.page == Page::Gamepad {
+                &cfg.pads
+            } else {
+                &cfg.keys
+            },
+            if self.page == Page::Gamepad {
+                &cfg.ff_pad
+            } else {
+                &cfg.ff_key
+            },
+            if self.page == Page::Gamepad {
+                &cfg.ff_toggle_pad
+            } else {
+                &cfg.ff_toggle_key
+            },
+            if self.page == Page::Gamepad {
+                &cfg.zoom_in_pad
+            } else {
+                &cfg.zoom_in_key
+            },
+            if self.page == Page::Gamepad {
+                &cfg.zoom_out_pad
+            } else {
+                &cfg.zoom_out_key
+            },
+            rgba,
+            w,
+            h,
+        );
     }
 }
 
@@ -619,7 +828,10 @@ fn value_of(
     capture: Option<Bind>,
 ) -> Option<String> {
     Some(match row {
-        Row::Resume | Row::Quit | Row::Back => return None,
+        Row::FastForwardMenu => ">".to_string(),
+        Row::Resume | Row::Quit | Row::QuitYes | Row::QuitNo | Row::Back | Row::ResetGamepad => {
+            return None
+        }
         Row::AudioMenu | Row::VideoMenu | Row::InputsMenu => ">".to_string(),
         Row::FastForward => {
             if av.ff_speed <= 1 {
@@ -629,6 +841,12 @@ fn value_of(
             }
         }
         Row::Volume => percent(av.audio_volume),
+        Row::FastForwardAudio => match av.ff_audio.as_str() {
+            "fast" => "FAST AUDIO",
+            "normal" => "NORMAL",
+            _ => "SILENT",
+        }
+        .to_string(),
         Row::Audio => if av.audio_enhanced { "ON" } else { "OFF" }.to_string(),
         Row::Screen => screen_kind(av).name().to_uppercase(),
         Row::Brightness => percent(av.video_brightness),
@@ -639,7 +857,9 @@ fn value_of(
         Row::Aspect => aspect_name(av).to_uppercase(),
         Row::Vsync => if av.video_vsync { "ON" } else { "OFF" }.to_string(),
         Row::Key(b) => {
-            if capture == Some(Bind::Button(b)) {
+            if capture == Some(Bind::Gamepad(b)) {
+                "PRESS BUTTON".to_string()
+            } else if capture == Some(Bind::Button(b)) {
                 "PRESS KEY".to_string()
             } else {
                 keys[b.index()].to_uppercase()
@@ -652,7 +872,46 @@ fn value_of(
                 ff_key.to_uppercase()
             }
         }
+        Row::ZoomIn | Row::ZoomOut => "PRESS KEY".to_string(),
+        Row::FfToggleKey => "PRESS KEY".to_string(),
     })
+}
+
+fn gamepad_label(token: &str) -> String {
+    match token {
+        "South" => "A",
+        "East" => "B",
+        "West" => "X",
+        "North" => "Y",
+        "LeftTrigger" => "LB",
+        "RightTrigger" => "RB",
+        "LeftTrigger2" => "LT",
+        "RightTrigger2" => "RT",
+        "Select" => "BACK",
+        "Start" => "START",
+        "Mode" => "GUIDE",
+        "LeftThumb" => "LS CLICK",
+        "RightThumb" => "RS CLICK",
+        "DPadUp" => "DPAD UP",
+        "DPadDown" => "DPAD DOWN",
+        "DPadLeft" => "DPAD LEFT",
+        "DPadRight" => "DPAD RIGHT",
+        "LeftStickUp" => "LS UP",
+        "LeftStickDown" => "LS DOWN",
+        "LeftStickLeft" => "LS LEFT",
+        "LeftStickRight" => "LS RIGHT",
+        "RightStickUp" => "RS UP",
+        "RightStickDown" => "RS DOWN",
+        "RightStickLeft" => "RS LEFT",
+        "RightStickRight" => "RS RIGHT",
+        other => {
+            return other
+                .strip_prefix("DInputButton")
+                .map(|n| format!("BUTTON {n}"))
+                .unwrap_or_else(|| other.to_uppercase())
+        }
+    }
+    .into()
 }
 
 /// Step a 0..1 style slider by one tenth within `[lo, hi]` tenths (clamped,
@@ -668,26 +927,78 @@ fn step_slider(value: &mut f32, forward: bool, lo: i32, hi: i32) -> bool {
 /// Cycle the selected setting forward (`forward`) or backward and report
 /// which surface moved. Returns `None` for action rows (and for sliders
 /// already at their end).
+fn setting_options(row: Row) -> Vec<String> {
+    match row {
+        Row::Screen => ScreenKind::ALL
+            .iter()
+            .map(|s| s.name().to_uppercase())
+            .collect(),
+        Row::Response => ResponseMode::ALL
+            .iter()
+            .map(|s| s.name().to_uppercase())
+            .collect(),
+        Row::Scaling => SCALING_MODES.iter().map(|s| s.to_uppercase()).collect(),
+        Row::Aspect => ASPECT_MODES.iter().map(|s| s.to_uppercase()).collect(),
+        Row::Grid | Row::Darken => std::iter::once("AUTO".into())
+            .chain((0..=10).map(|i| format!("{:.1}", i as f32 / 10.0)))
+            .collect(),
+        _ => Vec::new(),
+    }
+}
+fn setting_value(row: Row, av: &AvConfig) -> String {
+    value_of(row, av, &std::array::from_fn(|_| String::new()), "", None).unwrap_or_default()
+}
+fn choose_setting(row: Row, value: &str, av: &mut AvConfig) -> Option<Changed> {
+    let mut change = None;
+    for _ in 0..=setting_options(row).len() {
+        if setting_value(row, av) == value {
+            break;
+        }
+        change = cycle(row, av, true);
+    }
+    change
+}
 fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
     match row {
         Row::Resume
         | Row::Quit
+        | Row::QuitYes
+        | Row::QuitNo
+        | Row::FastForwardMenu
         | Row::AudioMenu
         | Row::VideoMenu
         | Row::InputsMenu
+        | Row::ResetGamepad
         | Row::Key(_)
         | Row::FfKey
+        | Row::FfToggleKey
+        | Row::ZoomIn
+        | Row::ZoomOut
         | Row::Back => None,
         Row::FastForward => {
             let cur = FF_SPEEDS
                 .iter()
                 .copied()
                 .find(|s| *s == av.ff_speed)
-                .unwrap_or(1);
+                .unwrap_or(4);
             av.ff_speed = step_enum(&FF_SPEEDS, cur, forward);
             Some(Changed::Gamut)
         }
         Row::Volume => step_slider(&mut av.audio_volume, forward, 0, 10).then_some(Changed::Audio),
+        Row::FastForwardAudio => {
+            let modes = ["silent", "fast", "normal"];
+            av.ff_audio = step_enum(
+                &modes,
+                modes
+                    .iter()
+                    .copied()
+                    .find(|m| *m == av.ff_audio)
+                    .unwrap_or("silent"),
+                forward,
+            )
+            .into();
+            Some(Changed::Gamut)
+        }
         Row::Audio => {
             av.audio_enhanced = !av.audio_enhanced;
             Some(Changed::Audio)
@@ -796,89 +1107,116 @@ fn response_mode(av: &AvConfig) -> ResponseMode {
 
 // ── rgba drawing primitives ─────────────────────────────────────────
 
-fn put(rgba: &mut [[u8; 4]], w: usize, h: usize, x: usize, y: usize, c: [u8; 3]) {
-    if x < w && y < h {
-        let p = &mut rgba[y * w + x];
-        *p = [c[0], c[1], c[2], 255];
-    }
-}
-
-/// Solid filled rectangle, clipped to the frame.
-fn fill_rect(
-    rgba: &mut [[u8; 4]],
-    w: usize,
-    h: usize,
-    x: usize,
-    y: usize,
-    rw: usize,
-    rh: usize,
-    c: [u8; 3],
-) {
-    for yy in y..(y + rh).min(h) {
-        for xx in x..(x + rw).min(w) {
-            rgba[yy * w + xx] = [c[0], c[1], c[2], 255];
-        }
-    }
-}
-
-/// One-pixel border around a rectangle.
-fn frame_rect(
-    rgba: &mut [[u8; 4]],
-    w: usize,
-    h: usize,
-    x: usize,
-    y: usize,
-    rw: usize,
-    rh: usize,
-    c: [u8; 3],
-) {
-    for xx in x..(x + rw).min(w) {
-        put(rgba, w, h, xx, y, c);
-        if y + rh >= 1 {
-            put(rgba, w, h, xx, (y + rh - 1).min(h - 1), c);
-        }
-    }
-    for yy in y..(y + rh).min(h) {
-        put(rgba, w, h, x, yy, c);
-        if x + rw >= 1 {
-            put(rgba, w, h, (x + rw - 1).min(w - 1), yy, c);
-        }
-    }
-}
-
-/// Draw a string with the embedded font at integer `scale` (1 = native
-/// 8x8 cells). Glyphs advance by one extra pixel for readability.
-fn draw_text(
-    rgba: &mut [[u8; 4]],
-    w: usize,
-    h: usize,
-    x: usize,
-    y: usize,
-    s: &str,
-    c: [u8; 3],
-    scale: usize,
-) {
-    let mut cx = x;
-    for ch in s.chars() {
-        let g = font::glyph(ch);
-        for (row, bits) in g.iter().enumerate() {
-            for col in 0..font::W {
-                if bits & (0x80 >> col) != 0 {
-                    for sy in 0..scale {
-                        for sx in 0..scale {
-                            put(rgba, w, h, cx + col * scale + sx, y + row * scale + sy, c);
-                        }
-                    }
-                }
-            }
-        }
-        cx += (font::W + 1) * scale;
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn dropdown_cancel_and_commit_use_real_video_settings() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Video);
+        at(&mut menu, Row::Screen);
+        let original = av.screen.clone();
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert!(menu.dropdown.is_some());
+        menu.handle(MenuInput::Down, &mut av);
+        assert_eq!(av.screen, original);
+        menu.handle(MenuInput::Cancel, &mut av);
+        assert_eq!(menu.page, Page::Video);
+        assert!(menu.dropdown.is_none());
+        menu.handle(MenuInput::Confirm, &mut av);
+        menu.handle(MenuInput::Down, &mut av);
+        let index = menu.dropdown.as_ref().unwrap().index;
+        let expected = setting_options(Row::Screen)[index].clone();
+        assert_eq!(
+            menu.handle(MenuInput::Confirm, &mut av),
+            Some(MenuAction::Changed(Changed::Video))
+        );
+        assert_eq!(av.screen.to_uppercase(), expected);
+    }
+    #[test]
+    fn scrolled_input_hit_test_and_tabs_keep_binding_targets() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Gamepad);
+        at(&mut menu, Row::FfToggleKey);
+        let l = layout(GAMEPAD_ROWS.len(), 240, 160);
+        let first = menu.first_visible(l);
+        assert!(first > 0);
+        let y = l.rows_y + (menu.selected - first) * l.line_h + 2;
+        assert_eq!(menu.click(l.panel_x + 30, y, 240, 160, true, &mut av), None);
+        assert_eq!(menu.capturing(), Some(Bind::GamepadFastForwardToggle));
+        menu.end_capture();
+        assert_eq!(
+            menu.handle(MenuInput::Left, &mut av),
+            Some(MenuAction::InputDevice(Device::Keyboard))
+        );
+        assert_eq!(menu.page, Page::Inputs);
+        assert_eq!(
+            menu.handle(MenuInput::Right, &mut av),
+            Some(MenuAction::InputDevice(Device::Gamepad))
+        );
+        menu.handle(MenuInput::Cancel, &mut av);
+        at(&mut menu, Row::InputsMenu);
+        assert_eq!(
+            menu.handle(MenuInput::Confirm, &mut av),
+            Some(MenuAction::InputDevice(Device::Gamepad))
+        );
+    }
+    #[test]
+    fn segmented_controls_set_exact_values_by_mouse() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::FastForward);
+        let l = layout(FAST_FORWARD_ROWS.len(), 568, 160);
+        let (x, bw) = theme::segment_geometry(l);
+        assert_eq!(
+            menu.click(x + 2 * (bw + 2) + 3, l.rows_y + 3, 568, 160, true, &mut av),
+            Some(MenuAction::Changed(Changed::Gamut))
+        );
+        assert_eq!(av.ff_speed, 8);
+        menu.click(x + 3, l.rows_y + l.line_h + 3, 568, 160, true, &mut av);
+        assert_eq!(av.ff_audio, "normal");
+    }
+
+    #[test]
+    fn input_submenus_keep_keyboard_and_gamepad_captures_separate() {
+        let mut menu = Menu::new(true, false);
+        let mut av = AvConfig::default();
+        at(&mut menu, Row::InputsMenu);
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert_eq!(
+            menu.handle(MenuInput::Right, &mut av),
+            Some(MenuAction::InputDevice(Device::Gamepad))
+        );
+        at(&mut menu, Row::Key(Button::A));
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert_eq!(menu.capturing(), Some(Bind::Gamepad(Button::A)));
+        assert_eq!(
+            value_of(Row::Key(Button::A), &av, &keys(), "Tab", menu.capturing()),
+            Some("PRESS BUTTON".into())
+        );
+        menu.end_capture();
+        for (row, binding) in [
+            (Row::FfKey, Bind::GamepadFastForward),
+            (Row::FfToggleKey, Bind::GamepadFastForwardToggle),
+        ] {
+            at(&mut menu, row);
+            menu.handle(MenuInput::Confirm, &mut av);
+            assert_eq!(menu.capturing(), Some(binding));
+            menu.end_capture();
+        }
+        menu.handle(MenuInput::Cancel, &mut av);
+        assert_eq!(menu.page, Page::Main);
+        menu.open(Page::Gamepad);
+        assert_eq!(
+            menu.handle(MenuInput::Left, &mut av),
+            Some(MenuAction::InputDevice(Device::Keyboard))
+        );
+        at(&mut menu, Row::Key(Button::A));
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert_eq!(menu.capturing(), Some(Bind::Button(Button::A)));
+    }
 
     fn keys() -> [String; 10] {
         input_config::InputConfig::default().keys
@@ -924,10 +1262,11 @@ mod tests {
     }
 
     #[test]
-    fn fast_forward_cycles_off_2_4_8() {
+    fn fast_forward_multiplier_cycles_without_enabling() {
         let mut av = AvConfig::default();
-        assert_eq!(av.ff_speed, 1);
+        assert_eq!(av.ff_speed, 4);
         let mut menu = Menu::new(true, true);
+        menu.open(Page::FastForward);
         at(&mut menu, Row::FastForward);
         let seq: Vec<u32> = (0..5)
             .map(|_| {
@@ -935,10 +1274,13 @@ mod tests {
                 av.ff_speed
             })
             .collect();
-        assert_eq!(seq, vec![2, 4, 8, 1, 2]);
+        assert_eq!(seq, vec![8, 2, 4, 8, 2]);
         menu.handle(MenuInput::Left, &mut av);
-        assert_eq!(av.ff_speed, 1);
-        assert_eq!(value_of(Row::FastForward, &av, &keys(), "Tab", None).unwrap(), "OFF");
+        assert_eq!(av.ff_speed, 8);
+        assert_eq!(
+            value_of(Row::FastForward, &av, &keys(), "Tab", None).unwrap(),
+            "8X"
+        );
     }
 
     #[test]
@@ -946,13 +1288,19 @@ mod tests {
         let mut av = AvConfig::default();
         let mut menu = Menu::new(true, true);
         for (row, page) in [
+            (Row::FastForwardMenu, Page::FastForward),
             (Row::AudioMenu, Page::Audio),
             (Row::VideoMenu, Page::Video),
             (Row::InputsMenu, Page::Inputs),
         ] {
             menu.reset();
             at(&mut menu, row);
-            assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
+            let expected = if row == Row::InputsMenu {
+                Some(MenuAction::InputDevice(Device::Keyboard))
+            } else {
+                None
+            };
+            assert_eq!(menu.handle(MenuInput::Confirm, &mut av), expected);
             assert_eq!(menu.page, page);
             // Cancel leaves the submenu (cursor returns to its entry row).
             assert_eq!(menu.handle(MenuInput::Cancel, &mut av), None);
@@ -1012,7 +1360,13 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Cancel, &mut av), None);
         assert_eq!(menu.selected, before);
         assert_eq!(menu.page, Page::Inputs);
-        let v = value_of(Row::Key(Button::Start), &av, &keys(), "Tab", menu.capturing());
+        let v = value_of(
+            Row::Key(Button::Start),
+            &av,
+            &keys(),
+            "Tab",
+            menu.capturing(),
+        );
         assert_eq!(v.unwrap(), "PRESS KEY");
         menu.end_capture();
         assert_eq!(menu.capturing(), None);
@@ -1033,11 +1387,12 @@ mod tests {
             Some(MenuAction::Changed(Changed::Audio))
         );
         assert!(av.audio_enhanced);
-        // Same for the main-page fast-forward row.
+        // Same for the fast-forward submenu multiplier.
         menu.reset();
+        menu.open(Page::FastForward);
         at(&mut menu, Row::FastForward);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
-        assert_eq!(av.ff_speed, 1);
+        assert_eq!(av.ff_speed, 4);
     }
 
     #[test]
@@ -1056,6 +1411,24 @@ mod tests {
     }
 
     #[test]
+    fn toggle_key_and_fast_forward_audio_are_configurable() {
+        let mut av = AvConfig::default();
+        let mut menu = Menu::new(true, true);
+        menu.open(Page::FastForward);
+        at(&mut menu, Row::FastForwardAudio);
+        menu.handle(MenuInput::Right, &mut av);
+        assert_eq!(av.ff_audio, "fast");
+        menu.handle(MenuInput::Right, &mut av);
+        assert_eq!(av.ff_audio, "normal");
+        menu.handle(MenuInput::Right, &mut av);
+        assert_eq!(av.ff_audio, "silent");
+        menu.open(Page::Inputs);
+        at(&mut menu, Row::FfToggleKey);
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert_eq!(menu.capturing(), Some(Bind::FastForwardToggle));
+    }
+
+    #[test]
     fn resume_and_quit_actions() {
         let mut av = AvConfig::default();
         let mut menu = Menu::new(true, true);
@@ -1069,6 +1442,14 @@ mod tests {
             Some(MenuAction::Resume)
         );
         at(&mut menu, Row::Quit);
+        assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
+        assert_eq!(menu.page, Page::Exit);
+        assert_eq!(rows_of(menu.page)[menu.selected], Row::QuitNo);
+        assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
+        assert_eq!(menu.page, Page::Main);
+        at(&mut menu, Row::Quit);
+        menu.handle(MenuInput::Confirm, &mut av);
+        menu.handle(MenuInput::Up, &mut av);
         assert_eq!(
             menu.handle(MenuInput::Confirm, &mut av),
             Some(MenuAction::Quit)
@@ -1098,10 +1479,28 @@ mod tests {
     fn draw_does_not_panic_on_any_page() {
         let av = AvConfig::default();
         let mut menu = Menu::new(false, false);
-        for page in [Page::Main, Page::Audio, Page::Video, Page::Inputs] {
+        for page in [
+            Page::Main,
+            Page::Exit,
+            Page::FastForward,
+            Page::Audio,
+            Page::Video,
+            Page::Inputs,
+            Page::Gamepad,
+        ] {
             menu.page = page;
             let mut rgba = vec![[10u8, 10, 10, 255]; 240 * 160];
-            menu.draw(&av, &keys(), "Tab", &mut rgba, 240, 160);
+            menu.draw(
+                &av,
+                &keys(),
+                "Tab",
+                "T",
+                "Equal",
+                "Minus",
+                &mut rgba,
+                240,
+                160,
+            );
             assert!(rgba.iter().any(|p| p[0] != 10 || p[1] != 10 || p[2] != 10));
         }
     }
@@ -1116,9 +1515,10 @@ mod tests {
         let l = layout(MAIN_ROWS.len(), w, h);
         let x = l.panel_x + l.panel_w / 2;
         let y_main = |i: usize| l.rows_y + i * l.line_h + 1;
-        menu.hover(x, y_main(2), w, h);
-        assert_eq!(menu.selected, 2);
-        assert_eq!(menu.click(x, y_main(2), w, h, true, &mut av), None);
+        let audio_row = MAIN_ROWS.iter().position(|r| *r == Row::AudioMenu).unwrap();
+        menu.hover(x, y_main(audio_row), w, h);
+        assert_eq!(menu.selected, audio_row);
+        assert_eq!(menu.click(x, y_main(audio_row), w, h, true, &mut av), None);
         assert_eq!(menu.page, Page::Audio);
 
         // Audio page row 1 = Enhanced Audio: left = next, right = previous.

@@ -9,6 +9,7 @@ use std::process::ExitCode;
 
 use recomp_core::{analyze, build_library, labels, Compiler, FileLabels, LabelSource};
 
+mod ff_audio;
 mod packfile;
 mod play;
 
@@ -50,6 +51,31 @@ fn main() -> ExitCode {
     }
     let result = match args.first().map(String::as_str) {
         Some("dis") => cmd_dis(&args[1..]),
+        Some("controllers") => {
+            if let Some(g) = build_gilrs() {
+                for (_, pad) in g.gamepads() {
+                    println!("gilrs: {}", pad.name());
+                }
+            }
+            if let Some(mut d) = input_config::directinput::DirectInput::new() {
+                for name in d.names() {
+                    if args.iter().any(|a| a == "--poll") {
+                        match d.poll(&name) {
+                            Some(pad) => println!(
+                                "{name} polling=OK pressed_buttons={} axes={:?} pov={:?}",
+                                pad.buttons.iter().filter(|&&v| v).count(),
+                                pad.axes,
+                                pad.pov
+                            ),
+                            None => println!("{name} polling=FAILED"),
+                        }
+                    } else {
+                        println!("{name}");
+                    }
+                }
+            }
+            Ok(())
+        }
         Some("entry-scan") => cmd_entry_scan(&args[1..]),
         Some("run") => cmd_run(&args[1..]),
         Some("frames") => cmd_frames(&args[1..]),
@@ -80,6 +106,7 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("controllers", "recomp controllers [--poll]", &["--poll    sample each DirectInput controller"], "List detected gilrs and Windows DirectInput controllers without loading a ROM."),
     ("build", "recomp build <rom> [--ram] [--bios file] [--labels file] [--gamedb file]", &[
         "--ram    profile a short interpreter run first, translating the RAM-resident \
 code and computed-branch targets it discovers (recommended; play's cache builds use it)",
@@ -110,6 +137,7 @@ input.cfg/av.cfg from the shared config directory."),
         "--frames N         frames to run (default 600)",
         "--out PATH         write the final frame as a PPM",
         "--input FILE       replay a recorded input script (see play's RECOMP_RECORD_INPUT)",
+        "--sav FILE         preload a save copy; runc never writes it",
         "--record-labels    record fallback entry points as labels (headless soak runs)",
         "--bios FILE     run a real-BIOS build (loads out/<stem>-bios.<dylib|so|dll>; no BIOS HLE)",
     ], "Run the recompiled output from out/<stem>.<dylib|so|dll> headless (build first); \
@@ -197,6 +225,9 @@ struct InputScript(Vec<(u64, u16)>);
 impl InputScript {
     fn load(path: &str) -> Result<InputScript, String> {
         let text = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
+        Self::parse(&text, path)
+    }
+    fn parse(text: &str, path: &str) -> Result<InputScript, String> {
         let mut lines = text.lines();
         if lines.next().map(str::trim) != Some("gba-input v1") {
             return Err(format!("{path}: not a gba-input v1 file"));
@@ -217,7 +248,8 @@ impl InputScript {
                     .map_err(|e| format!("{path}: bad mask in {l:?}: {e}"))?,
             ));
         }
-        points.sort();
+        // Equal-frame events retain recording order (release then press).
+        points.sort_by_key(|&(frame, _)| frame);
         Ok(InputScript(points))
     }
 
@@ -449,6 +481,7 @@ fn cmd_run(args: &[String]) -> Result<(), String> {
 /// Run a ROM for N frames headless, print a framebuffer hash, and
 /// optionally write the final frame as a binary PPM.
 fn cmd_frames(args: &[String]) -> Result<(), String> {
+    configure_headless_widescreen();
     let mut rom_path = None;
     let mut frames = 60u64;
     let mut out: Option<String> = None;
@@ -732,8 +765,14 @@ fn cmd_frames(args: &[String]) -> Result<(), String> {
     }
 
     if let Some(path) = out {
-        let mut ppm = format!("P6\n240 160\n255\n").into_bytes();
-        for &px in &m.bus.framebuffer {
+        let width = gba_core::mem::render_width();
+        let mut ppm = format!("P6\n{width} 160\n255\n").into_bytes();
+        let pixels = if gba_core::mem::extra() == 0 {
+            &m.bus.framebuffer[..]
+        } else {
+            &m.bus.wide_framebuffer[..width * 160]
+        };
+        for &px in pixels {
             let r = (px & 31) as u8;
             let g = ((px >> 5) & 31) as u8;
             let b = ((px >> 10) & 31) as u8;
@@ -980,13 +1019,16 @@ fn apply_av_change(
                 screen::ScreenKind::by_name(&av.screen).unwrap_or(screen::ScreenKind::Frontlit);
             *response =
                 screen::ResponseMode::by_name(&av.response).unwrap_or(screen::ResponseMode::Smart);
-            *lut = screen::ColorLut::build_with_brightness(&screen::ColorSettings {
-                screen: *screen_kind,
-                darken: input_config::AvConfig::knob(&av.screen_darken)
-                    .map(f64::from)
-                    .unwrap_or(f64::NAN),
-                target: lut_target,
-            }, f64::from(av.video_brightness));
+            *lut = screen::ColorLut::build_with_brightness(
+                &screen::ColorSettings {
+                    screen: *screen_kind,
+                    darken: input_config::AvConfig::knob(&av.screen_darken)
+                        .map(f64::from)
+                        .unwrap_or(f64::NAN),
+                    target: lut_target,
+                },
+                f64::from(av.video_brightness),
+            );
             *temporal = screen::Temporal::new(
                 gba_core::mem::render_width() * 160,
                 *response,
@@ -1060,6 +1102,19 @@ fn ensure_native(
     } else {
         String::new()
     };
+    // Keep Linux's -O2 translations separate from older -O1 artifacts.
+    // The ROM cache is local to this machine, so this is safe across distros.
+    if cfg!(target_os = "linux") {
+        suffix.push_str("-o2");
+    }
+    if gba_core::ffta_log::enabled() {
+        // Diagnostic natives contain instruction observers; keep them separate
+        // from ordinary cached translations without changing the normal key.
+        suffix.push_str("-ffta-log2");
+    }
+    if gba_core::ffta_rom::eligible(rom) {
+        suffix.push_str("-ffta-spr3");
+    }
     // Real-BIOS translations bake region-0 code and different boot/SWI
     // semantics into the dylib, so they key on the BIOS content too —
     // swapping the installed BIOS rebuilds rather than loading stale
@@ -1184,6 +1239,8 @@ struct AudioStreams {
     vol_cut: f32,
     /// Hard mute (reserved for fast-forward); the callback slews to it.
     muted: bool,
+    playback_speed: f64,
+    normal_audio: Option<ff_audio::NormalAudio>,
     /// MP2K HLE shadow-mixer stereo (65536 Hz grid, hardware-rail
     /// units like `psg`). When `hle_on`, the callback substitutes this
     /// for the FIFO A/B channels; reverting mid-session falls straight
@@ -1341,7 +1398,11 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
     // Master volume, slewed (~20 ms) so menu changes and mutes never click.
     let mut vol_cur: f32 = {
         let st = streams.lock().unwrap();
-        if st.muted { 0.0 } else { 1.0 - st.vol_cut }
+        if st.muted {
+            0.0
+        } else {
+            1.0 - st.vol_cut
+        }
     };
     let vol_k = (1.0 / (0.020 * rate)) as f32;
     device
@@ -1349,6 +1410,8 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
             &cfg.config(),
             move |out: &mut [T], _| {
                 let mut st = streams.lock().unwrap();
+                let playback_speed = st.playback_speed.max(1.0);
+                let normal_audio = st.normal_audio.is_some();
                 // Liveness signal for the play loop's device watchdog.
                 st.consumed += (out.len() / channels.max(1)) as u64;
                 for frame in out.chunks_mut(channels) {
@@ -1356,7 +1419,7 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
                     // drained and the path is warm for a live switch).
                     let (el, er) = {
                         let e = &mut eng;
-                        let (pl, pr) = e.psg.next(&mut st.psg);
+                        let (pl, pr) = e.psg.next_with_speed(&mut st.psg, playback_speed);
                         let mut l = pl;
                         let mut r = pr;
                         {
@@ -1366,11 +1429,11 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
                             // ish crossfade moves between them, so an
                             // HLE engage or pause is never an audible
                             // seam (both render the same music).
-                            let a = e.fifo[0].next(&mut st.fifo[0])
+                            let a = e.fifo[0].next_with_speed(&mut st.fifo[0], playback_speed)
                                 * if st.vol_half[0] { 0.5 } else { 1.0 };
-                            let b = e.fifo[1].next(&mut st.fifo[1])
+                            let b = e.fifo[1].next_with_speed(&mut st.fifo[1], playback_speed)
                                 * if st.vol_half[1] { 0.5 } else { 1.0 };
-                            let (hl, hr) = e.hle.next(&mut st.hle);
+                            let (hl, hr) = e.hle.next_with_speed(&mut st.hle, playback_speed);
                             let hr = hr * if st.vol_half[0] { 0.5 } else { 1.0 };
                             let hl = hl * if st.vol_half[1] { 0.5 } else { 1.0 };
                             let target = if st.hle_on { 1.0 } else { 0.0 };
@@ -1420,13 +1483,24 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
                         // faithful path too, or the ring overflows
                         // into a burst-drop buzz at the cap.
                         let pairs = (st.mixed.len() / 2) as f64;
-                        let err = (pairs - RING_TARGET as f64) / RING_TARGET as f64;
-                        frac += step * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
+                        let target_pairs = RING_TARGET as f64 * playback_speed;
+                        let err = if normal_audio { 0.0 } else { (pairs - target_pairs) / target_pairs };
+                        frac += step * playback_speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
                         while frac >= 1.0 {
                             frac -= 1.0;
-                            match (st.mixed.pop_front(), st.mixed.pop_front()) {
-                                (Some(l), Some(r)) => last = (l, r),
-                                _ => st.holds += 1,
+                            let queued = st.normal_audio.as_mut().map(|queue| queue.next_pair());
+                            match queued {
+                                Some(Ok(Some(pair))) => last = pair,
+                                Some(Ok(None)) => st.holds += 1,
+                                Some(Err(error)) => {
+                                    eprintln!("audio: normal-speed backlog read failed ({error}); muting fast-forward audio");
+                                    st.normal_audio = None;
+                                    st.muted = true;
+                                }
+                                None => match (st.mixed.pop_front(), st.mixed.pop_front()) {
+                                    (Some(l), Some(r)) => last = (l, r),
+                                    _ => st.holds += 1,
+                                },
                             }
                         }
                         (
@@ -1438,7 +1512,7 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
                     // level-matched (shared OUT_GAIN below), so a linear
                     // blend across the ~40 ms slew is seam-free — the
                     // music is the same, only the rendering differs.
-                    let target = if st.enhanced_on { 1.0 } else { 0.0 };
+                    let target = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
                     mode_x += (target - mode_x) * mode_k;
                     let l = fl + (el - fl) * mode_x;
                     let r = fr + (er - fr) * mode_x;
@@ -1565,6 +1639,7 @@ impl DcBlock {
 /// the zero-order-hold path does. Used for the PSG grid stream.
 struct SincResampler {
     table: Vec<f32>,
+    fast_tables: [Vec<f32>; 3],
     /// Last SINC_TAPS source samples per side, oldest first.
     hist: [[f32; SINC_TAPS]; 2],
     ratio: f64,
@@ -1577,6 +1652,8 @@ impl SincResampler {
         // band room.
         SincResampler {
             table: build_sinc_table(0.45 * (out_hz / src_hz).min(1.0)),
+            fast_tables: [2.0, 4.0, 8.0]
+                .map(|speed| build_sinc_table(0.45 * (out_hz / (src_hz * speed)).min(1.0))),
             hist: [[0.0; SINC_TAPS]; 2],
             ratio: src_hz / out_hz,
             frac: 0.0,
@@ -1584,11 +1661,20 @@ impl SincResampler {
     }
 
     fn next(&mut self, q: &mut std::collections::VecDeque<f32>) -> (f32, f32) {
+        self.next_with_speed(q, 1.0)
+    }
+
+    fn next_with_speed(
+        &mut self,
+        q: &mut std::collections::VecDeque<f32>,
+        speed: f64,
+    ) -> (f32, f32) {
         // Steer consumption toward the target fill; an underrun repeats
         // the newest pair (a one-sample ZOH the DC blocker smooths).
         let pairs = (q.len() / 2) as f64;
-        let err = (pairs - RING_TARGET as f64) / RING_TARGET as f64;
-        self.frac += self.ratio * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
+        let target = RING_TARGET as f64 * speed;
+        let err = (pairs - target) / target;
+        self.frac += self.ratio * speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
         while self.frac >= 1.0 {
             self.frac -= 1.0;
             let (l, r) = match (q.pop_front(), q.pop_front()) {
@@ -1600,7 +1686,13 @@ impl SincResampler {
                 h[SINC_TAPS - 1] = s;
             }
         }
-        let row = &self.table[(self.frac * SINC_PHASES as f64) as usize * SINC_TAPS..][..SINC_TAPS];
+        let table = match speed as u32 {
+            2 => &self.fast_tables[0],
+            4 => &self.fast_tables[1],
+            8 => &self.fast_tables[2],
+            _ => &self.table,
+        };
+        let row = &table[(self.frac * SINC_PHASES as f64) as usize * SINC_TAPS..][..SINC_TAPS];
         (
             row.iter()
                 .zip(self.hist[0].iter())
@@ -1646,6 +1738,17 @@ struct FifoInterp {
 }
 
 impl FifoInterp {
+    fn next_with_speed(
+        &mut self,
+        q: &mut std::collections::VecDeque<(i8, u32)>,
+        speed: f64,
+    ) -> f32 {
+        let base = self.out_step;
+        self.out_step = base * speed;
+        let sample = self.next(q);
+        self.out_step = base;
+        sample
+    }
     fn new(out_hz: f64) -> FifoInterp {
         FifoInterp {
             table: build_sinc_table(0.45),
@@ -1697,9 +1800,23 @@ impl FifoInterp {
 }
 
 /// Vendored community controller mapping DB (zlib; see THIRD-PARTY.md).
+/// gilrs bundles its own snapshot, but it lags newer controllers — this
+/// fresher copy is fed on top so the packaged play binary recognizes the
+/// broadest possible set of pads with no external file dependency.
+const CONTROLLER_DB: &str = include_str!("../../../assets/gamecontrollerdb.txt");
+
+/// Build a gilrs context with the vendored DB layered over the built-in
+/// mappings. Falls back to a plain context if the builder rejects (the
+/// dummy backend on headless hosts), so the play loop never hard-fails
+/// over input init.
 fn build_gilrs() -> Option<gilrs::Gilrs> {
-    gilrs::Gilrs::new().ok()
+    gilrs::GilrsBuilder::new()
+        .add_mappings(CONTROLLER_DB)
+        .build()
+        .ok()
+        .or_else(|| gilrs::Gilrs::new().ok())
 }
+
 /// Gilrs button name (the launcher stores `{:?}` of the button) to a
 /// gilrs `Button`. Stick-direction tokens are handled elsewhere (they
 /// read axes, not buttons) and return `None` here.
@@ -2254,6 +2371,11 @@ fn run_frame_native(
             continue;
         }
         let key = m.cpu.regs[15] | m.cpu.thumb() as u32;
+        m.ffta_log_sprite_entry(key);
+        if m.ffta_sprite_interpret(m.cpu.regs[15]) {
+            m.step();
+            continue;
+        }
         // Real-BIOS mode: native blocks bypass the interpreter's fetch
         // hook, so maintain the executing-in-BIOS flag at dispatch
         // (region-0 reads return real bytes only while it is set).
@@ -2627,10 +2749,14 @@ fn print_fallback_census() {
 /// Run a recompiled image: translated blocks where available, interpreter
 /// fallback elsewhere, interrupt machinery at block boundaries.
 fn cmd_runc(args: &[String]) -> Result<(), String> {
+    configure_headless_widescreen();
+    let zoom_schedule = HeadlessZoom::from_env(gba_core::mem::extra())?;
+    let verify_frames = std::env::var("FFTA_PATCH_VERIFY_FRAMES").as_deref() == Ok("1");
     let mut rom_path = None;
     let mut frames = 600u64;
     let mut out: Option<String> = None;
     let mut input: Option<InputScript> = None;
+    let mut sav: Option<String> = None;
     let mut bios: Option<Vec<u8>> = None;
     let mut it = args.iter();
     while let Some(arg) = it.next() {
@@ -2649,6 +2775,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
                 )?)
             }
             "--record-labels" => FALLBACK_COLLECT.store(true, std::sync::atomic::Ordering::Relaxed),
+            "--sav" => sav = Some(it.next().ok_or("--sav needs a value")?.to_string()),
             "--bios" => bios = Some(load_bios_file(it.next().ok_or("--bios needs a value")?)?),
             other if rom_path.is_none() => rom_path = Some(other.to_string()),
             other => return Err(format!("unexpected argument {other:?}")),
@@ -2663,13 +2790,33 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         .to_string();
     let suffix = if bios.is_some() { "-bios" } else { "" };
     let lib_path = format!("out/{stem}{suffix}.{LIB_EXT}");
+    let lib_path = std::env::var("FFTA_BENCH_LIBRARY").unwrap_or(lib_path);
 
     let lib =
         unsafe { libloading::Library::new(&lib_path) }.map_err(|e| format!("{lib_path}: {e}"))?;
     let table = BlockTable::load(&lib)?;
     println!("loaded {} translated blocks", table.len);
 
+    if gba_core::ffta_log::enabled() {
+        println!(
+            "FFTA_REPLAY_NATIVE_PRODUCERS first={} second={} battle={} other={}",
+            table.get(0x080014c9).is_some(),
+            table.get(0x080016d5).is_some(),
+            table.get(0x030065a9).is_some(),
+            table.get(0x030068a5).is_some()
+        );
+    }
+
     let mut m = make_machine(rom, bios.as_deref());
+    if let Some(path) = sav {
+        let data = std::fs::read(&path).map_err(|e| format!("{path}: {e}"))?;
+        println!(
+            "FFTA_REPLAY_SAVE path={path} bytes={} sha256={}",
+            data.len(),
+            gba_core::ffta_rom::digest(&data)
+        );
+        m.bus.load_save_data(&data);
+    }
     // RECOMP_MP2K=1: arm the HLE shadow under native dispatch — the
     // hook-at-block-boundary path play uses, validated headless here.
     if std::env::var_os("RECOMP_MP2K").is_some() {
@@ -2680,6 +2827,17 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
 
     let mut native_blocks = 0u64;
     let mut fallback_steps = 0u64;
+    let mut edge_capture = FftaEdgeCapture::new();
+    let bench_from = std::env::var("FFTA_BENCH_FROM")
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok());
+    // Benchmark-only common warm-up: reach the same guest scene before enabling
+    // the requested sprite setting. Normal play/runc behaviour is unchanged.
+    let bench_sprite = m.bus.ffta_sprites.enabled;
+    if bench_from.is_some() {
+        m.bus.ffta_sprites.enabled = false;
+    }
+    let mut bench_start = None;
     // Diagnostic (RECOMP_COST_FROM=N): from frame N on, attribute charged
     // cycles to the dispatch key (block entry or interp PC) that incurred
     // them; dump the histogram at exit.
@@ -2689,6 +2847,21 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     let mut cost: std::collections::HashMap<u32, u64> = std::collections::HashMap::new();
     while m.bus.frames < frames {
         let before = m.bus.frames;
+        if let Some(zoom) = &zoom_schedule {
+            zoom.apply(before);
+        }
+        if bench_start.is_none() && bench_from.is_some_and(|from| before >= from) {
+            let mut scene = m.bus.ewram.clone();
+            scene.extend_from_slice(&m.bus.iwram);
+            scene.extend_from_slice(&m.bus.io);
+            scene.extend_from_slice(&m.bus.oam);
+            println!(
+                "FFTA_BENCH_SCENE frame={before} guest_sha256={} sprite_requested={bench_sprite}",
+                gba_core::ffta_rom::digest(&scene)
+            );
+            m.bus.ffta_sprites.enabled = bench_sprite;
+            bench_start = Some((before, std::time::Instant::now()));
+        }
         if let Some(s) = &input {
             m.bus.keys = s.keys_at(before);
         }
@@ -2731,6 +2904,25 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             native_blocks += n;
             fallback_steps += f;
         }
+        if let Some(capture) = edge_capture.as_mut() {
+            capture.sample(&m);
+        }
+        gba_core::ffta_sprites::trace_frame(&m.bus);
+        movement_replay_observation(&m)?;
+        if verify_frames {
+            println!(
+                "FFTA_EQ frame={} framebuffer={} oam={}",
+                m.bus.frames,
+                gba_core::ffta_rom::digest(
+                    &m.bus
+                        .framebuffer
+                        .iter()
+                        .flat_map(|p| p.to_le_bytes())
+                        .collect::<Vec<_>>()
+                ),
+                gba_core::ffta_rom::digest(&m.bus.oam)
+            );
+        }
         if m.bus.frames == before {
             return Err("step guard exceeded".into());
         }
@@ -2745,6 +2937,17 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         }
     }
 
+    if let Some((first, start)) = bench_start {
+        let elapsed = start.elapsed().as_secs_f64();
+        let measured = m.bus.frames - first;
+        println!("FFTA_BENCH first={first} last={} frames={measured} seconds={elapsed:.6} ms_per_frame={:.6} width={}",m.bus.frames,elapsed*1000.0/measured as f64,gba_core::mem::render_width());
+    }
+    gba_core::ppu::dump_ffta_text_layers(&m.bus)?;
+
+    if let Some(capture) = edge_capture {
+        capture.finish()?;
+    }
+    gba_core::ffta_sprites::verification(&m.bus);
     // FNV-1a framebuffer hash — must match the interpreter's `frames` run.
     let mut hash = 0xcbf2_9ce4_8422_2325u64;
     for &px in &m.bus.framebuffer {
@@ -3012,8 +3215,14 @@ fn write_wav(path: &str, samples: &[i16], rate: u32, channels: u16) -> Result<()
 
 fn dump_frame(m: &Machine, path: Option<String>) -> Result<(), String> {
     let Some(path) = path else { return Ok(()) };
-    let mut ppm = b"P6\n240 160\n255\n".to_vec();
-    for &px in &m.bus.framebuffer {
+    let width = gba_core::mem::render_width();
+    let mut ppm = format!("P6\n{width} 160\n255\n").into_bytes();
+    let pixels = if gba_core::mem::extra() == 0 {
+        &m.bus.framebuffer[..]
+    } else {
+        &m.bus.wide_framebuffer[..width * 160]
+    };
+    for &px in pixels {
         let r = (px & 31) as u8;
         let g = ((px >> 5) & 31) as u8;
         let b = ((px >> 10) & 31) as u8;
@@ -3022,9 +3231,304 @@ fn dump_frame(m: &Machine, path: Option<String>) -> Result<(), String> {
     std::fs::write(&path, ppm).map_err(|e| format!("{path}: {e}"))
 }
 
+fn configure_headless_widescreen() {
+    let value = std::env::var("FFTA_WIDESCREEN").unwrap_or_default();
+    let ex = match value.trim() {
+        "16:10" => 8,
+        "16:9" => 22,
+        "20:9" => 58,
+        "21:9" => 66,
+        "32:9" => 164,
+        other => other.parse::<usize>().unwrap_or(0),
+    };
+    gba_core::mem::set_extra(ex);
+}
+
+/// Diagnostic replay view controls. An unset variable leaves the old runner intact.
+struct HeadlessZoom {
+    base_extra: usize,
+    events: Vec<(u64, u32)>,
+}
+impl HeadlessZoom {
+    fn max_level(base_extra: usize) -> u32 {
+        let step = 1.122_462_f32;
+        let by_cfg = (2.0_f32.ln() / step.ln() + 1e-3).floor();
+        let by_w = (((240 + 2 * gba_core::mem::MAX_EXTRA) as f32 / (240 + 2 * base_extra) as f32)
+            .ln()
+            / step.ln())
+        .floor();
+        let by_h =
+            (((160 + 2 * gba_core::mem::MAX_EXTRA_Y) as f32 / 160.0).ln() / step.ln()).floor();
+        by_cfg.min(by_w).min(by_h).max(0.0) as u32
+    }
+    fn dimensions(base_extra: usize, level: u32) -> (usize, usize) {
+        let z = if level == 0 {
+            1.0
+        } else {
+            1.122_462_f32.powi(level as i32)
+        };
+        let ex = ((((240 + 2 * base_extra) as f32 * z - 240.0) / 2.0)
+            .ceil()
+            .max(0.0) as usize)
+            .min(gba_core::mem::MAX_EXTRA);
+        let ey =
+            (((160.0 * z - 160.0) / 2.0).ceil().max(0.0) as usize).min(gba_core::mem::MAX_EXTRA_Y);
+        (ex, ey)
+    }
+    fn parse(base_extra: usize, text: &str) -> Result<Self, String> {
+        let mut events = Vec::new();
+        for item in text.split(',') {
+            let (frame, level) = item.trim().split_once(':').unwrap_or(("0", item.trim()));
+            let frame = frame
+                .parse::<u64>()
+                .map_err(|_| "FFTA_ZOOM_LEVEL: invalid frame")?;
+            let level = level
+                .parse::<u32>()
+                .map_err(|_| "FFTA_ZOOM_LEVEL: invalid level")?;
+            if level > Self::max_level(base_extra) {
+                return Err(format!(
+                    "FFTA_ZOOM_LEVEL: level {level} exceeds {}",
+                    Self::max_level(base_extra)
+                ));
+            }
+            events.push((frame, level));
+        }
+        events.sort_by_key(|e| e.0);
+        Ok(Self { base_extra, events })
+    }
+    fn from_env(base_extra: usize) -> Result<Option<Self>, String> {
+        match std::env::var("FFTA_ZOOM_LEVEL") {
+            Ok(text) => Self::parse(base_extra, &text).map(Some),
+            Err(std::env::VarError::NotPresent) => Ok(None),
+            Err(error) => Err(error.to_string()),
+        }
+    }
+    fn apply(&self, frame: u64) {
+        let level = self
+            .events
+            .iter()
+            .rev()
+            .find(|e| e.0 <= frame)
+            .map_or(0, |e| e.1);
+        let (ex, ey) = Self::dimensions(self.base_extra, level);
+        if ex != gba_core::mem::extra() || ey != gba_core::mem::extra_y() || frame == 0 {
+            gba_core::mem::set_extra(ex);
+            gba_core::mem::set_extra_y(ey);
+            eprintln!("FFTA_REPLAY_VIEW frame={frame} zoom_level={level} extra_x={ex} extra_y={ey} render_width={} render_height={}",240+2*ex,160+2*ey);
+        }
+    }
+}
+
+/// Read-only diagnostic snapshots. Raw tile counts are not logical cell counts.
+fn movement_replay_observation(m: &Machine) -> Result<(), String> {
+    if !gba_core::ffta_log::enabled() {
+        return Ok(());
+    }
+    let Ok(prefix) = std::env::var("FFTA_MOVEMENT_DUMP_PREFIX") else {
+        return Ok(());
+    };
+    let from = std::env::var("FFTA_MOVEMENT_FROM")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(11340);
+    if m.bus.frames < from {
+        return Ok(());
+    }
+    let reg = |off| u16::from_le_bytes([m.bus.io[off], m.bus.io[off + 1]]);
+    let rw = gba_core::mem::render_width();
+    let rh = gba_core::mem::render_height();
+    let counts = (0..2)
+        .map(|bg| {
+            m.bus.vram[0x5000 + bg * 0x800..0x5800 + bg * 0x800]
+                .chunks_exact(2)
+                .filter(|b| u16::from_le_bytes([b[0], b[1]]) & 1023 != 0)
+                .count()
+        })
+        .collect::<Vec<_>>();
+    let row_nonzero = m.bus.wide_framebuffer[..rw * rh]
+        .chunks_exact(rw)
+        .map(|r| r.iter().filter(|&&p| p != 0).count())
+        .collect::<Vec<_>>();
+    let full = m.bus.wide_framebuffer[..rw * rh]
+        .iter()
+        .flat_map(|p| p.to_le_bytes())
+        .collect::<Vec<_>>();
+    println!("FFTA_MOVEMENT frame={} dispcnt={:04x} bgcnt={:04x},{:04x} scroll={:?} extra_x={} extra_y={} map_nonzero_tiles={counts:?} framebuffer_sha256={} lower_rows_nonzero={} host_origins={:?} host_valid={:?} stage_origins={:?} stage_bases={:?} stage_valid={:?} status=RAW_NOT_LOGICAL_CELLS",
+        m.bus.frames,reg(0),reg(8),reg(10),(0..2).map(|bg|(reg(0x10+bg*4)&511,reg(0x12+bg*4)&511)).collect::<Vec<_>>(),gba_core::mem::extra(),gba_core::mem::extra_y(),gba_core::ffta_rom::digest(&full),row_nonzero[160..].iter().sum::<usize>(),m.bus.ffta_movement.origins,m.bus.ffta_movement.valid,m.bus.ffta_stage.origins,m.bus.ffta_stage.bases,m.bus.ffta_stage.valid);
+    let frames = std::env::var("FFTA_MOVEMENT_DUMP_FRAMES")
+        .unwrap_or_else(|_| "11340,11341,11342,11343,11344,11345,11346,11347,12042,12540".into());
+    if !frames
+        .split(',')
+        .any(|s| s.trim().parse::<u64>().ok() == Some(m.bus.frames))
+    {
+        return Ok(());
+    }
+    for (name, data) in [
+        ("ewram", &m.bus.ewram),
+        ("iwram", &m.bus.iwram),
+        ("vram", &m.bus.vram),
+        ("io", &m.bus.io),
+        ("oam", &m.bus.oam),
+        ("palette", &m.bus.palette),
+    ] {
+        let path = format!("{prefix}-{}-{name}.bin", m.bus.frames);
+        let mut file = std::fs::OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&path)
+            .map_err(|e| e.to_string())?;
+        std::io::Write::write_all(&mut file, data).map_err(|e| e.to_string())?;
+    }
+    let path = format!("{prefix}-{}.ppm", m.bus.frames);
+    let mut ppm = format!("P6\n{rw} {rh}\n255\n").into_bytes();
+    for &p in &m.bus.wide_framebuffer[..rw * rh] {
+        for c in [p & 31, (p >> 5) & 31, (p >> 10) & 31] {
+            ppm.push((c << 3 | c >> 2) as u8);
+        }
+    }
+    let mut file = std::fs::OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(path)
+        .map_err(|e| e.to_string())?;
+    std::io::Write::write_all(&mut file, &ppm).map_err(|e| e.to_string())?;
+    println!(
+        "FFTA_MOVEMENT_ROWS frame={} nonzero={row_nonzero:?}",
+        m.bus.frames
+    );
+    Ok(())
+}
+
+struct FftaEdgeSnapshot {
+    frame: u64,
+    hofs: u16,
+    vofs: u16,
+    pixels: Vec<u16>,
+}
+/// Optional capture utility: records four register extrema without touching the guest.
+struct FftaEdgeCapture {
+    prefix: String,
+    from: u64,
+    width: usize,
+    edges: [Option<FftaEdgeSnapshot>; 4],
+}
+impl FftaEdgeCapture {
+    fn new() -> Option<Self> {
+        Some(Self {
+            prefix: std::env::var("FFTA_CAPTURE_BG_PREFIX").ok()?,
+            from: std::env::var("FFTA_CAPTURE_BG_FROM")
+                .ok()
+                .and_then(|v| v.parse().ok())
+                .unwrap_or(0),
+            width: gba_core::mem::render_width(),
+            edges: std::array::from_fn(|_| None),
+        })
+    }
+    fn sample(&mut self, m: &Machine) {
+        if m.bus.frames < self.from {
+            return;
+        }
+        let Some(bg) = [0, 2]
+            .into_iter()
+            .find(|&bg| gba_core::ppu::ffta_terrain(&m.bus, bg))
+        else {
+            return;
+        };
+        let offset = 0x10 + 4 * bg;
+        let hofs = u16::from_le_bytes([m.bus.io[offset], m.bus.io[offset + 1]]) & 511;
+        let vofs = u16::from_le_bytes([m.bus.io[offset + 2], m.bus.io[offset + 3]]) & 511;
+        for i in 0..4 {
+            let update = self.edges[i].as_ref().is_none_or(|old| match i {
+                0 => hofs < old.hofs,
+                1 => hofs > old.hofs,
+                2 => vofs < old.vofs,
+                _ => vofs > old.vofs,
+            });
+            if update {
+                self.edges[i] = Some(FftaEdgeSnapshot {
+                    frame: m.bus.frames,
+                    hofs,
+                    vofs,
+                    pixels: m.bus.wide_framebuffer[..self.width * 160].to_vec(),
+                });
+            }
+        }
+    }
+    fn finish(self) -> Result<(), String> {
+        for (name, snapshot) in ["left", "right", "top", "bottom"]
+            .into_iter()
+            .zip(self.edges)
+        {
+            let Some(snapshot) = snapshot else {
+                println!("FFTA_CAPTURE edge={name} status=NO_MEDIDO terrain_signature_not_seen");
+                continue;
+            };
+            let path = format!("{}-{name}.ppm", self.prefix);
+            let mut ppm = format!("P6\n{} 160\n255\n", self.width).into_bytes();
+            for px in snapshot.pixels {
+                let r = (px & 31) as u8;
+                let g = ((px >> 5) & 31) as u8;
+                let b = ((px >> 10) & 31) as u8;
+                ppm.extend_from_slice(&[r << 3 | r >> 2, g << 3 | g >> 2, b << 3 | b >> 2]);
+            }
+            let mut file = std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&path)
+                .map_err(|e| format!("{path}: {e}"))?;
+            std::io::Write::write_all(&mut file, &ppm).map_err(|e| e.to_string())?;
+            println!(
+                "FFTA_CAPTURE edge={name} frame={} hofs={} vofs={} path={path} status=MEDIDO",
+                snapshot.frame, snapshot.hofs, snapshot.vofs
+            );
+        }
+        Ok(())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn accelerated_audio_consumes_at_the_selected_multiplier() {
+        fn consumed(speed: f64) -> usize {
+            let mut ring = std::collections::VecDeque::from(vec![0.0; 200_000]);
+            let before = ring.len();
+            let mut resampler = SincResampler::new(65_536.0, 48_000.0);
+            for _ in 0..1000 {
+                resampler.next_with_speed(&mut ring, speed);
+            }
+            (before - ring.len()) / 2
+        }
+        let normal = consumed(1.0);
+        for speed in [2, 4, 8] {
+            let fast = consumed(speed as f64);
+            assert!(fast.abs_diff(normal * speed) <= speed);
+        }
+    }
+
+    #[test]
+    fn headless_zoom_schedule_matches_window_limits() {
+        assert_eq!(HeadlessZoom::max_level(164), 6);
+        assert_eq!(HeadlessZoom::dimensions(164, 0), (164, 0));
+        let zoom = HeadlessZoom::parse(164, "0:0,11340:6,12000:2").unwrap();
+        assert_eq!(zoom.events, vec![(0, 0), (11340, 6), (12000, 2)]);
+        assert!(HeadlessZoom::parse(164, "7").is_err());
+        for level in 0..=6 {
+            let (ex, ey) = HeadlessZoom::dimensions(164, level);
+            println!("FFTA_ZOOM level={level} extra_x={ex} extra_y={ey}");
+        }
+    }
+
+    #[test]
+    fn replay_preserves_last_event_at_equal_frame() {
+        let input =
+            InputScript::parse("gba-input v1\n10 3ff\n10 37f\n11 3ff\n", "own-fixture").unwrap();
+        assert_eq!(input.keys_at(9), 0x3ff);
+        assert_eq!(input.keys_at(10), 0x37f);
+        assert_eq!(input.keys_at(11), 0x3ff);
+    }
 
     #[test]
     fn sinc_rows_have_unity_dc_gain() {

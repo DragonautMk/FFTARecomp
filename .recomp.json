@@ -1,0 +1,25 @@
+{
+  "$schema": "https://recomp.fyi/schema/v1.json",
+  "game": "Final Fantasy Tactics Advance",
+  "wikidata": "Q1072868",
+  "system": "GBA",
+  "type": "recomp",
+  "original": {
+    "region": "USA"
+  },
+  "project": "FFTARecomp",
+  "status": "released",
+  "targets": [
+    "Windows",
+    "Linux"
+  ],
+  "toolchain": "Gbarecomp",
+  "approach": "Static recompilation with quality of life improvements and content additions",
+  "maintainers": [
+    {
+      "name": "Jorge262007",
+      "link": "https://github.com/Jorge262007"
+    }
+  ],
+  "notes": "Playable start to finish with minimal bugs. Focuses on adding features and content not present in the original game."
+}

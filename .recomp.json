@@ -5,21 +5,21 @@
   "system": "GBA",
   "type": "recomp",
   "original": {
-    "region": "USA"
+    "region": "USA",
+    "serial": "AFXE",
+    "sha1": "4ac05441f4de70a4ec3dd932116346c61b8783d9"
   },
   "project": "FFTARecomp",
   "status": "released",
-  "targets": [
-    "Windows",
-    "Linux"
-  ],
-  "toolchain": "Gbarecomp",
-  "approach": "Static recompilation with quality of life improvements and content additions",
+  "targets": ["Windows", "Linux", "Android"],
+  "toolchain": "gbarecomp",
+  "approach": "Static recompilation of the GBA binary into native code implemented in Rust",
   "maintainers": [
-    {
-      "name": "Jorge262007",
-      "link": "https://github.com/Jorge262007"
-    }
+    { "name": "Jorge Rios", "link": "https://github.com/Jorge262007" }
   ],
-  "notes": "Playable start to finish with minimal bugs. Focuses on adding features and content not present in the original game."
+  "links": [
+    { "label": "Releases", "url": "https://github.com/Jorge262007/FFTARecomp/releases" },
+    { "label": "GitHub", "url": "https://github.com/Jorge262007/FFTARecomp" }
+  ],
+  "notes": "Native static recompilation for Windows, Linux and Android. Fully playable from start to finish with quality-of-life enhancements."
 }

@@ -24,12 +24,12 @@ APP_ID="io.github.gba_recomp.launcher"
 APP_NAME="gba-recomp"
 LAUNCHER_BASE="gba-recomp-launcher-${VERSION}-${TARGET}"
 FLATPAK_RUNTIME_VERSION="${FLATPAK_RUNTIME_VERSION:-25.08}"
-DMG_BACKGROUND="${DMG_BACKGROUND:-assets/macos_dmg_banner.png}"
+DMG_BACKGROUND="${DMG_BACKGROUND:-Image/logo.png}"
 DMG_BG_LONG="${DMG_BG_LONG:-600}"
 
 mkdir -p "$OUTDIR" stage
 
-carry_licenses() { cp LICENSE-MIT LICENSE-APACHE THIRD-PARTY.md "$1"/; }
+carry_licenses() { cp Licenses/LICENSE-MIT Licenses/LICENSE-APACHE "$1"/; cp Licenses/THIRD_PARTY_NOTICES.md "$1/THIRD-PARTY.md"; }
 
 # Stage the bundled TinyCC fallback compiler beside the binaries, so a local
 # "build to play" works on a machine with no system C compiler. $TCC_DIR is a
@@ -91,7 +91,7 @@ stage_launcher_payload() {
   mkdir -p "$dir"
   cp "$BINDIR/gba-launcher${EXE}" "$dir"/
   cp "$BINDIR/recomp${EXE}" "$dir"/
-  cp gamedb.sqlite gamedb.sqlite.license LICENSE-CC0 "$dir"/
+  cp gamedb.sqlite Licenses/gamedb.sqlite.license Licenses/LICENSE-CC0 "$dir"/
   stage_tcc "$dir"
   carry_licenses "$dir"
   launcher_readme > "$dir/README-LAUNCHER.txt"
@@ -117,7 +117,7 @@ write_png_icon() {
   if command -v cargo >/dev/null && [ -f crates/launcher/src/bin/gba-icon.rs ]; then
     cargo run --quiet --profile dist -p gba-launcher --bin gba-icon -- "$out" "$size" >/dev/null
   elif command -v sips >/dev/null; then
-    sips -z "$size" "$size" assets/icon/app-icon.png --out "$out" >/dev/null
+    sips -z "$size" "$size" Image/logo.png --out "$out" >/dev/null
   else
     echo "cannot render ${size}x${size} launcher icon: cargo or sips is required" >&2
     return 1
@@ -160,7 +160,7 @@ write_macos_icns() {
     "512 icon_512x512.png" "1024 icon_512x512@2x.png"
   do
     set -- $spec
-    sips -z "$1" "$1" assets/icon/app-icon.png --out "$iconset/$2" >/dev/null
+    sips -z "$1" "$1" Image/logo.png --out "$iconset/$2" >/dev/null
   done
   iconutil -c icns "$iconset" -o "$out"
   rm -rf "$iconset"
@@ -205,7 +205,7 @@ make_macos_dmg() {
   dmg_stage="stage/${LAUNCHER_BASE}-dmg-stage"
   dmg_bg_dir="stage/${LAUNCHER_BASE}-dmg-bg"
   bg_src="$DMG_BACKGROUND"
-  [ -f "$bg_src" ] || bg_src="assets/icon/app-icon.png"
+  [ -f "$bg_src" ] || bg_src="Image/logo.png"
   rm -rf "$dmg_stage" "$dmg_bg_dir"
   mkdir -p "$dmg_stage" "$dmg_bg_dir"
   ditto "$app" "$dmg_stage/$(basename "$app")"
@@ -344,11 +344,11 @@ modules:
       - install -Dm644 ${APP_ID}.metainfo.xml /app/share/metainfo/${APP_ID}.metainfo.xml
       - install -Dm644 ${APP_ID}.png /app/share/icons/hicolor/512x512/apps/${APP_ID}.png
       - install -Dm644 README-LAUNCHER.txt /app/share/doc/gba-recomp/README-LAUNCHER.txt
-      - install -Dm644 LICENSE-MIT /app/share/doc/gba-recomp/LICENSE-MIT
-      - install -Dm644 LICENSE-APACHE /app/share/doc/gba-recomp/LICENSE-APACHE
-      - install -Dm644 LICENSE-CC0 /app/share/doc/gba-recomp/LICENSE-CC0
+      - install -Dm644 Licenses/LICENSE-MIT /app/share/doc/gba-recomp/LICENSE-MIT
+      - install -Dm644 Licenses/LICENSE-APACHE /app/share/doc/gba-recomp/LICENSE-APACHE
+      - install -Dm644 Licenses/LICENSE-CC0 /app/share/doc/gba-recomp/LICENSE-CC0
       - install -Dm644 THIRD-PARTY.md /app/share/doc/gba-recomp/THIRD-PARTY.md
-      - install -Dm644 gamedb.sqlite.license /app/share/doc/gba-recomp/gamedb.sqlite.license
+      - install -Dm644 Licenses/gamedb.sqlite.license /app/share/doc/gba-recomp/gamedb.sqlite.license
 EOF
 }
 
@@ -381,7 +381,7 @@ package_linux_launcher() {
 package_portable_launcher() {
   local rt
   rt="$(stage_bundle gba-recomp-launcher gba-launcher recomp)"
-  cp gamedb.sqlite gamedb.sqlite.license LICENSE-CC0 "$rt"/
+  cp gamedb.sqlite Licenses/gamedb.sqlite.license Licenses/LICENSE-CC0 "$rt"/
   launcher_readme > "$rt/README-LAUNCHER.txt"
   archive "$rt"
 }

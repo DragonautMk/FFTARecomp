@@ -1,0 +1,123 @@
+//! Shared semantic click targets, with Android screen-space UI composition.
+use gba_core::{ffta_battle_mouse as battle, ffta_dialogue::{self as dialogue,PanelKind}, mem::{self,MemMap}};
+use crate::{engine::Engine,ui_layout::Layout};
+
+pub fn layout(bus:&MemMap,width:usize,height:usize,base:f32,index:usize)->Option<Layout>{
+    let state=&bus.ffta_dialogue;
+    let window=(width as u32,height as u32);
+    let size=state.style.scale;
+    if index==1 {
+        if !state.separate || !state.extra.active(){return None;}
+        if state.extra.kind==PanelKind::Notice {
+            return Some(Layout::centered_panel(window,base,size,state.extra.bounds?));
+        }
+        let b=if state.extra.kind==PanelKind::Actions {dialogue::panel_bounds(&state.extra.pixels,&state.extra.backing)?}
+            else{dialogue::pixel_bounds(&state.extra.pixels)?};
+        return Some(Layout::at_corner(window,base,state.town_layout||b[0]+b[2]>=240,b[1]+b[3]>=160,size,state.style.length,b));
+    }
+    let (_,right)=state.layer()?;
+    if state.action_layout {
+        Some(Layout::at_corner(window,base,false,true,size,state.style.length,dialogue::panel_bounds(&state.pixels,&state.backing)?))
+    }else if state.shop_layout||state.site_layout {
+        Some(Layout::centered(window,base,size))
+    }else{
+        Some(Layout::new_with_anchor(window,base,if state.town_layout{true}else{right},size,
+            [state.style.offset_x,state.style.offset_y],if state.town_layout{0.}else{state.vertical_anchor()}))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::ui_layout::Layout;
+    #[test]
+    fn native_panel_keeps_uniform_screen_scale_at_every_world_zoom(){
+        for screen in [(720,720),(1920,1080),(2560,720)] {
+            for base in [240.,284.,568.] {
+                for size in [0.5,1.,1.5,2.] {
+                    let panel=Layout::new_with_anchor(screen,base,true,size,[0.,0.],160.);
+                    assert!((panel.rect[2]/480.-panel.rect[3]/160.).abs()<0.0001);
+                    for _zoom in 0..=6 {
+                        // World texture dimensions are deliberately absent from UI layout.
+                        let at_zoom=Layout::new_with_anchor(screen,base,true,size,[0.,0.],160.);
+                        assert_eq!(panel.rect,at_zoom.rect);
+                    }
+                    let bottom=panel.rect[1]+panel.rect[3];
+                    assert!(bottom<=screen.1 as f32+0.51);
+                }
+            }
+        }
+    }
+    #[test]
+    fn disabled_touch_never_changes_guest_buttons(){
+        let mut engine=crate::engine::Engine::new(vec![0;192]);
+        let keys=engine.machine.bus.keys;
+        engine.tap(0.5,0.5,false);
+        engine.tap(f32::NAN,0.5,false);
+        engine.tap(0.5,0.5,true);
+        assert_eq!(engine.machine.bus.keys,keys);
+        assert!(!engine.machine.bus.ffta_battle_mouse.enabled);
+    }
+}
+impl Engine {
+    pub fn configure_touch(&mut self,enabled:bool,base:f32,size:f32,length:f32){
+        if enabled!=self.touch_enabled {
+            self.touch_enabled=enabled;
+            self.mouse=gba_core::ffta_mouse::LanguageMouse::new(&self.machine.bus.rom,enabled);
+            self.machine.bus.ffta_battle_mouse.set_enabled(enabled);
+        }
+        // Square/portrait devices still need the complete 240-pixel native UI.
+        self.ui_base=if base.is_finite(){base.clamp(240.,1536.)}else{240.};
+        self.machine.bus.ffta_dialogue.separate=true;
+        self.machine.bus.ffta_dialogue.style.scale=if size.is_finite(){size.clamp(0.5,2.)}else{1.};
+        self.machine.bus.ffta_dialogue.style.length=if length.is_finite(){length.clamp(1.,2.)}else{1.};
+    }
+    pub fn tap(&mut self,x:f32,y:f32,back:bool){
+        if !self.touch_enabled || !x.is_finite() || !y.is_finite() || !(0. ..1.).contains(&x) || !(0. ..1.).contains(&y){return;}
+        if back {self.mouse.cancel();battle::back(&mut self.machine.bus);return;}
+        let width=self.ui_window.0 as usize;let height=self.ui_window.1 as usize;
+        let px=x*width as f32;let py=y*height as f32;
+        let state=&self.machine.bus.ffta_dialogue;
+        let index=if matches!(state.extra.kind,PanelKind::Actions|PanelKind::Notice)&&state.extra.active(){Some(1)}
+            else if state.action_layout||state.town_layout||state.shop_layout {Some(0)}else{None};
+        let mut handled=false;
+        if (battle::MenuScene::read(&self.machine.bus).is_some()||state.shop_layout)&&index.is_some(){
+            let i=index.unwrap();
+            if let Some(source)=layout(&self.machine.bus,width,height,self.ui_base,i).and_then(|l|l.source(px,py)){
+                let mut nx=(source%480) as f32-120.;let ny=(source/480) as f32;
+                if !(state.town_layout||state.shop_layout||state.site_layout||state.extra.kind==PanelKind::Notice){
+                    let bounds=if i==0{dialogue::panel_bounds(&state.pixels,&state.backing)}else{dialogue::panel_bounds(&state.extra.pixels,&state.extra.backing)};
+                    if let Some(b)=bounds{
+                        let d=((b[2]-b[0]) as f32*(state.style.length.clamp(1.,2.)-1.)).round();
+                        nx+=if b[0]+b[2]>=240{d}else{-d};
+                    }
+                }
+                handled=battle::aim(&mut self.machine.bus,nx,ny,true);
+            }
+        }else{
+            let nx=(px-self.world_rect[0])/self.world_rect[2]*mem::render_width() as f32-mem::extra() as f32;
+            let ny=(py-self.world_rect[1])/self.world_rect[3]*mem::render_height() as f32-mem::extra_y() as f32;
+            handled=if self.mouse.scene(&self.machine.bus).is_some(){self.mouse.aim(&self.machine.bus,nx,ny,true)}
+                else{battle::aim(&mut self.machine.bus,nx,ny,true)};
+        }
+        if !handled {self.mouse.cancel();battle::press(&mut self.machine.bus,0x3fe);}
+        #[cfg(target_os="android")]
+        eprintln!("FFTA_TOUCH click x={x:.3} y={y:.3} handled={handled}");
+    }
+    pub fn export_ui(&self,packed:&mut [u8],params:&mut [f32],background:&mut [i32]){
+        params.fill(0.);
+        for i in 0..2 {
+            let Some(layout)=layout(&self.machine.bus,self.ui_window.0 as usize,self.ui_window.1 as usize,self.ui_base,i)else{continue;};
+            let state=&self.machine.bus.ffta_dialogue;
+            let pixels=if i==0{&state.pixels}else{&state.extra.pixels};
+            params[i*9..i*9+4].copy_from_slice(&layout.rect);
+            params[i*9+4..i*9+8].copy_from_slice(&layout.clip);
+            let stats=i==1&&state.extra.kind==PanelKind::Stats;
+            params[i*9+8]=if stats{1.}else{0.};
+            let offset=i*480*160*4;
+            for (target,pixel) in packed[offset..offset+480*160*4].chunks_exact_mut(4).zip(pixels){target.copy_from_slice(&pixel.packed());}
+            if stats {
+                for(out,&pixel)in background.iter_mut().zip(&state.extra.background){*out=super::engine::rgba_colors()[(pixel&0x7fff) as usize];}
+            }
+        }
+    }
+}

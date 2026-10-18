@@ -1,8 +1,10 @@
 //! Shared input bindings for the launcher (which edits them) and the play
 //! runtime (which honors them). Plain `key = value` text under the user
-//! config dir; no dependencies, so the play side stays lean.
+//! config dir. Native Windows controller support is isolated in directinput.
 
+use std::collections::HashSet;
 use std::path::PathBuf;
+pub mod directinput;
 
 /// The ten pad inputs, in KEYINPUT bit order.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -74,6 +76,193 @@ impl Button {
 pub enum Device {
     Keyboard,
     Gamepad,
+    MouseKeyboard,
+}
+
+/// Routes button transitions for remapping. The event queue owns binding
+/// capture; after a binding is accepted, all pad input is locked out until the
+/// physical controls are released so the same press cannot activate the menu.
+#[derive(Default)]
+pub struct PadGesture {
+    held: HashSet<String>,
+    capture_armed: bool,
+    locked_until_release: bool,
+}
+
+impl PadGesture {
+    pub fn arm_capture(&mut self, armed: bool) {
+        self.capture_armed = armed;
+    }
+
+    /// Feed a normalized down/up transition. Repeated event variants for one
+    /// held control are ignored; a release followed by a press is a new edge.
+    pub fn event(&mut self, token: &str, pressed: bool) -> Option<String> {
+        if pressed {
+            if !self.held.insert(token.to_owned()) {
+                return None;
+            }
+            if self.capture_armed && !self.locked_until_release {
+                self.capture_armed = false;
+                self.locked_until_release = true;
+                return Some(token.to_owned());
+            }
+        } else {
+            self.held.remove(token);
+            if self.held.is_empty() {
+                self.locked_until_release = false;
+            }
+        }
+        None
+    }
+
+    /// Polling fallback for APIs without transition events. It feeds only the
+    /// differences from the previous full snapshot through the same router.
+    pub fn snapshot<I, S>(&mut self, current: I) -> Option<String>
+    where
+        I: IntoIterator<Item = S>,
+        S: AsRef<str>,
+    {
+        let ordered: Vec<String> = current
+            .into_iter()
+            .map(|token| token.as_ref().to_owned())
+            .collect();
+        let next: HashSet<String> = ordered.iter().cloned().collect();
+        let released: Vec<_> = self.held.difference(&next).cloned().collect();
+        let mut seen = HashSet::new();
+        let pressed: Vec<_> = ordered
+            .into_iter()
+            .filter(|token| !self.held.contains(token) && seen.insert(token.clone()))
+            .collect();
+        for token in released {
+            self.event(&token, false);
+        }
+        let mut captured = None;
+        for token in pressed {
+            if captured.is_none() {
+                captured = self.event(&token, true);
+            } else {
+                self.event(&token, true);
+            }
+        }
+        captured
+    }
+
+    pub fn blocked(&self) -> bool {
+        self.locked_until_release
+    }
+
+    pub fn disconnect(&mut self) {
+        self.held.clear();
+        self.capture_armed = false;
+        self.locked_until_release = false;
+    }
+}
+
+#[cfg(test)]
+mod pad_gesture_tests {
+    use super::PadGesture;
+
+    #[test]
+    fn xbox_a_remap_press_is_consumed_and_cannot_confirm_menu() {
+        let mut pad = PadGesture::default();
+
+        // A confirms the remap row. Capture starts while this same physical
+        // press is still down; duplicate backend events must not assign it.
+        assert_eq!(pad.event("South", true), None);
+        pad.arm_capture(true);
+        assert_eq!(pad.event("South", true), None);
+        assert_eq!(pad.event("South", true), None);
+        assert!(pad.blocked() == false);
+
+        assert_eq!(pad.event("South", false), None);
+        assert_eq!(pad.event("South", true), Some("South".into()));
+        assert_eq!(pad.event("South", true), None);
+        assert!(pad.blocked());
+
+        // The captured A cannot also be routed as a menu-confirm edge.
+        assert_eq!(pad.event("South", true), None);
+        assert!(pad.blocked());
+        assert_eq!(pad.event("South", false), None);
+        assert!(!pad.blocked());
+    }
+
+    #[test]
+    fn second_control_must_be_released_before_capture_lock_clears() {
+        let mut pad = PadGesture::default();
+        pad.arm_capture(true);
+        assert_eq!(pad.event("South", true), Some("South".into()));
+        assert_eq!(pad.event("East", true), None);
+        assert_eq!(pad.event("South", false), None);
+        assert!(pad.blocked());
+        assert_eq!(pad.event("East", false), None);
+        assert!(!pad.blocked());
+    }
+}
+
+/// The UI presents Xbox labels for all gamepads; bindings remain stored in
+/// gilrs' canonical positions and can still be remapped on other devices.
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
+pub enum GamepadLayout {
+    #[default]
+    Xbox,
+}
+
+impl GamepadLayout {
+    pub fn detect(_name: &str) -> Self {
+        Self::Xbox
+    }
+
+    pub fn detect_with_vendor(_name: &str, _vendor_id: Option<u16>) -> Self {
+        Self::Xbox
+    }
+
+    pub fn name(self) -> &'static str {
+        "XBOX"
+    }
+
+    pub fn token(self) -> &'static str {
+        "xbox"
+    }
+
+    pub fn from_token(token: &str) -> Option<Self> {
+        match token.to_ascii_lowercase().as_str() {
+            "xbox" | "nintendo" | "playstation" | "ps" => Some(Self::Xbox),
+            _ => None,
+        }
+    }
+
+    /// Translate a canonical binding into the Xbox label used by the UI.
+    pub fn label(self, token: &str) -> String {
+        let value = match token {
+            "South" => "A",
+            "East" => "B",
+            "West" => "X",
+            "North" => "Y",
+            "LeftTrigger" => "LB",
+            "RightTrigger" => "RB",
+            "LeftTrigger2" => "LT",
+            "RightTrigger2" => "RT",
+            "Select" => "BACK",
+            "Start" => "START",
+            "Mode" => "GUIDE",
+            "LeftThumb" => "LS CLICK",
+            "RightThumb" => "RS CLICK",
+            "DPadUp" => "DPAD UP",
+            "DPadDown" => "DPAD DOWN",
+            "DPadLeft" => "DPAD LEFT",
+            "DPadRight" => "DPAD RIGHT",
+            "LeftStickUp" => "LS UP",
+            "LeftStickDown" => "LS DOWN",
+            "LeftStickLeft" => "LS LEFT",
+            "LeftStickRight" => "LS RIGHT",
+            "RightStickUp" => "RS UP",
+            "RightStickDown" => "RS DOWN",
+            "RightStickLeft" => "RS LEFT",
+            "RightStickRight" => "RS RIGHT",
+            _ => return token.to_uppercase(),
+        };
+        value.to_string()
+    }
 }
 
 /// Which analog/digital source drives the GBA d-pad. `Both` (the
@@ -231,9 +420,20 @@ pub struct InputConfig {
     pub device: Device,
     /// Preferred pad by name; empty = first connected.
     pub gamepad_name: String,
+    /// Last detected physical button family, including vendor-ID fallback.
+    pub gamepad_layout: GamepadLayout,
     pub keys: [String; 10],
+    pub mouse_keys: [String; 10],
+    pub mouse_keyboard: bool,
     /// Keyboard key that fast-forwards while held (4x, or the menu's speed).
     pub ff_key: String,
+    pub ff_toggle_key: String,
+    pub ff_pad: String,
+    pub ff_toggle_pad: String,
+    pub zoom_in_key: String,
+    pub zoom_out_key: String,
+    pub zoom_in_pad: String,
+    pub zoom_out_pad: String,
     /// Pad bindings: a gilrs button name (`South`, `DPadUp`, ...) or a
     /// stick-direction token (`LeftStickUp`, ...). The play runtime
     /// resolves stick tokens against the live axes past `stick_deadzone`.
@@ -244,13 +444,35 @@ pub struct InputConfig {
     pub stick_deadzone: f32,
 }
 
+/// Holding the momentary key inverts the latched fast-forward state.
+pub fn fast_forward_speed(multiplier: u32, latched: bool, held: bool) -> u32 {
+    if latched ^ held {
+        match multiplier {
+            2 | 4 | 8 => multiplier,
+            _ => 4,
+        }
+    } else {
+        1
+    }
+}
+
 impl Default for InputConfig {
     fn default() -> Self {
         let s = |v: &str| v.to_string();
         Self {
             device: Device::Keyboard,
+            mouse_keyboard: false,
+            mouse_keys: ["Z", "X", "RightShift", "Enter", "D", "A", "W", "S", "E", "Q"].map(str::to_owned),
             gamepad_name: String::new(),
+            gamepad_layout: GamepadLayout::Xbox,
             ff_key: s("Tab"),
+            ff_toggle_key: s("T"),
+            ff_pad: s("LeftThumb"),
+            ff_toggle_pad: s("RightThumb"),
+            zoom_in_key: s("Equal"),
+            zoom_out_key: s("Minus"),
+            zoom_in_pad: s("RightTrigger"),
+            zoom_out_pad: s("LeftTrigger"),
             // the historical play-command mapping
             keys: [
                 s("Z"),
@@ -265,16 +487,16 @@ impl Default for InputConfig {
                 s("A"),
             ],
             pads: [
-                s("East"),
                 s("South"),
+                s("East"),
                 s("Select"),
                 s("Start"),
                 s("DPadRight"),
                 s("DPadLeft"),
                 s("DPadUp"),
                 s("DPadDown"),
-                s("RightTrigger"),
-                s("LeftTrigger"),
+                s("RightTrigger2"),
+                s("LeftTrigger2"),
             ],
             // Default matches the historical hardcoded play behavior:
             // left stick AND the physical d-pad bindings both steer.
@@ -285,8 +507,13 @@ impl Default for InputConfig {
 }
 
 impl InputConfig {
+    pub fn active_keys(&self) -> &[String; 10] {if self.mouse_keyboard {&self.mouse_keys} else {&self.keys}}
+    pub fn active_keys_mut(&mut self) -> &mut [String; 10] {if self.mouse_keyboard {&mut self.mouse_keys} else {&mut self.keys}}
     pub fn parse(text: &str) -> Self {
         let mut cfg = Self::default();
+        let mut toggle_explicit = false;
+        let mut gamepad_layout_version = 0;
+        let mut gamepad_layout_explicit = false;
         for line in text.lines() {
             let line = line.split('#').next().unwrap_or("").trim();
             let Some((k, v)) = line.split_once('=') else {
@@ -294,14 +521,25 @@ impl InputConfig {
             };
             let (k, v) = (k.trim(), v.trim());
             match k {
+                "gamepad_layout_version" => gamepad_layout_version = v.parse::<u32>().unwrap_or(0),
                 "device" => {
                     cfg.device = if v.eq_ignore_ascii_case("gamepad") {
                         Device::Gamepad
+                    } else if v.eq_ignore_ascii_case("mouse_keyboard") {
+                        cfg.mouse_keyboard = true;
+                        Device::MouseKeyboard
                     } else {
                         Device::Keyboard
                     }
                 }
+                "mouse_keyboard" => cfg.mouse_keyboard = v == "true",
                 "gamepad_name" => cfg.gamepad_name = v.to_string(),
+                "gamepad_layout" => {
+                    if let Some(layout) = GamepadLayout::from_token(v) {
+                        cfg.gamepad_layout = layout;
+                        gamepad_layout_explicit = true;
+                    }
+                }
                 "dpad_source" => {
                     if let Some(d) = DpadSource::from_token(&v.to_ascii_lowercase()) {
                         cfg.dpad_source = d;
@@ -315,11 +553,23 @@ impl InputConfig {
                     }
                 }
                 "key.ff" => cfg.ff_key = v.to_string(),
+                "key.ff_toggle" => {
+                    cfg.ff_toggle_key = v.to_string();
+                    toggle_explicit = true;
+                }
+                "key.zoom_in" => cfg.zoom_in_key = v.to_string(),
+                "key.zoom_out" => cfg.zoom_out_key = v.to_string(),
+                "pad.zoom_in" => cfg.zoom_in_pad = v.to_string(),
+                "pad.ff" => cfg.ff_pad = v.to_string(),
+                "pad.ff_toggle" => cfg.ff_toggle_pad = v.to_string(),
+                "pad.zoom_out" => cfg.zoom_out_pad = v.to_string(),
                 _ => {
                     if let Some(name) = k.strip_prefix("key.") {
                         if let Some(b) = button_by_name(name) {
                             cfg.keys[b.index()] = v.to_string();
                         }
+                    } else if let Some(name) = k.strip_prefix("mouse_key.") {
+                        if let Some(b) = button_by_name(name) { cfg.mouse_keys[b.index()] = v.to_owned(); }
                     } else if let Some(name) = k.strip_prefix("pad.") {
                         if let Some(b) = button_by_name(name) {
                             cfg.pads[b.index()] = v.to_string();
@@ -328,28 +578,74 @@ impl InputConfig {
                 }
             }
         }
+        if !gamepad_layout_explicit {
+            cfg.gamepad_layout = GamepadLayout::detect(&cfg.gamepad_name);
+        }
+        // Old profiles assigned GBA L/R to the same bumpers as zoom.
+        // Migrate only that exact layout; versioned profiles may deliberately
+        // reuse buttons, and DirectInput mappings have device-specific order.
+        if gamepad_layout_version < 2
+            && !cfg.gamepad_name.starts_with("DirectInput:")
+            && cfg.pads[Button::L.index()] == "LeftTrigger"
+            && cfg.pads[Button::R.index()] == "RightTrigger"
+            && cfg.zoom_out_pad == "LeftTrigger"
+            && cfg.zoom_in_pad == "RightTrigger"
+        {
+            cfg.pads[Button::L.index()] = "LeftTrigger2".into();
+            cfg.pads[Button::R.index()] = "RightTrigger2".into();
+        }
+        if !toggle_explicit {
+            if let Some(key) = [
+                "T", "F", "G", "H", "J", "K", "L", "U", "I", "O", "P", "0", "1", "2", "3", "4",
+                "5", "6", "7", "8", "9",
+            ]
+            .into_iter()
+            .find(|key| {
+                !cfg.keys.iter().any(|bound| bound == key)
+                    && cfg.ff_key != *key
+                    && cfg.zoom_in_key != *key
+                    && cfg.zoom_out_key != *key
+            }) {
+                cfg.ff_toggle_key = key.into();
+            }
+        }
         cfg
     }
 
     pub fn serialize(&self) -> String {
         let mut out = String::from("# gba-recomp input bindings\n");
+        out.push_str("gamepad_layout_version = 2\n");
         out.push_str(&format!(
             "device = {}\n",
             match self.device {
                 Device::Keyboard => "keyboard",
                 Device::Gamepad => "gamepad",
+                Device::MouseKeyboard => "mouse_keyboard",
             }
         ));
+        out.push_str(&format!("mouse_keyboard = {}\n", self.mouse_keyboard));
+        for b in Button::ALL {out.push_str(&format!("mouse_key.{} = {}\n",b.name(),self.mouse_keys[b.index()]));}
         out.push_str(&format!("gamepad_name = {}\n", self.gamepad_name));
+        out.push_str(&format!(
+            "gamepad_layout = {}\n",
+            self.gamepad_layout.token()
+        ));
         out.push_str(&format!("dpad_source = {}\n", self.dpad_source.token()));
         out.push_str(&format!("stick_deadzone = {:.2}\n", self.stick_deadzone));
         for b in Button::ALL {
             out.push_str(&format!("key.{} = {}\n", b.name(), self.keys[b.index()]));
         }
         out.push_str(&format!("key.ff = {}\n", self.ff_key));
+        out.push_str(&format!("key.ff_toggle = {}\n", self.ff_toggle_key));
+        out.push_str(&format!("pad.ff = {}\n", self.ff_pad));
+        out.push_str(&format!("pad.ff_toggle = {}\n", self.ff_toggle_pad));
+        out.push_str(&format!("key.zoom_in = {}\n", self.zoom_in_key));
+        out.push_str(&format!("key.zoom_out = {}\n", self.zoom_out_key));
         for b in Button::ALL {
             out.push_str(&format!("pad.{} = {}\n", b.name(), self.pads[b.index()]));
         }
+        out.push_str(&format!("pad.zoom_in = {}\n", self.zoom_in_pad));
+        out.push_str(&format!("pad.zoom_out = {}\n", self.zoom_out_pad));
         out
     }
 
@@ -410,10 +706,10 @@ pub struct AvConfig {
     pub audio_enhanced: bool,
     /// Master output volume, 0..1 (1 = full).
     pub audio_volume: f32,
-    /// Fast-forward multiplier: 1 = off, else 2, 4 or 8. Session-only: set
-    /// from the in-game menu, never written to or read from av.cfg (a game
-    /// should never launch already fast-forwarding).
+    /// Persistent fast-forward multiplier: 2, 4 or 8. Activation is session-only.
     pub ff_speed: u32,
+    /// silent, fast (accelerated audio), or normal (buffered 1x audio).
+    pub ff_audio: String,
     /// Output brightness scale applied to the color table: 1.0 = unchanged.
     pub video_brightness: f32,
     /// Screen simulation model: raw | unlit | frontlit | backlit | classic.
@@ -437,6 +733,8 @@ pub struct AvConfig {
     /// Output aspect ratio: auto | 3:2 (original) | 16:10 | 16:9 | 20:9 | 21:9 | 32:9.
     /// Sets how many extra columns the PPU renders; applied at launch.
     pub video_aspect: String,
+    pub bubble_size: f32,
+    pub bubble_length: f32,
 }
 
 impl Default for AvConfig {
@@ -444,7 +742,8 @@ impl Default for AvConfig {
         Self {
             audio_enhanced: false,
             audio_volume: 1.0,
-            ff_speed: 1,
+            ff_speed: 4,
+            ff_audio: "silent".into(),
             video_brightness: 1.0,
             screen: "raw".into(),
             screen_darken: "auto".into(),
@@ -455,6 +754,8 @@ impl Default for AvConfig {
             display_gamut: "auto".into(),
             video_vsync: false,
             video_aspect: "16:9".into(),
+            bubble_size: 1.,
+            bubble_length: 1.,
         }
     }
 }
@@ -470,6 +771,14 @@ impl AvConfig {
             let v = v.trim();
             match k.trim() {
                 "audio.enhanced" => cfg.audio_enhanced = v.eq_ignore_ascii_case("true"),
+                "ff.speed" => {
+                    if let Ok(speed @ (2 | 4 | 8)) = v.parse::<u32>() {
+                        cfg.ff_speed = speed;
+                    }
+                }
+                "ff.audio" if matches!(v, "silent" | "fast" | "normal") => {
+                    cfg.ff_audio = v.to_string()
+                }
                 "audio.volume" => {
                     if let Ok(x) = v.parse::<f32>() {
                         if x.is_finite() {
@@ -492,6 +801,12 @@ impl AvConfig {
                 "video.scaling" => cfg.scaling = v.to_ascii_lowercase(),
                 "video.gamut" => cfg.display_gamut = v.to_ascii_lowercase(),
                 "video.vsync" => cfg.video_vsync = v.eq_ignore_ascii_case("true"),
+                "bubble.size" | "bubble.length" => {
+                    if let Ok(x) = v.parse::<f32>() { if x.is_finite() {
+                        if k.trim() == "bubble.size" { cfg.bubble_size=x.clamp(0.5,2.); }
+                        else { cfg.bubble_length=x.clamp(1.,2.); }
+                    }}
+                }
                 "video.aspect" => cfg.video_aspect = v.to_ascii_lowercase(),
                 _ => {}
             }
@@ -504,6 +819,8 @@ impl AvConfig {
             "# gba-recomp a/v settings\n\
              audio.enhanced = {}\n\
              audio.volume = {}\n\
+             ff.speed = {}\n\
+             ff.audio = {}\n\
              video.brightness = {}\n\
              video.screen = {}\n\
              video.darken = {}\n\
@@ -513,9 +830,13 @@ impl AvConfig {
              video.scaling = {}\n\
              video.gamut = {}\n\
              video.vsync = {}\n\
-             video.aspect = {}\n",
+             video.aspect = {}\n\
+             bubble.size = {}\n\
+             bubble.length = {}\n",
             self.audio_enhanced,
             self.audio_volume,
+            self.ff_speed,
+            self.ff_audio,
             self.video_brightness,
             self.screen,
             self.screen_darken,
@@ -526,6 +847,8 @@ impl AvConfig {
             self.display_gamut,
             self.video_vsync,
             self.video_aspect,
+            self.bubble_size,
+            self.bubble_length,
         )
     }
 
@@ -681,6 +1004,83 @@ mod tests {
     use super::*;
 
     #[test]
+    fn controller_layout_uses_xbox_labels_for_every_gamepad() {
+        assert_eq!(
+            GamepadLayout::detect("Xbox Wireless Controller"),
+            GamepadLayout::Xbox
+        );
+        assert_eq!(
+            GamepadLayout::detect("Nintendo Switch Pro Controller"),
+            GamepadLayout::Xbox
+        );
+        assert_eq!(GamepadLayout::detect("Joy-Con (L)"), GamepadLayout::Xbox);
+        assert_eq!(
+            GamepadLayout::detect_with_vendor("Wireless Gamepad", Some(0x057e)),
+            GamepadLayout::Xbox
+        );
+        assert_eq!(
+            GamepadLayout::detect_with_vendor("Wireless Gamepad", Some(0x054c)),
+            GamepadLayout::Xbox
+        );
+        assert_eq!(GamepadLayout::detect("PS5 Controller"), GamepadLayout::Xbox);
+        assert_eq!(
+            GamepadLayout::detect("DualSense Wireless Controller"),
+            GamepadLayout::Xbox
+        );
+        assert_eq!(
+            GamepadLayout::detect("Sony DualShock 4"),
+            GamepadLayout::Xbox
+        );
+
+        assert_eq!(GamepadLayout::Xbox.name(), "XBOX");
+        assert_eq!(GamepadLayout::Xbox.label("South"), "A");
+        assert_eq!(GamepadLayout::Xbox.label("East"), "B");
+        assert_eq!(GamepadLayout::Xbox.label("West"), "X");
+        assert_eq!(GamepadLayout::Xbox.label("North"), "Y");
+        assert_eq!(GamepadLayout::Xbox.label("LeftTrigger2"), "LT");
+        assert_eq!(GamepadLayout::Xbox.label("RightTrigger2"), "RT");
+    }
+
+    #[test]
+    fn controller_layout_roundtrips_and_legacy_layout_names_use_xbox() {
+        let cfg = InputConfig {
+            gamepad_name: "Wireless Gamepad".into(),
+            gamepad_layout: GamepadLayout::Xbox,
+            ..InputConfig::default()
+        };
+        assert_eq!(InputConfig::parse(&cfg.serialize()), cfg);
+        assert_eq!(
+            InputConfig::parse(
+                "gamepad_name = Nintendo Switch Pro Controller\ngamepad_layout = nintendo\n"
+            )
+            .gamepad_layout,
+            GamepadLayout::Xbox
+        );
+        assert_eq!(
+            GamepadLayout::from_token("playstation"),
+            Some(GamepadLayout::Xbox)
+        );
+    }
+
+    #[test]
+    fn fast_forward_toggle_and_hold_are_independent_of_multiplier() {
+        for speed in [2, 4, 8] {
+            assert_eq!(fast_forward_speed(speed, false, false), 1);
+            assert_eq!(fast_forward_speed(speed, false, true), speed);
+            assert_eq!(fast_forward_speed(speed, true, false), speed);
+            assert_eq!(fast_forward_speed(speed, true, true), 1);
+        }
+        let cfg = InputConfig::parse("key.ff = Space\nkey.ff_toggle = Y\n");
+        assert_eq!(cfg.ff_key, "Space");
+        assert_eq!(cfg.ff_toggle_key, "Y");
+        assert_eq!(InputConfig::parse(&cfg.serialize()), cfg);
+        assert_eq!(AvConfig::parse("ff.speed = 1\n").ff_speed, 4);
+        let previous = InputConfig::parse("key.a = T\n");
+        assert_eq!(previous.keys[Button::A.index()], "T");
+        assert_eq!(previous.ff_toggle_key, "F");
+    }
+
+    #[test]
     fn roundtrip() {
         let mut cfg = InputConfig::default();
         cfg.device = Device::Gamepad;
@@ -689,9 +1089,43 @@ mod tests {
         cfg.pads[Button::L.index()] = "LeftTrigger2".into();
         // stick-as-button binding survives the round-trip too
         cfg.pads[Button::R.index()] = "RightStickUp".into();
+        cfg.ff_pad = "West".into();
+        cfg.ff_toggle_pad = "North".into();
         cfg.dpad_source = DpadSource::RightStick;
         cfg.stick_deadzone = 0.30;
         assert_eq!(InputConfig::parse(&cfg.serialize()), cfg);
+    }
+    #[test]
+    fn mouse_keyboard_profile_is_independent_and_persistent() {
+        let mut cfg=InputConfig::default();
+        let keyboard=cfg.keys.clone();
+        cfg.device=Device::MouseKeyboard;
+        cfg.mouse_keyboard=true;
+        assert_eq!(cfg.active_keys()[Button::Up.index()],"W");
+        cfg.active_keys_mut()[Button::A.index()]="Space".into();
+        assert_eq!(cfg.keys,keyboard);
+        let restored=InputConfig::parse(&cfg.serialize());
+        assert_eq!(restored,cfg);
+        cfg.mouse_keyboard=false;
+        assert_eq!(cfg.active_keys(),&keyboard);
+    }
+
+    #[test]
+    fn legacy_bumpers_shared_with_zoom_migrate_only_once() {
+        let old = "pad.l = LeftTrigger\npad.r = RightTrigger\npad.zoom_out = LeftTrigger\npad.zoom_in = RightTrigger\npad.a = West\n";
+        let cfg = InputConfig::parse(old);
+        assert_eq!(cfg.pads[Button::L.index()], "LeftTrigger2");
+        assert_eq!(cfg.pads[Button::R.index()], "RightTrigger2");
+        assert_eq!(cfg.zoom_out_pad, "LeftTrigger");
+        assert_eq!(cfg.zoom_in_pad, "RightTrigger");
+        assert_eq!(cfg.pads[Button::A.index()], "West");
+        assert_eq!(InputConfig::parse(&cfg.serialize()), cfg);
+
+        let deliberate = InputConfig::parse(&format!("gamepad_layout_version = 2\n{old}"));
+        assert_eq!(deliberate.pads[Button::L.index()], "LeftTrigger");
+        assert_eq!(deliberate.pads[Button::R.index()], "RightTrigger");
+        let direct = InputConfig::parse(&format!("gamepad_name = DirectInput: Legacy Pad\n{old}"));
+        assert_eq!(direct.pads[Button::L.index()], "LeftTrigger");
     }
 
     #[test]
@@ -783,22 +1217,25 @@ mod tests {
     }
 
     #[test]
-    fn av_volume_brightness_roundtrip_clamp_and_ff_not_persisted() {
+    fn av_volume_brightness_and_ff_multiplier_roundtrip() {
         let d = AvConfig::default();
-        assert_eq!((d.audio_volume, d.ff_speed, d.video_brightness), (1.0, 1, 1.0));
+        assert_eq!(
+            (d.audio_volume, d.ff_speed, d.video_brightness),
+            (1.0, 4, 1.0)
+        );
         let cfg = AvConfig {
             audio_volume: 0.6,
             video_brightness: 1.2,
             ..AvConfig::default()
         };
         assert_eq!(AvConfig::parse(&cfg.serialize()), cfg);
-        // Fast forward is session-only: never serialized, never parsed.
+        // The multiplier is persistent; activation remains session-only.
         let ff = AvConfig {
             ff_speed: 8,
             ..AvConfig::default()
         };
-        assert_eq!(AvConfig::parse(&ff.serialize()).ff_speed, 1);
-        assert_eq!(AvConfig::parse("ff.speed = 8\n").ff_speed, 1);
+        assert_eq!(AvConfig::parse(&ff.serialize()).ff_speed, 8);
+        assert_eq!(AvConfig::parse("ff.speed = 8\n").ff_speed, 8);
         let wild = AvConfig::parse("audio.volume = 9\nvideo.brightness = -3\n");
         assert_eq!((wild.audio_volume, wild.video_brightness), (1.0, 0.0));
     }
@@ -828,11 +1265,24 @@ mod tests {
         assert_eq!(AvConfig::parse(&cfg.serialize()), cfg);
         // Old config files (audio-only) parse to video defaults.
         let old = AvConfig::parse("audio.enhanced = true\n");
-        assert_eq!(old.screen, "frontlit");
+        assert_eq!(old.screen, "raw");
         assert_eq!(old.response, "smart");
         // Knob parsing: auto and garbage are None, numbers are Some.
         assert_eq!(AvConfig::knob("auto"), None);
         assert_eq!(AvConfig::knob("0.5"), Some(0.5));
         assert_eq!(AvConfig::knob("nan"), None);
+    }
+}
+
+#[cfg(test)]
+mod bubble_config_tests {
+    use super::*;
+    #[test]
+    fn bubble_controls_persist_and_reject_nonfinite_values() {
+        let cfg=AvConfig::parse("bubble.size = 1.3\nbubble.length = 1.7\n");
+        assert_eq!(cfg.bubble_size,1.3);
+        assert_eq!(cfg.bubble_length,1.7);
+        assert_eq!(AvConfig::parse(&cfg.serialize()),cfg);
+        assert_eq!(AvConfig::parse("bubble.size = NaN").bubble_size,1.);
     }
 }

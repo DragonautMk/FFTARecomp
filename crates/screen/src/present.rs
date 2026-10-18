@@ -95,6 +95,7 @@ pub struct Presenter {
     /// output so the hardware re-encode is an identity overall.
     srgb_surface: bool,
     src_size: (u32, u32),
+    ui_layer: Vec<Option<crate::ui_layer::Gpu>>,
 }
 
 impl Presenter {
@@ -121,11 +122,24 @@ impl Presenter {
             .create_surface(window.clone())
             .map_err(|e| format!("surface: {e}"))?;
         let adapter = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
-            power_preference: wgpu::PowerPreference::LowPower,
+            power_preference: if cfg!(target_os = "linux") {
+                wgpu::PowerPreference::HighPerformance
+            } else {
+                wgpu::PowerPreference::LowPower
+            },
             compatible_surface: Some(&surface),
             force_fallback_adapter: false,
         }))
         .map_err(|e| format!("no graphics adapter: {e}"))?;
+        let adapter_info = adapter.get_info();
+        eprintln!(
+            "video: adapter={} backend={:?} type={:?} driver={} ({})",
+            adapter_info.name,
+            adapter_info.backend,
+            adapter_info.device_type,
+            adapter_info.driver,
+            adapter_info.driver_info,
+        );
         let (device, queue) = pollster::block_on(adapter.request_device(&wgpu::DeviceDescriptor {
             label: Some("screen-presenter"),
             ..Default::default()
@@ -282,6 +296,7 @@ impl Presenter {
             config,
             srgb_surface,
             src_size: (src_w, src_h),
+            ui_layer: Vec::new(),
         };
         p.surface.configure(&p.device, &p.config);
         // Color-match the layer to the panel (macOS only); the surface +
@@ -293,6 +308,24 @@ impl Presenter {
         // nothing to the compositor — Wayland treats untagged surfaces as sRGB.
         let _ = target;
         Ok(p)
+    }
+
+    /// Independent UI passes in stable layer order; absent slots clear immediately.
+    pub fn set_ui_layers(&mut self,frames:&[Option<crate::ui_layer::Frame<'_>>]) {
+        if self.ui_layer.len()<frames.len() {self.ui_layer.resize_with(frames.len(),||None);}
+        for ui in self.ui_layer.iter_mut().flatten() {ui.active=false;}
+        for (slot,frame) in self.ui_layer.iter_mut().zip(frames) {
+            let Some(frame)=frame else {if let Some(ui)=slot {ui.active=false;} continue;};
+            assert_eq!(frame.pixels.len(),480*160);assert_eq!(frame.lut.len(),32768);
+            assert!(frame.raw_world.len()>=frame.world_dims.0 as usize*frame.world_dims.1 as usize);
+            if slot.as_ref().is_none_or(|ui|ui.dimensions()!=frame.world_dims) {
+                *slot=Some(crate::ui_layer::Gpu::new(&self.device,self.config.format,frame.world_dims));
+            }
+            slot.as_mut().unwrap().update(&self.queue,frame,self.srgb_surface);
+        }
+    }
+    pub fn set_ui_layer(&mut self,frame:Option<&crate::ui_layer::Frame<'_>>) {
+        self.set_ui_layers(&[frame.copied()]);
     }
 
     /// Switch presentation mode live (false = AutoNoVsync, true =
@@ -338,6 +371,50 @@ impl Presenter {
             self.surface.configure(&self.device, &self.config);
         }
 
+        // Menus have their own high-resolution canvas; grow once when needed.
+        // Gameplay frame dimensions and filtering remain unchanged.
+        if frame_dims.0 > self.src_size.0 || frame_dims.1 > self.src_size.1 {
+            let width = frame_dims.0.max(self.src_size.0);
+            let height = frame_dims.1.max(self.src_size.1);
+            if width > self.device.limits().max_texture_dimension_2d
+                || height > self.device.limits().max_texture_dimension_2d
+            {
+                return Err("UI texture exceeds device limits".into());
+            }
+            self.texture = self.device.create_texture(&wgpu::TextureDescriptor {
+                label: Some("screen-src"),
+                size: wgpu::Extent3d {
+                    width,
+                    height,
+                    depth_or_array_layers: 1,
+                },
+                mip_level_count: 1,
+                sample_count: 1,
+                dimension: wgpu::TextureDimension::D2,
+                format: wgpu::TextureFormat::Rgba8Unorm,
+                usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+                view_formats: &[],
+            });
+            self.bind_group = self.device.create_bind_group(&wgpu::BindGroupDescriptor {
+                label: Some("screen-bind"),
+                layout: &self.pipeline.get_bind_group_layout(0),
+                entries: &[
+                    wgpu::BindGroupEntry {
+                        binding: 0,
+                        resource: wgpu::BindingResource::TextureView(
+                            &self
+                                .texture
+                                .create_view(&wgpu::TextureViewDescriptor::default()),
+                        ),
+                    },
+                    wgpu::BindGroupEntry {
+                        binding: 1,
+                        resource: self.uniforms.as_entire_binding(),
+                    },
+                ],
+            });
+            self.src_size = (width, height);
+        }
         let (tw, th) = self.src_size;
         let (sw, sh) = (frame_dims.0.clamp(1, tw), frame_dims.1.clamp(1, th));
         debug_assert_eq!(rgba.len(), (sw * sh) as usize);
@@ -439,6 +516,7 @@ impl Presenter {
             pass.set_pipeline(&self.pipeline);
             pass.set_bind_group(0, &self.bind_group, &[]);
             pass.draw(0..3, 0..1);
+            for ui in self.ui_layer.iter().flatten() {ui.draw(&mut pass);}
         }
         self.queue.submit([encoder.finish()]);
         frame.present();

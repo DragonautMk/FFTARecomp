@@ -69,19 +69,39 @@ extern "C" fn rt_read32(m: *mut core::ffi::c_void, a: u32) -> u32 {
     crate::Bus::read32(&mut mach!(m).bus, a)
 }
 extern "C" fn rt_write8(m: *mut core::ffi::c_void, a: u32, v: u32) {
+    native_write_hint(mach!(m), a);
     crate::Bus::write8(&mut mach!(m).bus, a, v as u8)
 }
 extern "C" fn rt_write16(m: *mut core::ffi::c_void, a: u32, v: u32) {
+    native_write_hint(mach!(m), a);
     crate::Bus::write16(&mut mach!(m).bus, a, v as u16)
 }
 extern "C" fn rt_write32(m: *mut core::ffi::c_void, a: u32, v: u32) {
+    native_write_hint(mach!(m), a);
     crate::Bus::write32(&mut mach!(m).bus, a, v)
 }
 extern "C" fn rt_tick(m: *mut core::ffi::c_void, cycles: u32) {
     mach!(m).bus.tick(cycles as u64)
 }
 
+fn native_write_hint(m: &mut Machine, addr: u32) {
+    if let Some(log) = m.bus.ffta_diagnostics.as_mut() {
+        log.native_write_hint(m.bus.frames,addr,&m.cpu.regs,m.cpu.cpsr);
+    }
+}
+
 extern "C" fn rt_guard(m: *mut core::ffi::c_void, addr: u32, len: u32, expect: u64) -> u32 {
+    if len == 0 && expect == crate::ffta_rom::HOOK_TAG {
+        mach!(m).ffta_observe_native_producer(addr);
+        return mach!(m).ffta_sprite_interpret(addr) as u32;
+    }
+    // Zero-length tagged calls are host diagnostics emitted only under FFTA_OAM_LOG.
+    // Real content guards always have a positive length. Preserve the ABI and
+    // never read/write guest memory, CPU state or timing for diagnostic calls.
+    if len == 0 && expect == crate::ffta_log::TRACE_TAG {
+        mach!(m).ffta_log_instruction(addr, true);
+        return 1;
+    }
     let bus = &mut mach!(m).bus;
     let mut h = 0xcbf2_9ce4_8422_2325u64;
     let off = (addr & 0x7FFF) as usize;
@@ -115,6 +135,10 @@ pub struct RcgBlock {
 
 pub extern "C" fn rt_interp_one(m: *mut core::ffi::c_void) -> u32 {
     let m = unsafe { &mut *(m as *mut Machine) };
+    m.ffta_sprite_entry();
+    // A generated fallback shell may already have observed this instruction.
+    let observed = m.bus.ffta_diagnostics.as_mut().and_then(|log| log.native_pc.take());
+    if observed != Some(m.cpu.regs[15]) { m.ffta_log_instruction(m.cpu.regs[15], false); }
     let region = (m.cpu.regs[15] >> 24) as usize & 0xF;
     let instr = if m.bus.real_bios {
         exec::step_cached(&mut m.cpu, &mut m.bus, &mut m.decode_cache)

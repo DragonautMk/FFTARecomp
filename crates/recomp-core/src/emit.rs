@@ -576,6 +576,9 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
         }
     }
 
+    if b.thumb && gba_core::ffta_rom::sprite_pc(b.addr) {
+        let _ = writeln!(out, "    if (a->guard(m, 0x{:08x}u, 0u, 0x{:016x}ull)) {{ c[15] = 0x{:08x}u; return a->interp_one(m); }}", b.addr, gba_core::ffta_rom::HOOK_TAG, b.addr);
+    }
     let close: &str = if chain.is_some() { "\n" } else { "}\n\n" };
     let mut cx = Ctx {
         out,
@@ -585,6 +588,15 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
     let mut i = 0;
     while i < b.instrs.len() {
         let instr = &b.instrs[i];
+        if gba_core::ffta_log::enabled()
+            && ((0x080014c8..0x080016c8).contains(&instr.addr)
+                || (0x080016d4..0x08001882).contains(&instr.addr)
+                || matches!(instr.op, Op::Mem { load: false, .. } | Op::BlockMem { load: false, .. } | Op::Swi { .. }))
+        {
+            // Reuse a reserved zero-length guard call for ABI-compatible logging.
+            // Do not flush ticks or alter guest registers around observations.
+            let _ = writeln!(cx.out, "    (void)a->guard(m, 0x{:08x}u, 0u, 0x{:016x}ull);", instr.addr, gba_core::ffta_log::TRACE_TAG);
+        }
         let next = instr.addr.wrapping_add(instr.size());
         let expect = next | thumb_bit;
         let last = i + 1 == b.instrs.len();
@@ -893,4 +905,82 @@ pub fn emit_c_chunked(
     );
     sink(&out, analysis.blocks.len())?;
     Ok(count + 1)
+}
+
+#[cfg(test)]
+mod ffta_logging_tests {
+    #[test]
+    #[ignore = "requires FFTA_OAM_LOG=1 and a native C compiler"]
+    fn native_observers_preserve_guest_state_and_cycles() {
+        assert!(gba_core::ffta_log::enabled(), "run this focused test with FFTA_OAM_LOG=1");
+        // Entirely original synthetic code; no game ROM is read by this test.
+        let mut rom = vec![0; 0x1500];
+        for (i, op) in [0x2001u16,0x2102,0x1840,0x6010,0x4770].into_iter().enumerate() {
+            rom[0x14c8+i*2..0x14ca+i*2].copy_from_slice(&op.to_le_bytes());
+        }
+        let view = crate::analyze::View { rom: &rom, ewram: None, iwram: None, bios: None };
+        let directory = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../target/ffta-log-validation");
+        std::fs::create_dir_all(&directory).unwrap();
+        let path = directory.join(if cfg!(windows) { "synthetic.dll" } else { "synthetic.so" });
+        crate::build::build_library(&view,&[0x080014c9],&crate::build::Compiler::detect(),&path,0,&mut |_,_| {}).unwrap();
+        let new_machine = || {
+            let mut m = gba_core::Machine::new(rom.clone());
+            m.cpu.cpsr |= 0x20;
+            m.cpu.regs[15] = 0x080014c8;
+            m.cpu.regs[14] = 0x08000001;
+            m.cpu.regs[0] = 0x02000010;
+            m.cpu.regs[2] = 0x02000000;
+            m.bus.ewram[0x10] = 4;
+            m
+        };
+        let mut reference = new_machine();
+        reference.bus.ffta_diagnostics = None;
+        for _ in 0..5 { reference.step(); }
+        let mut observed = new_machine();
+        unsafe {
+            let library = libloading::Library::new(&path).unwrap();
+            let blocks = library.get::<*const gba_core::capi::RcgBlock>(b"rcg_blocks\0").unwrap();
+            let count = library.get::<*const u64>(b"rcg_block_count\0").unwrap();
+            let block = std::slice::from_raw_parts(*blocks,**count as usize).iter().find(|b| b.key==0x080014c9).unwrap();
+            (block.func)(&gba_core::capi::RT_API,&mut observed as *mut _ as *mut std::ffi::c_void);
+        }
+        assert_eq!(observed.cpu.regs,reference.cpu.regs);
+        assert_eq!(observed.cpu.cpsr,reference.cpu.cpsr);
+        assert_eq!(observed.bus.clock,reference.bus.clock);
+        assert_eq!(observed.bus.ewram,reference.bus.ewram);
+        assert_eq!(observed.bus.iwram,reference.bus.iwram);
+        assert_eq!(observed.bus.io,reference.bus.io);
+        assert_eq!(observed.bus.vram,reference.bus.vram);
+        assert_eq!(observed.bus.oam,reference.bus.oam);
+        assert_eq!(observed.bus.ffta_diagnostics.as_ref().unwrap().context.pc,0x080014d0);
+        if let Ok(rom_path) = std::env::var("FFTA_TEST_ROM") {
+            // Reuse only our synthetic compiled code. Verified cartridge execution
+            // must take the new entry guard and execute the actual guest instruction.
+            let cartridge = std::fs::read(rom_path).unwrap();
+            let machine = || {
+                let mut m = gba_core::Machine::new(cartridge.clone());
+                m.cpu.cpsr |= 0x20;
+                m.cpu.regs[15] = 0x080014c8;
+                m
+            };
+            let mut reference = machine();
+            reference.step();
+            let mut observed = machine();
+            assert!(observed.bus.ffta_sprites.enabled);
+            unsafe {
+                let library = libloading::Library::new(&path).unwrap();
+                let blocks = library.get::<*const gba_core::capi::RcgBlock>(b"rcg_blocks\0").unwrap();
+                let count = library.get::<*const u64>(b"rcg_block_count\0").unwrap();
+                let block = std::slice::from_raw_parts(*blocks,**count as usize).iter().find(|b| b.key==0x080014c9).unwrap();
+                let next = (block.func)(&gba_core::capi::RT_API,&mut observed as *mut _ as *mut std::ffi::c_void);
+                assert_eq!(next, 0x080014cb);
+            }
+            assert_eq!(observed.cpu.regs, reference.cpu.regs);
+            assert_eq!(observed.cpu.cpsr, reference.cpu.cpsr);
+            assert_eq!(observed.bus.clock, reference.bus.clock);
+            assert_eq!(observed.bus.iwram, reference.bus.iwram);
+            assert_eq!(observed.bus.oam, reference.bus.oam);
+            println!("FFTA_NATIVE verified_ROM_entry=INTERPRETER cpu=IDENTICAL memory=IDENTICAL cycles=IDENTICAL");
+        }
+    }
 }

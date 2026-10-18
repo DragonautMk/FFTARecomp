@@ -14,12 +14,161 @@
 //! gated on `RedrawRequested`/vsync, which would couple game speed to the
 //! panel.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::num::NonZeroU32;
 use std::path::Path;
 use std::sync::atomic::Ordering;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
+
+/// Direct XInput polling path for Windows. This intentionally bypasses both
+/// Gilrs and the HID/DirectInput adapter: each frame reads the four XInput
+/// slots and compares a complete state snapshot, so one physical press has
+/// exactly one rising edge regardless of duplicate event notifications.
+#[cfg(windows)]
+struct XInputBackend {
+    _library: libloading::Library,
+    get_state: unsafe extern "system" fn(u32, *mut XInputState) -> u32,
+    previous: [Option<XInputState>; 4],
+    capture_locked: bool,
+}
+
+#[cfg(windows)]
+#[repr(C)]
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+struct XInputGamepad {
+    buttons: u16,
+    left_trigger: u8,
+    right_trigger: u8,
+    left_x: i16,
+    left_y: i16,
+    right_x: i16,
+    right_y: i16,
+}
+
+#[cfg(windows)]
+#[repr(C)]
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+struct XInputState {
+    packet: u32,
+    gamepad: XInputGamepad,
+}
+
+#[cfg(windows)]
+impl XInputBackend {
+    fn load() -> Option<Self> {
+        type GetState = unsafe extern "system" fn(u32, *mut XInputState) -> u32;
+        for dll in ["xinput1_4.dll", "xinput1_3.dll", "xinput9_1_0.dll"] {
+            let Ok(library) = (unsafe { libloading::Library::new(dll) }) else {
+                continue;
+            };
+            let Ok(symbol) = (unsafe { library.get::<GetState>(b"XInputGetState\0") }) else {
+                continue;
+            };
+            let get_state = *symbol;
+            return Some(Self {
+                _library: library,
+                get_state,
+                previous: [None; 4],
+                capture_locked: false,
+            });
+        }
+        eprintln!("XInput: no XInput runtime DLL found; using fallback backend");
+        None
+    }
+
+    fn poll(&self) -> [Option<XInputState>; 4] {
+        std::array::from_fn(|slot| {
+            let mut state = XInputState::default();
+            (unsafe { (self.get_state)(slot as u32, &mut state) } == 0).then_some(state)
+        })
+    }
+}
+
+#[cfg(windows)]
+fn xinput_tokens(state: XInputState, deadzone: f32) -> Vec<String> {
+    let b = state.gamepad.buttons;
+    let mut out = Vec::with_capacity(20);
+    for (mask, name) in [
+        (0x0001, "DPadUp"),
+        (0x0002, "DPadDown"),
+        (0x0004, "DPadLeft"),
+        (0x0008, "DPadRight"),
+        (0x0010, "Start"),
+        (0x0020, "Select"),
+        (0x0040, "LeftThumb"),
+        (0x0080, "RightThumb"),
+        (0x0100, "LeftTrigger"),
+        (0x0200, "RightTrigger"),
+        (0x0400, "Mode"),
+        (0x1000, "South"),
+        (0x2000, "East"),
+        (0x4000, "West"),
+        (0x8000, "North"),
+    ] {
+        if b & mask != 0 {
+            out.push(name.to_owned());
+        }
+    }
+    let threshold = (deadzone.clamp(0.0, 1.0) * 255.0).round() as u8;
+    if state.gamepad.left_trigger > threshold {
+        out.push("LeftTrigger2".into());
+    }
+    if state.gamepad.right_trigger > threshold {
+        out.push("RightTrigger2".into());
+    }
+    let dz = (deadzone.clamp(0.0, 1.0) * i16::MAX as f32) as i16;
+    for (v, positive, negative) in [
+        (state.gamepad.left_x, "LeftStickRight", "LeftStickLeft"),
+        (state.gamepad.left_y, "LeftStickUp", "LeftStickDown"),
+        (state.gamepad.right_x, "RightStickRight", "RightStickLeft"),
+        (state.gamepad.right_y, "RightStickUp", "RightStickDown"),
+    ] {
+        if v > dz {
+            out.push(positive.into());
+        }
+        if v < -dz {
+            out.push(negative.into());
+        }
+    }
+    out
+}
+
+#[cfg(windows)]
+fn xinput_pressed(state: XInputState, token: &str, deadzone: f32) -> bool {
+    xinput_tokens(state, deadzone).iter().any(|t| t == token)
+}
+
+#[cfg(windows)]
+fn xinput_new_press(
+    previous: Option<XInputState>,
+    current: XInputState,
+    deadzone: f32,
+) -> Option<String> {
+    xinput_tokens(current, deadzone)
+        .into_iter()
+        .find(|token| !previous.is_some_and(|old| xinput_pressed(old, token, deadzone)))
+}
+
+/// Reject duplicate menu edges from the same physical control inside 20 ms.
+/// Different controls are never delayed. The explicit timestamp keeps the
+/// behavior deterministic in tests without sleeping.
+#[derive(Default)]
+struct MenuTapFilter(HashMap<String, Instant>);
+
+impl MenuTapFilter {
+    fn accept_at(&mut self, control: &str, now: Instant) -> bool {
+        if self
+            .0
+            .get(control)
+            .is_some_and(|last| now.saturating_duration_since(*last) < Duration::from_millis(20))
+        {
+            return false;
+        }
+        self.0.insert(control.to_owned(), now);
+        true
+    }
+}
 
 use gba_core::{Bus as _, Machine};
 
@@ -32,6 +181,71 @@ fn wide_w() -> usize {
 /// Current render height (160 + 2 * extra rows), see `wide_w`.
 fn wide_h() -> usize {
     gba_core::mem::render_height()
+}
+
+/// Match Android's readback when the scene has no expanded terrain rows.
+/// Such frames contain only 160 newly rendered rows at the buffer's start;
+/// the rest may still contain objects from a previous scene or zoom level.
+fn display_frame<'a>(bus: &'a gba_core::mem::MemMap, padding: &'a mut Vec<u16>) -> &'a [u16] {
+    let width = wide_w();
+    let height = wide_h();
+    let ey = gba_core::mem::extra_y();
+    if ey == 0 || gba_core::ppu::ffta_zoom_rows_ready(bus) {
+        return &bus.wide_framebuffer[..width * height];
+    }
+    padding.resize(width * height, 0);
+    let start = width * ey;
+    let end = start + width * 160;
+    padding[..start].fill(0);
+    padding[end..].fill(0);
+    padding[start..end].copy_from_slice(&bus.wide_framebuffer[..width * 160]);
+    padding
+}
+
+/// Normalize one Gilrs event into semantic transitions for the capture
+/// router. Pressed and Changed may describe the same input; PadGesture
+/// coalesces those transitions by physical held state.
+#[cfg(not(target_os = "linux"))]
+fn gilrs_control_transitions(event: gilrs::EventType) -> Vec<(String, bool)> {
+    use gilrs::{Axis, Button, EventType};
+    match event {
+        EventType::ButtonPressed(button, _) if button != Button::Unknown => {
+            vec![(format!("{button:?}"), true)]
+        }
+        EventType::ButtonReleased(button, _) if button != Button::Unknown => {
+            vec![(format!("{button:?}"), false)]
+        }
+        EventType::ButtonChanged(button, value, _) if button != Button::Unknown => {
+            if value >= 0.6 {
+                vec![(format!("{button:?}"), true)]
+            } else if value <= 0.4 {
+                vec![(format!("{button:?}"), false)]
+            } else {
+                Vec::new()
+            }
+        }
+        EventType::AxisChanged(axis, value, _) => {
+            let pair = match axis {
+                Axis::LeftStickX => Some(("LeftStickRight", "LeftStickLeft")),
+                Axis::LeftStickY => Some(("LeftStickUp", "LeftStickDown")),
+                Axis::RightStickX => Some(("RightStickRight", "RightStickLeft")),
+                Axis::RightStickY => Some(("RightStickUp", "RightStickDown")),
+                _ => None,
+            };
+            pair.map_or_else(Vec::new, |(positive, negative)| {
+                if value >= 0.6 {
+                    vec![(positive.into(), true), (negative.into(), false)]
+                } else if value <= -0.6 {
+                    vec![(positive.into(), false), (negative.into(), true)]
+                } else if value.abs() <= 0.4 {
+                    vec![(positive.into(), false), (negative.into(), false)]
+                } else {
+                    Vec::new()
+                }
+            })
+        }
+        _ => Vec::new(),
+    }
 }
 
 /// Furthest zoom-out, as a multiple of the starting view (x1). The core's
@@ -63,7 +277,11 @@ fn widescreen_extra(av: &input_config::AvConfig) -> usize {
     } else {
         env
     };
-    match v.trim() {
+    aspect_extra(&v)
+}
+
+fn aspect_extra(value: &str) -> usize {
+    match value.trim() {
         "" | "off" | "0" | "3:2" => 0,
         "16:10" => 8,
         "16:9" => 22,
@@ -73,6 +291,16 @@ fn widescreen_extra(av: &input_config::AvConfig) -> usize {
         "auto" => auto_extra(),
         other => other.parse::<usize>().unwrap_or(0),
     }
+}
+
+fn zoom_limit(base_extra: usize) -> u32 {
+    let by_cfg = (MAX_ZOOM.ln() / ZOOM_STEP.ln() + 1e-3).floor();
+    let base_w = (240 + 2 * base_extra) as f32;
+    let by_w =
+        (((240 + 2 * gba_core::mem::MAX_EXTRA) as f32 / base_w).ln() / ZOOM_STEP.ln()).floor();
+    let by_h =
+        (((160 + 2 * gba_core::mem::MAX_EXTRA_Y) as f32 / 160.0).ln() / ZOOM_STEP.ln()).floor();
+    by_cfg.min(by_w).min(by_h).max(0.0) as u32
 }
 
 /// "auto": match the primary monitor's aspect ratio (capped at 21:9; pick
@@ -102,11 +330,13 @@ use winit::window::{Fullscreen, Window, WindowId};
 use recomp_core::fnv64;
 
 use crate::{
-    apply_av_change, arm_audio_hle, build_gilrs, ensure_native, load_bios_file, load_native,
-    make_machine, pad_pressed, print_fallback_census, record_labels, rom_sha256, run_frame_native,
-    start_audio, status_line, validate_rom, write_sav, AudioStreams, BlockTable, FALLBACK_COLLECT,
-    NO_INTERP, RING_TARGET,
+    AudioStreams, BlockTable, FALLBACK_COLLECT, NO_INTERP, RING_TARGET, apply_av_change,
+    arm_audio_hle, build_gilrs, ensure_native, load_bios_file, load_native, make_machine,
+    print_fallback_census, record_labels, rom_sha256, run_frame_native, start_audio,
+    status_line, validate_rom, write_sav,
 };
+#[cfg(not(target_os = "linux"))]
+use crate::pad_pressed;
 
 /// Per-frame down-state of the host-menu navigation inputs, debounced against
 /// the previous frame to produce rising-edge events. Kept separate from the
@@ -126,6 +356,12 @@ struct NavEdges {
     /// control that doesn't collide with any GBA button (the guide/Mode
     /// button).
     open: bool,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ActiveController {
+    Gilrs(gilrs::GamepadId),
+    DirectInput,
 }
 
 /// A mouse event queued while the pause menu is open (physical window px).
@@ -199,10 +435,52 @@ fn winit_key(name: &str) -> Option<KeyCode> {
 /// or `None` for keys the config format can't express (F-keys, Escape, ...).
 fn key_name(code: KeyCode) -> Option<&'static str> {
     const NAMES: &[&str] = &[
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
-        "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7",
-        "8", "9", "Up", "Down", "Left", "Right", "Enter", "Space", "Tab", "Backspace",
-        "LeftShift", "RightShift",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "Up",
+        "Down",
+        "Left",
+        "Right",
+        "Enter",
+        "Space",
+        "Tab",
+        "Backspace",
+        "LeftShift",
+        "RightShift",
     ];
     NAMES.iter().copied().find(|n| winit_key(n) == Some(code))
 }
@@ -227,7 +505,7 @@ struct PlayApp {
     sav_path: String,
     sav_seen: Option<u64>,
     record: Option<(std::fs::File, u16)>,
-    native: Option<(libloading::Library, BlockTable)>,
+    native: Option<(super::NativeLibrary, BlockTable)>,
 
     // Audio.
     streams: Arc<Mutex<AudioStreams>>,
@@ -237,6 +515,22 @@ struct PlayApp {
     icfg: input_config::InputConfig,
     key_pairs: Vec<(KeyCode, u16)>,
     pad: Option<gilrs::Gilrs>,
+    directinput: Option<input_config::directinput::DirectInput>,
+    directinput_only: bool,
+    #[cfg(windows)]
+    xinput: Option<XInputBackend>,
+    menu_tap_filter: MenuTapFilter,
+    active_controller: Option<ActiveController>,
+    last_direct_activity: Option<(String, Vec<String>)>,
+    pending_pad: Option<String>,
+    #[cfg(not(target_os = "linux"))]
+    gilrs_gestures: HashMap<gilrs::GamepadId, input_config::PadGesture>,
+    #[cfg(target_os = "linux")]
+    linux_pads: HashMap<gilrs::GamepadId, crate::linux_pad::Pad>,
+    direct_gestures: HashMap<String, input_config::PadGesture>,
+    pad_zoom_prev: (bool, bool),
+    pad_ff_held: bool,
+    pad_ff_toggle_prev: bool,
     /// Physical keys currently held, reconstructed from key press/release
     /// events — winit's event-driven equivalent of minifb's `is_key_down`.
     held: HashSet<KeyCode>,
@@ -254,6 +548,10 @@ struct PlayApp {
     temporal: screen::Temporal,
     grid_params: screen::present::GridParams,
     rgba: Vec<[u8; 4]>,
+    pause_rgba: Vec<[u8; 4]>,
+    ui_pixels: Vec<[u8;4]>,
+    panel_pixels: Vec<[u8;4]>,
+    padded_frame: Vec<u16>,
 
     // Window + presentation (created in `resumed`).
     title: String,
@@ -267,6 +565,7 @@ struct PlayApp {
     menu_enabled: bool,
     menu: menu::Menu,
     paused: bool,
+    menu_dirty: bool,
     cursor_visible: bool,
     suppress: u16,
     nav_prev: NavEdges,
@@ -285,9 +584,11 @@ struct PlayApp {
     audio_stalls: u8,
     audio_retry: Option<Instant>,
 
-    // Fast forward (hold Tab): frames per tick while active, audio muted.
+    // Fast forward: remappable hold/toggle activation and selected audio mode.
     ff_active: bool,
+    ff_latched: bool,
     ff_speed: u32,
+    ff_audio_active: String,
     /// Last key pressed while the menu is open (consumed by key capture).
     pending_key: Option<KeyCode>,
 
@@ -303,6 +604,8 @@ struct PlayApp {
     view: [f32; 4],
     /// Last cursor position in physical window pixels.
     mouse_pos: Option<(f64, f64)>,
+    game_mouse: gba_core::ffta_mouse::LanguageMouse,
+    game_keys: u16,
     /// Mouse events received while paused, consumed by the menu each tick.
     mouse_queue: Vec<MouseEv>,
 
@@ -340,6 +643,15 @@ impl PlayApp {
         let ex = (((vw - 240.0) / 2.0).ceil().max(0.0) as usize).min(gba_core::mem::MAX_EXTRA);
         let ey = (((vh - 160.0) / 2.0).ceil().max(0.0) as usize).min(gba_core::mem::MAX_EXTRA_Y);
         if ex != gba_core::mem::extra() || ey != gba_core::mem::extra_y() {
+            if gba_core::ffta_log::enabled() {
+                eprintln!(
+                    "FFTA_VIEW frame={} zoom_level={} zoom={z:.6} extra_x={ex} extra_y={ey} render_width={} render_height={} view_width={vw:.6} view_height={vh:.6}",
+                    self.machine.bus.frames,
+                    self.zoom_level,
+                    240 + 2 * ex,
+                    160 + 2 * ey
+                );
+            }
             gba_core::mem::set_extra(ex);
             gba_core::mem::set_extra_y(ey);
             self.rgba = vec![[0u8; 4]; wide_w() * wide_h()];
@@ -348,6 +660,11 @@ impl PlayApp {
         let (rw, rh) = (wide_w() as f32, wide_h() as f32);
         let (vw, vh) = (vw.min(rw), vh.min(rh));
         self.view = [(rw - vw) / 2.0, (rh - vh) / 2.0, vw, vh];
+        self.machine.bus.ffta_dialogue.view_zoom = z;
+        self.machine.bus.ffta_dialogue.view_width = vw;
+        self.machine.bus.ffta_dialogue.view_height = vh;
+        self.machine.bus.ffta_dialogue.style.scale = self.av.bubble_size;
+        self.machine.bus.ffta_dialogue.style.length = self.av.bubble_length;
     }
 
     /// Recreate the temporal-response state for the current frame size (its
@@ -364,9 +681,29 @@ impl PlayApp {
 
     /// Window pixel -> frame pixel (in the full rendered frame's coordinates),
     /// or `None` over the letterbox bars.
+    fn menu_dimensions(&self) -> (usize, usize) {
+        let Some(window) = self.window.as_ref() else {
+            return (1280, 720);
+        };
+        let size = window.inner_size();
+        // Fonts and vector icons are rasterized at physical window pixels.
+        // Never enlarge a smaller menu canvas on high-resolution displays.
+        (size.width.max(1) as usize, size.height.max(1) as usize)
+    }
     fn window_to_frame(&self, pos: (f64, f64)) -> Option<(usize, usize)> {
         let window = self.window.as_ref()?;
         let size = window.inner_size();
+        if self.paused {
+            let (w, h) = self.menu_dimensions();
+            if pos.0 < 0. || pos.1 < 0. || pos.0 >= size.width as f64 || pos.1 >= size.height as f64
+            {
+                return None;
+            }
+            return Some((
+                (pos.0 * w as f64 / size.width.max(1) as f64) as usize,
+                (pos.1 * h as f64 / size.height.max(1) as f64) as usize,
+            ));
+        }
         let [x0, y0, vw, vh] = self.view;
         let (scale, ox, oy) = screen::present::letterbox_f((size.width, size.height), vw, vh);
         let fx = (pos.0 as f32 - ox) / scale;
@@ -380,6 +717,81 @@ impl PlayApp {
         ))
     }
 
+    fn game_mouse_aim(&mut self,pos:(f64,f64),confirm:bool)->bool {
+        let ui_index=battle_menu_ui_layer(&self.machine.bus.ffta_dialogue);
+        if (gba_core::ffta_battle_mouse::MenuScene::read(&self.machine.bus).is_some() || self.machine.bus.ffta_dialogue.shop_layout) && ui_index.is_some() {
+            if let Some(window)=&self.window {
+                let size=window.inner_size();
+                if let Some(layout)=self.ui_layout((size.width.max(1),size.height.max(1)),ui_index.unwrap()) {
+                    if let Some(index)=layout.source(pos.0 as f32,pos.1 as f32) {
+                        let state=&self.machine.bus.ffta_dialogue;
+                        if state.town_layout || state.shop_layout || state.site_layout || state.extra.kind==gba_core::ffta_dialogue::PanelKind::Notice {
+                            let x=(index%480) as f32-120.;
+                            let y=(index/480) as f32;
+                            return gba_core::ffta_battle_mouse::aim(&mut self.machine.bus,x,y,confirm);
+                        }
+                        let bounds=if ui_index==Some(0) {gba_core::ffta_dialogue::panel_bounds(&state.pixels,&state.backing)}else{gba_core::ffta_dialogue::panel_bounds(&state.extra.pixels,&state.extra.backing)};
+                        if let Some(b)=bounds {
+                            let (x,y)=menu_panel_native(index,b,if state.town_layout || state.shop_layout {1.}else{state.style.length});
+                            return gba_core::ffta_battle_mouse::aim(&mut self.machine.bus,x,y,confirm);
+                        }
+                    }
+                    self.machine.bus.ffta_battle_mouse.cancel();
+                    return false;
+                }
+            }
+        }
+        if let Some((x,y))=self.window_to_frame(pos) {
+            let x=x as f32-gba_core::mem::extra()as f32;let y=y as f32-gba_core::mem::extra_y()as f32;
+            if self.game_mouse.scene(&self.machine.bus).is_some(){self.game_mouse.aim(&self.machine.bus,x,y,confirm)}
+            else{gba_core::ffta_battle_mouse::aim(&mut self.machine.bus,x,y,confirm)}
+        }else{self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();false}
+    }
+
+    fn choose_rom(&mut self)->bool {
+        let Some(path)=crate::rom_switch::pick(&self.sav_path)else{return false;};
+        let result=crate::rom_switch::validate(&path).and_then(|_| {
+            // Flush the current cartridge before the replacement process reads
+            // any save. A failed save or launch keeps this paused game alive.
+            if let Some(data)=self.machine.bus.save_data() {
+                write_sav(&self.sav_path,data).map_err(|e|format!("Cannot save the current game: {e}"))?;
+            }
+            crate::rom_switch::launch(&path,&self.sav_path)
+        });
+        match result {Ok(())=>true,Err(e)=>{crate::rom_switch::show_error(&e);false}}
+    }
+    fn ui_layout(&self,physical:(u32,u32),index:usize)->Option<screen::ui_layer::Layout> {
+        let state=&self.machine.bus.ffta_dialogue;
+        if index==1 {
+            if !state.separate || !state.extra.active() {return None;}
+            if state.extra.kind==gba_core::ffta_dialogue::PanelKind::Notice {
+                return Some(screen::ui_layer::Layout::centered_panel(physical,self.base_w(),state.style.scale,state.extra.bounds?));
+            }
+            let b=if state.extra.kind==gba_core::ffta_dialogue::PanelKind::Actions {gba_core::ffta_dialogue::panel_bounds(&state.extra.pixels,&state.extra.backing)?}else{gba_core::ffta_dialogue::pixel_bounds(&state.extra.pixels)?};
+            return Some(screen::ui_layer::Layout::at_corner(physical,self.base_w(),state.town_layout || b[0]+b[2]>=240,b[1]+b[3]>=160,state.style.scale,if state.town_layout {1.}else{state.style.length},b));
+        }
+        let (_,right)=state.layer()?;
+        if state.action_layout {
+            let b=gba_core::ffta_dialogue::panel_bounds(&state.pixels,&state.backing)?;
+            Some(screen::ui_layer::Layout::at_corner(physical,self.base_w(),false,true,state.style.scale,state.style.length,b))
+        } else if state.shop_layout || state.site_layout {
+            Some(screen::ui_layer::Layout::centered(physical,self.base_w(),state.style.scale))
+        } else if state.town_layout || state.shop_layout {
+            // One fixed native canvas: animated portraits/cursor highlights
+            // must never change the origin of the Pub UI or its mouse targets.
+            Some(pub_ui_layout(physical,self.base_w(),state.style.scale))
+        } else {
+            Some(screen::ui_layer::Layout::new_with_anchor(physical,self.base_w(),right,state.style.scale,
+                [state.style.offset_x,state.style.offset_y],state.vertical_anchor()))
+        }
+    }
+    fn ui_frame(&self,layout:screen::ui_layer::Layout,index:usize)->screen::ui_layer::Frame<'_> {
+        screen::ui_layer::Frame {pixels:if index==0 {&self.ui_pixels}else{&self.panel_pixels},
+            raw_world:if index==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
+            world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),
+            layout,world_view:self.view}
+    }
+
     /// Present `self.rgba` at the window's current size: the GPU grid/scaling
     /// pass when available, otherwise the software letterbox blit (still fully
     /// color-corrected, no grid). Cloning the `Arc` avoids borrowing
@@ -390,15 +802,33 @@ impl PlayApp {
         };
         let size = window.inner_size();
         let phys = (size.width.max(1), size.height.max(1));
-        let frame_dims = (wide_w() as u32, wide_h() as u32);
-        if let Some(p) = self.presenter.as_mut() {
-            match p.present(&self.rgba, frame_dims, phys, &self.grid_params, self.view) {
-                Ok(()) => return,
+        let frame_dims = if self.paused {
+            let (w, h) = self.menu_dimensions();
+            (w as u32, h as u32)
+        } else {
+            (wide_w() as u32, wide_h() as u32)
+        };
+        if let Some(mut p) = self.presenter.take() {
+            if !self.paused {
+                let layers=std::array::from_fn::<_,2,_>(|i|self.ui_layout(phys,i).map(|layout|self.ui_frame(layout,i)));
+                p.set_ui_layers(&layers);
+            } else {p.set_ui_layer(None);}
+            let mut grid = self.grid_params;
+            if self.paused {
+                grid.strength = 0.;
+                grid.scale_mode = 1;
+            }
+            match p.present(&self.rgba, frame_dims, phys, &grid, self.view) {
+                Ok(()) => {self.presenter=Some(p);return;},
                 Err(e) => {
-                    eprintln!("video: GPU presenter failed ({e}); basic scaling active");
+                    eprintln!("video: GPU presenter failed ({e}); CPU scaling active");
                     self.presenter = None;
                 }
             }
+        }
+        #[cfg(target_os = "linux")]
+        if self.presenter.is_none() && self.sb_surface.is_none() {
+            eprintln!("video: software presenter active; CPU scaling will be used");
         }
         self.present_software(&window, phys);
     }
@@ -407,10 +837,14 @@ impl PlayApp {
     /// correct letterbox of the visible crop into the window via softbuffer,
     /// matching the GPU presenter's centering. Lazily creates the surface.
     fn present_software(&mut self, window: &Arc<Window>, (w, h): (u32, u32)) {
+        let ui_layouts=std::array::from_fn::<_,2,_>(|i|if self.paused {None}else{self.ui_layout((w,h),i)});
         // Zoom crop, computed before `surf` borrows `self` mutably.
         let [vx0, vy0, vw, vh] = self.view;
-        let stride = wide_w() as usize;
-        let frame_h = wide_h() as usize;
+        let (stride, frame_h) = if self.paused {
+            self.menu_dimensions()
+        } else {
+            (wide_w(), wide_h())
+        };
         if self.sb_surface.is_none() {
             match softbuffer::Context::new(window.clone()) {
                 Ok(ctx) => match softbuffer::Surface::new(&ctx, window.clone()) {
@@ -451,19 +885,46 @@ impl PlayApp {
         let dh = (vh * scale) as u32;
         let ox = w.saturating_sub(dw) / 2;
         let oy = h.saturating_sub(dh) / 2;
-        for px in buffer.iter_mut() {
-            *px = 0;
-        }
-        for y in 0..dh.min(h) {
-            let sy = ((vy0 + (y as f32) / scale) as usize).min(frame_h - 1);
-            let drow = ((oy + y) * w) as usize;
-            let srow = sy * stride;
-            for x in 0..dw.min(w) {
-                let sx = ((vx0 + (x as f32) / scale) as usize).min(stride - 1);
-                let s = self.rgba[srow + sx];
-                buffer[drow + (ox + x) as usize] =
-                    (s[0] as u32) << 16 | (s[1] as u32) << 8 | s[2] as u32;
+        let draw_w = dw.min(w) as usize;
+        let draw_h = dh.min(h) as usize;
+        let ox = ox as usize;
+        let oy = oy as usize;
+        // Match the previous nearest-neighbor mapping while doing its float
+        // divisions once per output axis instead of once per output pixel.
+        let source_x: Vec<usize> = (0..draw_w)
+            .map(|x| ((vx0 + (x as f32) / scale) as usize).min(stride - 1))
+            .collect();
+        let source_y: Vec<usize> = (0..draw_h)
+            .map(|y| ((vy0 + (y as f32) / scale) as usize).min(frame_h - 1))
+            .collect();
+        let row_len = w as usize;
+        for (y, row) in buffer.chunks_exact_mut(row_len).enumerate() {
+            let Some(local_y) = y.checked_sub(oy).filter(|&y| y < draw_h) else {
+                row.fill(0);
+                continue;
+            };
+            row[..ox].fill(0);
+            let right = (ox + draw_w).min(row_len);
+            row[right..].fill(0);
+            let src = &self.rgba[source_y[local_y] * stride..][..stride];
+            for (pixel, &sx) in row[ox..right].iter_mut().zip(&source_x) {
+                let s = src[sx];
+                *pixel = (s[0] as u32) << 16 | (s[1] as u32) << 8 | s[2] as u32;
             }
+        }
+        for (i,layout) in ui_layouts.into_iter().enumerate() {if let Some(layout)=layout {
+            let ui=screen::ui_layer::Frame {pixels:if i==0 {&self.ui_pixels}else{&self.panel_pixels},raw_world:if i==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
+                world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),layout,world_view:self.view};
+            let x0=layout.rect[0].max(layout.clip[0]).max(0.) as usize;
+            let y0=layout.rect[1].max(layout.clip[1]).max(0.) as usize;
+            let x1=(layout.rect[0]+layout.rect[2]).min(w as f32).max(0.) as usize;
+            let y1=(layout.rect[1]+layout.rect[3]).min(h as f32).max(0.) as usize;
+            for y in y0..y1 {for x in x0..x1 {
+                if let Some(c)=ui.sample(x as f32+0.5,y as f32+0.5) {
+                    buffer[y*w as usize+x]=(c[0] as u32)<<16|(c[1] as u32)<<8|c[2] as u32;
+                }
+            }}
+        }
         }
         let _ = buffer.present();
     }
@@ -473,6 +934,10 @@ impl PlayApp {
     fn gather_input(&mut self) -> (u16, NavEdges) {
         // KEYINPUT is active-low.
         let mut keys = 0x3FFu16;
+        let mut pad_zoom_in = false;
+        let mut pad_zoom_out = false;
+        let mut pad_ff_held = false;
+        let mut pad_ff_toggle = false;
         for (code, bit) in &self.key_pairs {
             if self.held.contains(code) {
                 keys &= !bit;
@@ -489,61 +954,533 @@ impl PlayApp {
             cancel: self.held.contains(&KeyCode::Escape),
             open: self.held.contains(&KeyCode::Escape),
         };
-        if let Some(g) = self.pad.as_mut() {
-            while g.next_event().is_some() {}
-            let chosen = g
-                .gamepads()
-                .find(|(_, gp)| gp.name() == self.icfg.gamepad_name)
-                .or_else(|| g.gamepads().next());
-            if let Some((_, gp)) = chosen {
-                let dz = self.icfg.stick_deadzone;
-                for b in input_config::Button::ALL {
-                    if pad_pressed(&gp, &self.icfg.pads[b.index()], dz) {
-                        keys &= !b.bit();
+        let capture_pad = matches!(
+            self.menu.capturing(),
+            Some(
+                menu::Bind::Gamepad(_)
+                    | menu::Bind::GamepadZoomIn
+                    | menu::Bind::GamepadZoomOut
+                    | menu::Bind::GamepadFastForward
+                    | menu::Bind::GamepadFastForwardToggle
+            )
+        );
+        self.pending_pad = None;
+        let mut standard_selected = false;
+        let activity_threshold = self.icfg.stick_deadzone.max(0.12);
+        #[cfg(windows)]
+        let native_xinput = self.xinput.is_some();
+        #[cfg(not(windows))]
+        let native_xinput = false;
+        let mut gilrs_activity = false;
+        let mut gilrs_active_name = None;
+        let mut gilrs_active_layout = None;
+
+        // Pump every gilrs device, not only the one selected when the game
+        // started. Any deliberate button/axis activity makes that controller
+        // the active one immediately; this also handles hot-swapping pads.
+        if !native_xinput {
+            if let Some(g) = self.pad.as_mut() {
+                while let Some(event) = g.next_event() {
+                    #[cfg(target_os = "linux")]
+                    if matches!(event.event, gilrs::EventType::Disconnected) {
+                        self.linux_pads.remove(&event.id);
+                        if self.active_controller == Some(ActiveController::Gilrs(event.id)) {
+                            self.active_controller = None;
+                        }
+                    }
+                    #[cfg(not(target_os = "linux"))]
+                    {
+                    let gesture = self.gilrs_gestures.entry(event.id).or_default();
+                    gesture.arm_capture(capture_pad && !self.directinput_only);
+                    for (token, pressed) in gilrs_control_transitions(event.event) {
+                        if let Some(captured) = gesture.event(&token, pressed) {
+                            if self.pending_pad.is_none() {
+                                self.pending_pad = Some(captured);
+                            }
+                        }
+                    }
+                    if matches!(event.event, gilrs::EventType::Disconnected) {
+                        self.gilrs_gestures.remove(&event.id);
+                    }
+                    match event.event {
+                        gilrs::EventType::Disconnected => {
+                            if self.active_controller == Some(ActiveController::Gilrs(event.id)) {
+                                self.active_controller = None;
+                            }
+                        }
+                        gilrs::EventType::ButtonPressed(button, _)
+                        | gilrs::EventType::ButtonRepeated(button, _)
+                            if button != gilrs::Button::Unknown =>
+                        {
+                            self.active_controller = Some(ActiveController::Gilrs(event.id));
+                            gilrs_activity = true;
+                            let gamepad = g.gamepad(event.id);
+                            if gamepad.is_connected() {
+                                gilrs_active_name = Some(gamepad.name().to_owned());
+                                gilrs_active_layout =
+                                    Some(input_config::GamepadLayout::detect_with_vendor(
+                                        gamepad.name(),
+                                        gamepad.vendor_id(),
+                                    ));
+                            }
+                        }
+                        gilrs::EventType::ButtonReleased(button, _)
+                            if button != gilrs::Button::Unknown => {}
+                        gilrs::EventType::ButtonChanged(button, value, _)
+                            if button != gilrs::Button::Unknown && value >= activity_threshold =>
+                        {
+                            self.active_controller = Some(ActiveController::Gilrs(event.id));
+                            gilrs_activity = true;
+                            let gamepad = g.gamepad(event.id);
+                            if gamepad.is_connected() {
+                                gilrs_active_name = Some(gamepad.name().to_owned());
+                                gilrs_active_layout =
+                                    Some(input_config::GamepadLayout::detect_with_vendor(
+                                        gamepad.name(),
+                                        gamepad.vendor_id(),
+                                    ));
+                            }
+                        }
+                        gilrs::EventType::AxisChanged(_, value, _)
+                            if value.abs() >= activity_threshold =>
+                        {
+                            self.active_controller = Some(ActiveController::Gilrs(event.id));
+                            gilrs_activity = true;
+                            let gamepad = g.gamepad(event.id);
+                            if gamepad.is_connected() {
+                                gilrs_active_name = Some(gamepad.name().to_owned());
+                                gilrs_active_layout =
+                                    Some(input_config::GamepadLayout::detect_with_vendor(
+                                        gamepad.name(),
+                                        gamepad.vendor_id(),
+                                    ));
+                            }
+                        }
+                        _ => {}
+                    }
                     }
                 }
-                // A configured stick drives the GBA d-pad per dpad_source (the
-                // physical d-pad still works through the bindings above). Y is
-                // up-positive in gilrs.
-                let src = self.icfg.dpad_source;
-                if src.uses_left_stick() || src.uses_right_stick() {
-                    let (ax, ay) = if src.uses_right_stick() {
-                        (gilrs::Axis::RightStickX, gilrs::Axis::RightStickY)
-                    } else {
-                        (gilrs::Axis::LeftStickX, gilrs::Axis::LeftStickY)
-                    };
-                    let (x, y) = (gp.value(ax), gp.value(ay));
-                    if x > dz {
-                        keys &= !(1 << 4);
-                    } // Right
-                    if x < -dz {
-                        keys &= !(1 << 5);
-                    } // Left
-                    if y > dz {
-                        keys &= !(1 << 6);
-                    } // Up
-                    if y < -dz {
-                        keys &= !(1 << 7);
-                    } // Down
+                #[cfg(target_os = "linux")]
+                {
+                    // Events update Gilrs' cached device state only. Consume a
+                    // single complete snapshot, never Pressed/Changed/Repeated
+                    // variants independently for the same physical press.
+                    let now = std::time::Instant::now();
+                    let connected: Vec<_> = g.gamepads().map(|(id,_)|id).collect();
+                    self.linux_pads.retain(|id,_|connected.contains(id));
+                    for (id, gamepad) in g.gamepads() {
+                        let pad=self.linux_pads.entry(id).or_default();
+                        let snapshot=crate::linux_pad::Snapshot::read(&gamepad,self.icfg.stick_deadzone,pad.state);
+                        let update=pad.poll(snapshot,capture_pad,now);
+                        if self.pending_pad.is_none() {
+                            self.pending_pad=update.capture.map(str::to_owned);
+                        }
+                        if update.activity {
+                            self.active_controller=Some(ActiveController::Gilrs(id));
+                            gilrs_activity=true;
+                            gilrs_active_name=Some(gamepad.name().to_owned());
+                            gilrs_active_layout=Some(input_config::GamepadLayout::Xbox);
+                        }
+                    }
                 }
-                // Menu nav from the pad: d-pad and sticks move the cursor;
-                // South confirms, East backs out. These steer the menu only
-                // while it is open, so reusing the gameplay face buttons here
-                // is safe.
-                use gilrs::{Axis, Button as Gb};
-                nav.up |= gp.is_pressed(Gb::DPadUp) || gp.value(Axis::LeftStickY) > dz;
-                nav.down |= gp.is_pressed(Gb::DPadDown) || gp.value(Axis::LeftStickY) < -dz;
-                nav.left |= gp.is_pressed(Gb::DPadLeft) || gp.value(Axis::LeftStickX) < -dz;
-                nav.right |= gp.is_pressed(Gb::DPadRight) || gp.value(Axis::LeftStickX) > dz;
-                nav.confirm |= gp.is_pressed(Gb::South);
-                nav.cancel |= gp.is_pressed(Gb::East);
-                // Opening from the pad uses the guide/Mode button — the one
-                // control no GBA button maps to. (Keyboard Escape always works
-                // too.) A chord like Start+Select is deliberately NOT a
-                // default: those are real in-game buttons.
-                nav.open |= gp.is_pressed(Gb::Mode);
             }
         }
+        if !native_xinput {
+            if let Some(name) = gilrs_active_name {
+                let layout = gilrs_active_layout
+                    .unwrap_or_else(|| input_config::GamepadLayout::detect(&name));
+                if self.icfg.gamepad_name != name
+                    || self.icfg.device != input_config::Device::Gamepad
+                    || self.icfg.gamepad_layout != layout
+                {
+                    self.icfg.gamepad_name = name;
+                    self.icfg.device = input_config::Device::Gamepad;
+                    self.icfg.gamepad_layout = layout;
+                    if let Err(error) = self.icfg.save() {
+                        eprintln!("input: could not save active controller ({error})");
+                    }
+                }
+            }
+        }
+
+        // DirectInput has no event queue, so poll each attached pad and use
+        // whichever currently reports intentional activity. This avoids
+        // getting stuck on a saved controller name after the user swaps pads.
+        let direct_states = if native_xinput {
+            Vec::new()
+        } else {
+            self.directinput
+                .as_mut()
+                .map(|direct| direct.poll_all())
+                .unwrap_or_default()
+        };
+        let direct_activity = direct_states
+            .iter()
+            .find(|pad| pad.has_activity(activity_threshold))
+            .map(|pad| (pad.name.clone(), pad.activity_tokens(activity_threshold)));
+        if let Some((name, tokens)) = direct_activity.as_ref() {
+            let new_activity =
+                self.last_direct_activity.as_ref() != Some(&(name.clone(), tokens.clone()));
+            if !gilrs_activity && new_activity {
+                self.active_controller = Some(ActiveController::DirectInput);
+                let layout = input_config::GamepadLayout::detect(name);
+                if self.icfg.gamepad_name != *name
+                    || self.icfg.device != input_config::Device::Gamepad
+                    || self.icfg.gamepad_layout != layout
+                {
+                    self.icfg.gamepad_name = name.clone();
+                    self.icfg.device = input_config::Device::Gamepad;
+                    self.icfg.gamepad_layout = layout;
+                    if let Err(error) = self.icfg.save() {
+                        eprintln!("input: could not save active controller ({error})");
+                    }
+                }
+            }
+        }
+        if self.last_direct_activity != direct_activity {
+            self.last_direct_activity = direct_activity;
+        }
+        if direct_states.is_empty()
+            && self.active_controller == Some(ActiveController::DirectInput)
+            && !self.directinput_only
+        {
+            self.active_controller = None;
+            self.last_direct_activity = None;
+        }
+
+        let direct_requested = native_xinput
+            || self.directinput_only
+            || match self.active_controller {
+                Some(ActiveController::DirectInput) => true,
+                Some(ActiveController::Gilrs(_)) => false,
+                None => {
+                    self.directinput.is_some()
+                        && self.icfg.gamepad_name.starts_with("DirectInput:")
+                        && !direct_states.is_empty()
+                }
+            };
+        if direct_requested {
+            // Only the selected backend can own a binding; never let a
+            // parallel Gilrs event for the same physical pad win the race.
+            self.pending_pad = None;
+        }
+        for pad in &direct_states {
+            let gesture = self.direct_gestures.entry(pad.name.clone()).or_default();
+            gesture.arm_capture(capture_pad && direct_requested);
+            let captured = gesture.snapshot(pad.capture_tokens());
+            if direct_requested && self.pending_pad.is_none() {
+                self.pending_pad = captured;
+            }
+        }
+        #[cfg(windows)]
+        if native_xinput {
+            let (current, previous, capture_locked) = {
+                let backend = self.xinput.as_mut().expect("native XInput selected");
+                let current = backend.poll();
+                let previous = backend.previous;
+                backend.previous = current;
+                (current, previous, backend.capture_locked)
+            };
+            let mut activity_slot = None;
+            for slot in 0..4 {
+                if let Some(state) = current[slot] {
+                    if !xinput_tokens(state, activity_threshold).is_empty()
+                        && current[slot] != previous[slot]
+                    {
+                        activity_slot = Some(slot);
+                    }
+                }
+            }
+            let active_slot = activity_slot
+                .or_else(|| {
+                    self.icfg
+                        .gamepad_name
+                        .strip_prefix("XInput Controller ")
+                        .and_then(|n| n.parse::<usize>().ok())
+                        .and_then(|n| n.checked_sub(1))
+                        .filter(|&n| n < 4 && current[n].is_some())
+                })
+                .or_else(|| current.iter().position(Option::is_some));
+            if let Some(slot) = activity_slot.or(active_slot) {
+                let name = format!("XInput Controller {}", slot + 1);
+                if self.icfg.gamepad_name != name
+                    || self.icfg.device != input_config::Device::Gamepad
+                    || self.icfg.gamepad_layout != input_config::GamepadLayout::Xbox
+                {
+                    self.icfg.gamepad_name = name;
+                    self.icfg.device = input_config::Device::Gamepad;
+                    self.icfg.gamepad_layout = input_config::GamepadLayout::Xbox;
+                    if let Err(error) = self.icfg.save() {
+                        eprintln!("input: could not save active XInput controller ({error})");
+                    }
+                }
+            }
+            let all_tokens: Vec<(usize, String)> = current
+                .iter()
+                .enumerate()
+                .filter_map(|(slot, state)| state.map(|s| (slot, s)))
+                .flat_map(|(slot, state)| {
+                    xinput_tokens(state, activity_threshold)
+                        .into_iter()
+                        .map(move |token| (slot, token))
+                })
+                .collect();
+            let any_down = !all_tokens.is_empty();
+            let mut captured = None;
+            if capture_pad && !capture_locked {
+                for slot in 0..4 {
+                    if let Some(state) = current[slot] {
+                        if let Some(token) =
+                            xinput_new_press(previous[slot], state, activity_threshold)
+                        {
+                            captured = Some(token);
+                            break;
+                        }
+                    }
+                }
+            }
+            if let Some(token) = captured {
+                self.pending_pad = Some(token);
+                if let Some(backend) = self.xinput.as_mut() {
+                    backend.capture_locked = true;
+                }
+            } else if capture_locked && !any_down {
+                if let Some(backend) = self.xinput.as_mut() {
+                    backend.capture_locked = false;
+                }
+            }
+            if let Some(slot) = active_slot {
+                if let Some(state) = current[slot] {
+                    let blocked =
+                        capture_locked || self.xinput.as_ref().is_some_and(|x| x.capture_locked);
+                    if !blocked {
+                        let dz = self.icfg.stick_deadzone;
+                        let pressed = |name: &str| xinput_pressed(state, name, dz);
+                        pad_zoom_in = pressed(&self.icfg.zoom_in_pad);
+                        pad_zoom_out = pressed(&self.icfg.zoom_out_pad);
+                        pad_ff_held = pressed(&self.icfg.ff_pad);
+                        pad_ff_toggle = pressed(&self.icfg.ff_toggle_pad);
+                        for b in input_config::Button::ALL {
+                            if pressed(&self.icfg.pads[b.index()]) {
+                                keys &= !b.bit();
+                            }
+                        }
+                        let src = self.icfg.dpad_source;
+                        let (sx, sy) = if src.uses_right_stick() {
+                            (state.gamepad.right_x, state.gamepad.right_y)
+                        } else {
+                            (state.gamepad.left_x, state.gamepad.left_y)
+                        };
+                        let dz_axis = (dz.clamp(0.0, 1.0) * i16::MAX as f32) as i16;
+                        if (src.uses_left_stick() || src.uses_right_stick()) && sx > dz_axis {
+                            keys &= !(1 << 4);
+                        }
+                        if (src.uses_left_stick() || src.uses_right_stick()) && sx < -dz_axis {
+                            keys &= !(1 << 5);
+                        }
+                        if (src.uses_left_stick() || src.uses_right_stick()) && sy > dz_axis {
+                            keys &= !(1 << 6);
+                        }
+                        if (src.uses_left_stick() || src.uses_right_stick()) && sy < -dz_axis {
+                            keys &= !(1 << 7);
+                        }
+                        nav.up |= pressed("DPadUp") || state.gamepad.left_y > dz_axis;
+                        nav.down |= pressed("DPadDown") || state.gamepad.left_y < -dz_axis;
+                        nav.left |= pressed("DPadLeft") || state.gamepad.left_x < -dz_axis;
+                        nav.right |= pressed("DPadRight") || state.gamepad.left_x > dz_axis;
+                        nav.confirm |= pressed("South");
+                        nav.cancel |= pressed("East");
+                        nav.open |= pressed("Mode") || (pressed("Start") && pressed("Select"));
+                    }
+                }
+            }
+        }
+        if let Some(g) = self.pad.as_mut().filter(|_| !direct_requested) {
+            let active = match self.active_controller {
+                Some(ActiveController::Gilrs(id)) => {
+                    let gamepad = g.gamepad(id);
+                    gamepad.is_connected().then_some((id, gamepad))
+                }
+                _ => None,
+            };
+            let chosen = active
+                .or_else(|| {
+                    g.gamepads()
+                        .find(|(_, gp)| gp.name() == self.icfg.gamepad_name)
+                })
+                .or_else(|| g.gamepads().next());
+            if let Some((id, gp)) = chosen {
+                standard_selected = true;
+                #[cfg(not(target_os = "linux"))]
+                let pad_blocked = self
+                    .gilrs_gestures
+                    .get(&id)
+                    .is_some_and(input_config::PadGesture::blocked);
+                #[cfg(target_os = "linux")]
+                let pad_blocked=self.linux_pads.get(&id).is_some_and(crate::linux_pad::Pad::blocked);
+                #[cfg(not(target_os = "linux"))]
+                let dz = self.icfg.stick_deadzone;
+                if !pad_blocked {
+                    #[cfg(not(target_os = "linux"))]
+                    let pressed=|name:&str|pad_pressed(&gp,name,dz);
+                    #[cfg(target_os = "linux")]
+                    let pressed=|name:&str|self.linux_pads.get(&id).is_some_and(|pad|pad.state.pressed(name));
+                    pad_zoom_in = pressed(&self.icfg.zoom_in_pad);
+                    pad_zoom_out = pressed(&self.icfg.zoom_out_pad);
+                    pad_ff_held = pressed(&self.icfg.ff_pad);
+                    pad_ff_toggle = pressed(&self.icfg.ff_toggle_pad);
+                    for b in input_config::Button::ALL {
+                        if pressed(&self.icfg.pads[b.index()]) {
+                            keys &= !b.bit();
+                        }
+                    }
+                    // A configured stick drives the GBA d-pad per dpad_source (the
+                    // physical d-pad still works through the bindings above). Y is
+                    // up-positive in gilrs.
+                    let src = self.icfg.dpad_source;
+                    if src.uses_left_stick() || src.uses_right_stick() {
+                        #[cfg(target_os = "linux")]
+                        {
+                            let directions=if src.uses_right_stick(){
+                                [("RightStickRight",4),("RightStickLeft",5),("RightStickUp",6),("RightStickDown",7)]
+                            }else{
+                                [("LeftStickRight",4),("LeftStickLeft",5),("LeftStickUp",6),("LeftStickDown",7)]
+                            };
+                            for (token,bit) in directions {
+                                if pressed(token){keys &= !(1<<bit);}
+                            }
+                        }
+                        #[cfg(not(target_os = "linux"))]
+                        {
+                        let (ax, ay) = if src.uses_right_stick() {
+                            (gilrs::Axis::RightStickX, gilrs::Axis::RightStickY)
+                        } else {
+                            (gilrs::Axis::LeftStickX, gilrs::Axis::LeftStickY)
+                        };
+                        let (x, y) = (gp.value(ax), gp.value(ay));
+                        if x > dz {
+                            keys &= !(1 << 4);
+                        } // Right
+                        if x < -dz {
+                            keys &= !(1 << 5);
+                        } // Left
+                        if y > dz {
+                            keys &= !(1 << 6);
+                        } // Up
+                        if y < -dz {
+                            keys &= !(1 << 7);
+                        } // Down
+                        }
+                    }
+                    // Menu nav from the pad: d-pad and sticks move the cursor;
+                    // South confirms, East backs out. These steer the menu only
+                    // while it is open, so reusing the gameplay face buttons here
+                    // is safe.
+                    #[cfg(not(target_os = "linux"))]
+                    use gilrs::{Axis, Button as Gb};
+                    #[cfg(not(target_os = "linux"))]
+                    let pad_nav = NavEdges {
+                        up: gp.is_pressed(Gb::DPadUp) || gp.value(Axis::LeftStickY) > dz,
+                        down: gp.is_pressed(Gb::DPadDown) || gp.value(Axis::LeftStickY) < -dz,
+                        left: gp.is_pressed(Gb::DPadLeft) || gp.value(Axis::LeftStickX) < -dz,
+                        right: gp.is_pressed(Gb::DPadRight) || gp.value(Axis::LeftStickX) > dz,
+                        confirm: gp.is_pressed(Gb::South),
+                        cancel: gp.is_pressed(Gb::East),
+                        open: gp.is_pressed(Gb::Mode),
+                    };
+                    #[cfg(target_os = "linux")]
+                    let pad_nav=NavEdges {
+                        up:pressed("DPadUp")||pressed("LeftStickUp"),
+                        down:pressed("DPadDown")||pressed("LeftStickDown"),
+                        left:pressed("DPadLeft")||pressed("LeftStickLeft"),
+                        right:pressed("DPadRight")||pressed("LeftStickRight"),
+                        confirm:pressed("South"),cancel:pressed("East"),
+                        open:pressed("Mode")||(pressed("Start")&&pressed("Select")),
+                    };
+                    nav.up |= pad_nav.up;
+                    nav.down |= pad_nav.down;
+                    nav.left |= pad_nav.left;
+                    nav.right |= pad_nav.right;
+                    nav.confirm |= pad_nav.confirm;
+                    nav.cancel |= pad_nav.cancel;
+                    // Linux also accepts Start+Back when the desktop/Steam
+                    // intercepts Guide. Keyboard Escape remains available.
+                    nav.open |= pad_nav.open;
+                }
+            }
+        }
+        if !standard_selected {
+            let active = direct_states
+                .iter()
+                .find(|pad| pad.has_activity(activity_threshold));
+            let preferred = direct_states
+                .iter()
+                .find(|pad| pad.name == self.icfg.gamepad_name);
+            if let Some(gp) = active.or(preferred).or_else(|| direct_states.first()) {
+                let pad_blocked = self
+                    .direct_gestures
+                    .get(&gp.name)
+                    .is_some_and(input_config::PadGesture::blocked);
+                let dz = self.icfg.stick_deadzone;
+                if !pad_blocked {
+                    pad_zoom_in = gp.pressed(&self.icfg.zoom_in_pad, dz);
+                    pad_zoom_out = gp.pressed(&self.icfg.zoom_out_pad, dz);
+                    pad_ff_held = gp.pressed(&self.icfg.ff_pad, dz);
+                    pad_ff_toggle = gp.pressed(&self.icfg.ff_toggle_pad, dz);
+                    for button in input_config::Button::ALL {
+                        let pressed = gp.active(
+                            &self.icfg.pads[button.index()],
+                            self.icfg.dpad_source,
+                            dz,
+                            button,
+                        );
+                        if pressed {
+                            keys &= !button.bit();
+                        }
+                    }
+                    let pad_nav = NavEdges {
+                        up: gp.pressed("DPadUp", dz) || gp.axes[1] > dz,
+                        down: gp.pressed("DPadDown", dz) || gp.axes[1] < -dz,
+                        left: gp.pressed("DPadLeft", dz) || gp.axes[0] < -dz,
+                        right: gp.pressed("DPadRight", dz) || gp.axes[0] > dz,
+                        confirm: gp.pressed("South", dz),
+                        cancel: gp.pressed("East", dz),
+                        open: gp.pressed("Mode", dz),
+                    };
+                    nav.up |= pad_nav.up;
+                    nav.down |= pad_nav.down;
+                    nav.left |= pad_nav.left;
+                    nav.right |= pad_nav.right;
+                    nav.confirm |= pad_nav.confirm;
+                    nav.cancel |= pad_nav.cancel;
+                    nav.open |= pad_nav.open;
+                }
+            }
+        }
+        if capture_pad {
+            // Remapping is an exclusive input mode. Do not let the physical
+            // button being captured also control the game or host zoom.
+            // Keep nav's actual held state so nav_prev is primed; clearing it
+            // here makes a still-held confirm button look newly pressed on
+            // the first frame after capture ends.
+            keys = 0x3FF;
+            pad_zoom_in = false;
+            pad_zoom_out = false;
+            pad_ff_held = false;
+            pad_ff_toggle = false;
+        }
+        if !self.paused && pad_zoom_in && !self.pad_zoom_prev.0 {
+            self.zoom_by(-1);
+        }
+        if !self.paused && pad_zoom_out && !self.pad_zoom_prev.1 {
+            self.zoom_by(1);
+        }
+        self.pad_zoom_prev = (pad_zoom_in, pad_zoom_out);
+        if !self.paused && pad_ff_toggle && !self.pad_ff_toggle_prev {
+            self.ff_latched = !self.ff_latched;
+        }
+        self.pad_ff_toggle_prev = pad_ff_toggle;
+        self.pad_ff_held = pad_ff_held;
         (keys, nav)
     }
 
@@ -553,7 +1490,7 @@ impl PlayApp {
         let pairs: Vec<(KeyCode, u16)> = input_config::Button::ALL
             .iter()
             .map(|b| {
-                let key = winit_key(&self.icfg.keys[b.index()])
+                let key = winit_key(&self.icfg.active_keys()[b.index()])
                     .unwrap_or_else(|| winit_key(&defaults.keys[b.index()]).unwrap());
                 (key, b.bit())
             })
@@ -561,14 +1498,31 @@ impl PlayApp {
         self.key_pairs = pairs;
     }
 
-    /// Enter/leave fast forward. Audio is muted and the rings flushed on both
-    /// edges (the music sequencer advances with the game, so it can't play at
-    /// normal speed while frames run faster); on exit the rings re-prime.
-    fn set_fast_forward(&mut self, on: bool) {
+    /// Change fast-forward activation or audio speed. Flush stale audio on
+    /// transitions and re-prime when returning to normal play.
+    fn set_fast_forward(&mut self, on: bool, speed: u32) {
         self.ff_active = on;
+        self.ff_audio_active = self.av.ff_audio.clone();
         {
             let mut st = self.streams.lock().unwrap();
-            st.muted = on;
+            st.muted = on && self.av.ff_audio == "silent";
+            st.playback_speed = if on && self.av.ff_audio == "fast" {
+                speed as f64
+            } else {
+                1.0
+            };
+            st.normal_audio = None;
+            if on && self.av.ff_audio == "normal" {
+                match super::ff_audio::NormalAudio::new() {
+                    Ok(queue) => st.normal_audio = Some(queue),
+                    Err(error) => {
+                        eprintln!(
+                            "audio: cannot create normal-speed backlog ({error}); muting fast-forward audio"
+                        );
+                        st.muted = true;
+                    }
+                }
+            }
             st.mixed.clear();
             st.psg.clear();
             st.hle.clear();
@@ -591,6 +1545,16 @@ impl PlayApp {
         // Apply a pending zoom change before the frame is emulated, so the
         // core renders (and we read back) the size the zoom needs.
         self.sync_view();
+        let keys=self.game_mouse.keys(&mut self.machine.bus,self.game_keys);
+        let keys=gba_core::ffta_battle_mouse::keys(&mut self.machine.bus,keys);
+        self.machine.bus.keys=keys;
+        if let Some(index)=self.machine.bus.ffta_battle_mouse.take_event(){if let Some((file,_))=&mut self.record{use std::io::Write;let _=writeln!(file,"{} mouse:{index}",self.machine.bus.frames);}}
+        if let Some(index)=self.game_mouse.take_selection_event() {if let Some((file,_))=&mut self.record {
+            use std::io::Write;let _=writeln!(file,"{} mouse:{index}",self.machine.bus.frames);
+        }}
+        if let Some((file,last))=&mut self.record {if keys!=*last {
+            use std::io::Write;let _=writeln!(file,"{} {keys:03x}",self.machine.bus.frames);*last=keys;
+        }}
         let emu_t0 = Instant::now();
         match &self.native {
             Some((_lib, table)) => {
@@ -601,10 +1565,27 @@ impl PlayApp {
             }
             None => self.machine.run_frame(5_000_000),
         }
+        gba_core::ffta_sprites::trace_frame(&self.machine.bus);
+        if let Some((pixels,_))=self.machine.bus.ffta_dialogue.layer() {
+            self.ui_pixels.resize(pixels.len(),[0;4]);
+            let state=&self.machine.bus.ffta_dialogue;
+            if state.action_layout {
+                gba_core::ffta_dialogue::pack_panel(pixels,&state.backing,state.style.length,false,&mut self.ui_pixels);
+            } else if state.town_layout || state.shop_layout {
+                gba_core::ffta_dialogue::pack_panel(pixels,&[],1.,true,&mut self.ui_pixels);
+            } else {for (out,pixel) in self.ui_pixels.iter_mut().zip(pixels) {*out=pixel.packed();}}
+        } else {self.ui_pixels.clear();}
+        let extra=&self.machine.bus.ffta_dialogue.extra;
+        if self.machine.bus.ffta_dialogue.separate && extra.active() {
+            self.panel_pixels.resize(extra.pixels.len(),[0;4]);
+            let b=gba_core::ffta_dialogue::panel_bounds(&extra.pixels,&extra.backing).unwrap_or([0;4]);
+            let state=&self.machine.bus.ffta_dialogue;
+            gba_core::ffta_dialogue::pack_panel(&extra.pixels,&extra.backing,if state.town_layout || extra.kind==gba_core::ffta_dialogue::PanelKind::Notice {1.}else{state.style.length},state.town_layout || b[0]+b[2]>=240,&mut self.panel_pixels);
+        } else {self.panel_pixels.clear();}
         // Advance the screen's temporal response once per EMULATED frame —
         // never per presented frame, or flicker-transparency titles lock onto
         // one phase (the classic parity bug).
-        let wf = &self.machine.bus.wide_framebuffer[..wide_w() * wide_h()];
+        let wf = display_frame(&self.machine.bus, &mut self.padded_frame);
         self.temporal.push(wf, &self.lut);
 
         // Realtime alarm: the frame budget is 16.7 ms. If smoothed emulation
@@ -688,7 +1669,25 @@ impl PlayApp {
     /// can't overflow into permanent DEGRADED spam.
     fn handoff_audio(&mut self) {
         let bus = &mut self.machine.bus;
-        if self.stream.is_none() || self.ff_active {
+        if self.stream.is_none() || (self.ff_active && self.av.ff_audio == "silent") {
+            bus.audio_buf.clear();
+            bus.psg_tap.clear();
+            bus.hle_tap.clear();
+            bus.fifo_tap[0].clear();
+            bus.fifo_tap[1].clear();
+            return;
+        }
+        if self.ff_active && self.av.ff_audio == "normal" {
+            let mut st = self.streams.lock().unwrap();
+            if let Some(queue) = st.normal_audio.as_mut() {
+                if let Err(error) = queue.push(&bus.audio_buf) {
+                    eprintln!(
+                        "audio: normal-speed backlog write failed ({error}); muting fast-forward audio"
+                    );
+                    st.normal_audio = None;
+                    st.muted = true;
+                }
+            }
             bus.audio_buf.clear();
             bus.psg_tap.clear();
             bus.hle_tap.clear();
@@ -698,12 +1697,13 @@ impl PlayApp {
         }
         let cnt_h = bus.read16(0x0400_0082);
         let mut st = self.streams.lock().unwrap();
+        let audio_capacity = 65536 * st.playback_speed.max(1.0) as usize;
         st.route = [(cnt_h >> 8 & 3) as u8, (cnt_h >> 12 & 3) as u8];
         st.vol_half = [cnt_h & 4 == 0, cnt_h & 8 == 0];
         // Faithful ring: always produced (the menu may crossfade to it at any
         // moment), so it must always be primed.
         for pair in bus.audio_buf.chunks_exact(2) {
-            if st.mixed.len() < 65536 {
+            if st.mixed.len() < audio_capacity {
                 st.mixed.push_back(pair[0]);
                 st.mixed.push_back(pair[1]);
             } else {
@@ -714,7 +1714,7 @@ impl PlayApp {
         // Enhanced rings: also always produced (tap_channels is on), so the
         // enhanced path stays warm for a live switch.
         for pair in bus.psg_tap.chunks_exact(2) {
-            if st.psg.len() < 65536 {
+            if st.psg.len() < audio_capacity {
                 st.psg.push_back(pair[0] as f32 / 32768.0);
                 st.psg.push_back(pair[1] as f32 / 32768.0);
             } else {
@@ -748,7 +1748,7 @@ impl PlayApp {
         // pile up (drop spam) nor leave stale audio for the switchover.
         if live {
             for pair in bus.hle_tap.chunks_exact(2) {
-                if st.hle.len() < 65536 {
+                if st.hle.len() < audio_capacity {
                     st.hle.push_back(pair[0]);
                     st.hle.push_back(pair[1]);
                 } else {
@@ -769,7 +1769,7 @@ impl PlayApp {
         for f in 0..2 {
             let events = std::mem::take(&mut bus.fifo_tap[f]);
             for e in events {
-                if st.fifo[f].len() < 32768 {
+                if st.fifo[f].len() < audio_capacity / 2 {
                     st.fifo[f].push_back(e);
                 } else {
                     st.drops += 1;
@@ -854,6 +1854,12 @@ impl ApplicationHandler for PlayApp {
                 return;
             }
         };
+        if let Ok(image)=image::load_from_memory(include_bytes!("../../../assets/cursor.png")) {
+            let image=image.into_rgba8();
+            if let Ok(source)=winit::window::CustomCursor::from_rgba(image.into_raw(),32,40,2,2) {
+                window.set_cursor(event_loop.create_custom_cursor(source));
+            }
+        }
         // The texture is allocated for the largest frame; each present uploads
         // only the current (zoom-dependent) frame size and crop.
         self.presenter = match screen::present::Presenter::new(
@@ -865,7 +1871,7 @@ impl ApplicationHandler for PlayApp {
         ) {
             Ok(p) => Some(p),
             Err(e) => {
-                eprintln!("video: GPU presenter unavailable ({e}); basic scaling active");
+                eprintln!("video: GPU presenter unavailable ({e}); CPU scaling active");
                 None
             }
         };
@@ -877,23 +1883,37 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn window_event(&mut self, event_loop: &ActiveEventLoop, _id: WindowId, event: WindowEvent) {
+        self.menu_dirty = true;
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
             // Lost focus: a key held during alt-tab might never deliver its
             // release, so drop the held set defensively (no stuck inputs).
-            WindowEvent::Focused(false) => self.held.clear(),
+            WindowEvent::Focused(false) => {self.held.clear();self.game_keys=0x3ff;self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();},
             WindowEvent::KeyboardInput {
                 event:
                     KeyEvent {
                         physical_key: PhysicalKey::Code(code),
                         state,
                         repeat,
+                        text,
                         ..
                     },
                 ..
             } => match state {
                 ElementState::Pressed => {
+                    if !self.paused && self.game_mouse.is_name_input(&self.machine.bus) {
+                        let consumed=match code {
+                            KeyCode::Backspace=>self.game_mouse.name_command(&self.machine.bus,false),
+                            KeyCode::Enter|KeyCode::NumpadEnter=>self.game_mouse.name_command(&self.machine.bus,true),
+                            _=>text.as_ref().is_some_and(|t|self.game_mouse.type_text(&self.machine.bus,t.as_str())),
+                        };
+                        if consumed {self.held.remove(&code);return;}
+                    }
                     self.held.insert(code);
+                    if !self.paused && !repeat && winit_key(&self.icfg.ff_toggle_key) == Some(code)
+                    {
+                        self.ff_latched = !self.ff_latched;
+                    }
                     if self.paused && !repeat {
                         self.pending_key = Some(code);
                     }
@@ -911,13 +1931,19 @@ impl ApplicationHandler for PlayApp {
                             w.set_fullscreen(next);
                         }
                     }
-                    // Zoom: + zooms in, - zooms out. The aspect ratio never
-                    // changes and x1 (the starting view) is the closest zoom.
-                    // Auto-repeat is allowed so holding the key keeps zooming.
-                    match code {
-                        KeyCode::Equal | KeyCode::NumpadAdd => self.zoom_by(-1),
-                        KeyCode::Minus | KeyCode::NumpadSubtract => self.zoom_by(1),
-                        _ => {}
+                    if !self.paused {
+                        // Zoom is gameplay-only; prevent it changing behind menus.
+                        match code {
+                            _ if key_name(code).is_some_and(|n| n == self.icfg.zoom_in_key) => {
+                                self.zoom_by(-1)
+                            }
+                            _ if key_name(code).is_some_and(|n| n == self.icfg.zoom_out_key) => {
+                                self.zoom_by(1)
+                            }
+                            KeyCode::Equal | KeyCode::NumpadAdd => self.zoom_by(-1),
+                            KeyCode::Minus | KeyCode::NumpadSubtract => self.zoom_by(1),
+                            _ => {}
+                        }
                     }
                 }
                 ElementState::Released => {
@@ -929,9 +1955,11 @@ impl ApplicationHandler for PlayApp {
                 self.mouse_pos = Some(p);
                 if self.paused {
                     self.mouse_queue.push(MouseEv::Move(p));
+                } else {
+                    self.game_mouse_aim(p,false);
                 }
             }
-            WindowEvent::CursorLeft { .. } => self.mouse_pos = None,
+            WindowEvent::CursorLeft { .. } => {self.mouse_pos=None;self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();},
             WindowEvent::MouseInput {
                 state: ElementState::Pressed,
                 button,
@@ -942,6 +1970,15 @@ impl ApplicationHandler for PlayApp {
                         MouseButton::Left => self.mouse_queue.push(MouseEv::Click(p, true)),
                         MouseButton::Right => self.mouse_queue.push(MouseEv::Click(p, false)),
                         _ => {}
+                    }
+                }else if button==MouseButton::Right {
+                    self.game_mouse.cancel();
+                    gba_core::ffta_battle_mouse::back(&mut self.machine.bus);
+                }else if button==MouseButton::Left {
+                    let handled=self.mouse_pos.is_some_and(|p|self.game_mouse_aim(p,true));
+                    if !handled {
+                        self.game_mouse.cancel();
+                        gba_core::ffta_battle_mouse::press(&mut self.machine.bus,0x3fe);
                     }
                 }
             }
@@ -956,6 +1993,9 @@ impl ApplicationHandler for PlayApp {
                     } else if dy < 0.0 {
                         self.mouse_queue.push(MouseEv::Wheel(false));
                     }
+                } else {
+                    let dy=match delta {MouseScrollDelta::LineDelta(_,y)=>y,MouseScrollDelta::PixelDelta(p)=>(p.y/30.)as f32};
+                    if dy!=0. {gba_core::ffta_shop_mouse::scroll(&mut self.machine.bus,dy>0.);}
                 }
             }
             _ => {}
@@ -975,7 +2015,7 @@ impl ApplicationHandler for PlayApp {
             .window
             .as_ref()
             .is_some_and(|w| w.fullscreen().is_some());
-        let want_cursor = self.paused || !fullscreen;
+        let want_cursor = self.paused || !fullscreen || self.machine.bus.ffta_battle_mouse.enabled || self.game_mouse.scene(&self.machine.bus).is_some();
         if want_cursor != self.cursor_visible {
             if let Some(w) = self.window.as_ref() {
                 w.set_cursor_visible(want_cursor);
@@ -1005,7 +2045,9 @@ impl ApplicationHandler for PlayApp {
             }
             self.paused = !self.paused;
             if self.paused {
+                self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
                 self.menu.reset();
+                self.menu_dirty = true;
                 // Drop stale pointer events from before the menu opened.
                 self.mouse_queue.clear();
             }
@@ -1021,6 +2063,10 @@ impl ApplicationHandler for PlayApp {
         }
 
         if self.paused {
+            let previous_aspect = self.av.video_aspect.clone();
+            self.menu_dirty |= self.pending_key.is_some()
+                || self.pending_pad.is_some()
+                || !self.mouse_queue.is_empty();
             // Feed the menu the rising edges and apply any setting change live
             // (video) or to av.cfg only (restart-required audio/gamut). The
             // GBA sees all keys released while the menu is up.
@@ -1039,30 +2085,82 @@ impl ApplicationHandler for PlayApp {
                     match btn {
                         menu::Bind::Button(b) => {
                             let idx = b.index();
-                            let old = self.icfg.keys[idx].clone();
+                            let old = self.icfg.active_keys()[idx].clone();
                             if let Some(j) =
-                                (0..10).find(|&j| j != idx && self.icfg.keys[j] == name)
+                                (0..10).find(|&j| j != idx && self.icfg.active_keys_mut()[j] == name)
                             {
-                                self.icfg.keys[j] = old;
+                                self.icfg.active_keys_mut()[j] = old;
                             } else if self.icfg.ff_key == name {
                                 self.icfg.ff_key = old;
+                            } else if self.icfg.ff_toggle_key == name {
+                                self.icfg.ff_toggle_key = old;
                             }
-                            self.icfg.keys[idx] = name.to_string();
+                            self.icfg.active_keys_mut()[idx] = name.to_string();
                         }
                         menu::Bind::FastForward => {
                             let old = self.icfg.ff_key.clone();
-                            if let Some(j) = (0..10).find(|&j| self.icfg.keys[j] == name) {
-                                self.icfg.keys[j] = old;
+                            if let Some(j) = (0..10).find(|&j| self.icfg.active_keys_mut()[j] == name) {
+                                self.icfg.active_keys_mut()[j] = old;
+                            } else if self.icfg.ff_toggle_key == name {
+                                self.icfg.ff_toggle_key = old;
                             }
                             self.icfg.ff_key = name.to_string();
                         }
+                        menu::Bind::FastForwardToggle => {
+                            let old = self.icfg.ff_toggle_key.clone();
+                            if let Some(j) = (0..10).find(|&j| self.icfg.active_keys_mut()[j] == name) {
+                                self.icfg.active_keys_mut()[j] = old;
+                            } else if self.icfg.ff_key == name {
+                                self.icfg.ff_key = old;
+                            }
+                            self.icfg.ff_toggle_key = name.to_string();
+                        }
+                        menu::Bind::ZoomIn => self.icfg.zoom_in_key = name.to_string(),
+                        menu::Bind::ZoomOut => self.icfg.zoom_out_key = name.to_string(),
+                        menu::Bind::GamepadZoomIn
+                        | menu::Bind::GamepadZoomOut
+                        | menu::Bind::GamepadFastForward
+                        | menu::Bind::GamepadFastForwardToggle => {}
+                        menu::Bind::Gamepad(_) => {}
                     }
-                    self.rebuild_key_pairs();
-                    if let Err(e) = self.icfg.save() {
-                        eprintln!("menu: could not save input.cfg ({e})");
+                    if !matches!(btn, menu::Bind::Gamepad(_)) {
+                        self.rebuild_key_pairs();
+                        if let Err(e) = self.icfg.save() {
+                            eprintln!("menu: could not save input.cfg ({e})");
+                        }
+                        self.menu.end_capture();
                     }
-                    self.menu.end_capture();
                 }
+            }
+            if let (Some(binding), Some(name)) = (self.menu.capturing(), self.pending_pad.take()) {
+                if !self
+                    .menu_tap_filter
+                    .accept_at(&format!("pad:{name}"), Instant::now())
+                {
+                    self.nav_prev = nav;
+                    return;
+                }
+                if let menu::Bind::Gamepad(button) = binding {
+                    let index = button.index();
+                    let old = self.icfg.pads[index].clone();
+                    if let Some(other) = (0..10).find(|&i| i != index && self.icfg.pads[i] == name)
+                    {
+                        self.icfg.pads[other] = old;
+                    }
+                    self.icfg.pads[index] = name;
+                } else if binding == menu::Bind::GamepadZoomIn {
+                    self.icfg.zoom_in_pad = name;
+                } else if binding == menu::Bind::GamepadZoomOut {
+                    self.icfg.zoom_out_pad = name;
+                } else if binding == menu::Bind::GamepadFastForward {
+                    self.icfg.ff_pad = name;
+                } else if binding == menu::Bind::GamepadFastForwardToggle {
+                    self.icfg.ff_toggle_pad = name;
+                }
+                if let Err(error) = self.icfg.save() {
+                    eprintln!("menu: could not save input.cfg ({error})");
+                }
+                self.menu.end_capture();
             }
             let events = [
                 (nav.up && !self.nav_prev.up, menu::MenuInput::Up),
@@ -1089,13 +2187,25 @@ impl ApplicationHandler for PlayApp {
                 if !fired || was_capturing {
                     continue;
                 }
+                self.menu_dirty = true;
+                let control = match ev {
+                    menu::MenuInput::Up => "menu:up",
+                    menu::MenuInput::Down => "menu:down",
+                    menu::MenuInput::Left => "menu:left",
+                    menu::MenuInput::Right => "menu:right",
+                    menu::MenuInput::Confirm => "menu:confirm",
+                    menu::MenuInput::Cancel => "menu:cancel",
+                };
+                if !self.menu_tap_filter.accept_at(control, Instant::now()) {
+                    continue;
+                }
                 if let Some(a) = self.menu.handle(ev, &mut self.av) {
                     acts.push(a);
                 }
             }
             // Mouse: hover highlights, left/right click act, wheel moves.
             let mq = std::mem::take(&mut self.mouse_queue);
-            let (fw, fh) = (wide_w(), wide_h());
+            let (fw, fh) = self.menu_dimensions();
             for m in mq {
                 if was_capturing {
                     // Any click abandons a pending key capture.
@@ -1133,6 +2243,45 @@ impl ApplicationHandler for PlayApp {
                 match action {
                     menu::MenuAction::Resume => self.paused = false,
                     menu::MenuAction::Quit => quit = true,
+                    menu::MenuAction::SwitchRom => {
+                        if self.choose_rom() {quit=true;break;}
+                    },
+                    menu::MenuAction::InputDevice(device) => {
+                        self.icfg.device = device;
+                        if device != input_config::Device::Gamepad {
+                            self.icfg.mouse_keyboard = device == input_config::Device::MouseKeyboard;
+                            let enabled=self.icfg.mouse_keyboard;
+                            self.machine.bus.ffta_battle_mouse.set_enabled(enabled);
+                            self.game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&self.machine.bus.rom,enabled);
+                        }
+                        self.rebuild_key_pairs();
+                        if device == input_config::Device::Gamepad {
+                            if self.pad.is_none() {
+                                self.pad = build_gilrs();
+                            }
+                            if self.directinput.is_none()
+                                && std::env::var("FFTA_GAMEPAD_BACKEND").as_deref() != Ok("gilrs")
+                            {
+                                self.directinput = input_config::directinput::DirectInput::new();
+                            }
+                        }
+                        if let Err(error) = self.icfg.save() {
+                            eprintln!("menu: could not save input.cfg ({error})");
+                        }
+                    }
+                    menu::MenuAction::ResetGamepad => {
+                        let defaults = input_config::InputConfig::default();
+                        self.icfg.pads = defaults.pads;
+                        self.icfg.zoom_in_pad = defaults.zoom_in_pad;
+                        self.icfg.ff_pad = defaults.ff_pad;
+                        self.icfg.ff_toggle_pad = defaults.ff_toggle_pad;
+                        self.icfg.zoom_out_pad = defaults.zoom_out_pad;
+                        self.icfg.dpad_source = defaults.dpad_source;
+                        self.icfg.stick_deadzone = defaults.stick_deadzone;
+                        if let Err(error) = self.icfg.save() {
+                            eprintln!("menu: could not save input.cfg ({error})");
+                        }
+                    }
                     menu::MenuAction::Changed(what) => {
                         // Vsync is the presenter's own knob; everything
                         // else routes through apply_av_change.
@@ -1163,6 +2312,15 @@ impl ApplicationHandler for PlayApp {
                     }
                 }
             }
+            if self.av.video_aspect != previous_aspect {
+                // FFTA_WIDESCREEN sets the starting view only. An explicit
+                // in-session menu choice takes precedence over that override.
+                self.base_extra = aspect_extra(&self.av.video_aspect).min(gba_core::mem::MAX_EXTRA);
+                self.zoom_max = zoom_limit(self.base_extra);
+                self.zoom_level = self.zoom_level.min(self.zoom_max);
+                // sync_view applies dimensions and resets temporal history at
+                // the next emulated frame; the paused frame stays valid here.
+            }
             if quit {
                 event_loop.exit();
                 return;
@@ -1177,62 +2335,95 @@ impl ApplicationHandler for PlayApp {
                 self.suppress = !keys & 0x3FF;
                 return;
             }
+            // Poll input at the normal menu cadence, but rasterize the native-
+            // resolution canvas only when input or window events changed it.
+            if !self.menu_dirty {
+                std::thread::sleep(Duration::from_millis(16));
+                return;
+            }
             // Redraw the overlay over the last emulated frame at a modest fixed
             // cadence. Re-compose from the frozen `temporal` each time
             // (emulation, temporal, and the frame counter all stand still while
             // paused) so the overlay's darkening never compounds across
             // redraws.
             self.temporal.compose(&self.lut, &mut self.rgba);
+            let (mw, mh) = self.menu_dimensions();
+            self.pause_rgba.resize(mw * mh, [0, 0, 0, 255]);
+            let [vx, vy, vw, vh] = self.view;
+            let (scale, ox, oy) = screen::present::letterbox_f((mw as u32, mh as u32), vw, vh);
+            for y in 0..mh {
+                for x in 0..mw {
+                    let fx = (x as f32 - ox) / scale;
+                    let fy = (y as f32 - oy) / scale;
+                    self.pause_rgba[y * mw + x] = if fx >= 0. && fy >= 0. && fx < vw && fy < vh {
+                        self.rgba[((vy + fy) as usize).min(wide_h() - 1) * wide_w()
+                            + ((vx + fx) as usize).min(wide_w() - 1)]
+                    } else {
+                        [0, 0, 0, 255]
+                    };
+                }
+            }
+            for i in 0..2 {if let Some(layout)=self.ui_layout((mw as u32,mh as u32),i) {
+                let mut canvas=std::mem::take(&mut self.pause_rgba);
+                let ui=self.ui_frame(layout,i);
+                for y in 0..mh {for x in 0..mw {
+                    if let Some(c)=ui.sample(x as f32+0.5,y as f32+0.5) {canvas[y*mw+x]=c;}
+                }}
+                self.pause_rgba=canvas;
+            }}
             self.menu
-                .draw(
-                &self.av,
-                &self.icfg.keys,
-                &self.icfg.ff_key,
-                &mut self.rgba,
-                wide_w() as _,
-                wide_h() as _,
-            );
+                .draw_inputs(&self.av, &self.icfg, &mut self.pause_rgba, mw, mh);
+            std::mem::swap(&mut self.rgba, &mut self.pause_rgba);
+            let game_view = self.view;
+            self.view = [0., 0., mw as f32, mh as f32];
             self.present_rgba();
+            self.view = game_view;
+            std::mem::swap(&mut self.rgba, &mut self.pause_rgba);
+            self.menu_dirty = false;
             std::thread::sleep(Duration::from_millis(16));
             return;
         }
         self.nav_prev = nav;
 
-        self.machine.bus.keys = keys;
-        if let Some((f, last)) = &mut self.record {
-            if keys != *last {
-                use std::io::Write;
-                let _ = writeln!(f, "{} {keys:03x}", self.machine.bus.frames);
-                *last = keys;
-            }
-        }
+        self.game_keys=keys;
 
         // Audio-clock pacing: the device callback consumes at a fixed rate, so
         // run exactly as many frames as the ring needs — production follows
         // consumption, immune to display refresh rate (ProMotion) and window-
         // server throttling. Without a device, wall-clock pace at the hardware
         // frame rate (handled below).
-        // Fast forward: the menu's Fast Forward setting (2x/4x/8x) keeps it
-        // on; with the menu set to OFF, holding the Fast Fwd key (Tab by
-        // default; rebindable in Inputs) gives a 4x boost.
-        let ff_speed = if self.av.ff_speed > 1 {
-            self.av.ff_speed.clamp(2, 8)
-        } else if winit_key(&self.icfg.ff_key).is_some_and(|k| self.held.contains(&k)) {
-            4
-        } else {
-            1
-        };
+        // The multiplier never activates fast-forward by itself. Holding the
+        // momentary key inverts the session's permanent-toggle state.
+        let ff_held = self.pad_ff_held
+            || winit_key(&self.icfg.ff_key).is_some_and(|k| self.held.contains(&k));
+        let ff_speed = input_config::fast_forward_speed(self.av.ff_speed, self.ff_latched, ff_held);
         let ff_now = ff_speed > 1;
-        if ff_now != self.ff_active {
-            self.set_fast_forward(ff_now);
+        if ff_now != self.ff_active
+            || ff_speed != self.ff_speed
+            || self.av.ff_audio != self.ff_audio_active
+        {
+            self.set_fast_forward(ff_now, ff_speed);
         }
         self.ff_speed = ff_speed;
-        let frame_cap = if self.ff_active { self.ff_speed } else { 4 };
+        // ALSA/PipeWire may consume audio in large callback batches. Using
+        // those batches as video deadlines skips intermediate presentations.
+        // Prime the audio normally, then present one frame per hardware tick.
+        // Keep the original audio-driven path available for A/B comparison.
+        let clock_pacing = cfg!(any(target_os = "linux", windows))
+            && std::env::var("FFTA_FRAME_PACING").as_deref() != Ok("audio");
+        let smooth_normal = clock_pacing && self.primed && !self.ff_active;
+        let frame_cap = if self.ff_active {
+            self.ff_speed
+        } else if smooth_normal {
+            1
+        } else {
+            4
+        };
         let mut ran = 0u32;
         while ran < frame_cap {
             if self.ff_active {
                 // Fast forward: no ring pacing; run the whole batch.
-            } else if self.stream.is_some() {
+            } else if self.stream.is_some() && !smooth_normal {
                 // Both rings are live (the menu can crossfade between them), so
                 // pace on the emptier one — neither faithful nor enhanced may
                 // be allowed to starve.
@@ -1257,11 +2448,14 @@ impl ApplicationHandler for PlayApp {
             if (st.mixed.len() / 2).min(st.psg.len() / 2) >= RING_TARGET {
                 drop(st);
                 self.primed = true;
+                if clock_pacing {
+                    self.next_frame = Instant::now();
+                }
                 reset_audio_counters(&self.streams);
             }
         }
 
-        if !self.ff_active {
+        if !self.ff_active || self.av.ff_audio != "silent" {
             self.audio_watchdog();
         }
 
@@ -1271,7 +2465,7 @@ impl ApplicationHandler for PlayApp {
             std::thread::sleep(Duration::from_millis(2));
             return;
         }
-        if self.stream.is_none() || self.ff_active {
+        if self.stream.is_none() || self.ff_active || smooth_normal {
             self.next_frame += Duration::from_nanos(16_742_706); // 59.7275 Hz
             let now = Instant::now();
             if self.next_frame > now {
@@ -1384,7 +2578,7 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
             ));
         }
     }
-    let sav_path = format!("{}.sav", rom_path.trim_end_matches(".gba"));
+    let sav_path = crate::save_path::resolve(Path::new(&rom_path))?.to_string_lossy().into_owned();
 
     // Product boot path: real BIOS when an image is installed (explicit --bios
     // > the launcher-installed image via the shared resolution), BIOS HLE
@@ -1508,20 +2702,24 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     // armed when the stock driver is present so the enhanced path is ready the
     // instant it's selected; it's read-only, so arming it always is free of
     // correctness risk.
-    let av = input_config::AvConfig::load();
+    let mut av = input_config::AvConfig::load();
+    if let Ok(aspect) = std::env::var("FFTA_WIDESCREEN") {
+        if !aspect.trim().is_empty() {
+            // Show the actual initial ratio in the menu, including when a
+            // command-line environment override supplied it.
+            av.video_aspect = match aspect.trim() {
+                "off" | "0" => "3:2".into(),
+                value => value.to_owned(),
+            };
+        }
+    }
     // The aspect setting picks the STARTING view (x1): (240 + 2 * extra) x 160.
     // Zoom (+/-) then renders and shows more of the world around it, always in
     // that same aspect ratio, and never less than x1.
     let base_extra = widescreen_extra(&av).min(gba_core::mem::MAX_EXTRA);
     gba_core::mem::set_extra(base_extra);
     gba_core::mem::set_extra_y(0);
-    let zoom_max = {
-        let by_cfg = (MAX_ZOOM.ln() / ZOOM_STEP.ln() + 1e-3).floor();
-        let base_w = (240 + 2 * base_extra) as f32;
-        let by_w = (((240 + 2 * gba_core::mem::MAX_EXTRA) as f32 / base_w).ln() / ZOOM_STEP.ln()).floor();
-        let by_h = (((160 + 2 * gba_core::mem::MAX_EXTRA_Y) as f32 / 160.0).ln() / ZOOM_STEP.ln()).floor();
-        by_cfg.min(by_w).min(by_h).max(0.0) as u32
-    };
+    let zoom_max = zoom_limit(base_extra);
     machine.bus.tap_channels = true;
     let desc = arm_audio_hle(
         &mut machine,
@@ -1535,12 +2733,16 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     // Bindings come from the launcher-managed config (defaults match the
     // historical hardcoded map). Keyboard always works; a configured gamepad is
     // OR-ed in on top.
-    let icfg = input_config::InputConfig::load();
+    let mut icfg = input_config::InputConfig::load();
+    let directinput_only = std::env::var("FFTA_GAMEPAD_BACKEND").as_deref() == Ok("directinput");
+    if directinput_only {
+        icfg.device = input_config::Device::Gamepad;
+    }
     let defaults = input_config::InputConfig::default();
     let key_pairs: Vec<(KeyCode, u16)> = input_config::Button::ALL
         .iter()
         .map(|b| {
-            let name = &icfg.keys[b.index()];
+            let name = &icfg.active_keys()[b.index()];
             let key = winit_key(name).unwrap_or_else(|| {
                 eprintln!(
                     "input.cfg: unknown key {name:?} for {} — using default",
@@ -1551,9 +2753,33 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
             (key, b.bit())
         })
         .collect();
-    let pad = match icfg.device {
-        input_config::Device::Gamepad => build_gilrs(),
-        input_config::Device::Keyboard => None,
+    // Keep both detectors alive even when the saved preference is keyboard.
+    // Device preference controls the binding page; actual controller input
+    // switches the active device at runtime.
+    let pad = build_gilrs();
+    #[cfg(target_os = "linux")]
+    if let Some(gilrs)=&pad {
+        eprintln!("gamepad: Linux native snapshot polling (gilrs/evdev), {} connected",gilrs.gamepads().count());
+    }else{
+        eprintln!("gamepad: Linux input backend unavailable; check device access and libudev");
+    }
+    let directinput = if std::env::var("FFTA_GAMEPAD_BACKEND").as_deref() != Ok("gilrs") {
+        input_config::directinput::DirectInput::new()
+    } else {
+        None
+    };
+    #[cfg(windows)]
+    let xinput = if matches!(
+        std::env::var("FFTA_GAMEPAD_BACKEND").as_deref(),
+        Ok("directinput" | "gilrs")
+    ) {
+        None
+    } else {
+        let backend = XInputBackend::load();
+        if backend.is_some() {
+            eprintln!("XInput: native snapshot polling enabled");
+        }
+        backend
     };
 
     // Screen simulation (see crates/screen): temporal response on the emulated-
@@ -1612,6 +2838,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let menu_enabled = manifest.as_ref().map(|m| m.menu).unwrap_or(true);
 
     let sav_seen = machine.bus.save_data().map(fnv64);
+    let game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&machine.bus.rom,icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref()==Ok("1"));
+    if icfg.mouse_keyboard {machine.bus.ffta_battle_mouse.set_enabled(true);}
     let mut app = PlayApp {
         machine,
         sav_path,
@@ -1623,6 +2851,22 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         icfg,
         key_pairs,
         pad,
+        directinput,
+        directinput_only,
+        #[cfg(windows)]
+        xinput,
+        menu_tap_filter: MenuTapFilter::default(),
+        active_controller: None,
+        last_direct_activity: None,
+        pending_pad: None,
+        #[cfg(not(target_os = "linux"))]
+        gilrs_gestures: HashMap::new(),
+        #[cfg(target_os = "linux")]
+        linux_pads: HashMap::new(),
+        direct_gestures: HashMap::new(),
+        pad_zoom_prev: (false, false),
+        pad_ff_held: false,
+        pad_ff_toggle_prev: false,
         held: HashSet::new(),
         av,
         screen_kind,
@@ -1633,6 +2877,10 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         temporal,
         grid_params,
         rgba: vec![[0u8; 4]; wide_w() * wide_h()],
+        pause_rgba: Vec::new(),
+        ui_pixels: Vec::new(),
+        panel_pixels: Vec::new(),
+        padded_frame: Vec::new(),
         title,
         status,
         window: None,
@@ -1642,6 +2890,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         menu_enabled,
         menu: menu::Menu::new(true, false),
         paused: false,
+        menu_dirty: true,
         // Starts visible (windowed); the loop reconciles against fullscreen.
         cursor_visible: true,
         suppress: 0,
@@ -1659,13 +2908,17 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         audio_stalls: 0,
         audio_retry: None,
         ff_active: false,
+        ff_latched: false,
         ff_speed: 4,
+        ff_audio_active: String::new(),
         pending_key: None,
         base_extra,
         zoom_level: 0,
         zoom_max,
         view: [0.0, 0.0, (240 + 2 * base_extra) as f32, 160.0],
         mouse_pos: None,
+        game_mouse,
+        game_keys:0x3ff,
         mouse_queue: Vec::new(),
         error: None,
     };
@@ -1690,4 +2943,196 @@ fn load_window_icon() -> Option<winit::window::Icon> {
         .to_rgba8();
     let (w, h) = img.dimensions();
     winit::window::Icon::from_rgba(img.into_raw(), w, h).ok()
+}
+
+// The action list is the independent foreground panel. The main action HUD
+// may be active simultaneously and must not steal its mouse coordinates.
+fn battle_menu_ui_layer(state:&gba_core::ffta_dialogue::DialogueState)->Option<usize> {
+    if matches!(state.extra.kind,gba_core::ffta_dialogue::PanelKind::Actions|gba_core::ffta_dialogue::PanelKind::Notice) && state.extra.active() {Some(1)}
+    else if state.action_layout || state.town_layout || state.shop_layout {Some(0)}else{None}
+}
+fn pub_ui_layout(physical:(u32,u32),base_width:f32,size:f32)->screen::ui_layer::Layout {
+    screen::ui_layer::Layout::new_with_anchor(physical,base_width,true,size,[0.,0.],0.)
+}
+fn menu_panel_native(index:usize,bounds:[i32;4],length:f32)->(f32,f32) {
+    let distance=((bounds[2]-bounds[0])as f32*(length.clamp(1.,2.)-1.)).round();
+    let shift=if bounds[0]+bounds[2]>=240 {distance}else{-distance};
+    ((index%480)as f32-120.+shift,(index/480)as f32)
+}
+#[cfg(test)]
+mod gamepad_capture_simulation {
+    use super::MenuTapFilter;
+    use std::time::{Duration, Instant};
+
+    #[test]
+    fn shop_mouse_maps_categories_items_and_quantity_through_the_same_ui_canvas() {
+        let mut state=gba_core::ffta_dialogue::DialogueState::default();
+        state.shop_layout=true;
+        assert_eq!(super::battle_menu_ui_layer(&state),Some(0));
+        for window in [(960,640),(1920,1080),(2560,720)] {for scale in [0.5,1.] {
+            let layout=super::pub_ui_layout(window,568.,scale);
+            for (x,y)in[(24usize,8usize),(40,36),(170,96)] {
+                let px=layout.rect[0]+(120.+x as f32+0.5)*layout.rect[2]/480.;
+                let py=layout.rect[1]+(y as f32+0.5)*layout.rect[3]/160.;
+                let index=layout.source(px,py).unwrap();
+                assert_eq!(super::menu_panel_native(index,[0,0,238,155],1.),(x as f32,y as f32));
+            }
+        }}
+    }
+    #[test]
+    fn pub_menu_mouse_keeps_fixed_right_origin_through_animation() {
+        use gba_core::ffta_dialogue::{DialogueState,UiPixel,pack_panel};
+        let mut state=DialogueState::default();state.town_layout=true;
+        assert_eq!(super::battle_menu_ui_layer(&state),Some(0));
+        let bounds=[0,0,240,160];
+        let mut pixels=vec![UiPixel::default();480*160];
+        pixels[132*480+120+100]=UiPixel::opaque(31);
+        let mut packed=Vec::new();pack_panel(&pixels,&[],1.,true,&mut packed);
+        for size in [(1280,720),(2560,720)] {
+            let layout=super::pub_ui_layout(size,568.,1.);
+            let [left,top,width,height]=layout.rect;
+            let native_right=left+360.*width/480.;
+            assert!((native_right-layout.clip[0]-layout.clip[2]).abs()<1.);
+            let index=layout.source(left+220.5/480.*width,top+132.5/160.*height).unwrap();
+            assert_eq!(super::menu_panel_native(index,bounds,1.),(100.,132.));
+            assert_ne!(packed[index],[0;4]);
+        }
+    }
+
+    #[test]
+    fn battle_menu_mouse_uses_foreground_panel_when_action_hud_is_also_present() {
+        use gba_core::ffta_dialogue::{DialogueState,PanelKind,UiPixel,pack_panel};
+        let mut state=DialogueState::default();
+        state.action_layout=true;
+        assert_eq!(super::battle_menu_ui_layer(&state),Some(0)); // confirmation path
+        state.extra.kind=PanelKind::Actions;
+        let bounds=[160,84,240,148];
+        state.extra.bounds=Some(bounds);
+        assert_eq!(super::battle_menu_ui_layer(&state),Some(1));
+        let mut backing=vec![UiPixel::default();480*160];
+        for y in 84..148 {for x in 160..240 {backing[y*480+x+120]=UiPixel::opaque(31);}}
+        let mut pixels=backing.clone();
+        let target=(192usize,140usize);
+        pixels[target.1*480+target.0+120]=UiPixel::opaque(0x7fff);
+        for window in [(960,640),(1920,1080),(2560,720)] {
+            for width in [240.,284.,568.] {for size in [0.75,1.,1.5] {for length in [1.,1.5,2.] {
+                let mut packed=Vec::new();pack_panel(&pixels,&backing,length,true,&mut packed);
+                let index=packed.iter().position(|p|*p==UiPixel::opaque(0x7fff).packed()).unwrap();
+                let layout=screen::ui_layer::Layout::at_corner(window,width,true,true,size,length,bounds);
+                let point=(layout.rect[0]+(index%480)as f32*layout.rect[2]/480.+layout.rect[2]/960.,
+                    layout.rect[1]+(index/480)as f32*layout.rect[3]/160.+layout.rect[3]/320.);
+                let source=layout.source(point.0,point.1).expect("drawn option must be hittable");
+                let (x,y)=super::menu_panel_native(source,bounds,length);
+                assert_eq!((x as usize,y as usize),target);
+                assert_eq!(((y-84.)/16.)as usize,3);
+            }}}
+        }
+        state.extra.kind=PanelKind::None;
+        assert_eq!(super::battle_menu_ui_layer(&state),Some(0));
+    }
+
+    #[test]
+    fn scene_without_zoom_rows_cannot_show_stale_object_pixels() {
+        gba_core::mem::set_extra(164);
+        gba_core::mem::set_extra_y(80);
+        let mut bus = gba_core::mem::MemMap::new(vec![]);
+        let width = super::wide_w();
+        bus.wide_framebuffer.fill(31);
+        bus.wide_framebuffer[..width * 160].fill(0x7fff);
+        let original = bus.wide_framebuffer.clone();
+        let oam = bus.oam.clone();
+        let mut padding = Vec::new();
+        let frame = super::display_frame(&bus, &mut padding);
+        assert!(frame[..width * 80].iter().all(|&p| p == 0));
+        assert!(frame[width * 80..width * 240].iter().all(|&p| p == 0x7fff));
+        assert!(frame[width * 240..].iter().all(|&p| p == 0));
+        assert_eq!(bus.wide_framebuffer, original);
+        assert_eq!(bus.oam, oam);
+        bus.ffta_stage.enabled = true;
+        bus.io[..2].copy_from_slice(&0x0300u16.to_le_bytes());
+        bus.io[8..10].copy_from_slice(&0x4c03u16.to_le_bytes());
+        bus.io[10..12].copy_from_slice(&0x4e02u16.to_le_bytes());
+        let frame = super::display_frame(&bus, &mut padding);
+        assert_eq!(frame.as_ptr(), bus.wide_framebuffer.as_ptr());
+        gba_core::mem::set_extra(0);
+        gba_core::mem::set_extra_y(0);
+        let frame = super::display_frame(&bus, &mut padding);
+        assert_eq!(frame, &bus.wide_framebuffer[..240 * 160]);
+    }
+
+    #[test]
+    fn aspect_choices_recompute_render_limits_without_restarting() {
+        for (aspect, extra) in [("3:2", 0), ("16:9", 22), ("32:9", 164), ("16:10", 8)] {
+            let base = super::aspect_extra(aspect);
+            assert_eq!(base, extra);
+            let limit = super::zoom_limit(base);
+            let zoom = super::ZOOM_STEP.powi(limit as i32);
+            assert!((240 + 2 * base) as f32 * zoom <= (240 + 2 * gba_core::mem::MAX_EXTRA) as f32);
+            assert!(160.0 * zoom <= (160 + 2 * gba_core::mem::MAX_EXTRA_Y) as f32);
+        }
+    }
+
+    #[test]
+    fn same_menu_control_is_ignored_for_20ms_but_other_controls_are_not() {
+        let start = Instant::now();
+        let mut filter = MenuTapFilter::default();
+        assert!(filter.accept_at("menu:confirm", start));
+        assert!(!filter.accept_at("menu:confirm", start + Duration::from_millis(19)));
+        assert!(filter.accept_at("menu:down", start + Duration::from_millis(19)));
+        assert!(filter.accept_at("menu:confirm", start + Duration::from_millis(20)));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn simulated_native_xinput_a_press_assigns_once_and_does_not_confirm_menu() {
+        use super::{XInputGamepad, XInputState, xinput_new_press, xinput_pressed};
+
+        let mut av = input_config::AvConfig::default();
+        let mut menu = menu::Menu::new(true, false);
+        for _ in 0..5 {
+            menu.handle(menu::MenuInput::Down, &mut av);
+        }
+        menu.handle(menu::MenuInput::Confirm, &mut av); // Input page.
+        menu.handle(menu::MenuInput::Right, &mut av); // Gamepad tab.
+        menu.handle(menu::MenuInput::Confirm, &mut av); // Capture GBA A.
+        assert!(menu.capturing().is_some());
+
+        let mut assignments = Vec::new();
+        let mut confirms = 0;
+
+        // XInput supplies a full state snapshot, not competing Pressed and
+        // Changed event variants. A held A can only create one rising edge.
+        let released = XInputState::default();
+        let pressed = XInputState {
+            gamepad: XInputGamepad {
+                buttons: 0x1000,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let captured = xinput_new_press(Some(released), pressed, 0.2);
+        eprintln!(
+            "SIM_XINPUT frame=1 new_assignment={} menu_confirm=false",
+            captured.as_deref().unwrap_or("none")
+        );
+        if let Some(token) = captured {
+            assignments.push(token);
+            menu.end_capture();
+        }
+        for frame in 2..=4 {
+            let captured = xinput_new_press(Some(pressed), pressed, 0.2);
+            let confirm =
+                captured.as_deref().is_some_and(|t| t == "South") && menu.capturing().is_none();
+            confirms += usize::from(confirm);
+            eprintln!(
+                "SIM_XINPUT frame={frame} new_assignment={} menu_confirm={confirm}",
+                captured.as_deref().unwrap_or("none")
+            );
+        }
+        assert_eq!(assignments, ["South"]);
+        assert_eq!(confirms, 0);
+        assert!(menu.capturing().is_none());
+        assert!(xinput_pressed(pressed, "South", 0.2));
+        assert!(xinput_new_press(Some(pressed), released, 0.2).is_none());
+    }
 }

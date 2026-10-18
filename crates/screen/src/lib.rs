@@ -36,3 +36,6 @@ mod wayland_cm;
 pub use blend::{ResponseMode, Temporal};
 pub use lut::{ColorLut, ColorSettings};
 pub use profile::{DisplayTarget, ScreenKind};
+
+#[cfg(feature = "gpu")]
+pub mod ui_layer;

@@ -24,6 +24,8 @@ pub enum Profile {
 
 /// How the emitted C gets compiled.
 pub enum Backend {
+    /// Android-style in-memory compilation; cache a relocatable object.
+    MemoryTcc(PathBuf),
     /// Spawn an external compiler binary (`cc`/`clang`/`gcc`/`zig cc`) that
     /// accepts our gcc/clang-style flags (`-O1 -fPIC -c`, `-shared`).
     External(PathBuf),
@@ -33,7 +35,7 @@ pub enum Backend {
 }
 
 /// Where the C compiler comes from. Resolve one with [`Compiler::detect`]
-/// (system compiler if present, else bundled TinyCC) or pin an explicit
+/// (bundled in-memory TinyCC first, then system compiler) or pin an explicit
 /// external program with [`Compiler::external`].
 pub struct Compiler {
     pub backend: Backend,
@@ -60,9 +62,8 @@ impl Compiler {
     }
 
     /// Resolve a compiler the way the launcher's "build to play" path and the
-    /// CLI both should: an explicit override, then a system compiler on PATH,
-    /// then the bundled TinyCC so a build never requires the user to install
-    /// a toolchain.
+    /// CLI both should: an explicit external override, the compact desktop
+    /// TinyCC adapter, then a system compiler or legacy bundled TinyCC.
     ///
     /// Windows note: we probe `clang`/`gcc`/`cc` (which accept our flags and
     /// work standalone) but deliberately NOT MSVC `cl.exe` — it needs a
@@ -74,6 +75,9 @@ impl Compiler {
     pub fn detect() -> Self {
         if let Some(p) = std::env::var_os("GBA_RECOMP_CC") {
             return Compiler::external(PathBuf::from(p));
+        }
+        if let Some(library) = crate::tcc_memory::library_path() {
+            return Compiler { backend: Backend::MemoryTcc(library), target: None, profile: Profile::Fast };
         }
         let force_tcc = std::env::var_os("GBA_RECOMP_FORCE_TCC").is_some();
         if !force_tcc {
@@ -103,6 +107,7 @@ impl Compiler {
     /// Human-readable backend name, for status/diagnostic output.
     pub fn describe(&self) -> String {
         match &self.backend {
+            Backend::MemoryTcc(p) => format!("TinyCC in memory ({})", p.display()),
             Backend::External(p) => format!("system compiler ({})", p.display()),
             Backend::LibTcc(d) => format!("bundled TinyCC ({})", d.display()),
         }
@@ -141,8 +146,9 @@ pub struct BuildReport {
 }
 
 /// Analyze `seeds` over `view`, translate every reachable block to C, and
-/// compile+link a shared library at `out`. Intermediates land next to
-/// `out` as `<stem>.<i>.{c,o}`. `start_pct` is where this build's slice of
+/// compile native code at `out`. MemoryTcc emits a relocatable cache consumed
+/// by recomp's TinyCC loader, with no intermediate C files. Other backends
+/// produce a shared library with `<stem>.<i>.{c,o}` intermediates. `start_pct` is where this build's slice of
 /// the progress bar begins (the caller's discovery phase consumed
 /// `0..start_pct`); the dominant compile phase is exact (blocks compiled /
 /// total blocks).
@@ -161,6 +167,16 @@ pub fn build_library(
     let analysis = analyze::analyze(view, seeds);
     let n_instrs: usize = analysis.blocks.iter().map(|b| b.instrs.len()).sum();
     println!("blocks: {} instructions: {n_instrs}", analysis.blocks.len());
+    if let Backend::MemoryTcc(library) = &cc.backend {
+        let units = crate::tcc_memory::build(&analysis, view, library, out, &mut |done| {
+            let pct = (done as u64 * (98 - start_pct) as u64
+                / analysis.blocks.len().max(1) as u64) as u8;
+            progress(start_pct + pct, "compiling in memory with TinyCC");
+        })?;
+        progress(100, "ready to play");
+        println!("wrote {} ({units} units, tinycc-memory)", out.display());
+        return Ok(BuildReport { blocks: analysis.blocks.len(), instrs: n_instrs, units });
+    }
     progress(
         start_pct + 2,
         &format!(
@@ -206,6 +222,7 @@ pub fn build_library(
     // (parallel, then a `-shared` link), or the bundled libtcc which compiles
     // every unit straight to the shared library in-process.
     let prog = match &cc.backend {
+        Backend::MemoryTcc(_) => unreachable!("handled before emitting C files"),
         Backend::LibTcc(dir) => {
             progress(
                 span_start + 1,
@@ -228,6 +245,11 @@ pub fn build_library(
         }
         Backend::External(prog) => prog,
     };
+    // The translated guest code is the steady-state CPU hot path. Linux
+    // laptops often run this game on a shared-memory iGPU/low-power CPU, so
+    // spend more time optimizing the one-time native build for better play
+    // speed. Keep Windows at the existing compile-time/runtime balance.
+    let optimization = if cfg!(target_os = "linux") { "-O2" } else { "-O1" };
 
     // External-compiler path: one job per core keeps every core busy without
     // blowing memory (each 16 MB unit's cc stays modest); RECOMP_JOBS
@@ -260,7 +282,7 @@ pub fn build_library(
                     }
                     let (c_path, o_path) = &units[i];
                     match std::process::Command::new(prog)
-                        .args(["-O1", "-fPIC", "-c", "-o", o_path, c_path])
+                        .args([optimization, "-fPIC", "-c", "-o", o_path, c_path])
                         .status()
                     {
                         Ok(st) if st.success() => {

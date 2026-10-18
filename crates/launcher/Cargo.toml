@@ -10,7 +10,7 @@ name = "gba_launcher"
 crate-type = ["lib", "cdylib"]
 
 # Committed dev tool: renders the canonical app-icon master PNG procedurally
-# (assets/icon/app-icon.png). Run `cargo run -p gba-launcher --bin gba-icon`
+# (target/app-icon.png). Run `cargo run -p gba-launcher --bin gba-icon`
 # to regenerate it. Keeps the launcher's "zero bundled image assets" ethos:
 # the one committed PNG is a build artifact of code that lives in the repo.
 [[bin]]

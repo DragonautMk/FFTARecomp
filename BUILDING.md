@@ -264,3 +264,18 @@ Enable the repo's formatting gate once per clone:
 
 The pre-commit hook runs `cargo fmt --all -- --check` (the same check CI's
 fmt job enforces) so formatting failures never reach CI.
+
+## Build all desktop packages and Android from Windows
+
+`./build-all.ps1 -AndroidSdk D:\Android\SDK` also builds the current standalone
+AndroidPort project and copies its APK and checksum to `Installer/Android/`.
+Windows outputs stay in `Installer/`, and Linux/Steam Deck in `Installer/Linux/`.
+Use `-SkipAndroid` to build only the desktop versions.
+
+Android developer prerequisites must be installed separately: Android SDK with
+NDK 28.2.13676358, a JDK (`JAVA_HOME` or Java in PATH), Python, GCC/Clang in PATH,
+and Rust's `aarch64-linux-android` target (`rustup target add aarch64-linux-android`).
+Set `ANDROID_SDK_ROOT`/`ANDROID_HOME` or pass `-AndroidSdk`. The SDK, NDK, JDK and
+host compiler are not bundled or uploaded with the project. Players only need the
+resulting APK. The existing Android builder produces a debug-signed preview APK;
+this script does not change its signing configuration.

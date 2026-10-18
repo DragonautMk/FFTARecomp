@@ -2,17 +2,29 @@
 //! input-config file that the play runtime reads at startup.
 
 use eframe::egui::{self, Event, Key, Sense, Ui, Vec2};
-use input_config::{Button, Device, DpadSource, InputConfig, StickToken};
+use input_config::{Button, Device, DpadSource, GamepadLayout, InputConfig, StickToken};
 
 use crate::theme;
 
 /// Vendored community controller mapping DB (zlib; see THIRD-PARTY.md).
+/// Fed on top of gilrs's built-in snapshot so the launcher recognizes the
+/// same broad controller set the play runtime does — both must agree on
+/// pad names, or a binding made here wouldn't fire there.
+const CONTROLLER_DB: &str = include_str!("../../../../assets/gamecontrollerdb.txt");
+
 fn build_gilrs() -> Option<gilrs::Gilrs> {
-    gilrs::Gilrs::new().ok()
+    gilrs::GilrsBuilder::new()
+        .add_mappings(CONTROLLER_DB)
+        .build()
+        .ok()
+        .or_else(|| gilrs::Gilrs::new().ok())
 }
+
 pub struct InputScreen {
     cfg: InputConfig,
     gilrs: Option<gilrs::Gilrs>,
+    directinput: Option<input_config::directinput::DirectInput>,
+    direct_tokens: Vec<String>,
     capture: Option<Button>,
     status: String,
 }
@@ -22,6 +34,8 @@ impl InputScreen {
         Self {
             cfg: InputConfig::load(),
             gilrs: build_gilrs(),
+            directinput: input_config::directinput::DirectInput::new(),
+            direct_tokens: Vec::new(),
             capture: None,
             status: String::new(),
         }
@@ -33,8 +47,28 @@ impl InputScreen {
         // gamepad list is rebuilt each frame, so hotplug shows up live.
         let mut pad_presses: Vec<String> = Vec::new();
         let mut pads: Vec<String> = Vec::new();
+        let mut active_pad: Option<String> = None;
+        let activity_threshold = self.cfg.stick_deadzone.max(0.12);
+        let mut detected_layout = self.cfg.gamepad_layout;
         if let Some(g) = self.gilrs.as_mut() {
             while let Some(ev) = g.next_event() {
+                let activity = match ev.event {
+                    gilrs::EventType::ButtonPressed(btn, _)
+                    | gilrs::EventType::ButtonRepeated(btn, _) => btn != gilrs::Button::Unknown,
+                    gilrs::EventType::ButtonChanged(btn, value, _) => {
+                        btn != gilrs::Button::Unknown && value >= activity_threshold
+                    }
+                    gilrs::EventType::AxisChanged(_, value, _) => value.abs() >= activity_threshold,
+                    _ => false,
+                };
+                if activity {
+                    let gamepad = g.gamepad(ev.id);
+                    if gamepad.is_connected() {
+                        active_pad = Some(gamepad.name().to_owned());
+                        detected_layout =
+                            GamepadLayout::detect_with_vendor(gamepad.name(), gamepad.vendor_id());
+                    }
+                }
                 match ev.event {
                     gilrs::EventType::ButtonPressed(btn, _) => {
                         pad_presses.push(format!("{btn:?}"));
@@ -53,6 +87,42 @@ impl InputScreen {
             }
             pads = g.gamepads().map(|(_, gp)| gp.name().to_string()).collect();
         }
+        if let Some(d) = self.directinput.as_mut() {
+            pads.extend(d.names());
+            let direct_states = d.poll_all();
+            if active_pad.is_none() {
+                active_pad = direct_states
+                    .iter()
+                    .find(|pad| pad.has_activity(activity_threshold))
+                    .map(|pad| pad.name.clone());
+            }
+            if self.cfg.gamepad_name.starts_with("DirectInput:") {
+                let tokens = direct_states
+                    .iter()
+                    .find(|pad| pad.name == self.cfg.gamepad_name)
+                    .map(|pad| pad.capture_tokens())
+                    .unwrap_or_default();
+                pad_presses.extend(
+                    tokens
+                        .iter()
+                        .filter(|token| !self.direct_tokens.contains(token))
+                        .cloned(),
+                );
+                self.direct_tokens = tokens;
+            }
+        }
+        if let Some(name) = active_pad {
+            if self.cfg.device != Device::Gamepad
+                || self.cfg.gamepad_name != name
+                || self.cfg.gamepad_layout != detected_layout
+            {
+                self.cfg.device = Device::Gamepad;
+                self.cfg.gamepad_name = name;
+                self.cfg.gamepad_layout = detected_layout;
+                self.direct_tokens.clear();
+                self.persist();
+            }
+        }
 
         theme::glass_frame().show(ui, |ui| {
             ui.set_min_size(Vec2::new(ui.available_width(), ui.available_height()));
@@ -66,6 +136,12 @@ impl InputScreen {
                     .clicked()
                 {
                     self.cfg.device = Device::Keyboard;
+                    self.cfg.mouse_keyboard = false;
+                    self.persist();
+                }
+                if theme::glossy_button(ui,"MOUSE AND KEYBOARD",self.cfg.device==Device::MouseKeyboard,Vec2::new(200.0,32.0)).clicked() {
+                    self.cfg.device=Device::MouseKeyboard;
+                    self.cfg.mouse_keyboard=true;
                     self.persist();
                 }
                 for name in &pads {
@@ -75,6 +151,7 @@ impl InputScreen {
                     if theme::glossy_button(ui, &label, sel, Vec2::new(220.0, 32.0)).clicked() {
                         self.cfg.device = Device::Gamepad;
                         self.cfg.gamepad_name = name.clone();
+                        self.cfg.gamepad_layout = GamepadLayout::detect(name);
                         self.persist();
                     }
                 }
@@ -155,7 +232,12 @@ impl InputScreen {
             }
 
             ui.add_space(12.0);
-            theme::section_title(ui, "Bindings");
+            let binding_title = if self.cfg.device == Device::Gamepad {
+                format!("{} LAYOUT · BINDINGS", detected_layout.name())
+            } else {
+                "Bindings".to_string()
+            };
+            theme::section_title(ui, &binding_title);
             ui.add_space(4.0);
 
             let pulse = ui.ctx().input(|i| i.time);
@@ -188,9 +270,9 @@ impl InputScreen {
                                     String::new()
                                 }
                             } else if gamepad {
-                                self.cfg.pads[b.index()].clone()
+                                detected_layout.label(&self.cfg.pads[b.index()])
                             } else {
-                                self.cfg.keys[b.index()].clone()
+                                self.cfg.active_keys()[b.index()].clone()
                             };
                             if theme::glossy_button(ui, &text, capturing, Vec2::new(118.0, 26.0))
                                 .clicked()
@@ -225,7 +307,7 @@ impl InputScreen {
                     if let Some(key) = pressed {
                         match key_name(key) {
                             Some(name) => {
-                                self.cfg.keys[b.index()] = name.to_string();
+                                self.cfg.active_keys_mut()[b.index()] = name.to_string();
                                 self.capture = None;
                                 self.persist();
                             }
@@ -249,6 +331,7 @@ impl InputScreen {
                 {
                     let d = InputConfig::default();
                     self.cfg.keys = d.keys;
+                    self.cfg.mouse_keys = d.mouse_keys;
                     self.cfg.pads = d.pads;
                     self.cfg.dpad_source = d.dpad_source;
                     self.cfg.stick_deadzone = d.stick_deadzone;
@@ -281,7 +364,20 @@ impl InputScreen {
     /// the pad state directly — gilrs keeps it updated as events pump.
     fn input_monitor(&mut self, ui: &mut Ui) {
         let dz = self.cfg.stick_deadzone;
-        let active: Vec<bool> = {
+        let active: Vec<bool> = if self.cfg.gamepad_name.starts_with("DirectInput:") {
+            let pad = self
+                .directinput
+                .as_mut()
+                .and_then(|d| d.poll(&self.cfg.gamepad_name));
+            Button::ALL
+                .iter()
+                .map(|b| {
+                    pad.as_ref().is_some_and(|p| {
+                        p.active(&self.cfg.pads[b.index()], self.cfg.dpad_source, dz, *b)
+                    })
+                })
+                .collect()
+        } else {
             let gp = self.gilrs.as_ref().and_then(|g| {
                 g.gamepads()
                     .find(|(_, gp)| gp.name() == self.cfg.gamepad_name)
@@ -508,4 +604,39 @@ fn key_name(key: Key) -> Option<&'static str> {
         Backspace => "Backspace",
         _ => return None,
     })
+}
+
+#[cfg(test)]
+mod controller_mapping_tests {
+    use super::CONTROLLER_DB;
+
+    fn has_mapping(label: &str, platform: &str) -> bool {
+        CONTROLLER_DB.lines().any(|line| {
+            let mut fields = line.split(',');
+            fields.next().is_some_and(|guid| guid.len() >= 32)
+                && fields.next().is_some_and(|name| name.contains(label))
+                && line.contains(&format!("platform:{platform}"))
+        })
+    }
+
+    #[test]
+    fn common_playstation_and_nintendo_pads_are_mapped_on_desktop() {
+        for platform in ["Windows", "Linux"] {
+            for model in [
+                "PS4 Controller",
+                "PS5 Controller",
+                "Joy-Con (L)",
+                "Joy-Con (R)",
+            ] {
+                assert!(
+                    has_mapping(model, platform),
+                    "missing {model} mapping for {platform}"
+                );
+            }
+            assert!(
+                has_mapping("Nintendo Switch Pro Controller", platform),
+                "missing Switch Pro mapping for {platform}"
+            );
+        }
+    }
 }

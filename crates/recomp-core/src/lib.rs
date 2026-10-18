@@ -8,6 +8,7 @@ pub mod build;
 pub mod emit;
 pub mod labels;
 pub mod tcc;
+pub mod tcc_memory;
 
 pub use build::{build_library, Backend, BuildReport, Compiler, Profile};
 pub use labels::{FileLabels, LabelSource};

@@ -21,16 +21,16 @@
 
 **FFTARecomp** turns *Final Fantasy Tactics Advance* (USA version) into a native program for Windows, Linux and Steam Deck. Instead of running in an emulator, the game is recompiled from your own ROM, so it runs smoothly, needs no BIOS, and gets modern options. It is based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey.
 
-## 🆕 What's new in v2.0
+## 🆕 What's new in v3.0
 
-- 🎛️ **Completely redesigned menu.**
-- 🔍 **Zoom in and out.**
-- 🐧 **Native Linux version.**
-- 🕹️ **Steam Deck support.**
-- 📜 **Installer scroll on small screens:** you can now scroll down to reach the rest of the installer and continue the installation.
-- 🎮 **Gamepad support** (generic XInput).
-- 🐛 **Many bugs fixed** related to very wide aspect ratios.
-- 🔊 **New Normal audio mode:** the game fast-forwards while the audio keeps playing at normal speed.
+- 🤖 **Native Android version.** FFTARecomp now runs natively on Android. It also includes touch support that works like the PC mouse support: tap to interact with the game's menus and interface. Touch mode (without a touchpad) is experimental for now; to enable it, go to **Input > Touchscreen > Touch Controls**. More solid touch support is coming soon.
+- ⚡ **Big PC optimization.** The compiler was switched, so the install size drops from roughly 800 MB to only about 11 MB, and compile time goes from roughly 120 seconds to about 4 seconds.
+- 💬 **Fully reworked game UI and text bubbles.** They are now editable: a new **Text Bubbles** option in the Settings menu lets you adjust their length and size in-game.
+- 🖱️ **Mouse support (experimental).** It doesn't cover the whole game yet, but it is already usable and enjoyable, and support will keep expanding. To enable it, go to **Input > Mouse and Keyboard** and turn it on. On Windows, mouse mode comes with its own remappable layout that doesn't affect the keyboard controls.
+- 🇪🇺 **European ROM support.** Saves are compatible between regions.
+- 🛠️ **Reworked installer.**
+- 🎮 **Reworked XInput gamepad support.**
+- 🕹️ **Steam Deck now has a dedicated installer** (the Linux installer also works).
 
 ## 🎮 Features
 
@@ -38,8 +38,12 @@
 - 🔍 **Zoom in and out.**
 - 🎨 **Video options:** screen model, grid, scaling and vsync.
 - 🔊 **Audio options** and volume control.
+- 🔊 **Normal audio mode:** the game fast-forwards while the audio keeps playing at normal speed.
 - ⏩ **Fast forward.**
-- 🕹️ **Remappable controls** and generic XInput gamepad support.
+- 🎛️ **Completely redesigned menu.**
+- 🎮 **Gamepad support** (generic XInput).
+- 🐧 **Native Linux version.**
+- 🕹️ **Steam Deck support.**
 - 📦 **One-click installer:** pick your ROM and you're done.
 - 🚫 **No console BIOS needed.**
 
@@ -89,6 +93,13 @@ Controls can be remapped from the Options Menu.
 | Silent | No audio (default) |
 | Fast audio | Audio speed follows the fast forward speed |
 | Normal | Audio keeps playing at normal speed |
+
+## 💬 Text Bubbles
+
+| Option | Behavior |
+|--------|----------|
+| Manual length | Changes the length of the text bubbles |
+| Size | Changes the size of the text bubbles |
 
 ## 🚀 Installation
 
@@ -146,12 +157,9 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 ## 🐞 Known issues
 
 - 👻 In the first level, some sprite silhouettes may appear on screen for 1 to 3 seconds. They don't show up again for the rest of the game.
-- 🎮 The first time you launch the game, the gamepad may not be detected until you open Options > Input and try to remap a button. It then activates on its own.
 
 ## ⚠️ Good to know
 
-- 🐢 The first installation builds the game on your PC and can take several minutes. It is normal for the PC to slow down and for CPU/RAM usage to rise. This only happens once.
-- 💾 The install is larger than the game alone because it includes the compiler toolchain needed to build it.
 - 🚧 This is a work in progress.
 
 > ### 🛡️ Windows or your antivirus shows a warning?
@@ -161,7 +169,7 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 
 ## 📜 License and credits
 
-- License: MIT, see [LICENSE](Licenses/LICENSE). It keeps the original author's copyright line.
+- License: MIT, see [LICENSE](LICENSE). It keeps the original author's copyright line.
 - Based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey (MIT OR Apache-2.0).
 - `gamedb.sqlite` is by JRickey, released under CC0 1.0.
 - Includes [w64devkit](https://github.com/skeeto/w64devkit) (GCC, binutils and other tools under GPL and compatible licenses), unmodified. Their licenses are in `payload/toolchain`.

@@ -324,6 +324,28 @@ Documentation: [docker.md](docs/docker.md), [portable.md](docs/portable.md).
 
 [Change record](docs/changes/2026-10-20-docker-linux-build.json)
 
+## 2026-10-20 — Plan measured desktop optimizations with correctness and compatibility gates
+
+Type: docs. Platforms: Desktop Linux and Windows.
+
+**Changes**
+
+- Add a repository TODO with 13 prioritized tasks: reproducible AI-turn workloads, profiling and equivalence gates, transient GPU recovery, upload/buffer reuse, CPU/native/PPU/audio/pacing improvements, and conditional GPU temporal processing and zoom parallelism.
+- Document code evidence, risk, dependencies and completion criteria; defer guest-AI and full-PPU GPU rewrites until measurements and equivalence justify their complexity. Link the plan from README and project state.
+
+**Validation**
+
+- Reviewed the current runtime, native dispatch, CPU PPU, temporal filters, GPU presenter/UI uploads, FPS overlay, audio handoff and existing benchmark/equivalence tests; checked wgpu 26 upload/timestamp documentation.
+- All 13 task IDs are unique and pending, local source links resolve, project-memory checks including --base HEAD pass, and the diff passes whitespace checks. No runtime tests were needed for this documentation-only change.
+
+**Limitations**
+
+- Planning/documentation only: no runtime optimization, new benchmark measurement or native AI-turn speedup is claimed. Task priorities after baseline collection depend on the measured bottleneck.
+
+Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
+
+[Change record](docs/changes/2026-10-20-desktop-performance-todo.json)
+
 ## 2026-10-20 — Keep two automatic cartridge-save backups and restore them from the controller menu
 
 Type: added. Platforms: Windows (Wine), Desktop.

@@ -116,6 +116,12 @@ Read current source and manifests before relying on older build instructions.
 
 ## Validation knowledge and remaining uncertainty
 
+- [Desktop performance TODO](PERFORMANCE_TODO.md) tracks planned work, not
+  implemented speedups. Start with a reproducible enemy-turn replay and
+  stage/p95/p99 measurements, then bounded surface recovery and redundant
+  upload/allocation reduction. GPU LUT/temporal processing is conditional on
+  measured cost; preserve per-guest-frame history and the CPU reference path.
+  Guest AI/GPU or full-PPU rewrites are not the first-line approach.
 - [Windows runtime performance](../windows_runtime_performance.md) documents
   the tested replay and matching framebuffer/OAM results. Timing improvements
   were measured under Wine, with environment lookup costs specific to that

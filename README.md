@@ -213,6 +213,8 @@ in-game `.sav` saves for transfer to a GBA or another emulator.
 ## Development history and project skills
 
 See [CHANGELOG.md](CHANGELOG.md) for implemented changes and validation.
+See the [desktop performance TODO](docs/development/PERFORMANCE_TODO.md) for
+prioritized optimization work, CPU/GPU candidates and correctness gates.
 [AGENTS.md](AGENTS.md) routes the local development, Windows validation and
 project memory skills. Follow the [memory workflow](docs/development/MEMORY_WORKFLOW.md)
 to record changes and run `python3 scripts/project_memory.py check` before handoff.

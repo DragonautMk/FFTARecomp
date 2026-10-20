@@ -21,15 +21,25 @@ Read current source and manifests before relying on older build instructions.
 
 ## Desktop behavior
 
+- [Windows portable edition](../portable.md): `portable.txt` beside the actual
+  executable opts into shared `input_config::storage::portable_root()` resolution.
+  Settings/labels use `Data/config`, native translations `Data/cache`, cartridge
+  progress `Data/saves/ffta.sav`; backups and slots remain beside that save.
+  No AppData ROM/settings/save-pointer fallback in this mode. The wrapper copies
+  a first-launch selected ROM to `ffta.gba`. Explicit environment path overrides
+  still apply. Move the entire folder while closed; paths are resolved afresh.
+  `scripts/package_ffta_windows.py` and Windows `build-all.ps1` create a portable
+  ZIP by explicit file selection. Existing installed behavior needs no marker;
+  migration is an explicit copy, never a silent move of personal data.
 - [FPS overlay](../fps_overlay.md): Video > FPS counter; off/internal/external/
   both. INT measures completed guest frames per wall second; EXT measures host
   presentations, not display scanout. Configuration uses `video.fps` in
-  `%APPDATA%\FFTARecomp\av.cfg` on Windows.
+  `%APPDATA%\FFTARecomp\av.cfg` in installed Windows mode.
 - [Menu shortcuts](../menu_shortcuts.md): configurable single controls/chords
   under Input > Keyboard, Mouse & Keyboard, or Gamepad > Open menu. Defaults
   Escape and Start+Back/Select. Escape remains a recovery shortcut; Guide/Mode
   works where exposed. Persistence uses `key.menu` and `pad.menu` in
-  `%APPDATA%\FFTARecomp\input.cfg`.
+  `%APPDATA%\FFTARecomp\input.cfg` in installed mode.
 - Save resolution lives in `crates/recomp/src/save_path.rs`. `FFTA_SAVE_PATH`
   overrides the selected location. Windows remembers the shared save location
   under `%LOCALAPPDATA%\FFTARecomp\shared-save-path.txt`. Save files are raw

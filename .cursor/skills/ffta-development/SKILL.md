@@ -54,3 +54,9 @@ Use targeted behavioral checks. Shared display globals require serial core
 tests. Use the Windows validation skill when building or packaging Windows.
 Finish with the project-memory skill, recording only observed results and
 preserving unresolved limitations.
+
+Portable storage is selected by `portable.txt` beside the executable; see
+`docs/portable.md` and `input_config::storage`. Route new mutable app data
+through that root in portable mode. Never fall back to AppData or persist an
+absolute bundle path there; preserve explicit environment overrides. Test a
+folder move with unrelated working directory and keep private Data out of ZIPs.

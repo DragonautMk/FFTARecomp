@@ -1,5 +1,11 @@
 # Desktop FPS overlay
 
+For the Windows portable edition, settings are under `Data/config` and the
+cartridge save is `Data/saves/ffta.sav`, with backups and state slots beside it.
+See [portable storage and migration](portable.md). Installed-mode paths below
+apply when `portable.txt` is absent.
+
+
 Open the pause menu with Esc, then **Video > FPS counter**. Choose **Off**,
 **Internal**, **External**, or **Both**, using Left/Right or the dropdown.
 The choice persists as `video.fps` in `av.cfg`; existing configs default to Off.

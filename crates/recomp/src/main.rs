@@ -1127,9 +1127,9 @@ fn ensure_native(
     gamedb: Option<&gamedb::GameDb>,
 ) -> Result<(NativeLibrary, BlockTable), String> {
     let sha = rom_sha256(rom);
-    let base = dirs::cache_dir()
-        .unwrap_or_else(std::env::temp_dir)
-        .join("FFTARecomp");
+    let base = input_config::storage::portable_root()
+        .map(|root| root.join("Data").join("cache"))
+        .unwrap_or_else(|| dirs::cache_dir().unwrap_or_else(std::env::temp_dir).join("FFTARecomp"));
     let dir = base.join(format!("t{TRANSLATION_REV}"));
     // Sweep superseded revision directories — they can only hold stale
     // translations no current binary will ever load.

@@ -26,6 +26,34 @@ Documentation: [windows_runtime_performance.md](docs/windows_runtime_performance
 
 [Change record](docs/changes/2026-10-20-windows-runtime-performance.json)
 
+## 2026-10-20 — Ship a portable Windows bundle with local settings, saves and cache
+
+Type: changed. Platforms: Windows (Wine), Desktop storage.
+
+**Changes**
+
+- Enable executable-relative portable storage with portable.txt: Data/config for settings and labels, Data/cache for translations and Data/saves/ffta.sav for cartridge progress, with existing backup and nine-slot directories alongside it.
+- Keep portable runs independent of installed AppData ROMs, remembered save pointers and settings; retain explicit environment overrides and installed behavior when the marker is absent.
+- Offer a first-launch ROM picker and stage a complete copy beside the executable without overwriting a concurrently created destination; report startup errors in a dialog and play-error.log.
+- Replace the default Windows installer packaging in build-all.ps1 with an explicit-input portable ZIP packager including runtime, TinyCC source/notices and migration documentation, excluding ROMs and personal Data.
+
+**Validation**
+
+- Windows GNU release build passed; 26 input/config and 42 runtime tests passed through Wine, including marker opt-in and folder relocation. Two optional ROM-specific runtime cases remained ignored.
+- Actual wrapper plus simulated-XInput smoke passed from an unrelated working directory with spaces in the bundle path: created a preview slot and local native cache, moved the folder, loaded the slot and reused the unchanged cache; two startup backup copies retained.
+- First-launch file-dialog selection copied the ROM byte-for-byte, launched gameplay and displayed the portable config internal-only FPS overlay. Installed AppData file hashes and modification times remained unchanged across all three launches.
+- Final locked/offline Windows release build, archive CRC/input equality, TinyCC/source/license and private-data/test-double exclusion checks passed. Project memory coverage (including --base HEAD), updated skill validation and whitespace checks passed.
+
+**Limitations**
+
+- Native Windows and physical controllers were not tested; GUI validation used Wine and simulated XInput.
+- The full PowerShell multi-platform build sequence was not executed on this Linux host. Linux/Steam Deck installer and Android packaging remain separate.
+- Existing progress/settings require explicit copying as documented; explicit environment overrides may place files outside the portable folder. Keep the folder writable and move it only while the game is closed.
+
+Documentation: [portable.md](docs/portable.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
+
+[Change record](docs/changes/2026-10-20-windows-portable-edition.json)
+
 ## 2026-10-20 — Save and load persistent machine checkpoints from the desktop menu
 
 Type: added. Platforms: Windows (Wine), Linux core.

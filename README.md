@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>Final Fantasy Tactics Advance, running natively on your Windows PC, Linux PC or Steam Deck.</b><br>
-  Widescreen, video and audio options, and a one-click installer.
+  Widescreen, video and audio options, and a portable Windows edition.
 </p>
 
 <p align="center">
@@ -44,7 +44,7 @@
 - 🎮 **Gamepad support** (generic XInput).
 - 🐧 **Native Linux version.**
 - 🕹️ **Steam Deck support.**
-- 📦 **One-click installer:** pick your ROM and you're done.
+- 📦 **Portable on Windows:** extract, pick your ROM and keep all data in one folder.
 - 🚫 **No console BIOS needed.**
 
 ## 🕹️ Controls
@@ -110,9 +110,13 @@ then release all its controls to save it. Escape and Guide remain available.
 
 ### Windows
 
-1. Download `FFTARecomp-windows-x86_64.zip` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and extract it.
-2. Run `FFTARecomp.exe`, choose your ROM and press **Recompile & Install**.
-3. Wait for the five steps to finish, then press **Play**. ▶️
+1. Extract `FFTARecomp-windows-portable.zip` to a writable folder.
+2. Run `FFTARecomp.exe` and choose your own FFTA USA/Europe ROM on first launch.
+3. Move the whole folder to keep ROM, settings, saves, backups and state slots.
+
+There is no installer. To import existing progress, close the game and copy your
+raw `.sav` to `Data/saves/ffta.sav`, keeping a copy of any existing destination.
+See [portable storage, migration and builds](docs/portable.md).
 
 ### Linux / Steam Deck
 
@@ -136,26 +140,16 @@ cd FFTARecomp
 .\build-all.ps1
 ```
 
-The script does everything in order:
-
-1. Builds the whole workspace (`cargo build --release`).
-2. Builds the installer (`cargo build --release -p installer`).
-3. Copies `installer.exe` into `Installer\`, next to the static `payload` folder.
-4. Downloads the compiler toolchain ([w64devkit](https://github.com/skeeto/w64devkit) 2.10.0) into `Installer\payload\toolchain`, only if it is missing.
-
-When it finishes, the final installer is in:
-
-```
-FFTARecomp\Installer\
-```
+The script builds the Windows workspace, bundles TinyCC and creates
+`dist/FFTARecomp-windows-portable.zip`. It also retains the separate Linux/Steam
+Deck installer and Android build steps. Use `-SkipAndroid` to omit the APK.
+For a Windows-only build, see [portable build commands](docs/portable.md).
 
 If PowerShell blocks the script, run it with:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\build-all.ps1
 ```
-
-To force a fresh toolchain download, delete `Installer\payload\toolchain` and run the script again.
 
 > ⏱️ The first build can take several minutes.
 

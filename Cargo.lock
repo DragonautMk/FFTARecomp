@@ -2154,6 +2154,9 @@ name = "ffta-play"
 version = "0.1.0"
 dependencies = [
  "dirs 6.0.0",
+ "input-config",
+ "rfd 0.15.4",
+ "tempfile",
  "winresource",
 ]
 
@@ -4548,6 +4551,7 @@ dependencies = [
  "armv4t",
  "dirs 6.0.0",
  "gba-core",
+ "input-config",
  "libloading",
  "toml 0.8.23",
 ]

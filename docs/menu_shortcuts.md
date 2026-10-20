@@ -1,5 +1,11 @@
 # Configurable desktop menu shortcuts
 
+For the Windows portable edition, settings are under `Data/config` and the
+cartridge save is `Data/saves/ffta.sav`, with backups and state slots beside it.
+See [portable storage and migration](portable.md). Installed-mode paths below
+apply when `portable.txt` is absent.
+
+
 The default keyboard shortcut is **Escape**. The default gamepad shortcut
 is **Start + Back/Select** on XInput, DirectInput and standard gamepads.
 Guide/Mode remains an additional way to open the menu where the OS exposes it.

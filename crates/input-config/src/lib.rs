@@ -2,6 +2,8 @@
 //! runtime (which honors them). Plain `key = value` text under the user
 //! config dir. Native Windows controller support is isolated in directinput.
 
+pub mod storage;
+
 use std::collections::HashSet;
 use std::path::PathBuf;
 pub mod directinput;
@@ -910,6 +912,9 @@ pub fn default_path() -> Option<PathBuf> {
 /// `<config dir>/gba-recomp`, the per-user config/state directory,
 /// resolved per-platform without pulling in a dependency.
 pub fn config_root() -> Option<PathBuf> {
+    if let Some(root) = storage::portable_root() {
+        return Some(root.join("Data").join("config"));
+    }
     let base = if cfg!(target_os = "macos") {
         PathBuf::from(std::env::var_os("HOME")?).join("Library/Application Support")
     } else if cfg!(windows) {

@@ -1,5 +1,11 @@
 # Nine desktop save-state slots
 
+For the Windows portable edition, settings are under `Data/config` and the
+cartridge save is `Data/saves/ffta.sav`, with backups and state slots beside it.
+See [portable storage and migration](portable.md). Installed-mode paths below
+apply when `portable.txt` is absent.
+
+
 Open the pause menu and choose **Save states**. Everything happens inside the
 menu, including feedback and overwrite confirmation; no file picker is needed.
 

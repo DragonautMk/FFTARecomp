@@ -1,5 +1,11 @@
 # Automatic cartridge-save backups
 
+For the Windows portable edition, settings are under `Data/config` and the
+cartridge save is `Data/saves/ffta.sav`, with backups and state slots beside it.
+See [portable storage and migration](portable.md). Installed-mode paths below
+apply when `portable.txt` is absent.
+
+
 Each desktop game launch protects the currently selected **cartridge `.sav`**
 before loading it into the machine or allowing gameplay/autosave. The two most
 recent startup copies are retained. The first launch with an existing save

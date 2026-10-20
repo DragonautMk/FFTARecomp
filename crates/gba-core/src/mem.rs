@@ -29,6 +29,11 @@ fn ffta_oam_log_enabled() -> bool {
     *ENABLED.get_or_init(|| std::env::var("FFTA_OAM_LOG").as_deref() == Ok("1"))
 }
 
+fn trace_sound_dma() -> bool {
+    static ENABLED: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ENABLED.get_or_init(|| std::env::var_os("RECOMP_TRACE_SDMA").is_some())
+}
+
 const DISPSTAT: u32 = 0x0400_0004;
 const VCOUNT: u32 = 0x0400_0006;
 const KEYINPUT: u32 = 0x0400_0130;
@@ -902,9 +907,9 @@ impl MemMap {
                 Some(s) => self.fifo_sample[f] = s,
                 None => {
                     self.fifo_underruns[f] += 1;
-                    if std::env::var_os("RECOMP_TRACE_SDMA").is_some()
-                        && f == 0
+                    if f == 0
                         && self.fifo_underruns[0] % 200 == 1
+                        && trace_sound_dma()
                     {
                         let d = &self.dma[1];
                         eprintln!(
@@ -936,8 +941,7 @@ impl MemMap {
                         && self.dma[ch].cur_dst & !3 == fifo_addr
                     {
                         self.fifo_refills[f] += 1;
-                        if std::env::var_os("RECOMP_TRACE_SDMA").is_some()
-                            && self.fifo_refills[f] % 64 == 1
+                        if self.fifo_refills[f] % 64 == 1 && trace_sound_dma()
                         {
                             eprintln!(
                                 "sdma f{f} ch{ch} refill#{} src={:08x} clock={}",

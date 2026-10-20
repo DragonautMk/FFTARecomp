@@ -2421,6 +2421,11 @@ fn run_frame_native(
     let mut native = 0u64;
     let mut fallback = 0u64;
     let mut steps = 0u64;
+    // Diagnostics are configured for the frame, not for each guest block.
+    // In particular, querying the Windows environment used to add an
+    // environment lookup to every successful native dispatch.
+    let trace_iwram = std::env::var_os("RECOMP_TRACE_IWRAM").is_some();
+    let trace_fallback = trace_fallback();
     // Fallback-entry detection state (RECOMP_TRACE_FALLBACK): end address
     // of the previous fallback instruction; MAX = last step wasn't a
     // straight-line fallback continuation.
@@ -2474,7 +2479,7 @@ fn run_frame_native(
         match table.get(key) {
             Some(f) => {
                 // Diagnostic: census of executed IWRAM natives.
-                if std::env::var_os("RECOMP_TRACE_IWRAM").is_some() && key >> 24 == 3 {
+                if trace_iwram && key >> 24 == 3 {
                     IWRAM_HITS.with(|h| *h.borrow_mut().entry(key).or_insert(0u64) += 1);
                 }
                 f(&RT_API, mptr);
@@ -2497,7 +2502,7 @@ packager (it becomes a label; the rebuilt package covers it).",
                 // Straight-line continuation inside a fallback run is not
                 // an entry; the same discontinuity filter as the build
                 // profiler applies.
-                if trace_fallback() {
+                if trace_fallback {
                     if key & !1 != fb_prev_end {
                         let new = FALLBACK_ENTRIES.with(|h| {
                             let mut h = h.borrow_mut();

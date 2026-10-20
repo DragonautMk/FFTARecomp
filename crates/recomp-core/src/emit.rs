@@ -909,6 +909,26 @@ pub fn emit_c_chunked(
 
 #[cfg(test)]
 mod ffta_logging_tests {
+    // MemoryTcc writes an ELF relocatable cache, including on Windows; it
+    // must be loaded by TinyCC rather than the operating system's DLL loader.
+    enum TestCode {
+        Dll(libloading::Library),
+        TinyCc(crate::tcc_memory::NativeCode),
+    }
+
+    impl TestCode {
+        fn blocks(&self) -> &[gba_core::capi::RcgBlock] {
+            match self {
+                Self::TinyCc(code) => code.blocks().unwrap(),
+                Self::Dll(library) => unsafe {
+                    let blocks = library.get::<*const gba_core::capi::RcgBlock>(b"rcg_blocks\0").unwrap();
+                    let count = library.get::<*const u64>(b"rcg_block_count\0").unwrap();
+                    std::slice::from_raw_parts(*blocks, **count as usize)
+                },
+            }
+        }
+    }
+
     #[test]
     #[ignore = "requires FFTA_OAM_LOG=1 and a native C compiler"]
     fn native_observers_preserve_guest_state_and_cycles() {
@@ -922,7 +942,12 @@ mod ffta_logging_tests {
         let directory = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../target/ffta-log-validation");
         std::fs::create_dir_all(&directory).unwrap();
         let path = directory.join(if cfg!(windows) { "synthetic.dll" } else { "synthetic.so" });
-        crate::build::build_library(&view,&[0x080014c9],&crate::build::Compiler::detect(),&path,0,&mut |_,_| {}).unwrap();
+        let compiler = crate::build::Compiler::detect();
+        crate::build::build_library(&view,&[0x080014c9],&compiler,&path,0,&mut |_,_| {}).unwrap();
+        let code = match compiler.backend {
+            crate::build::Backend::MemoryTcc(_) => TestCode::TinyCc(crate::tcc_memory::NativeCode::load(&path).unwrap()),
+            _ => TestCode::Dll(unsafe { libloading::Library::new(&path).unwrap() }),
+        };
         let new_machine = || {
             let mut m = gba_core::Machine::new(rom.clone());
             m.cpu.cpsr |= 0x20;
@@ -937,11 +962,8 @@ mod ffta_logging_tests {
         reference.bus.ffta_diagnostics = None;
         for _ in 0..5 { reference.step(); }
         let mut observed = new_machine();
-        unsafe {
-            let library = libloading::Library::new(&path).unwrap();
-            let blocks = library.get::<*const gba_core::capi::RcgBlock>(b"rcg_blocks\0").unwrap();
-            let count = library.get::<*const u64>(b"rcg_block_count\0").unwrap();
-            let block = std::slice::from_raw_parts(*blocks,**count as usize).iter().find(|b| b.key==0x080014c9).unwrap();
+        {
+            let block = code.blocks().iter().find(|b| b.key==0x080014c9).unwrap();
             (block.func)(&gba_core::capi::RT_API,&mut observed as *mut _ as *mut std::ffi::c_void);
         }
         assert_eq!(observed.cpu.regs,reference.cpu.regs);
@@ -967,11 +989,8 @@ mod ffta_logging_tests {
             reference.step();
             let mut observed = machine();
             assert!(observed.bus.ffta_sprites.enabled);
-            unsafe {
-                let library = libloading::Library::new(&path).unwrap();
-                let blocks = library.get::<*const gba_core::capi::RcgBlock>(b"rcg_blocks\0").unwrap();
-                let count = library.get::<*const u64>(b"rcg_block_count\0").unwrap();
-                let block = std::slice::from_raw_parts(*blocks,**count as usize).iter().find(|b| b.key==0x080014c9).unwrap();
+            {
+                let block = code.blocks().iter().find(|b| b.key==0x080014c9).unwrap();
                 let next = (block.func)(&gba_core::capi::RT_API,&mut observed as *mut _ as *mut std::ffi::c_void);
                 assert_eq!(next, 0x080014cb);
             }

@@ -59,4 +59,14 @@ Portable storage is selected by `portable.txt` beside the executable; see
 `docs/portable.md` and `input_config::storage`. Route new mutable app data
 through that root in portable mode. Never fall back to AppData or persist an
 absolute bundle path there; preserve explicit environment overrides. Test a
-folder move with unrelated working directory and keep private Data out of ZIPs.
+folder move with unrelated working directory and keep private Data out of release archives.
+Native Linux bundles use `scripts/package_ffta_linux.sh` and the shared portable
+packager. Preserve executable tar modes, bundle `tcc/libtcc.so` with its source
+and notices, inspect `ldd`/glibc requirements and distinguish Xvfb checks from
+physical-controller and Wayland checks.
+
+For containerized Linux builds use `Dockerfile.linux` and
+`scripts/build_linux_docker.sh`; keep private game data out of Docker context,
+keep build caches separate from host `target/`, and export artifacts without
+bind-mounting the checkout writable. Containerized compilation does not bundle
+the host GUI/runtime libraries; record the base and observed libc requirements.

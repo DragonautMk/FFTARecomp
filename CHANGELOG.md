@@ -189,6 +189,34 @@ Documentation: [menu_shortcuts.md](docs/menu_shortcuts.md).
 
 [Change record](docs/changes/2026-10-20-menu-shortcuts.json)
 
+## 2026-10-20 — Package a native Linux portable edition with executable archive permissions
+
+Type: added. Platforms: Ubuntu 26.04 x86_64, Windows packaging compatibility.
+
+**Changes**
+
+- Build and package native recomp/ffta-play plus TinyCC as dist/FFTARecomp-linux-portable.tar.gz, with executable launchers, local portable marker and empty Data directories; replace the native Linux installer packaging entry point.
+- Share explicit package input selection and staged atomic publication between Linux tar.gz and Windows ZIP, retaining the existing Windows script interface and TinyCC source/licenses while excluding game and personal data.
+- Document Ubuntu startup, native dependencies, glibc 2.43 requirement for this host-built runtime, portable migration and observed validation; extend project guidance for Linux packaging.
+
+**Validation**
+
+- Native locked/offline release build and TinyCC build passed on Ubuntu 26.04 x86_64 using locally extracted ALSA development metadata. All runtime shared libraries resolved with ldd; ELF inspection established glibc 2.43 runtime and 2.39 wrapper requirements.
+- 26 input/config and 41 runtime tests passed natively; two optional runtime tests were ignored.
+- Observed native X11 gameplay/FPS on the local desktop. An isolated Xvfb/Mesa llvmpipe keyboard smoke saved a preview slot, closed normally, moved the folder, loaded the same slot and closed normally again; translation cache bytes/mtime were reused, startup backups counted one then two and external per-user files remained unchanged.
+- The refactored Windows compatibility packaging entry point produced a ZIP with archive CRC and input-equality verification.
+- The native Linux packaging shell script completed end to end. Final gzip/tar integrity, executable mode 0755, runtime/TinyCC input equality, source/notices presence and private-data exclusion checks passed. Project memory coverage, skill validation and whitespace checks passed.
+
+**Limitations**
+
+- This native archive was built for Ubuntu 26.04 x86_64 and requires glibc 2.43; older Ubuntu versions and Steam Deck compatibility were not established.
+- Physical controllers, native Wayland interaction and first-launch ROM selection were not tested on Linux; the Linux smoke used a preplaced user ROM and Xvfb software rendering for menu automation.
+- Application data is portable; Linux graphical, ALSA, udev and libc runtime dependencies remain supplied by the host. Windows-hosted Linux cross-build and Android outputs remain separate.
+
+Documentation: [portable.md](docs/portable.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
+
+[Change record](docs/changes/2026-10-20-linux-native-portable.json)
+
 ## 2026-10-20 — Add configurable internal and external FPS overlay
 
 Type: added. Platforms: Windows (Wine), Desktop.
@@ -211,6 +239,35 @@ Type: added. Platforms: Windows (Wine), Desktop.
 Documentation: [fps_overlay.md](docs/fps_overlay.md).
 
 [Change record](docs/changes/2026-10-20-fps-overlay.json)
+
+## 2026-10-20 — Build Linux portable releases with container-managed dependencies
+
+Type: added. Platforms: Linux amd64 (Docker).
+
+**Changes**
+
+- Add a Rust 1.94.0/Debian Bookworm build image pinned by digest with GCC, Python, pkg-config and ALSA/udev development packages installed inside the container.
+- Export only the portable tar.gz and compiler/libc/library/hash information through a scratch stage; keep BuildKit registry/git/target caches separate from the checkout and run runtime/input tests before export.
+- Add a one-command build/export wrapper and an allowlisted Docker context excluding ROMs, personal saves, state slots, agent settings and host build outputs; document the distinction between contained build dependencies and host GUI/runtime dependencies.
+- Include Docker workflow documentation in portable packages and retain the separate direct Ubuntu-built archive.
+
+**Validation**
+
+- Shell syntax and Python packaging syntax checks passed. Excess arguments, comma-containing and newline-containing output paths were rejected from an unrelated working directory before invoking Docker.
+- Actual Docker build/export completed: Rust 1.94.0 and Debian Bookworm glibc 2.36; 26 input/config and 41 runtime tests passed inside the container, with two optional runtime cases ignored.
+- All exported runtime dependencies resolved on Ubuntu; ELF inspection found maximum required GLIBC versions 2.35 (runtime), 2.34 (wrapper) and 2.34 (TinyCC), compared with 2.43 for the earlier direct host runtime.
+- The exported package passed an Ubuntu-host Xvfb/Mesa llvmpipe native keyboard smoke: preview slot save, normal close, full folder relocation, slot load, unchanged cache bytes/mtime, one then two startup copies and unchanged external per-user files.
+- Final digest-pinned build/export passed. A second invocation from /tmp with a space-containing output path reused cached build layers and exported identical archive/build-info bytes. Final archive checks passed for executable modes, source/notices/docs, checksum, host ownership, equality with the native-tested binaries and private-data exclusion.
+
+**Limitations**
+
+- The image digest and Cargo.lock are pinned; Debian package updates mean bit-for-bit reproducible builds are not guaranteed.
+- The build is linux/amd64. Containerized compilation does not bundle the host desktop graphics stack, libc, ALSA or udev runtime libraries into the portable archive.
+- GUI validation used Ubuntu 26.04 Xvfb and software rendering with a preplaced user ROM; older-distro/Steam Deck, physical controllers and native Wayland interaction remain unverified.
+
+Documentation: [docker.md](docs/docker.md), [portable.md](docs/portable.md).
+
+[Change record](docs/changes/2026-10-20-docker-linux-build.json)
 
 ## 2026-10-20 — Keep two automatic cartridge-save backups and restore them from the controller menu
 

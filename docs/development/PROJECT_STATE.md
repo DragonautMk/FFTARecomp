@@ -16,12 +16,26 @@ Read current source and manifests before relying on older build instructions.
   native code; TinyCC compiles it. Runtime execution can still use interpreter
   fallbacks. Inspect cache revision/ABI requirements when changing emission or
   guest semantics; a host-only overlay does not itself change the guest ABI.
-- Windows is the current user focus. The release profile currently uses thin
+- Desktop packaging covers Windows and Linux. The release profile uses thin
   LTO and 16 codegen units; the Cargo manifest is authoritative.
+
+## Container builds
+
+- `Dockerfile.linux` and `scripts/build_linux_docker.sh` build Linux amd64 using
+  Rust 1.94.0 / Debian Bookworm with ALSA/udev development dependencies inside
+  the container. BuildKit caches Cargo/target separately from the host checkout.
+  The scratch export stage writes only the portable tar.gz and BUILD-INFO.txt
+  to `dist/docker-linux/`; runtime GUI/system libraries remain host dependencies.
+  `.dockerignore` allows desktop build inputs and excludes game/personal data.
+  Container tests passed (26 input/config + 41 runtime); the exported runtime
+  requires glibc 2.35 and passed a native Ubuntu Xvfb save/load/relocation check.
+  Older-distro and physical-controller compatibility remain unverified.
+  See [Docker workflow](../docker.md). Keep the direct Ubuntu-built archive
+  distinct, and establish actual libc requirements for each build environment.
 
 ## Desktop behavior
 
-- [Windows portable edition](../portable.md): `portable.txt` beside the actual
+- [Desktop portable editions](../portable.md): `portable.txt` beside the actual
   executable opts into shared `input_config::storage::portable_root()` resolution.
   Settings/labels use `Data/config`, native translations `Data/cache`, cartridge
   progress `Data/saves/ffta.sav`; backups and slots remain beside that save.
@@ -29,7 +43,12 @@ Read current source and manifests before relying on older build instructions.
   a first-launch selected ROM to `ffta.gba`. Explicit environment path overrides
   still apply. Move the entire folder while closed; paths are resolved afresh.
   `scripts/package_ffta_windows.py` and Windows `build-all.ps1` create a portable
-  ZIP by explicit file selection. Existing installed behavior needs no marker;
+  ZIP by explicit file selection. Native Linux uses
+  `scripts/package_ffta_linux.sh` and the shared
+  `scripts/package_ffta_portable.py --platform linux` for a tar.gz with executable
+  modes preserved and `tcc/libtcc.so`. The current archive targets the Ubuntu
+  26.04 x86_64 host; broad older-distro/Steam Deck compatibility is unverified.
+  Existing installed behavior needs no marker;
   migration is an explicit copy, never a silent move of personal data.
 - [FPS overlay](../fps_overlay.md): Video > FPS counter; off/internal/external/
   both. INT measures completed guest frames per wall second; EXT measures host

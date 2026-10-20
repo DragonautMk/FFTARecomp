@@ -120,19 +120,33 @@ See [portable storage, migration and builds](docs/portable.md).
 
 ### Linux / Steam Deck
 
-Download `FFTARecomp-linux-x86_64.tar.gz` from [Releases](https://github.com/Jorge262007/FFTARecomp/releases) and run:
+Extract the native `FFTARecomp-linux-portable.tar.gz` and run:
 
 ```bash
-mkdir -p FFTARecomp-linux && tar -xzf FFTARecomp-linux-x86_64.tar.gz -C FFTARecomp-linux && cd FFTARecomp-linux && ./FFTAInstaller
+tar -xzf FFTARecomp-linux-portable.tar.gz
+cd FFTARecomp-portable
+./FFTARecomp
 ```
 
-On Steam Deck, run it from Desktop Mode.
-
-> 💡 You need your own copy of *Final Fantasy Tactics Advance (USA)*. This project does not include any game data.
+Choose your own FFTA USA/Europe ROM on first launch. Settings, cartridge saves,
+backups and state slots stay inside `Data`; move the whole folder while closed.
+No Wine or installation step is needed. The current native archive is tested
+on Ubuntu 26.04 x86_64; see [portable requirements and migration](docs/portable.md).
+Steam Deck compatibility for this host-built archive has not been verified.
 
 ## 🔨 Building from source
 
-You need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
+For Linux, build with dependencies contained in Docker:
+
+```bash
+bash scripts/build_linux_docker.sh
+```
+
+The portable archive and build information appear in `dist/docker-linux/`.
+The host needs Docker with Buildx; compiler and development packages stay in the
+container. See [Docker builds and runtime requirements](docs/docker.md).
+
+For Windows, you need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
 
 ```powershell
 git clone https://github.com/Jorge262007/FFTARecomp.git

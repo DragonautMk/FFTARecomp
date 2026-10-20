@@ -3613,6 +3613,22 @@ mod tests {
         fresh.load_state(&checkpoint).unwrap();
         assert_eq!(replay(&mut fresh), expected_frames);
         assert_eq!(fresh.save_state().unwrap(), expected_state);
+        // Exercise the actual slot undo path with native blocks and live HLE audio.
+        let dir = tempfile::tempdir().unwrap();
+        let mut slots = crate::save_state::Slots::new(&dir.path().join("test.sav"), &fresh.bus.rom);
+        let preview = vec![[0,0,0,255]; crate::save_state::PREVIEW_W*crate::save_state::PREVIEW_H];
+        slots.save(&fresh,1,&preview,false).unwrap();
+        replay(&mut fresh);
+        let before_load = fresh.save_state().unwrap();
+        slots.load(&mut fresh,1).unwrap();
+        assert_eq!(slots.undo(&mut fresh).unwrap(),crate::save_state::UndoEffect::Load(1));
+        assert_eq!(fresh.save_state().unwrap(),before_load);
+        let undone_frames = replay(&mut fresh);
+        let undone_state = fresh.save_state().unwrap();
+        let mut reference = Machine::new(fresh.bus.rom.clone());
+        reference.load_state(&before_load).unwrap();
+        assert_eq!(replay(&mut reference),undone_frames);
+        assert_eq!(reference.save_state().unwrap(),undone_state);
     }
 
     #[test]

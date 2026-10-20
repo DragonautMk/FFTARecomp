@@ -47,6 +47,11 @@ Read current source and manifests before relying on older build instructions.
   and are separate from cartridge `.sav` files. Loading also rewinds cartridge
   memory, which normal autosave/exit later persists. Native translations and host
   resources are not stored; input recording must stop before loading.
+  Undo last operation is one RAM-only session entry across all slots: undo save
+  restores the previous file/preview (or an empty slot), undo load restores the
+  pre-load machine. Failed operations preserve the entry; successful undo
+  consumes it without redo. A detected externally changed/missing slot prevents
+  undo save. Load and undo load both use the shared frontend restore reset.
 
 ## Validation knowledge and remaining uncertainty
 

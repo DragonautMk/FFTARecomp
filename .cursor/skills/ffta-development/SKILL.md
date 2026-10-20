@@ -36,7 +36,12 @@ Keep `.ffstate` files out of commits and packages. Slot persistence and preview
 headers live in `crates/recomp/src/save_state.rs`; the controller-only picker
 lives in `crates/menu/src/save_states.rs`. Preserve nine per-ROM generic paths,
 legacy loading, atomic preview/state writes and safe overwrite confirmation.
-Keep state-operation errors and success feedback inside the menu.
+Keep state-operation errors and success feedback inside the menu. The Slots
+owner keeps one session undo entry; replace it only after a successful save or
+load and consume it only after a successful undo. Undo save restores exact file
+and preview bytes without rewinding gameplay; undo load restores the pre-load
+machine with the same frontend reset as load. Preserve recovery after failures
+and refuse detected external slot changes instead of overwriting them.
 
 Use targeted behavioral checks. Shared display globals require serial core
 tests. Use the Windows validation skill when building or packaging Windows.

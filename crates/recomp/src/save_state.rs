@@ -278,6 +278,125 @@ mod tests {
     }
 
     #[test]
+    fn undo_save_restores_original_preview_and_empty_slot_without_rewinding_game() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut machine = Machine::new(vec![0; 256]);
+        let mut slots = Slots::new(&dir.path().join("test.sav"), &machine.bus.rom);
+        assert!(slots.undo_label().is_none());
+        slots.save(&machine, 9, &preview(), false).unwrap();
+        machine.cpu.regs[4] = 7;
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Save(9));
+        assert_eq!(machine.cpu.regs[4], 7);
+        assert!(!slots.info(9).occupied);
+        assert!(slots.undo(&mut machine).is_err()); // No redo or older undo.
+        slots.save(&machine, 9, &preview(), false).unwrap();
+        let original = read_file(&slots.path(9).unwrap()).unwrap();
+        let replacement = vec![[100, 200, 50, 255]; PREVIEW_W * PREVIEW_H];
+        machine.cpu.regs[4] = 42;
+        slots.save(&machine, 9, &replacement, true).unwrap();
+        machine.cpu.regs[4] = 99;
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Save(9));
+        assert_eq!(read_file(&slots.path(9).unwrap()).unwrap(), original);
+        assert_eq!(slots.info(9).preview, preview());
+        assert_eq!(machine.cpu.regs[4], 99);
+        assert!(slots.undo_label().is_none());
+        assert!(Slots::new(&dir.path().join("test.sav"), &machine.bus.rom)
+            .undo_label()
+            .is_none());
+    }
+
+    #[test]
+    fn undo_load_restores_exact_preload_machine_even_after_playing() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut machine = Machine::new(vec![0; 256]);
+        let mut slots = Slots::new(&dir.path().join("test.sav"), &machine.bus.rom);
+        slots.save(&machine, 1, &preview(), false).unwrap();
+        let file = read_file(&slots.path(1).unwrap()).unwrap();
+        machine.cpu.regs[4] = 42;
+        machine.bus.ewram[10] = 9;
+        machine.bus.tick(123);
+        let before = machine.save_state().unwrap();
+        slots.load(&mut machine, 1).unwrap();
+        assert_eq!(machine.cpu.regs[4], 0);
+        assert!(slots.undo_restores_machine());
+        assert_eq!(slots.undo_label().as_deref(), Some("Undo load (slot 1)"));
+        machine.cpu.regs[4] = 77;
+        machine.bus.tick(4000);
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Load(1));
+        assert_eq!(machine.save_state().unwrap(), before);
+        assert_eq!(read_file(&slots.path(1).unwrap()).unwrap(), file);
+        assert!(slots.undo_label().is_none());
+        assert!(slots.undo(&mut machine).is_err());
+        assert_eq!(machine.save_state().unwrap(), before);
+    }
+
+    #[test]
+    fn only_successful_operations_replace_undo_across_slots_and_action_kinds() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut machine = Machine::new(vec![0; 256]);
+        let mut slots = Slots::new(&dir.path().join("test.sav"), &machine.bus.rom);
+        slots.save(&machine, 1, &preview(), false).unwrap();
+        machine.cpu.regs[4] = 42;
+        let before = machine.save_state().unwrap();
+        slots.load(&mut machine, 1).unwrap();
+        assert!(slots.save(&machine, 1, &preview(), false).is_err());
+        assert!(slots.load(&mut machine, 9).is_err());
+        assert!(slots.save(&machine, 2, &[], false).is_err());
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Load(1));
+        assert_eq!(machine.save_state().unwrap(), before);
+        slots.load(&mut machine, 1).unwrap();
+        slots.save(&machine, 2, &preview(), false).unwrap();
+        let after_save = machine.save_state().unwrap();
+        assert!(slots.load(&mut machine, 9).is_err());
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Save(2));
+        assert_eq!(machine.save_state().unwrap(), after_save);
+        assert!(slots.info(1).occupied);
+        assert!(!slots.info(2).occupied);
+        assert!(slots.undo(&mut machine).is_err());
+    }
+
+    #[test]
+    fn failed_undo_preserves_external_changes_and_can_be_retried() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut machine = Machine::new(vec![0; 256]);
+        let mut slots = Slots::new(&dir.path().join("test.sav"), &machine.bus.rom);
+        slots.save(&machine, 1, &preview(), false).unwrap();
+        let path = slots.path(1).unwrap();
+        let written = read_file(&path).unwrap();
+        std::fs::write(&path, b"external changes").unwrap();
+        assert!(slots.undo(&mut machine).is_err());
+        assert_eq!(std::fs::read(&path).unwrap(), b"external changes");
+        assert!(slots.undo_label().is_some());
+        std::fs::remove_file(&path).unwrap();
+        assert!(slots.undo(&mut machine).is_err());
+        assert!(slots.undo_label().is_some());
+        std::fs::write(&path, written).unwrap();
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Save(1));
+        slots.save(&machine, 1, &preview(), false).unwrap();
+        slots.load(&mut machine, 1).unwrap();
+        let mut other = Machine::new(vec![1; 256]);
+        let original = other.save_state().unwrap();
+        assert!(slots.undo(&mut other).is_err());
+        assert_eq!(other.save_state().unwrap(), original);
+        assert!(slots.undo_restores_machine());
+        assert_eq!(slots.undo(&mut machine).unwrap(), UndoEffect::Load(1));
+    }
+
+    #[test]
+    fn undo_overwrite_restores_legacy_file_bytes() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut machine = Machine::new(vec![0; 256]);
+        let mut slots = Slots::new(&dir.path().join("test.sav"), &machine.bus.rom);
+        std::fs::create_dir_all(&slots.directory).unwrap();
+        let legacy = machine.save_state().unwrap();
+        std::fs::write(slots.path(1).unwrap(), &legacy).unwrap();
+        slots.save(&machine, 1, &preview(), true).unwrap();
+        slots.undo(&mut machine).unwrap();
+        assert_eq!(read_file(&slots.path(1).unwrap()).unwrap(), legacy);
+        assert!(slots.info(1).preview.is_empty());
+    }
+
+    #[test]
     fn nine_slots_are_stable_isolated_and_survive_restart() {
         let dir = tempfile::tempdir().unwrap();
         let rom = vec![0; 256];

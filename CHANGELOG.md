@@ -55,6 +55,34 @@ Documentation: [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/de
 
 [Change record](docs/changes/2026-10-20-save-states.json)
 
+## 2026-10-20 — Undo the last successful save-state save or load from the controller menu
+
+Type: added. Platforms: Windows (Wine), Desktop.
+
+**Changes**
+
+- Add Undo last operation to the slot picker, identifying the action and its slot independently of the currently selected slot.
+- Keep one RAM-only undo entry per play session: restore exact previous slot bytes/preview or an empty slot after saving, and restore the complete pre-load machine after loading.
+- Replace undo history only on successful saves/loads, consume it only on successful undo, preserve it across failures/menu reopen, and refuse detected external slot changes during undo save.
+- Share audio/input/display restore handling between load and undo load; block undo load during input recording. Slot and machine formats and native cache ABI remain unchanged.
+
+**Validation**
+
+- Windows GNU release under Wine: 30 menu and 36 runtime tests passed, covering undo action routing, five-row UI geometry, empty/occupied/legacy slot restoration, machine restoration after further play, failed-operation retention, external changes, retry and no redo.
+- Optional native replay passed: undoing a slot load restored the exact pre-load machine, and the next 120 framebuffer hashes and complete final state matched a reference, with enhanced audio taps enabled.
+- Controller-only simulated-XInput smoke undid new-slot creation, replacement and loading; verified slot existence/hash changes, resumed and exited cleanly. Restart preserved the slot and cleared undo history.
+- Five memory-tool tests, development skill validation and whitespace checks passed. Windows archive CRC, executable equality, TinyCC/notices presence and private-data/test-double exclusion checks passed.
+
+**Limitations**
+
+- Undo has one level in RAM for the current session, with no redo or recovery history after restart/game switch. A new successful save or load replaces it.
+- Undo load also discards gameplay since that load and restores cartridge memory; ordinary .sav autosave/exit behavior still applies.
+- Native Windows and physical gamepad validation remain outstanding; testing used Wine and simulated XInput. AndroidPort is unchanged.
+
+Documentation: [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
+
+[Change record](docs/changes/2026-10-20-save-state-undo.json)
+
 ## 2026-10-20 — Nine automatic save slots with previews and controller-only menu flow
 
 Type: changed. Platforms: Windows (Wine), Desktop.

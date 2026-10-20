@@ -1647,6 +1647,26 @@ mod tests {
     }
 
     #[test]
+    fn undo_action_tracks_last_operation_independently_of_selected_slot() {
+        let mut menu = Menu::new(true,true);
+        let mut av = AvConfig::default();
+        menu.open(Page::SaveStates);
+        at(&mut menu,Row::UndoState);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.state_message,"Nothing to undo.");
+        menu.set_state_undo(Some("Undo load (slot 9)".into()));
+        menu.handle(MenuInput::Right,&mut av);
+        assert_eq!(menu.state_slot,1);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::UndoState));
+        menu.reset(); // Closing/reopening the menu does not discard the session undo.
+        menu.open(Page::SaveStates);
+        at(&mut menu,Row::UndoState);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::UndoState));
+        menu.set_state_undo(None);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+    }
+
+    #[test]
     fn replacing_a_slot_requires_explicit_controller_confirmation() {
         let mut menu = Menu::new(true, true);
         let mut av = AvConfig::default();

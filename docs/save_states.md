@@ -5,7 +5,7 @@ menu, including feedback and overwrite confirmation; no file picker is needed.
 
 - **Left/Right** chooses slot **1–9**, wrapping at either end. Confirm on the
   Slot row also advances to the next slot.
-- **Up/Down** selects Slot, Save state, Load state or Back.
+- **Up/Down** selects Slot, Save state, Load state, Undo last operation or Back.
 - **Confirm** (A/South on the standard gamepad layout, Enter on keyboard)
   saves or loads the chosen slot. Saving an occupied slot opens an in-menu
   replacement confirmation, initially selecting Cancel. Choose Replace state
@@ -19,6 +19,36 @@ available. Success and errors appear in the same panel and need no OS dialog.
 The menu-opening combination remains configurable under Input > Open menu.
 Slots remember the selected number while this game session is running; a new
 session starts at slot 1.
+
+## Undo the last save or load
+
+Choose **Undo last operation** in the same controller-operated menu. When an
+undo is available the row identifies it, for example **Undo save (slot 9)** or
+**Undo load (slot 2)**. It targets the last successful operation across all
+slots, independently of the currently selected slot.
+
+- Undoing a **save** restores that slot's exact previous file and screenshot.
+  If the slot was empty before saving, it becomes empty again. Current gameplay
+  is unaffected.
+- Undoing a **load** restores the complete machine captured immediately before
+  loading, including cartridge memory. It also discards gameplay since that
+  load. The slot file stays unchanged; the usual audio/input/display reset is
+  applied and the game remains paused.
+
+There is **one level of undo for the current game session**. A new successful
+save or load replaces the undo entry. Menu closing/reopening and ordinary
+play do not clear it, while restarting/switching the game does. Undo consumes
+its entry; there is no redo or older history. Cancelling a confirmation or a
+failed operation keeps the previous undo available. With no entry, the menu
+shows Nothing to undo.
+
+Undo snapshots are held in RAM, not in extra backup files. Undoing a save first
+checks that its current file still matches the version written by this session;
+if a changed or missing file is detected, undo refuses to replace/delete it and
+keeps the recovery entry. An unsuccessful undo leaves it available for retry.
+Undoing a load is blocked during input recording, just like an ordinary load.
+Cartridge `.sav` persistence after undoing a load follows the normal autosave
+and exit behavior described below.
 
 ## Automatic files and previews
 
@@ -120,3 +150,20 @@ state lengths matched. Native Windows and physical controllers remain untested.
 Five project-memory tests and the updated development skill validator passed.
 Logs and screenshots live under ignored `target/state-slots-*` paths. The root
 workspace is updated; the separate AndroidPort tree is unchanged.
+
+### Undo validation
+
+Windows GNU release tests through Wine passed: **30 menu + 36 runtime tests**,
+plus the optional native replay. Undo tests cover restoring empty/occupied slots,
+exact original file/preview and legacy bytes, complete pre-load machine recovery
+after further play, last-successful-operation ordering across slots and operation
+kinds, no redo, failed-operation retention and refusing detected external file
+changes. The native test also checked 120 subsequent framebuffer hashes and the
+complete final machine after undoing a slot load, with enhanced audio taps on.
+
+The controller-only simulated-XInput smoke created slot 9, undid its creation,
+repeated undo safely, replaced the slot after advancing gameplay, restored its
+original file hash, loaded and undid that load, then resumed. A new process
+retained the slot but showed Nothing to undo. Both game processes exited cleanly.
+Screenshots and logs are under ignored `target/state-undo-*` paths. These remain
+Wine/simulated-controller checks, not native Windows or physical-pad validation.

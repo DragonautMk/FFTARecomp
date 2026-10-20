@@ -72,6 +72,19 @@ def parse_profile_stats(row, samples, require_totals=False):
     return stats
 
 
+def parse_scanline_stages(text, samples, scanline_total):
+    if not re.search(r'^FFTA_PPU_STAGE ', text, re.M):
+        return None  # Older/coarse-only runtime.
+    rows = re.findall(r'^FFTA_PPU_STAGE phase=(\w+) (.+)$', text, re.M)
+    names = {'backgrounds', 'objects', 'composition', 'ui_capture', 'ui_setup', 'scanline_other'}
+    if len(rows) != len(names) or {name for name, _ in rows} != names:
+        raise ValueError('missing or duplicate scanline-stage diagnostics')
+    stages = {name: parse_profile_stats(row, samples, require_totals=True) for name, row in rows}
+    if abs(sum(stage['total_ms'] for stage in stages.values()) - scanline_total) > 0.01:
+        raise ValueError('scanline-stage durations do not partition scanline time')
+    return stages
+
+
 def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False, ppu_profile=False, snapshot=False):
     starts = re.findall(rf'^FFTA_REPLAY_STATE frame=(\d+) machine_sha256=({HASH})$', text, re.M)
     if snapshot:
@@ -132,8 +145,9 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
         stages = {name: parse_profile_stats(row, measured, require_totals=True) for name, row in rows}
         if sum(stage['total_ms'] for stage in stages.values()) > seconds * 1000 + 0.01:
             raise ValueError('PPU/core stage durations exceed the measured interval')
-        ppu = {'frames': measured, 'scanlines': scanlines, 'zoom': zoom, 'stages': stages}
-    elif re.search(r'^FFTA_PPU_(?:COUNTS|FRAME) ', text, re.M):
+        ppu = {'frames': measured, 'scanlines': scanlines, 'zoom': zoom, 'stages': stages,
+               'scanline_stages': parse_scanline_stages(text, measured, stages['hardware_scanlines']['total_ms'])}
+    elif re.search(r'^FFTA_PPU_(?:COUNTS|FRAME|STAGE) ', text, re.M):
         raise ValueError('PPU profiling unexpectedly enabled during timing')
     return {'frames': int(end[0]), 'start_frame': start,
             'initial_state': starts[0] if snapshot else None, 'framebuffer': end[1],

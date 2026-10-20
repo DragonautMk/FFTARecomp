@@ -9,6 +9,13 @@ Read `AGENTS.md` and `docs/development/PROJECT_STATE.md` from the repository
 root. Inspect current code and Git state; historical docs include old build
 flags and paths, so manifests and implementations resolve disagreements.
 
+Before choosing a work unit, especially after compaction or goal continuation,
+read `docs/development/TASK_HANDOFF.md`. Reuse completed infrastructure and
+fixtures; an open PERF parent is not permission to redo completed substeps.
+Select a remaining criterion with a concrete deliverable, and apply the
+repeat/reopen rules in `docs/development/MEMORY_WORKFLOW.md`. Preserve rejected
+experiments as decisions until new evidence justifies reopening them.
+
 Choose the narrowest relevant area:
 - `crates/recomp/src/play.rs`: desktop event loop, pacing and presentation.
 - `crates/menu/`: menu navigation, capture state and drawing.

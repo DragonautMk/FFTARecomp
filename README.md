@@ -37,14 +37,21 @@
 - 🖥️ **Widescreen:** Auto, 16:10, 16:9 (default), 20:9, 21:9 and 32:9.
 - 🔍 **Zoom in and out.**
 - 🎨 **Video options:** screen model, grid, scaling and vsync.
+- 📊 **FPS counter:** internal, external or both, configurable in the Video menu.
 - 🔊 **Audio options** and volume control.
 - 🔊 **Normal audio mode:** the game fast-forwards while the audio keeps playing at normal speed.
 - ⏩ **Fast forward.**
 - 🎛️ **Completely redesigned menu.**
 - 🎮 **Gamepad support** (generic XInput).
+- 🎮 **Configurable menu shortcuts:** keyboard and gamepad button combinations.
+- 💾 **Save states:** 9 controller-friendly slots with screenshot previews.
+- ↩️ **Undo save/load:** undo the last save-state operation.
+- 🛟 **Automatic save backups:** keep two startup copies and restore from the menu.
 - 🐧 **Native Linux version.**
 - 🕹️ **Steam Deck support.**
 - 📦 **Portable on Windows:** extract, pick your ROM and keep all data in one folder.
+- 📦 **Portable on Linux:** keep settings, saves and cache in the game folder.
+- 🐳 **Docker builds:** compile Linux and Windows editions with containerized build dependencies.
 - 🚫 **No console BIOS needed.**
 
 ## 🕹️ Controls

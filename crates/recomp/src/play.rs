@@ -1858,7 +1858,9 @@ impl PlayApp {
         self.fps.configure(&self.av.video_fps, emu_t0);
         let frames_before = self.machine.bus.frames;
         let core_start = self.profile.start();
-        let ppu_capture = gba_core::ppu_profile::Capture::start(self.profile.enabled());
+        let ppu_capture = gba_core::ppu_profile::Capture::start_detailed(
+            self.profile.enabled(), self.profile.detailed_ppu(),
+        );
         match &self.native {
             Some((_lib, table)) => {
                 let mptr = &mut self.machine as *mut Machine as *mut std::ffi::c_void;

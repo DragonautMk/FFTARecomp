@@ -3018,8 +3018,9 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             s.apply_mouse(&mut m.bus,before - replay_first)?;
         }
         let frame_start = frame_times.start(bench_from.is_none_or(|from| before >= from));
-        let ppu_capture = gba_core::ppu_profile::Capture::start(
+        let ppu_capture = gba_core::ppu_profile::Capture::start_detailed(
             ppu_profile.enabled() && bench_from.is_none_or(|from| before >= from),
+            ppu_profile.detailed(),
         );
         let (n, f) = if cost_from.is_some_and(|n| m.bus.frames >= n) {
             run_frame_native_observed(

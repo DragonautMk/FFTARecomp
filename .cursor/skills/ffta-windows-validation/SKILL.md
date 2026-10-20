@@ -10,6 +10,15 @@ Use release builds for performance. Inspect installed targets, compiler and
 libraries before assuming a toolchain exists; `target/` paths are local
 artifacts, not repository prerequisites.
 
+Read `docs/development/TASK_HANDOFF.md` before scheduling validation. Reuse
+existing results for the same scope and inputs; compaction, a lost session
+handle or an unchecked parent TODO does not invalidate them. Before repeating
+an expensive build/test/benchmark, identify the changed input, uncovered
+criterion, explicit user request or verified failure that requires it, following
+`docs/development/MEMORY_WORKFLOW.md`. Check surviving process/artifact state
+before restarting an interrupted observation. A new implementation still needs
+the checks affected by that implementation.
+
 - Native build: `cargo build --locked --release -p recomp -p ffta-play`.
 - Cross build: select `--target x86_64-pc-windows-gnu` and a compatible linker.
 - Compile affected Windows tests, then run their executables on Windows or

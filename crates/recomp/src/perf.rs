@@ -78,6 +78,8 @@ impl FrameTimes {
 /// Per-frame PPU wall time inside core execution. Parallel zoom includes the
 /// caller's wait for workers; durations are not summed CPU usage across threads.
 pub struct PpuProfile {
+    detailed: bool,
+    stages: [FrameTimes; 6],
     series: [FrameTimes; 3],
     frames: u64,
     scanlines: u64,
@@ -87,11 +89,24 @@ pub struct PpuProfile {
 
 impl PpuProfile {
     pub fn new(enabled: bool) -> Self {
-        Self::with_limit(enabled, MAX_SAMPLES)
+        Self::configured(enabled, MAX_SAMPLES)
     }
 
+    fn configured(enabled: bool, limit: usize) -> Self {
+        let detailed = enabled && std::env::var("FFTA_PPU_STAGES").as_deref() == Ok("1");
+        Self::with_detail_limit(enabled, detailed, limit)
+    }
+
+    #[cfg(test)]
     fn with_limit(enabled: bool, limit: usize) -> Self {
+        Self::with_detail_limit(enabled, false, limit)
+    }
+
+    fn with_detail_limit(enabled: bool, detailed: bool, limit: usize) -> Self {
+        let detailed = enabled && detailed;
         Self {
+            detailed,
+            stages: std::array::from_fn(|_| FrameTimes::with_limit(detailed, limit)),
             series: std::array::from_fn(|_| FrameTimes::with_limit(enabled, limit)),
             frames: 0,
             scanlines: 0,
@@ -104,6 +119,10 @@ impl PpuProfile {
         self.series[0].enabled
     }
 
+    pub fn detailed(&self) -> bool {
+        self.detailed
+    }
+
     pub fn record(&mut self, timings: Option<gba_core::ppu_profile::Timings>) {
         if !self.enabled() {
             return;
@@ -113,7 +132,19 @@ impl PpuProfile {
             self.frames += 1;
             self.scanlines += t.scanline_calls as u64;
             self.zoom += t.zoom_calls as u64;
-            self.invalid += u64::from(ppu > t.frame);
+            let stage_total: Duration = t.stages.iter().sum();
+            self.invalid += u64::from(
+                ppu > t.frame || (self.detailed && (!t.detailed || stage_total > t.scanlines)),
+            );
+            if self.detailed {
+                for (series, duration) in self.stages.iter_mut().zip(
+                    t.stages
+                        .into_iter()
+                        .chain([t.scanlines.saturating_sub(stage_total)]),
+                ) {
+                    series.record(duration);
+                }
+            }
             self.series[0].record(t.scanlines);
             self.series[1].record(t.zoom);
             self.series[2].record(t.frame.saturating_sub(ppu));
@@ -134,6 +165,15 @@ impl PpuProfile {
                 .zip(["hardware_scanlines", "zoom_rows", "core_other"])
         {
             series.report_named(&format!("FFTA_PPU_FRAME phase={name}"));
+        }
+        if self.detailed {
+            for (series, name) in self.stages.iter_mut().zip(
+                gba_core::ppu_profile::SCANLINE_STAGES
+                    .into_iter()
+                    .chain(["scanline_other"]),
+            ) {
+                series.report_named(&format!("FFTA_PPU_STAGE phase={name}"));
+            }
         }
     }
 }
@@ -191,7 +231,7 @@ impl PlayProfile {
             series: std::array::from_fn(|_| FrameTimes::with_limit(enabled, 18_000)),
             ui_payload_bytes: 0,
             ui_updates: 0,
-            ppu: PpuProfile::with_limit(enabled, 18_000),
+            ppu: PpuProfile::configured(enabled, 18_000),
         }
     }
 
@@ -201,6 +241,10 @@ impl PlayProfile {
 
     pub fn enabled(&self) -> bool {
         self.series[0].enabled
+    }
+
+    pub fn detailed_ppu(&self) -> bool {
+        self.ppu.detailed()
     }
 
     pub fn record_ppu(&mut self, timings: Option<gba_core::ppu_profile::Timings>) {
@@ -254,6 +298,7 @@ mod tests {
             zoom: Duration::from_micros(3),
             scanline_calls: 160,
             zoom_calls: 1,
+            ..Default::default()
         };
         profile.record(Some(timings));
         profile.record(Some(timings));
@@ -279,6 +324,41 @@ mod tests {
         disabled.record(Some(timings));
         assert_eq!(disabled.frames, 0);
         assert!(disabled.series.iter().all(|s| s.samples.capacity() == 0));
+    }
+
+    #[test]
+    fn detailed_stages_partition_scanlines_and_detect_overcounting() {
+        let mut profile = PpuProfile::with_detail_limit(true, true, 1);
+        let timings = gba_core::ppu_profile::Timings {
+            frame: Duration::from_micros(20),
+            scanlines: Duration::from_micros(12),
+            detailed: true,
+            stages: [Duration::from_micros(2); 5],
+            ..Default::default()
+        };
+        profile.record(Some(timings));
+        assert_eq!(profile.invalid, 0);
+        assert_eq!(
+            profile
+                .stages
+                .iter()
+                .map(|s| s.samples[0])
+                .sum::<Duration>(),
+            timings.scanlines
+        );
+        profile.record(Some(timings));
+        assert!(profile
+            .stages
+            .iter()
+            .all(|s| s.samples.len() == 1 && s.omitted == 1));
+        profile.record(Some(gba_core::ppu_profile::Timings {
+            scanlines: Duration::ZERO,
+            ..timings
+        }));
+        assert_eq!(profile.invalid, 1);
+        let disabled = PpuProfile::with_detail_limit(false, true, 1);
+        assert!(!disabled.detailed());
+        assert!(disabled.stages.iter().all(|s| s.samples.capacity() == 0));
     }
 
     #[test]

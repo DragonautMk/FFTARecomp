@@ -5,6 +5,26 @@ its TinyCC loader and a single ROM translation. Use a release build and separate
 verification from work timing. ROMs, save copies, recordings and result logs stay
 under ignored local directories. The benchmark never writes the supplied save.
 
+## Host load before timing
+
+Check background CPU load and the pinned CPU's SMT sibling before accepting a
+comparison. Affinity does not reserve a core; unrelated work can change cache,
+boost and available execution resources without changing replay results. Retain
+contaminated logs as correctness evidence and rerun timing after resolving the
+interference. A passed deterministic comparison alone is not a performance gain.
+
+In this Rust workspace, VS Code's automatic npm task discovery was observed
+running `rg --files --hidden --no-ignore --follow` for package manifests for over
+half an hour, using roughly ten CPU cores. Ignored build trees and Wine prefixes
+can still be traversed by that search. No npm manifests were found in the source
+tree. A local workspace `"npm.autoDetect": "off"` setting stops unnecessary npm task
+discovery; it does not disable manual npm commands or change other projects.
+Preserve existing editor settings. `.vscode/` stays ignored, and no global editor
+configuration is required. Identify the specific stalled automatic scan before
+cancelling it; leave unrelated interactive work alone. Check that it does not
+restart before remeasuring. The observed background scan invalidates using the
+earlier loaded-host battle timings as an uncontended code-performance baseline.
+
 ## Personal local fixtures
 
 The optional root `saves.zip` and extracted `saves/` directory are ignored,
@@ -25,6 +45,27 @@ Xvfb/llvmpipe uses CPU rendering and shares host resources with emulation:
 label those captures separately from Radeon/Wayland results. Current interactive
 profiles include startup and navigation, so a scene screenshot does not make
 the whole-session distribution a clean scene-only benchmark.
+
+### Record a battle from a supplied snapshot
+
+Input recording refuses host snapshot loads because its event timeline would
+otherwise rewind. When the original cartridge save has no resumable battle,
+load the supplied snapshot in an isolated, non-recording session and use the
+game's own battle Save command to create a suspend save. Close cleanly and keep
+a separate copy of that derived `.sav`. Start a new session with
+`RECOMP_RECORD_INPUT` and resume the battle through Saved Game > Resume Battle.
+This uses the existing recorder without weakening its load protection.
+
+While recording, save a host snapshot before the target actions. The headless
+runner's `--state ... --frames 0` reports its guest-frame origin. For replay
+from that snapshot, retain subsequent recorded events and subtract that origin
+from their frame numbers; carry the held key mask at the origin into frame zero
+if needed. Keep the original recording and its `.input.sav` sidecar intact.
+Save another snapshot after the observed enemy action, inspect the scene, and
+check the replay's end frame and framebuffer hash against that endpoint before
+timing. Do not classify the whole interval as AI computation: it also contains
+player inputs, animations and idle frames. A matched image alone does not prove
+complete machine or audio equality; retain the separate A/B state checks.
 
 ## Headless comparison
 
@@ -184,11 +225,71 @@ capture is bounded like the existing frame profiler. Incomplete guarded frames
 are discarded. Nested/error/unwinding scopes restore their prior capture;
 worker threads do not inherit it. No GBA cycles/events or GPU timestamps change.
 
+For current-source desktop builds, reuse the Docker scripts with a fresh local
+export directory before replacing existing dist archives. Check test gates,
+archive CRC/member paths, required executables/loaders, executable modes and
+private-data exclusions. Empty Data directories are the expected portable
+scaffold; personal files and translation caches are not payload. Verify PE
+resources/imports and Linux symbol requirements, and retain BUILD-INFO hashes.
+A Windows/Wine replay can use the existing Windows translation with unchanged
+ABI to check frames/state/counts against the old export and validated Linux
+results. Such a correctness run is not a native Windows performance comparison.
+Test the newly exported Linux package itself, including cold-cache startup and
+restore, before updating canonical local archives; preserve the old outputs.
+
 `FFTA_PROFILE=1` also includes these rows in desktop exit reports, with the
 interactive profiler's first-18000-frame limit and omitted-sample counts.
-It still includes startup and has no GUI scene/warm-up selector. Detailed
-scanline internals (tiles/sprites/composition), actual GPU execution timestamps
-and an identified slow enemy-turn replay remain separate work.
+It still includes startup and has no GUI scene/warm-up selector. Actual GPU
+execution timestamps and the originally reported slow enemy turn remain
+separate work.
+
+### Optional scanline stage attribution
+
+Set `FFTA_PPU_STAGES=1` in addition to `--ppu-profile` for headless comparisons,
+or alongside `FFTA_PROFILE=1` for desktop reports. It is resolved at profiler
+creation; it does nothing without the enclosing PPU capture. Ordinary timing
+and verification runs retain disabled capture. Coarse-only profiling still
+works without this flag and does not read the additional stage clocks.
+
+`FFTA_PPU_STAGE` reports bounded per-frame aggregates for disjoint intervals:
+
+- `backgrounds`: BG rendering in the hardware and relocated wide passes.
+- `objects`: OBJ rendering, plus wide-pass OBJ scratch reset.
+- `composition`: hardware/wide composition.
+- `ui_capture`: native panel/backing extraction, including its internal BG/OBJ
+  preparation. Those inner operations are not counted again in other stages.
+- `ui_setup`: line-zero dialogue/UI detection and preparation.
+- `scanline_other`: scanline total minus these five intervals, including affine
+  stepping, blank handling, scratch setup and timer/bookkeeping overhead.
+
+These six totals partition `hardware_scanlines`; do not add them to that parent
+or sum their percentiles. Extra zoom-row work remains a separate coarse total.
+The comparison script validates complete, finite stage reports and their total,
+then stores them as `ppu.scanline_stages`. Old baseline executables can omit
+these optional rows. Check their presence in the candidate report before claiming
+stage coverage. Compare its instrumented time with its own uninstrumented median
+to estimate diagnostic overhead, keeping single-capture noise explicit. This
+does not measure per-tile cost or GPU execution and changes no guest timing.
+
+### Native UI background row reuse
+
+UI extraction prepares native BG2/BG3 once within a scanline and shares those
+immutable planes across primary/extra and normal/backing passes. Backing-only
+text filtering uses a private copy. Stats still uses its original zero BG mask
+and transparent input planes; portrait capture flags are resolved per pass.
+Anchor accumulation and destination writes remain part of each extraction.
+The data is not retained across scanlines or frames: VRAM/palette/register
+changes and load/Undo need no new cache invalidation or save-state format.
+This reuse belongs to `ui_capture`, not the separate world `backgrounds` stage.
+
+UI rows with transparent native text/backing and no portrait pixels bypass the
+world-candidate sort/blend loop. World-only candidates cannot become UI pixels.
+The shortcut runs after backing allocation, anchor accumulation and portrait
+extraction/flag cleanup, and fills the selected destination row with the exact
+`UiPixel::default()` value so old frame/load contents cannot remain visible.
+The previous complete loop remains a test-only const-generic reference;
+nonempty rows retain it unchanged. This skips host UI work, not guest frames,
+hardware scanlines, interrupts or decisions.
 
 ## Interactive CPU phase profile
 

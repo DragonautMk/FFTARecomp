@@ -90,6 +90,26 @@ class BenchmarkTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             bench.parse_run(text, 3, 1)  # timing must not silently include PPU instrumentation
 
+    def test_scanline_stage_partition_rejects_incomplete_or_nested_totals(self):
+        names = ['backgrounds', 'objects', 'composition', 'ui_capture', 'ui_setup', 'scanline_other']
+        rows = []
+        for name, value in zip(names, [0.05] * 5 + [0.25]):
+            rows.append(f'FFTA_PPU_STAGE phase={name} samples=2 omitted=0 p50_ms={value} '
+                        f'p95_ms={value} p99_ms={value} max_ms={value} over_budget=0 '
+                        f'over_double_budget=0 total_ms={2 * value} mean_ms={value}')
+        text = '\n'.join(rows)
+        self.assertEqual(set(bench.parse_scanline_stages(text, 2, 1.0)), set(names))
+        self.assertIsNone(bench.parse_scanline_stages('', 2, 1.0))
+        for broken in (text.rsplit('\n', 1)[0], text + '\n' + rows[0],
+                       text.replace('samples=2', 'samples=1'), text.replace('phase=objects', 'phase=unknown')):
+            with self.subTest(broken=broken), self.assertRaises(ValueError):
+                bench.parse_scanline_stages(broken, 2, 1.0)
+        for wrong_total in (0.8, 1.2):
+            with self.assertRaises(ValueError):
+                bench.parse_scanline_stages(text, 2, wrong_total)
+        with self.assertRaises(ValueError):
+            bench.parse_run(self.log(False) + '\n' + text, 3, 1)
+
     def test_snapshot_replay_preserves_guest_frame_origin_and_initial_identity(self):
         text = self.log().replace('frame=1 ', 'frame=101 ').replace('frame=2 ', 'frame=102 ').replace('frame=3 ', 'frame=103 ')
         text = text.replace('first=1 last=3', 'first=101 last=103').replace('frames: 3 ', 'frames: 103 ')

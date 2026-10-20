@@ -4,6 +4,12 @@ This file stores durable facts and entry points. Chronological changes and their
 validation belong in [CHANGELOG.md](../../CHANGELOG.md) and `docs/changes/`.
 Read current source and manifests before relying on older build instructions.
 
+Task selection after compaction or goal continuation starts with
+[TASK_HANDOFF.md](TASK_HANDOFF.md): completed substeps, rejected experiments,
+evidence and one next open work unit. An unchecked parent TODO does not reopen
+completed children. See [repeat rules](MEMORY_WORKFLOW.md#resume-and-repeat-decisions)
+before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
+
 ## Architecture and current scope
 
 - The root Cargo workspace and `AndroidPort/` are separate trees. A root fix
@@ -31,6 +37,9 @@ Read current source and manifests before relying on older build instructions.
   screen suites; optional local-ROM/GPU cases remain separate. The exported
   runtime requires glibc 2.35 and previously passed a native Ubuntu Xvfb
   save/load/relocation check.
+  Current optimized-renderer exports also pass an isolated cold-cache Xvfb
+  load/Undo/reload/close check. Canonical dist exports include the retained
+  renderer changes; validation records identify their checks and limits.
   Older-distro and physical-controller compatibility remain unverified.
   See [Docker workflow](../docker.md). Keep the direct Ubuntu-built archive
   distinct, and establish actual libc requirements for each build environment.
@@ -49,7 +58,9 @@ Read current source and manifests before relying on older build instructions.
   Earlier packaged PE resource/import checks and a simulated-XInput portable
   save/load/move smoke also passed. PowerShell 7.4.6
   Linux mock-CLI validation passed; native Windows/Desktop/PowerShell 5.1 remain
-  unverified.
+  unverified. The current exported Windows runtime also matches the prior
+  Windows and validated Linux replay on framebuffer/OAM, final machine state
+  and counts under Wine. This is compatibility evidence, not native timing.
 
 ## Desktop behavior
 
@@ -157,6 +168,26 @@ Read current source and manifests before relying on older build instructions.
   Disabled entry points check capture state without reading a clock. Capture
   is bounded, incomplete frames are discarded and parallel zoom measures the
   caller's wall time including worker waits. No guest or translation ABI change.
+- Native UI extraction caches window registers/vertical membership, modal flag
+  and native origin only within one `capture_dialogue_part` call. WIN0 overrides
+  WIN1, then OBJ window and outside; horizontal/vertical wrapping is unchanged.
+  Values are reread on each call, so DMA/scanline changes and load/Undo need no
+  persistent cache invalidation. No serialized guest state or ABI changes.
+- Native BG2/BG3 UI planes are prepared once per hardware scanline and borrowed
+  by primary/extra and normal/backing extraction. Backing text filtering uses
+  a private copy; Stats' zero mask uses transparent planes. Scratch lifetime
+  ends at the scanline, so no cross-frame/write/restore invalidation is needed.
+- Native UI rows with transparent text/backing and no portrait candidates clear
+  their destination and bypass world-candidate sorting/blending. Allocation,
+  anchor updates and capture-flag cleanup precede the check. Nonempty rows keep
+  the full pixel loop; that loop is also the test-only const-generic reference.
+  No hardware scanline, CPU step, guest cycle or interrupt is skipped.
+- `FFTA_PPU_STAGES=1`, alongside the existing PPU profile, adds optional disjoint
+  per-frame BG/OBJ/composition/UI capture/setup/residual totals. The flag is read
+  at profiler creation; detailed clocks stay off otherwise. Nested UI preparation
+  belongs to capture, and the totals partition scanline time. The comparison
+  parser accepts older baselines without these optional rows and validates any
+  supplied stage report. See the performance workflow for scope and overhead.
 - Headless `runc --state` and the comparison script can resume desktop slots
   or legacy raw snapshots through the menu validator. Snapshots and cartridge
   `--sav` inputs are mutually exclusive. Replay length, input, zoom and warm-up
@@ -165,6 +196,10 @@ Read current source and manifests before relying on older build instructions.
   identity and exact absolute frame ranges, and keep loading outside timing.
   Inputs and personal snapshots stay local and read-only. See the performance
   workflow for the diagnostic CLI and its remaining AI-scene coverage limits.
+  To record from a supplied battle snapshot, use an isolated in-game suspend
+  save, then resume during a new recording session; checkpoint saves are allowed
+  while host loads remain prohibited. Rebase subsequent events to the checkpoint
+  origin and visually verify the enemy action and the replay endpoint.
 - `runc` guest-cycle profiling (`RECOMP_COST_FROM`) observes the shared native
   dispatch loop, preserving normal HLE/interpreter gates and strict fallback
   behavior. `COST_DISPATCH` separates native, missing, system and intentional
@@ -177,6 +212,11 @@ Read current source and manifests before relying on older build instructions.
 - Windows GNU tests and interactive FPS/menu checks ran through Wine. Menu
   gamepad smoke checks used a simulated XInput controller. Native Windows and
   physical controller coverage remain to be obtained.
+- Check host load and the pinned CPU's SMT sibling before timing. VS Code npm
+  discovery can follow ignored build/Wine test trees and saturate the host; the
+  root Rust source tree has no npm manifest. See the performance workflow for
+  the observed confounder and local workspace-only `npm.autoDetect` workaround.
+  `.vscode/` remains ignored; no global editor settings are required.
 - Some gba-core tests share display globals. Use serial execution for that
   suite; distinguish a baseline parallel failure from a regression.
 - Optional TinyCC observer checks need its ELF relocatable object loader even

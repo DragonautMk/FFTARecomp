@@ -4,6 +4,17 @@ Read [the current project state](docs/development/PROJECT_STATE.md) and inspect
 `git status --short` before changing code. Existing uncommitted work belongs
 to the user; preserve it and inspect the diff before attributing changes.
 
+## Resume work without repeating completed tasks
+
+At session start, after context compaction, and on automatic goal continuation,
+read [the task handoff](docs/development/TASK_HANDOFF.md) before selecting work.
+It distinguishes completed substeps and rejected experiments from the remaining
+criteria in broad TODO items. An unchecked parent does not reopen its children.
+Check the linked evidence with cheap reads; do not rerun builds, benchmarks or
+fixture creation merely to reconstruct context. Follow the repeat/reopen rules
+in [the memory workflow](docs/development/MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
+Update the handoff before ending a work unit or a known context handoff.
+
 ## Local skills
 
 These skills are versioned in `.cursor/skills/`. Read the relevant `SKILL.md`

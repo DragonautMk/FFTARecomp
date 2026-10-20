@@ -12,6 +12,18 @@ sulla GPU**. Un aumento dell'uso GPU, da solo, non è un risultato utile.
 
 ## Stato dell'esecuzione
 
+Per scegliere il prossimo lavoro leggere prima [TASK_HANDOFF.md](TASK_HANDOFF.md).
+Le caselle PERF rappresentano criteri complessivi: **non riaprire i sottopassi
+conclusi** perché il task padre è ancora aperto. Le sezioni delle prime prove
+qui sotto sono storiche; il registro distingue risultati superati, esperimenti
+scartati e lavoro residuo. Il replay con attivazione nemica e la sua baseline
+sono già conclusi, così come l'attribuzione alle fasi interne della PPU. Il
+precalcolo delle finestre per riga è stato mantenuto dopo i confronti. Il
+riuso dei BG nativi e il percorso rapido per righe UI vuote sono stati
+mantenuti e le build desktop correnti sono validate su Linux e Windows/Wine.
+Il prossimo sottopasso è caratterizzare lo zoom elevato sulle fixture esistenti,
+prima di valutare parallelismo o altro lavoro GPU.
+
 Prima tranche P0 in corso: confronto Linux nativo/Windows con verifica separata,
 hash finale opzionale dello stato macchina, diagnostica bounded dei tempi per
 frame e profilo CPU della finestra, con upload/acquisizione/encoding/invio
@@ -20,8 +32,8 @@ descrive comandi, interpretazione e limiti. PERF-01/02/03 restano aperti: mancan
 un replay identificato del turno nemico lento, misure PPU/GPU distinte e la
 copertura completa dei criteri. Nessun guadagno sui turni AI è ancora dimostrato.
 
-In assenza di un replay AI disponibile si procede sulle ridondanze indipendenti
-verificabili: PERF-05 ha una prima implementazione di riuso delle LUT e della
+Le ridondanze indipendenti già affrontate sono conservate: PERF-05 ha una prima
+implementazione di riuso delle LUT e della
 texture FPS; PERF-06 conserva i buffer FIFO audio e risolve la modalità di pacing
 all'avvio. Restano aperti i criteri più ampi, i confronti di prestazioni e le
 ulteriori cache di pannelli/mondi; nessuna modifica accelera artificialmente
@@ -72,7 +84,191 @@ campione. Un controllo separato verifica anche lo zoom relativo allo snapshot.
 Questa è una baseline della battaglia inattiva, senza ancora un turno nemico
 identificato: non è un guadagno di prestazioni e PERF-01/02/03 restano aperti.
 
-## Cosa sappiamo dal codice
+## Correzione delle condizioni di misura e selettore UI valutato
+
+Una ricerca automatica npm di VS Code nella workspace seguiva anche gli alberi
+ignorati ed era attiva da oltre mezz'ora, occupando circa dieci core. È stata
+interrotta dopo averne identificato l'origine automatica; `npm.autoDetect` è
+stato disattivato soltanto nelle impostazioni locali ignorate della workspace.
+Nessuna impostazione globale o preferenza preesistente è stata cambiata.
+Il portable con renderer originale ha poi superato caricamento, Annulla,
+ricaricamento e chiusura in Xvfb/llvmpipe: nella battaglia inattiva il contatore
+osservato è circa 59–60 FPS INT/EXT. Non è una misura Radeon né del turno AI.
+Il [workflow](PERFORMANCE_WORKFLOW.md#host-load-before-timing) descrive il controllo.
+
+Con **lo stesso intervallo da 1.200 frame**, snapshot, binario baseline,
+traduzione, input, audio e affinità CPU, la mediana baseline è 18,655 ms con
+quel carico e 10,777 ms dopo la sua rimozione. Le precedenti prove da 600 frame
+intorno ai 21 ms restano dati storici sotto contesa, non una baseline senza
+interferenze; non confrontare direttamente lunghezze diverse. Questo è un
+cambiamento dell'ambiente di sviluppo, non un'accelerazione del codice di gioco.
+
+Sono stati valutati due selettori dei soli due livelli UI frontali al posto
+dei due ordinamenti per pixel. Entrambi conservano risultati esatti su 196.608
+combinazioni di priorità/presenza e sui replay. Sul sistema senza la scansione:
+la variante a chiave compatta peggiora la mediana dell'1,64%; quella semplice
+migliora la mediana dell'1,56%, ma la cattura diagnostica non mostra un vantaggio
+sui picchi (p95/p99 maggiori). Il beneficio complessivo non giustifica sostituire
+l'ordinamento standard: **nessuna variante è stata mantenuta nel runtime**.
+I singoli profili dei picchi non provano una regressione causale universale;
+sono comunque insufficienti per accettare un'ottimizzazione del pacing.
+
+La world map è stata raggiunta di nuovo partendo da una copia del `.sav`,
+registrando gli input e creando uno snapshot locale classificato visivamente.
+Il replay da quello snapshot passa cinque coppie da 1.200 frame sul renderer
+originale: mediana circa 2,1 ms/frame, stato finale e immagini identici,
+nessun frame oltre budget nei due profili. È una calibrazione sullo stesso
+binario, non un miglioramento. I file restano sotto `target/`, fuori da Git
+e dai pacchetti. Prima di altri
+interventi PPU/GPU va identificato il turno nemico lento sul sistema senza
+questa interferenza; PERF-01/02/03/08 restano aperti.
+
+## Replay con attivazione nemica identificata
+
+È stata preparata una nuova sequenza locale dalla copia dello snapshot fornito:
+salvataggio sospeso tramite il comando del gioco, nuovo avvio con registrazione,
+ripresa della battaglia e attesa delle unità del giocatore. La sequenza comprende
+l'attivazione e il movimento di un mostro nemico, poi il ritorno al menu di
+un personaggio del giocatore. Questi passaggi sono stati osservati nella finestra;
+non si tratta più del solo replay della battaglia inattiva.
+
+Uno snapshot intermedio e gli input successivi ribasati delimitano 3.530 frame.
+Il replay headless raggiunge lo stesso frame finale e lo stesso hash del
+framebuffer della sessione grafica; anche l'immagine finale è stata ispezionata.
+Le due verifiche A/B coincidono su framebuffer e OAM di tutti i frame.
+Il [workflow](PERFORMANCE_WORKFLOW.md#record-a-battle-from-a-supplied-snapshot)
+descrive la procedura senza rimuovere la protezione che vieta di caricare uno
+snapshot durante la registrazione. Tutte le fixture rimangono ignorate.
+
+Il confronto completo passa cinque coppie alternate sullo stesso codice, con
+120 frame di warm-up: mediane 8,346/8,290 ms per i 3.410 frame misurati,
+stato macchina finale e conteggi di esecuzione identici. I due profili separati
+hanno zero frame oltre 16,74 ms, p99 10,055/10,129 ms e massimi
+12,535/16,518 ms. Le scanline occupano circa il 73% del core (6,07/6,08 ms
+medi); il resto circa 2,25/2,24 ms, senza righe zoom aggiuntive. È una nuova
+baseline, non uno speedup: la differenza fra binari identici calibra il rumore.
+La prima esecuzione interrotta con errore di output resta conservata come
+parziale; questi risultati provengono dal successivo confronto completato.
+
+Questo intervallo include input del giocatore, animazioni e attese: non misura
+solo il calcolo AI e non dimostra che sia il turno lento originariamente
+segnalato. PERF-01 resta aperto per gli altri scenari e la caratterizzazione del
+rallentamento; nessuna accelerazione del runtime è ancora attribuita al replay.
+
+## Attribuzione delle fasi PPU completata
+
+`FFTA_PPU_STAGES=1` aggiunge intervalli disgiunti per BG, OBJ, composizione,
+estrazione UI, setup UI e residuo. Il confronto del nuovo codice diagnostico
+con la baseline passa cinque coppie sul replay esistente, immagini/OAM per
+frame, stato macchina e conteggi. Mediane con raccolta spenta 8,289/8,317 ms
+(differenza +0,34% in questa prova). La cattura dettagliata usa 8,373 ms/frame,
+circa +0,67% rispetto alla mediana dello stesso candidato: è una stima singola
+soggetta al rumore, non una garanzia universale di overhead.
+
+Medie per frame: BG 0,246 ms, OBJ 0,288 ms, composizione 0,531 ms,
+UI capture 4,912 ms, setup UI 0,071 ms, residuo scanline 0,078 ms.
+L'estrazione UI occupa circa l'80% delle scanline e il 59% del core.
+Nessun intervallo invalido o frame oltre budget nei due profili; p99 core
+baseline/candidato 10,237/10,116 ms. Questo chiude il sottopasso diagnostico
+PERF-02-PPU-STAGES su Linux, non l'intero PERF-02 o una nuova ottimizzazione.
+Il profilo ha guidato il precalcolo delle finestre per riga di
+`capture_dialogue_part`, già concluso nella sezione seguente; i selettori frontali
+scartati non sono stati ripetuti.
+
+## Prima ottimizzazione dell'estrazione UI mantenuta
+
+PERF-08-UI-ROW-INVARIANTS è concluso: registri finestra e appartenenza verticale,
+origine nativa e flag modale sono calcolati una volta per chiamata. La precedenza
+WIN0/WIN1/OBJ/esterno e gli intervalli circolari restano identici; 2.457.600 casi
+confrontati con il riferimento precedente, 169 test core e 48 runtime passati.
+Nessuna cache persistente, modifica del timing guest o versione stato nuova.
+
+Cinque coppie sul replay esistente: mediana 8,412 → 8,229 ms/frame, circa
+**2,18% di lavoro host in meno**, immagini/OAM per frame, stato finale e conteggi
+identici. Il profilo separato attribuisce UI capture 4,941 → 4,779 ms medi.
+p95/p99 core migliorano (10,117/10,540 → 9,890/10,346 ms); i rari frame oltre
+budget sono 2/4 nelle singole catture, con massimi 18,489/18,634 ms. Non è una
+prova di eliminazione dei picchi, né del lag originariamente segnalato.
+
+Il nuovo codice passa anche cinque coppie sulla world map: mediane
+1,958/1,967 ms (+0,43%), stato/immagini/conteggi identici e zero frame oltre
+budget nei profili. Una sessione Xvfb/llvmpipe con il nuovo runtime passa
+load, Annulla, reload, ripresa e chiusura; anteprime e messaggi ispezionati,
+profilazione dettagliata senza intervalli invalidi, slot e ZIP originali invariati.
+Windows nativo, Radeon e controller fisico restano fuori da questa validazione.
+Non ripetere questi task senza una nuova modifica o un criterio scoperto.
+
+## Riuso dei BG nativi UI mantenuto
+
+PERF-08-UI-PREPARED-BG-ROWS è concluso: BG2/BG3 nativi sono preparati una volta
+per scanline e condivisi fra pannelli/passaggi. Il backing filtra una copia
+privata del testo; Stats conserva la sua maschera nulla. Il riferimento con
+preparazione fresca per passaggio coincide nello stato macchina finale su 48
+configurazioni e tutte le 160 righe, con piani non vuoti, filtri e BG abilitati
+in combinazioni diverse. Passati 170 test core e 48 runtime.
+
+Cinque coppie sul replay esistente contro la versione con finestre precalcolate:
+**8,244 → 7,903 ms/frame, 4,14% di lavoro host in meno**. Immagini/OAM per
+frame, stato finale e conteggi identici. UI capture media 4,781 → 4,476 ms;
+p95/p99 core 9,895/10,328 → 9,487/9,909 ms. Nessun frame oltre budget nei due
+profili, ma il massimo isolato cresce da 10,862 a 12,277 ms: nessuna promessa
+universale di eliminazione dei picchi.
+
+Cinque coppie world map: mediane 1,962/1,950 ms, differenza piccola, immagini,
+stato e conteggi identici, zero frame oltre budget. Nuovo runtime verificato
+anche su load/Annulla/reload/ripresa/chiusura in Xvfb/llvmpipe, con ispezione
+delle anteprime e del gioco; 989 frame e zero intervalli PPU invalidi. Slot e
+ZIP originali invariati. Nessun nuovo dato persistente, ABI o formato stato;
+nessuna misura Windows nativa o Radeon è dedotta da questi risultati.
+
+## Righe UI vuote: ordinamento e blending evitati
+
+PERF-08-UI-EMPTY-ROWS è concluso. Dopo preparazione, cattura sprite e reset dei
+flag, una riga con tutte le sorgenti UI vuote viene azzerata esplicitamente e
+non ordina/fonde i candidati del mondo: questi non possono diventare pixel UI.
+Non vengono saltati frame, scanline hardware, cicli o decisioni guest. Il
+vecchio ciclo completo resta il riferimento di test; le righe non vuote lo
+mantengono invariato. Passati 171 test core e 48 runtime, inclusi contenuti
+precedenti da cancellare, maschere Stats, modali e blending di oggetti mondo.
+
+Cinque coppie sul replay esistente contro la versione con BG condivisi:
+**7,891 → 6,194 ms/frame, 21,50% di lavoro host in meno**. Immagini/OAM per
+frame, stato finale e conteggi identici. UI capture media 4,467 → 2,770 ms;
+p95/p99 core 9,481/9,906 → 7,497/7,793 ms, zero frame oltre budget nei due
+profili. Il massimo isolato cresce 10,770 → 14,502 ms: non dedurre una garanzia
+sui picchi rari o la risoluzione del lag originariamente segnalato.
+
+Cinque coppie world map: 1,978/1,942 ms, uguaglianza immagini/stato/conteggi e
+zero frame oltre budget. Il nuovo runtime passa load/Annulla/reload/ripresa/
+chiusura in Xvfb/llvmpipe, con ispezione di anteprime e gioco; 987 frame e zero
+intervalli PPU invalidi. Slot e archivio originale restano invariati. Il passo
+di validazione delle build correnti Windows/Linux è stato completato nella
+sezione seguente; gli archivi Docker aggiornati incorporano il renderer corrente.
+
+## Build e archivi desktop aggiornati
+
+PERF-03-CURRENT-DESKTOP-BUILDS è concluso per il suo ambito: Windows GNU/MinGW
+in Docker con **317 test Wine**, Linux Bookworm con **318 test**; 9 casi opzionali
+ignorati per piattaforma. Integrità, percorsi e contenuti degli archivi verificati:
+solo lo scaffold Data vuoto, nessuna ROM/save/registrazione/cache gioco o DLL di
+test, TinyCC e licenze inclusi. PE con risorse e import invariati; ELF eseguibili
+con requisito massimo GLIBC 2.35. Hash degli input registrati invariati.
+
+Il nuovo runtime Windows esportato passa il replay esistente da 3.530 frame:
+framebuffer/OAM per frame, stato finale e conteggi coincidono sia col precedente
+runtime Windows sia con la build Linux già validata. È una prova di correttezza
+sotto Wine, non un confronto di prestazioni Windows nativo. Il nuovo archivio
+Linux passa avvio a cache vuota, load/Annulla/reload/ripresa/chiusura in
+Xvfb/llvmpipe: anteprime e gioco ispezionati, 1.001 frame e zero intervalli PPU
+invalidi; slot e ZIP originali invariati.
+
+Gli archivi e BUILD-INFO correnti sono aggiornati in `dist/docker-windows/` e
+`dist/docker-linux/`; i precedenti restano conservati nella directory locale di
+validazione. Nessuna pubblicazione remota. Restano aperti Windows nativo,
+controller fisici, GPU hardware/pacing e gli scenari non ancora caratterizzati,
+fra cui zoom elevato: non ripetere la baseline ordinaria per coprirli.
+
+## Osservazioni sulla revisione iniziale (storiche)
 
 - La GPU è già usata per scalatura, griglia e composizione dei livelli UI:
   [present.rs](../../crates/screen/src/present.rs), `Presenter::present`, e

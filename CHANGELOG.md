@@ -109,6 +109,33 @@ Documentation: [portable.md](docs/portable.md), [PROJECT_STATE.md](docs/developm
 
 [Change record](docs/changes/2026-10-20-wayland-shutdown-crash.json)
 
+## 2026-10-20 — Validate and refresh desktop archives for the retained renderer optimizations
+
+Type: docs. Platforms: Windows x86_64 GNU via Docker/Wine 10, Linux Bookworm export and Ubuntu Xvfb runtime.
+
+**Changes**
+
+- Rebuild the current profiling/window/background/empty-row renderer with the existing pinned desktop containers and cached dependencies. Export first to a fresh ignored validation directory, preserving old canonical archives.
+- After successful validation, atomically replace local dist/docker-windows and dist/docker-linux archives and BUILD-INFO files. Preserve previous exports under the ignored validation directory; no remote release or publication is performed.
+- Close current desktop build coverage in TASK_HANDOFF and select the distinct missing high-zoom workload characterization. Keep native Windows, physical controllers and hardware GPU timing unverified.
+
+**Validation**
+
+- Windows/MinGW container gates passed 317 tests: 171 core, 26 input/config, 33 menu, 49 runtime and 38 screen; nine optional cases ignored. Linux Bookworm gates passed 318: 171 core, 26 input/config, 33 menu, 48 runtime and 40 screen; nine optional cases ignored.
+- Both archives passed integrity, path/member, required runtime/loader, executable-format, empty-Data-scaffold and private-data checks. Only the expected TinyCC DLL/shared library is shipped, with required source/ABI files and license notices; no ROM, save, recording, generated game library or test DLL is included.
+- Windows PE resources are present and dependency sets equal the prior exports for runtime, launcher and TinyCC. Linux runtime maximum required GLIBC symbol version remains 2.35. Recorded renderer/Cargo/Docker source hashes stayed unchanged and archive hashes match BUILD-INFO.
+- The exported Windows runtime under host Wine passed all 3530 per-frame framebuffer/OAM captures, complete final state and dispatch-count comparisons against both the previous Windows export and validated native Linux replay. Existing Windows translation and read-only fixtures were reused; this is correctness evidence, not native Windows performance timing.
+- A fresh copy of the exported Linux package passed cold-cache launch, battle load, resumed play, Undo load, reload, resumed play and clean close under Xvfb/llvmpipe. Screenshots confirmed messages/preview/gameplay; detailed reports contain 1001 frames, 160160 scanlines and zero invalid intervals. Original ZIP hash and slot bytes stayed unchanged.
+
+**Limitations**
+
+- Native Windows/Desktop/PowerShell, hardware Radeon/GPU timing, physical controllers and older-distro/Steam Deck runtime compatibility are not established by these container/Wine/Xvfb checks.
+- Packaged archives are local build outputs, not a published release. Correctness replay timing is not used as a new speedup claim; the originally reported slow turn remains uncharacterized.
+
+Documentation: [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-validate-optimized-desktop-exports.json)
+
 ## 2026-10-20 — Validate supplied local saves and identify preliminary battle PPU cost
 
 Type: docs. Platforms: Linux X11/Xvfb, Vulkan llvmpipe.
@@ -132,6 +159,81 @@ Type: docs. Platforms: Linux X11/Xvfb, Vulkan llvmpipe.
 Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
 
 [Change record](docs/changes/2026-10-20-validate-local-save-workloads.json)
+
+## 2026-10-20 — Summarize added desktop features in the GitHub README
+
+Type: docs. Platforms: Desktop Windows and Linux documentation.
+
+**Changes**
+
+- Add seven concise bullets to the existing Features list for FPS counters, menu button combinations, nine previewed save-state slots, Undo, two startup save backups, Linux portable storage and Docker builds. Preserve all existing README lines and layout.
+
+**Validation**
+
+- Inspected the README diff: seven added feature lines, no removed or rewritten lines. Cross-checked FPS modes against docs/fps_overlay.md and desktop behavior against PROJECT_STATE.md and existing README sections.
+
+**Limitations**
+
+- Documentation-only change; no runtime behavior or compatibility claim changed.
+
+Documentation: [fps_overlay.md](docs/fps_overlay.md), [menu_shortcuts.md](docs/menu_shortcuts.md), [save_states.md](docs/save_states.md), [save_backups.md](docs/save_backups.md), [portable.md](docs/portable.md), [docker.md](docs/docker.md).
+
+[Change record](docs/changes/2026-10-20-summarize-desktop-features-in-readme.json)
+
+## 2026-10-20 — Skip UI candidate work for rows with no UI sources
+
+Type: performance. Platforms: Root desktop renderer; native Linux headless and isolated Xvfb/llvmpipe validation.
+
+**Changes**
+
+- After UI setup and portrait extraction, clear the destination and bypass world candidate sorting/blending only when native UI text/backing and portrait sources are empty. Preserve backing resize, anchor updates, capture-flag cleanup and hardware simulation.
+- Keep the prior full pixel loop as a const-generic test reference; production compiles only the enabled shortcut. No persistent cache, guest timing or save-state layout is added.
+
+**Validation**
+
+- Release suites passed 171 core and 48 runtime tests, with 5/3 optional cases ignored. Empty-row/reference tests cover 48 panel/target/blend configurations with nonempty world BGs and semitransparent world objects, stale destination contents, exact transparent pixels, unaffected rows and complete state equality.
+- The existing 48-configuration shared-background test now compares the shortcut with the previous full loop and seeds stale primary/extra/backing pixels. The preserved executable hash matches the accepted shared-background release.
+- Native release build passed. Five alternating 3530-frame battle pairs after 120 warm-up frames passed every framebuffer/OAM, complete final-state and dispatch-count comparison. Medians 7.890765/6.194050 ms show 21.5025 percent less host work versus the accepted shared-BG release, with every pair favoring the candidate.
+- UI capture means fell 4.466777/2.769615 ms. Core p95 9.480594/7.497194 ms and p99 9.905679/7.793264 ms improved in the separate profiles, with zero over-budget frames. The isolated maximum increased 10.770382/14.501617 ms; no universal rare-tail guarantee is claimed.
+- Five world-map pairs passed framebuffer/OAM, final state and counts: medians 1.977584/1.942254 ms, zero over-budget frames in both 1080-frame profiles. These are scene-specific results, not native hardware GPU timing.
+- An isolated copy with the new native runtime passed GUI load, 10-second resumed play, Undo load, reload, resumed play and clean close. Inspected loaded/Undo/reloaded gameplay screenshots. Detailed reports contain 987 frames, 157920 scanlines and zero invalid intervals; slot bytes and original ZIP hash were unchanged.
+- Closed the empty-row work unit in TASK_HANDOFF and queued validation of current desktop/container builds, especially Windows, before further renderer optimization. Completed replay and baseline tasks remain closed.
+
+**Limitations**
+
+- The measured benefit is Linux headless host work, not an increase in the guest clock or proof of native Windows/Radeon/controller behavior. The original reported lag and rare maxima remain uncharacterized.
+- Current portable Docker archives predate the retained renderer changes and were not regenerated in this work unit. No persistent state, translation ABI or save-state format changed.
+
+Documentation: [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-skip-empty-ui-source-rows.json)
+
+## 2026-10-20 — Share immutable native UI backgrounds within each scanline
+
+Type: performance. Platforms: Root desktop renderer; native Linux headless and isolated Xvfb/llvmpipe validation.
+
+**Changes**
+
+- Prepare native BG2/BG3 once per captured scanline and share them between primary/extra and normal/backing passes. Keep backing text filtering local, preserve the Stats panel mask, and do not retain data across scanlines or guest writes.
+
+**Validation**
+
+- Release suites passed 170 core and 48 runtime tests, with 5/3 optional cases ignored. The strengthened reference fixture checks nonempty text/backing planes, BG-enable combinations, primary/extra and normal/action paths, Stats/Actions/Notice across all 160 scanlines in each of 48 configurations; complete final machine snapshots match fresh per-part preparation. The strengthened test and native release build passed.
+- The pre-change binary was preserved and its hash matches the accepted row-window release, without rebuilding or recreating existing fixtures.
+- Five alternating 3530-frame battle pairs after 120 warm-up frames passed all framebuffer/OAM, full final-state and dispatch-count checks. Baseline/candidate medians 8.244362/7.902728 ms show 4.14385 percent less host work versus the accepted row-window release; every pair favored the candidate.
+- Detailed UI capture means fell 4.781399/4.476117 ms. Core p95 9.894629/9.486562 ms and p99 10.327550/9.908776 ms improved in these profiles, with zero over-budget frames. The isolated maximum increased 10.862195/12.277206 ms, so no universal rare-tail improvement is claimed.
+- Five world-map pairs passed images, full final state and counts: medians 1.962043/1.950314 ms, a small difference rather than a separate world-map speedup claim. Both 1080-frame profiles had zero over-budget frames.
+- The new native runtime passed isolated GUI load, 10-second resumed play, Undo load, reload, resumed play and normal close with detailed profiling enabled. Inspected load/Undo/gameplay screenshots; reports contain 989 frames, 158240 scanlines and zero invalid intervals. Original ZIP hash and GUI slot bytes remained unchanged.
+- Updated TASK_HANDOFF to close prepared-BG reuse and select the distinct pending empty-UI-row shortcut, retaining completed baseline/fixture evidence and rejected experiments.
+
+**Limitations**
+
+- The measured benefit is scene-specific native Linux host work, not proof of native Windows/Radeon/controller behavior or resolution of the originally reported lag. Rare maxima still vary.
+- No data persists across scanlines or guest writes; no guest clock, decision logic, save-state layout, translation ABI or GPU workload changed. Packaged release archives were not regenerated for this work unit.
+
+Documentation: [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-share-native-ui-background-rows.json)
 
 ## 2026-10-20 — Separate CPU PPU work from core frame time with scoped diagnostics
 
@@ -330,6 +432,32 @@ Documentation: [fps_overlay.md](docs/fps_overlay.md), [PERFORMANCE_TODO.md](docs
 
 [Change record](docs/changes/2026-10-20-recover-transient-desktop-surfaces.json)
 
+## 2026-10-20 — Record a deterministic battle replay with observed enemy activation
+
+Type: docs. Platforms: Native Linux headless and isolated Xvfb/llvmpipe desktop.
+
+**Changes**
+
+- Derive an isolated in-game suspend save from the supplied battle snapshot, then resume in a new input-recording session. Save a checkpoint before player waits and rebase subsequent input events to replay the observed enemy activation and return to a player menu.
+- Document the suspend-save recording procedure without weakening the existing prohibition on loading snapshots during recording. Keep all fixture bytes, recordings and results ignored under target.
+
+**Validation**
+
+- Original cartridge save and snapshot copies remain byte-equal to their ZIP entries; the original archive SHA-256 is unchanged. The new input recording sidecar equals the derived suspend save.
+- A 3530-frame headless replay from the intermediate snapshot reaches the desktop endpoint guest frame and framebuffer hash; its final image was visually inspected. The first A/B verification matched framebuffer and OAM on every frame.
+- The completed rerun passed five alternating native 3530-frame pairs with 120 warm-up frames: baseline/candidate medians 8.346306/8.290120 ms. Every verification framebuffer/OAM capture, final serialized machine state and dispatch count matched. Both executables are the same production baseline; the difference is measurement variation, not a code speedup.
+- Separate 3410-frame profiles had zero frames over 16.742706 ms, p99 10.055213/10.128802 ms and maxima 12.534930/16.518197 ms. Hardware scanline means 6.072459/6.078200 ms account for about 73 percent of core time; core remainder means 2.247905/2.235117 ms, with no zoom rows or invalid captures.
+- Recorded profiling overhead estimates versus uninstrumented medians were -0.2971/+0.2935 percent; these single-run estimates include noise and do not establish a negative profiling cost. Host checks during comparison showed CPU 15 busy and its SMT sibling CPU 14 idle.
+- Git ignore checks confirm the derived suspend save, snapshot, recording and original ZIP remain excluded. The earlier interrupted comparison is explicitly failed with Broken pipe and retained separately; the rerun summary is passed.
+
+**Limitations**
+
+- The interval includes player waits, enemy movement, animations and idle frames, not isolated AI computation or proof of the originally reported slow turn. Native Windows and Radeon timings remain unverified.
+
+Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-record-observed-enemy-activation-replay.json)
+
 ## 2026-10-20 — Add project skills and checked development memory
 
 Type: docs. Platforms: Project-wide.
@@ -480,6 +608,61 @@ Documentation: [fps_overlay.md](docs/fps_overlay.md).
 
 [Change record](docs/changes/2026-10-20-fps-overlay.json)
 
+## 2026-10-20 — Identify and remove IDE npm discovery interference from local benchmarks
+
+Type: docs. Platforms: Ubuntu Linux, VS Code local workspace and native replay validation.
+
+**Changes**
+
+- Document host CPU/SMT contention checks and distinguish deterministic correctness from reliable wall-time comparisons. Earlier battle timing samples collected under the saturated host are superseded for performance acceptance.
+- Identify the stalled automatic workspace npm package scan and apply npm.autoDetect=off only in the ignored local workspace settings, preserving the existing color preferences. Cancel only that identified automatic scan after verifying its executable, arguments and workspace directory; no global editor settings or runtime binary are changed by this workaround.
+- Record the development constraint for ignored build/Wine trees and link the measurement workflow from durable project state. Local editor preferences remain outside version control.
+
+**Validation**
+
+- A VS Code child ripgrep process had been scanning package manifests from the project root for over half an hour with --files --hidden --no-ignore --follow, consuming about 988 percent CPU. A two-second per-CPU sample showed most cores 59-95 percent busy alongside the pinned replay, with its SMT sibling about 77 percent busy. No source package.json files were found by a normal ignored-tree search.
+- The installed VS Code npm extension manifest confirms autoDetect accepts off/on with resource scope. The existing workspace JSON was read and validated; only that property was added, and all prior settings were preserved. The exact identified scan then terminated; a follow-up process check found it absent and the replay SMT sibling idle.
+- A subsequent baseline replay on the quieter host, using the same native binary, local snapshot, translation, audio setting and CPU affinity, completed five 1200-frame runs with a median of 10.776782 ms/frame. All framebuffer/OAM, full final-state and execution-count checks passed; this is an environment change, not a code speedup.
+- The loaded-host and quiet-host baseline summaries match on all 1200-frame workload parameters, initial state and hashes of baseline/ROM/translation/input/snapshot. Their baseline medians are 18.655024 and 10.776782 ms/frame; the earlier 600-frame sample is not used for that comparison.
+
+**Limitations**
+
+- A quiet sample does not reserve a CPU or eliminate all background/thermal variation. Recheck load before comparisons; do not cancel unrelated user work.
+- The editor setting is deliberately local and ignored; other checkouts need their own workspace preference if they encounter this issue. No claim is made that this scan caused the original user-reported lag in every scene.
+
+Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
+
+[Change record](docs/changes/2026-10-20-exclude-ide-discovery-from-performance-baselines.json)
+
+## 2026-10-20 — Keep standard UI layer sorting after evaluating two front-layer selectors
+
+Type: docs. Platforms: Native Linux release replay and isolated Linux desktop fixtures.
+
+**Changes**
+
+- Evaluate simple and compact-key two-front-layer selection in CPU UI capture without changing blend/window rules. Restore the original production implementation after the measurements; neither prototype nor its extra reference test remains in the shipped core.
+- Separate contended timing experiments from quiet-host comparisons after identifying the unrelated IDE npm scan. Preserve local experiment artifacts and retain original standard sorting until a material, reproducible overall benefit is shown.
+- Prepare a second visually classified local world-map snapshot and input recording from a copy of the supplied cartridge save, keeping all fixture bytes ignored.
+
+**Validation**
+
+- Both prototypes passed an exhaustive reference comparison across 196608 valid priority/presence combinations, including BG ties, portrait/world OBJ exclusivity, empty layers and preserved payloads. Prototype suites passed 168 core and 47 runtime release tests serially; optional fixture cases stayed ignored.
+- Quiet-host compact-key comparison passed five alternating 1200-frame pairs after 120 warm-up frames, with per-frame framebuffer/OAM, full final state and dispatch-count equality. Baseline/candidate medians 10.776782/10.953074 ms/frame show a 1.636 percent slowdown.
+- Quiet-host simple-selector comparison passed the same five-pair and state/image/count checks. Baseline/candidate medians 10.822120/10.652935 ms/frame show only a 1.563 percent reduction. Separate 1080-frame profiles reported p95 11.337150/11.687671 ms and p99 12.501026/13.649431 ms, with zero/two frames over budget; these single captures do not establish better tail behavior or its causal source.
+- The original PPU source was restored byte-for-byte to HEAD after inspecting that only the experimental changes were present. The source cartridge save and provided battle snapshot remain unchanged; the world-map fixture was saved through the isolated desktop menu after visual scene confirmation.
+- The restored native release executable has exactly the preserved baseline SHA-256. The visually classified world-map snapshot passed five alternating same-binary 1200-frame pairs, full final-state and dispatch-count checks, and all framebuffer/OAM captures. Baseline/candidate medians 2.128969/2.139713 ms/frame calibrate ordinary variation, not a speedup; both 1080-frame profiles had zero over-budget frames and p95 2.348801/2.369600 ms.
+- The existing exported Docker Linux portable bundle, using the original renderer, passed an isolated Xvfb/llvmpipe battle load, 10-second resumed play, Undo load, reload, resumed play and normal close. Screenshots confirmed both load messages and the Undo result; observed idle-battle overlays were 59.6/59.6 internal/external FPS and 59.0/59.0 shortly after reload. These are software-presentation observations, not a native Radeon or enemy-turn benchmark. The slot and original ZIP bytes were unchanged.
+- Project-memory working-tree and --base HEAD checks passed, together with the whitespace check. No implementation file differs from HEAD after rejecting the experiments.
+
+**Limitations**
+
+- No new production PPU speedup is claimed. Initial loaded-host timing estimates were unreliable, and the modest quiet-host simple-selector mean did not establish an overall pacing improvement.
+- The battle samples are idle-scene replays, not an identified enemy AI turn. Native Windows performance, hardware controller and actual GPU execution timing remain separate work.
+
+Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-evaluate-ui-front-layer-selection.json)
+
 ## 2026-10-20 — Evaluate and withhold panel-bound optimization after end-to-end regression
 
 Type: performance. Platforms: Root workspace core and desktop.
@@ -617,3 +800,83 @@ Type: added. Platforms: Windows (Wine), Desktop.
 Documentation: [save_backups.md](docs/save_backups.md), [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
 
 [Change record](docs/changes/2026-10-20-cartridge-save-backups.json)
+
+## 2026-10-20 — Cache native UI window decisions for each extraction row
+
+Type: performance. Platforms: Root desktop renderer; native Linux headless and isolated Xvfb/llvmpipe validation.
+
+**Changes**
+
+- Cache window registers and vertical membership once per native UI extraction row; preserve WIN0, WIN1, OBJ-window and outside precedence, inclusive/exclusive ranges and wrapping. Hoist native origin and modal flags without changing blend or sorting rules.
+
+**Validation**
+
+- The cached window helper matches the previous per-pixel reference on 2457600 coordinate/enable/mask/object-window combinations, including empty, wrapping and overlapping windows.
+- Release suites passed 169 core and 48 runtime tests, with 5/3 optional cases ignored. Native release build passed. The preserved pre-change executable hash matches the previously validated stage-enabled release.
+- The new-code verification passed framebuffer/OAM on all 3530 frames of the existing enemy replay, full final machine state and dispatch counts.
+- Completed five alternating 3530-frame battle pairs with 120 warm-up frames: baseline/candidate medians 8.412148/8.229073 ms, 2.1763 percent lower work time; every pair favored the candidate. All framebuffer/OAM captures, final serialized state and dispatch counts matched.
+- Detailed battle profiles attributed UI capture means 4.940586/4.779405 ms. Core p95 10.117031/9.889575 ms and p99 10.539597/10.346466 ms improved in these captures. Over-budget counts were 2/4, maxima 18.489253/18.634405 ms: retain the unfavorable rare-tail observation rather than claiming all spikes are fixed.
+- World-map regression passed five 1200-frame pairs with 120 warm-up frames and full image/state/count equality. Medians 1.958091/1.966537 ms differ by +0.4313 percent; both 1080-frame profiles had zero over-budget frames. The candidate p95 increased from 2.002853 to 2.107436 ms in the single captures; no universal no-regression guarantee is claimed.
+- An isolated copy with the new native runtime passed GUI load, 10-second resumed play, Undo load, reload, resumed play and normal close under Xvfb/llvmpipe. Inspected loaded/Undo/reloaded gameplay screenshots; detailed PPU reports contained 988 frames, 158080 scanlines and zero invalid intervals. Slot bytes and original archive hash were unchanged.
+- The first GUI escalation timed out in automatic permission review before process creation; ordinary sandbox Xvfb then could not bind a socket. The single escalated retry was approved and completed successfully. Only that retry is counted as GUI validation.
+
+**Limitations**
+
+- The measured work-time benefit is modest and scene-specific; it does not establish native Windows/Radeon performance, physical-controller coverage or resolution of the originally reported lag.
+- Rare-tail counts and the small world-map timing increase remain part of the evidence. No guest timing, decisions, save-state layout or GPU workload changed.
+
+Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-20-cache-ui-window-row-invariants.json)
+
+## 2026-10-20 — Resume from completed task evidence instead of repeating work after compaction
+
+Type: changed. Platforms: Project agent workflow.
+
+**Changes**
+
+- Route session start, context-compaction recovery and automatic goal continuation through TASK_HANDOFF.md from AGENTS and all three local skills. Separate stable completed subtask IDs and rejected experiments from broad unchecked TODO parents.
+- Seed the handoff with verified replay/baseline, tooling, caching and recovery substeps, rejected experiments, local artifact locators and the next unfinished PPU profiling criterion. Replace stale task-selection guidance without changing historical results.
+- Require a concrete affected input, missing criterion, explicit request or observed failure before expensive repeats; inspect existing process/output state before restarting and keep missing local artifacts separate from completed outcomes. Maintain the handoff at work-unit boundaries and before known compaction.
+
+**Validation**
+
+- All three modified SKILL.md files passed the skill-creator quick validator. Checked 44 local Markdown links across the routing, skills and memory documents; all targets exist.
+- Exercised the resumption rule by reading the existing completed benchmark summary: passed, five pairs, 3530 frames, full-state and framebuffer/OAM equality. No build, replay, fixture creation or benchmark was repeated for this workflow change.
+
+**Limitations**
+
+- This is agent-maintained routing and guidance, not a runtime compaction hook or automatic task-completion detector. The existing memory checker validates records and coverage, not agent decision quality or compliance.
+
+Documentation: [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md), [AGENTS.md](AGENTS.md).
+
+[Change record](docs/changes/2026-10-20-avoid-repeating-completed-work-after-compaction.json)
+
+## 2026-10-20 — Attribute CPU scanline cost to disjoint optional profiling stages
+
+Type: changed. Platforms: Root desktop runtime; native Linux validation.
+
+**Changes**
+
+- Add FFTA_PPU_STAGES opt-in stage attribution for BG, OBJ, composition, native UI capture and line-zero UI setup, with a residual that partitions hardware scanline time. Keep captures scoped, thread-local, bounded and outside serialized machine state.
+- Read the detailed flag at profiler construction, preserve coarse-only profiling and avoid extra stage clock reads when disabled. Include relocated wide passes and keep nested UI preparation within its parent rather than double-counting it.
+- Validate and retain optional scanline-stage rows in the existing comparison script, preserving compatibility with older baseline executables. Reuse the completed enemy replay to validate this new instrumentation.
+
+**Validation**
+
+- Release core/runtime suites passed: 168 core and 48 runtime tests, with 5/3 optional cases ignored. Detailed capture tests check full machine-state equality across forced blank and modes 0/1/2/3, stage containment, thread isolation and nested capture restoration.
+- All 12 benchmark script tests passed, including new stage partition checks for missing/duplicate/nonfinite/inconsistent reports and rejection during uninstrumented timing. Native Linux release build passed.
+- Completed five alternating 3530-frame pairs on the existing enemy replay with 120 warm-up frames. Every framebuffer/OAM capture, full final state and dispatch count matched the preserved baseline; summary passed and the process exited 0.
+- Uninstrumented baseline/candidate medians were 8.289029/8.317234 ms, a 0.3403 percent increase in this comparison. Candidate detailed capture measured 8.373327 ms, an estimated 0.6744 percent overhead versus its own uninstrumented median. Both 3410-frame profiles had zero over-budget frames and no invalid intervals.
+- Candidate stage means were BG 0.246104 ms, OBJ 0.287876 ms, composition 0.531136 ms, UI capture 4.911876 ms, UI setup 0.070950 ms and residual 0.078428 ms. These partition scanline time; UI capture accounts for about 80 percent of scanlines and 59 percent of core time. No rejected selector experiment was repeated.
+- Marked the instrumentation subtask complete in TASK_HANDOFF, retained completed fixture/baseline decisions and selected a distinct pending UI row-invariant optimization. The comparison summary retains input/binary hashes and confirms the supplied inputs stayed unchanged.
+- The later row-window candidate exercised the same detailed desktop profiler through an isolated Xvfb GUI load/Undo/reload/close check: 988 completed frames, all six stage reports and no invalid intervals. This checks desktop integration, not hardware GPU timing.
+
+**Limitations**
+
+- No rendering algorithm, guest timing or GPU workload is optimized by this diagnostic change. Native Windows and hardware GPU detailed reports remain unverified.
+- Timing differences and profiling overhead are estimates from one native Linux comparison; no production speedup or universal overhead bound is claimed. Stage attribution covers scanlines, with zoom and actual GPU execution remaining separate.
+
+Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-20-attribute-cpu-scanline-stages.json)

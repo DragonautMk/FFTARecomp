@@ -14,6 +14,45 @@ should read the paths in AGENTS.md directly. No global skill installation or
 background service is required. These files guide agents that read project
 instructions; they cannot guarantee that every editor or agent follows them.
 
+## Resume and repeat decisions
+
+At session start, after compaction, and on automatic goal continuation:
+
+1. Read [TASK_HANDOFF.md](TASK_HANDOFF.md), current Git status and relevant
+   PROJECT_STATE facts. Use the linked records and cheap file/hash/log reads to
+   reconcile stale context; do not begin by rebuilding or replaying everything.
+2. Choose one unfinished subtask with a stable ID, a missing acceptance criterion
+   and a concrete deliverable. A parent TODO may remain open while several
+   children are done. Rejected experiments are terminal decisions too.
+3. Before an expensive repeat, record in the handoff the task ID, what changed
+   or failed, which prior result is invalidated, and the smallest necessary check.
+   Valid reasons include an affected implementation/input/toolchain change, an
+   actual failed check, new evidence contradicting the result, an uncovered
+   requirement, or an explicit user request. Context loss, missing conversation,
+   an unchecked parent and a desire for another identical calibration are not
+   reasons. Do not reopen an unrelated completed unit when checking new work.
+4. Check any recorded live process handle before restarting. A lost handle or
+   observation timeout alone does not establish process failure: inspect the
+   current process/artifact state. Reuse a completed successful output; resume
+   only genuinely unfinished work after establishing its state.
+
+Maintain the handoff at work-unit boundaries, before the final response and
+before known compaction. Replace stale next actions; keep it short enough to
+read in full. Each closed unit needs its scope, decision and an evidence link.
+Each partial unit needs the exact remaining criterion. Each running unit needs
+its process/artifact locator and last observed state, without claiming that an
+old observation is still live. Keep commands/logs and fixture manifests in
+ignored local storage; tracked records must still describe the verified result
+when those files are unavailable. Missing local artifacts are an availability
+issue, not automatic reversal of completed work.
+
+The handoff is agent-maintained. There is no compaction hook or background
+process writing it automatically; AGENTS and all three local skills require its
+use. The memory checker validates records and coverage, not whether an agent
+actually read the handoff or chose useful work. Revalidate only the scope
+affected by new evidence, and update the handoff and underlying TODO together
+when their current-state descriptions disagree.
+
 ## After a meaningful change
 
 Update the relevant feature documentation, add a JSON record under

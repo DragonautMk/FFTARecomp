@@ -1,6 +1,6 @@
 ---
 name: ffta-project-memory
-description: Maintain FFTARecomp's changelog and durable project memory after meaningful implementation changes or when recording development progress is requested.
+description: Maintain FFTARecomp's changelog, task handoff and durable memory after meaningful changes or when resuming development after context loss.
 ---
 
 # Record project memory
@@ -8,6 +8,11 @@ description: Maintain FFTARecomp's changelog and durable project memory after me
 Read `AGENTS.md`, `docs/development/PROJECT_STATE.md`, relevant existing
 records and the current diff. Use files, Git and test output as evidence;
 conversation recollection only helps locate it. Preserve unrelated work.
+
+For resumption, read `docs/development/TASK_HANDOFF.md` first and follow
+`docs/development/MEMORY_WORKFLOW.md#resume-and-repeat-decisions`. Treat the
+handoff as the work queue, PROJECT_STATE as durable facts and change records as
+evidence. Do not rerun completed validation to rebuild conversational memory.
 
 After a meaningful change:
 1. Update the affected feature doc with behavior, configuration and validation.
@@ -24,6 +29,13 @@ After a meaningful change:
 5. Run `python3 scripts/project_memory.py check`. For a branch or PR, also
    pass `--base <commit>`. Resolve missing coverage with an accurate record;
    do not change the checker just to accept undocumented implementation.
+6. Update `TASK_HANDOFF.md` before the final response or a known compaction:
+   stable subtask ID, terminal/partial status, evidence, remaining criterion,
+   next action and any live process/artifact locator. Mark rejected experiments
+   explicitly. Separate unavailable local artifacts from unfinished work.
+   A broad open task must retain its completed children. Replace stale next
+   actions rather than appending another competing queue. Record repeat reasons
+   before an expensive rerun; do not invent successful validation.
 
 `CHANGELOG.md` is generated from records; edit the JSON source rather than
 the generated Markdown. See `docs/development/MEMORY_WORKFLOW.md` for schema,

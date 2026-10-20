@@ -6,6 +6,24 @@ use std::{
     time::{Duration, Instant},
 };
 
+pub const SCANLINE_STAGES: [&str; 5] = [
+    "backgrounds",
+    "objects",
+    "composition",
+    "ui_capture",
+    "ui_setup",
+];
+
+#[derive(Clone, Copy)]
+#[repr(usize)]
+pub(crate) enum ScanlineStage {
+    Backgrounds,
+    Objects,
+    Composition,
+    UiCapture,
+    UiSetup,
+}
+
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Timings {
     pub frame: Duration,
@@ -13,6 +31,8 @@ pub struct Timings {
     pub zoom: Duration,
     pub scanline_calls: u32,
     pub zoom_calls: u32,
+    pub detailed: bool,
+    pub stages: [Duration; SCANLINE_STAGES.len()],
 }
 
 thread_local! {
@@ -30,9 +50,18 @@ pub struct Capture {
 
 impl Capture {
     pub fn start(enabled: bool) -> Self {
+        Self::start_detailed(enabled, false)
+    }
+
+    pub fn start_detailed(enabled: bool, detailed: bool) -> Self {
         let start = enabled.then(Instant::now);
         let previous = if enabled {
-            ACTIVE.with(|slot| slot.replace(Some(Timings::default())))
+            ACTIVE.with(|slot| {
+                slot.replace(Some(Timings {
+                    detailed,
+                    ..Timings::default()
+                }))
+            })
         } else {
             None
         };
@@ -65,6 +94,7 @@ impl Drop for Capture {
 enum Stage {
     Scanlines,
     Zoom,
+    Detail(ScanlineStage),
 }
 
 pub(crate) struct StageTimer {
@@ -75,11 +105,13 @@ pub(crate) struct StageTimer {
 
 fn timer(stage: Stage) -> Option<StageTimer> {
     ACTIVE.with(|slot| {
-        slot.get().map(|_| StageTimer {
-            start: Instant::now(),
-            stage,
-            _thread: PhantomData,
-        })
+        slot.get()
+            .filter(|t| !matches!(stage, Stage::Detail(_)) || t.detailed)
+            .map(|_| StageTimer {
+                start: Instant::now(),
+                stage,
+                _thread: PhantomData,
+            })
     })
 }
 
@@ -88,6 +120,10 @@ pub(crate) fn scanline_timer() -> Option<StageTimer> {
 }
 pub(crate) fn zoom_timer() -> Option<StageTimer> {
     timer(Stage::Zoom)
+}
+
+pub(crate) fn scanline_stage_timer(stage: ScanlineStage) -> Option<StageTimer> {
+    timer(Stage::Detail(stage))
 }
 
 impl Drop for StageTimer {
@@ -100,6 +136,7 @@ impl Drop for StageTimer {
                         timings.scanlines += elapsed;
                         timings.scanline_calls += 1;
                     }
+                    Stage::Detail(stage) => timings.stages[stage as usize] += elapsed,
                     Stage::Zoom => {
                         timings.zoom += elapsed;
                         timings.zoom_calls += 1;
@@ -133,24 +170,47 @@ mod tests {
 
     #[test]
     fn real_scanline_capture_preserves_complete_machine_state() {
-        for dispcnt in [0x80u16, 0x403] {
+        for (dispcnt, detailed) in [0x80u16, 0x1f00, 0x1f01, 0x1f02, 0x403]
+            .into_iter()
+            .flat_map(|mode| [(mode, false), (mode, true)])
+        {
             let mut machine = crate::Machine::new(0xeafffffeu32.to_le_bytes().to_vec());
             machine.bus.io[..2].copy_from_slice(&dispcnt.to_le_bytes());
             let checkpoint = machine.save_state().unwrap();
             machine.run_frame(100_000);
             let reference = machine.save_state().unwrap();
             machine.load_state(&checkpoint).unwrap();
-            let capture = Capture::start(true);
+            let capture = Capture::start_detailed(true, detailed);
             machine.run_frame(100_000);
             let timings = capture.finish().unwrap();
             assert_eq!(machine.bus.frames, 1);
             assert_eq!((timings.scanline_calls, timings.zoom_calls), (160, 0));
             assert!(timings.frame >= timings.scanlines);
+            assert_eq!(timings.detailed, detailed);
+            assert!(timings.stages.iter().sum::<Duration>() <= timings.scanlines);
+            if !detailed {
+                assert_eq!(timings.stages, [Duration::ZERO; 5]);
+            }
             assert!(
                 machine.save_state().unwrap() == reference,
                 "profiling changed guest state"
             );
         }
+    }
+
+    #[test]
+    fn detailed_timers_require_a_detailed_capture() {
+        let coarse = Capture::start(true);
+        assert!(scanline_stage_timer(ScanlineStage::Backgrounds).is_none());
+        let detailed = Capture::start_detailed(true, true);
+        let scanline = scanline_timer();
+        assert!(scanline_stage_timer(ScanlineStage::Objects).is_some());
+        drop(scanline);
+        let t = detailed.finish().unwrap();
+        assert!(t.detailed);
+        assert!(t.stages.iter().sum::<Duration>() <= t.scanlines);
+        assert!(scanline_stage_timer(ScanlineStage::Objects).is_none());
+        coarse.finish();
     }
 
     #[test]

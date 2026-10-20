@@ -53,6 +53,16 @@ Read current source and manifests before relying on older build instructions.
   consumes it without redo. A detected externally changed/missing slot prevents
   undo save. Load and undo load both use the shared frontend restore reset.
 
+- [Cartridge save backups](../save_backups.md): capture the selected `.sav` at
+  desktop startup, retain two raw copies under `SaveBackups/<save-filename>/`,
+  and restore via the controller-operated Save backups menu. Sequence/hash
+  filenames identify order and integrity. Restore prepares a clean boot from
+  the session's startup snapshot before atomic file replacement, resets the
+  machine and frontend, and clears save-state undo. It preserves both backup
+  copies and the nine state slots. Backup failure aborts before gameplay writes.
+  Missing remembered/default primary files keep their recovery location when
+  recognized backup copies are present, rather than selecting an unrelated save.
+
 ## Validation knowledge and remaining uncertainty
 
 - [Windows runtime performance](../windows_runtime_performance.md) documents

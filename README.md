@@ -172,6 +172,13 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 >
 > If you have any doubts, you can check the **VirusTotal report** included in each release.
 
+## Cartridge save backups
+
+Launching a game automatically backs up its selected `.sav`, keeping the **two
+most recent startup copies**. Use **Save backups** in the pause menu to restore
+one with the controller; confirm Restore and restart, then Resume to boot the
+restored game. See [backup storage and recovery](docs/save_backups.md).
+
 ## Save states
 
 Open the pause menu > **Save states**. Choose one of **9 slots** with Left/Right,

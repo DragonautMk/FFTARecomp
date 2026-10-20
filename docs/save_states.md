@@ -101,6 +101,9 @@ guest/native ABI or require a translation-cache revision bump.
 
 ## Cartridge saves and restored state
 
+Normal `.sav` files also have [two automatic startup backups](save_backups.md),
+restorable through Save backups. They are independent of these nine slots.
+
 `.ffstate` files are separate from cartridge `.sav` saves. They cannot be loaded
 directly on a GBA or another emulator. For transfer, load the slot, resume, save
 using the game's own command and transfer the resulting compatible `.sav`.

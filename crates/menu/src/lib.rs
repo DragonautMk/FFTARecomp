@@ -18,6 +18,8 @@ mod controller_icons;
 mod menu_icons;
 mod theme;
 mod save_states;
+mod save_backups;
+pub use save_backups::BackupInfo;
 pub use save_states::StateSlot;
 
 use input_config::{AvConfig, Button, Device, GamepadLayout, InputConfig};
@@ -58,6 +60,7 @@ pub enum MenuAction {
     SaveState { slot: u8, overwrite: bool },
     LoadState(u8),
     UndoState,
+    RestoreBackup(u64),
 }
 
 /// Which A/V surface a [`MenuAction::Changed`] touched, so the play loop
@@ -102,6 +105,8 @@ pub enum Bind {
 enum Page {
     SaveStates,
     ReplaceState,
+    SaveBackups,
+    RestoreBackup,
     Main,
     Exit,
     SwitchRom,
@@ -120,6 +125,9 @@ enum Page {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Row {
     SaveStatesMenu,
+    SaveBackupsMenu,
+    Backup(u8),
+    ConfirmRestoreBackup,
     StateSlot,
     SaveStateConfirm,
     SaveState,
@@ -163,9 +171,10 @@ enum Row {
     Back,
 }
 
-const MAIN_ROWS: [Row; 9] = [
+const MAIN_ROWS: [Row; 10] = [
     Row::Resume,
     Row::SaveStatesMenu,
+    Row::SaveBackupsMenu,
     Row::FastForwardMenu,
     Row::TextBubblesMenu,
     Row::AudioMenu,
@@ -248,6 +257,8 @@ fn rows_of(page: Page) -> &'static [Row] {
         Page::Main => &MAIN_ROWS,
         Page::SaveStates => &[Row::StateSlot, Row::SaveState, Row::LoadState, Row::UndoState, Row::Back],
         Page::ReplaceState => &[Row::SaveStateConfirm, Row::Back],
+        Page::SaveBackups => &[Row::Backup(0),Row::Backup(1),Row::Back],
+        Page::RestoreBackup => &[Row::ConfirmRestoreBackup,Row::Back],
         Page::Exit => &EXIT_ROWS,
         Page::SwitchRom => &SWITCH_ROM_ROWS,
         Page::FastForward => &FAST_FORWARD_ROWS,
@@ -270,6 +281,10 @@ impl Row {
             Row::MouseMode => "Mouse & Keyboard",
             Row::Resume => "Resume",
             Row::SaveStatesMenu => "Save states",
+            Row::SaveBackupsMenu => "Save backups",
+            Row::Backup(0) => "Copy 1 - latest",
+            Row::Backup(_) => "Copy 2 - previous",
+            Row::ConfirmRestoreBackup => "Restore and restart",
             Row::StateSlot => "Slot",
             Row::SaveStateConfirm => "Replace state",
             Row::SaveState => "Save state",
@@ -324,7 +339,8 @@ impl Row {
     fn is_action(self) -> bool {
         matches!(
             self,
-            Row::SaveStateConfirm
+            Row::Backup(_) | Row::ConfirmRestoreBackup
+                | Row::SaveStateConfirm
                 | Row::SaveState
                 | Row::LoadState
                 | Row::UndoState
@@ -336,6 +352,7 @@ impl Row {
                 | Row::ReturnToGame
                 | Row::ChangeRom
                 | Row::SaveStatesMenu
+        | Row::SaveBackupsMenu
                 | Row::FastForwardMenu
                 | Row::AudioMenu
                 | Row::TextBubblesMenu
@@ -356,6 +373,7 @@ impl Row {
     fn opens(self) -> Option<Page> {
         match self {
             Row::SaveStatesMenu => Some(Page::SaveStates),
+            Row::SaveBackupsMenu => Some(Page::SaveBackups),
             Row::Quit => Some(Page::Exit),
             Row::SwitchRomMenu => Some(Page::SwitchRom),
             Row::FastForwardMenu => Some(Page::FastForward),
@@ -384,8 +402,9 @@ struct Layout {
 }
 
 /// Responsive panel geometry in UI pixels, independent of the game resolution.
-fn layout(n: usize, w: usize, h: usize) -> Layout {
-    let main = n == MAIN_ROWS.len();
+#[cfg(test)]
+fn layout(n: usize, w: usize, h: usize) -> Layout { layout_kind(n,w,h,n==MAIN_ROWS.len()) }
+fn layout_kind(n: usize, w: usize, h: usize, main: bool) -> Layout {
     let inputs = n == INPUT_ROWS.len() || n == GAMEPAD_ROWS.len();
     let scale = (h as f32 / 480.).min(w as f32 / 560.).max(0.28);
     let pad = (20. * scale).round() as usize;
@@ -396,7 +415,7 @@ fn layout(n: usize, w: usize, h: usize) -> Layout {
     let avail = h
         .saturating_sub(pad * 2)
         .min(if inputs { (460. * scale) as usize } else { h });
-    let line_h = (44. * scale).round().max(12.) as usize;
+    let line_h = ((if main { 40. } else { 44. }) * scale).round().max(12.) as usize;
     let header = if main {
         0
     } else if inputs {
@@ -510,6 +529,9 @@ pub struct Menu {
     state_slots: [StateSlot; 9],
     state_message: String,
     state_undo: Option<String>,
+    save_backups: [BackupInfo;2],
+    backup_selection: Option<(u64,u8)>,
+    backup_message: String,
 }
 
 // Keep field access concise inside the renderer/tests while making
@@ -552,6 +574,9 @@ impl Menu {
             state_slots: std::array::from_fn(|_| StateSlot::default()),
             state_message: String::new(),
             state_undo: None,
+            save_backups: std::array::from_fn(|_| BackupInfo::default()),
+            backup_selection: None,
+            backup_message: String::new(),
         }
     }
 
@@ -560,6 +585,8 @@ impl Menu {
     pub fn reset(&mut self) {
         self.navigation.reset();
         self.state_message.clear();
+        self.backup_message.clear();
+        self.backup_selection = None;
         self.capture = None;
         self.scroll.set(0);
         self.dropdown = None;
@@ -570,11 +597,15 @@ impl Menu {
 
     pub fn state_result(&mut self, message: String) { self.state_message = message; }
     pub fn set_state_undo(&mut self, label: Option<String>) { self.state_undo = label; }
+    pub fn set_save_backups(&mut self, copies: [BackupInfo;2]) { self.save_backups = copies; }
+    pub fn backup_result(&mut self, message: String) { self.backup_message = message; }
 
     fn page_layout(&self, w: usize, h: usize) -> Layout {
         if matches!(self.page, Page::SaveStates | Page::ReplaceState) {
             save_states::layout(rows_of(self.page).len(), w, h)
-        } else { layout(rows_of(self.page).len(), w, h) }
+        } else if matches!(self.page,Page::SaveBackups|Page::RestoreBackup) {
+            save_backups::layout(self.page,rows_of(self.page).len(),w,h)
+        } else { layout_kind(rows_of(self.page).len(), w, h,self.page==Page::Main) }
     }
 
     fn change_state_slot(&mut self, forward: bool) {
@@ -601,7 +632,8 @@ impl Menu {
     fn back_to_main(&mut self) {
         self.scroll.set(0);
         self.dropdown = None;
-        if self.page == Page::ReplaceState {
+        if matches!(self.page,Page::ReplaceState|Page::RestoreBackup) {
+            self.backup_selection = None;
             if let Some(parent) = self.navigation.parents.pop() {
                 self.navigation.page = parent.page;
                 self.navigation.selected = parent.selected;
@@ -719,6 +751,19 @@ impl Menu {
             MenuInput::Confirm => match row {
                 Row::MouseMode => self.toggle_mouse_mode(),
                 Row::Resume => Some(MenuAction::Resume),
+                Row::Backup(copy) => {
+                    if let Some(id) = self.save_backups[copy as usize].generation {
+                        self.backup_selection = Some((id,copy));
+                        self.open(Page::RestoreBackup);
+                        self.selected = 1;
+                    } else { self.backup_message = "This backup is not available.".into(); }
+                    None
+                },
+                Row::ConfirmRestoreBackup => {
+                    let choice = self.backup_selection.take();
+                    self.back_to_main();
+                    choice.map(|(id,_)| MenuAction::RestoreBackup(id))
+                },
                 Row::UndoState => {
                     if self.state_undo.is_some() { Some(MenuAction::UndoState) }
                     else { self.state_message = "Nothing to undo.".into(); None }
@@ -862,7 +907,7 @@ impl Menu {
         }
         let index = i + self.first_visible(l);
         if rows[index] == Row::Back
-            && !matches!(self.page, Page::SaveStates | Page::ReplaceState)
+            && !matches!(self.page, Page::SaveStates | Page::ReplaceState | Page::SaveBackups | Page::RestoreBackup)
             && x < l.panel_x + l.panel_w - l.pad - l.line_h * 3 {
             return None;
         }
@@ -914,7 +959,7 @@ impl Menu {
             return None;
         }
         if matches!(self.page, Page::Inputs | Page::Gamepad | Page::MouseKeyboard) {
-            let l = layout(rows_of(self.page).len(), w, h);
+            let l = self.page_layout(w,h);
             if y >= l.panel_y + l.pad + l.line_h
                 && y < l.rows_y - 2
                 && x >= l.panel_x + l.pad
@@ -929,7 +974,7 @@ impl Menu {
                 let row = rows_of(self.page)[i];
                 if left {
                     if let Some(choice) =
-                        theme::segment_hit(row, layout(rows_of(self.page).len(), w, h), x)
+                        theme::segment_hit(row, self.page_layout(w,h), x)
                     {
                         match row {
                             Row::FastForward => av.ff_speed = FF_SPEEDS[choice],
@@ -1065,8 +1110,8 @@ fn value_of(
     Some(match row {
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
-        Row::FastForwardMenu | Row::SaveStatesMenu => ">".to_string(),
-        Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
+        Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
+        Row::Backup(_) | Row::ConfirmRestoreBackup | Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
         | Row::Quit
         | Row::QuitYes
         | Row::QuitNo
@@ -1179,13 +1224,14 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
     match row {
         Row::Menu => None,
         Row::MouseMode => None,
-        Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
+        Row::Backup(_) | Row::ConfirmRestoreBackup | Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
         | Row::Quit
         | Row::QuitYes
         | Row::QuitNo
         | Row::ReturnToGame
         | Row::ChangeRom
         | Row::SaveStatesMenu
+        | Row::SaveBackupsMenu
         | Row::FastForwardMenu
         | Row::AudioMenu
         | Row::TextBubblesMenu
@@ -1587,8 +1633,8 @@ mod tests {
     }
 
     #[test]
-    fn bubbles_are_main_menu_sibling_and_all_nine_rows_fit() {
-        assert_eq!(MAIN_ROWS[3],Row::TextBubblesMenu);
+    fn bubbles_are_main_menu_sibling_and_all_ten_rows_fit() {
+        assert_eq!(MAIN_ROWS[4],Row::TextBubblesMenu);
         assert!(!VIDEO_ROWS.contains(&Row::TextBubblesMenu));
         assert_eq!(layout(MAIN_ROWS.len(),1280,720).visible_rows,MAIN_ROWS.len());
     }
@@ -1664,6 +1710,37 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::UndoState));
         menu.set_state_undo(None);
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+    }
+
+    #[test]
+    fn restoring_backup_requires_confirmation_and_pins_the_chosen_generation() {
+        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();
+        menu.set_save_backups([BackupInfo{generation:Some(7),status:"Ready".into()},BackupInfo::default()]);
+        menu.open(Page::SaveBackups);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::RestoreBackup);
+        assert_eq!(rows_of(menu.page)[menu.selected],Row::Back);
+        menu.handle(MenuInput::Confirm,&mut av); // Default Cancel does not restore.
+        assert_eq!(menu.page,Page::SaveBackups);
+        menu.handle(MenuInput::Confirm,&mut av);
+        menu.set_save_backups([BackupInfo{generation:Some(8),status:"Ready".into()},BackupInfo::default()]);
+        menu.handle(MenuInput::Up,&mut av);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::RestoreBackup(7)));
+        assert_eq!(menu.page,Page::SaveBackups);
+        menu.handle(MenuInput::Down,&mut av); // Empty second copy.
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert!(menu.backup_message.contains("not available"));
+    }
+
+    #[test]
+    fn main_and_video_with_ten_rows_have_distinct_correct_layouts() {
+        let mut menu=Menu::new(true,true);
+        let main=menu.page_layout(1280,720);
+        assert_eq!(main.visible_rows,10);
+        menu.open(Page::Video);
+        let video=menu.page_layout(1280,720);
+        assert!(video.panel_w>main.panel_w);
+        assert!(video.rows_y>video.panel_y+video.pad);
     }
 
     #[test]
@@ -1883,6 +1960,8 @@ mod tests {
             Page::Main,
             Page::SaveStates,
             Page::ReplaceState,
+            Page::SaveBackups,
+            Page::RestoreBackup,
             Page::Exit,
             Page::SwitchRom,
             Page::FastForward,

@@ -16,6 +16,7 @@ mod play;
 mod rom_switch;
 mod save_path;
 mod save_state;
+mod save_backups;
 #[cfg(any(target_os = "linux", test))]
 mod linux_pad;
 

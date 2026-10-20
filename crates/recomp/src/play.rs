@@ -509,6 +509,8 @@ struct PlayApp {
     machine: Machine,
     sav_path: String,
     state_slots: crate::save_state::Slots,
+    save_backups: crate::save_backups::Backups,
+    boot_state: Vec<u8>,
     sav_seen: Option<u64>,
     record: Option<(std::fs::File, u16)>,
     native: Option<(super::NativeLibrary, BlockTable)>,
@@ -1623,6 +1625,13 @@ impl PlayApp {
         });
         self.menu.set_state_slots(slots);
         self.menu.set_state_undo(self.state_slots.undo_label());
+        let expected = self.machine.bus.save_data().map_or(0, |data| data.len());
+        let choices = self.save_backups.choices(expected);
+        self.menu
+            .set_save_backups(choices.map(|choice| menu::BackupInfo {
+                generation: choice.generation,
+                status: choice.status,
+            }));
     }
 
     /// Capture the displayed game view plus native UI, excluding the pause menu and FPS HUD.
@@ -1656,6 +1665,43 @@ impl PlayApp {
             }
         }
         pixels
+    }
+
+    fn restore_save_backup(&mut self, generation: u64) {
+        if self.record.is_some() {
+            self.menu
+                .backup_result("Stop input recording before restoring a backup.".into());
+            self.menu_dirty = true;
+            return;
+        }
+        let message =
+            match self
+                .save_backups
+                .restore(generation, &mut self.machine, &self.boot_state)
+            {
+                Ok(()) => {
+                    self.sav_seen = self.machine.bus.save_data().map(fnv64);
+                    self.state_slots = crate::save_state::Slots::new(
+                        Path::new(&self.sav_path),
+                        &self.machine.bus.rom,
+                    );
+                    let enabled = self.icfg.mouse_keyboard
+                        || std::env::var("FFTA_MOUSE").as_deref() == Ok("1");
+                    self.game_mouse =
+                        gba_core::ffta_mouse::LanguageMouse::new(&self.machine.bus.rom, enabled);
+                    self.machine
+                        .bus
+                        .ffta_battle_mouse
+                        .set_enabled(self.icfg.mouse_keyboard);
+                    self.after_state_restore();
+                    "Backup restored. Resume to start the game.".into()
+                }
+                Err(error) => format!("Cannot restore backup: {error}"),
+            };
+        self.refresh_state_slots();
+        self.menu.backup_result(message);
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
     }
 
     fn after_state_restore(&mut self) {
@@ -2488,6 +2534,7 @@ impl ApplicationHandler for PlayApp {
                     menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),
+                    menu::MenuAction::RestoreBackup(id) => self.restore_save_backup(id),
                     menu::MenuAction::Quit => quit = true,
                     menu::MenuAction::SwitchRom => {
                         if self.choose_rom() {quit=true;break;}
@@ -2917,9 +2964,10 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     };
 
     let mut machine = make_machine(rom, bios.as_deref());
-    if let Ok(sav) = std::fs::read(&sav_path) {
+    let save_backups = crate::save_backups::Backups::new(Path::new(&sav_path));
+    if let Some(sav) = save_backups.capture_startup().map_err(|e| format!("Cannot protect cartridge save: {e}"))? {
         machine.bus.load_save_data(&sav);
-        eprintln!("loaded {sav_path}");
+        eprintln!("loaded {sav_path}; startup backup completed");
     }
 
     // Triage (RECOMP_RECORD_INPUT=<path>): record this session's input as a
@@ -3089,10 +3137,13 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let state_slots = crate::save_state::Slots::new(Path::new(&sav_path), &machine.bus.rom);
     let game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&machine.bus.rom,icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref()==Ok("1"));
     if icfg.mouse_keyboard {machine.bus.ffta_battle_mouse.set_enabled(true);}
+    let boot_state = machine.save_state()?;
     let mut app = PlayApp {
         machine,
         sav_path,
         state_slots,
+        save_backups,
+        boot_state,
         sav_seen,
         record,
         native,
@@ -3345,7 +3396,7 @@ mod gamepad_capture_simulation {
 
         let mut av = input_config::AvConfig::default();
         let mut menu = menu::Menu::new(true, false);
-        for _ in 0..6 {
+        for _ in 0..7 {
             menu.handle(menu::MenuInput::Down, &mut av);
         }
         menu.handle(menu::MenuInput::Confirm, &mut av); // Input page.

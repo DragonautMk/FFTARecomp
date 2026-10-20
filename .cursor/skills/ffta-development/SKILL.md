@@ -43,6 +43,13 @@ and preview bytes without rewinding gameplay; undo load restores the pre-load
 machine with the same frontend reset as load. Preserve recovery after failures
 and refuse detected external slot changes instead of overwriting them.
 
+Cartridge backups are distinct from state slots: see
+`crates/recomp/src/save_backups.rs` and `docs/save_backups.md`. Back up before
+startup can write the selected `.sav`; publish a new complete raw copy before
+pruning to two. Restore must prepare a valid clean boot and replace the live
+file atomically, so stale RAM cannot re-save the old progress. Preserve backup
+integrity/order checks, safe confirmation, and no rotation during restoration.
+
 Use targeted behavioral checks. Shared display globals require serial core
 tests. Use the Windows validation skill when building or packaging Windows.
 Finish with the project-memory skill, recording only observed results and

@@ -420,8 +420,8 @@ mod tests {
                 ];
             }
         }
-        for zoom in [1, 2] {
-            let dims = (320 * zoom, 160 * zoom);
+        // The FPS HUD uses a one-pixel backdrop independent of the game view.
+        for dims in [(320, 160), (640, 320), (1, 1)] {
             let world: Vec<u16> = (0..dims.0 * dims.1).map(|i| (i % 32768) as u16).collect();
             let frame = Frame {
                 pixels: &pixels,
@@ -511,7 +511,7 @@ mod tests {
                     assert_eq!(
                         &mapped[(y * 320 + x) * 4..(y * 320 + x + 1) * 4],
                         &expected,
-                        "zoom={zoom} x={x} y={y}"
+                        "dims={dims:?} x={x} y={y}"
                     );
                 }
             }

@@ -730,6 +730,8 @@ pub struct AvConfig {
     /// (AutoNoVsync); on trades possible tearing for compositor pacing.
     /// Emulation speed is owned by the audio clock either way.
     pub video_vsync: bool,
+    /// FPS overlay: off | internal | external | both.
+    pub video_fps: String,
     /// Output aspect ratio: auto | 3:2 (original) | 16:10 | 16:9 | 20:9 | 21:9 | 32:9.
     /// Sets how many extra columns the PPU renders; applied at launch.
     pub video_aspect: String,
@@ -753,6 +755,7 @@ impl Default for AvConfig {
             scaling: "nearest".into(),
             display_gamut: "auto".into(),
             video_vsync: false,
+            video_fps: "off".into(),
             video_aspect: "16:9".into(),
             bubble_size: 1.,
             bubble_length: 1.,
@@ -801,6 +804,12 @@ impl AvConfig {
                 "video.scaling" => cfg.scaling = v.to_ascii_lowercase(),
                 "video.gamut" => cfg.display_gamut = v.to_ascii_lowercase(),
                 "video.vsync" => cfg.video_vsync = v.eq_ignore_ascii_case("true"),
+                "video.fps" => {
+                    let mode = v.to_ascii_lowercase();
+                    if matches!(mode.as_str(), "off" | "internal" | "external" | "both") {
+                        cfg.video_fps = mode;
+                    }
+                }
                 "bubble.size" | "bubble.length" => {
                     if let Ok(x) = v.parse::<f32>() { if x.is_finite() {
                         if k.trim() == "bubble.size" { cfg.bubble_size=x.clamp(0.5,2.); }
@@ -830,6 +839,7 @@ impl AvConfig {
              video.scaling = {}\n\
              video.gamut = {}\n\
              video.vsync = {}\n\
+             video.fps = {}\n\
              video.aspect = {}\n\
              bubble.size = {}\n\
              bubble.length = {}\n",
@@ -846,6 +856,7 @@ impl AvConfig {
             self.scaling,
             self.display_gamut,
             self.video_vsync,
+            self.video_fps,
             self.video_aspect,
             self.bubble_size,
             self.bubble_length,
@@ -1271,6 +1282,17 @@ mod tests {
         assert_eq!(AvConfig::knob("auto"), None);
         assert_eq!(AvConfig::knob("0.5"), Some(0.5));
         assert_eq!(AvConfig::knob("nan"), None);
+    }
+
+    #[test]
+    fn fps_modes_persist_and_old_configs_keep_the_overlay_off() {
+        assert_eq!(AvConfig::parse("video.vsync = true\n").video_fps, "off");
+        assert_eq!(AvConfig::parse("video.fps = invalid\n").video_fps, "off");
+        for mode in ["off", "internal", "external", "both"] {
+            let cfg = AvConfig::parse(&format!("video.fps = {}\n", mode.to_uppercase()));
+            assert_eq!(cfg.video_fps, mode);
+            assert_eq!(AvConfig::parse(&cfg.serialize()), cfg);
+        }
     }
 }
 

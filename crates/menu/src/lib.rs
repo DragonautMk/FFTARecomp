@@ -12,6 +12,8 @@
 //! through the `screen` crate's enums so the two frontends never drift.
 
 mod canvas;
+mod font;
+pub mod fps;
 mod controller_icons;
 mod menu_icons;
 mod theme;
@@ -67,6 +69,8 @@ pub enum Changed {
     Gamut,
     /// `video_vsync` flipped; the loop retunes the presenter in place.
     Vsync,
+    /// Persisted FPS overlay setting; no video or audio rebuild needed.
+    Overlay,
 }
 
 /// What a pending "press a key" capture will bind.
@@ -134,6 +138,7 @@ enum Row {
     Scaling,
     Aspect,
     Vsync,
+    Fps,
     Key(Button),
     FfKey,
     FfToggleKey,
@@ -165,7 +170,7 @@ const SCALING_MODES: [&str; 4] = ["off", "nearest", "sharp", "epx"];
 /// Aspect ratios offered by the menu (`av.video_aspect`). Applied on resume.
 const ASPECT_MODES: [&str; 7] = ["auto", "3:2", "16:10", "16:9", "20:9", "21:9", "32:9"];
 
-const VIDEO_ROWS: [Row; 9] = [
+const VIDEO_ROWS: [Row; 10] = [
     Row::Aspect,
     Row::Screen,
     Row::Brightness,
@@ -174,6 +179,7 @@ const VIDEO_ROWS: [Row; 9] = [
     Row::Grid,
     Row::Scaling,
     Row::Vsync,
+    Row::Fps,
     Row::Back,
 ];
 
@@ -267,6 +273,7 @@ impl Row {
             Row::Scaling => "Scaling",
             Row::Aspect => "Aspect",
             Row::Vsync => "Vsync",
+            Row::Fps => "FPS counter",
             Row::Key(Button::A) => "A",
             Row::Key(Button::B) => "B",
             Row::Key(Button::L) => "L",
@@ -990,6 +997,7 @@ fn value_of(
         Row::Scaling => scaling_name(av).to_uppercase(),
         Row::Aspect => aspect_name(av).to_uppercase(),
         Row::Vsync => if av.video_vsync { "ON" } else { "OFF" }.to_string(),
+        Row::Fps => av.video_fps.to_uppercase(),
         Row::Key(b) => {
             if capture == Some(Bind::Gamepad(b)) {
                 "PRESS BUTTON".to_string()
@@ -1043,6 +1051,7 @@ fn setting_options(row: Row) -> Vec<String> {
             .collect(),
         Row::Scaling => SCALING_MODES.iter().map(|s| s.to_uppercase()).collect(),
         Row::Aspect => ASPECT_MODES.iter().map(|s| s.to_uppercase()).collect(),
+        Row::Fps => ["OFF", "INTERNAL", "EXTERNAL", "BOTH"].iter().map(|s| s.to_string()).collect(),
         Row::Grid | Row::Darken => std::iter::once("AUTO".into())
             .chain((0..=10).map(|i| format!("{:.1}", i as f32 / 10.0)))
             .collect(),
@@ -1151,6 +1160,10 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             av.video_vsync = !av.video_vsync;
             Some(Changed::Vsync)
         }
+        Row::Fps => {
+            av.video_fps = step_enum(&["off", "internal", "external", "both"], av.video_fps.as_str(), forward).to_string();
+            Some(Changed::Overlay)
+        }
     }
 }
 
@@ -1256,6 +1269,30 @@ mod tests {
             Some(MenuAction::Changed(Changed::Video))
         );
         assert_eq!(av.screen.to_uppercase(), expected);
+    }
+
+    #[test]
+    fn fps_dropdown_commits_and_cycles_without_rebuilding_video() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Video);
+        at(&mut menu, Row::Fps);
+        menu.handle(MenuInput::Confirm, &mut av);
+        assert!(menu.dropdown.is_some());
+        for _ in 0..3 { menu.handle(MenuInput::Down, &mut av); }
+        assert_eq!(av.video_fps, "off");
+        assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::Changed(Changed::Overlay)));
+        assert_eq!(av.video_fps, "both");
+        assert_eq!(AvConfig::parse(&av.serialize()).video_fps, "both");
+        if let Ok(path) = std::env::var("FFTA_FPS_MENU_PREVIEW") {
+            let mut rgba = vec![[70, 90, 110, 255]; 640 * 480];
+            menu.draw(&av, &keys(), "Tab", "T", "Equal", "Minus", &mut rgba, 640, 480);
+            let mut ppm = b"P6\n640 480\n255\n".to_vec();
+            for pixel in rgba { ppm.extend_from_slice(&pixel[..3]); }
+            std::fs::write(path, ppm).unwrap();
+        }
+        assert_eq!(menu.handle(MenuInput::Left, &mut av), Some(MenuAction::Changed(Changed::Overlay)));
+        assert_eq!(av.video_fps, "external");
     }
     #[test]
     fn scrolled_input_hit_test_and_tabs_keep_binding_targets() {

@@ -572,6 +572,7 @@ struct PlayApp {
 
     // Perf + audio watchdog.
     show_stats: bool,
+    fps: crate::fps::Meter,
     emu_ema_ms: f64,
     frames_run: u64,
     slow_warned: bool,
@@ -810,7 +811,11 @@ impl PlayApp {
         };
         if let Some(mut p) = self.presenter.take() {
             if !self.paused {
-                let layers=std::array::from_fn::<_,2,_>(|i|self.ui_layout(phys,i).map(|layout|self.ui_frame(layout,i)));
+                let layers = [
+                    self.ui_layout(phys, 0).map(|layout| self.ui_frame(layout, 0)),
+                    self.ui_layout(phys, 1).map(|layout| self.ui_frame(layout, 1)),
+                    self.fps.frame(phys, window.scale_factor()),
+                ];
                 p.set_ui_layers(&layers);
             } else {p.set_ui_layer(None);}
             let mut grid = self.grid_params;
@@ -819,7 +824,11 @@ impl PlayApp {
                 grid.scale_mode = 1;
             }
             match p.present(&self.rgba, frame_dims, phys, &grid, self.view) {
-                Ok(()) => {self.presenter=Some(p);return;},
+                Ok(()) => {
+                    self.presenter = Some(p);
+                    if !self.paused { self.fps.presented(Instant::now()); }
+                    return;
+                },
                 Err(e) => {
                     eprintln!("video: GPU presenter failed ({e}); CPU scaling active");
                     self.presenter = None;
@@ -926,7 +935,21 @@ impl PlayApp {
             }}
         }
         }
-        let _ = buffer.present();
+        if !self.paused {
+            if let Some(hud) = self.fps.frame((w, h), window.scale_factor()) {
+                let [x, y, width, height] = hud.layout.clip;
+                for py in y as usize..((y + height) as usize).min(h as usize) {
+                    for px in x as usize..((x + width) as usize).min(w as usize) {
+                        if let Some(c) = hud.sample(px as f32 + 0.5, py as f32 + 0.5) {
+                            buffer[py * w as usize + px] = (c[0] as u32) << 16 | (c[1] as u32) << 8 | c[2] as u32;
+                        }
+                    }
+                }
+            }
+        }
+        if buffer.present().is_ok() && !self.paused {
+            self.fps.presented(Instant::now());
+        }
     }
 
     /// Gather this frame's down-state into the active-low GBA `keys` mask and
@@ -1556,6 +1579,8 @@ impl PlayApp {
             use std::io::Write;let _=writeln!(file,"{} {keys:03x}",self.machine.bus.frames);*last=keys;
         }}
         let emu_t0 = Instant::now();
+        self.fps.configure(&self.av.video_fps, emu_t0);
+        let frames_before = self.machine.bus.frames;
         match &self.native {
             Some((_lib, table)) => {
                 let mptr = &mut self.machine as *mut Machine as *mut std::ffi::c_void;
@@ -1565,6 +1590,7 @@ impl PlayApp {
             }
             None => self.machine.run_frame(5_000_000),
         }
+        self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
         if let Some((pixels,_))=self.machine.bus.ffta_dialogue.layer() {
             self.ui_pixels.resize(pixels.len(),[0;4]);
@@ -2044,6 +2070,7 @@ impl ApplicationHandler for PlayApp {
                 return;
             }
             self.paused = !self.paused;
+            self.fps.reset(Instant::now());
             if self.paused {
                 self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
                 self.menu.reset();
@@ -2303,7 +2330,7 @@ impl ApplicationHandler for PlayApp {
                         );
                         // apply_av_change may rebuild the temporal state for
                         // a 160-row frame; make it match the zoomed size.
-                        self.rebuild_temporal();
+                        if what != menu::Changed::Overlay { self.rebuild_temporal(); }
                         // apply_av_change rebuilds grid_params from scratch.
                         self.grid_params.scale_mode = scale_mode_of(&self.av.scaling);
                         if let Err(e) = self.av.save() {
@@ -2332,6 +2359,7 @@ impl ApplicationHandler for PlayApp {
                 // buffer into the game. The cursor is re-hidden by the next
                 // reconcile if fullscreen.
                 reset_audio_counters(&self.streams);
+                self.fps.reset(Instant::now());
                 self.suppress = !keys & 0x3FF;
                 return;
             }
@@ -2896,6 +2924,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         suppress: 0,
         nav_prev: NavEdges::default(),
         show_stats,
+        fps: crate::fps::Meter::new(Instant::now()),
         emu_ema_ms: 0.0,
         frames_run: 0,
         slow_warned: false,

@@ -10,6 +10,7 @@ use std::process::ExitCode;
 use recomp_core::{analyze, build_library, labels, Compiler, FileLabels, LabelSource};
 
 mod ff_audio;
+mod fps;
 mod packfile;
 mod play;
 mod rom_switch;
@@ -1043,6 +1044,7 @@ fn apply_av_change(
             st.enhanced_on = av.audio_enhanced;
             st.vol_cut = 1.0 - av.audio_volume.clamp(0.0, 1.0);
         }
+        menu::Changed::Overlay => {}
         menu::Changed::Gamut => {
             // Restart-required: persisted to av.cfg by the caller, applied
             // on the next launch. Live rebuild would tear down the GPU

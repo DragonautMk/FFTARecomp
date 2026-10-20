@@ -157,6 +157,14 @@ Read current source and manifests before relying on older build instructions.
   Disabled entry points check capture state without reading a clock. Capture
   is bounded, incomplete frames are discarded and parallel zoom measures the
   caller's wall time including worker waits. No guest or translation ABI change.
+- Headless `runc --state` and the comparison script can resume desktop slots
+  or legacy raw snapshots through the menu validator. Snapshots and cartridge
+  `--sav` inputs are mutually exclusive. Replay length, input, zoom and warm-up
+  use a relative origin while guest frame/clock values remain intact; existing
+  no-snapshot replays retain boot origin zero. Comparisons check loaded machine
+  identity and exact absolute frame ranges, and keep loading outside timing.
+  Inputs and personal snapshots stay local and read-only. See the performance
+  workflow for the diagnostic CLI and its remaining AI-scene coverage limits.
 - `runc` guest-cycle profiling (`RECOMP_COST_FROM`) observes the shared native
   dispatch loop, preserving normal HLE/interpreter gates and strict fallback
   behavior. `COST_DISPATCH` separates native, missing, system and intentional

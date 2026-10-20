@@ -72,7 +72,14 @@ def parse_profile_stats(row, samples, require_totals=False):
     return stats
 
 
-def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False, ppu_profile=False):
+def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False, ppu_profile=False, snapshot=False):
+    starts = re.findall(rf'^FFTA_REPLAY_STATE frame=(\d+) machine_sha256=({HASH})$', text, re.M)
+    if snapshot:
+        if len(starts) != 1:
+            raise ValueError('missing or duplicate initial snapshot identity')
+    elif re.search(r'^FFTA_REPLAY_STATE ', text, re.M):
+        raise ValueError('snapshot unexpectedly loaded')
+    start = int(starts[0][0]) if snapshot else 0
     ends = re.findall(r'^frames: (\d+) hash: ([0-9a-f]{16}) '
                       r'native_blocks: (\d+) fallback_steps: (\d+)$', text, re.M)
     timings = re.findall(r'^FFTA_BENCH first=(\d+) last=(\d+) frames=(\d+) '
@@ -82,8 +89,8 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
     if len(ends) != 1 or len(timings) != 1 or len(scenes) != 1:
         raise ValueError('missing or duplicate run/timing/scene summary')
     end, timing, scene = ends[0], timings[0], scenes[0]
-    if (int(end[0]) != frames or tuple(map(int, timing[:3])) !=
-            (warmup, frames, frames - warmup) or int(scene[0]) != warmup):
+    if (int(end[0]) != start + frames or tuple(map(int, timing[:3])) !=
+            (start + warmup, start + frames, frames - warmup) or int(scene[0]) != start + warmup):
         raise ValueError('incomplete run or incorrect measured interval')
     seconds, ms = float(timing[3]), float(timing[4])
     if not all(math.isfinite(v) and v > 0 for v in (seconds, ms)):
@@ -97,7 +104,7 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
         if frame in hashes:
             raise ValueError(f'duplicate frame capture: {frame}')
         hashes[frame] = (fb, oam)
-    if capture and set(hashes) != set(range(1, frames + 1)):
+    if capture and set(hashes) != set(range(start + 1, start + frames + 1)):
         raise ValueError('incomplete frame capture')
     if not capture and hashes:
         raise ValueError('frame hashing unexpectedly enabled during timing')
@@ -128,7 +135,8 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
         ppu = {'frames': measured, 'scanlines': scanlines, 'zoom': zoom, 'stages': stages}
     elif re.search(r'^FFTA_PPU_(?:COUNTS|FRAME) ', text, re.M):
         raise ValueError('PPU profiling unexpectedly enabled during timing')
-    return {'frames': int(end[0]), 'framebuffer': end[1],
+    return {'frames': int(end[0]), 'start_frame': start,
+            'initial_state': starts[0] if snapshot else None, 'framebuffer': end[1],
             'native_blocks': int(end[2]), 'fallback_steps': int(end[3]),
             'ms_per_frame': ms, 'hashes': hashes, 'scene': scene,
             'width': int(timing[5]), 'state': states[0] if states else None,
@@ -136,7 +144,7 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
 
 
 def assert_equivalent(reference, candidate, require_counts=False):
-    for key in ('frames', 'framebuffer', 'scene', 'width'):
+    for key in ('frames', 'start_frame', 'initial_state', 'framebuffer', 'scene', 'width'):
         if reference[key] != candidate[key]:
             raise ValueError(f'divergent {key}')
     if reference['hashes'] and candidate['hashes'] != reference['hashes']:
@@ -161,7 +169,9 @@ def main(argv=None):
     inputs = parser.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--input', type=Path)
     inputs.add_argument('--demo', action='store_true', help='deterministic introductory Start/A taps')
-    parser.add_argument('--sav', type=Path)
+    initial = parser.add_mutually_exclusive_group()
+    initial.add_argument('--sav', type=Path)
+    initial.add_argument('--state', type=Path, help='resume desktop slot or raw snapshot; controls are relative to it')
     parser.add_argument('--frames', type=int, default=6000)
     parser.add_argument('--warmup', type=int, default=120)
     parser.add_argument('--runs', type=int, default=5)
@@ -177,12 +187,14 @@ def main(argv=None):
     parser.add_argument('--require-execution-counts', action='store_true',
                         help='also require dispatch counts to match (same translation/dispatch)')
     args = parser.parse_args(argv)
+    if args.state and args.demo:
+        parser.error('--state needs an explicit --input replay, not the introductory --demo')
     args.profile = args.profile or args.ppu_profile
     if (args.frames <= args.warmup or args.warmup < 0 or args.runs < 1
             or not math.isfinite(args.timeout) or args.timeout <= 0):
         parser.error('require frames > warmup >= 0, runs >= 1 and positive finite timeout')
     protected = {name: path.resolve() for name in
-                 ('baseline', 'candidate', 'rom', 'library', 'input', 'sav')
+                 ('baseline', 'candidate', 'rom', 'library', 'input', 'sav', 'state')
                  if (path := getattr(args, name)) is not None}
     for name, path in protected.items():
         if not path.is_file():
@@ -245,12 +257,14 @@ def main(argv=None):
             '--frames', str(args.frames), '--input', str(args.input.resolve())]
         if args.sav:
             command += ['--sav', str(args.sav.resolve())]
+        if args.state:
+            command += ['--state', str(args.state.resolve())]
         log = args.out / f'{label}.log'
         with log.open('w', encoding='utf-8') as output:
             subprocess.run(command, env=run_env, stdout=output, stderr=subprocess.STDOUT,
                            check=True, timeout=args.timeout)
         result = parse_run(log.read_text(encoding='utf-8'), args.frames, args.warmup,
-                           capture, args.verify_state, profile_times, profile_times and args.ppu_profile)
+                           capture, args.verify_state, profile_times, profile_times and args.ppu_profile, snapshot=args.state is not None)
         print(f'{label}: {result["ms_per_frame"]:.6f} ms/frame', flush=True)
         return result
 
@@ -291,7 +305,9 @@ def main(argv=None):
             'host': {'system': platform.system(), 'release': platform.release(),
                      'machine': platform.machine()},
             'scenario': args.scenario or ('intro-demo' if args.demo else 'user-replay'),
-            'frames': args.frames, 'warmup': args.warmup, 'widescreen': args.widescreen,
+            'frames': args.frames, 'start_frame': reference['start_frame'],
+            'initial_state': reference['initial_state'],
+            'warmup': args.warmup, 'widescreen': args.widescreen,
             'zoom': env['FFTA_ZOOM_LEVEL'], 'runs': args.runs,
             'framebuffer_oam_equal': True, 'full_final_state_equal': args.verify_state,
             'final_framebuffer': reference['framebuffer'], 'final_state_sha256': reference['state'],

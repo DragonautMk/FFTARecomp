@@ -257,7 +257,8 @@ fn validate_prefix(data: &[u8]) -> Result<usize, String> {
     Ok(len as usize)
 }
 
-fn load(machine: &mut Machine, path: &Path) -> Result<(), String> {
+/// Read a desktop slot or legacy raw snapshot through the same transactional validator.
+pub(crate) fn load(machine: &mut Machine, path: &Path) -> Result<(), String> {
     let bytes = read_file(path).map_err(|e| e.to_string())?;
     if bytes.starts_with(SLOT_MAGIC) {
         let len = validate_prefix(&bytes)?;

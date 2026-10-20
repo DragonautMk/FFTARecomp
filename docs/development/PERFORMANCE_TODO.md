@@ -35,6 +35,43 @@ Passi già implementati e verificati, senza chiudere prematuramente le attività
 - [x] Cache LUT per contenuto e revisioni del contatore FPS, con parità CPU/GPU.
 - [x] Riuso dei buffer FIFO audio e modalità di pacing risolta all'avvio.
 
+## Fixture locali e prima verifica della battaglia
+
+Il nuovo archivio locale `saves.zip` e la sua eventuale estrazione `saves/`
+sono ignorati da Git; `.sav` e `.ffstate` sono già esclusi anche altrove.
+Le prove usano copie in `target/`: nessun progresso personale entra nei
+record di progetto, nel contesto Docker o nei pacchetti.
+
+Il caricamento effettivo dello slot fornito è riuscito con il runtime Linux
+esportato dal container. Il salvataggio cartuccia permette inoltre di aprire
+la world map dalla voce Saved Game > Load. Entrambe le scene sono state
+riconosciute visivamente, senza dedurle dal solo nome del file.
+
+Una sessione esplorativa della battaglia, ripresa esplicitamente dal menu
+host e lasciata avanzare per 20 secondi, ha prodotto 1.074 campioni core,
+171.840 scanline e nessun intervallo PPU invalido. Il profilo include anche
+l'avvio: mediana core 23,084 ms e scanline 17,545 ms; p95 rispettivamente
+25,520 e 19,434 ms. Lo zoom non ha eseguito righe aggiuntive.
+Questa è una **misura preliminare Xvfb/llvmpipe**, non una baseline Radeon né
+un replay identificato del turno nemico. I tentativi rimasti nel menu host
+sono esclusi da questa valutazione.
+
+La PPU CPU è quindi una priorità da approfondire in PERF-02/08: separare
+rendering BG/OBJ, composizione ed estrazione dei pannelli; verificare in
+particolare i passaggi ripetuti per riga in `capture_dialogue_part`.
+Quella funzione ordina i candidati BG/OBJ per ogni pixel, pur avendo priorità
+BG costanti per riga: misurare separatamente questo lavoro e confrontare una
+selezione dei primi due livelli con il riferimento prima di cambiarlo.
+Non è ancora dimostrato quale funzione domini né un beneficio dello
+spostamento sulla GPU. Il runner ora supporta `--state` anche nel confronto
+Python: 600 frame aggiuntivi, 120 di warm-up e cinque coppie native sulla stessa
+build hanno prodotto framebuffer/OAM, stato finale e conteggi identici.
+Le mediane di lavoro sono 20,950/20,856 ms; le due catture diagnostiche attribuiscono
+circa il 76% del core alle scanline. Il caricamento e l'avvio sono esclusi dal
+campione. Un controllo separato verifica anche lo zoom relativo allo snapshot.
+Questa è una baseline della battaglia inattiva, senza ancora un turno nemico
+identificato: non è un guadagno di prestazioni e PERF-01/02/03 restano aperti.
+
 ## Cosa sappiamo dal codice
 
 - La GPU è già usata per scalatura, griglia e composizione dei livelli UI:

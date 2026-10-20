@@ -176,3 +176,13 @@ original file hash, loaded and undid that load, then resumed. A new process
 retained the slot but showed Nothing to undo. Both game processes exited cleanly.
 Screenshots and logs are under ignored `target/state-undo-*` paths. These remain
 Wine/simulated-controller checks, not native Windows or physical-pad validation.
+
+## Diagnostic headless replay
+
+`recomp runc <rom> --state <slot.ffstate> --frames N --input <replay.input>`
+resumes the slot without writing it. It shares the desktop slot validator and
+also accepts legacy raw snapshots. Do not combine it with `--sav`. Frame count
+and input/zoom schedules are relative to the loaded point; guest clocks remain
+unchanged. Native code must already be built for the matching ROM/BIOS. See the
+[performance workflow](development/PERFORMANCE_WORKFLOW.md) for controlled
+comparisons and local-only fixtures.

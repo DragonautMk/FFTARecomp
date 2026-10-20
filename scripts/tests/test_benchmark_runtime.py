@@ -90,6 +90,44 @@ class BenchmarkTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             bench.parse_run(text, 3, 1)  # timing must not silently include PPU instrumentation
 
+    def test_snapshot_replay_preserves_guest_frame_origin_and_initial_identity(self):
+        text = self.log().replace('frame=1 ', 'frame=101 ').replace('frame=2 ', 'frame=102 ').replace('frame=3 ', 'frame=103 ')
+        text = text.replace('first=1 last=3', 'first=101 last=103').replace('frames: 3 ', 'frames: 103 ')
+        initial = f'FFTA_REPLAY_STATE frame=100 machine_sha256={"d" * 64}'
+        text = initial + '\n' + text
+        reference = bench.parse_run(text, 3, 1, capture=True, snapshot=True)
+        self.assertEqual(reference['start_frame'], 100)
+        self.assertEqual(set(reference['hashes']), {101, 102, 103})
+        self.assertEqual(reference['initial_state'], ('100', 'd' * 64))
+        wrong = dict(reference, initial_state=('100', 'e' * 64))
+        with self.assertRaises(ValueError):
+            bench.assert_equivalent(reference, wrong)
+        for broken in (text.replace('first=101', 'first=1'),
+                       text.replace('frame=102 ', 'frame=2 '),
+                       text.replace(initial + '\n', ''), text + '\n' + initial,
+                       text.replace('STATE frame=100', 'STATE frame=99')):
+            with self.subTest(broken=broken), self.assertRaises(ValueError):
+                bench.parse_run(broken, 3, 1, capture=True, snapshot=True)
+        with self.assertRaises(ValueError):
+            bench.parse_run(text, 3, 1, capture=True)
+
+    def test_snapshot_is_protected_from_output_and_conflicting_start_options(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            exe = root / 'recomp'; exe.write_bytes(b'\x7fELF')
+            state = root / 'private.ffstate'; state.write_bytes(b'private snapshot')
+            replay = root / 'idle.input'; replay.write_text('gba-input v1\n0 3ff\n')
+            out = root / 'output'; out.mkdir()
+            (out / 'candidate-equivalence.log').symlink_to(state)
+            command = ['--baseline', str(exe), '--candidate', str(exe), '--rom', str(exe),
+                       '--library', str(exe), '--out', str(out), '--state', str(state)]
+            for options in (['--input', str(replay)], ['--demo'],
+                            ['--input', str(replay), '--sav', str(state)]):
+                with patch.object(bench.platform, 'system', return_value='Linux'), self.assertRaises(SystemExit):
+                    bench.main(command + options)
+            self.assertEqual(state.read_bytes(), b'private snapshot')
+            self.assertFalse((out / 'summary.json').exists())
+
     def test_target_platform_uses_binary_format(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'recomp.exe'

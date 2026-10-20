@@ -5,6 +5,27 @@ its TinyCC loader and a single ROM translation. Use a release build and separate
 verification from work timing. ROMs, save copies, recordings and result logs stay
 under ignored local directories. The benchmark never writes the supplied save.
 
+## Personal local fixtures
+
+The optional root `saves.zip` and extracted `saves/` directory are ignored,
+as are individual `.sav` and `.ffstate` files. Inspect archive paths before
+copying selected entries into an isolated portable bundle under `target/`;
+do not launch against the originals, since normal play persists cartridge
+memory on exit. Keep the matching ROM and all fixture bytes local. The Docker
+context uses an allowlist and excludes saves; portable archives also exclude
+personal data.
+
+The supplied slot has passed actual desktop loading and visual scene inspection;
+the cartridge save has also reached the world map through Saved Game > Load.
+After loading a slot, leave the Save states page, select Resume explicitly,
+and verify that the game advances without the host pause menu. A successful
+load message alone is insufficient for a gameplay measurement. Failed keyboard
+automation on desktop Xwayland was discarded; isolated Xvfb input succeeded.
+Xvfb/llvmpipe uses CPU rendering and shares host resources with emulation:
+label those captures separately from Radeon/Wayland results. Current interactive
+profiles include startup and navigation, so a scene screenshot does not make
+the whole-session distribution a clean scene-only benchmark.
+
 ## Headless comparison
 
 The historical script name now supports native Linux/macOS and Windows/Wine;
@@ -22,10 +43,30 @@ python3 scripts/benchmark_windows_runtime.py \
 ```
 
 `--demo` instead of `--input` generates the existing introductory Start/A sequence;
-it does not identify an AI workload. Inputs use absolute guest-frame numbers from
-boot. `--sav` preloads cartridge progress, not a save state; recordings still need
-to navigate from boot. Resuming arbitrary `.ffstate` files is not supported by
-this command yet. Add `--zoom '0:0,1000:4'` to compare a fixed zoom schedule.
+it does not identify an AI workload. `--sav` preloads cartridge progress, so its
+recording still navigates from boot. Alternatively, `--state /path/to/slot-1.ffstate`
+resumes a desktop slot with embedded preview or a legacy raw snapshot through
+the menu's transactional version/identity/checksum validator. Both runtimes must
+support this flag. `--sav` and `--state` are mutually exclusive; a snapshot needs
+an explicit `--input`, rather than the introductory `--demo`.
+
+For snapshot runs, `--frames N` advances N additional guest frames, warm-up and
+input events start at zero at the loaded point, and zoom schedules also use that
+relative timeline. The guest's frame counter, clock, RNG and hardware deadlines
+retain their original values. Without a snapshot the origin is boot frame zero,
+which preserves existing scripts. `RECOMP_COST_FROM`, character diagnostics and
+other legacy guest-frame diagnostics retain absolute frame numbers.
+An idle input file is simply `gba-input v1` followed by `0 3ff` on the next line;
+it exercises the loaded scene but does not prove enemy AI coverage.
+Add `--zoom '0:0,1000:4'` to compare a fixed zoom schedule.
+
+The runner never writes the supplied snapshot, and rejects `--out` pointing to
+that same existing path or symlink. The comparison script protects snapshot
+inputs from output collisions, records their file hashes, checks the loaded
+machine identity and guest-frame origin on every run, and verifies exact frame
+ranges relative to that origin. `summary.json` includes `start_frame` and
+`initial_state` in addition to the requested replay length. Snapshot loading and
+its identity hash precede timing; ordinary frame work remains unchanged.
 
 For Windows under Wine add `--wine wine --wine-prefix target/perf/wine` and use
 Windows executables with their TinyCC DLLs and a Windows-compatible translation.

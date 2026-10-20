@@ -146,6 +146,8 @@ input.cfg/av.cfg from the shared config directory."),
         "--out PATH         write the final frame as a PPM",
         "--input FILE       replay a recorded input script (see play's RECOMP_RECORD_INPUT)",
         "--sav FILE         preload a save copy; runc never writes it",
+        "--state FILE       resume a snapshot read-only, mutually exclusive with --sav",
+        "                   frames/input/zoom/warm-up are relative to the loaded frame",
         "--record-labels    record fallback entry points as labels (headless soak runs)",
         "--bios FILE     run a real-BIOS build (loads out/<stem>-bios.<dylib|so|dll>; no BIOS HLE)",
     ], "Run the recompiled output from out/<stem>.<dylib|so|dll> headless (build first); \
@@ -2880,6 +2882,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     let mut out: Option<String> = None;
     let mut input: Option<InputScript> = None;
     let mut sav: Option<String> = None;
+    let mut state: Option<String> = None;
     let mut bios: Option<Vec<u8>> = None;
     let mut it = args.iter();
     while let Some(arg) = it.next() {
@@ -2899,9 +2902,21 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             }
             "--record-labels" => FALLBACK_COLLECT.store(true, std::sync::atomic::Ordering::Relaxed),
             "--sav" => sav = Some(it.next().ok_or("--sav needs a value")?.to_string()),
+            "--state" => state = Some(it.next().ok_or("--state needs a value")?.to_string()),
             "--bios" => bios = Some(load_bios_file(it.next().ok_or("--bios needs a value")?)?),
             other if rom_path.is_none() => rom_path = Some(other.to_string()),
             other => return Err(format!("unexpected argument {other:?}")),
+        }
+    }
+    if state.is_some() && sav.is_some() {
+        return Err("--state and --sav are mutually exclusive".into());
+    }
+    // Avoid writing a diagnostic image over a supplied snapshot, including symlinks.
+    if let (Some(state), Some(out)) = (&state, &out) {
+        if std::fs::canonicalize(state).ok().is_some_and(|source| {
+            std::fs::canonicalize(out).ok().as_ref() == Some(&source)
+        }) {
+            return Err("--out would overwrite the supplied --state file".into());
         }
     }
     let rom_path = rom_path.ok_or("missing ROM path")?;
@@ -2944,6 +2959,14 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         m.bus.tap_channels = true;
         eprintln!("hle: {}", arm_audio_hle(&mut m, None));
     }
+    if let Some(path) = state {
+        save_state::load(&mut m, Path::new(&path))?;
+        println!("FFTA_REPLAY_STATE frame={} machine_sha256={}",
+            m.bus.frames, gba_core::ffta_rom::digest(&m.save_state()?));
+    }
+    // Preserve guest frame/clock values: only the replay controls use an offset.
+    let replay_first = m.bus.frames;
+    let replay_end = replay_first.checked_add(frames).ok_or("replay frame range overflow")?;
     let mptr = &mut m as *mut Machine as *mut std::ffi::c_void;
 
     let mut native_blocks = 0u64;
@@ -2951,7 +2974,9 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     let mut edge_capture = FftaEdgeCapture::new();
     let bench_from = std::env::var("FFTA_BENCH_FROM")
         .ok()
-        .and_then(|v| v.parse::<u64>().ok());
+        .and_then(|v| v.parse::<u64>().ok())
+        .map(|offset| replay_first.checked_add(offset).ok_or("benchmark frame range overflow"))
+        .transpose()?;
     // Benchmark-only common warm-up: reach the same guest scene before enabling
     // the requested sprite setting. Normal play/runc behaviour is unchanged.
     let mut character_csv=std::env::var("FFTA_CHARACTER_CSV").ok().map(std::fs::File::create).transpose().map_err(|e|e.to_string())?;
@@ -2970,11 +2995,11 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         .and_then(|v| v.parse().ok());
     let mut cost: std::collections::HashMap<u32, u64> = std::collections::HashMap::new();
     let mut cost_dispatches = [0u64; 4];
-    while m.bus.frames < frames {
+    while m.bus.frames < replay_end {
         let before = m.bus.frames;
         if character_csv.is_some(){gba_core::ffta_sprites::set_character_metrics(before+1>=character_from&&before+1<=character_to);}
         if let Some(zoom) = &zoom_schedule {
-            zoom.apply(before);
+            zoom.apply(before - replay_first);
         }
         if bench_start.is_none() && bench_from.is_some_and(|from| before >= from) {
             let mut scene = m.bus.ewram.clone();
@@ -2989,8 +3014,8 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             bench_start = Some((before, std::time::Instant::now()));
         }
         if let Some(s) = &input {
-            m.bus.keys = s.keys_at(before);
-            s.apply_mouse(&mut m.bus,before)?;
+            m.bus.keys = s.keys_at(before - replay_first);
+            s.apply_mouse(&mut m.bus,before - replay_first)?;
         }
         let frame_start = frame_times.start(bench_from.is_none_or(|from| before >= from));
         let ppu_capture = gba_core::ppu_profile::Capture::start(
@@ -3611,6 +3636,27 @@ impl FftaEdgeCapture {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn headless_state_rejects_conflicting_save_and_output_before_running() {
+        let args = |values: &[&str]| values.iter().map(|s| s.to_string()).collect::<Vec<_>>();
+        assert!(cmd_runc(&args(&["missing.gba", "--state", "state.ffstate", "--sav", "save.sav"]))
+            .unwrap_err().contains("mutually exclusive"));
+        let dir = tempfile::tempdir().unwrap();
+        let state = dir.path().join("slot.ffstate");
+        std::fs::write(&state, b"source snapshot").unwrap();
+        let path = state.to_str().unwrap();
+        assert!(cmd_runc(&args(&["missing.gba", "--state", path, "--out", path]))
+            .unwrap_err().contains("overwrite"));
+        #[cfg(unix)]
+        {
+            let output = dir.path().join("image.ppm");
+            std::os::unix::fs::symlink(&state, &output).unwrap();
+            assert!(cmd_runc(&args(&["missing.gba", "--state", path, "--out", output.to_str().unwrap()]))
+                .unwrap_err().contains("overwrite"));
+        }
+        assert_eq!(std::fs::read(state).unwrap(), b"source snapshot");
+    }
 
     #[test]
     fn native_cost_observer_preserves_dispatch_and_guard_behavior() {

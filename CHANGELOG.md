@@ -26,6 +26,63 @@ Documentation: [windows_runtime_performance.md](docs/windows_runtime_performance
 
 [Change record](docs/changes/2026-10-20-windows-runtime-performance.json)
 
+## 2026-10-20 — Save and load persistent machine checkpoints from the desktop menu
+
+Type: added. Platforms: Windows (Wine), Linux core.
+
+**Changes**
+
+- Add Save states > Save state... / Load state... to the pause menu with file selection, error feedback and persistent .ffstate files.
+- Capture CPU, hardware scheduling, memory, cartridge protocol/data, graphics and enhanced audio state in a versioned ROM/BIOS-bound format; validate and decode before changing the running machine.
+- Write checkpoints atomically and protect cartridge .sav destinations; loading cancels pointer requests, resets audio/presentation history and refuses active input recording.
+- Exclude private state files from Git, source packages and release audits; document cartridge-save behavior and future state-format versioning requirements.
+
+**Validation**
+
+- Windows GNU release tests through Wine: 163 core, 27 menu and 29 runtime tests passed; four snapshot tests also passed after extending banked CPU register coverage.
+- Optional native replay passed with enhanced audio taps: 120 framebuffer hashes and complete final machine state matched after rewind and after loading into a fresh machine.
+- Linux core: 163 tests passed serially. Interactive Windows/Wine smoke created and loaded a checkpoint, loaded again after restart, resumed and exited cleanly using isolated test data.
+- Five memory-tool tests, updated skill validation and whitespace checks passed. The Windows archive passed CRC checks, executable hash comparisons and private-data/test-double exclusion checks.
+
+**Limitations**
+
+- Native Windows and physical-controller manual validation remain outstanding; AndroidPort is a separate tree and is unchanged.
+- Linux desktop compilation needs the missing ALSA development package on this host.
+- States require identical ROM/BIOS content and a compatible state version; they are not cartridge saves or another emulator's format.
+- Loading rewinds cartridge memory; normal autosave or clean exit subsequently persists it to the currently selected .sav.
+
+Documentation: [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
+
+[Change record](docs/changes/2026-10-20-save-states.json)
+
+## 2026-10-20 — Nine automatic save slots with previews and controller-only menu flow
+
+Type: changed. Platforms: Windows (Wine), Desktop.
+
+**Changes**
+
+- Replace save/load file dialogs with nine numbered slots, wraparound selection, screenshot previews and in-menu success/error feedback.
+- Store slot-1.ffstate through slot-9.ffstate under SaveStates/<ROM SHA-256>/ beside the selected cartridge save, isolating different ROMs and preserving slots across restarts.
+- Commit the 240x160 game-view/native-UI preview and machine snapshot as one atomic file; require explicit in-menu replacement confirmation and protect newly occupied slots from unconfirmed writes.
+- Keep loading compatibility for original raw .ffstate checkpoints copied into a numbered slot; retain the existing core state version and native cache ABI.
+
+**Validation**
+
+- Windows GNU release under Wine: 29 menu tests and 31 runtime tests passed, covering all nine paths, ROM isolation, fresh-machine loading, no-clobber/confirmed replacement, matching previews, damaged files and legacy states.
+- Preview drawing and mouse hit geometry passed at 240x160, 640x480, 1280x720 and 3840x2160. Controller navigation tests passed for slot wraparound, empty loads and safe confirmation defaults.
+- Interactive simulated-XInput smoke saved slot 9, displayed its preview, cancelled and confirmed replacement, loaded it, exercised empty-slot feedback and loaded slot 1 after restart; both sessions resumed and exited cleanly.
+- Five memory-tool tests and development skill validation passed. Release archive CRC, executable equality, TinyCC/notices presence and private-data/test-double exclusion checks passed.
+
+**Limitations**
+
+- Validation used Wine and simulated XInput, not physical controllers or native Windows. AndroidPort remains unchanged.
+- Original files outside the numbered slot folder are preserved; importing one requires copying it into an unused slot. A legacy preview appears after resaving.
+- Slot location follows the selected cartridge save directory. Loading also restores cartridge memory, subsequently persisted by normal autosave or exit.
+
+Documentation: [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
+
+[Change record](docs/changes/2026-10-20-save-state-slots.json)
+
 ## 2026-10-20 — Add project skills and checked development memory
 
 Type: docs. Platforms: Project-wide.

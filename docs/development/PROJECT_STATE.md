@@ -37,6 +37,17 @@ Read current source and manifests before relying on older build instructions.
   states. Portability requires matching game edition/region and a tool/device
   that accepts that save format; no new conversion feature was implemented.
 
+- [Save states](../save_states.md): pause menu > Save states, nine controller-
+  operated slots with embedded previews and in-menu overwrite/error feedback.
+  Storage: `SaveStates/<ROM SHA-256>/slot-1.ffstate` through `slot-9.ffstate`,
+  relative to the selected cartridge save directory. A new session starts at
+  slot 1; Left/Right wraps between all nine. Legacy raw states can be copied
+  into an unused slot and loaded without an image until resaved.
+  Files use `.ffstate`, carry ROM/BIOS identity and a versioned machine snapshot,
+  and are separate from cartridge `.sav` files. Loading also rewinds cartridge
+  memory, which normal autosave/exit later persists. Native translations and host
+  resources are not stored; input recording must stop before loading.
+
 ## Validation knowledge and remaining uncertainty
 
 - [Windows runtime performance](../windows_runtime_performance.md) documents

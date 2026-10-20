@@ -45,7 +45,7 @@ class MemoryTests(unittest.TestCase):
         self.record()
         with self.assertRaises(SystemExit):
             self.record()
-        for path in ('../secret', '/tmp/file', 'target/output.rs', 'rom/private.gba', 'foo/./bar', 'foo\\bar'):
+        for path in ('../secret', '/tmp/file', 'target/output.rs', 'rom/private.gba', 'slot.ffstate', 'foo/./bar', 'foo\\bar'):
             with self.subTest(path=path), self.assertRaises(ValueError):
                 memory.safe_path(path)
 

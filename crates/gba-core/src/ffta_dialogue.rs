@@ -2,6 +2,7 @@
 //! future Settings controls; it never changes OAM, VRAM or game coordinates.
 
 #[derive(Clone, Copy, Debug)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct DialogueStyle {
     /// Relative to the normal screen-space size, independently of world zoom.
     pub scale: f32,
@@ -21,6 +22,7 @@ impl Default for DialogueStyle {
     }
 }
 #[derive(Clone, Copy, Debug)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct Placement {
     pub scale: f32,
     pub left: f32,
@@ -62,6 +64,7 @@ impl Placement {
     }
 }
 #[derive(Default)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct DialogueState {
     pub style: DialogueStyle,
     /// Desktop opt-in: extract native UI instead of drawing it into the world.
@@ -146,6 +149,7 @@ pub const LAYER_INSET: i32 = 120;
 /// Transparent pixels have eva=0, evb=16. No encoded-color alpha approximation.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(C)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct UiPixel {
     pub color: u16,
     pub eva: u8,
@@ -255,6 +259,7 @@ mod layer_tests {
 }
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub enum PanelKind {
     #[default]
     None,
@@ -263,6 +268,7 @@ pub enum PanelKind {
     Notice,
 }
 #[derive(Default)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct Panel {
     pub backing: Vec<UiPixel>,
     /// Raw top BG, before effects or OBJ, for native semitransparent OBJ blending.

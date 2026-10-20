@@ -2358,7 +2358,9 @@ version = "0.2.0"
 dependencies = [
  "armv4t",
  "libc",
+ "postcard",
  "rayon",
+ "serde",
  "sha2 0.11.0",
  "windows-sys 0.59.0",
 ]
@@ -4533,6 +4535,7 @@ dependencies = [
  "screen",
  "sha2 0.11.0",
  "softbuffer",
+ "tempfile",
  "toml 0.8.23",
  "winit",
  "winresource",

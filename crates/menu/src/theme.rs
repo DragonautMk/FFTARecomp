@@ -111,6 +111,10 @@ pub(super) fn draw(
     if w < 32 || h < 32 || px.len() < w * h {
         return;
     }
+    if matches!(menu.page, Page::SaveStates | Page::ReplaceState) {
+        super::save_states::draw(menu, px, w, h);
+        return;
+    }
     for p in px.iter_mut().take(w * h) {
         p[0] = (p[0] as u16 * 5 / 16 + 5) as u8;
         p[1] = (p[1] as u16 * 4 / 16 + 3) as u8;
@@ -154,6 +158,7 @@ pub(super) fn draw(
     if menu.page != Page::Main {
         let label = match menu.page {
             Page::Exit => "QUIT GAME?",
+            Page::SaveStates => "SAVE STATES",
             Page::FastForward => "FAST FORWARD",
             Page::Audio => "AUDIO SETTINGS",
             Page::Video => "VIDEO & DISPLAY",

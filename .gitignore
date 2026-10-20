@@ -6,6 +6,7 @@
 /Installer/Licenses/
 *.gba
 *.sav
+*.ffstate
 *.input
 *.log
 *.o

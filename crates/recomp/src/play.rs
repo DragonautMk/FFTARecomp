@@ -508,6 +508,7 @@ struct PlayApp {
     // Core machine + persistence.
     machine: Machine,
     sav_path: String,
+    state_slots: crate::save_state::Slots,
     sav_seen: Option<u64>,
     record: Option<(std::fs::File, u16)>,
     native: Option<(super::NativeLibrary, BlockTable)>,
@@ -1567,6 +1568,172 @@ impl PlayApp {
         self.key_pairs = pairs;
     }
 
+    fn refresh_ui_layers(&mut self) {
+        if let Some((pixels, _)) = self.machine.bus.ffta_dialogue.layer() {
+            self.ui_pixels.resize(pixels.len(), [0; 4]);
+            let state = &self.machine.bus.ffta_dialogue;
+            if state.action_layout {
+                gba_core::ffta_dialogue::pack_panel(
+                    pixels,
+                    &state.backing,
+                    state.style.length,
+                    false,
+                    &mut self.ui_pixels,
+                );
+            } else if state.town_layout || state.shop_layout {
+                gba_core::ffta_dialogue::pack_panel(pixels, &[], 1., true, &mut self.ui_pixels);
+            } else {
+                for (out, pixel) in self.ui_pixels.iter_mut().zip(pixels) {
+                    *out = pixel.packed();
+                }
+            }
+        } else {
+            self.ui_pixels.clear();
+        }
+        let extra = &self.machine.bus.ffta_dialogue.extra;
+        if self.machine.bus.ffta_dialogue.separate && extra.active() {
+            self.panel_pixels.resize(extra.pixels.len(), [0; 4]);
+            let b = gba_core::ffta_dialogue::panel_bounds(&extra.pixels, &extra.backing)
+                .unwrap_or([0; 4]);
+            let state = &self.machine.bus.ffta_dialogue;
+            gba_core::ffta_dialogue::pack_panel(
+                &extra.pixels,
+                &extra.backing,
+                if state.town_layout || extra.kind == gba_core::ffta_dialogue::PanelKind::Notice {
+                    1.
+                } else {
+                    state.style.length
+                },
+                state.town_layout || b[0] + b[2] >= 240,
+                &mut self.panel_pixels,
+            );
+        } else {
+            self.panel_pixels.clear();
+        }
+    }
+
+    fn refresh_state_slots(&mut self) {
+        let slots = std::array::from_fn(|i| {
+            let info = self.state_slots.info(i as u8 + 1);
+            menu::StateSlot {
+                occupied: info.occupied,
+                preview: info.preview,
+                status: info.status,
+            }
+        });
+        self.menu.set_state_slots(slots);
+        self.menu.set_state_undo(self.state_slots.undo_label());
+    }
+
+    /// Capture the displayed game view plus native UI, excluding the pause menu and FPS HUD.
+    fn state_preview(&mut self) -> Vec<[u8; 4]> {
+        let (w, h) = (crate::save_state::PREVIEW_W, crate::save_state::PREVIEW_H);
+        self.temporal.compose(&self.lut, &mut self.rgba);
+        let mut pixels = vec![[0, 0, 0, 255]; w * h];
+        let [vx, vy, vw, vh] = self.view;
+        let (scale, ox, oy) = screen::present::letterbox_f((w as u32, h as u32), vw, vh);
+        for y in 0..h {
+            for x in 0..w {
+                let fx = (x as f32 - ox) / scale;
+                let fy = (y as f32 - oy) / scale;
+                if fx >= 0. && fy >= 0. && fx < vw && fy < vh {
+                    pixels[y * w + x] = self.rgba[((vy + fy) as usize).min(wide_h() - 1)
+                        * wide_w()
+                        + ((vx + fx) as usize).min(wide_w() - 1)];
+                }
+            }
+        }
+        for layer in 0..2 {
+            if let Some(layout) = self.ui_layout((w as u32, h as u32), layer) {
+                let ui = self.ui_frame(layout, layer);
+                for y in 0..h {
+                    for x in 0..w {
+                        if let Some(color) = ui.sample(x as f32 + 0.5, y as f32 + 0.5) {
+                            pixels[y * w + x] = color;
+                        }
+                    }
+                }
+            }
+        }
+        pixels
+    }
+
+    fn after_state_restore(&mut self) {
+        // Discard consumer resamplers and queues from the old timeline.
+        drop(self.stream.take());
+        self.ff_latched = false;
+        self.set_fast_forward(false, 1);
+        self.streams.lock().unwrap().dead = false;
+        self.stream = start_audio(self.streams.clone());
+        self.audio_retry = if self.stream.is_none() {
+            Some(Instant::now())
+        } else {
+            None
+        };
+        self.game_mouse.cancel();
+        self.mouse_queue.clear();
+        self.machine.bus.keys = 0x3ff;
+        self.sync_view();
+        self.rebuild_temporal();
+        let frame = display_frame(&self.machine.bus, &mut self.padded_frame);
+        self.temporal.push(frame, &self.lut);
+        self.refresh_ui_layers();
+        self.fps.reset(Instant::now());
+    }
+
+    fn undo_state_operation(&mut self) {
+        if self.record.is_some() && self.state_slots.undo_restores_machine() {
+            self.menu
+                .state_result("Stop input recording before undoing a load.".into());
+            self.menu_dirty = true;
+            return;
+        }
+        let message = match self.state_slots.undo(&mut self.machine) {
+            Ok(crate::save_state::UndoEffect::Save(slot)) => format!("Undid save in slot {slot}."),
+            Ok(crate::save_state::UndoEffect::Load(slot)) => {
+                self.after_state_restore();
+                format!("Undid load from slot {slot}.")
+            }
+            Err(error) => format!("Cannot undo: {error}"),
+        };
+        self.refresh_state_slots();
+        self.menu.state_result(message);
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
+    fn state_operation(&mut self, saving: bool, slot: u8, overwrite: bool) {
+        if !saving && self.record.is_some() {
+            self.menu
+                .state_result("Stop input recording before loading a state.".into());
+            self.menu_dirty = true;
+            return;
+        }
+        let result = if saving {
+            let preview = self.state_preview();
+            self.state_slots
+                .save(&self.machine, slot, &preview, overwrite)
+        } else {
+            self.state_slots.load(&mut self.machine, slot)
+        };
+        let message = match result {
+            Ok(()) => {
+                if !saving {
+                    self.after_state_restore();
+                }
+                format!("Slot {slot} {}.", if saving { "saved" } else { "loaded" })
+            }
+            Err(error) => format!(
+                "Cannot {} slot {slot}: {error}",
+                if saving { "save" } else { "load" }
+            ),
+        };
+        self.refresh_state_slots();
+        self.menu.state_result(message);
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
     /// Change fast-forward activation or audio speed. Flush stale audio on
     /// transitions and re-prime when returning to normal play.
     fn set_fast_forward(&mut self, on: bool, speed: u32) {
@@ -1638,22 +1805,7 @@ impl PlayApp {
         }
         self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
-        if let Some((pixels,_))=self.machine.bus.ffta_dialogue.layer() {
-            self.ui_pixels.resize(pixels.len(),[0;4]);
-            let state=&self.machine.bus.ffta_dialogue;
-            if state.action_layout {
-                gba_core::ffta_dialogue::pack_panel(pixels,&state.backing,state.style.length,false,&mut self.ui_pixels);
-            } else if state.town_layout || state.shop_layout {
-                gba_core::ffta_dialogue::pack_panel(pixels,&[],1.,true,&mut self.ui_pixels);
-            } else {for (out,pixel) in self.ui_pixels.iter_mut().zip(pixels) {*out=pixel.packed();}}
-        } else {self.ui_pixels.clear();}
-        let extra=&self.machine.bus.ffta_dialogue.extra;
-        if self.machine.bus.ffta_dialogue.separate && extra.active() {
-            self.panel_pixels.resize(extra.pixels.len(),[0;4]);
-            let b=gba_core::ffta_dialogue::panel_bounds(&extra.pixels,&extra.backing).unwrap_or([0;4]);
-            let state=&self.machine.bus.ffta_dialogue;
-            gba_core::ffta_dialogue::pack_panel(&extra.pixels,&extra.backing,if state.town_layout || extra.kind==gba_core::ffta_dialogue::PanelKind::Notice {1.}else{state.style.length},state.town_layout || b[0]+b[2]>=240,&mut self.panel_pixels);
-        } else {self.panel_pixels.clear();}
+        self.refresh_ui_layers();
         // Advance the screen's temporal response once per EMULATED frame —
         // never per presented frame, or flicker-transparency titles lock onto
         // one phase (the classic parity bug).
@@ -2123,6 +2275,7 @@ impl ApplicationHandler for PlayApp {
             if self.paused {
                 self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
                 self.menu.reset();
+                self.refresh_state_slots();
                 self.menu_dirty = true;
                 // Drop stale pointer events from before the menu opened.
                 self.mouse_queue.clear();
@@ -2332,6 +2485,9 @@ impl ApplicationHandler for PlayApp {
             for action in acts {
                 match action {
                     menu::MenuAction::Resume => self.paused = false,
+                    menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
+                    menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
+                    menu::MenuAction::UndoState => self.undo_state_operation(),
                     menu::MenuAction::Quit => quit = true,
                     menu::MenuAction::SwitchRom => {
                         if self.choose_rom() {quit=true;break;}
@@ -2930,11 +3086,13 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let menu_enabled = manifest.as_ref().map(|m| m.menu).unwrap_or(true);
 
     let sav_seen = machine.bus.save_data().map(fnv64);
+    let state_slots = crate::save_state::Slots::new(Path::new(&sav_path), &machine.bus.rom);
     let game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&machine.bus.rom,icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref()==Ok("1"));
     if icfg.mouse_keyboard {machine.bus.ffta_battle_mouse.set_enabled(true);}
     let mut app = PlayApp {
         machine,
         sav_path,
+        state_slots,
         sav_seen,
         record,
         native,
@@ -3187,7 +3345,7 @@ mod gamepad_capture_simulation {
 
         let mut av = input_config::AvConfig::default();
         let mut menu = menu::Menu::new(true, false);
-        for _ in 0..5 {
+        for _ in 0..6 {
             menu.handle(menu::MenuInput::Down, &mut av);
         }
         menu.handle(menu::MenuInput::Confirm, &mut av); // Input page.

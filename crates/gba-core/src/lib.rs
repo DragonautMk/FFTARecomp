@@ -35,6 +35,7 @@ pub mod mp2k;
 pub mod ppu;
 pub mod rdrv;
 pub mod rtc;
+pub mod save_state;
 pub mod shadow;
 
 pub use bus::Bus;

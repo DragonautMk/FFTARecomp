@@ -1419,6 +1419,7 @@ pub fn dump_ffta_text_layers(mem: &MemMap) -> Result<(), String> {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub(crate) enum FftaBgEdge {
     Wrap,
     Transparent,

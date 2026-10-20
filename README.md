@@ -172,6 +172,16 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 >
 > If you have any doubts, you can check the **VirusTotal report** included in each release.
 
+## Save states
+
+Open the pause menu > **Save states**. Choose one of **9 slots** with Left/Right,
+then Save state or Load state. Each slot shows a screenshot preview; controller
+navigation, overwrite confirmation and feedback stay inside the menu.
+Files are named `slot-1.ffstate` through `slot-9.ffstate` under
+`SaveStates/<ROM SHA-256>/` beside the selected cartridge `.sav`.
+See [save state behavior and compatibility](docs/save_states.md); use ordinary
+in-game `.sav` saves for transfer to a GBA or another emulator.
+
 ## Development history and project skills
 
 See [CHANGELOG.md](CHANGELOG.md) for implemented changes and validation.

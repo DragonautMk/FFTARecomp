@@ -15,6 +15,7 @@ mod packfile;
 mod play;
 mod rom_switch;
 mod save_path;
+mod save_state;
 #[cfg(any(target_os = "linux", test))]
 mod linux_pad;
 
@@ -3570,6 +3571,49 @@ impl FftaEdgeCapture {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[ignore = "requires FFTA_STATE_TEST_ROM and FFTA_STATE_TEST_NATIVE local fixtures"]
+    fn native_save_state_replays_identical_frames_and_machine_state() {
+        use sha2::Digest;
+        let rom = std::fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").expect("ROM fixture")).unwrap();
+        let library = std::env::var_os("FFTA_STATE_TEST_NATIVE").expect("Native translation fixture");
+        let (_library, table) = load_native(Path::new(&library)).unwrap();
+        let mut machine = Machine::new(rom.clone());
+        arm_audio_hle(&mut machine, None);
+        machine.bus.tap_channels = true;
+        let advance = |machine: &mut Machine| {
+            machine.bus.keys = demo_keys(machine.bus.frames);
+            let pointer = machine as *mut Machine as *mut std::ffi::c_void;
+            let counts = run_frame_native(machine, &table, pointer, FRAME_STEP_GUARD);
+            machine.bus.audio_buf.clear(); machine.bus.psg_tap.clear(); machine.bus.hle_tap.clear();
+            machine.bus.fifo_tap.iter_mut().for_each(Vec::clear);
+            counts.0
+        };
+        let mut native_blocks = 0;
+        for _ in 0..600 { native_blocks += advance(&mut machine); }
+        assert!(native_blocks > 0, "Fixture must actually execute native code");
+        let checkpoint = machine.save_state().unwrap();
+        let replay = |machine: &mut Machine| {
+            let mut hashes = Vec::new();
+            for _ in 0..120 {
+                advance(machine);
+                let bytes: Vec<u8> = machine.bus.framebuffer.iter().flat_map(|v| v.to_le_bytes()).collect();
+                hashes.push(sha2::Sha256::digest(bytes).to_vec());
+            }
+            hashes
+        };
+        let expected_frames = replay(&mut machine);
+        let expected_state = machine.save_state().unwrap();
+        machine.load_state(&checkpoint).unwrap();
+        assert_eq!(replay(&mut machine), expected_frames);
+        assert_eq!(machine.save_state().unwrap(), expected_state);
+        // A fresh machine represents a later launch with the same ROM.
+        let mut fresh = Machine::new(rom);
+        fresh.load_state(&checkpoint).unwrap();
+        assert_eq!(replay(&mut fresh), expected_frames);
+        assert_eq!(fresh.save_state().unwrap(), expected_state);
+    }
 
     #[test]
     fn accelerated_audio_consumes_at_the_selected_multiplier() {

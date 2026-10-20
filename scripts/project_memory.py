@@ -20,7 +20,7 @@ def safe_path(value):
     p = PurePosixPath(value)
     if p.is_absolute() or '..' in p.parts or str(p) != value:
         raise ValueError(f'Invalid repository path: {value!r}')
-    if p.parts[0] in ('target', 'dist', '.git') or p.suffix.lower() in ('.gba', '.sav', '.input'):
+    if p.parts[0] in ('target', 'dist', '.git') or p.suffix.lower() in ('.gba', '.sav', '.input', '.ffstate'):
         raise ValueError(f'Private/generated data cannot be recorded: {value}')
     return value
 

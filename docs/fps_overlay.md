@@ -50,3 +50,25 @@ Windows x86_64 GNU release builds were executed via Wine:
 
 Logs and visual previews are under ignored `target/windows-fps-*.log`,
 `target/fps-*-preview.*` and `target/fps-ui-smoke/`.
+
+## Upload reuse
+
+FPS pixels carry a process-unique revision changed when the text is rendered
+or reset. A layout/DPI change still updates uniforms, without reuploading the
+unchanged text texture. Unversioned game UI keeps unconditional pixel uploads;
+dynamic world textures keep their existing update path. Each GPU layer compares
+its LUT contents against a retained copy, so in-place color changes are detected
+without relying on allocation addresses. Recreated layers begin with empty caches.
+
+For an unchanged 480x160 UI with a one-pixel world, scheduled update payload
+falls from 438,338 bytes to 66 bytes (world pixel plus uniforms); the first update
+and subsequent text changes still upload their required data. This is a transfer
+payload reduction, not an FPS or AI-turn speedup measurement. CPU fallback reads
+the same current frame data directly. Opt-in `FFTA_PROFILE=1` diagnostics report scheduled UI payload bytes at shutdown.
+
+The extended GPU/CPU equivalence test checks repeated frames, in-place LUT
+mutation, changed UI revisions, unversioned UI, changed world data and recreated
+resources at three world sizes including 1x1. On AMD Radeon 780M / RADV it passed
+all pixel comparisons and exact scheduled-byte assertions. Meter tests cover
+unchanged revisions between measurements, reset, DPI/layout changes and distinct
+meter instances.

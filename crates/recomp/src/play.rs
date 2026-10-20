@@ -16,6 +16,7 @@
 
 use std::collections::{HashMap, HashSet};
 use std::num::NonZeroU32;
+use crate::perf::{Phase, PlayProfile};
 use std::path::Path;
 use std::sync::atomic::Ordering;
 use std::sync::{Arc, Mutex};
@@ -586,12 +587,14 @@ struct PlayApp {
     // Perf + audio watchdog.
     show_stats: bool,
     fps: crate::fps::Meter,
+    profile: PlayProfile,
     emu_ema_ms: f64,
     frames_run: u64,
     slow_warned: bool,
     native_run: u64,
     fallback_run: u64,
     primed: bool,
+    clock_pacing: bool,
     next_frame: Instant,
     audio_watch: Instant,
     audio_consumed_last: u64,
@@ -800,7 +803,7 @@ impl PlayApp {
         }
     }
     fn ui_frame(&self,layout:screen::ui_layer::Layout,index:usize)->screen::ui_layer::Frame<'_> {
-        screen::ui_layer::Frame {pixels:if index==0 {&self.ui_pixels}else{&self.panel_pixels},
+        screen::ui_layer::Frame {pixels_revision:None,pixels:if index==0 {&self.ui_pixels}else{&self.panel_pixels},
             raw_world:if index==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
             world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),
             layout,world_view:self.view}
@@ -823,20 +826,32 @@ impl PlayApp {
             (wide_w() as u32, wide_h() as u32)
         };
         if let Some(mut p) = self.presenter.take() {
+            p.enable_cpu_profiling(self.profile.enabled() && !self.paused);
             if !self.paused {
+                let ui_start = self.profile.start();
                 let layers = [
                     self.ui_layout(phys, 0).map(|layout| self.ui_frame(layout, 0)),
                     self.ui_layout(phys, 1).map(|layout| self.ui_frame(layout, 1)),
                     self.fps.frame(phys, window.scale_factor()),
                 ];
                 p.set_ui_layers(&layers);
+                self.profile.record_ui_upload(p.ui_uploaded_bytes());
+                self.profile.finish(Phase::UiUpload, ui_start);
             } else {p.set_ui_layer(None);}
             let mut grid = self.grid_params;
             if self.paused {
                 grid.strength = 0.;
                 grid.scale_mode = 1;
             }
-            match p.present(&self.rgba, frame_dims, phys, &grid, self.view) {
+            let result = p.present(&self.rgba, frame_dims, phys, &grid, self.view);
+            if let Some(times) = p.cpu_timings() {
+                self.profile.record(Phase::GpuSetupUpload, times.setup_upload);
+                self.profile.record(Phase::GpuAcquire, times.acquire);
+                self.profile.record(Phase::GpuEncode, times.encode);
+                self.profile.record(Phase::GpuSubmit, times.submit);
+                self.profile.record(Phase::GpuPresent, times.present);
+            }
+            match result {
                 Ok(()) => {
                     self.presenter = Some(p);
                     if !self.paused { self.fps.presented(Instant::now()); }
@@ -935,7 +950,7 @@ impl PlayApp {
             }
         }
         for (i,layout) in ui_layouts.into_iter().enumerate() {if let Some(layout)=layout {
-            let ui=screen::ui_layer::Frame {pixels:if i==0 {&self.ui_pixels}else{&self.panel_pixels},raw_world:if i==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
+            let ui=screen::ui_layer::Frame {pixels_revision:None,pixels:if i==0 {&self.ui_pixels}else{&self.panel_pixels},raw_world:if i==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
                 world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),layout,world_view:self.view};
             let x0=layout.rect[0].max(layout.clip[0]).max(0.) as usize;
             let y0=layout.rect[1].max(layout.clip[1]).max(0.) as usize;
@@ -1823,7 +1838,7 @@ impl PlayApp {
     /// One emulated frame plus its audio handoff to the rings. Counts native
     /// vs fallback dispatch, advances the screen's temporal response, surfaces
     /// the realtime / audio-defect alarms, and flushes backup media.
-    fn run_one_frame(&mut self) {
+    fn run_one_frame(&mut self) -> bool {
         // Apply a pending zoom change before the frame is emulated, so the
         // core renders (and we read back) the size the zoom needs.
         self.sync_view();
@@ -1840,6 +1855,7 @@ impl PlayApp {
         let emu_t0 = Instant::now();
         self.fps.configure(&self.av.video_fps, emu_t0);
         let frames_before = self.machine.bus.frames;
+        let core_start = self.profile.start();
         match &self.native {
             Some((_lib, table)) => {
                 let mptr = &mut self.machine as *mut Machine as *mut std::ffi::c_void;
@@ -1849,14 +1865,25 @@ impl PlayApp {
             }
             None => self.machine.run_frame(5_000_000),
         }
+        self.profile.finish(Phase::Core, core_start);
+        // A guard hit is an incomplete frame, not a new temporal-history entry.
+        // Stop cleanly instead of presenting/counting partially advanced state.
+        if self.machine.bus.frames == frames_before {
+            self.error = Some("emulation step guard exceeded before a complete frame".into());
+            return false;
+        }
         self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
+        let ui_start = self.profile.start();
         self.refresh_ui_layers();
+        self.profile.finish(Phase::UiPrepare, ui_start);
         // Advance the screen's temporal response once per EMULATED frame —
         // never per presented frame, or flicker-transparency titles lock onto
         // one phase (the classic parity bug).
+        let temporal_start = self.profile.start();
         let wf = display_frame(&self.machine.bus, &mut self.padded_frame);
         self.temporal.push(wf, &self.lut);
+        self.profile.finish(Phase::TemporalPush, temporal_start);
 
         // Realtime alarm: the frame budget is 16.7 ms. If smoothed emulation
         // cost approaches it, the product promise is broken — say so once.
@@ -1878,18 +1905,14 @@ impl PlayApp {
         // Live perf readout in the title, once a second. Developer tooling —
         // hidden from the release out-of-box experience unless requested.
         if self.show_stats && self.frames_run % 60 == 0 {
-            let total = self.native_run + self.fallback_run;
-            let share = if total == 0 {
-                0.0
-            } else {
-                self.native_run as f64 * 100.0 / total as f64
-            };
             if let Some(w) = self.window.as_ref() {
                 w.set_title(&format!(
-                    "{} · {:.2} ms/frame ({:.1}x headroom) · native {share:.0}%",
+                    "{} · {:.2} ms/frame ({:.1}x headroom) · native {} blocks · fallback {} steps",
                     self.title,
                     self.emu_ema_ms,
                     16.7 / self.emu_ema_ms.max(0.01),
+                    self.native_run,
+                    self.fallback_run,
                 ));
             }
             self.native_run = 0;
@@ -1919,6 +1942,7 @@ impl PlayApp {
             }
         }
 
+        let autosave_start = (self.frames_run % 300 == 0).then(|| self.profile.start()).flatten();
         // Flush backup media periodically when it changed, so an external
         // teardown (launcher kills us) can't lose more than ~5 s of progress.
         if self.frames_run % 300 == 0 {
@@ -1930,7 +1954,11 @@ impl PlayApp {
             }
         }
 
+        self.profile.finish(Phase::Autosave, autosave_start);
+        let audio_start = self.profile.start();
         self.handoff_audio();
+        self.profile.finish(Phase::AudioHandoff, audio_start);
+        true
     }
 
     /// Hand this frame's audio taps to the consumer rings, refresh the routing
@@ -2037,8 +2065,9 @@ impl PlayApp {
             st.hle_on = true;
         }
         for f in 0..2 {
-            let events = std::mem::take(&mut bus.fifo_tap[f]);
-            for e in events {
+            // Keep the producer's allocation for the next frame, preserving
+            // the same event order and overflow/drop behavior.
+            for e in bus.fifo_tap[f].drain(..) {
                 if st.fifo[f].len() < audio_capacity / 2 {
                     st.fifo[f].push_back(e);
                 } else {
@@ -2704,8 +2733,7 @@ impl ApplicationHandler for PlayApp {
         // those batches as video deadlines skips intermediate presentations.
         // Prime the audio normally, then present one frame per hardware tick.
         // Keep the original audio-driven path available for A/B comparison.
-        let clock_pacing = cfg!(any(target_os = "linux", windows))
-            && std::env::var("FFTA_FRAME_PACING").as_deref() != Ok("audio");
+        let clock_pacing = self.clock_pacing;
         let smooth_normal = clock_pacing && self.primed && !self.ff_active;
         let frame_cap = if self.ff_active {
             self.ff_speed
@@ -2714,6 +2742,9 @@ impl ApplicationHandler for PlayApp {
         } else {
             4
         };
+        // A tick can include multiple guest frames; keep its inclusive time
+        // separate from per-frame core/UI/audio phases. Pause polling is excluded.
+        let tick_start = self.profile.start();
         let mut ran = 0u32;
         while ran < frame_cap {
             if self.ff_active {
@@ -2733,7 +2764,10 @@ impl ApplicationHandler for PlayApp {
                 break;
             }
             ran += 1;
-            self.run_one_frame();
+            if !self.run_one_frame() {
+                event_loop.exit();
+                return;
+            }
         }
 
         // Once both rings first reach target, the buffer has primed: discard
@@ -2757,14 +2791,19 @@ impl ApplicationHandler for PlayApp {
         if ran == 0 {
             // Ring is full: let the device drain a little before the next tick.
             // (winit pumps OS events between ticks; no explicit pump needed.)
+            let wait_start = self.profile.start();
             std::thread::sleep(Duration::from_millis(2));
+            self.profile.finish(Phase::PacingWait, wait_start);
+            self.profile.finish(Phase::Tick, tick_start);
             return;
         }
         if self.stream.is_none() || self.ff_active || smooth_normal {
             self.next_frame += Duration::from_nanos(16_742_706); // 59.7275 Hz
             let now = Instant::now();
             if self.next_frame > now {
+                let wait_start = self.profile.start();
                 std::thread::sleep(self.next_frame - now);
+                self.profile.finish(Phase::PacingWait, wait_start);
             } else {
                 self.next_frame = now;
             }
@@ -2772,8 +2811,13 @@ impl ApplicationHandler for PlayApp {
 
         // Resolve the visible image (temporal response + color LUT) and
         // present it (downstream of production, never the pacing source).
+        let compose_start = self.profile.start();
         self.temporal.compose(&self.lut, &mut self.rgba);
+        self.profile.finish(Phase::TemporalCompose, compose_start);
+        let present_start = self.profile.start();
         self.present_rgba();
+        self.profile.finish(Phase::Present, present_start);
+        self.profile.finish(Phase::Tick, tick_start);
     }
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
@@ -2786,6 +2830,7 @@ impl ApplicationHandler for PlayApp {
         drop(self.sb_surface.take());
         drop(self.sb_context.take());
         drop(self.window.take());
+        self.profile.report();
 
         // Final teardown on a clean exit (window closed / menu Quit): this is
         // winit's guaranteed last callback, so it runs whether or not
@@ -3213,12 +3258,15 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         nav_prev: NavEdges::default(),
         show_stats,
         fps: crate::fps::Meter::new(Instant::now()),
+        profile: PlayProfile::new(std::env::var("FFTA_PROFILE").as_deref() == Ok("1")),
         emu_ema_ms: 0.0,
         frames_run: 0,
         slow_warned: false,
         native_run: 0,
         fallback_run: 0,
         primed: false,
+        clock_pacing: cfg!(any(target_os = "linux", windows))
+            && std::env::var("FFTA_FRAME_PACING").as_deref() != Ok("audio"),
         next_frame: Instant::now(),
         audio_watch: Instant::now(),
         audio_consumed_last: 0,

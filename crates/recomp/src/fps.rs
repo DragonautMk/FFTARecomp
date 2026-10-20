@@ -1,5 +1,6 @@
 //! Wall-clock rates: completed guest frames and successful host presentations.
 use std::sync::OnceLock;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
 
 pub struct Meter {
@@ -8,6 +9,7 @@ pub struct Meter {
     internal: u64,
     external: u64,
     pixels: Vec<[u8; 4]>,
+    pixels_revision: u64,
 }
 
 impl Meter {
@@ -18,6 +20,7 @@ impl Meter {
             internal: 0,
             external: 0,
             pixels: Vec::new(),
+            pixels_revision: 0,
         }
     }
 
@@ -26,7 +29,7 @@ impl Meter {
         self.internal = 0;
         self.external = 0;
         if self.mode != "off" {
-            menu::fps::render(&mut self.pixels, &self.mode, None);
+            self.render(None);
         }
     }
 
@@ -54,11 +57,18 @@ impl Meter {
                 self.internal as f64 / elapsed.as_secs_f64(),
                 self.external as f64 / elapsed.as_secs_f64(),
             );
-            menu::fps::render(&mut self.pixels, &self.mode, Some(rates));
+            self.render(Some(rates));
             self.start = now;
             self.internal = 0;
             self.external = 0;
         }
+    }
+
+    fn render(&mut self, rates: Option<(f64, f64)>) {
+        menu::fps::render(&mut self.pixels, &self.mode, rates);
+        // Distinct meters must not reuse a token if a layer outlives its source.
+        static NEXT_REVISION: AtomicU64 = AtomicU64::new(1);
+        self.pixels_revision = NEXT_REVISION.fetch_add(1, Ordering::Relaxed);
     }
 
     pub fn frame(&self, window: (u32, u32), dpi: f64) -> Option<screen::ui_layer::Frame<'_>> {
@@ -76,6 +86,7 @@ impl Meter {
         });
         Some(screen::ui_layer::Frame {
             pixels: &self.pixels,
+            pixels_revision: Some(self.pixels_revision),
             raw_world: &[0],
             world_dims: (1, 1),
             lut: colors,
@@ -97,6 +108,24 @@ impl Meter {
 mod tests {
     use super::*;
 
+    #[test]
+    fn upload_revision_changes_only_on_render_and_is_not_reused_by_another_meter() {
+        let now = Instant::now();
+        let mut meter = Meter::new(now);
+        meter.configure("both", now);
+        let first = meter.frame((640, 480), 1.).unwrap().pixels_revision;
+        meter.emulated(1);
+        meter.presented(now + Duration::from_millis(16));
+        assert_eq!(meter.frame((1280, 720), 2.).unwrap().pixels_revision, first);
+        meter.presented(now + Duration::from_secs(1));
+        let next = meter.frame((640, 480), 1.).unwrap().pixels_revision;
+        assert_ne!(next, first);
+        meter.reset(now + Duration::from_secs(2));
+        assert_ne!(meter.frame((640, 480), 1.).unwrap().pixels_revision, next);
+        let mut other = Meter::new(now);
+        other.configure("both", now);
+        assert_ne!(other.frame((640, 480), 1.).unwrap().pixels_revision, first);
+    }
     #[test]
     fn counts_fast_forward_frames_separately_and_resets_after_pause() {
         let start = Instant::now();

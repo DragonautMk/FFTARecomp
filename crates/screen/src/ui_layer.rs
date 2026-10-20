@@ -102,6 +102,9 @@ impl Layout {
 #[derive(Clone, Copy)]
 pub struct Frame<'a> {
     pub pixels: &'a [[u8; 4]],
+    /// A token never reused for different pixels in this layer's source stream.
+    /// None preserves unconditional uploads for dynamic/unversioned callers.
+    pub pixels_revision: Option<u64>,
     pub raw_world: &'a [u16],
     pub world_dims: (u32, u32),
     pub lut: &'a [[u8; 4]],
@@ -145,6 +148,8 @@ pub(super) struct Gpu {
     lut: wgpu::Texture,
     params: wgpu::Buffer,
     dims: (u32, u32),
+    pixels_revision: Option<u64>,
+    lut_shadow: Vec<[u8; 4]>,
     pub active: bool,
 }
 impl Gpu {
@@ -286,13 +291,16 @@ impl Gpu {
             lut,
             params,
             dims,
+            pixels_revision: None,
+            lut_shadow: Vec::with_capacity(32768),
             active: false,
         }
     }
     pub fn dimensions(&self) -> (u32, u32) {
         self.dims
     }
-    pub fn update(&mut self, queue: &wgpu::Queue, frame: &Frame<'_>, srgb: bool) {
+    /// Returns the payload bytes scheduled for upload, including uniforms.
+    pub fn update(&mut self, queue: &wgpu::Queue, frame: &Frame<'_>, srgb: bool) -> usize {
         fn write(queue: &wgpu::Queue, tex: &wgpu::Texture, data: &[u8], w: u32, h: u32, bpp: u32) {
             queue.write_texture(
                 wgpu::TexelCopyTextureInfo {
@@ -326,9 +334,22 @@ impl Gpu {
         };
         let lut =
             unsafe { std::slice::from_raw_parts(frame.lut.as_ptr().cast(), frame.lut.len() * 4) };
-        write(queue, &self.ui, ui, 480, 160, 4);
+        let mut uploaded = 0;
+        if frame.pixels_revision.is_none() || frame.pixels_revision != self.pixels_revision {
+            write(queue, &self.ui, ui, 480, 160, 4);
+            uploaded += ui.len();
+        }
+        self.pixels_revision = frame.pixels_revision;
         write(queue, &self.world, raw, self.dims.0, self.dims.1, 2);
-        write(queue, &self.lut, lut, 256, 128, 4);
+        uploaded += raw.len();
+        // Compare actual colors, never addresses: a settings change may mutate
+        // the same allocation, and distinct layers may use distinct LUTs.
+        if self.lut_shadow.as_slice() != frame.lut {
+            write(queue, &self.lut, lut, 256, 128, 4);
+            self.lut_shadow.clear();
+            self.lut_shadow.extend_from_slice(frame.lut);
+            uploaded += lut.len();
+        }
         let mut values = [0f32; 16];
         values[..4].copy_from_slice(&frame.layout.rect);
         values[4..8].copy_from_slice(&frame.layout.clip);
@@ -337,6 +358,7 @@ impl Gpu {
         let bytes = unsafe { std::slice::from_raw_parts(values.as_ptr().cast(), 64) };
         queue.write_buffer(&self.params, 0, bytes);
         self.active = true;
+        uploaded + bytes.len()
     }
     pub fn draw<'a>(&'a self, pass: &mut wgpu::RenderPass<'a>) {
         if self.active {
@@ -422,101 +444,152 @@ mod tests {
         }
         // The FPS HUD uses a one-pixel backdrop independent of the game view.
         for dims in [(320, 160), (640, 320), (1, 1)] {
-            let world: Vec<u16> = (0..dims.0 * dims.1).map(|i| (i % 32768) as u16).collect();
-            let frame = Frame {
-                pixels: &pixels,
-                raw_world: &world,
-                world_dims: dims,
-                lut: &lut,
-                layout: Layout::new((320, 160), 320., true, 1., [0., 0.]),
-                world_view: [0., 0., dims.0 as f32, dims.1 as f32],
-            };
+            let mut world: Vec<u16> = (0..dims.0 * dims.1).map(|i| (i % 32768) as u16).collect();
+            let mut local_pixels = pixels.clone();
+            let mut local_lut = lut.clone();
             let mut gpu = Gpu::new(&device, wgpu::TextureFormat::Rgba8Unorm, dims);
-            gpu.update(&queue, &frame, false);
-            let target = device.create_texture(&wgpu::TextureDescriptor {
-                label: Some("ui-test-target"),
-                size: wgpu::Extent3d {
-                    width: 320,
-                    height: 160,
-                    depth_or_array_layers: 1,
-                },
-                mip_level_count: 1,
-                sample_count: 1,
-                dimension: wgpu::TextureDimension::D2,
-                format: wgpu::TextureFormat::Rgba8Unorm,
-                usage: wgpu::TextureUsages::RENDER_ATTACHMENT | wgpu::TextureUsages::COPY_SRC,
-                view_formats: &[],
-            });
-            let read = device.create_buffer(&wgpu::BufferDescriptor {
-                label: Some("ui-test-readback"),
-                size: 320 * 160 * 4,
-                usage: wgpu::BufferUsages::COPY_DST | wgpu::BufferUsages::MAP_READ,
-                mapped_at_creation: false,
-            });
-            let view = target.create_view(&Default::default());
-            let mut encoder = device.create_command_encoder(&Default::default());
-            {
-                let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
-                    label: Some("ui-test"),
-                    color_attachments: &[Some(wgpu::RenderPassColorAttachment {
-                        view: &view,
-                        resolve_target: None,
-                        depth_slice: None,
-                        ops: wgpu::Operations {
-                            load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
-                            store: wgpu::StoreOp::Store,
-                        },
-                    })],
-                    depth_stencil_attachment: None,
-                    timestamp_writes: None,
-                    occlusion_query_set: None,
-                });
-                gpu.draw(&mut pass);
-            }
-            encoder.copy_texture_to_buffer(
-                wgpu::TexelCopyTextureInfo {
-                    texture: &target,
-                    mip_level: 0,
-                    origin: wgpu::Origin3d::ZERO,
-                    aspect: wgpu::TextureAspect::All,
-                },
-                wgpu::TexelCopyBufferInfo {
-                    buffer: &read,
-                    layout: wgpu::TexelCopyBufferLayout {
-                        offset: 0,
-                        bytes_per_row: Some(1280),
-                        rows_per_image: Some(160),
-                    },
-                },
-                wgpu::Extent3d {
-                    width: 320,
-                    height: 160,
-                    depth_or_array_layers: 1,
-                },
-            );
-            queue.submit([encoder.finish()]);
-            let slice = read.slice(..);
-            let (tx, rx) = std::sync::mpsc::channel();
-            slice.map_async(wgpu::MapMode::Read, move |result| {
-                tx.send(result).unwrap();
-            });
-            device.poll(wgpu::PollType::Wait).unwrap();
-            rx.recv().unwrap().unwrap();
-            let mapped = slice.get_mapped_range();
-            for y in 0..160 {
-                for x in 0..320 {
-                    let expected = frame
-                        .sample(x as f32 + 0.5, y as f32 + 0.5)
-                        .unwrap_or([0, 0, 0, 255]);
-                    assert_eq!(
-                        &mapped[(y * 320 + x) * 4..(y * 320 + x + 1) * 4],
-                        &expected,
-                        "dims={dims:?} x={x} y={y}"
-                    );
+            for step in 0..9 {
+                // Mutation keeps the same allocation: pointer-based LUT caching
+                // would miss it. Recreated resources must also upload everything.
+                if step == 2 {
+                    for color in &mut local_lut {
+                        for c in &mut color[..3] {
+                            *c = 255 - *c;
+                        }
+                    }
                 }
+                if step == 3 {
+                    for pixel in &mut local_pixels {
+                        pixel[0] ^= 31;
+                    }
+                }
+                if step == 7 {
+                    for color in &mut world {
+                        *color ^= 0x7fff;
+                    }
+                }
+                if step == 8 {
+                    gpu = Gpu::new(&device, wgpu::TextureFormat::Rgba8Unorm, dims);
+                }
+                let frame = Frame {
+                    pixels: &local_pixels,
+                    pixels_revision: match step {
+                        0..=2 => Some(7),
+                        4..=5 => None,
+                        _ => Some(8),
+                    },
+                    raw_world: &world,
+                    world_dims: dims,
+                    lut: &local_lut,
+                    layout: Layout::new(
+                        (320, 160),
+                        320.,
+                        true,
+                        1.,
+                        if step == 1 { [8., 4.] } else { [0., 0.] },
+                    ),
+                    world_view: [0., 0., dims.0 as f32, dims.1 as f32],
+                };
+                let uploaded = gpu.update(&queue, &frame, false);
+                let all = step == 0 || step == 8;
+                let expected = world.len() * 2
+                    + 64
+                    + if all || matches!(step, 3..=6) {
+                        local_pixels.len() * 4
+                    } else {
+                        0
+                    }
+                    + if all || step == 2 {
+                        local_lut.len() * 4
+                    } else {
+                        0
+                    };
+                assert_eq!(uploaded, expected, "upload bytes dims={dims:?} step={step}");
+                let target = device.create_texture(&wgpu::TextureDescriptor {
+                    label: Some("ui-test-target"),
+                    size: wgpu::Extent3d {
+                        width: 320,
+                        height: 160,
+                        depth_or_array_layers: 1,
+                    },
+                    mip_level_count: 1,
+                    sample_count: 1,
+                    dimension: wgpu::TextureDimension::D2,
+                    format: wgpu::TextureFormat::Rgba8Unorm,
+                    usage: wgpu::TextureUsages::RENDER_ATTACHMENT | wgpu::TextureUsages::COPY_SRC,
+                    view_formats: &[],
+                });
+                let read = device.create_buffer(&wgpu::BufferDescriptor {
+                    label: Some("ui-test-readback"),
+                    size: 320 * 160 * 4,
+                    usage: wgpu::BufferUsages::COPY_DST | wgpu::BufferUsages::MAP_READ,
+                    mapped_at_creation: false,
+                });
+                let view = target.create_view(&Default::default());
+                let mut encoder = device.create_command_encoder(&Default::default());
+                {
+                    let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                        label: Some("ui-test"),
+                        color_attachments: &[Some(wgpu::RenderPassColorAttachment {
+                            view: &view,
+                            resolve_target: None,
+                            depth_slice: None,
+                            ops: wgpu::Operations {
+                                load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
+                                store: wgpu::StoreOp::Store,
+                            },
+                        })],
+                        depth_stencil_attachment: None,
+                        timestamp_writes: None,
+                        occlusion_query_set: None,
+                    });
+                    gpu.draw(&mut pass);
+                }
+                encoder.copy_texture_to_buffer(
+                    wgpu::TexelCopyTextureInfo {
+                        texture: &target,
+                        mip_level: 0,
+                        origin: wgpu::Origin3d::ZERO,
+                        aspect: wgpu::TextureAspect::All,
+                    },
+                    wgpu::TexelCopyBufferInfo {
+                        buffer: &read,
+                        layout: wgpu::TexelCopyBufferLayout {
+                            offset: 0,
+                            bytes_per_row: Some(1280),
+                            rows_per_image: Some(160),
+                        },
+                    },
+                    wgpu::Extent3d {
+                        width: 320,
+                        height: 160,
+                        depth_or_array_layers: 1,
+                    },
+                );
+                queue.submit([encoder.finish()]);
+                let slice = read.slice(..);
+                let (tx, rx) = std::sync::mpsc::channel();
+                slice.map_async(wgpu::MapMode::Read, move |result| {
+                    tx.send(result).unwrap();
+                });
+                device.poll(wgpu::PollType::Wait).unwrap();
+                rx.recv().unwrap().unwrap();
+                let mapped = slice.get_mapped_range();
+                for y in 0..160 {
+                    for x in 0..320 {
+                        let expected = frame
+                            .sample(x as f32 + 0.5, y as f32 + 0.5)
+                            .unwrap_or([0, 0, 0, 255]);
+                        assert_eq!(
+                            &mapped[(y * 320 + x) * 4..(y * 320 + x + 1) * 4],
+                            &expected,
+                            "dims={dims:?} x={x} y={y}"
+                        );
+                    }
+                }
+                drop(mapped);
+                read.unmap();
             }
-            drop(mapped);
-            read.unmap();
         }
     }
     #[test]

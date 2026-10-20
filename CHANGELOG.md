@@ -194,6 +194,30 @@ Documentation: [save_states.md](docs/save_states.md), [PROJECT_STATE.md](docs/de
 
 [Change record](docs/changes/2026-10-20-save-state-slots.json)
 
+## 2026-10-20 — Reuse unchanged color/FPS uploads and preserve audio producer buffers
+
+Type: performance. Platforms: Desktop Linux and Windows.
+
+**Changes**
+
+- Retain a bounded per-layer LUT copy and upload colors only when actual contents differ, including in-place mutations. Give FPS textures process-unique render revisions so unchanged text avoids repeated uploads while layout uniforms and dynamic worlds remain current.
+- Count submitted UI payload bytes in opt-in CPU profiling. Keep unversioned game UI updates unconditional, recreate empty caches with GPU resources, and preserve the CPU sampler and guest/save-state contracts.
+- Drain FIFO audio events while retaining producer Vec capacity, preserving ordering and overflow/drop behavior; resolve FFTA_FRAME_PACING once at startup instead of querying the environment every gameplay tick.
+
+**Validation**
+
+- 44 native runtime tests and 36 screen tests passed; the runtime examples compile. The extended ignored GPU equivalence test passed explicitly on AMD Radeon 780M / RADV across nine update/cache/mutation/recreation cases at three world sizes, with pixel-exact CPU/GPU comparison and exact upload-byte assertions.
+- For unchanged 480x160 UI with a 1x1 world, the GPU test verifies 438338 initial scheduled bytes versus 66 repeated bytes; changed UI/LUT inputs and recreated resources still upload their required bytes. This is payload reduction, not a frame-rate or AI-turn speedup.
+- With the final buffer/pacing changes, 44 runtime and 36 screen tests passed. Profiling-enabled actual-launcher save/load/move smoke passed on Xvfb; native Xwayland/RADV window close also exited normally and emitted reduced UI payload counters.
+
+**Limitations**
+
+- The slow AI-turn fixture is unavailable. PERF-05/06 remain partially open for broader UI/world reuse, bounds/packing work and controlled scene-level performance checks; no AI or overall FPS gain is claimed.
+
+Documentation: [fps_overlay.md](docs/fps_overlay.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-20-reuse-desktop-uploads-and-audio-buffers.json)
+
 ## 2026-10-20 — Add project skills and checked development memory
 
 Type: docs. Platforms: Project-wide.
@@ -345,6 +369,35 @@ Type: docs. Platforms: Desktop Linux and Windows.
 Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
 
 [Change record](docs/changes/2026-10-20-desktop-performance-todo.json)
+
+## 2026-10-20 — Begin performance TODO with native comparisons and bounded CPU profiling
+
+Type: added. Platforms: Desktop Linux x86_64; Windows GNU compatibility.
+
+**Changes**
+
+- Extend the existing benchmark to detect native Linux/macOS and Windows/Wine binaries, alternate five timing pairs, validate complete unique frame captures and warm-up scenes, protect inputs, apply per-process timeouts and publish explicit running/failed/passed summaries.
+- Add opt-in full final-machine-state hashing and bounded headless per-frame CPU times with separate diagnostic runs; add opt-in interactive CPU phase summaries, leaving disabled collection allocation-free and avoiding per-frame logging.
+- Replace mixed-unit native percentages with separate block/step counts and reject incomplete guarded frames before advancing frontend temporal history. Keep PERF-01/02/03 open for missing workload, PPU/GPU and complete validation requirements.
+- Split opt-in CPU presenter times into setup/upload, acquire/retry, encoding, submission and present, with UI layout/uploads measured separately; preserve the existing presenter API and expose no mandatory GPU features or timestamp requirements.
+
+**Validation**
+
+- Eight Python rejection/input-protection tests and 43 native Linux runtime tests passed; two fixture-dependent runtime tests were initially ignored.
+- The optional native save-state replay/load/Undo integration test passed with the local ROM and TinyCC translation, including exact machine-state replay.
+- Preliminary packaged-baseline comparison on 3000 intro frames passed framebuffer/OAM verification and five alternating native Linux timing pairs. A final-runtime self-comparison on 1200 frames passed full serialized final-state equality, five timing pairs and separate bounded frame-time diagnostic runs.
+- Actual launcher GUI save/load/move smoke passed with profiling enabled on Xvfb/llvmpipe; cache, two backups and per-user data remained correct. Xwayland/AMD RADV Vulkan profiling emitted expected CPU phases and closed with exit status 0.
+- Windows Docker cross-build/export passed 26 input/config, 33 menu and 44 runtime tests under container Wine; two optional runtime tests remained ignored. Exported ZIP CRC, PE signature, BUILD-INFO checksum and private-data exclusion checks passed.
+- Final native runtime also passed a fresh packaged-baseline comparison on 3000 intro frames with matching framebuffer/OAM and dispatch counts, plus five alternating timing pairs. Baseline/candidate medians were 3.238056/3.203595 ms per frame; this instrumentation change claims no speedup.
+
+**Limitations**
+
+- P0 remains in progress: no identified slow enemy-turn replay, separate PPU/GPU execution timing, full-stream audio equivalence or native Windows/macOS performance result is established.
+- Intro timings and short GUI profiles are diagnostic validation, not an optimization speedup claim. The preliminary baseline used a Docker-built package while the candidate used the native host toolchain; single-run overhead estimates are noisy.
+
+Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
+
+[Change record](docs/changes/2026-10-20-desktop-performance-baseline-tools.json)
 
 ## 2026-10-20 — Keep two automatic cartridge-save backups and restore them from the controller menu
 

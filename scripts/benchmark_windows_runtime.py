@@ -1,53 +1,179 @@
-"""Compare two Windows runtimes using one existing native ROM translation.
+"""Compare native Linux/macOS or Windows/Wine runtimes on one ROM translation.
 
-Runs on Windows directly, or on Linux with --wine wine64 --wine-prefix PATH.
-No save is written. Hash capture and timing runs are separate so hashing does
-not distort the measured emulation cost. ROMs and logs stay outside sources.
+Historical filename retained for existing commands. Verification, uninstrumented
+work timing and optional frame-time diagnostics run separately. Saves are read-only.
 """
 
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
+import platform
 import re
 import statistics
 import subprocess
+import sys
 
 
-def main():
+HASH = r'[0-9a-f]{64}'
+FLOAT = r'(?:[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)'
+
+
+def digest(path):
+    checksum = hashlib.sha256()
+    with path.open('rb') as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b''):
+            checksum.update(chunk)
+    return checksum.hexdigest()
+
+
+def binary_platform(path):
+    with path.open('rb') as source:
+        magic = source.read(4)
+    if magic.startswith(b'MZ'):
+        return 'Windows'
+    if magic == b'\x7fELF':
+        return 'Linux'
+    if magic in (b'\xcf\xfa\xed\xfe', b'\xfe\xed\xfa\xcf',
+                 b'\xce\xfa\xed\xfe', b'\xfe\xed\xfa\xce', b'\xca\xfe\xba\xbe'):
+        return 'Darwin'
+    raise ValueError(f'unrecognized executable format: {path}')
+
+
+def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False):
+    ends = re.findall(r'^frames: (\d+) hash: ([0-9a-f]{16}) '
+                      r'native_blocks: (\d+) fallback_steps: (\d+)$', text, re.M)
+    timings = re.findall(r'^FFTA_BENCH first=(\d+) last=(\d+) frames=(\d+) '
+                         rf'seconds=({FLOAT}) ms_per_frame=({FLOAT}) width=(\d+)$', text, re.M)
+    scenes = re.findall(rf'^FFTA_BENCH_SCENE frame=(\d+) guest_sha256=({HASH}) '
+                        r'sprite_requested=(true|false)$', text, re.M)
+    if len(ends) != 1 or len(timings) != 1 or len(scenes) != 1:
+        raise ValueError('missing or duplicate run/timing/scene summary')
+    end, timing, scene = ends[0], timings[0], scenes[0]
+    if (int(end[0]) != frames or tuple(map(int, timing[:3])) !=
+            (warmup, frames, frames - warmup) or int(scene[0]) != warmup):
+        raise ValueError('incomplete run or incorrect measured interval')
+    seconds, ms = float(timing[3]), float(timing[4])
+    if not all(math.isfinite(v) and v > 0 for v in (seconds, ms)):
+        raise ValueError('nonfinite or nonpositive timing')
+    hashes = {}
+    for frame, fb, oam in re.findall(
+            rf'^FFTA_EQ frame=(\d+) framebuffer=({HASH}) oam=({HASH})$', text, re.M):
+        frame = int(frame)
+        if frame in hashes:
+            raise ValueError(f'duplicate frame capture: {frame}')
+        hashes[frame] = (fb, oam)
+    if capture and set(hashes) != set(range(1, frames + 1)):
+        raise ValueError('incomplete frame capture')
+    if not capture and hashes:
+        raise ValueError('frame hashing unexpectedly enabled during timing')
+    states = re.findall(rf'^FFTA_FINAL_STATE sha256=({HASH})$', text, re.M)
+    if verify_state and len(states) != 1:
+        raise ValueError('runtime does not provide exactly one final machine-state hash')
+    stats = None
+    if profile:
+        rows = re.findall(r'^FFTA_FRAME_TIMES (.+)$', text, re.M)
+        if len(rows) != 1:
+            raise ValueError('runtime does not provide frame-time diagnostics')
+        try:
+            fields = dict(part.split('=', 1) for part in rows[0].split())
+            stats = {k: int(fields[k]) for k in
+                     ('samples', 'omitted', 'over_budget', 'over_double_budget')}
+            stats.update({k: float(fields[k]) for k in
+                          ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')})
+        except (ValueError, KeyError) as error:
+            raise ValueError('invalid frame-time diagnostics') from error
+        ordered = [stats[k] for k in ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')]
+        if (stats['samples'] != frames - warmup or stats['omitted'] != 0
+                or not all(math.isfinite(v) and v >= 0 for v in ordered)
+                or ordered != sorted(ordered)
+                or not 0 <= stats['over_double_budget'] <= stats['over_budget'] <= stats['samples']):
+            raise ValueError('incomplete or inconsistent frame-time diagnostics')
+    return {'frames': int(end[0]), 'framebuffer': end[1],
+            'native_blocks': int(end[2]), 'fallback_steps': int(end[3]),
+            'ms_per_frame': ms, 'hashes': hashes, 'scene': scene,
+            'width': int(timing[5]), 'state': states[0] if states else None,
+            'frame_times': stats}
+
+
+def assert_equivalent(reference, candidate, require_counts=False):
+    for key in ('frames', 'framebuffer', 'scene', 'width'):
+        if reference[key] != candidate[key]:
+            raise ValueError(f'divergent {key}')
+    if reference['hashes'] and candidate['hashes'] != reference['hashes']:
+        raise ValueError('framebuffer/OAM differ during replay')
+    if reference['state'] is not None and candidate['state'] != reference['state']:
+        raise ValueError('serialized machine state differs')
+    if require_counts and any(reference[k] != candidate[k] for k in
+                              ('native_blocks', 'fallback_steps')):
+        raise ValueError('execution counts differ')
+
+
+def atomic_json(path, value):
+    temporary = path.with_suffix(path.suffix + '.tmp')
+    temporary.write_text(json.dumps(value, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    temporary.replace(path)
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--baseline', type=Path, required=True)
-    parser.add_argument('--candidate', type=Path, required=True)
-    parser.add_argument('--rom', type=Path, required=True)
-    parser.add_argument('--library', type=Path, required=True)
-    parser.add_argument('--out', type=Path, required=True)
-    inputs = parser.add_mutually_exclusive_group()
+    for name in ('baseline', 'candidate', 'rom', 'library', 'out'):
+        parser.add_argument('--' + name, type=Path, required=True)
+    inputs = parser.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--input', type=Path)
-    inputs.add_argument('--demo', action='store_true',
-                        help='generate the runtime\'s deterministic Start/A replay')
+    inputs.add_argument('--demo', action='store_true', help='deterministic introductory Start/A taps')
     parser.add_argument('--sav', type=Path)
     parser.add_argument('--frames', type=int, default=6000)
     parser.add_argument('--warmup', type=int, default=120)
-    parser.add_argument('--runs', type=int, default=3)
+    parser.add_argument('--runs', type=int, default=5)
     parser.add_argument('--widescreen', default='16:9')
+    parser.add_argument('--zoom', help='headless zoom schedule, e.g. 0:0,1000:4')
+    parser.add_argument('--scenario', help='descriptive workload name; no inferred AI coverage')
+    parser.add_argument('--timeout', type=float, default=300, help='maximum seconds per process')
     parser.add_argument('--wine')
     parser.add_argument('--wine-prefix', type=Path)
-    args = parser.parse_args()
-    if args.frames <= args.warmup or args.warmup < 0 or args.runs < 1:
-        parser.error('require frames > warmup >= 0 and runs >= 1')
-    for path in (args.baseline, args.candidate, args.rom, args.library,
-                 args.input, args.sav):
-        if path is not None and not path.is_file():
-            parser.error(f'file not found: {path}')
+    parser.add_argument('--verify-state', action='store_true', help='require full serialized final-state hashes')
+    parser.add_argument('--profile', action='store_true', help='separate instrumented frame-time runs')
+    parser.add_argument('--require-execution-counts', action='store_true',
+                        help='also require dispatch counts to match (same translation/dispatch)')
+    args = parser.parse_args(argv)
+    if (args.frames <= args.warmup or args.warmup < 0 or args.runs < 1
+            or not math.isfinite(args.timeout) or args.timeout <= 0):
+        parser.error('require frames > warmup >= 0, runs >= 1 and positive finite timeout')
+    protected = {name: path.resolve() for name in
+                 ('baseline', 'candidate', 'rom', 'library', 'input', 'sav')
+                 if (path := getattr(args, name)) is not None}
+    for name, path in protected.items():
+        if not path.is_file():
+            parser.error(f'file not found ({name}): {path}')
+    try:
+        target = binary_platform(args.baseline)
+        if binary_platform(args.candidate) != target:
+            raise ValueError('baseline and candidate target different platforms')
+        if args.wine and target != 'Windows':
+            raise ValueError('--wine requires Windows executables')
+        if not args.wine and target != platform.system():
+            raise ValueError(f'{target} binaries cannot run natively on {platform.system()}')
+    except ValueError as error:
+        parser.error(str(error))
+    if args.wine_prefix and not args.wine:
+        parser.error('--wine-prefix requires --wine')
+    args.out = args.out.resolve()
+    reserved = ['summary.json', 'summary.json.tmp', 'demo.input']
+    reserved += [f'{name}-{kind}.log' for name in ('baseline', 'candidate')
+                 for kind in ['equivalence', 'profile'] + [str(i + 1) for i in range(args.runs)]]
+    if set(protected.values()) & {(args.out / name).resolve() for name in reserved}:
+        parser.error('output files would overwrite a benchmark input')
     args.out.mkdir(parents=True, exist_ok=True)
+    atomic_json(args.out / 'summary.json', {'status': 'running'})
+    original_hashes = {name: digest(path) for name, path in protected.items()}
     if args.demo:
         args.input = args.out / 'demo.input'
-        rows = ['gba-input v1']
-        previous = None
+        rows, previous = ['gba-input v1'], None
         for frame in range(args.frames + 1):
-            phase = frame % 180
-            keys = 0x3ff
+            phase, keys = frame % 180, 0x3ff
             if frame >= 240:
                 if phase < 10:
                     keys &= ~(1 << 3)
@@ -60,78 +186,95 @@ def main():
     env = os.environ.copy()
     env['FFTA_BENCH_LIBRARY'] = str(args.library.resolve())
     env['FFTA_WIDESCREEN'] = args.widescreen
-    if args.wine_prefix:
-        env['WINEPREFIX'] = str(args.wine_prefix.resolve())
+    env['FFTA_BENCH_FROM'] = str(args.warmup)
+    env['FFTA_ZOOM_LEVEL'] = args.zoom or '0'
+    # Do not silently mix the diagnostic cost-dispatch path into normal timing.
+    env.pop('RECOMP_COST_FROM', None)
     if args.wine:
         env['WINEDEBUG'] = '-all'
+        if args.wine_prefix:
+            env['WINEPREFIX'] = str(args.wine_prefix.resolve())
 
-    def run(label, exe, capture):
+    def run(label, exe, capture=False, profile_times=False):
         run_env = env.copy()
         run_env['FFTA_PATCH_VERIFY_FRAMES'] = '1' if capture else '0'
-        # This warm-up mode temporarily disables sprite expansion before the
-        # measured interval. Use the same mode for correctness and timing.
-        run_env['FFTA_BENCH_FROM'] = str(args.warmup)
+        run_env['FFTA_BENCH_STATE'] = '1' if args.verify_state else '0'
+        run_env['FFTA_BENCH_FRAME_TIMES'] = '1' if profile_times else '0'
         command = ([args.wine] if args.wine else []) + [
             str(exe.resolve()), 'runc', str(args.rom.resolve()),
-            '--frames', str(args.frames),
-        ]
-        if args.input:
-            command += ['--input', str(args.input.resolve())]
+            '--frames', str(args.frames), '--input', str(args.input.resolve())]
         if args.sav:
             command += ['--sav', str(args.sav.resolve())]
         log = args.out / f'{label}.log'
         with log.open('w', encoding='utf-8') as output:
-            subprocess.run(command, env=run_env, stdout=output,
-                           stderr=subprocess.STDOUT, check=True)
-        text = log.read_text(encoding='utf-8')
-        end = re.search(r'frames: (\d+) hash: ([0-9a-f]+) '
-                        r'native_blocks: (\d+) fallback_steps: (\d+)', text)
-        timing = re.search(r'FFTA_BENCH .*ms_per_frame=([0-9.]+)', text)
-        if not end or int(end[1]) != args.frames or not timing:
-            raise RuntimeError(f'incomplete run: {log}')
-        hashes = {int(f): (fb, oam) for f, fb, oam in re.findall(
-            r'FFTA_EQ frame=(\d+) framebuffer=([0-9a-f]+) oam=([0-9a-f]+)', text)}
-        if capture and set(hashes) != set(range(1, args.frames + 1)):
-            raise RuntimeError(f'incomplete frame capture: {log}')
-        print(f'{label}: {timing[1]} ms/frame', flush=True)
-        return tuple(end.groups()), float(timing[1]), hashes
+            subprocess.run(command, env=run_env, stdout=output, stderr=subprocess.STDOUT,
+                           check=True, timeout=args.timeout)
+        result = parse_run(log.read_text(encoding='utf-8'), args.frames, args.warmup,
+                           capture, args.verify_state, profile_times)
+        print(f'{label}: {result["ms_per_frame"]:.6f} ms/frame', flush=True)
+        return result
 
-    reference, _, hashes = run('baseline-equivalence', args.baseline, True)
-    candidate, _, candidate_hashes = run('candidate-equivalence', args.candidate, True)
-    if candidate != reference or candidate_hashes != hashes:
-        raise RuntimeError('framebuffer/OAM or execution counts differ')
-    print(f'Equivalent framebuffer/OAM on all {args.frames} frames.', flush=True)
-    samples = {'baseline': [], 'candidate': []}
-    for i in range(args.runs):
-        # Alternate ordering to reduce temperature / background-load bias.
-        order = [('baseline', args.baseline), ('candidate', args.candidate)]
-        if i % 2:
-            order.reverse()
-        for name, exe in order:
-            state, ms, _ = run(f'{name}-{i + 1}', exe, False)
-            if state != reference:
-                raise RuntimeError('timing run diverged from equivalence capture')
-            samples[name].append(ms)
-    before = statistics.median(samples['baseline'])
-    after = statistics.median(samples['candidate'])
-    summary = {
-        'platform': 'Windows via Wine' if args.wine else 'Windows',
-        'frames': args.frames, 'warmup': args.warmup,
-        'widescreen': args.widescreen, 'runs': args.runs,
-        'framebuffer_oam_equal': True,
-        'final_state': reference,
-        'samples_ms_per_frame': samples,
-        'median_baseline_ms': before, 'median_candidate_ms': after,
-        'emulation_time_reduction_percent': (1 - after / before) * 100,
-        'note': 'Headless CPU/work timings; not displayed FPS or an AI-turn benchmark.',
-        'sha256': {name: hashlib.sha256(path.read_bytes()).hexdigest()
-                   for name, path in [('baseline', args.baseline),
-                                      ('candidate', args.candidate),
-                                      ('rom', args.rom), ('library', args.library)]},
-    }
-    (args.out / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
-    print(json.dumps(summary, indent=2))
+    def compare(reference, candidate):
+        assert_equivalent(reference, candidate, args.require_execution_counts)
+
+    try:
+        reference = run('baseline-equivalence', args.baseline, capture=True)
+        candidate = run('candidate-equivalence', args.candidate, capture=True)
+        compare(reference, candidate)
+        print(f'Equivalent framebuffer/OAM on all {args.frames} frames.', flush=True)
+        samples = {'baseline': [], 'candidate': []}
+        counts = {}
+        # Capture hashes only in verification; timing runs compare the final state.
+        timed_reference = dict(reference, hashes={})
+        for i in range(args.runs):
+            order = [('baseline', args.baseline), ('candidate', args.candidate)]
+            if i % 2:
+                order.reverse()
+            for name, exe in order:
+                result = run(f'{name}-{i + 1}', exe)
+                compare(timed_reference, result)
+                samples[name].append(result['ms_per_frame'])
+                counts[name] = {k: result[k] for k in ('native_blocks', 'fallback_steps')}
+        profiles = {}
+        if args.profile:
+            for name, exe in [('baseline', args.baseline), ('candidate', args.candidate)]:
+                result = run(f'{name}-profile', exe, profile_times=True)
+                compare(timed_reference, result)
+                profiles[name] = {'frame_times': result['frame_times'],
+                                  'instrumented_ms_per_frame': result['ms_per_frame'],
+                                  'overhead_vs_median_percent':
+                                      (result['ms_per_frame'] / statistics.median(samples[name]) - 1) * 100}
+        before, after = (statistics.median(samples[k]) for k in ('baseline', 'candidate'))
+        summary = {
+            'status': 'passed', 'schema': 2,
+            'platform': target + (' via Wine' if args.wine else ' native'),
+            'host': {'system': platform.system(), 'release': platform.release(),
+                     'machine': platform.machine()},
+            'scenario': args.scenario or ('intro-demo' if args.demo else 'user-replay'),
+            'frames': args.frames, 'warmup': args.warmup, 'widescreen': args.widescreen,
+            'zoom': env['FFTA_ZOOM_LEVEL'], 'runs': args.runs,
+            'framebuffer_oam_equal': True, 'full_final_state_equal': args.verify_state,
+            'final_framebuffer': reference['framebuffer'], 'final_state_sha256': reference['state'],
+            'execution_counts': counts, 'execution_counts_required': args.require_execution_counts,
+            'samples_ms_per_frame': samples, 'median_baseline_ms': before,
+            'median_candidate_ms': after, 'emulation_time_reduction_percent': (1 - after / before) * 100,
+            'frame_time_profiles': profiles,
+            'note': 'Headless work timing, excludes the window/audio device. AI coverage requires an identified AI-turn replay. Profile overhead is a separate single-run estimate, not a speedup.',
+            'sha256': {**original_hashes, 'input': digest(args.input)},
+        }
+        for name, path in protected.items():
+            if digest(path) != original_hashes[name]:
+                raise ValueError(f'benchmark input changed: {name}')
+        atomic_json(args.out / 'summary.json', summary)
+        return summary
+    except (ValueError, OSError, subprocess.SubprocessError) as error:
+        atomic_json(args.out / 'summary.json', {'status': 'failed', 'error': str(error)})
+        raise
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except (ValueError, OSError, subprocess.SubprocessError) as error:
+        print(f'Benchmark failed: {error}', file=sys.stderr)
+        sys.exit(1)

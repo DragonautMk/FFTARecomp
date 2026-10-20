@@ -24,6 +24,7 @@
 //! assumption applies (with a manual wide-gamut override in the config).
 
 use std::sync::Arc;
+use std::time::{Duration, Instant};
 
 use raw_window_handle::{HasDisplayHandle, HasWindowHandle};
 
@@ -81,6 +82,17 @@ pub fn letterbox_f(window: (u32, u32), vw: f32, vh: f32) -> (f32, f32, f32) {
     (scale, (w - vw * scale) * 0.5, (h - vh * scale) * 0.5)
 }
 
+/// Optional CPU wall times for one presentation, not GPU execution durations.
+/// None means that stage was not reached (for example after acquire failure).
+#[derive(Clone, Copy, Default)]
+pub struct CpuTimings {
+    pub setup_upload: Option<Duration>,
+    pub acquire: Option<Duration>,
+    pub encode: Option<Duration>,
+    pub submit: Option<Duration>,
+    pub present: Option<Duration>,
+}
+
 pub struct Presenter {
     surface: wgpu::Surface<'static>,
     device: wgpu::Device,
@@ -96,6 +108,8 @@ pub struct Presenter {
     srgb_surface: bool,
     src_size: (u32, u32),
     ui_layer: Vec<Option<crate::ui_layer::Gpu>>,
+    cpu_timings: Option<CpuTimings>,
+    ui_uploaded_bytes: usize,
 }
 
 impl Presenter {
@@ -297,6 +311,8 @@ impl Presenter {
             srgb_surface,
             src_size: (src_w, src_h),
             ui_layer: Vec::new(),
+            cpu_timings: None,
+            ui_uploaded_bytes: 0,
         };
         p.surface.configure(&p.device, &p.config);
         // Color-match the layer to the panel (macOS only); the surface +
@@ -310,8 +326,18 @@ impl Presenter {
         Ok(p)
     }
 
+    /// Collect CPU wall times without requesting optional GPU features.
+    pub fn enable_cpu_profiling(&mut self, enabled: bool) {
+        self.cpu_timings = enabled.then(CpuTimings::default);
+    }
+
+    pub fn cpu_timings(&self) -> Option<CpuTimings> { self.cpu_timings }
+
+    pub fn ui_uploaded_bytes(&self) -> usize { self.ui_uploaded_bytes }
+
     /// Independent UI passes in stable layer order; absent slots clear immediately.
     pub fn set_ui_layers(&mut self,frames:&[Option<crate::ui_layer::Frame<'_>>]) {
+        self.ui_uploaded_bytes = 0;
         if self.ui_layer.len()<frames.len() {self.ui_layer.resize_with(frames.len(),||None);}
         for ui in self.ui_layer.iter_mut().flatten() {ui.active=false;}
         for (slot,frame) in self.ui_layer.iter_mut().zip(frames) {
@@ -321,7 +347,7 @@ impl Presenter {
             if slot.as_ref().is_none_or(|ui|ui.dimensions()!=frame.world_dims) {
                 *slot=Some(crate::ui_layer::Gpu::new(&self.device,self.config.format,frame.world_dims));
             }
-            slot.as_mut().unwrap().update(&self.queue,frame,self.srgb_surface);
+            self.ui_uploaded_bytes += slot.as_mut().unwrap().update(&self.queue,frame,self.srgb_surface);
         }
     }
     pub fn set_ui_layer(&mut self,frame:Option<&crate::ui_layer::Frame<'_>>) {
@@ -364,6 +390,8 @@ impl Presenter {
         grid: &GridParams,
         view: [f32; 4],
     ) -> Result<(), String> {
+        if let Some(times) = self.cpu_timings.as_mut() { *times = CpuTimings::default(); }
+        let upload_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         let (w, h) = (window_physical.0.max(1), window_physical.1.max(1));
         if (w, h) != (self.config.width, self.config.height) {
             self.config.width = w;
@@ -471,9 +499,13 @@ impl Presenter {
         ];
         self.queue
             .write_buffer(&self.uniforms, 0, as_bytes(&params));
+        if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), upload_start) {
+            times.setup_upload = Some(start.elapsed());
+        }
 
+        let acquire_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         let frame = match self.surface.get_current_texture() {
-            Ok(f) => f,
+            Ok(f) => Ok(f),
             // Outdated/Lost: the surface needs reconfiguring (resize, mode
             // change, GL context dance). OutOfMemory: some drivers report
             // it transiently for swapchain churn — reconfigure ONCE and
@@ -487,10 +519,15 @@ impl Presenter {
                 self.surface.configure(&self.device, &self.config);
                 self.surface
                     .get_current_texture()
-                    .map_err(|e| e.to_string())?
+                    .map_err(|e| e.to_string())
             }
-            Err(e) => return Err(e.to_string()),
+            Err(e) => Err(e.to_string()),
         };
+        if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), acquire_start) {
+            times.acquire = Some(start.elapsed());
+        }
+        let frame = frame?;
+        let encode_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         let view = frame
             .texture
             .create_view(&wgpu::TextureViewDescriptor::default());
@@ -518,8 +555,20 @@ impl Presenter {
             pass.draw(0..3, 0..1);
             for ui in self.ui_layer.iter().flatten() {ui.draw(&mut pass);}
         }
-        self.queue.submit([encoder.finish()]);
+        let command = encoder.finish();
+        if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), encode_start) {
+            times.encode = Some(start.elapsed());
+        }
+        let submit_start = self.cpu_timings.as_ref().map(|_| Instant::now());
+        self.queue.submit([command]);
+        if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), submit_start) {
+            times.submit = Some(start.elapsed());
+        }
+        let present_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         frame.present();
+        if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), present_start) {
+            times.present = Some(start.elapsed());
+        }
         Ok(())
     }
 }

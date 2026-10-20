@@ -11,6 +11,7 @@ use recomp_core::{analyze, build_library, labels, Compiler, FileLabels, LabelSou
 
 mod ff_audio;
 mod fps;
+mod perf;
 mod packfile;
 mod play;
 mod rom_switch;
@@ -2830,6 +2831,10 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     configure_headless_widescreen();
     let zoom_schedule = HeadlessZoom::from_env(gba_core::mem::extra())?;
     let verify_frames = std::env::var("FFTA_PATCH_VERIFY_FRAMES").as_deref() == Ok("1");
+    let verify_state = std::env::var("FFTA_BENCH_STATE").as_deref() == Ok("1");
+    let mut frame_times = perf::FrameTimes::new(
+        std::env::var("FFTA_BENCH_FRAME_TIMES").as_deref() == Ok("1"),
+    );
     let mut rom_path = None;
     let mut frames = 600u64;
     let mut out: Option<String> = None;
@@ -2946,6 +2951,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             m.bus.keys = s.keys_at(before);
             s.apply_mouse(&mut m.bus,before)?;
         }
+        let frame_start = frame_times.start(bench_from.is_none_or(|from| before >= from));
         if cost_from.is_some_and(|n| m.bus.frames >= n) {
             use gba_core::capi::RT_API;
             m.bus.frame_ready = false;
@@ -2985,6 +2991,10 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             native_blocks += n;
             fallback_steps += f;
         }
+        frame_times.finish(frame_start);
+        if m.bus.frames == before {
+            return Err("step guard exceeded before a complete frame".into());
+        }
         if let Some(capture) = edge_capture.as_mut() {
             capture.sample(&m);
         }
@@ -3006,9 +3016,6 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
                 gba_core::ffta_rom::digest(&m.bus.oam)
             );
         }
-        if m.bus.frames == before {
-            return Err("step guard exceeded".into());
-        }
     }
     if !cost.is_empty() {
         let mut v: Vec<(u32, u64)> = cost.into_iter().collect();
@@ -3024,6 +3031,12 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         let elapsed = start.elapsed().as_secs_f64();
         let measured = m.bus.frames - first;
         println!("FFTA_BENCH first={first} last={} frames={measured} seconds={elapsed:.6} ms_per_frame={:.6} width={}",m.bus.frames,elapsed*1000.0/measured as f64,gba_core::mem::render_width());
+    }
+    frame_times.report();
+    // Snapshot hashing is opt-in and outside the measured interval. It covers
+    // serialized CPU/hardware/save state, unlike a final framebuffer hash.
+    if verify_state {
+        println!("FFTA_FINAL_STATE sha256={}", gba_core::ffta_rom::digest(&m.save_state()?));
     }
     gba_core::ppu::dump_ffta_text_layers(&m.bus)?;
 

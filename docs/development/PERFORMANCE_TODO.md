@@ -3,12 +3,37 @@
 Piano del 20 ottobre 2026, basato sul codice alla revisione `e39cdb6`.
 Priorità: stabilità, correttezza del gioco, compatibilità Linux/Windows e
 semplicità del codice. Il problema segnalato riguarda Ubuntu 26 e possibili
-rallentamenti nei turni nemici. Questo elenco pianifica gli interventi:
-non contiene nuove ottimizzazioni implementate né stime di guadagno misurate.
+rallentamenti nei turni nemici. Le caselle indicano il completamento di tutti
+i criteri di ciascuna attività; i progressi parziali sono registrati qui sotto.
 
 La sequenza consigliata è **misurare il rallentamento reale, eliminare lavoro
 ridondante, intervenire sul sottosistema dominante, poi valutare altro lavoro
 sulla GPU**. Un aumento dell'uso GPU, da solo, non è un risultato utile.
+
+## Stato dell'esecuzione
+
+Prima tranche P0 in corso: confronto Linux nativo/Windows con verifica separata,
+hash finale opzionale dello stato macchina, diagnostica bounded dei tempi per
+frame e profilo CPU della finestra, con upload/acquisizione/encoding/invio
+e presentazione separati. Il [workflow](PERFORMANCE_WORKFLOW.md)
+descrive comandi, interpretazione e limiti. PERF-01/02/03 restano aperti: mancano
+un replay identificato del turno nemico lento, misure PPU/GPU distinte e la
+copertura completa dei criteri. Nessun guadagno sui turni AI è ancora dimostrato.
+
+In assenza di un replay AI disponibile si procede sulle ridondanze indipendenti
+verificabili: PERF-05 ha una prima implementazione di riuso delle LUT e della
+texture FPS; PERF-06 conserva i buffer FIFO audio e risolve la modalità di pacing
+all'avvio. Restano aperti i criteri più ampi, i confronti di prestazioni e le
+ulteriori cache di pannelli/mondi; nessuna modifica accelera artificialmente
+clock o logica del gioco.
+
+
+Passi già implementati e verificati, senza chiudere prematuramente le attività:
+
+- [x] Confronto nativo con verifica immagini e stato finale opzionale.
+- [x] Profilo CPU per frame e per fasi della presentazione, disattivato di default.
+- [x] Cache LUT per contenuto e revisioni del contatore FPS, con parità CPU/GPU.
+- [x] Riuso dei buffer FIFO audio e modalità di pacing risolta all'avvio.
 
 ## Cosa sappiamo dal codice
 
@@ -21,11 +46,12 @@ sulla GPU**. Un aumento dell'uso GPU, da solo, non è un risultato utile.
   [FPS](../../crates/recomp/src/fps.rs), ridisegnato circa una volta al secondo,
   percorre questo caricamento a ogni presentazione.
   I livelli possono avere mondi/LUT differenti: non vanno unificati alla cieca.
-- In [play.rs](../../crates/recomp/src/play.rs), `emu_ema_ms` comprende esecuzione,
+- Nella baseline di [play.rs](../../crates/recomp/src/play.rs), `emu_ema_ms` comprende esecuzione,
   aggiornamento UI e `Temporal::push`, ma esclude `Temporal::compose`,
   presentazione, attese e parte del lavoro audio/persistenza. Il valore
   `native %` confronta blocchi nativi con singole istruzioni interpretate:
-  non misura la percentuale di tempo CPU.
+  non misura la percentuale di tempo CPU. La prima tranche sostituisce questa
+  percentuale con conteggi separati e aggiunge un profilo CPU per fase.
 - Un errore restituito da `Presenter::present` fa abbandonare il presenter GPU
   per il resto della sessione. Anche il timeout nell'acquisizione del frame
   passa oggi da questa strada. È una possibile causa di peggioramento

@@ -72,6 +72,12 @@ Read current source and manifests before relying on older build instructions.
   26.04 x86_64 host; broad older-distro/Steam Deck compatibility is unverified.
   Existing installed behavior needs no marker;
   migration is an explicit copy, never a silent move of personal data.
+- GPU UI layers retain LUT contents and skip identical uploads; FPS pixels use
+  process-unique render revisions. Unversioned game UI/world data still updates
+  normally. Resource recreation clears caches, and color comparison handles
+  in-place changes. FIFO audio taps drain without discarding producer capacity;
+  `FFTA_FRAME_PACING` is resolved at startup. See [FPS notes](../fps_overlay.md)
+  and the performance TODO for remaining optimization work.
 - [FPS overlay](../fps_overlay.md): Video > FPS counter; off/internal/external/
   both. INT measures completed guest frames per wall second; EXT measures host
   presentations, not display scanout. Configuration uses `video.fps` in
@@ -116,8 +122,17 @@ Read current source and manifests before relying on older build instructions.
 
 ## Validation knowledge and remaining uncertainty
 
-- [Desktop performance TODO](PERFORMANCE_TODO.md) tracks planned work, not
-  implemented speedups. Start with a reproducible enemy-turn replay and
+- [Desktop performance TODO](PERFORMANCE_TODO.md) tracks task completion separately
+  from partial progress. Its first P0 tranche adds native Linux/Windows/Wine
+  comparisons, optional final serialized-state verification, bounded headless
+  frame-time capture and opt-in interactive CPU phase profiling, including
+  separate CPU-side presenter setup/upload/acquire/encode/submit/present times. See the
+  [measurement workflow](PERFORMANCE_WORKFLOW.md). These tools do not establish
+  an AI-turn speedup or GPU execution timings. The frontend fails before advancing
+  temporal history on an exhausted frame guard; stats display separate native
+  block/fallback-step counts rather than their mixed-unit percentage.
+  Remaining P0 work includes the identified slow-turn replay and independent
+  PPU/GPU timing. Start with a reproducible enemy-turn replay and
   stage/p95/p99 measurements, then bounded surface recovery and redundant
   upload/allocation reduction. GPU LUT/temporal processing is conditional on
   measured cost; preserve per-guest-frame history and the CPU reference path.

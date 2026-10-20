@@ -27,6 +27,16 @@ fn binding_value(
     zin: &str,
     zout: &str,
 ) -> Option<String> {
+    if row == Row::Menu {
+        return Some(if matches!(menu.capture, Some(Bind::Menu | Bind::GamepadMenu)) {
+            "HOLD + RELEASE".into()
+        } else {
+            menu.menu_binding.borrow().split('+').map(|token| {
+                if menu.page == Page::Gamepad { gamepad_label(token, menu.controller_layout.get()) }
+                else { token.to_uppercase() }
+            }).collect::<Vec<_>>().join(" + ")
+        });
+    }
     if menu.page == Page::Gamepad && matches!(row, Row::FfKey | Row::FfToggleKey) {
         let b = if row == Row::FfKey {
             Bind::GamepadFastForward

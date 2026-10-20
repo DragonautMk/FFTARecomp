@@ -352,9 +352,8 @@ struct NavEdges {
     /// menu is open — East is the player's B button during gameplay, so it
     /// must never open the menu.
     cancel: bool,
-    /// Open the menu from gameplay: keyboard Escape, or a dedicated pad
-    /// control that doesn't collide with any GBA button (the guide/Mode
-    /// button).
+    /// Open the menu from gameplay: configurable keyboard/pad shortcuts,
+    /// with Escape and Guide/Mode retained as fallback controls.
     open: bool,
 }
 
@@ -427,6 +426,11 @@ fn winit_key(name: &str) -> Option<KeyCode> {
         "Backspace" => Backspace,
         "LeftShift" => ShiftLeft,
         "RightShift" => ShiftRight,
+        "Escape" => Escape,
+        "LeftControl" => ControlLeft,
+        "RightControl" => ControlRight,
+        "LeftAlt" => AltLeft,
+        "RightAlt" => AltRight,
         _ => return None,
     })
 }
@@ -481,6 +485,7 @@ fn key_name(code: KeyCode) -> Option<&'static str> {
         "Backspace",
         "LeftShift",
         "RightShift",
+        "LeftControl", "RightControl", "LeftAlt", "RightAlt",
     ];
     NAMES.iter().copied().find(|n| winit_key(n) == Some(code))
 }
@@ -523,6 +528,11 @@ struct PlayApp {
     active_controller: Option<ActiveController>,
     last_direct_activity: Option<(String, Vec<String>)>,
     pending_pad: Option<String>,
+    menu_key_capture: input_config::ComboCapture,
+    menu_pad_capture: input_config::ComboCapture,
+    menu_key_latch: input_config::ComboLatch,
+    menu_pad_latch: input_config::ComboLatch,
+    menu_shortcut_held: bool,
     #[cfg(not(target_os = "linux"))]
     gilrs_gestures: HashMap<gilrs::GamepadId, input_config::PadGesture>,
     #[cfg(target_os = "linux")]
@@ -955,6 +965,13 @@ impl PlayApp {
     /// Gather this frame's down-state into the active-low GBA `keys` mask and
     /// the host-menu [`NavEdges`], from the held-key set plus the gamepad.
     fn gather_input(&mut self) -> (u16, NavEdges) {
+        let capture_combo = self.menu.capturing() == Some(menu::Bind::GamepadMenu);
+        let mut combo_snapshot = None;
+        let mut pad_shortcut = (false, false);
+        let key_shortcut = input_config::combo_state(&self.icfg.menu_key, |token| {
+            winit_key(token).is_some_and(|key| self.held.contains(&key))
+        });
+        let key_menu_held = self.menu_key_latch.update(key_shortcut.0, key_shortcut.1);
         // KEYINPUT is active-low.
         let mut keys = 0x3FFu16;
         let mut pad_zoom_in = false;
@@ -975,12 +992,13 @@ impl PlayApp {
             right: self.held.contains(&KeyCode::ArrowRight),
             confirm: self.held.contains(&KeyCode::Enter),
             cancel: self.held.contains(&KeyCode::Escape),
-            open: self.held.contains(&KeyCode::Escape),
+            open: self.held.contains(&KeyCode::Escape) || key_menu_held,
         };
         let capture_pad = matches!(
             self.menu.capturing(),
             Some(
                 menu::Bind::Gamepad(_)
+                    | menu::Bind::GamepadMenu
                     | menu::Bind::GamepadZoomIn
                     | menu::Bind::GamepadZoomOut
                     | menu::Bind::GamepadFastForward
@@ -1014,7 +1032,7 @@ impl PlayApp {
                     #[cfg(not(target_os = "linux"))]
                     {
                     let gesture = self.gilrs_gestures.entry(event.id).or_default();
-                    gesture.arm_capture(capture_pad && !self.directinput_only);
+                    gesture.arm_capture(capture_pad && !capture_combo && !self.directinput_only);
                     for (token, pressed) in gilrs_control_transitions(event.event) {
                         if let Some(captured) = gesture.event(&token, pressed) {
                             if self.pending_pad.is_none() {
@@ -1094,7 +1112,7 @@ impl PlayApp {
                     for (id, gamepad) in g.gamepads() {
                         let pad=self.linux_pads.entry(id).or_default();
                         let snapshot=crate::linux_pad::Snapshot::read(&gamepad,self.icfg.stick_deadzone,pad.state);
-                        let update=pad.poll(snapshot,capture_pad,now);
+                        let update=pad.poll(snapshot,capture_pad && !capture_combo,now);
                         if self.pending_pad.is_none() {
                             self.pending_pad=update.capture.map(str::to_owned);
                         }
@@ -1189,7 +1207,7 @@ impl PlayApp {
         }
         for pad in &direct_states {
             let gesture = self.direct_gestures.entry(pad.name.clone()).or_default();
-            gesture.arm_capture(capture_pad && direct_requested);
+            gesture.arm_capture(capture_pad && !capture_combo && direct_requested);
             let captured = gesture.snapshot(pad.capture_tokens());
             if direct_requested && self.pending_pad.is_none() {
                 self.pending_pad = captured;
@@ -1250,7 +1268,7 @@ impl PlayApp {
                 .collect();
             let any_down = !all_tokens.is_empty();
             let mut captured = None;
-            if capture_pad && !capture_locked {
+            if capture_pad && !capture_combo && !capture_locked {
                 for slot in 0..4 {
                     if let Some(state) = current[slot] {
                         if let Some(token) =
@@ -1274,6 +1292,9 @@ impl PlayApp {
             }
             if let Some(slot) = active_slot {
                 if let Some(state) = current[slot] {
+                    if capture_combo {
+                        combo_snapshot = Some((format!("xinput:{slot}"), xinput_tokens(state, activity_threshold)));
+                    }
                     let blocked =
                         capture_locked || self.xinput.as_ref().is_some_and(|x| x.capture_locked);
                     if !blocked {
@@ -1313,7 +1334,9 @@ impl PlayApp {
                         nav.right |= pressed("DPadRight") || state.gamepad.left_x > dz_axis;
                         nav.confirm |= pressed("South");
                         nav.cancel |= pressed("East");
-                        nav.open |= pressed("Mode") || (pressed("Start") && pressed("Select"));
+                        pad_shortcut = input_config::combo_state(&self.icfg.menu_pad, pressed);
+                        pad_shortcut.0 |= pressed("Mode");
+                        pad_shortcut.1 |= pressed("Mode");
                     }
                 }
             }
@@ -1343,11 +1366,14 @@ impl PlayApp {
                 let pad_blocked=self.linux_pads.get(&id).is_some_and(crate::linux_pad::Pad::blocked);
                 #[cfg(not(target_os = "linux"))]
                 let dz = self.icfg.stick_deadzone;
-                if !pad_blocked {
                     #[cfg(not(target_os = "linux"))]
                     let pressed=|name:&str|pad_pressed(&gp,name,dz);
                     #[cfg(target_os = "linux")]
                     let pressed=|name:&str|self.linux_pads.get(&id).is_some_and(|pad|pad.state.pressed(name));
+                if capture_combo {
+                    combo_snapshot = Some((format!("gilrs:{id:?}"), input_config::PAD_CONTROLS.iter().filter(|token| pressed(token)).map(|s| s.to_string()).collect()));
+                }
+                if !pad_blocked {
                     pad_zoom_in = pressed(&self.icfg.zoom_in_pad);
                     pad_zoom_out = pressed(&self.icfg.zoom_out_pad);
                     pad_ff_held = pressed(&self.icfg.ff_pad);
@@ -1409,7 +1435,7 @@ impl PlayApp {
                         right: gp.is_pressed(Gb::DPadRight) || gp.value(Axis::LeftStickX) > dz,
                         confirm: gp.is_pressed(Gb::South),
                         cancel: gp.is_pressed(Gb::East),
-                        open: gp.is_pressed(Gb::Mode),
+                        open: false,
                     };
                     #[cfg(target_os = "linux")]
                     let pad_nav=NavEdges {
@@ -1418,7 +1444,7 @@ impl PlayApp {
                         left:pressed("DPadLeft")||pressed("LeftStickLeft"),
                         right:pressed("DPadRight")||pressed("LeftStickRight"),
                         confirm:pressed("South"),cancel:pressed("East"),
-                        open:pressed("Mode")||(pressed("Start")&&pressed("Select")),
+                        open:false,
                     };
                     nav.up |= pad_nav.up;
                     nav.down |= pad_nav.down;
@@ -1426,9 +1452,11 @@ impl PlayApp {
                     nav.right |= pad_nav.right;
                     nav.confirm |= pad_nav.confirm;
                     nav.cancel |= pad_nav.cancel;
-                    // Linux also accepts Start+Back when the desktop/Steam
-                    // intercepts Guide. Keyboard Escape remains available.
-                    nav.open |= pad_nav.open;
+                    // The configured shortcut works even when the desktop
+                    // intercepts Guide. Escape remains available too.
+                    pad_shortcut = input_config::combo_state(&self.icfg.menu_pad, pressed);
+                    pad_shortcut.0 |= pressed("Mode");
+                    pad_shortcut.1 |= pressed("Mode");
                 }
             }
         }
@@ -1440,6 +1468,7 @@ impl PlayApp {
                 .iter()
                 .find(|pad| pad.name == self.icfg.gamepad_name);
             if let Some(gp) = active.or(preferred).or_else(|| direct_states.first()) {
+                if capture_combo { combo_snapshot = Some((gp.name.clone(), gp.capture_tokens())); }
                 let pad_blocked = self
                     .direct_gestures
                     .get(&gp.name)
@@ -1468,7 +1497,7 @@ impl PlayApp {
                         right: gp.pressed("DPadRight", dz) || gp.axes[0] > dz,
                         confirm: gp.pressed("South", dz),
                         cancel: gp.pressed("East", dz),
-                        open: gp.pressed("Mode", dz),
+                        open: false,
                     };
                     nav.up |= pad_nav.up;
                     nav.down |= pad_nav.down;
@@ -1476,11 +1505,28 @@ impl PlayApp {
                     nav.right |= pad_nav.right;
                     nav.confirm |= pad_nav.confirm;
                     nav.cancel |= pad_nav.cancel;
-                    nav.open |= pad_nav.open;
+                    pad_shortcut = input_config::combo_state(&self.icfg.menu_pad, |token| gp.pressed(token, dz));
+                    pad_shortcut.0 |= gp.pressed("Mode", dz);
+                    pad_shortcut.1 |= gp.pressed("Mode", dz);
                 }
             }
         }
-        if capture_pad {
+        if capture_combo {
+            self.pending_pad = None;
+            if let Some((source, controls)) = combo_snapshot {
+                self.pending_pad = self.menu_pad_capture.poll(&source, controls);
+            } else { self.menu_pad_capture = input_config::ComboCapture::default(); }
+        } else { self.menu_pad_capture = input_config::ComboCapture::default(); }
+        let pad_menu_held = self.menu_pad_latch.update(pad_shortcut.0, pad_shortcut.1);
+        self.menu_shortcut_held = key_menu_held || pad_menu_held;
+        // Capture already suppresses toggle handling. Preserve the held state
+        // here so cancelling capture cannot turn it into a fresh menu press.
+        nav.open |= pad_menu_held;
+        if key_menu_held || pad_menu_held {
+            nav.up = false; nav.down = false; nav.left = false; nav.right = false;
+            nav.confirm = false; nav.cancel = false;
+        }
+        if capture_pad || key_menu_held || pad_menu_held {
             // Remapping is an exclusive input mode. Do not let the physical
             // button being captured also control the game or host zoom.
             // Keep nav's actual held state so nav_prev is primed; clearing it
@@ -1936,7 +1982,10 @@ impl ApplicationHandler for PlayApp {
                         if consumed {self.held.remove(&code);return;}
                     }
                     self.held.insert(code);
-                    if !self.paused && !repeat && winit_key(&self.icfg.ff_toggle_key) == Some(code)
+                    let menu_combo_down = input_config::combo_state(&self.icfg.menu_key, |token| {
+                        winit_key(token).is_some_and(|key| self.held.contains(&key))
+                    }).0;
+                    if !self.paused && !menu_combo_down && !repeat && winit_key(&self.icfg.ff_toggle_key) == Some(code)
                     {
                         self.ff_latched = !self.ff_latched;
                     }
@@ -1957,7 +2006,7 @@ impl ApplicationHandler for PlayApp {
                             w.set_fullscreen(next);
                         }
                     }
-                    if !self.paused {
+                    if !self.paused && !menu_combo_down {
                         // Zoom is gameplay-only; prevent it changing behind menus.
                         match code {
                             _ if key_name(code).is_some_and(|n| n == self.icfg.zoom_in_key) => {
@@ -2104,7 +2153,18 @@ impl ApplicationHandler for PlayApp {
             // can't also move the cursor.
             let was_capturing = self.menu.capturing().is_some();
             let captured = self.pending_key.take();
-            if let (Some(btn), Some(code)) = (self.menu.capturing(), captured) {
+            let capture_key_combo = self.menu.capturing() == Some(menu::Bind::Menu);
+            if capture_key_combo {
+                if captured == Some(KeyCode::Escape) {
+                    self.menu.end_capture();
+                    self.menu_key_capture = input_config::ComboCapture::default();
+                } else if let Some(combo) = self.menu_key_capture.poll("keyboard", self.held.iter().filter_map(|code| key_name(*code).map(str::to_owned)).collect()) {
+                    self.icfg.menu_key = combo;
+                    if let Err(error) = self.icfg.save() { eprintln!("menu: could not save input.cfg ({error})"); }
+                    self.menu.end_capture();
+                }
+            } else { self.menu_key_capture = input_config::ComboCapture::default(); }
+            if let (Some(btn), Some(code)) = (self.menu.capturing(), captured.filter(|_| !capture_key_combo)) {
                 if code == KeyCode::Escape {
                     self.menu.end_capture();
                 } else if let Some(name) = key_name(code) {
@@ -2149,8 +2209,9 @@ impl ApplicationHandler for PlayApp {
                         | menu::Bind::GamepadFastForward
                         | menu::Bind::GamepadFastForwardToggle => {}
                         menu::Bind::Gamepad(_) => {}
+                        menu::Bind::Menu | menu::Bind::GamepadMenu => {}
                     }
-                    if !matches!(btn, menu::Bind::Gamepad(_)) {
+                    if !matches!(btn, menu::Bind::Gamepad(_) | menu::Bind::GamepadMenu | menu::Bind::GamepadZoomIn | menu::Bind::GamepadZoomOut | menu::Bind::GamepadFastForward | menu::Bind::GamepadFastForwardToggle) {
                         self.rebuild_key_pairs();
                         if let Err(e) = self.icfg.save() {
                             eprintln!("menu: could not save input.cfg ({e})");
@@ -2183,6 +2244,8 @@ impl ApplicationHandler for PlayApp {
                     self.icfg.ff_pad = name;
                 } else if binding == menu::Bind::GamepadFastForwardToggle {
                     self.icfg.ff_toggle_pad = name;
+                } else if binding == menu::Bind::GamepadMenu {
+                    self.icfg.menu_pad = name;
                 }
                 if let Err(error) = self.icfg.save() {
                     eprintln!("menu: could not save input.cfg ({error})");
@@ -2303,6 +2366,7 @@ impl ApplicationHandler for PlayApp {
                         self.icfg.ff_pad = defaults.ff_pad;
                         self.icfg.ff_toggle_pad = defaults.ff_toggle_pad;
                         self.icfg.zoom_out_pad = defaults.zoom_out_pad;
+                        self.icfg.menu_pad = defaults.menu_pad;
                         self.icfg.dpad_source = defaults.dpad_source;
                         self.icfg.stick_deadzone = defaults.stick_deadzone;
                         if let Err(error) = self.icfg.save() {
@@ -2422,8 +2486,8 @@ impl ApplicationHandler for PlayApp {
         // frame rate (handled below).
         // The multiplier never activates fast-forward by itself. Holding the
         // momentary key inverts the session's permanent-toggle state.
-        let ff_held = self.pad_ff_held
-            || winit_key(&self.icfg.ff_key).is_some_and(|k| self.held.contains(&k));
+        let ff_held = !self.menu_shortcut_held && (self.pad_ff_held
+            || winit_key(&self.icfg.ff_key).is_some_and(|k| self.held.contains(&k)));
         let ff_speed = input_config::fast_forward_speed(self.av.ff_speed, self.ff_latched, ff_held);
         let ff_now = ff_speed > 1;
         if ff_now != self.ff_active
@@ -2887,6 +2951,11 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         active_controller: None,
         last_direct_activity: None,
         pending_pad: None,
+        menu_key_capture: input_config::ComboCapture::default(),
+        menu_pad_capture: input_config::ComboCapture::default(),
+        menu_key_latch: input_config::ComboLatch::default(),
+        menu_pad_latch: input_config::ComboLatch::default(),
+        menu_shortcut_held: false,
         #[cfg(not(target_os = "linux"))]
         gilrs_gestures: HashMap::new(),
         #[cfg(target_os = "linux")]

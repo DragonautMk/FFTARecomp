@@ -76,6 +76,8 @@ pub enum Changed {
 /// What a pending "press a key" capture will bind.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Bind {
+    Menu,
+    GamepadMenu,
     /// A GBA pad button.
     Button(Button),
     Gamepad(Button),
@@ -110,6 +112,7 @@ enum Page {
 /// left/right/confirm. `Key(b)` starts a "press a key" capture.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Row {
+    Menu,
     MouseMode,
     Resume,
     FastForwardMenu,
@@ -183,7 +186,8 @@ const VIDEO_ROWS: [Row; 10] = [
     Row::Back,
 ];
 
-const INPUT_ROWS: [Row; 15] = [
+const INPUT_ROWS: [Row; 16] = [
+    Row::Menu,
     Row::Key(Button::A),
     Row::Key(Button::B),
     Row::Key(Button::L),
@@ -200,12 +204,13 @@ const INPUT_ROWS: [Row; 15] = [
     Row::ZoomOut,
     Row::Back,
 ];
-const MOUSE_ROWS: [Row;16] = [
-    Row::MouseMode,Row::Key(Button::A),Row::Key(Button::B),Row::Key(Button::L),Row::Key(Button::R),
+const MOUSE_ROWS: [Row;17] = [
+    Row::MouseMode,Row::Menu,Row::Key(Button::A),Row::Key(Button::B),Row::Key(Button::L),Row::Key(Button::R),
     Row::Key(Button::Start),Row::Key(Button::Select),Row::Key(Button::Up),Row::Key(Button::Down),
     Row::Key(Button::Left),Row::Key(Button::Right),Row::FfKey,Row::FfToggleKey,Row::ZoomIn,Row::ZoomOut,Row::Back,
 ];
-const GAMEPAD_ROWS: [Row; 16] = [
+const GAMEPAD_ROWS: [Row; 17] = [
+    Row::Menu,
     Row::Key(Button::A),
     Row::Key(Button::B),
     Row::Key(Button::L),
@@ -245,6 +250,7 @@ const FF_SPEEDS: [u32; 3] = [2, 4, 8];
 impl Row {
     fn label(self) -> &'static str {
         match self {
+            Row::Menu => "Open menu",
             Row::MouseMode => "Mouse & Keyboard",
             Row::Resume => "Resume",
             Row::FastForwardMenu => "Fast forward",
@@ -297,6 +303,7 @@ impl Row {
         matches!(
             self,
             Row::Resume
+                | Row::Menu
                 | Row::Quit
                 | Row::QuitYes
                 | Row::QuitNo
@@ -470,6 +477,7 @@ pub struct Menu {
     input_gamepad: std::cell::Cell<u8>,
     mouse_mode: std::cell::Cell<bool>,
     controller_layout: std::cell::Cell<GamepadLayout>,
+    menu_binding: std::cell::RefCell<String>,
 }
 
 // Keep field access concise inside the renderer/tests while making
@@ -507,6 +515,7 @@ impl Menu {
             input_gamepad: std::cell::Cell::new(0),
             mouse_mode: std::cell::Cell::new(false),
             controller_layout: std::cell::Cell::new(GamepadLayout::Xbox),
+            menu_binding: std::cell::RefCell::new("Escape".into()),
         }
     }
 
@@ -672,6 +681,10 @@ impl Menu {
                 }
                 Row::InputsMenu => self.input_tab(self.input_gamepad.get()),
                 Row::ResetGamepad => Some(MenuAction::ResetGamepad),
+                Row::Menu => {
+                    self.capture = Some(if self.page == Page::Gamepad { Bind::GamepadMenu } else { Bind::Menu });
+                    None
+                }
                 Row::FfKey => {
                     self.capture = Some(if self.page == Page::Gamepad {
                         Bind::GamepadFastForward
@@ -904,6 +917,7 @@ impl Menu {
     ) {
         self.mouse_mode.set(cfg.mouse_keyboard);
         self.controller_layout.set(cfg.gamepad_layout);
+        *self.menu_binding.borrow_mut() = if self.page == Page::Gamepad { cfg.menu_pad.clone() } else { cfg.menu_key.clone() };
         if !matches!(self.page, Page::Inputs | Page::Gamepad | Page::MouseKeyboard) {
             self.input_gamepad.set(if cfg.device==Device::Gamepad {1}else if cfg.mouse_keyboard {2}else{0});
         }
@@ -961,6 +975,7 @@ fn value_of(
 ) -> Option<String> {
     Some(match row {
         Row::MouseMode => return None,
+        Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu => ">".to_string(),
         Row::Resume
         | Row::Quit
@@ -1073,6 +1088,7 @@ fn choose_setting(row: Row, value: &str, av: &mut AvConfig) -> Option<Changed> {
 }
 fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
     match row {
+        Row::Menu => None,
         Row::MouseMode => None,
         Row::Resume
         | Row::Quit
@@ -1293,6 +1309,21 @@ mod tests {
         }
         assert_eq!(menu.handle(MenuInput::Left, &mut av), Some(MenuAction::Changed(Changed::Overlay)));
         assert_eq!(av.video_fps, "external");
+    }
+
+    #[test]
+    fn menu_shortcut_capture_is_available_for_keyboard_mouse_and_gamepad() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        for (page, expected) in [(Page::Inputs, Bind::Menu), (Page::MouseKeyboard, Bind::Menu), (Page::Gamepad, Bind::GamepadMenu)] {
+            menu.end_capture();
+            menu.open(page);
+            at(&mut menu, Row::Menu);
+            assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
+            assert_eq!(menu.capturing(), Some(expected));
+            assert_eq!(menu.handle(MenuInput::Down, &mut av), None);
+            assert_eq!(rows_of(menu.page)[menu.selected], Row::Menu);
+        }
     }
     #[test]
     fn scrolled_input_hit_test_and_tabs_keep_binding_targets() {

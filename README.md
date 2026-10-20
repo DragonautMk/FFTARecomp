@@ -85,6 +85,11 @@ Controls can be remapped from the Options Menu.
 | Back / View | Select |
 | D-pad or left stick | Move |
 | Guide | Options Menu |
+| Start + Back | Options Menu (configurable combo) |
+
+Use **Input > Keyboard/Gamepad > Open menu** to bind a single control or a
+combination. Release the activation button, hold the desired combination,
+then release all its controls to save it. Escape and Guide remain available.
 
 ## ⏩ Fast forward modes
 
@@ -166,6 +171,13 @@ To force a fresh toolchain download, delete `Installer\payload\toolchain` and ru
 > **The executables are not code-signed**, so Windows SmartScreen or your antivirus may show a warning. Click **More info → Run anyway**, or right-click the `.zip` → Properties → tick **Unblock** before extracting.
 >
 > If you have any doubts, you can check the **VirusTotal report** included in each release.
+
+## Development history and project skills
+
+See [CHANGELOG.md](CHANGELOG.md) for implemented changes and validation.
+[AGENTS.md](AGENTS.md) routes the local development, Windows validation and
+project memory skills. Follow the [memory workflow](docs/development/MEMORY_WORKFLOW.md)
+to record changes and run `python3 scripts/project_memory.py check` before handoff.
 
 ## 📜 License and credits
 

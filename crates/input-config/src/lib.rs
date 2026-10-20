@@ -5,6 +5,8 @@
 use std::collections::HashSet;
 use std::path::PathBuf;
 pub mod directinput;
+mod combo;
+pub use combo::*;
 
 /// The ten pad inputs, in KEYINPUT bit order.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -417,6 +419,8 @@ impl StickToken {
 /// which is all the tests and config diffing need.
 #[derive(Clone, PartialEq, Debug)]
 pub struct InputConfig {
+    pub menu_key: String,
+    pub menu_pad: String,
     pub device: Device,
     /// Preferred pad by name; empty = first connected.
     pub gamepad_name: String,
@@ -460,6 +464,8 @@ impl Default for InputConfig {
     fn default() -> Self {
         let s = |v: &str| v.to_string();
         Self {
+            menu_key: "Escape".into(),
+            menu_pad: "Select+Start".into(),
             device: Device::Keyboard,
             mouse_keyboard: false,
             mouse_keys: ["Z", "X", "RightShift", "Enter", "D", "A", "W", "S", "E", "Q"].map(str::to_owned),
@@ -553,6 +559,8 @@ impl InputConfig {
                     }
                 }
                 "key.ff" => cfg.ff_key = v.to_string(),
+                "key.menu" => { if let Some(combo) = normalize_combo(v) { cfg.menu_key = combo; } }
+                "pad.menu" => { if let Some(combo) = normalize_combo(v) { cfg.menu_pad = combo; } }
                 "key.ff_toggle" => {
                     cfg.ff_toggle_key = v.to_string();
                     toggle_explicit = true;
@@ -636,6 +644,8 @@ impl InputConfig {
             out.push_str(&format!("key.{} = {}\n", b.name(), self.keys[b.index()]));
         }
         out.push_str(&format!("key.ff = {}\n", self.ff_key));
+        out.push_str(&format!("key.menu = {}\n", self.menu_key));
+        out.push_str(&format!("pad.menu = {}\n", self.menu_pad));
         out.push_str(&format!("key.ff_toggle = {}\n", self.ff_toggle_key));
         out.push_str(&format!("pad.ff = {}\n", self.ff_pad));
         out.push_str(&format!("pad.ff_toggle = {}\n", self.ff_toggle_pad));

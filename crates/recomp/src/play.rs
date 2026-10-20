@@ -2777,6 +2777,16 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
+        // run_app consumes/drops the event loop before PlayApp is dropped.
+        // In particular, wgpu's EGL backend must release its Wayland objects
+        // while that display connection still exists (even with Vulkan selected).
+        // Tear down here on both success and error, with surfaces before windows.
+        drop(self.stream.take());
+        drop(self.presenter.take());
+        drop(self.sb_surface.take());
+        drop(self.sb_context.take());
+        drop(self.window.take());
+
         // Final teardown on a clean exit (window closed / menu Quit): this is
         // winit's guaranteed last callback, so it runs whether or not
         // `run_app` returns on a given platform. The in-loop periodic save
@@ -2809,7 +2819,7 @@ impl ApplicationHandler for PlayApp {
 /// Interactive play: resolve the image/BIOS/translation, set up audio, input,
 /// and screen simulation, then run the winit event loop until the window
 /// closes. Teardown (final save, fallback census, label recording) happens
-/// after the loop returns.
+/// in the final event-loop callback, before its display connection is dropped.
 pub fn cmd_play(args: &[String]) -> Result<(), String> {
     let mut rom_path = None;
     let mut interp_only = false;

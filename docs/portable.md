@@ -21,6 +21,21 @@ requires glibc 2.43 or newer. The separately exported Docker build is under
 Linux filesystem that allows execution (USB mounts with `noexec` cannot launch
 executables). Portable describes app storage, not a fully static Linux binary.
 
+## Closing on Ubuntu / Wayland
+
+A shutdown crash reported on Ubuntu 26.04 with AMD RADV/Mesa 26.0.8 was
+reproduced after the cartridge save had been written. Winit consumes its event
+loop on return; releasing the remaining wgpu EGL resources afterwards used an
+already closed Wayland display, even though rendering selected Vulkan. The
+runtime now stops audio and releases GPU/software surfaces, contexts and the
+window in its final event-loop callback, including error exits. Window close
+and menu Quit use that same cleanup path.
+
+With an older executable, a log ending in `saved ...ffta.sav` followed by
+SIGSEGV matches this failure; the save write had completed before the crash.
+Update the executables from a fresh archive while the game is closed, keeping
+your existing `Data` folder, ROM and `portable.txt`.
+
 ## Start on Windows
 
 Extract `FFTARecomp-windows-portable.zip` into a writable folder and run
@@ -99,7 +114,13 @@ to `dist/docker-linux/` using Rust 1.94.0 on Debian Bookworm. See
 [Docker builds](docker.md) for caches, output and runtime requirements. The direct
 Ubuntu 26.04 archive described above remains a separate host-built artifact.
 
-On Windows, build `recomp` and `ffta-play` in release mode, run
+On Windows with Docker Desktop in Linux-containers mode, run
+`.\scripts\build_docker.ps1` from PowerShell. It exports a standalone Windows
+ZIP to `dist/docker-windows/`; `-Platform linux` builds the Linux tar.gz instead.
+On Linux, `bash scripts/build_windows_docker.sh` produces the same Windows ZIP.
+See [Docker builds](docker.md) for host/container distinctions and test scope.
+
+For native Windows builds without Docker, build `recomp` and `ffta-play` in release mode, run
 `python TinyCC/build.py`, then `python scripts/package_ffta_windows.py`.
 For a native Linux release, install Rust, a C compiler, pkg-config and ALSA/udev
 development headers, then run `bash scripts/package_ffta_linux.sh`. The output is
@@ -147,3 +168,15 @@ not change. The first-launch ROM was preplaced for this Linux check. Physical
 controllers, native Wayland interaction and older distributions were not tested.
 The shared Windows ZIP entry point also passed archive/input verification after
 the packaging refactor.
+
+### Wayland shutdown regression
+
+On Ubuntu 26.04 / GNOME Wayland, AMD Radeon 780M, RADV/Mesa 26.0.8,
+a temporary local test injected `WindowEvent::CloseRequested` after 180 guest
+frames. The original code reproducibly faulted in `libwayland-client`, called
+from `libEGL_mesa`, after the save write. With cleanup in `exiting`, GDB reported
+normal process exit; two additional runs through the actual launcher saved and
+exited with status 0. This used native Wayland/Vulkan and the real audio stream
+(muted). The temporary injection was removed before packaging; this was an
+automated close-event test, not a physical title-bar click. Physical-controller
+and native Windows shutdown checks remain unverified for this change.

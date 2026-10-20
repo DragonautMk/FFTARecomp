@@ -146,7 +146,18 @@ The portable archive and build information appear in `dist/docker-linux/`.
 The host needs Docker with Buildx; compiler and development packages stay in the
 container. See [Docker builds and runtime requirements](docs/docker.md).
 
-For Windows, you need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
+For Windows with dependencies inside Docker Desktop (Linux containers), run
+from PowerShell:
+
+```powershell
+.\scripts\build_docker.ps1
+```
+
+The Windows ZIP appears in `dist/docker-windows/`. Add `-Platform linux` to
+build Linux from the same Windows host. No Rust, MSYS2 or Python host install
+is required for this Docker workflow. See [Docker builds](docs/docker.md).
+
+For native Windows builds outside Docker, you need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
 
 ```powershell
 git clone https://github.com/Jorge262007/FFTARecomp.git

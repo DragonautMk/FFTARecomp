@@ -33,7 +33,29 @@ Read current source and manifests before relying on older build instructions.
   See [Docker workflow](../docker.md). Keep the direct Ubuntu-built archive
   distinct, and establish actual libc requirements for each build environment.
 
+- `Dockerfile.windows` cross-compiles Windows GNU x86_64 with MinGW from the
+  pinned Linux Rust base, builds TinyCC with distinct native/target compilers,
+  and runs input/config, menu and runtime tests under container Wine.
+  `scripts/build_docker.ps1` is the Windows-host entry point: default Windows,
+  `-Platform linux` for Linux. Docker Desktop must use Linux containers.
+  `scripts/build_windows_docker.sh` offers the Windows target from Bash.
+  Export is `dist/docker-windows/`; it contains no game or personal data.
+  Resource build scripts branch on Cargo's target OS rather than build-host cfg.
+  The Windows builder reuses the pinned Rust image and copies its toolchain
+  into Debian Trixie for MinGW 14 / Wine 10. Windows/Wine tests passed
+  (26 input/config + 33 menu + 42 runtime), including packaged PE resource/import
+  checks and a simulated-XInput portable save/load/move smoke. PowerShell 7.4.6
+  Linux mock-CLI validation passed; native Windows/Desktop/PowerShell 5.1 remain
+  unverified.
+
 ## Desktop behavior
+
+- Release desktop audio/presentation resources in `PlayApp::exiting`, before
+  `EventLoop::run_app` consumes/drops the display connection. Release surfaces
+  and their contexts before the window, including error exits. Holding them
+  until PlayApp's later field destruction caused a reproducible Wayland/Mesa
+  EGL SIGSEGV even when Vulkan rendered the game. Native Ubuntu 26.04 GNOME /
+  AMD RADV close-event regression checks pass; see [portable notes](../portable.md).
 
 - [Desktop portable editions](../portable.md): `portable.txt` beside the actual
   executable opts into shared `input_config::storage::portable_root()` resolution.

@@ -1,9 +1,51 @@
-# Linux portable builds with Docker
+# Desktop portable builds with Docker
+
+## Build from Windows / PowerShell
+
+Install and start [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+using **Linux containers**. From the checkout in PowerShell:
+
+```powershell
+.\scripts\build_docker.ps1
+```
+
+The default produces the Windows x86_64 portable ZIP and `BUILD-INFO.txt` in
+`dist\docker-windows\`. No host Rust, Visual Studio, MSYS2, GCC or Python
+installation is needed. The builder is a Linux container that cross-compiles
+`x86_64-pc-windows-gnu` using MinGW; it is not a Windows container. The exported
+`.exe` files run on Windows normally, without Docker or Wine.
+
+The same entry point can build Linux from Windows:
+
+```powershell
+.\scripts\build_docker.ps1 -Platform linux
+.\scripts\build_docker.ps1 -Platform windows -OutputDir 'D:\FFTA builds'
+```
+
+The script targets Windows PowerShell 5.1+ and PowerShell 7. If local policy
+blocks the script, run it in a single process with:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_docker.ps1
+```
+
+This does not change the user's persistent execution policy. Both platforms
+use Docker Buildx's local exporter and the same private-data exclusions.
+Build context resolution is relative to the script, not the calling directory;
+paths containing spaces are passed as individual native-command arguments.
+
+## Build from Linux / Bash
 
 From the repository root:
 
 ```bash
 bash scripts/build_linux_docker.sh
+```
+
+To build the Windows package from a Linux host instead:
+
+```bash
+bash scripts/build_windows_docker.sh
 ```
 
 The host only needs a working Docker Engine/Desktop with Buildx. Rust, GCC,
@@ -33,6 +75,19 @@ and build information are exported, using Docker's
 
 ## Environment and compatibility
 
+`Dockerfile.windows` copies the pinned Rust 1.94.0 toolchain from the same
+image used by the Linux builder into a digest-pinned Debian Trixie build stage.
+This reuses the compiler download while providing newer MinGW/Wine packages
+for modern Windows APIs. It installs the
+Windows Rust standard library and cross-compiles the
+wrapper/runtime. TinyCC uses native GCC for its build-time helper and MinGW
+for `libtcc.dll`. Resource build scripts check the target OS so Windows icons
+are embedded during cross-compilation as well as native compilation.
+Input/config, menu and runtime tests execute through 64-bit Wine **inside the
+container**, with a disposable prefix. They are not native Windows test runs.
+Windows target caches are separate from Linux target caches; Cargo downloads
+are shared. See Rust's [Windows GNU target support](https://doc.rust-lang.org/nightly/rustc/platform-support/windows-gnu.html).
+
 `Dockerfile.linux` selects Rust 1.94.0 on Debian Bookworm and installs its native
 build dependencies. `Cargo.lock` is enforced for builds and tests. This avoids
 linking releases against the developer host's Ubuntu 26.04 libc. The base image is
@@ -42,7 +97,7 @@ Check the exported build information and the actual ELF requirements when
 changing the base image. The earlier direct Ubuntu build remains a separate
 artifact at `dist/FFTARecomp-linux-portable.tar.gz`.
 
-The default build compiles the portable runtime and bundled TinyCC, runs the
+The Linux build compiles the portable runtime and bundled TinyCC, runs the
 input/config and runtime test suites (optional local-ROM tests remain ignored),
 and packages only after a successful build; failed tests prevent export.
 `.dockerignore` allows only desktop source, assets, docs, licenses and packaging
@@ -51,6 +106,11 @@ agent settings are excluded. Do not add a ROM to the build context or image.
 TinyCC source and notices accompany the exported native library.
 
 ## Run the exported game
+
+On Windows extract `dist/docker-windows/FFTARecomp-windows-portable.zip`,
+then launch `FFTARecomp.exe` from the extracted folder. Keep the whole folder
+and choose your own ROM on first launch. For Linux:
+
 
 ```bash
 mkdir -p dist/docker-linux/game
@@ -89,3 +149,29 @@ cache bytes/mtime were reused, startup backup copies numbered one then two,
 and per-user config/cache/data files were unchanged. The ROM was preplaced in
 the test folder. Physical controllers and native Wayland interaction were not
 tested. No ROM or test data was copied into the container or exported archive.
+
+### Windows container validation
+
+The Windows cross-build completed with Rust 1.94.0, MinGW GCC 14 (win32 thread
+model), mingw-w64 12 headers and Wine 10 on Debian Trixie. Inside the container,
+26 input/config, 33 menu and 42 runtime tests passed; two optional local-ROM
+runtime cases remained ignored. PE inspection confirmed x86_64 binaries with
+icon, icon-group and version resources in both executables. Imported DLLs did
+not include external GCC, libstdc++ or winpthread runtime libraries. ZIP CRC,
+portable marker, TinyCC source/notices and private-data exclusion checks passed.
+
+On the Ubuntu host the exported wrapper ran through Wine 10 with simulated
+XInput. It saved a preview slot, closed normally, moved the folder, relaunched
+and loaded the slot. Cache bytes/mtime were reused, backup copies counted one
+then two, and installed AppData files remained unchanged. The ROM was supplied
+only to this isolated host test, never to Docker or the release archive.
+The shared Linux Docker workflow also passed its 67 tests after the build-script
+and TinyCC helper changes.
+
+The PowerShell entry point was parsed and exercised using PowerShell 7.4.6 on
+Linux with a simulated Docker CLI: default Windows and mixed-case Linux target,
+checkout/export paths containing spaces, unrelated working directory, invalid
+arguments, missing Docker and nonzero exit propagation. Native Windows/Docker
+Desktop, Windows PowerShell 5.1 and physical controllers were not available
+for validation; do not treat Wine or the PowerShell mock as native Windows
+coverage.

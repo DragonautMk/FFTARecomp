@@ -1,6 +1,7 @@
 # Allow only the desktop build inputs; never send the developer's checkout data.
 **
 !Dockerfile.linux
+!Dockerfile.windows
 !Cargo.toml
 !Cargo.lock
 !gamedb.sqlite

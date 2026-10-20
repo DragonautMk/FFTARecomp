@@ -35,3 +35,10 @@ Package an explicitly selected runtime, launcher, gamedb, TinyCC library,
 source and notices. Verify archive integrity and executable hashes; exclude
 ROMs, saves, recordings, generated game code and test doubles. Document
 commands, environment, evidence and limitations with the project-memory skill.
+
+For dependency-contained builds use `Dockerfile.windows` and
+`scripts/build_docker.ps1` (Windows host) or `scripts/build_windows_docker.sh`
+(Bash). The builder is Linux/MinGW and its tests run through Wine; do not call
+these native Windows validation. Verify PE resources and imported DLLs, build
+TinyCC's helper with the host compiler and its library with the target compiler,
+and keep Windows target caches separate from Linux target caches.

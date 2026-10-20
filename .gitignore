@@ -25,3 +25,7 @@ ffta-input-diagnostic*.txt
 *.swp
 .idea/
 .vscode/
+
+# Local save fixture archive; never commit personal game progress.
+/saves.zip
+/saves/

@@ -33,6 +33,7 @@ pub mod machine;
 pub mod mem;
 pub mod mp2k;
 pub mod ppu;
+pub mod ppu_profile;
 pub mod rdrv;
 pub mod rtc;
 pub mod save_state;

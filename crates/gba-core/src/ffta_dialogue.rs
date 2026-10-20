@@ -372,6 +372,90 @@ pub fn pack_panel(pixels:&[UiPixel],backing:&[UiPixel],length:f32,right:bool,out
 #[cfg(test)]
 mod panel_extension_tests {
     use super::*;
+    fn row_endpoint_pixel_bounds(pixels: &[UiPixel]) -> Option<[i32; 4]> {
+        let mut out = [i32::MAX, i32::MAX, i32::MIN, i32::MIN];
+        // Only row endpoints can enlarge the bounds. Avoid visiting a dense
+        // panel's interior, and derive coordinates once per nonempty row.
+        // chunks() also preserves the previous behavior for partial final rows.
+        for (y, row) in pixels.chunks(LAYER_WIDTH).enumerate() {
+            if let Some(left) = row.iter().position(|p| p.visible()) {
+                let right = left + row[left..].iter().rposition(|p| p.visible()).unwrap();
+                out = [
+                    out[0].min(left as i32 - LAYER_INSET),
+                    out[1].min(y as i32),
+                    out[2].max(right as i32 + 1 - LAYER_INSET),
+                    out[3].max(y as i32 + 1),
+                ];
+            }
+        }
+        (out[0] != i32::MAX).then_some(out)
+    }
+    #[test]
+    fn row_endpoint_bounds_match_full_scan_for_sparse_dense_and_partial_layers() {
+        for len in [0, 1, 479, 480, 481, 480 * 160, 480 * 161 + 7] {
+            let mut pixels = vec![UiPixel::default(); len];
+            assert_eq!(row_endpoint_pixel_bounds(&pixels), pixel_bounds(&pixels));
+            for i in 0..len {
+                // Include varying colors/blend weights, isolated endpoints,
+                // transparent holes, and pixels outside the usual canvas.
+                let bits = (i as u32).wrapping_mul(1664525).wrapping_add(1013904223);
+                pixels[i] = UiPixel {
+                    color: bits as u16,
+                    eva: (bits >> 16) as u8 % 17,
+                    evb: (bits >> 24) as u8 % 17,
+                };
+            }
+            assert_eq!(row_endpoint_pixel_bounds(&pixels), pixel_bounds(&pixels));
+            pixels.fill(UiPixel::opaque(31));
+            assert_eq!(row_endpoint_pixel_bounds(&pixels), pixel_bounds(&pixels));
+            pixels.fill(UiPixel::default());
+            for i in [0, 479, 480, len.saturating_sub(1)] {
+                if i < len {
+                    pixels[i] = UiPixel::opaque(0);
+                    assert_eq!(row_endpoint_pixel_bounds(&pixels), pixel_bounds(&pixels));
+                    pixels[i] = UiPixel::default();
+                }
+            }
+        }
+    }
+
+    #[test]
+    #[ignore = "diagnostic microbenchmark; run release and serially without other workloads"]
+    fn benchmark_panel_bounds() {
+        use std::{hint::black_box, time::Instant};
+        for pattern in ["empty", "dense", "sparse", "panel"] {
+            let mut pixels = vec![UiPixel::default(); LAYER_WIDTH * LAYER_HEIGHT];
+            for y in 0..LAYER_HEIGHT {
+                for x in 0..LAYER_WIDTH {
+                    if match pattern {
+                        "dense" => true,
+                        "sparse" => (x + y * 7) % 113 == 0,
+                        "panel" => (240..360).contains(&x) && (70..150).contains(&y),
+                        _ => false,
+                    } {
+                        pixels[y * LAYER_WIDTH + x] = UiPixel::opaque(31);
+                    }
+                }
+            }
+            assert_eq!(row_endpoint_pixel_bounds(&pixels), pixel_bounds(&pixels));
+            for run in 0..5 {
+                let mut elapsed = [0.; 2];
+                for which in if run % 2 == 0 { [0, 1] } else { [1, 0] } {
+                    let start = Instant::now();
+                    for _ in 0..2000 {
+                        black_box(if which == 0 {
+                            pixel_bounds(black_box(&pixels))
+                        } else {
+                            row_endpoint_pixel_bounds(black_box(&pixels))
+                        });
+                    }
+                    elapsed[which] = start.elapsed().as_secs_f64() * 1e6 / 2000.;
+                }
+                eprintln!("PANEL_BOUNDS pattern={pattern} run={run} reference_us={:.3} candidate_us={:.3}", elapsed[0], elapsed[1]);
+            }
+        }
+    }
+
     #[test]
     fn animated_cursor_cannot_change_panel_bounds_or_length_displacement() {
         let blue=UiPixel{color:0x7c00,eva:8,evb:8};

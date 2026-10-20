@@ -75,6 +75,69 @@ impl FrameTimes {
     }
 }
 
+/// Per-frame PPU wall time inside core execution. Parallel zoom includes the
+/// caller's wait for workers; durations are not summed CPU usage across threads.
+pub struct PpuProfile {
+    series: [FrameTimes; 3],
+    frames: u64,
+    scanlines: u64,
+    zoom: u64,
+    invalid: u64,
+}
+
+impl PpuProfile {
+    pub fn new(enabled: bool) -> Self {
+        Self::with_limit(enabled, MAX_SAMPLES)
+    }
+
+    fn with_limit(enabled: bool, limit: usize) -> Self {
+        Self {
+            series: std::array::from_fn(|_| FrameTimes::with_limit(enabled, limit)),
+            frames: 0,
+            scanlines: 0,
+            zoom: 0,
+            invalid: 0,
+        }
+    }
+
+    pub fn enabled(&self) -> bool {
+        self.series[0].enabled
+    }
+
+    pub fn record(&mut self, timings: Option<gba_core::ppu_profile::Timings>) {
+        if !self.enabled() {
+            return;
+        }
+        if let Some(t) = timings {
+            let ppu = t.scanlines + t.zoom;
+            self.frames += 1;
+            self.scanlines += t.scanline_calls as u64;
+            self.zoom += t.zoom_calls as u64;
+            self.invalid += u64::from(ppu > t.frame);
+            self.series[0].record(t.scanlines);
+            self.series[1].record(t.zoom);
+            self.series[2].record(t.frame.saturating_sub(ppu));
+        }
+    }
+
+    pub fn report(&mut self) {
+        if !self.enabled() {
+            return;
+        }
+        println!(
+            "FFTA_PPU_COUNTS frames={} scanlines={} zoom={} invalid={}",
+            self.frames, self.scanlines, self.zoom, self.invalid
+        );
+        for (series, name) in
+            self.series
+                .iter_mut()
+                .zip(["hardware_scanlines", "zoom_rows", "core_other"])
+        {
+            series.report_named(&format!("FFTA_PPU_FRAME phase={name}"));
+        }
+    }
+}
+
 #[derive(Clone, Copy)]
 #[repr(usize)]
 pub enum Phase {
@@ -119,6 +182,7 @@ pub struct PlayProfile {
     series: [FrameTimes; PHASE_NAMES.len()],
     ui_payload_bytes: u64,
     ui_updates: u64,
+    ppu: PpuProfile,
 }
 
 impl PlayProfile {
@@ -127,6 +191,7 @@ impl PlayProfile {
             series: std::array::from_fn(|_| FrameTimes::with_limit(enabled, 18_000)),
             ui_payload_bytes: 0,
             ui_updates: 0,
+            ppu: PpuProfile::with_limit(enabled, 18_000),
         }
     }
 
@@ -136,6 +201,10 @@ impl PlayProfile {
 
     pub fn enabled(&self) -> bool {
         self.series[0].enabled
+    }
+
+    pub fn record_ppu(&mut self, timings: Option<gba_core::ppu_profile::Timings>) {
+        self.ppu.record(timings);
     }
 
     pub fn record_ui_upload(&mut self, bytes: usize) {
@@ -161,6 +230,7 @@ impl PlayProfile {
         if !self.series[0].enabled {
             return;
         }
+        self.ppu.report();
         println!(
             "FFTA_UI_UPLOAD samples={} payload_bytes={}",
             self.ui_updates, self.ui_payload_bytes
@@ -174,6 +244,42 @@ impl PlayProfile {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn ppu_profile_records_disjoint_frame_totals_and_bounds_storage() {
+        let mut profile = PpuProfile::with_limit(true, 1);
+        let timings = gba_core::ppu_profile::Timings {
+            frame: Duration::from_micros(10),
+            scanlines: Duration::from_micros(6),
+            zoom: Duration::from_micros(3),
+            scanline_calls: 160,
+            zoom_calls: 1,
+        };
+        profile.record(Some(timings));
+        profile.record(Some(timings));
+        assert_eq!(
+            (
+                profile.frames,
+                profile.scanlines,
+                profile.zoom,
+                profile.invalid
+            ),
+            (2, 320, 2, 0)
+        );
+        for (series, micros) in profile.series.iter().zip([6, 3, 1]) {
+            assert_eq!(series.samples, [Duration::from_micros(micros)]);
+            assert_eq!(series.omitted, 1);
+        }
+        profile.record(Some(gba_core::ppu_profile::Timings {
+            frame: Duration::ZERO,
+            ..timings
+        }));
+        assert_eq!(profile.invalid, 1);
+        let mut disabled = PpuProfile::new(false);
+        disabled.record(Some(timings));
+        assert_eq!(disabled.frames, 0);
+        assert!(disabled.series.iter().all(|s| s.samples.capacity() == 0));
+    }
 
     #[test]
     fn disabled_and_warmup_never_start_a_clock() {

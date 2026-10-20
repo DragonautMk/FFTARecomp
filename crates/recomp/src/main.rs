@@ -2421,6 +2421,26 @@ fn run_frame_native(
     mptr: *mut std::ffi::c_void,
     max_steps: u64,
 ) -> (u64, u64) {
+    run_frame_native_observed(m, table, mptr, max_steps, |_, _, _| {})
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum NativeDispatch {
+    Native = 0,
+    Missing = 1,
+    System = 2,
+    Hook = 3,
+}
+
+/// The cost census observes the same dispatch sequence as normal execution.
+/// The no-op specialization removes observation work from the release hot path.
+fn run_frame_native_observed(
+    m: &mut Machine,
+    table: &BlockTable,
+    mptr: *mut std::ffi::c_void,
+    max_steps: u64,
+    mut observe: impl FnMut(NativeDispatch, u32, u64),
+) -> (u64, u64) {
     use gba_core::capi::RT_API;
     m.bus.frame_ready = false;
     let mut native = 0u64;
@@ -2437,6 +2457,8 @@ fn run_frame_native(
     let mut fb_prev_end = u32::MAX;
     while !m.bus.frame_ready && steps < max_steps {
         steps += 1;
+        let observed_pc = m.cpu.regs[15];
+        let observed_clock = m.bus.clock;
         // Interrupt machinery and sleep states go through Machine::step.
         // (The IRQ-return-stub check is HLE-only: under a real BIOS that
         // address is ordinary BIOS code.)
@@ -2447,12 +2469,24 @@ fn run_frame_native(
             || (m.bus.irq_pending() && !m.cpu.flag(gba_core::cpu::FLAG_I))
         {
             m.step();
+            observe(
+                NativeDispatch::System,
+                observed_pc,
+                m.bus.clock - observed_clock,
+            );
             continue;
         }
         let key = m.cpu.regs[15] | m.cpu.thumb() as u32;
         m.ffta_log_sprite_entry(key);
-        if m.bus.ffta_battle_mouse.interprets(m.cpu.regs[15]) || m.ffta_sprite_interpret(m.cpu.regs[15]) {
+        if m.bus.ffta_battle_mouse.interprets(m.cpu.regs[15])
+            || m.ffta_sprite_interpret(m.cpu.regs[15])
+        {
             m.step();
+            observe(
+                NativeDispatch::Hook,
+                observed_pc,
+                m.bus.clock - observed_clock,
+            );
             continue;
         }
         // Real-BIOS mode: native blocks bypass the interpreter's fetch
@@ -2481,7 +2515,7 @@ fn run_frame_native(
                 m.bus.rdrv_frame_hook(key);
             }
         }
-        match table.get(key) {
+        let kind = match table.get(key) {
             Some(f) => {
                 // Diagnostic: census of executed IWRAM natives.
                 if trace_iwram && key >> 24 == 3 {
@@ -2490,6 +2524,7 @@ fn run_frame_native(
                 f(&RT_API, mptr);
                 native += 1;
                 fb_prev_end = u32::MAX;
+                NativeDispatch::Native
             }
             None => {
                 if NO_INTERP.load(std::sync::atomic::Ordering::Relaxed) {
@@ -2530,8 +2565,10 @@ packager (it becomes a label; the rebuilt package covers it).",
                     m.step();
                 }
                 fallback += 1;
+                NativeDispatch::Missing
             }
-        }
+        };
+        observe(kind, observed_pc, m.bus.clock - observed_clock);
     }
     (native, fallback)
 }
@@ -2835,6 +2872,9 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     let mut frame_times = perf::FrameTimes::new(
         std::env::var("FFTA_BENCH_FRAME_TIMES").as_deref() == Ok("1"),
     );
+    let mut ppu_profile = perf::PpuProfile::new(
+        std::env::var("FFTA_BENCH_PPU").as_deref() == Ok("1"),
+    );
     let mut rom_path = None;
     let mut frames = 600u64;
     let mut out: Option<String> = None;
@@ -2929,6 +2969,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         .ok()
         .and_then(|v| v.parse().ok());
     let mut cost: std::collections::HashMap<u32, u64> = std::collections::HashMap::new();
+    let mut cost_dispatches = [0u64; 4];
     while m.bus.frames < frames {
         let before = m.bus.frames;
         if character_csv.is_some(){gba_core::ffta_sprites::set_character_metrics(before+1>=character_from&&before+1<=character_to);}
@@ -2952,49 +2993,31 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
             s.apply_mouse(&mut m.bus,before)?;
         }
         let frame_start = frame_times.start(bench_from.is_none_or(|from| before >= from));
-        if cost_from.is_some_and(|n| m.bus.frames >= n) {
-            use gba_core::capi::RT_API;
-            m.bus.frame_ready = false;
-            let mut steps = 0u64;
-            while !m.bus.frame_ready && steps < FRAME_STEP_GUARD {
-                steps += 1;
-                let pc = m.cpu.regs[15];
-                let c0 = m.bus.clock;
-                if m.bus.halted
-                    || (!m.bus.real_bios
-                        && m.cpu.regs[15] == gba_core::machine::IRQ_RETURN_ADDR
-                        && m.cpu.mode() == gba_core::Mode::Irq)
-                    || (m.bus.irq_pending() && !m.cpu.flag(gba_core::cpu::FLAG_I))
-                {
-                    m.step();
-                    *cost.entry(pc).or_insert(0) += m.bus.clock - c0;
-                    continue;
-                }
-                let key = m.cpu.regs[15] | m.cpu.thumb() as u32;
-                if m.bus.real_bios {
-                    m.bus.pc_in_bios = key < 0x4000;
-                }
-                match table.get(key) {
-                    Some(f) => {
-                        f(&RT_API, mptr);
-                        native_blocks += 1;
-                    }
-                    None => {
-                        m.step();
-                        fallback_steps += 1;
-                    }
-                }
-                *cost.entry(pc).or_insert(0) += m.bus.clock - c0;
-            }
+        let ppu_capture = gba_core::ppu_profile::Capture::start(
+            ppu_profile.enabled() && bench_from.is_none_or(|from| before >= from),
+        );
+        let (n, f) = if cost_from.is_some_and(|n| m.bus.frames >= n) {
+            run_frame_native_observed(
+                &mut m,
+                &table,
+                mptr,
+                FRAME_STEP_GUARD,
+                |kind, pc, cycles| {
+                    *cost.entry(pc).or_insert(0) += cycles;
+                    cost_dispatches[kind as usize] += 1;
+                },
+            )
         } else {
-            let (n, f) = run_frame_native(&mut m, &table, mptr, FRAME_STEP_GUARD);
-            native_blocks += n;
-            fallback_steps += f;
-        }
+            run_frame_native(&mut m, &table, mptr, FRAME_STEP_GUARD)
+        };
+        native_blocks += n;
+        fallback_steps += f;
+        let ppu_timings = ppu_capture.finish();
         frame_times.finish(frame_start);
         if m.bus.frames == before {
             return Err("step guard exceeded before a complete frame".into());
         }
+        ppu_profile.record(ppu_timings);
         if let Some(capture) = edge_capture.as_mut() {
             capture.sample(&m);
         }
@@ -3018,6 +3041,8 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         }
     }
     if !cost.is_empty() {
+        eprintln!("COST_DISPATCH native={} missing={} system={} hook={}",
+            cost_dispatches[0], cost_dispatches[1], cost_dispatches[2], cost_dispatches[3]);
         let mut v: Vec<(u32, u64)> = cost.into_iter().collect();
         v.sort_by_key(|&(_, c)| std::cmp::Reverse(c));
         let total: u64 = v.iter().map(|&(_, c)| c).sum();
@@ -3033,6 +3058,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         println!("FFTA_BENCH first={first} last={} frames={measured} seconds={elapsed:.6} ms_per_frame={:.6} width={}",m.bus.frames,elapsed*1000.0/measured as f64,gba_core::mem::render_width());
     }
     frame_times.report();
+    ppu_profile.report();
     // Snapshot hashing is opt-in and outside the measured interval. It covers
     // serialized CPU/hardware/save state, unlike a final framebuffer hash.
     if verify_state {
@@ -3585,6 +3611,183 @@ impl FftaEdgeCapture {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn native_cost_observer_preserves_dispatch_and_guard_behavior() {
+        extern "C" fn translated_step(
+            _: *const gba_core::capi::RtApi,
+            machine: *mut std::ffi::c_void,
+        ) -> u32 {
+            gba_core::capi::rt_interp_one(machine)
+        }
+        let blocks = [gba_core::capi::RcgBlock {
+            key: ROM_BASE,
+            func: translated_step,
+        }];
+        for (translated, halted, limit) in [
+            (false, false, 100_000),
+            (true, false, 100_000),
+            (false, true, 1000),
+            (true, false, 0),
+            (true, false, 1),
+        ] {
+            let table = BlockTable::from_blocks(if translated { &blocks } else { &[] }).unwrap();
+            // ARM branch to itself; no copyrighted game fixture required.
+            let mut machine = Machine::new(0xeafffffeu32.to_le_bytes().to_vec());
+            machine.bus.halted = halted;
+            let checkpoint = machine.save_state().unwrap();
+            let pointer = &mut machine as *mut Machine as *mut std::ffi::c_void;
+            let expected_counts = run_frame_native(&mut machine, &table, pointer, limit);
+            let expected_state = machine.save_state().unwrap();
+            machine.load_state(&checkpoint).unwrap();
+            let before = machine.bus.clock;
+            let mut cycles = 0;
+            let mut dispatches = [0; 4];
+            let observed_counts = run_frame_native_observed(
+                &mut machine,
+                &table,
+                pointer,
+                limit,
+                |kind, pc, charged| {
+                    assert_eq!(pc, ROM_BASE);
+                    cycles += charged;
+                    dispatches[kind as usize] += 1;
+                },
+            );
+            assert_eq!(observed_counts, expected_counts);
+            assert!(
+                machine.save_state().unwrap() == expected_state,
+                "observer changed machine state"
+            );
+            assert_eq!(cycles, machine.bus.clock - before);
+            assert_eq!(
+                dispatches[NativeDispatch::Native as usize],
+                observed_counts.0
+            );
+            assert_eq!(
+                dispatches[NativeDispatch::Missing as usize],
+                observed_counts.1
+            );
+            if halted {
+                assert!(dispatches[NativeDispatch::System as usize] > 0);
+                assert!(dispatches[NativeDispatch::System as usize] <= limit);
+                assert_eq!(observed_counts, (0, 0));
+            }
+            if limit <= 1 {
+                assert!(!machine.bus.frame_ready);
+            } else if !halted {
+                assert!(machine.bus.frame_ready);
+            }
+        }
+    }
+
+    #[test]
+    #[ignore = "requires FFTA_STATE_TEST_ROM and FFTA_STATE_TEST_NATIVE local fixtures"]
+    fn native_cost_observer_matches_game_frames_audio_and_full_state() {
+        use sha2::Digest;
+        let rom =
+            std::fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").expect("ROM fixture")).unwrap();
+        let library =
+            std::env::var_os("FFTA_STATE_TEST_NATIVE").expect("Native translation fixture");
+        let (_library, table) = load_native(Path::new(&library)).unwrap();
+        let mut machine = Machine::new(rom);
+        arm_audio_hle(&mut machine, None);
+        machine.bus.tap_channels = true;
+        let checkpoint = machine.save_state().unwrap();
+        let replay = |machine: &mut Machine, observed: bool| {
+            let mut digest = sha2::Sha256::new();
+            let mut counts = (0, 0);
+            let mut dispatches = [0u64; 4];
+            let mut charged = 0;
+            let mut audio_counts = [0u64; 5];
+            let start_clock = machine.bus.clock;
+            let pointer = machine as *mut Machine as *mut std::ffi::c_void;
+            for _ in 0..3000 {
+                machine.bus.keys = demo_keys(machine.bus.frames);
+                let before = machine.bus.frames;
+                let ppu_capture = gba_core::ppu_profile::Capture::start(observed);
+                let (n, f) = if observed {
+                    run_frame_native_observed(
+                        machine,
+                        &table,
+                        pointer,
+                        FRAME_STEP_GUARD,
+                        |kind, _, cycles| {
+                            dispatches[kind as usize] += 1;
+                            charged += cycles;
+                        },
+                    )
+                } else {
+                    run_frame_native(machine, &table, pointer, FRAME_STEP_GUARD)
+                };
+                if let Some(ppu) = ppu_capture.finish() {
+                    assert_eq!(ppu.scanline_calls, 160);
+                    assert!(ppu.zoom_calls <= 1);
+                    assert!(ppu.scanlines + ppu.zoom <= ppu.frame);
+                }
+                assert_eq!(machine.bus.frames, before + 1);
+                counts.0 += n;
+                counts.1 += f;
+                digest.update(machine.bus.frames.to_le_bytes());
+                digest.update(machine.bus.clock.to_le_bytes());
+                for (total, len) in audio_counts.iter_mut().zip([
+                    machine.bus.audio_buf.len(), machine.bus.psg_tap.len(),
+                    machine.bus.fifo_tap[0].len(), machine.bus.fifo_tap[1].len(),
+                    machine.bus.hle_tap.len(),
+                ]) {
+                    *total += len as u64;
+                    digest.update((len as u64).to_le_bytes());
+                }
+                for pixel in &machine.bus.framebuffer {
+                    digest.update(pixel.to_le_bytes());
+                }
+                for pixel in &machine.bus.wide_framebuffer {
+                    digest.update(pixel.to_le_bytes());
+                }
+                digest.update(&machine.bus.oam);
+                for sample in machine.bus.audio_buf.drain(..) {
+                    digest.update(sample.to_le_bytes());
+                }
+                for sample in machine.bus.psg_tap.drain(..) {
+                    digest.update(sample.to_le_bytes());
+                }
+                for tap in &mut machine.bus.fifo_tap {
+                    for (sample, period) in tap.drain(..) {
+                        digest.update(sample.to_le_bytes());
+                        digest.update(period.to_le_bytes());
+                    }
+                }
+                for sample in machine.bus.hle_tap.drain(..) {
+                    digest.update(sample.to_bits().to_le_bytes());
+                }
+            }
+            if observed {
+                assert_eq!(charged, machine.bus.clock - start_clock);
+                assert_eq!(dispatches[NativeDispatch::Native as usize], counts.0);
+                assert_eq!(dispatches[NativeDispatch::Missing as usize], counts.1);
+                eprintln!(
+                    "Observed native={:?} dispatches={dispatches:?} cycles={charged}",
+                    counts
+                );
+                eprintln!("Observed audio samples mixed/PSG/FIFO0/FIFO1/HLE={audio_counts:?}");
+            }
+            (
+                digest.finalize().to_vec(),
+                machine.save_state().unwrap(),
+                counts,
+            )
+        };
+        let expected = replay(&mut machine, false);
+        assert!(expected.2 .0 > 0, "Fixture must execute translated code");
+        machine.load_state(&checkpoint).unwrap();
+        let actual = replay(&mut machine, true);
+        assert_eq!(actual.0, expected.0, "frame/OAM/audio transcript differs");
+        assert!(
+            actual.1 == expected.1,
+            "full serialized machine state differs"
+        );
+        assert_eq!(actual.2, expected.2, "native/fallback counts differ");
+    }
 
     #[test]
     #[ignore = "requires FFTA_STATE_TEST_ROM and FFTA_STATE_TEST_NATIVE local fixtures"]

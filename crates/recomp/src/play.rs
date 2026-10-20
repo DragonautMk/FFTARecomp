@@ -843,7 +843,7 @@ impl PlayApp {
                 grid.strength = 0.;
                 grid.scale_mode = 1;
             }
-            let result = p.present(&self.rgba, frame_dims, phys, &grid, self.view);
+            let result = p.present(&self.rgba, frame_dims, (size.width, size.height), &grid, self.view);
             if let Some(times) = p.cpu_timings() {
                 self.profile.record(Phase::GpuSetupUpload, times.setup_upload);
                 self.profile.record(Phase::GpuAcquire, times.acquire);
@@ -852,9 +852,11 @@ impl PlayApp {
                 self.profile.record(Phase::GpuPresent, times.present);
             }
             match result {
-                Ok(()) => {
+                Ok(outcome) => {
                     self.presenter = Some(p);
-                    if !self.paused { self.fps.presented(Instant::now()); }
+                    if outcome == screen::present::PresentOutcome::Presented && !self.paused {
+                        self.fps.presented(Instant::now());
+                    }
                     return;
                 },
                 Err(e) => {
@@ -1856,6 +1858,7 @@ impl PlayApp {
         self.fps.configure(&self.av.video_fps, emu_t0);
         let frames_before = self.machine.bus.frames;
         let core_start = self.profile.start();
+        let ppu_capture = gba_core::ppu_profile::Capture::start(self.profile.enabled());
         match &self.native {
             Some((_lib, table)) => {
                 let mptr = &mut self.machine as *mut Machine as *mut std::ffi::c_void;
@@ -1865,6 +1868,7 @@ impl PlayApp {
             }
             None => self.machine.run_frame(5_000_000),
         }
+        let ppu_timings = ppu_capture.finish();
         self.profile.finish(Phase::Core, core_start);
         // A guard hit is an incomplete frame, not a new temporal-history entry.
         // Stop cleanly instead of presenting/counting partially advanced state.
@@ -1872,6 +1876,7 @@ impl PlayApp {
             self.error = Some("emulation step guard exceeded before a complete frame".into());
             return false;
         }
+        self.profile.record_ppu(ppu_timings);
         self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
         let ui_start = self.profile.start();

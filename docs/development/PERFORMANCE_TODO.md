@@ -90,6 +90,13 @@ Passi già implementati e verificati, senza chiudere prematuramente le attività
   Evitare timer per singola istruzione e log sincroni per frame. Non sommare
   intervalli annidati come se fossero indipendenti. Contare distintamente
   blocchi nativi, fallback, hook intenzionalmente interpretati e frame incompleti.
+  **Avanzamento:** il censimento `RECOMP_COST_FROM` usa ora lo stesso dispatch
+  nativo del runtime, preservando gli hook audio/sprite/mouse. Distingue blocchi
+  nativi, traduzioni mancanti, passi di sistema e hook interpretati; attribuisce
+  cicli guest, non tempo CPU host, e resta separato dai confronti temporali.
+  Sono disponibili anche tempi CPU per frame delle scanline GBA, delle righe
+  zoom e del resto del core (`--ppu-profile` / `FFTA_PROFILE=1`), con controllo
+  dei conteggi, campioni limitati e nessuna modifica del clock/stato guest.
   **Completato quando:** il report contiene mediana, p95, p99, massimo,
   frame oltre 16,74/33,49 ms, durata del turno e underrun audio; l'overhead della
   diagnostica è misurato. Il tempo GPU usa timestamp opzionali e lettura
@@ -118,6 +125,11 @@ Passi già implementati e verificati, senza chiudere prematuramente le attività
   isolato dovrebbe poter saltare quella presentazione e riprovare, senza
   disattivare per sempre la GPU. Definire tentativi limitati, conteggi e un
   fallback software funzionante; evitare cicli di ricreazione o log continui.
+  **Avanzamento:** implementati timeout con frame saltato senza perdere la GPU,
+  un solo tentativo di riconfigurazione per frame su Lost/Outdated e fallback
+  dopo tre recuperi consecutivi falliti. Memoria esaurita/errori sconosciuti
+  attivano subito il fallback; solo le presentazioni riuscite contano negli FPS EXT.
+  I test simulano timeout prolungati, recupero, budget e fallimenti definitivi.
   **Completato quando:** resize, minimizza/ripristina, cambio schermo e un errore
   transitorio simulato recuperano senza blocchi. Verificare chiusura Wayland
   anche dopo recupero e fallback, preservando l'ordine di rilascio in `exiting`.
@@ -143,6 +155,12 @@ Passi già implementati e verificati, senza chiudere prematuramente le attività
   la capacità. Misurare anche packing/bounds ripetuti dei pannelli e conservarli
   per revisione del contenuto. Evitare cache basate solo sull'indirizzo o
   ottimizzazioni di allocazioni presenti esclusivamente nei test.
+  **Esperimento valutato:** la scansione dei soli estremi visibili per riga
+  riduce il costo della funzione sui pannelli sintetici, ma due confronti
+  end-to-end da 3.000 frame hanno mostrato una regressione del candidato.
+  Non attivata nel runtime: conservata solo nei test con equivalenza e
+  microbenchmark release a cinque coppie alternate. Restano da valutare
+  riuso/packing su scene con pannelli attivi e beneficio complessivo dimostrato.
   **Completato quando:** diminuiscono allocazioni o tempo nel percorso misurato,
   senza crescita continua della memoria, eventi audio persi o pannelli obsoleti.
 

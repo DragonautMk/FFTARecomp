@@ -72,3 +72,12 @@ resources at three world sizes including 1x1. On AMD Radeon 780M / RADV it passe
 all pixel comparisons and exact scheduled-byte assertions. Meter tests cover
 unchanged revisions between measurements, reset, DPI/layout changes and distinct
 meter instances.
+
+### Temporary surface failures
+
+A GPU surface timeout skips that host presentation and retries on the next
+normally paced frame. It does not disable GPU rendering or increment EXT.
+Lost/outdated surfaces receive one reconfiguration/retry per frame; three
+consecutive failed recoveries activate software fallback. Successful acquisition
+resets that budget. Memory exhaustion and unknown errors fall back immediately.
+Zero-sized windows skip GPU acquisition. Guest frame accounting stays separate.

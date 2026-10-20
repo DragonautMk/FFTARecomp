@@ -24,7 +24,7 @@ RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/regi
     --mount=type=cache,id=ffta-linux-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=ffta-linux-target-amd64,target=/workspace/target,sharing=locked \
     bash scripts/package_ffta_linux.sh \
-    && cargo test --locked --release -p input-config -p recomp -- --test-threads=1 \
+    && cargo test --locked --release -p input-config -p menu -p gba-core -p screen -p recomp -- --test-threads=1 \
     && mkdir /artifacts \
     && cp dist/FFTARecomp-linux-portable.tar.gz /artifacts/ \
     && { rustc --version; cargo --version; cat /etc/os-release; \

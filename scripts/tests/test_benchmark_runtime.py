@@ -55,11 +55,40 @@ class BenchmarkTests(unittest.TestCase):
         line = 'FFTA_FRAME_TIMES samples=2 omitted=0 p50_ms=1 p95_ms=3 p99_ms=3 max_ms=3 over_budget=0 over_double_budget=0'
         text = self.log(False) + '\n' + line
         self.assertEqual(bench.parse_run(text, 3, 1, profile=True)['frame_times']['p99_ms'], 3)
+        with self.assertRaises(ValueError):
+            bench.parse_run(text + ' total_ms=5 mean_ms=2.5', 3, 1, profile=True)
         for broken in (text.replace('samples=2', 'samples=1'), text.replace('omitted=0', 'omitted=1'),
                        text.replace('p99_ms=3', 'p99_ms=nan'), text.replace('p99_ms=3', 'p99_ms=5'),
                        text.replace('over_double_budget=0', 'over_double_budget=1')):
             with self.subTest(broken=broken), self.assertRaises(ValueError):
                 bench.parse_run(broken, 3, 1, profile=True)
+
+    def test_ppu_profile_requires_complete_disjoint_finite_capture(self):
+        meta = 'FFTA_PPU_COUNTS frames=2 scanlines=320 zoom=1 invalid=0'
+        stages = []
+        for name, value in [('hardware_scanlines', 0.5), ('zoom_rows', 0.2), ('core_other', 1.0)]:
+            stages.append(f'FFTA_PPU_FRAME phase={name} samples=2 omitted=0 p50_ms={value} '
+                          f'p95_ms={value} p99_ms={value} max_ms={value} over_budget=0 '
+                          f'over_double_budget=0 total_ms={value * 2} mean_ms={value}')
+        text = self.log(False) + '\n' + '\n'.join([meta, *stages])
+        result = bench.parse_run(text, 3, 1, ppu_profile=True)['ppu']
+        self.assertEqual(result['scanlines'], 320)
+        self.assertEqual(result['stages']['zoom_rows']['total_ms'], 0.4)
+        variants = [text.rsplit('\n', 1)[0], text + '\n' + meta, text + '\n' + stages[0],
+                    text.replace('scanlines=320', 'scanlines=319'),
+                    text.replace('zoom=1', 'zoom=3'), text.replace('invalid=0', 'invalid=1'),
+                    text.replace('mean_ms=0.5', 'mean_ms=nan'),
+                    text.replace('mean_ms=0.5', 'mean_ms=0.1'),
+                    text.replace('mean_ms=0.5', 'other=0.5'),
+                    text.replace('samples=2', 'samples=1'), text.replace('omitted=0', 'omitted=1'),
+                    text.replace('samples=2', 'samples=2 samples=2'),
+                    text.replace('seconds=0.004000 ms_per_frame=2.000000',
+                                 'seconds=0.002000 ms_per_frame=1.000000')]
+        for broken in variants:
+            with self.subTest(broken=broken), self.assertRaises(ValueError):
+                bench.parse_run(broken, 3, 1, ppu_profile=True)
+        with self.assertRaises(ValueError):
+            bench.parse_run(text, 3, 1)  # timing must not silently include PPU instrumentation
 
     def test_target_platform_uses_binary_format(self):
         with tempfile.TemporaryDirectory() as tmp:

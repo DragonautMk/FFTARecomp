@@ -93,6 +93,51 @@ pub struct CpuTimings {
     pub present: Option<Duration>,
 }
 
+/// A skipped surface frame is not a successful host presentation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PresentOutcome {
+    Presented,
+    Skipped,
+}
+
+#[derive(Default)]
+struct SurfaceRecovery {
+    failed_recoveries: u8,
+}
+
+impl SurfaceRecovery {
+    // At most one reconfigure/retry per call and three failed calls before
+    // software fallback. Timeouts do not reconfigure or spin: the normal
+    // event-loop pacing schedules the next attempt.
+    fn acquire<T>(
+        &mut self,
+        mut acquire: impl FnMut(bool) -> Result<T, wgpu::SurfaceError>,
+    ) -> Result<Option<T>, String> {
+        use wgpu::SurfaceError::{Lost, Outdated, Timeout};
+        let result = match acquire(false) {
+            Err(Lost | Outdated) => acquire(true),
+            result => result,
+        };
+        match result {
+            Ok(frame) => {
+                self.failed_recoveries = 0;
+                Ok(Some(frame))
+            }
+            Err(Timeout) => Ok(None),
+            Err(error @ (Lost | Outdated)) => {
+                self.failed_recoveries = self.failed_recoveries.saturating_add(1);
+                if self.failed_recoveries >= 3 {
+                    Err(format!("surface recovery exhausted: {error}"))
+                } else {
+                    Ok(None)
+                }
+            }
+            // Memory exhaustion and unknown errors are not resize signals.
+            Err(error) => Err(error.to_string()),
+        }
+    }
+}
+
 pub struct Presenter {
     surface: wgpu::Surface<'static>,
     device: wgpu::Device,
@@ -110,6 +155,7 @@ pub struct Presenter {
     ui_layer: Vec<Option<crate::ui_layer::Gpu>>,
     cpu_timings: Option<CpuTimings>,
     ui_uploaded_bytes: usize,
+    recovery: SurfaceRecovery,
 }
 
 impl Presenter {
@@ -312,6 +358,7 @@ impl Presenter {
             src_size: (src_w, src_h),
             ui_layer: Vec::new(),
             cpu_timings: None,
+            recovery: SurfaceRecovery::default(),
             ui_uploaded_bytes: 0,
         };
         p.surface.configure(&p.device, &p.config);
@@ -373,6 +420,8 @@ impl Presenter {
     }
 
     /// Upload the frame and draw it at the window's current size.
+    /// Transient acquisition failures return `Skipped`; retain the presenter
+    /// and try again on the next normally paced frame. Errors request fallback.
     /// `window_physical` is the surface size in physical pixels (winit's
     /// `inner_size()` reports this directly and cross-platform).
     ///
@@ -389,8 +438,11 @@ impl Presenter {
         window_physical: (u32, u32),
         grid: &GridParams,
         view: [f32; 4],
-    ) -> Result<(), String> {
+    ) -> Result<PresentOutcome, String> {
         if let Some(times) = self.cpu_timings.as_mut() { *times = CpuTimings::default(); }
+        if window_physical.0 == 0 || window_physical.1 == 0 {
+            return Ok(PresentOutcome::Skipped);
+        }
         let upload_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         let (w, h) = (window_physical.0.max(1), window_physical.1.max(1));
         if (w, h) != (self.config.width, self.config.height) {
@@ -504,29 +556,18 @@ impl Presenter {
         }
 
         let acquire_start = self.cpu_timings.as_ref().map(|_| Instant::now());
-        let frame = match self.surface.get_current_texture() {
-            Ok(f) => Ok(f),
-            // Outdated/Lost: the surface needs reconfiguring (resize, mode
-            // change, GL context dance). OutOfMemory: some drivers report
-            // it transiently for swapchain churn — reconfigure ONCE and
-            // retry; if it fails again the Err propagates and the caller
-            // falls back to CPU blit loudly.
-            Err(
-                wgpu::SurfaceError::Outdated
-                | wgpu::SurfaceError::Lost
-                | wgpu::SurfaceError::OutOfMemory,
-            ) => {
+        let frame = self.recovery.acquire(|reconfigure| {
+            if reconfigure {
                 self.surface.configure(&self.device, &self.config);
-                self.surface
-                    .get_current_texture()
-                    .map_err(|e| e.to_string())
             }
-            Err(e) => Err(e.to_string()),
-        };
+            self.surface.get_current_texture()
+        });
         if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), acquire_start) {
             times.acquire = Some(start.elapsed());
         }
-        let frame = frame?;
+        let Some(frame) = frame? else {
+            return Ok(PresentOutcome::Skipped);
+        };
         let encode_start = self.cpu_timings.as_ref().map(|_| Instant::now());
         let view = frame
             .texture
@@ -569,7 +610,7 @@ impl Presenter {
         if let (Some(times), Some(start)) = (self.cpu_timings.as_mut(), present_start) {
             times.present = Some(start.elapsed());
         }
-        Ok(())
+        Ok(PresentOutcome::Presented)
     }
 }
 
@@ -585,6 +626,67 @@ fn as_bytes(v: &[f32; 20]) -> &[u8] {
 #[cfg(test)]
 mod tests {
     use super::letterbox;
+
+    #[test]
+    fn surface_timeout_skips_without_reconfiguration_then_recovers() {
+        let mut recovery = super::SurfaceRecovery::default();
+        for _ in 0..120 {
+            assert_eq!(recovery.acquire::<()>(|retry| {
+                assert!(!retry);
+                Err(wgpu::SurfaceError::Timeout)
+            }), Ok(None));
+        }
+        assert_eq!(recovery.acquire(|retry| {
+            assert!(!retry);
+            Ok(42)
+        }), Ok(Some(42)));
+    }
+
+    #[test]
+    fn lost_surface_reconfigures_once_and_success_resets_failure_budget() {
+        let mut recovery = super::SurfaceRecovery::default();
+        for _ in 0..2 {
+            let mut calls = Vec::new();
+            assert_eq!(recovery.acquire::<()>(|retry| {
+                calls.push(retry);
+                Err(wgpu::SurfaceError::Lost)
+            }), Ok(None));
+            assert_eq!(calls, [false, true]);
+        }
+        assert_eq!(recovery.acquire(|retry| {
+            if retry { Ok(7) } else { Err(wgpu::SurfaceError::Outdated) }
+        }), Ok(Some(7)));
+        assert_eq!(recovery.failed_recoveries, 0);
+        assert_eq!(recovery.acquire::<()>(|_| Err(wgpu::SurfaceError::Lost)), Ok(None));
+    }
+
+    #[test]
+    fn persistent_surface_loss_has_bounded_retries() {
+        let mut recovery = super::SurfaceRecovery::default();
+        let mut calls = 0;
+        for attempt in 0..3 {
+            let result = recovery.acquire::<()>(|_| {
+                calls += 1;
+                Err(wgpu::SurfaceError::Outdated)
+            });
+            assert_eq!(result.is_err(), attempt == 2);
+        }
+        assert_eq!(calls, 6);
+    }
+
+    #[test]
+    fn fatal_surface_errors_do_not_reconfigure() {
+        for error in [wgpu::SurfaceError::OutOfMemory, wgpu::SurfaceError::Other] {
+            let mut recovery = super::SurfaceRecovery::default();
+            let mut calls = 0;
+            assert!(recovery.acquire::<()>(|retry| {
+                calls += 1;
+                assert!(!retry);
+                Err(error.clone())
+            }).is_err());
+            assert_eq!(calls, 1);
+        }
+    }
 
     #[test]
     fn grid_shader_parses_and_validates() {

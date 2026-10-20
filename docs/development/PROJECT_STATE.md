@@ -27,8 +27,10 @@ Read current source and manifests before relying on older build instructions.
   The scratch export stage writes only the portable tar.gz and BUILD-INFO.txt
   to `dist/docker-linux/`; runtime GUI/system libraries remain host dependencies.
   `.dockerignore` allows desktop build inputs and excludes game/personal data.
-  Container tests passed (26 input/config + 41 runtime); the exported runtime
-  requires glibc 2.35 and passed a native Ubuntu Xvfb save/load/relocation check.
+  Container export is gated by serial input/config, menu, core, runtime and
+  screen suites; optional local-ROM/GPU cases remain separate. The exported
+  runtime requires glibc 2.35 and previously passed a native Ubuntu Xvfb
+  save/load/relocation check.
   Older-distro and physical-controller compatibility remain unverified.
   See [Docker workflow](../docker.md). Keep the direct Ubuntu-built archive
   distinct, and establish actual libc requirements for each build environment.
@@ -42,9 +44,10 @@ Read current source and manifests before relying on older build instructions.
   Export is `dist/docker-windows/`; it contains no game or personal data.
   Resource build scripts branch on Cargo's target OS rather than build-host cfg.
   The Windows builder reuses the pinned Rust image and copies its toolchain
-  into Debian Trixie for MinGW 14 / Wine 10. Windows/Wine tests passed
-  (26 input/config + 33 menu + 42 runtime), including packaged PE resource/import
-  checks and a simulated-XInput portable save/load/move smoke. PowerShell 7.4.6
+  into Debian Trixie for MinGW 14 / Wine 10. Windows/Wine tests gate exports
+  on serial core and screen suites as well as input/config, menu and runtime.
+  Earlier packaged PE resource/import checks and a simulated-XInput portable
+  save/load/move smoke also passed. PowerShell 7.4.6
   Linux mock-CLI validation passed; native Windows/Desktop/PowerShell 5.1 remain
   unverified.
 
@@ -72,6 +75,17 @@ Read current source and manifests before relying on older build instructions.
   26.04 x86_64 host; broad older-distro/Steam Deck compatibility is unverified.
   Existing installed behavior needs no marker;
   migration is an explicit copy, never a silent move of personal data.
+- Surface acquisition timeouts skip a host presentation while retaining the GPU.
+  Lost/Outdated reconfigure and retry once per call; three failed recovery calls
+  trigger software fallback. Successful acquisition resets the budget; memory
+  exhaustion/unknown errors fall back immediately. Zero-sized surfaces skip
+  acquisition, and skipped frames do not increment FPS EXT. Event-loop pacing
+  remains responsible for retries; no tight retry loop or per-frame error log.
+- The row-endpoint panel-bound scan is a test-only experiment. It preserves
+  the full scan's results and reduces synthetic panel cost, but production
+  integration was withheld after slower 3000-frame introductory A/B replays.
+  Keep the current full scan until representative end-to-end benefit is shown;
+  see the optional diagnostic in the performance measurement workflow.
 - GPU UI layers retain LUT contents and skip identical uploads; FPS pixels use
   process-unique render revisions. Unversioned game UI/world data still updates
   normally. Resource recreation clears caches, and color comparison handles
@@ -131,12 +145,23 @@ Read current source and manifests before relying on older build instructions.
   an AI-turn speedup or GPU execution timings. The frontend fails before advancing
   temporal history on an exhausted frame guard; stats display separate native
   block/fallback-step counts rather than their mixed-unit percentage.
-  Remaining P0 work includes the identified slow-turn replay and independent
-  PPU/GPU timing. Start with a reproducible enemy-turn replay and
+  Remaining P0 work includes the identified slow-turn replay, detailed PPU
+  internals and actual GPU execution timing. Start with a reproducible enemy-turn replay and
   stage/p95/p99 measurements, then bounded surface recovery and redundant
   upload/allocation reduction. GPU LUT/temporal processing is conditional on
   measured cost; preserve per-guest-frame history and the CPU reference path.
   Guest AI/GPU or full-PPU rewrites are not the first-line approach.
+- CPU PPU timing uses scoped thread-local capture outside machine/save state.
+  `FFTA_PROFILE=1` includes scanline/zoom/core-remainder rows on desktop;
+  `--ppu-profile` enables separate headless diagnostic runs after warm-up.
+  Disabled entry points check capture state without reading a clock. Capture
+  is bounded, incomplete frames are discarded and parallel zoom measures the
+  caller's wall time including worker waits. No guest or translation ABI change.
+- `runc` guest-cycle profiling (`RECOMP_COST_FROM`) observes the shared native
+  dispatch loop, preserving normal HLE/interpreter gates and strict fallback
+  behavior. `COST_DISPATCH` separates native, missing, system and intentional
+  hook dispatches. Its per-PC charged cycles are guest time, not host timings;
+  keep the census disabled for timing comparisons. See the performance workflow.
 - [Windows runtime performance](../windows_runtime_performance.md) documents
   the tested replay and matching framebuffer/OAM results. Timing improvements
   were measured under Wine, with environment lookup costs specific to that

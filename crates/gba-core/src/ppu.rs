@@ -116,6 +116,7 @@ pub fn render_ffta_zoom_rows(mem: &mut MemMap) {
     if !ffta_zoom_rows_ready(mem) {
         return;
     }
+    let _profile = crate::ppu_profile::zoom_timer();
     let rw = render_width();
     mem.wide_framebuffer.copy_within(0..160 * rw, ey * rw);
     if mem.ffta_dialogue.extra.kind == crate::ffta_dialogue::PanelKind::Stats {
@@ -354,6 +355,7 @@ fn render_zoom_lane(
 }
 
 pub fn render_scanline(mem: &mut MemMap, line: usize) {
+    let _profile = crate::ppu_profile::scanline_timer();
     if line == 0 {
         begin_dialogue_frame(mem);
         mem.ffta_movement.sky_edges[0] = pal16(mem, 0);

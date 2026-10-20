@@ -42,7 +42,37 @@ def binary_platform(path):
     raise ValueError(f'unrecognized executable format: {path}')
 
 
-def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False):
+def parse_profile_stats(row, samples, require_totals=False):
+    try:
+        parts = row.split()
+        fields = dict(part.split('=', 1) for part in parts)
+        if len(fields) != len(parts):
+            raise ValueError('duplicate profile field')
+        stats = {k: int(fields[k]) for k in
+                 ('samples', 'omitted', 'over_budget', 'over_double_budget')}
+        stats.update({k: float(fields[k]) for k in
+                      ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')})
+        if require_totals or 'total_ms' in fields or 'mean_ms' in fields:
+            stats.update({k: float(fields[k]) for k in ('total_ms', 'mean_ms')})
+    except (ValueError, KeyError) as error:
+        raise ValueError('invalid frame-time diagnostics') from error
+    ordered = [stats[k] for k in ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')]
+    if (stats['samples'] != samples or stats['omitted'] != 0
+            or not all(math.isfinite(v) and v >= 0 for v in ordered)
+            or ordered != sorted(ordered)
+            or not 0 <= stats['over_double_budget'] <= stats['over_budget'] <= samples):
+        raise ValueError('incomplete or inconsistent frame-time diagnostics')
+    if 'total_ms' in stats:
+        total, mean = stats['total_ms'], stats['mean_ms']
+        tolerance = 0.001 + samples * 0.000001  # six-decimal report rounding
+        if (not all(math.isfinite(v) and v >= 0 for v in (total, mean))
+                or abs(total - mean * samples) > tolerance
+                or mean > stats['max_ms'] + 0.000001):
+            raise ValueError('inconsistent profile totals')
+    return stats
+
+
+def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=False, ppu_profile=False):
     ends = re.findall(r'^frames: (\d+) hash: ([0-9a-f]{16}) '
                       r'native_blocks: (\d+) fallback_steps: (\d+)$', text, re.M)
     timings = re.findall(r'^FFTA_BENCH first=(\d+) last=(\d+) frames=(\d+) '
@@ -58,6 +88,8 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
     seconds, ms = float(timing[3]), float(timing[4])
     if not all(math.isfinite(v) and v > 0 for v in (seconds, ms)):
         raise ValueError('nonfinite or nonpositive timing')
+    if abs(ms * (frames - warmup) - seconds * 1000) > 0.001 + (frames - warmup) * 0.000001:
+        raise ValueError('inconsistent timing totals')
     hashes = {}
     for frame, fb, oam in re.findall(
             rf'^FFTA_EQ frame=(\d+) framebuffer=({HASH}) oam=({HASH})$', text, re.M):
@@ -77,25 +109,30 @@ def parse_run(text, frames, warmup, capture=False, verify_state=False, profile=F
         rows = re.findall(r'^FFTA_FRAME_TIMES (.+)$', text, re.M)
         if len(rows) != 1:
             raise ValueError('runtime does not provide frame-time diagnostics')
-        try:
-            fields = dict(part.split('=', 1) for part in rows[0].split())
-            stats = {k: int(fields[k]) for k in
-                     ('samples', 'omitted', 'over_budget', 'over_double_budget')}
-            stats.update({k: float(fields[k]) for k in
-                          ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')})
-        except (ValueError, KeyError) as error:
-            raise ValueError('invalid frame-time diagnostics') from error
-        ordered = [stats[k] for k in ('p50_ms', 'p95_ms', 'p99_ms', 'max_ms')]
-        if (stats['samples'] != frames - warmup or stats['omitted'] != 0
-                or not all(math.isfinite(v) and v >= 0 for v in ordered)
-                or ordered != sorted(ordered)
-                or not 0 <= stats['over_double_budget'] <= stats['over_budget'] <= stats['samples']):
-            raise ValueError('incomplete or inconsistent frame-time diagnostics')
+        stats = parse_profile_stats(rows[0], frames - warmup)
+        if stats.get('total_ms', 0) > seconds * 1000 + 0.01:
+            raise ValueError('frame-time durations exceed the measured interval')
+    ppu = None
+    if ppu_profile:
+        counts = re.findall(r'^FFTA_PPU_COUNTS frames=(\d+) scanlines=(\d+) zoom=(\d+) invalid=(\d+)$', text, re.M)
+        rows = re.findall(r'^FFTA_PPU_FRAME phase=(\w+) (.+)$', text, re.M)
+        names = {'hardware_scanlines', 'zoom_rows', 'core_other'}
+        if (len(counts) != 1 or len(rows) != 3 or {name for name, _ in rows} != names):
+            raise ValueError('missing or duplicate PPU diagnostics')
+        measured, scanlines, zoom, invalid = map(int, counts[0])
+        if measured != frames - warmup or scanlines != measured * 160 or zoom > measured or invalid:
+            raise ValueError('incomplete or inconsistent PPU capture')
+        stages = {name: parse_profile_stats(row, measured, require_totals=True) for name, row in rows}
+        if sum(stage['total_ms'] for stage in stages.values()) > seconds * 1000 + 0.01:
+            raise ValueError('PPU/core stage durations exceed the measured interval')
+        ppu = {'frames': measured, 'scanlines': scanlines, 'zoom': zoom, 'stages': stages}
+    elif re.search(r'^FFTA_PPU_(?:COUNTS|FRAME) ', text, re.M):
+        raise ValueError('PPU profiling unexpectedly enabled during timing')
     return {'frames': int(end[0]), 'framebuffer': end[1],
             'native_blocks': int(end[2]), 'fallback_steps': int(end[3]),
             'ms_per_frame': ms, 'hashes': hashes, 'scene': scene,
             'width': int(timing[5]), 'state': states[0] if states else None,
-            'frame_times': stats}
+            'frame_times': stats, 'ppu': ppu}
 
 
 def assert_equivalent(reference, candidate, require_counts=False):
@@ -136,9 +173,11 @@ def main(argv=None):
     parser.add_argument('--wine-prefix', type=Path)
     parser.add_argument('--verify-state', action='store_true', help='require full serialized final-state hashes')
     parser.add_argument('--profile', action='store_true', help='separate instrumented frame-time runs')
+    parser.add_argument('--ppu-profile', action='store_true', help='also measure CPU scanlines/zoom/core remainder; implies --profile')
     parser.add_argument('--require-execution-counts', action='store_true',
                         help='also require dispatch counts to match (same translation/dispatch)')
     args = parser.parse_args(argv)
+    args.profile = args.profile or args.ppu_profile
     if (args.frames <= args.warmup or args.warmup < 0 or args.runs < 1
             or not math.isfinite(args.timeout) or args.timeout <= 0):
         parser.error('require frames > warmup >= 0, runs >= 1 and positive finite timeout')
@@ -200,6 +239,7 @@ def main(argv=None):
         run_env['FFTA_PATCH_VERIFY_FRAMES'] = '1' if capture else '0'
         run_env['FFTA_BENCH_STATE'] = '1' if args.verify_state else '0'
         run_env['FFTA_BENCH_FRAME_TIMES'] = '1' if profile_times else '0'
+        run_env['FFTA_BENCH_PPU'] = '1' if profile_times and args.ppu_profile else '0'
         command = ([args.wine] if args.wine else []) + [
             str(exe.resolve()), 'runc', str(args.rom.resolve()),
             '--frames', str(args.frames), '--input', str(args.input.resolve())]
@@ -210,7 +250,7 @@ def main(argv=None):
             subprocess.run(command, env=run_env, stdout=output, stderr=subprocess.STDOUT,
                            check=True, timeout=args.timeout)
         result = parse_run(log.read_text(encoding='utf-8'), args.frames, args.warmup,
-                           capture, args.verify_state, profile_times)
+                           capture, args.verify_state, profile_times, profile_times and args.ppu_profile)
         print(f'{label}: {result["ms_per_frame"]:.6f} ms/frame', flush=True)
         return result
 
@@ -240,7 +280,7 @@ def main(argv=None):
             for name, exe in [('baseline', args.baseline), ('candidate', args.candidate)]:
                 result = run(f'{name}-profile', exe, profile_times=True)
                 compare(timed_reference, result)
-                profiles[name] = {'frame_times': result['frame_times'],
+                profiles[name] = {'frame_times': result['frame_times'], 'ppu': result['ppu'],
                                   'instrumented_ms_per_frame': result['ms_per_frame'],
                                   'overhead_vs_median_percent':
                                       (result['ms_per_frame'] / statistics.median(samples[name]) - 1) * 100}

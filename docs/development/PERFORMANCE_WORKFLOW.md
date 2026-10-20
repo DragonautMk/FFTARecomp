@@ -60,6 +60,40 @@ Once execution starts, `summary.json` explicitly records running/failed status,
 so an execution failure cannot leave an old successful result in place. Timing and verification logs remain
 available for inspection; do not interpret a run as passed without checking status.
 
+## Guest-cycle cost census
+
+`RECOMP_COST_FROM=N` enables the existing per-PC guest-cycle histogram from
+frame N in `runc`. It now observes the same dispatch loop as normal execution,
+including sprite/battle mouse interpreter gates, BIOS/interrupt handling, audio
+HLE hooks, strict no-interpreter mode and fallback-entry tracing. The default
+runner uses a no-op observer specialization; it does not build a cost histogram.
+
+`COST_DISPATCH` reports native blocks (`native`), missing translations (`missing`),
+interrupt/sleep/IRQ-return steps (`system`) and intentionally interpreted sprite
+or mouse steps (`hook`). The last two categories are separate from the existing
+native/missing totals. `COST` retains its legacy PC aggregation, without adding
+the Thumb mode bit, and reports guest cycles rather than host CPU time.
+A hot guest PC is a triage lead, not proof of a host bottleneck. The census adds
+per-dispatch accounting overhead; keep it out of timing comparisons. The A/B
+script explicitly clears `RECOMP_COST_FROM` from child environments.
+
+For a local ROM/native-translation fixture, the optional test
+`native_cost_observer_matches_game_frames_audio_and_full_state` runs the same
+3000-frame demo with and without dispatch observation and scoped PPU timing.
+It compares a full-stream digest
+of native/wide framebuffer, OAM, mixed/PSG/FIFO/HLE audio, final serialized machine
+state and dispatch totals; it also checks that attributed cycles sum to the
+actual guest-clock advance. Set `FFTA_STATE_TEST_ROM`, `FFTA_STATE_TEST_NATIVE`
+and, when required, `FFTA_TCC_LIBRARY`, then run:
+
+```sh
+cargo test --locked --release -p recomp native_cost_observer_matches_game_frames_audio_and_full_state -- --ignored --nocapture --test-threads=1
+```
+
+No ROM, translation or diagnostic result is packaged or committed. This fixture
+covers the exercised introductory sequence; it does not establish AI coverage
+or every hardware/audio-engine/hook path.
+
 ## Frame-time diagnostics and their overhead
 
 Add `--profile` when both executables support `FFTA_BENCH_FRAME_TIMES=1`. This
@@ -75,6 +109,45 @@ The report's overhead estimate compares a single instrumented run against the
 uninstrumented median; noise can make this estimate negative. It is not a new
 optimization result. Per-frame logging and final-state serialization stay outside
 ordinary timing; sample capture is disabled unless explicitly enabled.
+
+## CPU PPU timing
+
+Add `--ppu-profile` to request separate instrumented runs with CPU PPU stages;
+it implies `--profile` and requires both executables to support this diagnostic.
+Ordinary verification/timing runs explicitly disable it, even if the parent
+shell has `FFTA_BENCH_PPU=1`. For manual `runc` runs that environment variable
+enables PPU capture without requiring the benchmark script.
+
+The report has one sample per completed guest frame after headless warm-up:
+
+- `hardware_scanlines`: wall time inside the 160 hardware scanline calls,
+  including UI extraction and forced-blank handling.
+- `zoom_rows`: wall time inside extra host zoom-row rendering when available;
+  zero when no such work occurred. A parallel path includes the caller's wait
+  for its workers, not the sum of worker CPU times.
+- `core_other`: captured core interval minus those two PPU totals, including
+  CPU execution, other hardware work and instrumentation overhead.
+
+`FFTA_PPU_FRAME` rows provide p50/p95/p99/max, total/mean and budget counts;
+`FFTA_PPU_COUNTS` checks frames, scanline/zoom calls and invalid interval
+totals. The script rejects missing/duplicate stages, truncated captures,
+nonfinite/inconsistent totals, missing scanlines and unexpected instrumentation
+in normal timing runs. It stores the stages under each profile's `ppu` field
+in `summary.json`. Compare overhead against uninstrumented timing separately;
+do not sum percentiles from different stages as if they describe the same frame.
+
+Capture is scoped and thread-local in `gba_core::ppu_profile`, outside machine
+state and save serialization. Timers read the host clock only while enabled;
+disabled PPU entry points only check whether a capture is active. Completed-frame
+capture is bounded like the existing frame profiler. Incomplete guarded frames
+are discarded. Nested/error/unwinding scopes restore their prior capture;
+worker threads do not inherit it. No GBA cycles/events or GPU timestamps change.
+
+`FFTA_PROFILE=1` also includes these rows in desktop exit reports, with the
+interactive profiler's first-18000-frame limit and omitted-sample counts.
+It still includes startup and has no GUI scene/warm-up selector. Detailed
+scanline internals (tiles/sprites/composition), actual GPU execution timestamps
+and an identified slow enemy-turn replay remain separate work.
 
 ## Interactive CPU phase profile
 
@@ -149,9 +222,40 @@ completed-frame bookkeeping; error exits still release desktop resources.
 ## Remaining work
 
 Collect an identified slow enemy-turn replay and additional zoom/menu/animation
-workloads. Separate PPU from core timing; add actual GPU timestamp queries with
+workloads. Refine PPU timing inside scanline work; add actual GPU timestamp queries with
 asynchronous retrieval only where supported. CPU acquisition/upload/submit
 intervals are already separated by the interactive profile.
 Measure audio callback contention and underruns, presentation cadence and profile
 overhead in controlled native GUI runs. The current profiler supplies CPU wall
 times and comparison guards, not a completed diagnosis of the reported AI lag.
+
+## Panel-bound scan diagnostic
+
+A test-only candidate derives each nonempty row's first and last visible pixel
+instead of accumulating every visible pixel. It retains the current
+`pixel_bounds` inset coordinates, exclusive right/bottom bounds and support for
+a partial final row. Production still uses the full scan: the integrated
+candidate passed equivalence but was slower in two 3000-frame introductory
+comparisons, including one with CPU affinity. No content cache, guest state,
+serialization or translation ABI changes are involved.
+
+Run the reference-equivalence test and optional release microbenchmark serially:
+
+```sh
+cargo test --locked --release -p gba-core row_endpoint_bounds -- --test-threads=1
+cargo test --locked --release -p gba-core benchmark_panel_bounds -- --ignored --nocapture --test-threads=1
+```
+
+The ignored diagnostic compares the previous full scan with the test-only scan for
+empty, dense, sparse and rectangular-panel 480x160 inputs. Each of five
+alternating pairs measures 2000 calls using `black_box`. This measures one
+function on synthetic data; it does not establish whole-game or enemy-turn gains.
+Run without other CPU workloads and report both improvements and regressions.
+
+On Linux, a follow-up A/B run can inherit a single allowed CPU using
+`taskset -c CPU python3 scripts/benchmark_windows_runtime.py ...` (replace
+`CPU` with an allowed CPU number). Record that constraint, keep workload/frame
+count/settings identical between comparisons, and do not compare a short pinned
+replay directly against a longer unrestricted replay. Affinity can reduce
+migration noise but does not eliminate frequency, thermal or background-load
+variation, and it does not establish performance on other machines.

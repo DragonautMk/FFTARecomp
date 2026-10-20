@@ -98,7 +98,8 @@ changing the base image. The earlier direct Ubuntu build remains a separate
 artifact at `dist/FFTARecomp-linux-portable.tar.gz`.
 
 The Linux build compiles the portable runtime and bundled TinyCC, runs the
-input/config and runtime test suites (optional local-ROM tests remain ignored),
+input/config, menu, core, screen and runtime test suites serially (optional
+local-ROM and GPU readback tests remain ignored),
 and packages only after a successful build; failed tests prevent export.
 `.dockerignore` allows only desktop source, assets, docs, licenses and packaging
 inputs. ROMs, saves, savestates, recordings, personal `Data`, build outputs and
@@ -149,6 +150,15 @@ cache bytes/mtime were reused, startup backup copies numbered one then two,
 and per-user config/cache/data files were unchanged. The ROM was preplaced in
 the test folder. Physical controllers and native Wayland interaction were not
 tested. No ROM or test data was copied into the container or exported archive.
+
+The current Linux and Windows Docker recipes also gate export on the core and
+screen suites, using serial tests because display configuration is process-global.
+The first expanded-suite run passed 307 tests on Linux (164 core, 26 input/config,
+33 menu, 44 runtime, 40 screen) and 306 under Wine (164 core, 26 input/config,
+33 menu, 45 runtime, 38 screen). Eight optional tests were ignored per target.
+The ignored panel-bound microbenchmark is a developer diagnostic, not a CI timing
+assertion. GPU readback and local-ROM tests need explicit external fixtures and
+remain separate checks; container success does not establish native GPU behavior.
 
 ### Windows container validation
 

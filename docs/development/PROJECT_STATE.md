@@ -64,6 +64,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Desktop behavior
 
+- Fast audio transitions invalidate callback DSP history as well as queues:
+  host epoch resets DAC/sinc/FIFO/DC/crossfade state under the existing mutex,
+  retaining filter tables and ramping new output through the volume slew.
+  Pause discards pending output while preserving the Fast latch; device loss
+  also discards Normal's temporary backlog. Load/Undo retains stream recreation.
+  Native/Wine synthetic residual/fresh-history regressions pass. This does not
+  retract backend-buffered audio or solve nominal4x consumption when the guest
+  runs slower. Normal backlog limits and hardware/steady-state synchronization
+  remain open. See [Fast audio](../fast_forward_audio.md).
+
 - The observed battle laws table and its HELP window use the existing centered
   Notice layer, including the selector/continuation sprites, independently of
   the action-menu split and any remaining HUD. Recognition checks the frame,

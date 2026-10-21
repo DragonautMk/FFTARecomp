@@ -1318,6 +1318,9 @@ struct AudioStreams {
     muted: bool,
     playback_speed: f64,
     normal_audio: Option<ff_audio::NormalAudio>,
+    /// Producer invalidation also resets callback-owned DSP history. Accessed
+    /// only under the existing stream mutex; not part of guest/save state.
+    epoch: u64,
     /// MP2K HLE shadow-mixer stereo (65536 Hz grid, hardware-rail
     /// units like `psg`). When `hle_on`, the callback substitutes this
     /// for the FIFO A/B channels; reverting mid-session falls straight
@@ -1344,6 +1347,18 @@ struct AudioStreams {
     /// Set by the stream error callback; the play loop's watchdog turns
     /// it into a loud wall-clock fallback plus periodic retry.
     dead: bool,
+}
+
+impl AudioStreams {
+    /// Discard output from a timeline/speed that is no longer being played.
+    fn discard_pending(&mut self) {
+        self.mixed.clear();
+        self.psg.clear();
+        self.hle.clear();
+        self.fifo.iter_mut().for_each(std::collections::VecDeque::clear);
+        self.normal_audio = None;
+        self.epoch = self.epoch.wrapping_add(1);
+    }
 }
 
 /// The premium path's consumer state: one interpolator per Direct Sound
@@ -1526,6 +1541,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
         }
     };
     let vol_k = (1.0 / (0.020 * rate)) as f32;
+    let mut epoch = streams.lock().unwrap().epoch;
     move |out: &mut [T]| {
         let begin = OBSERVE.then(std::time::Instant::now);
         let mut st = streams.lock().unwrap();
@@ -1534,6 +1550,21 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
         let mut source_reads = [audio_profile::SourceReads::default(); 4];
         let playback_speed = st.playback_speed.max(1.0);
         let normal_audio = st.normal_audio.is_some();
+        if epoch != st.epoch {
+            epoch = st.epoch;
+            eng.psg.reset();
+            eng.hle.reset();
+            eng.fifo.iter_mut().for_each(FifoInterp::reset);
+            eng.dc.iter_mut().for_each(DcBlock::reset);
+            eng.xfade = 0.0;
+            faithful_dc.iter_mut().for_each(DcBlock::reset);
+            frac = 0.0;
+            last = (0, 0);
+            mode_x = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
+            // Ramp new audio in through the existing volume slew. No samples
+            // from the abandoned timeline participate in this transition.
+            vol_cur = 0.0;
+        }
         // Liveness signal for the play loop's device watchdog.
         st.consumed += (out.len() / channels.max(1)) as u64;
         for frame in out.chunks_mut(channels) {
@@ -1746,6 +1777,11 @@ struct DcBlock {
 }
 
 impl DcBlock {
+    fn reset(&mut self) {
+        self.x1 = 0.0;
+        self.y1 = 0.0;
+    }
+
     fn new(out_hz: f64) -> DcBlock {
         DcBlock {
             r: 1.0 - (2.0 * std::f64::consts::PI * 10.0 / out_hz) as f32,
@@ -1777,6 +1813,11 @@ struct SincResampler {
 }
 
 impl SincResampler {
+    fn reset(&mut self) {
+        self.hist = [[0.0; SINC_TAPS]; 2];
+        self.frac = 0.0;
+    }
+
     fn new(src_hz: f64, out_hz: f64) -> SincResampler {
         // 10% under the narrower Nyquist leaves the window transition
         // band room.
@@ -1881,6 +1922,15 @@ struct FifoInterp {
 }
 
 impl FifoInterp {
+    fn reset(&mut self) {
+        self.fut.fill(0.0);
+        self.pos = 0;
+        self.y = 0.0;
+        self.level = 0.0;
+        self.t_next = 512.0;
+        self.period = 512.0;
+    }
+
     fn next_with_speed(
         &mut self,
         q: &mut std::collections::VecDeque<(i8, u32)>,
@@ -4019,6 +4069,108 @@ mod tests {
         reference.load_state(&before_load).unwrap();
         assert_eq!(replay(&mut reference),undone_frames);
         assert_eq!(reference.save_state().unwrap(),undone_state);
+    }
+
+    #[test]
+    fn discarded_audio_cannot_survive_in_callback_history() {
+        use std::sync::{Arc, Mutex};
+        // Each audible path has separate history: faithful DAC, PSG/HLE sinc,
+        // FIFO future impulses/integrator, then the per-path DC blockers.
+        for source in ["mixed", "psg", "hle", "fifo", "normal"] {
+            for speed in [1., 2., 4., 8.] {
+                let streams = Arc::new(Mutex::new(AudioStreams {
+                    enhanced_on: source != "mixed" && source != "normal",
+                    hle_on: source == "hle",
+                    route: [3, 3],
+                    playback_speed: speed,
+                    ..Default::default()
+                }));
+                {
+                    let mut st = streams.lock().unwrap();
+                    match source {
+                        "mixed" => st.mixed.extend(vec![8_000; 32_768]),
+                        "psg" => st.psg.extend(vec![0.25; 32_768]),
+                        "hle" => st.hle.extend(vec![0.25; 32_768]),
+                        "fifo" => st.fifo[0].extend(vec![(64, 512); 16_384]),
+                        "normal" => {
+                            let mut queue = ff_audio::NormalAudio::new().unwrap();
+                            queue.push(&vec![8_000; 32_768]).unwrap();
+                            st.normal_audio = Some(queue);
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                let mut callback = output_callback::<f32>(48_000., 2, streams.clone());
+                let mut output = [0.; 1024];
+                callback(&mut output);
+                assert!(output.iter().any(|v| v.abs() > 0.001), "{source}/{speed} not primed");
+                streams.lock().unwrap().discard_pending();
+                callback(&mut output);
+                let peak = output.iter().map(|v| v.abs()).fold(0., f32::max);
+                assert_eq!(peak, 0., "old {source}/{speed} audio survives queue invalidation");
+            }
+        }
+    }
+
+    #[test]
+    fn audio_transition_matches_fresh_history_with_new_samples() {
+        use std::sync::{Arc, Mutex};
+        fn feed(st: &mut AudioStreams, speed: f64, mode: &str) {
+            st.playback_speed = speed;
+            st.enhanced_on = mode == "enhanced" || mode == "hle";
+            st.hle_on = mode == "hle";
+            st.muted = mode == "silent";
+            st.vol_cut = 0.3;
+            st.route = [3, 3];
+            st.vol_half = [true, false];
+            let pcm: Vec<_> = (0..32_768).map(|i| ((i * 137 % 16_000) - 8_000) as i16).collect();
+            if mode == "normal" {
+                let mut queue = ff_audio::NormalAudio::new().unwrap();
+                queue.push(&pcm).unwrap();
+                st.normal_audio = Some(queue);
+            } else if mode != "silent" {
+                st.mixed.extend(&pcm);
+                st.psg.extend(pcm.iter().map(|&s| s as f32 / 32768.));
+                st.hle.extend(pcm.iter().map(|&s| -s as f32 / 32768.));
+                for q in &mut st.fifo {
+                    q.extend((0..16_384).map(|i| ((i % 127 - 64) as i8, 768)));
+                }
+            }
+        }
+        for rate in [44_100., 48_000.] {
+            for observed in [false, true] {
+                let streams = Arc::new(Mutex::new(AudioStreams {
+                    profile: observed.then(crate::audio_profile::Profile::new),
+                    ..Default::default()
+                }));
+                let mut callback = output_callback::<f32>(rate, 2, streams.clone());
+                for (speed, mode) in [(4., "hle"), (2., "enhanced"), (8., "faithful"),
+                    (1., "normal"), (1., "silent"), (1., "enhanced"), (4., "faithful")] {
+                    let fresh = Arc::new(Mutex::new(AudioStreams::default()));
+                    let mut reference = output_callback::<f32>(rate, 2, fresh.clone());
+                    for shared in [&streams, &fresh] {
+                        let mut st = shared.lock().unwrap();
+                        // Also exercise multiple boundaries between callbacks.
+                        st.discard_pending();
+                        st.discard_pending();
+                        feed(&mut st, speed, mode);
+                    }
+                    let mut actual = [0.; 1024];
+                    let mut expected = [0.; 1024];
+                    callback(&mut actual);
+                    reference(&mut expected);
+                    assert_eq!(actual, expected, "{rate}/{observed}/{mode}/{speed}");
+                    if mode == "silent" {
+                        assert!(actual.iter().all(|&s| s == 0.));
+                    } else {
+                        assert!(actual.iter().any(|s| s.abs() > 0.001));
+                    }
+                    let a = streams.lock().unwrap();
+                    let b = fresh.lock().unwrap();
+                    assert_eq!((&a.mixed, &a.psg, &a.hle, &a.fifo), (&b.mixed, &b.psg, &b.hle, &b.fifo));
+                }
+            }
+        }
     }
 
     #[test]

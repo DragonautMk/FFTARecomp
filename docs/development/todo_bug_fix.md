@@ -106,12 +106,17 @@ o alterare la definizione dei contatori. L'uguaglianza numerica non è un requis
 
 ## BUG-03-FAST-AUDIO — Audio fuori sincrono in modalità Fast
 
-**Stato:** da riprodurre distinguendo le modalità.
+**Stato:** caso segnalato precisato (Fast audio, 4×); reset delle transizioni
+corretto, diagnosi della sincronizzazione prolungata ancora aperta.
 **Priorità:** P1. **Complessità:** medio-alta. Collegato a PERF-09/10.
 
 **Evidenza e analisi.** `AvConfig` e il menu Fast forward espongono già
-`silent`, `fast` e `normal`. `set_fast_forward` svuota le code al cambio
-modalità; `fast` imposta `playback_speed` al moltiplicatore selezionato.
+`silent`, `fast` e `normal`. `set_fast_forward` svuotava già le code al cambio
+modalità, ma lasciava attive le memorie dei filtri e l'ultimo campione nel
+callback. La regressione sintetica conferma l'uscita residua a code vuote.
+Il nuovo epoch host invalida anche questi stati; pausa e perdita del device
+scartano inoltre il backlog Normal. Vedi [comportamento e prove](../fast_forward_audio.md).
+`fast` imposta tuttora `playback_speed` al moltiplicatore selezionato.
 Il callback in [main.rs](../../crates/recomp/src/main.rs) lo usa per consumare
 audio, mentre il frontend esegue un gruppo di frame per presentazione.
 
@@ -121,7 +126,14 @@ Se il guest avanza più rapidamente del consumo, il ritardo cresce per
 costruzione. La RAM è limitata, ma il file non ha un limite esplicito di durata
 o dimensione. Questo è distinto da un possibile difetto di `fast`: se il PC
 non sostiene il moltiplicatore richiesto, consumo nominale e produzione reale
-possono divergere. Non abbiamo ancora misurato quale caso spieghi la segnalazione.
+possono divergere. Il caso dell'utente riguarda Fast audio a 4×, non Normal.
+Nella prova locale Linux/CPAL/llvmpipe, Faithful ed Enhanced raggiungono solo
+circa 122–128 INT: tutti i 497/499 callback Fast hanno holds, con zero drop
+del produttore e circa 47% delle richieste PSG/HLE vuote. Il consumo nominale
+supera quindi la produzione; a 1× gli intervalli playing non hanno holds.
+Hold/release, toggle e pausa/ripresa sono stati eseguiti con catture ispezionate.
+Volume zero e scena inattiva non provano la qualità sonora né il ritardo di un
+evento sul dispositivo dell'utente. Il reset non chiude questa seconda causa.
 
 **Soluzione proposta.** Per `fast`, mantenere l'audio vicino alla posizione
 corrente del guest con coda e latenza limitate, correggendo transizioni e
@@ -130,8 +142,9 @@ esplicito «audio 1× ritardato» e definire un limite al backlog. Un'eventuale
 modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
 è una scelta ulteriore, non una proprietà della coda 1×.
 
-- [ ] Identificare se «Fast» indica l'accelerazione del gioco o `FAST AUDIO`;
-  riprodurre a 2×/4×/8× con Faithful/Enhanced, transizioni hold/toggle e un
+- [x] Identificare modalità e velocità della segnalazione: l'utente conferma
+  **Fast audio a 4×**, sospettando riproduzione di audio arretrato.
+- [ ] Riprodurre a 2×/4×/8× con Faithful/Enhanced, transizioni hold/toggle e un
   evento audio-visivo riconoscibile. Misurare ritardo iniziale e sua evoluzione.
 - [ ] Riutilizzare i profili audio/cadenza esistenti: correlare frame guest,
   consumo, riempimento, holds/drops e tempo dei callback; tenere distinti
@@ -144,9 +157,13 @@ modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
   limite, per esempio salto controllato verso l'audio recente con breve fade;
   aggiornare nome/descrizione e rimuovere il backlog quando non serve.
   Spostare eventuale I/O bloccante fuori dal callback se quel percorso cambia.
-- [ ] Verificare il reset dello stato degli interpolatori oltre allo svuotamento
-  delle code: ingresso/uscita Fast, cambio moltiplicatore/modalità, pausa,
-  load/Undo e riconnessione device non devono riprodurre campioni vecchi.
+- [x] **BUG-03-TRANSITION-RESET:** invalidare anche DAC, interpolatori, filtri e
+  crossfade all'ingresso/uscita Fast e al cambio moltiplicatore/modalità;
+  svuotare l'audio in pausa e alla perdita del device. Load/Undo conserva la
+  ricreazione dello stream. Regressioni su uscita residua e nuovi campioni
+  confrontati con un callback appena inizializzato, native e Windows/Wine.
+- [ ] Completare ascolto e misure sul dispositivo: hold/toggle, pausa, load/Undo
+  e riconnessione fisica; il reset host non ritira i campioni già nel backend.
 - [ ] Testare sinteticamente consumo, limite del backlog e transizioni; poi
   verificare su Windows con audio reale. Fissare prima del confronto una soglia
   di latenza coerente con il buffer del device e controllare che non cresca

@@ -1876,13 +1876,13 @@ impl PlayApp {
         self.ff_audio_active = self.av.ff_audio.clone();
         {
             let mut st = self.streams.lock().unwrap();
+            st.discard_pending();
             st.muted = on && self.av.ff_audio == "silent";
             st.playback_speed = if on && self.av.ff_audio == "fast" {
                 speed as f64
             } else {
                 1.0
             };
-            st.normal_audio = None;
             if on && self.av.ff_audio == "normal" {
                 match super::ff_audio::NormalAudio::new() {
                     Ok(queue) => st.normal_audio = Some(queue),
@@ -1894,11 +1894,6 @@ impl PlayApp {
                     }
                 }
             }
-            st.mixed.clear();
-            st.psg.clear();
-            st.hle.clear();
-            st.fifo[0].clear();
-            st.fifo[1].clear();
             st.drops = 0;
             st.holds = 0;
             st.clipped = 0;
@@ -2211,15 +2206,9 @@ impl PlayApp {
                 );
                 self.stream = None;
                 self.profile.presentation_boundary();
-                {
-                    let mut st = self.streams.lock().unwrap();
-                    st.dead = false;
-                    st.mixed.clear();
-                    st.psg.clear();
-                    st.hle.clear();
-                    st.fifo[0].clear();
-                    st.fifo[1].clear();
-                }
+                self.streams.lock().unwrap().dead = false;
+                // Recreate even Normal's backlog from the current timeline.
+                self.set_fast_forward(self.ff_active, self.ff_speed);
                 self.audio_stalls = 0;
                 self.audio_retry = Some(Instant::now());
                 self.next_frame = Instant::now();
@@ -2472,6 +2461,9 @@ impl ApplicationHandler for PlayApp {
             self.fps.reset(Instant::now());
             self.profile.presentation_boundary();
             if self.paused {
+                // End the current audio timeline immediately. Keep the user's
+                // Fast latch; the effective speed is resolved again on resume.
+                self.set_fast_forward(false, 1);
                 self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
                 self.menu.reset();
                 self.refresh_state_slots();

@@ -6,34 +6,54 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Latest request: begin resolving the TODO, starting with the broken battle
-  laws display; remove the example screenshot from commit history afterwards.
+- Latest request: continue resolving the desktop TODO. User clarified the audio
+  report as **Fast audio at4x**, suspecting stale queued output.
+- Selected **BUG-03-TRANSITION-RESET — complete / retained**. Queues already
+  cleared on Fast transitions, but callback-owned DAC/filter history survived.
+  The new host epoch invalidates that history without rebuilding tables; pause
+  discards output while preserving the Fast latch, and device loss also discards
+  Normal backlog. Load/Undo retains stream recreation. Guest state is unchanged.
+- Evidence: [record](../changes/2026-10-21-reset-fast-audio-consumer-history.json),
+  [behavior and limits](../fast_forward_audio.md). Before-fix synthetic residual
+  peak0.19975911; after-fix20source/speed cases and28fresh-callback comparisons
+  pass. Native68runtime/4ignored plus the added transition test pass; final
+  Windows/Wine70runtime/4ignored pass. Native candidate builds; canonical binary
+  restored by hash. Portable exports and AndroidPort unchanged.
+- Actual Linux CPAL44.1kHz/Xvfb/llvmpipe idle-battle checks pass Faithful/Enhanced
+  hold/release/toggle/pause/resume/WM-close, inspected captures and unchanged slot
+  bytes. Volume0: callback/lifecycle evidence, not audible-quality validation.
+  Old launcher helper assertion failed only after Faithful exited0; result was
+  retained, helper fixed, only previously unrun Enhanced executed. Initial ALSA
+  sysroot and Wine sandbox setup failures are documented, not runtime failures.
+- **BUG-03-FAST-AUDIO remains partial.** Sustained nominal4x consumption exceeds
+  local guest production: captures INT121.7/128.2 and EXT30.4/32.1;497/499Fast
+  callbacks all hold, ~47%PSG/HLE requests empty, zero producer drops/over-period
+  callbacks. Enhanced configured targets are affected too. Normal-playing
+  intervals207/205callbacks have zero holds. This is separate from stale history
+  and does not establish the user's hardware latency or an audio-event offset.
+- Next open unit: **BUG-03-EFFECTIVE-RATE** — design and verify smoothed consumption
+  against actual production/queue level when requested4x cannot be sustained,
+  with explicit limits and suitable resampler cutoff; do not alter guest timing.
+  Reuse this measured case and existing diagnostics. Normal backlog bound,
+  native Windows audio and wider2x/8x/event coverage remain open; then BUG-02-FPS.
+- No process live. Local artifacts: `target/fast-audio-reset/` (regression/build/
+  native/Wine logs, candidate and restored-binary hashes, isolated GUI inputs,
+  captures, `analysis.json`). Test/build handles24498/45705/6631/23587/24241/
+  49418/96366/30121 are terminal. No commit, push or package update.
+
+Previous requested first fix and history cleanup remain closed:
 - **BUG-01-LAWS — implemented / verified for the observed layout.** Frame-based
-  laws recognition and serde-skipped host subtype keep the table, HELP and both
-  indicators in the centered modal. Native183core/67runtime and Wine183core
-  suites pass, plus final native/Wine laws+snapshot-byte regressions. All72 EUR
-  snapshot reconstructions and24 synthetic GPU/CPU modal cases are exact.
-  Linux bounded GUI and inspected Windows/Wine normal-play load/WM-close pass.
-- Evidence: [fix record](../changes/2026-10-21-fix-battle-laws-modal.json),
-  [feature coverage/limits](../ffta_laws_layout.md). Local artifacts:
-  `target/laws-fix/`; canonical Linux binary restored, candidate builds kept
-  separately. Portable exports unchanged. Additional manual/platform cases in
-  the checklist stay open, not reasons to repeat completed checks.
-- **BUG-01-IMAGE-HISTORY — complete / remote verified.** Rewrote only the
-  image-bearing trees: c890cf0 -> 6eaecd5 and e262699 -> e459c65. All other tree
-  bytes and original authors/dates/messages preserved. Exact-lease push succeeded;
-  remote `ls-remote` confirms e459c65. No branch/tag history contains the image.
-  Local ignored recovery bundle and app-owned tree checkpoints are not published
-  branch history. Current TODO no longer links the removed file.
-- Missing deliverable: none for the requested first rendering fix/history cleanup.
-  Other five TODO areas remain unimplemented; no runtime performance task resumed.
-- No process live. Failed Windows bounded benchmark601/600 and early harness
-  mistakes are documented separately from successful final normal-play checks.
-- Next remaining checklist work: BUG-03-FAST-AUDIO diagnosis, then BUG-02-FPS;
-  native Windows/other-layout laws coverage stays explicit in the checklist.
-- Prior planning evidence: [record](../changes/2026-10-21-plan-bugfix-checklist.json).
-- The performance work below remains partial and is retained as a future queue;
-  it is not selected by the current laws-display request.
+  laws recognition keeps the table, HELP and indicators in the centered modal.
+  Native183core/67runtime, Wine183core,72EUR reconstructions,24synthetic GPU/CPU
+  cases and inspected Linux/Windows-Wine frontend checks pass. Wider coverage
+  stays explicit in the [feature doc](../ffta_laws_layout.md) and TODO.
+  [Record](../changes/2026-10-21-fix-battle-laws-modal.json); local `target/laws-fix/`.
+- **BUG-01-IMAGE-HISTORY — complete / remote verified.** Image-bearing trees
+  c890cf0->6eaecd5 and e262699->e459c65 rewritten with all other tree bytes and
+  metadata preserved. Exact-lease push and remote tip verified; no branch/tag
+  history contains the image. Local recovery checkpoints are not branch history.
+- Pending performance work below remains unselected; no completed or rejected
+  performance unit was reopened for this bug-fix request.
 
 ## Pending performance context (not selected by the current request)
 

@@ -6,17 +6,21 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Latest request: prevent repeating resolved tasks after context compaction.
-- Selected ID: **WORKFLOW-RESUME-CHECKPOINT — complete / verified**.
-- Existing implementation: AGENTS and all three local skills require reading
-  this handoff, reconciling current intent, checking terminal evidence and
-  recording a concrete reason before reopening completed/rejected work.
-- Validation: all three skill validators pass. Existing integration test log
-  ends successfully (runtime67 passed/4ignored); no build or benchmark restarted.
-- Missing deliverable: none for this workflow request. No next execution action.
-- Evidence: [workflow record](../changes/2026-10-21-require-resume-selection-checkpoint.json).
+- Latest request: turn `todo_bug_fix.md` into an analyzed TODO checklist with
+  proposed solutions for later development; documentation only.
+- Selected ID: **DOC-BUGFIX-CHECKLIST — complete / documentation verified**.
+- Outcome: [Italian checklist](todo_bug_fix.md) preserves all six requests,
+  with 39 pending steps, code/image evidence, proposed solutions, priorities,
+  dependencies and closure criteria. Existing F11, FPS semantics and Fast audio
+  modes are distinguished from missing work; overlay data/prediction need study.
+- Validation: supplied image and relevant source/docs inspected; six unique
+  task IDs, six closure criteria and all 17 local links checked. No runtime
+  code, builds, benchmarks or fixtures changed.
+- Missing deliverable: none for this planning request. No execution selected;
+  future work follows the checklist priorities when implementation is requested.
+- Evidence: [planning record](../changes/2026-10-21-plan-bugfix-checklist.json).
 - The performance work below remains partial and is retained as a future queue;
-  it is not the current instruction for this workflow-only request.
+  it is not the current instruction for this documentation-only request.
 
 ## Pending performance context (not selected by the current request)
 

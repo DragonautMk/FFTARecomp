@@ -166,6 +166,30 @@ Documentation: [2026-10-21-order-timer-audio-events.json](docs/changes/2026-10-2
 
 [Change record](docs/changes/2026-10-21-preserve-native-event-boundaries.json)
 
+## 2026-10-21 — Turn desktop bug notes into an analyzed implementation checklist
+
+Type: docs. Platforms: Desktop, Windows validation priority.
+
+**Changes**
+
+- Replace the six original bug/feature notes with an Italian checklist covering battle laws layout, INT/EXT FPS differences, Fast audio synchronization, Audio mute, menu fullscreen and a tactical overlay with turn-order preview.
+- Add source/image evidence, explicit hypotheses, priorities, dependencies, 39 pending steps and six closure criteria. Reuse completed performance diagnostics and distinguish existing F11, FPS and audio behavior from future implementation.
+- Close the documentation selection in the task handoff while preserving pending performance integration and all previous terminal outcomes. No runtime development is selected by this planning-only request.
+
+**Validation**
+
+- Inspected image01.png and current menu, input configuration, PPU panel classification, UI layers, FPS, fast-forward pacing, audio callback/backlog and regional ROM profiles; no runtime reproduction is claimed.
+- A documentation check verified six unique task IDs in the original request order, six closure criteria, 39 unchecked future steps and all 17 local links. The documentation diff passed git diff --check.
+
+**Limitations**
+
+- Documentation only: no bug fix, feature, runtime test, build or benchmark was executed. Screenshot settings and the reported FPS/audio reproduction cases remain unknown; tactical data structures and scheduler rules require verification before implementation.
+- Long-press behavior, fullscreen persistence and bounded normal-audio backlog policy are proposals for later development, not implemented product behavior. AndroidPort is unchanged.
+
+Documentation: [todo_bug_fix.md](docs/development/todo_bug_fix.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [fps_overlay.md](docs/fps_overlay.md).
+
+[Change record](docs/changes/2026-10-21-plan-bugfix-checklist.json)
+
 ## 2026-10-21 — Service timer and audio events chronologically across native tick batches
 
 Type: fixed. Platforms: Linux desktop, Windows GNU / Wine.

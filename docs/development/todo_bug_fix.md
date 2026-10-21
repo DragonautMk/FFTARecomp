@@ -1,7 +1,310 @@
-law screen in battle are messy, see image01.png
-perché il framerate interno differenzia molto da quello esterno?
-in modalità fast l'audio non si sincronizza
-aggiungere funzione mute in audio.
-aggiungere modalità fullscren on e off dal menu video.
-feature:
-premendo quadrato si può vedere una overlay che mostra legge, numero turni, missione e ordine turni. Tenendo premuto quadrato l'overlay diventa fissa, e prima di confermare un'azione mostra la modifica all'ordine dei turni se ce ne sono.
+# TODO — Bug fix e funzionalità desktop
+
+Analisi del 21 ottobre 2026, basata sul codice corrente e su
+[image01.png](image01.png). Questo documento trasforma le sei segnalazioni
+originali in attività da sviluppare successivamente. Le caselle riguardano
+il lavoro futuro: l'ispezione dei sorgenti non equivale a una riproduzione
+del bug o a una validazione del runtime.
+
+Ambito: workspace desktop, con priorità di verifica su Windows.
+`AndroidPort/` è un albero separato. Per riprendere lo sviluppo consultare
+[TASK_HANDOFF.md](TASK_HANDOFF.md): riutilizzare le verifiche già concluse nel
+[PERFORMANCE_TODO.md](PERFORMANCE_TODO.md), senza riaprire esperimenti scartati.
+
+Ordine proposto: diagnosi di **BUG-01-LAWS**, **BUG-03-FAST-AUDIO** e
+**BUG-02-FPS** (P1); **FEAT-01-MUTE** e **FEAT-02-FULLSCREEN** (P2);
+**FEAT-03-TACTICAL-OVERLAY** (P3, prima dati e visualizzazione, poi previsione).
+Le priorità indicano l'ordine di lavoro suggerito, non una gravità già misurata.
+
+## BUG-01-LAWS — Schermata delle leggi in battaglia
+
+**Stato:** da riprodurre. **Priorità:** P1. **Complessità:** media.
+
+**Evidenza e analisi.** Nell'immagine il testo «Pena per colpo riuscito con:»
+e la riga «Cavalleria» sono nel pannello sinistro, mentre a destra compare
+un riquadro vuoto separato; intestazione e contenuti risultano tagliati.
+Il ritratto e le statistiche restano visibili in basso. Non conosciamo ancora
+ROM/build, zoom, rapporto d'aspetto e impostazioni Text Bubbles della cattura.
+
+Il rendering distingue `Stats`, `Actions` e `Notice`, ma non ha una categoria
+dedicata alle leggi. In [ppu.rs](../../crates/gba-core/src/ppu.rs),
+`begin_dialogue_frame` riconosce i pannelli e `notice_bounds` richiede una
+specifica firma grafica; il percorso azioni può usare il taglio di ripiego
+a X=160. Una classificazione errata o un rettangolo incompleto sono ipotesi
+plausibili, da verificare. Le correzioni già descritte per
+[Notice](../ffta_notice_layout.md) e [menu azioni](../ffta_action_frame_width.md)
+non dimostrano che questa schermata sia coperta.
+
+**Soluzione proposta.** Individuare il pannello completo della schermata leggi
+e assegnare testo, cornice, sfondo e cursore allo stesso livello UI. Riutilizzare
+`Notice` solo se le sue regole coincidono; altrimenti introdurre un profilo
+dedicato, vincolato a ROM e scena verificate. Conservare il comportamento
+precedente nelle scene non riconosciute, senza estendere indiscriminatamente
+il riconoscimento delle finestre.
+
+- [ ] Riprodurre apertura, cambio legge/pagina e chiusura; annotare versione,
+  lingua, impostazioni e passaggi. Confrontare 3:2 senza espansione, widescreen
+  e `FFTA_UI_LAYER=0/1` su avvii distinti. Conservare eventuali snapshot solo
+  nello spazio locale ignorato da Git.
+- [ ] Ispezionare BG, finestre hardware, sprite e `PanelKind` della scena;
+  distinguere un errore di estrazione da uno di posizionamento o clipping.
+- [ ] Correggere il riconoscimento/ritaglio in `ppu.rs` e, se necessario,
+  [ffta_dialogue.rs](../../crates/gba-core/src/ffta_dialogue.rs),
+  [ui_pixels.rs](../../crates/recomp/src/ui_pixels.rs) e il layout in
+  [play.rs](../../crates/recomp/src/play.rs). Conservare la semantica dei
+  pannelli modali anche nel controllo mouse.
+- [ ] Aggiungere una regressione sintetica con testo/cornice su entrambi i
+  lati del vecchio taglio; verificare ricomposizione nativa, OAM/framebuffer
+  guest invariati e parità GPU/software del nuovo caso.
+- [ ] Verificare 3:2, 16:9 e ultrawide, zoom minimo/predefinito/massimo,
+  Size/Length e resize; controllare anche azioni, Notice, statistiche e
+  load/Undo. Segnalare separatamente regioni o lingue non provate.
+
+**Criterio di chiusura:** schermata leggibile e completa, senza frammenti,
+duplicazioni o pannelli vuoti introdotti dalla separazione UI; nessuna
+regressione negli altri pannelli. Allegare confronto visivo prima/dopo.
+
+## BUG-02-FPS — Differenza tra framerate interno ed esterno
+
+**Stato:** comportamento da classificare, non ancora bug confermato.
+**Priorità:** P1 per la diagnosi. **Complessità:** bassa per l'analisi;
+eventuali modifiche al pacing richiedono misure dedicate.
+
+**Evidenza e analisi.** [fps.rs](../../crates/recomp/src/fps.rs) conta i frame
+guest completati (**INT**) e le presentazioni host riuscite (**EXT**) sul tempo
+reale. EXT non misura il refresh fisico del monitor. Il ciclo in `play.rs`
+può simulare più frame prima di presentarne uno: in fast-forward la differenza
+è quindi prevista. A 4×, se il carico lo consente, circa 239 INT e 60 EXT
+sono coerenti; non sono una misura ottenuta in questa analisi. Anche pacing
+audio a blocchi e presentazioni saltate possono separare i due contatori.
+
+La cattura allegata mostra **59,7 INT / 59,7 EXT**: documenta il difetto grafico,
+non la divergenza segnalata. Esistono già test del contatore,
+[documentazione FPS](../fps_overlay.md) e diagnostica di cadenza completata in
+`PERF-10-PRESENTATION-CADENCE`. Il pacing `clock` è già predefinito su
+Linux/Windows; non va proposto come funzionalità mancante.
+
+**Soluzione proposta.** Rendere comprensibili le due misure e correggere solo
+un'eventuale differenza inattesa a velocità normale, dopo averne individuato
+la causa. Non forzare INT ed EXT a coincidere e non legare il clock GBA al monitor.
+
+- [ ] Raccogliere il caso preciso: valori, durata, scena, Fast on/off e
+  moltiplicatore, VSync, refresh, backend GPU/audio, finestra visibile o ridotta.
+- [ ] Riutilizzare `FFTA_PROFILE=1` e l'eventuale finestra
+  `FFTA_PRESENT_PROFILE_FRAMES=START:END` per distinguere frame multipli,
+  attese, carico e presentazioni saltate; usare i risultati esistenti come
+  riferimento, senza ripetere l'intera matrice PERF-10.
+- [ ] Aggiungere una spiegazione accessibile da Video > FPS counter:
+  «INT: simulazione; EXT: presentazioni; in Fast possono differire».
+- [ ] Se il caso a 1× è anomalo, collegare la correzione al criterio ancora
+  aperto di PERF-02/04/10 e aggiungere una regressione mirata. Se è previsto,
+  chiudere la segnalazione con spiegazione e prova del caso osservato.
+- [ ] Verificare contatori dopo pausa/ripresa, Fast e presentazioni saltate;
+  confrontare la cadenza con/senza VSync sul dispositivo interessato.
+
+**Criterio di chiusura:** ogni divergenza riprodotta ha una spiegazione
+misurabile; quelle patologiche sono corrette senza rallentare la simulazione
+o alterare la definizione dei contatori. L'uguaglianza numerica non è un requisito.
+
+## BUG-03-FAST-AUDIO — Audio fuori sincrono in modalità Fast
+
+**Stato:** da riprodurre distinguendo le modalità.
+**Priorità:** P1. **Complessità:** medio-alta. Collegato a PERF-09/10.
+
+**Evidenza e analisi.** `AvConfig` e il menu Fast forward espongono già
+`silent`, `fast` e `normal`. `set_fast_forward` svuota le code al cambio
+modalità; `fast` imposta `playback_speed` al moltiplicatore selezionato.
+Il callback in [main.rs](../../crates/recomp/src/main.rs) lo usa per consumare
+audio, mentre il frontend esegue un gruppo di frame per presentazione.
+
+`normal` usa invece [NormalAudio](../../crates/recomp/src/ff_audio.rs): riproduce
+a 1× il PCM prodotto dal gioco accelerato, conservandolo in un file temporaneo.
+Se il guest avanza più rapidamente del consumo, il ritardo cresce per
+costruzione. La RAM è limitata, ma il file non ha un limite esplicito di durata
+o dimensione. Questo è distinto da un possibile difetto di `fast`: se il PC
+non sostiene il moltiplicatore richiesto, consumo nominale e produzione reale
+possono divergere. Non abbiamo ancora misurato quale caso spieghi la segnalazione.
+
+**Soluzione proposta.** Per `fast`, mantenere l'audio vicino alla posizione
+corrente del guest con coda e latenza limitate, correggendo transizioni e
+controllo del consumo solo sulla base delle misure. Per `normal`, rendere
+esplicito «audio 1× ritardato» e definire un limite al backlog. Un'eventuale
+modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
+è una scelta ulteriore, non una proprietà della coda 1×.
+
+- [ ] Identificare se «Fast» indica l'accelerazione del gioco o `FAST AUDIO`;
+  riprodurre a 2×/4×/8× con Faithful/Enhanced, transizioni hold/toggle e un
+  evento audio-visivo riconoscibile. Misurare ritardo iniziale e sua evoluzione.
+- [ ] Riutilizzare i profili audio/cadenza esistenti: correlare frame guest,
+  consumo, riempimento, holds/drops e tempo dei callback; tenere distinti
+  priming, pausa e Fast. Non usare un benchmark senza callback come prova sonora.
+- [ ] Se `fast` va in starvation quando la velocità richiesta non è raggiunta,
+  progettare un controllo smussato su produzione effettiva e livello della
+  coda, con limiti espliciti; evitare variazioni brusche del pitch e modifiche
+  al tempo guest per inseguire l'audio.
+- [ ] Stabilire per `normal` un budget in secondi/byte e il comportamento al
+  limite, per esempio salto controllato verso l'audio recente con breve fade;
+  aggiornare nome/descrizione e rimuovere il backlog quando non serve.
+  Spostare eventuale I/O bloccante fuori dal callback se quel percorso cambia.
+- [ ] Verificare il reset dello stato degli interpolatori oltre allo svuotamento
+  delle code: ingresso/uscita Fast, cambio moltiplicatore/modalità, pausa,
+  load/Undo e riconnessione device non devono riprodurre campioni vecchi.
+- [ ] Testare sinteticamente consumo, limite del backlog e transizioni; poi
+  verificare su Windows con audio reale. Fissare prima del confronto una soglia
+  di latenza coerente con il buffer del device e controllare che non cresca
+  durante una sessione prolungata; verificare stabilità di memoria e file.
+
+**Criterio di chiusura:** `fast` non accumula deriva rispetto al video nel caso
+riprodotto, e il ritorno a 1× non trascina audio arretrato. `normal` ha ritardo
+dichiarato e limitato; `silent` resta silenzioso. Nessun cambio al mix guest,
+alla serializzazione o ai timer è giustificato dalla sola segnalazione.
+
+## FEAT-01-MUTE — Comando Mute nel menu Audio
+
+**Stato:** da implementare. **Priorità:** P2. **Complessità:** bassa.
+Coordinare il comportamento con BUG-03-FAST-AUDIO.
+
+**Evidenza e analisi.** Il menu Audio contiene Volume e modalità audio.
+`audio_volume = 0` silenzia l'uscita, ma manca un interruttore che conservi il
+volume scelto. `AudioStreams::muted` è già usato da Fast silent e dagli errori
+del backlog; riutilizzarlo come unico stato utente perderebbe il mute durante
+le transizioni. Il callback dispone già di una rampa del volume di circa 20 ms.
+
+**Soluzione proposta.** Aggiungere `Audio > Mute: On/Off` e un booleano
+persistente `audio.mute`, predefinito Off. Separare il mute utente dalle cause
+temporanee; applicare l'unione delle cause all'uscita finale, conservando
+`audio_volume` e continuando a consumare i campioni.
+
+- [ ] Estendere [AvConfig](../../crates/input-config/src/lib.rs): default,
+  parsing, serializzazione e compatibilità dei vecchi `av.cfg`; usare la
+  risoluzione esistente dei percorsi installed/portable.
+- [ ] Aggiungere riga, valore e gestione mouse/tastiera/gamepad in
+  [menu](../../crates/menu/src/lib.rs); applicare il cambiamento dal frontend.
+- [ ] Separare stato persistente e mute temporaneo in `AudioStreams` e
+  `apply_av_change`; utilizzare la rampa esistente senza fermare stream,
+  consumo o pacing. Disattivare Mute non deve annullare Fast silent o un errore.
+- [ ] Testare persistenza, mute/unmute al volume precedente, cambio volume
+  mentre Mute è attivo, Faithful/Enhanced, Fast e assenza di backlog al ritorno.
+
+**Criterio di chiusura:** mute accessibile dal menu e persistente; nessun suono
+dopo la rampa, nessun salto di volume al ripristino, contatori e velocità di
+gioco invariati. Volume 0 resta distinto da Mute On.
+
+## FEAT-02-FULLSCREEN — Fullscreen On/Off nel menu Video
+
+**Stato:** scorciatoia già presente; integrazione nel menu da implementare.
+**Priorità:** P2. **Complessità:** bassa-media.
+
+**Evidenza e analisi.** `play.rs` gestisce già F11 con
+`Fullscreen::Borderless(None)` e ritorno alla finestra. `VIDEO_ROWS` e
+`AvConfig` non espongono Fullscreen. Resize, DPI, cursore e recupero della
+superficie hanno percorsi esistenti da riutilizzare; fullscreen esclusivo
+non è necessario per questa richiesta.
+
+**Soluzione proposta.** Esporre `Video > Fullscreen: On/Off` tramite un'unica
+operazione condivisa con F11. Proposta di persistenza: `video.fullscreen`,
+predefinito Off per le configurazioni esistenti, applicato alla creazione
+della finestra. Sincronizzare la voce con lo stato effettivo della finestra.
+
+- [ ] Aggiungere impostazione e riga del menu; verificare navigazione e
+  scorrimento dopo l'aumento delle voci Video.
+- [ ] Centralizzare F11 e menu nello stesso setter, evitando auto-repeat e
+  doppi toggle; gestire anche cambiamenti di stato richiesti dal sistema.
+- [ ] Conservare/ripristinare geometria windowed e stato massimizzato;
+  mantenere posizione valida se il monitor precedente non è disponibile.
+- [ ] Riutilizzare resize/DPI/cursore/presenter esistenti; non ricreare la
+  macchina guest né cambiare aspect, zoom o velocità di emulazione.
+- [ ] Verificare menu con tastiera/gamepad, F11 durante il menu, riavvio,
+  Alt-Tab, minimize/restore, VSync e ritorno windowed su Windows. Riutilizzare
+  le prove PERF-04 già concluse e aggiungere solo i casi fullscreen mancanti;
+  distinguere prove Wine da Windows nativo.
+
+**Criterio di chiusura:** menu, F11 e finestra concordano sullo stato, si può
+entrare/uscire senza riavviare il gioco e senza perdere geometria, focus o
+contenuti; la preferenza viene ripristinata al successivo avvio.
+
+## FEAT-03-TACTICAL-OVERLAY — Riepilogo battaglia e previsione turni
+
+**Stato:** da progettare; fonti dei dati ancora da verificare.
+**Priorità:** P3. **Complessità:** alta, soprattutto per la previsione.
+
+**Richiesta preservata.** Quadrato mostra leggi, numero di turni, missione e
+ordine dei turni; la pressione prolungata rende l'overlay fisso. Prima della
+conferma di un'azione l'overlay fisso mostra eventuali modifiche all'ordine.
+
+**Evidenza e analisi.** Il progetto ha binding host, livelli UI e profili ROM
+EUR/USA, ma nei percorsi ispezionati non emerge un lettore verificato che
+esponga insieme questi dati o un predittore dell'ordine. La schermata leggi
+può aiutare a confrontare i valori, ma i pixel non sono una fonte strutturata.
+Il token fisico da valutare per Quadrato è `West` (posizione X su Xbox);
+l'attuale UI dei binding usa etichette Xbox. Serve anche un binding tastiera
+e va gestito il conflitto con rimappature già salvate.
+
+**Soluzione proposta, prima fase: dati e overlay consultivo.** Introdurre un
+lettore tipizzato e in sola lettura dello stato di battaglia, abilitato per
+profili ROM verificati. Esporre al frontend uno snapshot coerente con validità
+e provenienza dei dati; renderizzarlo su un livello host indipendente dallo
+zoom. Non dedurre indirizzi EUR/USA per semplice analogia.
+
+- [ ] Identificare e verificare leggi attive, missione/obiettivo, unità,
+  contatore di turno e dati dello scheduler; definire che cosa conta come
+  «turno» rispetto alle attivazioni individuali. Confrontare con schermate e
+  sequenze reali; mostrare «non disponibile» per dati non verificati.
+- [ ] Progettare il lettore vicino a
+  [ffta_rom.rs](../../crates/gba-core/src/ffta_rom.rs) e ai moduli battaglia,
+  con controlli di limiti, identità e fase; aggiornare a fine frame/evento
+  senza scrivere nella RAM guest o modificare RNG, input e clock.
+- [ ] Aggiungere un'azione host rimappabile in Input, con Quadrato/`West` come
+  proposta iniziale; risolvere i conflitti senza sovrascrivere i binding GBA.
+  Verificare XInput, DirectInput e Gilrs e rendere comprensibile l'etichetta
+  per un controller PlayStation.
+- [ ] Implementare una macchina a stati per la pressione. Proposta da validare:
+  visibile alla pressione, nascosto al rilascio breve; tenere premuto almeno
+  400 ms lo fissa anche dopo il rilascio; una nuova pressione breve lo chiude.
+  Usare tempo reale, così Fast non modifica la soglia; ignorare auto-repeat.
+- [ ] Disegnare leggi, missione, turno e ordine corrente in un pannello
+  leggibile che non copra conferme e informazioni essenziali. Riutilizzare
+  [ui_layer](../../crates/screen/src/ui_layer.rs) e la composizione software.
+  Gestire resize, DPI, fullscreen e testo lungo; mostrare lo stato «fisso».
+- [ ] Nascondere durante i menu host e fuori battaglia; su perdita focus,
+  disconnessione pad, load/Undo, cambio ROM o fine battaglia azzerare pressioni
+  e dati obsoleti. Ricalcolare solo da una scena valida prima di riapparire.
+
+**Soluzione proposta, seconda fase: previsione prima della conferma.**
+Prima verificare come il gioco determina l'ordine e quali azioni lo cambiano.
+Preferire dati di previsione già preparati dal guest, se esistono; altrimenti
+estrarre una funzione pura su uno snapshot. Non eseguire azioni speculative
+sulla macchina attiva e non consumare RNG per costruire l'anteprima.
+
+- [ ] Individuare selezione azione/bersaglio, fase di conferma e regole reali
+  dello scheduler, inclusi spareggi ed effetti di stato; delimitare le azioni
+  per cui una previsione deterministica è possibile.
+- [ ] Calcolare ordine corrente e previsto su dati immutabili; evidenziare
+  solo gli spostamenti quando l'overlay è fisso. Per esiti casuali o dati
+  insufficienti indicare previsione condizionale/non disponibile, senza
+  presentare un ordine ipotizzato come certo.
+- [ ] Aggiornare l'anteprima al cambio di azione/bersaglio e rimuoverla su
+  annullamento; dopo la conferma sostituirla con il nuovo stato autorevole.
+- [ ] Confrontare previsione e ordine osservato per azioni che lo lasciano
+  invariato e che lo modificano, unità rimosse e stati rilevanti; aggiungere
+  regressioni dopo aver verificato le regole, non prima.
+- [ ] Confrontare replay overlay acceso/spento: stesso stato guest, RNG,
+  frame nativi e audio deterministico a parità di input GBA; misurare il costo
+  della lettura/renderizzazione e verificare che la pressione non confermi
+  contemporaneamente un'azione di gioco.
+
+**Criterio di chiusura:** prima fase utilizzabile e verificata separatamente;
+la funzionalità completa si chiude solo con anteprima attendibile nei casi
+supportati, limiti visibili e nessun effetto dell'overlay sull'esecuzione guest.
+La correzione BUG-01 aiuta il confronto delle leggi, ma non sostituisce la
+verifica delle strutture dati e dello scheduler.
+
+## Consegna di ciascuna attività futura
+
+- [ ] Registrare nel handoff l'ID selezionato, ciò che è già concluso e il
+  criterio mancante; chiudere ogni sottofase senza riaprirla al successivo resume.
+- [ ] Eseguire verifiche mirate al cambiamento; suite core in serie quando
+  condividono globali. Annotare separatamente Windows nativo, Wine e Linux.
+- [ ] Aggiornare documentazione pertinente e record in `docs/changes/`,
+  rigenerare `CHANGELOG.md` ed eseguire `python3 scripts/project_memory.py check`.
+  Conservare ROM, salvataggi e registrazioni fuori da commit e pacchetti.

@@ -121,8 +121,8 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
-    ("rom-data", "recomp rom-data <extract|verify> <rom> <dataset-directory>", &[],
-     "Extract or verify source-authenticated decoded OBJ dimension metadata for exact FFTA EUR/USA images. Output is private local data; runtime startup is not connected yet."),
+    ("rom-data", "recomp rom-data <extract|verify> <rom> <dataset-directory> | prepare <rom> [resources-root]", &[],
+     "Extract, verify or prepare source-authenticated decoded OBJ dimensions for exact FFTA EUR/USA images. Managed preparation reuses or repairs versioned application data. Direct runtime consumption is not connected yet."),
     ("controllers", "recomp controllers [--poll]", &["--poll    sample each DirectInput controller"], "List detected gilrs and Windows DirectInput controllers without loading a ROM."),
     ("build", "recomp build <rom> [--ram] [--bios file] [--labels file] [--gamedb file]", &[
         "--ram    profile a short interpreter run first, translating the RAM-resident \
@@ -138,6 +138,7 @@ image's sha256) instead of label files; mutually exclusive with --labels",
 Emits C11 in bounded chunks and compiles them with cc. Label files (<rom>.labels \
 or the recorder's accumulator) contribute extra entry-point seeds automatically."),
     ("play", "recomp play <rom> [--interp] [--stats] [--status] [--record-labels] [--bios file] [--no-bios] [--benchmark config.toml]", &[
+        "--rom-data        opt-in preparation/reuse of decoded game data before boot (developer validation; direct runtime consumption is pending)",
         "--benchmark FILE   developer-only bounded GUI replay (TOML config; no cartridge writes)",
         "--interp           force the interpreter (skip/ignore native translation)",
         "--stats            print performance readouts (frame time, native vs fallback)",

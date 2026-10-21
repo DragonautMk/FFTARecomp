@@ -122,10 +122,13 @@ as the resource ID. Future assets add entries without changing this ID.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Planned automatic path: portable `Data/resources/<rom-sha256>/v1/`;
-  installed uses the existing application storage root's `resources` directory.
-  Preparation, corruption recovery, cancellation and concurrent writers belong
-  to ROMDATA-03. Native caches and saves remain separate.
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e1-d1/`;
+  installed uses local application data `FFTARecomp/resources`. Immutable
+  `generation-*` directories contain the two files; an atomic relative `current`
+  file selects one verified generation. Revisions have separate paths and an OS
+  lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
+  implement reuse/recovery; direct consumption and normal enablement await04/05.
+  Native caches and saves remain separate.
 - Decoded base data are immutable host resources, shared for a session and
   rebuilt/rebound on load/Undo/clean-boot restore. Do not serialize their
   pointers or duplicate files in `.ffstate`. Existing ROM/BIOS identity remains

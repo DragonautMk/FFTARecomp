@@ -31,7 +31,12 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   [rom-data CLI](../rom_data.md) now extracts/verifies typed OBJ dimensions for
   exact EUR/USA images, with a source-authenticated manifest and bounded parsing.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
-  Automatic startup and runtime consumption are not connected yet.
+  `rom-data prepare` and opt-in `play --rom-data` share installed/portable
+  preparation: versioned immutable generations, source-verified reuse, OS locks,
+  atomic relative selection and corruption recovery before save writes. Explicit
+  `FFTA_RESOURCES_DIR` overrides the root. No old generation is recursively
+  deleted; Linux and Windows/Wine process-interruption/relocation/startup checks
+  pass. Direct runtime consumption and normal enablement await ROMDATA-04/05.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

@@ -37,12 +37,50 @@ An open parent never reopens completed children or rejected experiments.
   Build handles45784/79661 and Wine smoke58438 terminal/passed. Reuse the
   source hashes, build JSON/logs, *-cli.json/log and private `extracted/` data
   under `target/rom-data/`; no rerun needed for these unchanged inputs.
-- Next open unit: **ROMDATA-03-OBJ-STARTUP**, automatic preparation/reuse/recovery
-  and installed/portable storage integration, followed by direct consumers and
-  equivalence gates in ROMDATA-04/05. Record a new selection checkpoint before
-  implementation. Gameplay is still unchanged; no live process or claimed
-  end-to-end migration. ROMDATA-01 regional/language catalogs and02 other families
-  remain open. No exports, commit or push.
+- **ROMDATA-03-OBJ-STARTUP — complete for opt-in first-family preparation**.
+  [Feature](../rom_data.md),
+  [record](../changes/2026-10-21-prepare-versioned-rom-data-before-boot.json).
+  `rom-data prepare` and `play --rom-data` share installed/portable storage:
+  source/schema/extractor/decoder paths, immutable generations, OS file locks,
+  atomic relative `current`, verified no-write reuse, visible corruption repair
+  and progress before save discovery/backups/native compilation. Explicit
+  FFTA_RESOURCES_DIR wins; no portable fallback to AppData. Root Data ignored.
+- Linux14default +1private regional CLI and Wine12default +1regional pass;
+  two Unix-only symlink cases and one ignored subprocess helper explain counts.
+  Three forced child deaths prove partial/unpublished/committed handling and
+  lock release;4preparers, cooperative cancellation, simulated full storage,
+  failed publication, version/source separation and mod/save/cache isolation pass.
+  Common extraction writer refactor revalidated only its affected CLI scope;
+  unchanged core sources/results remain retained.
+- Both production builds warning-free/canonical hashes restored. Actual native
+  and Wine CLI pass managed reuse, corruption/missing-file recovery, regional
+  switching, portable moves from unrelated cwd, overrides, installed roots and
+  pre-save startup failure. Native and Wine interpreter GUI each pass create,
+  close0, move, reuse identical generation and close0; language-screen captures
+  inspected. No guest/data-consumer or native-equivalence claim yet.
+- Native Xvfb setup initially lacked socket permission; original prepared GUI
+  fixture reused after access correction. Windows CLI helper initially failed
+  to normalize extended-length paths after successful USA creation; only helper
+  corrected, existing USA dataset reused, remaining cases completed. No failed
+  game run or production fix inferred from either setup failure.
+- All handles4860/26330/43547/85711/56348/4043/44560/69677/70697/67204 terminal.
+  Evidence ignored `target/rom-data-startup/`: frozen preimages, test/build logs,
+  Wine results, *-preparation-cli.json/log, *-gui-results.json/log/captures,
+  candidates, canonical hashes, validated-sources.json and helper scripts.
+  Source mtime refreshed for Cargo after canonical restoration. No export/commit/
+  push; AndroidPort unchanged. Physical power loss/native Windows unverified;
+  old/orphan generations retained, directory fsync is Unix-only.
+- Final Git inspection observes HEAD8472dd4 now contains the earlier completed
+  offline extraction unit. Retained core/Cargo source hashes are unchanged;
+  current uncommitted diff is the preparation unit above. No commit was made
+  by this agent and no work was reverted on observing the updated HEAD.
+- Next open unit **ROMDATA-04-OBJ-CONSUMPTION**: trace and connect CPU/DMA,
+  interpreter/native and host sprite dimension consumers to loaded typed data;
+  add provenance/use counters, preserve dynamic RAM/timing and load/Undo/clean
+  boot host-resource lifetime. Current prepared data are loaded but not consumed.
+  Record a selection checkpoint before implementation. Normal enablement waits
+  for ROMDATA-05 equivalence/cost gates. Complete goal stays active, including
+  other catalogs/families/mods; no live process and no closed work reopened.
 
 ### Previous planning outcome (retained)
 

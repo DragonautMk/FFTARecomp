@@ -1,4 +1,5 @@
 /target/
+/Data/
 /Installer/*.exe
 /Installer/payload/
 /Installer/Linux/

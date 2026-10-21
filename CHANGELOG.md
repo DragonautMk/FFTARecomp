@@ -194,6 +194,30 @@ Documentation: [2026-10-21-order-timer-audio-events.json](docs/changes/2026-10-2
 
 [Change record](docs/changes/2026-10-21-preserve-native-event-boundaries.json)
 
+## 2026-10-21 — Prepare and recover versioned decoded game data before boot
+
+Type: added. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Add shared managed preparation for rom-data prepare and opt-in play --rom-data, after ROM verification and before cartridge save discovery, backups or translation; resolve portable Data/resources, installed local app data and explicit FFTA_RESOURCES_DIR without portable fallback.
+- Publish immutable source/schema/extractor/decoder generations through an atomic relative current file with process-released OS locks, verified no-write reuse, corruption/missing-data recovery, cancellation points and readable progress. Preserve all previous/orphan generations and keep mods, saves and native caches separate; ignore root Data.
+
+**Validation**
+
+- Linux release targeted runtime tests pass: 14 default plus the affected private regional CLI regression; Windows GNU compilation is warning-free and Wine passes 12 default plus the same regional regression. Unix-only symlink checks explain the difference; the ignored child helper is explicitly invoked by forced-process-death tests.
+- Tests cover three interruption boundaries, lock release and four preparers, cancellation while waiting, simulated storage exhaustion, failed publication, malformed current paths, source/decoder separation, relocation and preservation of mod/save/cache sentinels. The shared offline writer refactor passes its affected existing CLI tests; unchanged core checks are retained.
+- Native and Windows production builds pass without warnings, with canonical executables restored by SHA-256. Actual CLI cases pass managed creation/reuse/repair, corrupt/missing files, regional switching, portable move from unrelated cwd, override precedence, installed roots and startup failure before save writes.
+- Actual opt-in interpreter GUI checks pass on Linux and Windows/Wine: first preparation, clean exit, portable folder move, reuse of the same generation and clean exit. Language-screen captures inspected. Initial Xvfb socket setup and Windows helper path-normalization failures are retained; original fixtures reused without rebuilding.
+
+**Limitations**
+
+- Only the initial dimension family is prepared and loaded; guest/host consumption, normal enablement, native equivalence, load/Undo/backup rebinding and performance gates remain ROMDATA-04/05 work. Native Windows and physical power loss remain unverified; directory fsync is Unix-only and old/orphan generations are retained. No archive, AndroidPort, commit or push update.
+
+Documentation: [rom_data.md](docs/rom_data.md), [portable.md](docs/portable.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md).
+
+[Change record](docs/changes/2026-10-21-prepare-versioned-rom-data-before-boot.json)
+
 ## 2026-10-21 — Plan ROM extraction and direct decoded-resource consumption before mod support
 
 Type: docs. Platforms: Desktop Windows and Linux (planning only).

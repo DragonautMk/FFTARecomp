@@ -3027,6 +3027,8 @@ impl ApplicationHandler for PlayApp {
 pub fn cmd_play(args: &[String]) -> Result<(), String> {
     let mut rom_path = None;
     let mut interp_only = false;
+    // Opt-in preparation until direct consumption/equivalence gates pass.
+    let mut prepare_rom_data = false;
     // Machine-readable lifecycle lines on stdout for a supervising frontend
     // (the launcher): `STATUS building <pct>` / `STATUS playing`.
     let mut status = false;
@@ -3045,6 +3047,7 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
                 benchmark = Some(benchmark::Benchmark::load(Path::new(it.next().ok_or("--benchmark needs a TOML config path")?))?);
             }
             "--interp" => interp_only = true,
+            "--rom-data" => prepare_rom_data = true,
             "--status" => status = true,
             "--stats" => show_stats = true,
             "--record-labels" => FALLBACK_COLLECT.store(true, Ordering::Relaxed),
@@ -3095,6 +3098,11 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
             ));
         }
     }
+    let _prepared_resources = if prepare_rom_data {
+        Some(crate::rom_data::prepare_startup(&rom, status)?)
+    } else {
+        None
+    };
     // A benchmark has no cartridge destination: avoid save discovery/pickers and
     // directory creation. This inert path only constructs unused slot owners.
     let sav_path = if benchmark.is_some() {

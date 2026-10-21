@@ -1,12 +1,15 @@
-//! Explicit offline extraction/verification. Automatic startup is a later gate.
+//! Source-authenticated extraction, preparation and verified dataset loading.
 use gba_core::rom_data::{
     Extraction, Manifest, ObjDimensions, MANIFEST_FILE, MAX_FILE_BYTES, OBJ_DIMENSIONS_FILE,
 };
 use std::{
     fs,
     io::{Read, Write},
-    path::Path,
+    path::{Path, PathBuf},
 };
+
+mod preparation;
+pub use preparation::prepare_startup;
 
 fn read_bounded(path: &Path) -> Result<Vec<u8>, String> {
     let metadata = fs::symlink_metadata(path)
@@ -82,14 +85,7 @@ pub fn extract(path: &Path, source: &mut Extraction) -> Result<&'static str, Str
         .prefix(".ffta-resources-")
         .tempdir_in(parent)
         .map_err(|e| format!("Cannot prepare resource directory: {e}"))?;
-    let data = toml::to_string_pretty(&source.dimensions)
-        .map_err(|e| format!("Cannot encode dimensions: {e}"))?;
-    source.set_file_hash(data.as_bytes());
-    let manifest = toml::to_string_pretty(&source.manifest)
-        .map_err(|e| format!("Cannot encode manifest: {e}"))?;
-    write_synced(&temporary.path().join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
-    write_synced(&temporary.path().join(MANIFEST_FILE), manifest.as_bytes())?;
-    verify(temporary.path(), source)?;
+    write_dataset(temporary.path(), source, &mut write_synced)?;
     match fs::rename(temporary.path(), path) {
         Ok(()) => Ok("created"),
         // A concurrent writer may have published the same complete dataset.
@@ -98,12 +94,48 @@ pub fn extract(path: &Path, source: &mut Extraction) -> Result<&'static str, Str
     }
 }
 
+fn write_dataset(
+    path: &Path,
+    source: &mut Extraction,
+    write: &mut impl FnMut(&Path, &[u8]) -> Result<(), String>,
+) -> Result<(), String> {
+    let data = toml::to_string_pretty(&source.dimensions)
+        .map_err(|e| format!("Cannot encode dimensions: {e}"))?;
+    source.set_file_hash(data.as_bytes());
+    let manifest = toml::to_string_pretty(&source.manifest)
+        .map_err(|e| format!("Cannot encode manifest: {e}"))?;
+    write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
+    write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
+    verify(path, source)?;
+    Ok(())
+}
+
 pub fn cmd(args: &[String]) -> Result<(), String> {
-    if args.len() != 3 || !matches!(args[0].as_str(), "extract" | "verify") {
-        return Err("usage: recomp rom-data <extract|verify> <rom> <dataset-directory>".into());
+    let operation = args.first().map(String::as_str);
+    if !matches!(
+        (operation, args.len()),
+        (Some("extract" | "verify"), 3) | (Some("prepare"), 2 | 3)
+    ) {
+        return Err("usage: recomp rom-data <extract|verify> <rom> <dataset-directory> OR rom-data prepare <rom> [resources-root]".into());
     }
     let rom = fs::read(&args[1]).map_err(|e| format!("Cannot read ROM: {e}"))?;
     let mut source = Extraction::from_rom(&rom)?;
+    if operation == Some("prepare") {
+        let root = args
+            .get(2)
+            .map(PathBuf::from)
+            .map(Ok)
+            .unwrap_or_else(preparation::storage_root)?;
+        let prepared = preparation::prepare(
+            &root,
+            &mut source,
+            &mut preparation::console_progress(false),
+        )?;
+        println!("ROM_DATA action={} profile={} source={} schema={} decoded={} runtime=not-connected directory={}",
+            prepared.action, source.manifest.profile, source.manifest.source_rom_sha256,
+            source.manifest.schema, source.manifest.coverage.join(","), prepared.directory.display());
+        return Ok(());
+    }
     let path = Path::new(&args[2]);
     let action = if args[0] == "extract" {
         extract(path, &mut source)?
@@ -122,7 +154,7 @@ mod tests {
     use super::*;
 
     // Synthetic structure, deliberately not a copy of a game's dimension table.
-    fn fixture() -> Extraction {
+    pub(super) fn fixture() -> Extraction {
         use gba_core::rom_data::*;
         let dimensions = ObjDimensions {
             entries: std::array::from_fn(|i| ObjSize {

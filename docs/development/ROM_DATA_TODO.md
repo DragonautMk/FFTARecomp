@@ -107,24 +107,33 @@ limiti in [risorse decodificate](../rom_data.md). Il runtime non è collegato.
 
 **Dipendenze:** ROMDATA-02 per la prima famiglia.
 
-- [ ] Integrare la preparazione dopo selezione/verifica della ROM e prima
+- [x] Integrare la preparazione dopo selezione/verifica della ROM e prima
   dell'avvio del gioco: estrarre quando il dataset manca o la versione cambia;
   riutilizzarlo quando identità e contenuti sono validi.
-- [ ] Definire i percorsi attraverso lo storage installed/portable esistente.
+- [x] Definire i percorsi attraverso lo storage installed/portable esistente.
   Proposta da confermare: `Data/resources/<rom-hash>/<schema>/` in portable;
   rispettare [le regole di rilocazione](../portable.md). Tenere separati dati
   base rigenerabili, future mod utente, cache native e salvataggi.
-- [ ] Scrivere in una directory temporanea, validare e pubblicare soltanto un
+- [x] Scrivere in una directory temporanea, validare e pubblicare soltanto un
   dataset completo; gestire annullamento, spazio insufficiente, avvio concorrente
   e crash senza sostituire l'ultima versione valida con un risultato parziale.
-- [ ] Mostrare avanzamento ed errori comprensibili; prevedere la rigenerazione
+- [x] Mostrare avanzamento ed errori comprensibili; prevedere la rigenerazione
   di dati mancanti/corrotti dalla ROM sorgente senza sovrascrivere mod o save.
-- [ ] Verificare primo avvio, riavvio senza riestrazione, cambio ROM/regione,
+- [x] Verificare primo avvio, riavvio senza riestrazione, cambio ROM/regione,
   aggiornamento decoder e spostamento della cartella portable. Definire come
   riconoscere una sorgente cambiata prima di riutilizzare il suo dataset.
 
 **Chiusura:** un primo avvio prepara le risorse; quelli successivi riusano un
 dataset valido. L'estrazione resta locale e non modifica la ROM sorgente.
+
+**ROMDATA-03-OBJ-STARTUP completato nel percorso opt-in della prima famiglia:**
+`rom-data prepare` e `play --rom-data`, generazioni immutabili, selezione atomica,
+lock OS, riuso/verifica e recupero. Le voci sopra si riferiscono alla famiglia
+`graphics.obj-dimensions`; le altre famiglie non sono implicitamente migrate.
+Test Linux e Windows/Wine, compresi arresti forzati e due avvii GUI prima/dopo
+lo spostamento portable, passano. Esaurimento spazio simulato; power-loss fisico
+e Windows nativo non verificati. Dettagli in [risorse decodificate](../rom_data.md).
+L'abilitazione normale attende consumo diretto ed equivalenza ROMDATA-04/05.
 
 ## ROMDATA-04 — Uso diretto dei dati estratti nel runtime
 
@@ -237,5 +246,5 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-03, preparazione automatica della prima famiglia;
-poi consumo diretto e verifica ROMDATA-04/05. Gli altri cataloghi restano aperti.
+**Prossima azione:** ROMDATA-04, consumo diretto della prima famiglia;
+poi equivalenza/abilitazione ROMDATA-05. Gli altri cataloghi restano aperti.

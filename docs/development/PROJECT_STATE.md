@@ -66,13 +66,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   typed model now verifies the contiguous162-record/14256-byte descriptor block,
   exact source/TOML roundtrip and original selectors for every record on Linux/
   Wine. Links, transfer triples, optional variant pointer and opaque tail bytes
-  are distinguished. Managed v1/e5-d4 extracts/verifies/prepares OBJ, BG metadata and base
-  palette banks:64KiB manifest/16KiB OBJ/256KiB descriptors/512KiB palettes/
-  768KiB total input guards, atomic four-file publication/reuse/repair and prior-version retention. Activation
+  are distinguished. Managed v1/e6-d5 extracts/verifies/prepares OBJ, BG metadata and base
+  palette banks with exact consumed source metadata:64KiB manifest/16KiB OBJ/
+  256KiB descriptors/1MiB palettes/1280KiB total input guards, atomic four-file publication/reuse/repair and prior-version retention. Activation
   authenticates all files and hashes every ID/file into dataset identity;
   direct BG source reads now use its retained typed metadata/projection through
   fixed CPU/DMA/native bus paths with separate diagnostics/counters. Owned
-  memory440shared/OBJ+28672BGbytes stays within predeclared1KiB/64KiB limits.
+  memory448shared/OBJ+28672BG+94713palettebytes stays within predeclared1KiB/64KiB limits.
   Linux/Wine204core tests,98/97frontend defaults, regional original/native
   poisoned-ROM provenance and Load/Undo/backup pass. New1200-frame EUR native
   boots match every full state/image/OAM/dispatch/audio with53BG reads each.
@@ -83,8 +83,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   direct typed parsing and standard readable formatting; actual regional file/
   native/lifecycle/CLI checks pass and old e3data remain intact. The user removes
   extracted-data space minimization as a priority, so no packing/indentation
-  tuning or extra budget-only campaign continues. Current whole-process JSON
-  RSS is not inferred from the parser prototype. Remaining BG GUI/archive,
+  tuning or extra budget-only campaign continues. Updated user steering also
+  defers performance concerns and explicitly asks to avoid measuring them;
+  do not resume old benchmark/profile/startup/RSS queues. Preserve historical
+  results, continue functional migration/equivalence and optimize later.
+  Current whole-process JSON RSS is not inferred from the parser prototype. Remaining BG GUI/archive,
   associated payload/program formats, other catalogs and language coverage.
 
   The next content family has a complete declared base-palette inventory:
@@ -96,7 +99,24 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   typed palette model and readable four-file preparation now pass39Linux/37Wine
   affected checks and22actual CLI checks per target, including original producer
   comparison, prior e4retention, full-set identity and transactional failures.
-  Gameplay palette consumption is the next04step; preparation reports runtimeROM.
+  Palette04consumption now uses decoded banks in the existing LZ77HLE and
+  exact file-derived CPU/DMA/native/guest-BIOS source views. Schema1/extractor6/
+  decoder5 retains e5; all forms stay source-equal. Linux/Wine210core and
+  101/100frontend defaults pass. Four original/native regional producer cases
+  match1296calls/72792instructions with all source spans poisoned; full state
+  and Load/Undo/backup/file-deletion behavior pass. New EURnative1200-frame
+  pairs match every state/image/OAM/audio and consume one160Bpalette. Actual
+  current CLI verifies retention/repair/reuse and positive interpreter/native
+  use. New e6EURworldmap240/battle3530/transition8476frame checks now match
+  every full state/image/OAM/dispatch/audio on Linux/Wine; stable segments use
+  no new palette, transition consumes one160Bpalette. Further GUI/costs, actual
+  BIOS execution, native Windows,
+  remaining GUI/alternate palette migration and other families stay separate
+  gates. Alternate palettes now have two independently located157-key catalogs
+  per region,314custom LZ/RLEstreams producing256Beach. Source/output/link-table
+  hashes agree EUR/USA; four original producer oracles match1256calls each.
+  Five descriptor FFkeys are unavailable and caller preconditions remain
+  unknown. Next add bounded typed decoding before managed extraction/runtime.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

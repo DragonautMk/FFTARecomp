@@ -12,6 +12,13 @@ decodificarli in formati utilizzabili e far leggere al runtime quei dati.
 Al primo avvio si prepara il dataset; agli avvii successivi si riutilizza la
 versione valida. Il supporto alle mod e a modifiche più ampie viene dopo.
 
+Priorità utente aggiornata: per ora **non misurare le regressioni di performance**;
+l'ottimizzazione verrà dopo. Non avviare benchmark, profili o campagne di avvio/
+RSS, né comprimere o ritoccare formati per rispettare vecchi budget di spazio.
+Le misure già raccolte restano storiche; non bloccano il lavoro funzionale.
+Restano necessarie le prove di equivalenza, incluso il clock guest, l'uso reale
+dei file e la compatibilità di native/save/Load.
+
 Ordine: **inventario → estrazione e decodifica → preparazione all'avvio →
 consumo diretto → verifica → mod → modifiche estese**.
 Creare file che il gioco non usa non soddisfa l'obiettivo. Anche ricomporre
@@ -94,9 +101,20 @@ altri cataloghi e lingue. [Contratto](../rom_data_graphics.md#authenticated-desc
 le162voci puntano a127sorgenti per regione,125LZ77e2grezze. Intervalli, alias e
 buffer decodificati coincidono tra EUR/USA. Quattro oracoli originali Linux/Wine
 passano1296chiamate/72792istruzioni ciascuno, output/guardie completi e bit15
-preservato. I programmi per palette alternative sono distinti e non ancora
-classificati. Modello tipizzato gestito e consumo delle palette restano02/04.
+preservato. I flussi per palette alternative sono classificati separatamente sotto; le
+precondizioni dei cinque indici FFrestano da chiarire. Modello tipizzato e consumo delle palette sono completati
+separatamente nelle unità02/04sotto.
 [Contratto e prove](../rom_data_graphics.md#base-background-palette-catalog).
+
+**ROMDATA-01-BG-ALTERNATE-PALETTE-PROGRAMS completato per gli indici validi:**
+due cataloghi da157chiavi0..156per regione,314flussi con header BE e formato
+LZ/RLE distinto dal BIOS; ciascuno produce256B. Tabelle, sorgenti e output
+coincidono tra EUR/USA; quattro oracoli originali Linux/Wine passano1256chiamate
+ciascuno, output/guardie completi ed EWRAM/SP invariati. Cinque record con FF
+restano distinti: nessuna dereferenziazione o fallback inventato, precondizioni
+dei chiamanti ancora da verificare. Parser tipizzato/estrazione/consumo02/04
+sono i prossimi passi. Nessuna misura prestazionale.
+[Contratto](../rom_data_graphics.md#alternate-background-palette-catalogs).
 
 ## ROMDATA-02 — Estrattori e decoder
 
@@ -168,8 +186,8 @@ le provenienze, quattro file e revisione1/5/4, vecchie generazioni conservate.
 Passano39test Linux/37Wine e22controlli CLI per target, inclusi oracoli originali,
 integrità/riparazione/rilocazione e compatibilità delle risorse già consumate.
 [Contratto e limiti](../rom_data_graphics.md#typed-palette-extraction-and-preparation).
-Le palette sono ora preparate/autenticate; il consumo effettivo04è il prossimo
-passo e resta distinto dai file esportati. Nessun lavoro di compressione/spazio.
+Questa unità copre la preparazione; il successivo consumo04è completato sotto
+con revisione1/6/5e metadati di compatibilità. Nessun lavoro di compressione/spazio.
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -266,6 +284,20 @@ Due avvii EUR nativi1200frame coincidono per tutti gli stati/immagini/OAM/audio,
 con53letture BG effettive. [Prove e limiti](../rom_data_graphics.md#direct-descriptor-consumption).
 Scene/GUI/costi05BG, asset/programmi collegati e altre famiglie restano aperti.
 
+**ROMDATA-04-BG-BASE-PALETTE-CONSUMPTION completato per il catalogo base:**
+162palette conservate nel proprietario immutabile; banchi decodificati per HLE
+LZ77e rappresentazione sorgente esatta per CPU/DMA/API native/BIOS guest.
+Revisione1/6/5, e5conservata; scritture, clock e identità ROM/save/native invariati.
+Linux/Wine210core e101/100frontend passano. Quattro casi originali/native da
+1296chiamate/72792istruzioni coincidono anche alterando tutti i vecchi intervalli
+ROM dopo attivazione;1272chiamate LZ77leggono i banchi per caso. Load/Undo/
+backup/file rimossi passano. Nuovi avvii nativi EUR1200frame coincidono per
+stati/immagini/OAM/audio con una palette160B effettivamente letta dai file;
+CLI e5refusal/retention e coppie interprete/native passano. Proprietario123833B
+su entrambi i target; nessuna ottimizzazione di spazio.
+[Prove e limiti](../rom_data_graphics.md#direct-base-palette-consumption).
+Programmi alternativi, altre famiglie/lingue e ulteriori gate05restano aperti.
+
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
 **Dipendenze:** ogni integrazione ROMDATA-04, prima di abilitarla normalmente.
@@ -355,6 +387,15 @@ nei dati estratti. I149261byte BG/150818del dataset sono accettati per
 leggibilità; limiti del parser proteggono da input malformati. I risultati dei
 costi e dei prototipi restano informativi, senza nuovi cicli per centrare il
 precedente limite disco. Prossima priorità: payload e cataloghi ancora in ROM.
+
+**ROMDATA-05-BG-BASE-PALETTE-SCENES completato per le scene EUR dichiarate:**
+nuovi confronti con dataset e6passano240frame mappa,3530battaglia/menu e8476
+transizione su Linux/Wine. Tutti gli stati completi, immagini/OAM, dispatch e
+flussi audio coincidono. Le scene stabili non caricano palette; la transizione
+legge una palette decodificata da160B e53descrittori BG. Fixture e cache precedenti
+riusate e protette. [Risultati](ROM_DATA_VALIDATION.md#base-palette-e6-scene-acceptance).
+Costi/GUI/archivi e Windows nativo restano gate separati; nessuna abilitazione
+normale o migrazione di altre famiglie è dedotta da queste scene.
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 

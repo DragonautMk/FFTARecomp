@@ -3,8 +3,9 @@
 The desktop developer CLI extracts, verifies and prepares OBJ dimensions, BG
 descriptors and `graphics.bg-base-palettes` from an exact supported
 FFTA EUR or USA ROM. `play --rom-data` directly consumes OBJ dimensions and
-the authenticated BG descriptor metadata. Base palettes are decoded and
-authenticated during preparation; their gameplay producer still reads ROM.
+the authenticated BG descriptor metadata and base-palette banks. Palette BIOS
+HLE reads decoded banks; CPU/DMA/native and guest BIOS reads use an exact
+file-derived source view.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
 code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
 See [runtime consumption](rom_data_runtime.md) for sources, identity, counters,
@@ -23,15 +24,16 @@ recomp play /path/to/your-game.gba --rom-data
 The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-descriptors.json` and `bg-base-palettes.json`. OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
-transfer triples, selectors and retained unclassified bytes. Linked graphics
-and programs remain in the ROM. The manifest records
+transfer triples, selectors and retained unclassified bytes. Other linked graphics
+and alternate palette programs remain in the ROM. The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor5/decoder4 adds all162base palettes as readable JSON banks of16full
-u16words. Source aliases and bit15are preserved. Earlier e4/e3/e2/e1datasets
+Extractor6/decoder5 stores all162base palettes as readable JSON banks of16full
+u16words, plus the exact consumed source representation for compatibility
+reads. Source aliases and bit15are preserved. Earlier e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
-OBJv1, `bg-descriptors-json-v2` and `bg-base-palettes-v1-json`. Resource identity is independent of regional file offsets.
+OBJv1, `bg-descriptors-json-v2` and `bg-base-palettes-v2-json`. Resource identity is independent of regional file offsets.
 There is no ROM code, image, save, absolute installation path or timestamp in
 the manifest. The generated decoded values remain private game data: keep
 outputs under ignored `target/` for this developer command, outside packages.
@@ -45,9 +47,8 @@ regenerate it. This explicit `extract` command preserves its original behavior;
 managed preparation below adds automatic recovery. No mod or save directory is
 selected by the offline commands.
 
-Manifest and OBJ files remain limited to 16 KiB each. BG descriptors have their
-own 256 KiB limit; all three selected files together are limited to 272 KiB.
-All use strict typed TOML and reject unknown fields. The reader uses fixed
+Manifest/OBJ use strict typed TOML, descriptors/palettes strict typed JSON;
+all reject unknown fields and apply the four-file bounds listed below. The reader uses fixed
 relative file names, rejects symlink files and
 directories, and validates the complete manifest against the selected source.
 Edited dimensions or descriptors remain invalid even if their file hashes are
@@ -56,7 +57,7 @@ will need a separate loader and compatibility identity.
 
 The commands print `ROM_DATA action=created|reused|verified|repaired`, source/profile,
 schema and decoded coverage. `runtime=offline` identifies these offline commands;
-OBJ and BG metadata gameplay each report `runtime=decoded`, with separate
+OBJ, BG metadata and base-palette gameplay each report `runtime=decoded`, with separate
 source/file/dataset identities and usage counters. Neither claims that sprite pixels, text, maps,
 gameplay tables or audio have been exported or migrated.
 
@@ -72,14 +73,14 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. The current revision is `v1/e5-d4`;
-previous `e1-d1`/`e2-d1` directories are retained. Each generation contains the
-same three files as offline extraction. Source identity is rehashed from
+selected generation's relative name. The current revision is `v1/e6-d5`;
+all previous revision directories are retained. Each generation contains the
+same four files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
 
-The preparer validates `current` and all three selected files before reuse. Valid
+The preparer validates `current` and all four selected files before reuse. Valid
 reuse does not invoke the extractor or writer. Corrupt/missing data are
 reported and regenerated under a process-owned filesystem lock, with a second
 validation after lock acquisition so concurrent launches publish once.
@@ -105,7 +106,9 @@ of silently selecting the old ROM resource path. Progress uses readable
 phase labels; lock-wait messages are deduplicated. The prepared typed data are
 loaded from validated files and connected to the OBJ family's guest/host
 consumers. BG descriptors remain immutable typed session data; a reconstructed
-source projection serves their CPU/DMA/native bus reads. All prepared files
+source projection serves their CPU/DMA/native bus reads. Base-palette banks
+feed the LZ77HLE with exact file-derived source views for other bus consumers.
+All prepared files
 contribute to dataset identity and are authenticated before activation. This remains an opt-in partial migration, not complete ROM extraction.
 
 ## Validation and limits
@@ -115,7 +118,7 @@ original revisions. The descriptor metadata contract and managed dataset work
 are recorded separately; preparation alone does not close BG consumption or
 its startup/runtime performance gates.
 
-The combined three-file integration passes the affected extraction/runtime/file/
+The earlier three-file integration passed the affected extraction/runtime/file/
 preparation tests (25Linux/23Wine including private regional/lifecycle cases),
 warning-free production builds and18actual CLI checks per target. These cover
 source authentication, exact output/reuse, BG corruption/missing repair,
@@ -126,7 +129,8 @@ Canonical executables/old fixture bytes remain unchanged. The subsequent
 [direct BG runtime unit](rom_data_graphics.md#direct-descriptor-consumption)
 passes all-width/mirror/DMA, real-file regional interpreter/native provenance,
 Load/Undo/backup and1200-frame native boot parity on Linux/Wine. Combined-data
-GUI, broader scenes, startup/frame/RSS costs and native Windows remain open.
+GUI and native Windows remain open; the frozen e3scene/cost outcomes are
+recorded in the [validation protocol](development/ROM_DATA_VALIDATION.md).
 
 Release-mode targeted tests pass on Linux (3 core, 6 CLI) and Windows GNU/Wine
 (3 core, 5 CLI; the additional symlink test is Unix-only). These include the
@@ -186,7 +190,13 @@ recorded, without further formatting or packing work to meet their former disk
 budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-datasets).
 
 Current four-file input bounds are64KiB manifest,16KiB OBJ,256KiB descriptors,
-512KiB palettes and768KiB total. The manifest's larger bound accommodates all
+1MiB palettes and1280KiB total. The manifest's larger bound accommodates all
 162original palette source ranges; OBJ stays small. These are malformed-input
-guards, not storage targets. The standard palette file is270075bytes; complete
-sets are446114USA/446120EURbytes. [Typed palette contract and checks](rom_data_graphics.md#typed-palette-extraction-and-preparation).
+guards, not storage targets. The standard palette file is513639bytes; complete
+sets are689678USA/689684EURbytes. [Typed palette contract and checks](rom_data_graphics.md#typed-palette-extraction-and-preparation).
+
+The user's current priority is functional migration without performance
+measurement or space-reduction work; optimization comes later. Prior benchmark/
+RSS limits and results are historical, and no performance campaign should be
+resumed from an older next-action line. Guest clock/state/audio correctness,
+source provenance and save/native compatibility checks remain required.

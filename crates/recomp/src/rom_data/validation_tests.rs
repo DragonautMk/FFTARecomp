@@ -193,6 +193,9 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
             );
             source_mask = mask;
         }
+        if relative % 500 == 499 {
+            eprintln!("ROM_DATA_SCENE_PROGRESS frames={}/{}", relative + 1, frames);
+        }
         clear_audio(&mut legacy);
         clear_audio(&mut decoded);
     }
@@ -214,6 +217,19 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
             "this scene must exercise BG metadata reads"
         );
     }
+    let palette = decoded
+        .bus
+        .rom_resources()
+        .unwrap()
+        .palette_stats()
+        .unwrap();
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PALETTE").is_some() {
+        assert!(
+            palette.lz77_calls > 0 && palette.decoded_bytes > 0,
+            "this scene must consume decoded palette banks"
+        );
+    }
+    eprintln!("ROM_DATA_PALETTE_SCENE frames={frames} bus_reads={} source_bytes={} lz77_calls={} decoded_bytes={}", palette.bus_reads, palette.source_bytes, palette.lz77_calls, palette.decoded_bytes);
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

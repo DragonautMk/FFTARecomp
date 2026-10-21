@@ -5,6 +5,12 @@ tranche validates `graphics.obj-dimensions`; it does not close the remaining
 resource matrix or mod phases. Existing implementation/results are in
 [runtime consumption](../rom_data_runtime.md) and [TASK_HANDOFF](TASK_HANDOFF.md).
 
+**Current user steering (21 October 2026): avoid performance measurements and
+optimize later.** The time/RSS/storage thresholds and results below are retained
+historical evidence. They do not authorize new benchmark/profile/startup/RSS
+runs or regression investigations now. Functional per-frame state/audio/clock,
+file provenance, native/save/lifecycle and packaging correctness remain in scope.
+
 ## Acceptance limits fixed before comparison
 
 - Guest state at each compared frame, central/wide pixels, OAM, RNG/clock and
@@ -442,3 +448,65 @@ bounds. No current whole-process RSS result is inferred from the isolated heap
 probe, and no new budget-only benchmark campaign is required by this steering.
 Functional source/state/timing/native/save equivalence and native Windows
 requirements remain separate from that storage preference.
+
+### Base-palette e6 scene acceptance
+
+ROMDATA-05-BG-BASE-PALETTE-SCENES selects new changed-input checks after the
+completed e6base-palette runtime unit. The predeclared criterion is exact
+full state/image/OAM/native-dispatch and all deterministic audio streams at
+every frame, with nonempty mixed/PSG/bothFIFO/HLE streams. Reuse existing
+worldmap240, battle/menu3530and boot-to-battle8476fixtures, exact source/cache
+hashes and current source-authenticated e6files; no recording is recreated.
+The ignored diagnostic now emits `ROM_DATA_PALETTE_SCENE` source bus/byte and
+decoded-call/output counters. `FFTA_STATE_TEST_REQUIRE_PALETTE=1` requires
+positive decoded-bank use only for the transition. Stable scenes with zero
+palette calls provide parity coverage, not new source-use proof. These new
+inputs justify scene comparisons; prior e3results remain their frozen outcomes.
+Timing/startup/RSS/storage/GUI/archive and native Windows are separate criteria.
+All six comparisons pass independently on Linux and Windows GNU/Wine:
+240worldmap,3530battle/menu and8476boot-to-battle frames each. Every full
+state, central/wide image, OAM, dispatch and mixed/PSG/bothFIFO/HLE-bit stream
+matches. Stable worldmap/battle segments record zero palette/BGsource reads;
+the transition consumes one160Bdecoded palette (one source tag byte) and53BG
+reads. This is the observed scene coverage; all162palette records have separate
+original/native provenance coverage in04.
+
+Nonempty audio totals per scene (mixed,PSG,FIFO0,FIFO1,HLE) are identical across
+targets:526680/526680/63360/63360/526604;7746586/7746586/931920/931920/7746510;
+18599928/18599928/2236876/2236876/18578590. Native dispatch counts differ across
+the existing platform caches; each target compares only to its own legacy path.
+Source, dataset, snapshot/input, TinyCC/native-cache, test executable and
+canonical runtime hashes remain protected. Existing e6files are reused without
+new capture/extraction. Only the ignored diagnostic changes; no production
+rebuild or repeated core/default suites are needed for this test-only addition.
+
+Evidence:target/rom-data-bg-palette-validation/verification-summary.json,
+six complete-state/audio logs, protected manifests, source hashes and warning-free
+test-build metadata. All handles10397/47587/24819/44936terminal. No timing,
+GUI/archive/native Windows/default-enablement result follows from this unit.
+
+### Base-palette e6 cost selection
+
+ROMDATA-05-BG-BASE-PALETTE-COSTS reuses existing warning-free e5production
+reference (ROM-memory path) and e6decoded candidate, compiled from the same
+root/profile/toolchain. Their recorded hashes are verified before measurement;
+no new production build or fixture is needed. Current new owner/source routing/
+HLE changes justify new cost observations. Retain seven first/cached startup
+and native RSS pairs, plus warm-prefix Wine whole-command wall, then five
+alternating native timing pairs with per-frame verification and separate
+profiles on existing worldmap/battle replays. No competing build/heavy agent
+job during timing; observe CPU15and SMT14load.
+
+Existing time limits remain250/100ms median first/cached preparation+activation,
++2%mean/+5%p95/+10%p99frame work. Keep the historical+2MiB RSS diagnostic and
+all observations/failures. No disk-size budget or new palette owner cap is
+imposed, and no compression/format/packing campaign follows from storage size.
+Full-scene parity above is closed; cost timing does not repeat per-frame audio.
+User subsequently directs the agent to avoid performance measurements. This
+selection is closed/deferred: existing native/Wine startup and native RSS,
+whole Wine launch and worldmap timing observations remain local evidence;
+battle timing was stopped with task-specific process termination (runner
+exit143), with raw completed output retained. No complete battle timing/profile
+or overall performance acceptance is claimed. Do not finish or rerun these
+measurements until the user asks. See performance-deferred.json in the private
+output root. Continue functional migration with completed scene parity above.

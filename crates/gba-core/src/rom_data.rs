@@ -4,15 +4,15 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{BackgroundStats, ResourceStats, RuntimeResources};
+pub use runtime::{BackgroundStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_palettes;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 5;
-pub const DECODER_REV: u32 = 4;
+pub const EXTRACTOR_REV: u32 = 6;
+pub const DECODER_REV: u32 = 5;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
 pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
@@ -20,13 +20,13 @@ pub const BG_DESCRIPTORS_FILE: &str = "bg-descriptors.json";
 pub const BG_DESCRIPTORS_FORMAT: &str = "bg-descriptors-json-v2";
 pub const BG_BASE_PALETTES_ID: &str = "graphics.bg-base-palettes";
 pub const BG_BASE_PALETTES_FILE: &str = "bg-base-palettes.json";
-pub const BG_BASE_PALETTES_FORMAT: &str = "bg-base-palettes-v1-json";
+pub const BG_BASE_PALETTES_FORMAT: &str = "bg-base-palettes-v2-json";
 pub const MAX_MANIFEST_FILE_BYTES: u64 = 64 * 1024;
-pub const MAX_BG_BASE_PALETTES_FILE_BYTES: u64 = 512 * 1024;
+pub const MAX_BG_BASE_PALETTES_FILE_BYTES: u64 = 1024 * 1024;
 pub const MANIFEST_FILE: &str = "manifest.toml";
 pub const MAX_FILE_BYTES: u64 = 16 * 1024;
 pub const MAX_BG_DESCRIPTORS_FILE_BYTES: u64 = 256 * 1024;
-pub const MAX_DATASET_BYTES: usize = 768 * 1024;
+pub const MAX_DATASET_BYTES: usize = 1280 * 1024;
 pub const DIMENSIONS_SHA256: &str =
     "6ff886b23cde2726a4ceb9cba8c5569bbb4dc6a1185769547f78dfbcb7e2d991";
 

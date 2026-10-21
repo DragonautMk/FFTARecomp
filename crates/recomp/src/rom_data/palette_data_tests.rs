@@ -62,6 +62,15 @@ fn regional_palette_files_match_captures_and_retain_previous_datasets() {
         assert_eq!(machine.save_state().unwrap(), snapshot);
         let mut edited = parsed;
         edited.entries[0].banks[0][0] ^= 0x8000;
+        let words: Vec<u8> = edited.entries[0]
+            .banks
+            .iter()
+            .flatten()
+            .flat_map(|word| word.to_le_bytes())
+            .collect();
+        let mut encoded = ((words.len() as u32) << 8).to_le_bytes().to_vec();
+        encoded.extend_from_slice(&words);
+        edited.entries[0].encoded_source = encoded;
         let edited = encode_palettes(&edited).unwrap();
         let mut manifest = source.manifest.clone();
         manifest.resources[2].sha256 = gba_core::ffta_rom::digest(&edited);
@@ -140,7 +149,7 @@ fn regional_palette_files_match_captures_and_retain_previous_datasets() {
         assert!(verify(&old_generation, &source).is_err());
         let first = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(first.action, "created");
-        assert!(first.directory.parent().unwrap().ends_with("v1/e5-d4"));
+        assert!(first.directory.parent().unwrap().ends_with("v1/e6-d5"));
         let reused = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(reused.action, "reused");
         assert_eq!(first.directory, reused.directory);

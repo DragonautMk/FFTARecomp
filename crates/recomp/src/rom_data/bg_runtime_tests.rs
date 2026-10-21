@@ -365,6 +365,15 @@ fn background_file_matches_legacy_native_boot_states_images_audio_and_dispatch()
     let resources = decoded.bus.rom_resources().unwrap();
     let stats = resources.stats();
     let bg = resources.background_stats().unwrap();
+    let palette = resources.palette_stats().unwrap();
+    assert!(
+        palette.lz77_calls > 0 && palette.decoded_bytes > 0,
+        "new boot must consume decoded palette banks"
+    );
+    eprintln!(
+        "PALETTE_BOOT lz77_calls={} decoded_bytes={} bus_reads={}",
+        palette.lz77_calls, palette.decoded_bytes, palette.bus_reads
+    );
     assert!(
         bg.bus_reads > 0,
         "new boot criterion must exercise BG metadata"

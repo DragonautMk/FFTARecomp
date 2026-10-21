@@ -304,9 +304,8 @@ inferred from this producer-output oracle.
 Evidence:target/rom-data-bg-palettes/verification-summary.json, header-inventory,
 per-region source/output hashes and private decoded buffers, exact original
 producer disassembly, warning-free test builds and four oracle logs/results.
-Only a cfg(test) module/registration is added; no producer/HLE or active dataset
-changes. Next implement a bounded typed base-palette asset model and managed
-resource, then consume its decoded words with unchanged guest writes/timing.
+That inventory unit added only cfg(test) code, with no producer/HLE change.
+The typed model and subsequent runtime integration are recorded below.
 Alternate programs, other catalogs/languages and the remaining matrix stay open.
 
 ## Typed palette extraction and preparation
@@ -319,7 +318,8 @@ are rejected. Preserve high bits and all bank/index order, without RGBA/alpha
 conversion. All162records are decoded, including127source aliases; no
 compression/deduplication is needed for file size.
 
-Current schema1/extractor5/decoder4 at `v1/e5-d4` publishes four fixed files:
+The completed preparation unit used schema1/extractor5/decoder4 at `v1/e5-d4`
+with four fixed files:
 manifest/OBJ TOML, BG descriptors JSON and `bg-base-palettes.json` using
 `bg-base-palettes-v1-json`. Palette resource ID is `graphics.bg-base-palettes`,
 dependent on descriptor IDs. Its162manifest provenance entries preserve every
@@ -363,10 +363,108 @@ Tar/zip marker scenarios exclude the new palette data, without a public export.
 Evidence:target/rom-data-bg-palette-data/verification-summary.json, source
 preimages/hashes, core/default/private/regional/oracle/provenance logs, four-file
 CLI datasets/results, runtime pairs, old revision imports and package marker
-log. Next retain the palette model in the session and consume decoded banks
-with exact original writes/cycles; no BIOS/native/scene equivalence for a
-replacement is claimed yet. Alternate programs, other catalogs/languages and
+log. This was the preparation-only outcome; the subsequent consumption unit
+below establishes runtime use and its distinct verification scope. Alternate programs, other catalogs/languages and
 the remaining resource matrix remain open.
+
+## Direct base-palette consumption
+
+ROMDATA-04-BG-BASE-PALETTE-CONSUMPTION retains the authenticated model in the
+immutable session. Palette v2JSON adds `encoded_source`, the exact consumed
+original header/stream bytes beside banks. No recompression is performed:
+unused flag bits and byte reads must remain source-equal, including for guest
+BIOS code. Model validation decodes this metadata, checks exact consumption
+and requires bank equality; source authentication separately rejects coherent
+re-encodings with the same decoded output. Schema1/extractor6/decoder5 selects
+`v1/e6-d5`, retaining e5/e4 and all earlier data. Four filenames and semantic
+resource IDs stay unchanged. Current input guards are64KiBmanifest,16KiBOBJ,
+256KiBdescriptors,1MiBpalettes and1280KiBtotal. Standard readable palette JSON
+is513639B; complete sets689678USA/689684EURB. These bounds protect malformed
+input; no storage tuning follows from them.
+
+All CPU/DMA/native reads in verified palette spans come from files. Fixed asset
+pages keep catalog searches away from ordinary code reads. Unique sorted source
+bindings preserve aliases and crossing neighbors. Raw payload bytes derive from
+decoded banks; headers/compressed bytes use the exact source representation.
+The BIOS LZ77HLE returns an owned borrow of decoded output only for verified
+LZ77source starts/mirrors. It calls the unchanged ordered `write_out`; raw
+CpuSet, other ROM and dynamic RAM retain their loops. Source ROM reads here
+have no device/clock effects and the same SWI/instruction cost/return hook runs.
+No guest instruction is bypassed, no native ABI/cache or snapshot revision
+changes. Exact real-BIOS source views are verified, not a BIOS-ROM execution.
+
+Measured owner bytes are448shared/OBJ+28672BG+94713palette=123833total on both
+64-bit targets. No per-read allocation/I/O or new palette memory budget is
+introduced. Resident accounting is distinct from allocator overhead and RSS.
+
+Release checks:210core each and101Linux/100Winefrontend defaults pass; three
+new core cases verify widths/mirrors/edges, native APIs, DMA16/32, raw CpuSet,
+SWI11/12toRAM/paletteRAM/VRAM/OAM, fallback and snapshot/ownership behavior.
+Four regional original/native cases each pass1296calls/72792instructions /
+4208native dispatches with entire original palette source spans poisoned after
+activation. Full states match; each owner records1272LZ77calls/231936decoded
+bytes and3544source bus reads/5720source bytes. Missing/corrupt activation
+preserves the owner; deleted files do not prevent subsequent use or Load/Undo/
+backup clean boot. Current regional extraction also matches all retained
+original outputs and passes four-file repair/identity/retention checks.
+
+New EURnative1200-frame pairs pass every full-state/image/OAM/dispatch/audio
+comparison on Linux/Wine with one160Bdecoded palette and53BGreads. Actual
+production CLI checks add e5refusal/retention to extract/reuse/verify/repair/
+move; exact source views and banks match across targets. Canonical executables,
+ROMs, native libraries and old datasets remain hash-identical. New actual
+interpreter/native1200-frame pairs show positive palette use and match legacy
+frame/final-state hashes with no dataset rewrite. No benchmark speedup or
+broader scene/GUI/archive/native-Windows claim follows from these checks.
+
+Evidence:target/rom-data-bg-palette-runtime/verification-summary.json, core and
+frontend logs, four producer reports, regional four-file datasets, CLI/runtime
+pairs and protected hashes. Alternate palette programs, other catalogs and
+languages, remaining05coverage and the rest of the resource matrix stay open.
+
+## Alternate background palette catalogs
+
+ROMDATA-01-BG-ALTERNATE-PALETTE-PROGRAMS classifies the valid alternate streams
+linked by descriptor byte56. Independent original literals select USA427a04/
+42cc80and EUR489bb0/48ee2c. Environment low bits2select the first catalog;
+low bits1select the second. Each has157little-endian relativeu16links keyed
+0..156(314Bplus2Balignment before the first stream). The shared original
+consumer is USA0800543c/EUR080054a0, with destinationr0and sourcer1.
+There is no evidence for game-level names such as day/night.
+
+All157keys occur once in the162descriptors; records29/31/144/145/146instead
+containFF. The original producer does not locally guard FF and indexing it
+reads beyond the verified table, yielding nonsensical size headers. Preserve
+that unavailable marker; do not dereference or invent fallback content. The
+callers' exclusion/precondition for those five records is still unknown.
+
+The valid314streams per region each decode256bytes (128fullu16words/eight
+16word banks), with39933consumed source bytes and80384decoded bytes total.
+Their exact source/output hashes and both relative-link tables match across
+regions. No source ranges overlap within a catalog; consumed lengths exclude
+padding. This is a distinct custom LZ/RLE format, not BIOS LZ77. A BEu32output
+length precedes tokens. Token classes are literal data, short/medium/long
+back-references and short/long zero runs; an FFfill branch exists in code but
+is absent from these valid streams. Retain allu16bits and source semantics.
+A bounded private decoder establishes the inventory hypothesis; a production
+parser and malformed-input contract remain the next02unit.
+
+Four original interpreter cases (EUR/USAonLinux/Wine) each pass1256calls /
+2655156guest instructions:157valid records×four environment bytes1/2/FD/FE×
+direct/current-ID arguments. Each call enters the independently verified
+consumer with the expected source/destination, produces the complete expected
+256Bwith surrounding guards, leaves EWRAM unchanged and restores SP. The five
+FFrecords are deliberately not invoked. These are functional output/instruction
+checks, with no performance measurement or native/runtime replacement claim.
+
+Evidence:target/rom-data-bg-alternate-palettes/verification-summary.json,
+regional producer/consumer disassembly, exact literals/calls, source and decoded
+inventories/private buffers, bounded decoder hypothesis, warning-free test
+builds and four original oracle reports. Only an ignored cfg(test) module and
+registration are added. No active dataset revision, production decoder, native
+ABI, save schema, runtime/archive or canonical executable changes in this unit.
+Typed decoding/managed extraction/consumption, caller preconditions for FF,
+other catalogs/languages and remaining GUI checks stay open.
 
 ## Decoder contract and checks
 

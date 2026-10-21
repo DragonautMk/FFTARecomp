@@ -58,9 +58,9 @@ guest reads from ordinary in-view boot/host use; broader gates remain05.
 
 Each entry names the known decoder/runtime reader, static versus dynamic
 boundary, regional evidence, remaining extraction work and residual ROM use.
-No additional family currently has a managed extractor or decoded-file reader.
-The bounded offline LZ77 decoder and four observed graphics producers below
-are groundwork, not an additional runtime migration.
+BG descriptor metadata and base palettes now have managed extraction and
+direct consumption as detailed below. The bounded generic LZ77/packet decoders
+remain groundwork for other linked graphics families.
 
 - **BG tiles, palettes and image graphics.** `ppu.rs` reads hardware VRAM
   (4/8-bpp indexed tiles and bitmap modes) and palette RAM (BGR555). Those are
@@ -83,7 +83,7 @@ are groundwork, not an additional runtime migration.
   Linked formats/programs, other catalog bounds, sharing and language completeness
   remain unverified; this is not a complete graphics catalog.
   [Decoder contract, exact evidence and remaining work](../rom_data_graphics.md).
-  Managed descriptor extraction/preparation: implemented, v1/e5-d4; bounded
+  Managed descriptor extraction/preparation: implemented, v1/e6-d5; bounded
   offline LZ77/packet decoders also tested. Authenticated BG descriptor reads
   now consume a file-derived session projection through CPU/DMA/native APIs,
   with independent counters, real-file regional provenance and native boot
@@ -91,9 +91,14 @@ are groundwork, not an additional runtime migration.
   The complete base-palette links now identify127unique sources per region
   (125LZ77,2raw), matching source/decoded hashes across regions and original
   producers for all162records on Linux/Wine. Preserve allu16bits, including
-  bit15; alternate environment-specific palette programs remain distinct and
-  unclassified. Base words now have typed readable extraction/preparation; gameplay
-  consumption remains a separate04step. Needed:
+  bit15. Alternate environment streams now have a separate verified catalog:
+  157valid keys in each of two regional tables,314streams/256Boutputs per region,
+  custom LZ/RLE with BEsize header. All source/output hashes agree and original
+  producers match on Linux/Wine. Five FFdescriptor keys are unavailable;
+  caller preconditions remain unknown. Typed production decoding, managed
+  extraction and runtime consumption of alternates remain open. Base words now have typed readable extraction/preparation and direct04
+  consumption: decoded banks for palette HLE, exact source views for CPU/DMA/
+  native/guest BIOS reads, with original writes/cycles and state parity. Needed:
   indexed pixels, palette identity/indices, transparency, tile order and all
   writes/timing, not only screenshot similarity.
 - **Terrain maps and movement planes.** `ffta_stage.rs` observes DMA and
@@ -148,8 +153,8 @@ are groundwork, not an additional runtime migration.
 The managed set contains `graphics.obj-dimensions`, `graphics.bg-descriptors`
 and `graphics.bg-base-palettes`. IDs remain semantic: OBJ index `shape * 4 + size`,
 BG record index within the authenticated162-record block; source offsets are
-provenance, not resource IDs. OBJ/BG metadata have direct consumption; base
-palette banks are prepared/authenticated while their gameplay remains ROM.
+provenance, not resource IDs. All three resources have direct consumption;
+other linked payloads/programs remain ROM.
 
 - `manifest.toml`: schema revision, extractor revision, decoder revision,
   exact source ROM SHA-256/size and regional profile; a coverage list naming
@@ -169,25 +174,28 @@ palette banks are prepared/authenticated while their gameplay remains ROM.
   with source aliases preserved in162manifest ranges and a dependency on BG
   descriptor IDs. Known source codecs raw0/LZ7710are bounded and exact extents
   exclude padding. Preserve bit15and bank/index order; alternate environment
-  programs are distinct, unclassified assets. Gameplay consumption is pending.
+  programs are distinct, unclassified assets. Exact consumed source bytes are
+  retained beside banks for compatibility reads; both forms must agree.
+  Decoded banks feed verified LZ77 HLE while raw CpuSet uses file-derived reads.
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
   digest against the selected exact image. User edits belong to a future mod
   layer; do not silently accept them as base data.
 - Keep fixed names and bounded input:64KiB manifest (including162palette
-  provenance entries),16KiB OBJ,256KiB BG descriptors,512KiB base palettes and
-  768KiB total. These guard malformed input, not extracted-data space targets.
+  provenance entries),16KiB OBJ,256KiB BG descriptors,1MiB base palettes and
+  1280KiB total. These guard malformed input, not extracted-data space targets.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Automatic path: portable `Data/resources/<rom-sha256>/v1/e4-d3/`;
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e6-d5/`;
   installed uses local application data `FFTARecomp/resources`. Immutable
   `generation-*` directories contain four files; an atomic relative `current`
   file selects one verified generation. Revisions have separate paths and an OS
   lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
-  implement reuse/recovery, retaining e1/e2/e3/e4 generations; direct OBJ and BG
-  metadata consumption is opt-in. Linked payloads/programs remain ROM.
+  implement reuse/recovery, retaining e1/e2/e3/e4/e5 generations; direct OBJ, BG
+  metadata and base-palette consumption is opt-in. Other linked payloads/programs
+  remain ROM.
   Normal enablement awaits05.
   Native caches and saves remain separate.
 - Decoded base data are immutable host resources, shared for a session and

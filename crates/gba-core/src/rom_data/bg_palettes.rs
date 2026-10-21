@@ -6,12 +6,16 @@ use serde::{Deserialize, Serialize};
 pub const WORDS_PER_BANK: usize = 16;
 pub const MAX_BANKS: usize = 16;
 pub const MAX_OUTPUT_BYTES: usize = MAX_BANKS * WORDS_PER_BANK * 2;
+pub const MAX_ENCODED_BYTES: usize = 4 + MAX_OUTPUT_BYTES + MAX_OUTPUT_BYTES.div_ceil(8);
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Palette {
     /// Preserve all16bits, including the unclassified high bit. No RGBA/alpha.
     pub banks: Vec<[u16; WORDS_PER_BANK]>,
+    /// Exact consumed source representation for CPU/DMA/real-BIOS reads.
+    /// This is compatibility metadata, not a recompression of decoded banks.
+    pub encoded_source: Vec<u8>,
 }
 
 impl Palette {
@@ -19,17 +23,27 @@ impl Palette {
         if self.banks.is_empty() || self.banks.len() > MAX_BANKS {
             return Err("Invalid base palette bank count".into());
         }
+        if self.encoded_source.len() > MAX_ENCODED_BYTES {
+            return Err("Base palette source representation exceeds its bound".into());
+        }
+        let (decoded, _, consumed) = decode_payload(&self.encoded_source)?;
+        if consumed != self.encoded_source.len() || decoded != self.bank_bytes() {
+            return Err("Base palette source representation and banks disagree".into());
+        }
         Ok(())
+    }
+
+    fn bank_bytes(&self) -> Vec<u8> {
+        self.banks
+            .iter()
+            .flatten()
+            .flat_map(|word| word.to_le_bytes())
+            .collect()
     }
 
     pub fn source_bytes(&self) -> Result<Vec<u8>, String> {
         self.validate()?;
-        Ok(self
-            .banks
-            .iter()
-            .flatten()
-            .flat_map(|word| word.to_le_bytes())
-            .collect())
+        Ok(self.bank_bytes())
     }
 }
 
@@ -66,7 +80,7 @@ pub struct Block {
     pub consumed: usize,
 }
 
-pub fn decode(input: &[u8]) -> Result<Block, String> {
+fn decode_payload(input: &[u8]) -> Result<(Vec<u8>, Encoding, usize), String> {
     let header = input.get(..4).ok_or("Truncated base palette header")?;
     let size = (u32::from_le_bytes(header.try_into().unwrap()) >> 8) as usize;
     if size == 0 || size > MAX_OUTPUT_BYTES || size % (WORDS_PER_BANK * 2) != 0 {
@@ -87,7 +101,13 @@ pub fn decode(input: &[u8]) -> Result<Block, String> {
         }
         _ => return Err("Unsupported base palette source encoding".into()),
     };
+    Ok((bytes, encoding, consumed))
+}
+
+pub fn decode(input: &[u8]) -> Result<Block, String> {
+    let (bytes, encoding, consumed) = decode_payload(input)?;
     let palette = Palette {
+        encoded_source: input[..consumed].to_vec(),
         banks: bytes
             .chunks_exact(WORDS_PER_BANK * 2)
             .map(|bank| {
@@ -205,9 +225,15 @@ mod tests {
         assert!(decode(&[0, 32, 0, 0, 1]).is_err());
         assert!(decode(&[0x20, 32, 0, 0]).is_err());
         assert!(decode(&[0x10, 32, 0, 0, 0x80, 0, 0]).is_err());
-        assert!(Palette { banks: vec![] }.validate().is_err());
         assert!(Palette {
-            banks: vec![[0; WORDS_PER_BANK]; MAX_BANKS + 1]
+            banks: vec![],
+            encoded_source: vec![]
+        }
+        .validate()
+        .is_err());
+        assert!(Palette {
+            banks: vec![[0; WORDS_PER_BANK]; MAX_BANKS + 1],
+            encoded_source: vec![],
         }
         .validate()
         .is_err());

@@ -2,8 +2,11 @@
 //! are projected onto guest reads; no instruction, timing or DMA is skipped.
 use super::*;
 mod background;
+mod palettes;
 use background::BackgroundResources;
 pub use background::BackgroundStats;
+use palettes::PaletteResources;
+pub use palettes::{PaletteRead, PaletteStats};
 use std::sync::{
     atomic::{AtomicU64, Ordering},
     Arc,
@@ -33,6 +36,7 @@ pub struct RuntimeResources {
     dynamic_ram_reads: AtomicU64,
     validation_reads: AtomicU64,
     background: Option<Box<BackgroundResources>>,
+    palettes: Option<Box<PaletteResources>>,
 }
 
 impl RuntimeResources {
@@ -72,6 +76,13 @@ impl RuntimeResources {
                 manifest.resources[1].sha256.clone(),
             )?));
         }
+        if let Some((decoded, _)) = files.palettes {
+            resources.palettes = Some(Box::new(PaletteResources::new(
+                decoded.clone(),
+                &source.palettes.as_ref().unwrap().sources,
+                manifest.resources[2].sha256.clone(),
+            )?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -97,6 +108,7 @@ impl RuntimeResources {
             dynamic_ram_reads: AtomicU64::new(0),
             validation_reads: AtomicU64::new(0),
             background: None,
+            palettes: None,
         }
     }
 
@@ -127,7 +139,7 @@ impl RuntimeResources {
 
     /// Complete owned session allocation, excluding the shared Arc headers.
     pub fn resident_bytes(&self) -> usize {
-        self.obj_resident_bytes() + self.background_resident_bytes()
+        self.obj_resident_bytes() + self.background_resident_bytes() + self.palette_resident_bytes()
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -136,6 +148,20 @@ impl RuntimeResources {
 
     pub fn background_stats(&self) -> Option<BackgroundStats> {
         self.background.as_ref().map(|bg| bg.stats())
+    }
+
+    pub fn palette_resident_bytes(&self) -> usize {
+        self.palettes
+            .as_ref()
+            .map_or(0, |palettes| palettes.resident_bytes())
+    }
+    pub fn palette_file_sha256(&self) -> Option<&str> {
+        self.palettes
+            .as_ref()
+            .map(|palettes| palettes.file_sha256())
+    }
+    pub fn palette_stats(&self) -> Option<PaletteStats> {
+        self.palettes.as_ref().map(|palettes| palettes.stats())
     }
 
     pub fn stats(&self) -> ResourceStats {
@@ -166,7 +192,14 @@ impl RuntimeResources {
     /// keep adjacent opaque ROM bytes without reading a migrated byte there.
     pub(crate) fn guest_read<const N: usize>(&self, index: usize, rom: &[u8]) -> Option<[u8; N]> {
         let Some(base) = self.source_offset(index, N) else {
-            return self.background.as_ref()?.guest_read(index, rom);
+            if let Some(bytes) = self
+                .background
+                .as_ref()
+                .and_then(|background| background.guest_read(index, rom))
+            {
+                return Some(bytes);
+            }
+            return self.palettes.as_ref()?.guest_read(index, rom);
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -283,6 +316,7 @@ impl crate::MemMap {
     pub(crate) fn resource_page(index: usize) -> bool {
         matches!(index >> 12, 0x149 | 0x14c | 0xa39 | 0xd97
             | 0x569..=0x56c | 0x766..=0x769)
+            || PaletteResources::source_page(index)
     }
 }
 

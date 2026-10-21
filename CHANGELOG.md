@@ -183,6 +183,27 @@ Documentation: [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md)
 
 [Change record](docs/changes/2026-10-21-validate-decoded-bg-scenes-and-costs.json)
 
+## 2026-10-21 — Validate decoded base palettes through recorded EUR scenes
+
+Type: changed. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Extend the existing ignored recorded-scene diagnostic with palette source-bus/byte and decoded-call/output counters, a required decoded-use guard and bounded progress reports. New e6owner/source routing/HLE inputs justify the changed-input scene checks without reopening frozen e3outcomes or recreating fixtures.
+
+**Validation**
+
+- Warning-free release test builds and all six scene comparisons pass:240worldmap/3530battle-menu/8476boot-to-battle frames on Linux and Wine. Every full machine state, central/wide image, OAM, native/fallback dispatch and mixed/PSG/bothFIFO/HLE-bit audio stream matches its platform legacy path. All audio streams are nonempty. Stable scenes record zero palette/BGsource reads; transition records one160Bdecoded palette, one source tag-byte read and53BGreads.
+- Existing current e6files and exact recorded snapshot/input/cartridge/native/TinyCC fixtures reused; all protected hashes, implementation source hashes and canonical executable hashes retained. Source mask reaches direct/copy3atframe5400. No production rebuild, duplicate core/default suite, capture recreation, generated asset export or agent commit/push.
+
+**Limitations**
+
+- Completes the declared EURscene correctness unit, not the full ROM data goal or other catalogs/languages. Each platform uses its own existing native cache; matching per-platform states/audio does not claim cross-platform dispatch identity or speedup. Current startup/frame/RSS costs, GUI/archives, native Windows/default enablement and other families/mods remain separate. User currently has Linux/Wine only.
+
+Documentation: [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [rom_data_runtime.md](docs/rom_data_runtime.md).
+
+[Change record](docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json)
+
 ## 2026-10-21 — Discard callback history at Fast audio and pause boundaries
 
 Type: fixed. Platforms: Desktop Linux and Windows/Wine.
@@ -628,6 +649,27 @@ Type: docs. Platforms: Linux, Windows GNU/Wine.
 Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-21-inventory-original-background-base-palettes.json)
+
+## 2026-10-21 — Inventory alternate background palette catalogs against original producers
+
+Type: added. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Independently locate two alternate-palette catalogs at USA427a04/42cc80 and EUR489bb0/48ee2c, selected by environment low bits2/1through descriptor byte56. Each catalog has157relativeu16links keyed0..156;314valid streams per region use a distinct custom LZ/RLE consumer with BEoutput size. Preserve the five FFunavailable descriptor keys and keep their caller precondition unresolved rather than dereferencing or inventing fallback data.
+
+**Validation**
+
+- All314streams produce256B/eight16-word banks each;39933consumed source bytes/80384decoded bytes per region. Both relative-link tables and every exact consumed source/output hash agree across EUR/USA. Private bounded decoder hypothesis covers literal/short-medium-long copy and short-long zero tokens; FFfill exists in original code but is absent from valid catalog streams.
+- Both release test builds warning-free; four original interpreter producer cases each pass1256calls/2655156guest instructions for157valid records, environments1/2/FD/FE and direct/current IDs. Each call enters the actual regional consumer with expected arguments; complete output/guards match, EWRAM remains unchanged and SP is restored. Exact ROM/canonical/test executable/private inventory hashes protected. Tests are functional, with no performance measurements.
+
+**Limitations**
+
+- Completes the declared valid-index inventory/output oracle, not a production codec or runtime migration. Five FFrecord caller preconditions, typed parser/malformed-input tests, managed extraction/runtime/native equivalence, other catalogs/languages and GUI/native Windows remain open. Only cfg(test) code is added; active dataset remains e6, canonical executables/archives/AndroidPort unchanged, no agent commit/push.
+
+Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-21-inventory-alternate-background-palettes.json)
 
 ## 2026-10-21 — Fall back cleanly when GPU surface configuration fails
 
@@ -1087,6 +1129,26 @@ Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PER
 
 [Change record](docs/changes/2026-10-21-evaluate-compact-ui-layer-ids.json)
 
+## 2026-10-21 — Defer ROM-data performance measurements and prioritize functional migration
+
+Type: docs. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Apply updated explicit user steering: avoid measuring performance regressions now and optimize later, alongside the existing preference against extracted-data space tuning. Historical benchmark/RSS gates and queued next actions do not authorize new measurements or block functional resource migration. Guest clock/state/audio, source provenance and native/save/lifecycle correctness remain required.
+
+**Validation**
+
+- Stopped the current task timing runner and only its benchmark/runtime descendants; runner terminated143 as an intentional user-requested stop. Namespace-local process lookup saw no runner; exact task matching with host-process access stopped the three task processes. No other process was selected. Existing startup/nativeRSS/Wine-launch/worldmap and partial battle outputs retained in target/rom-data-bg-palette-validation/performance-deferred.json and logs; no complete battle performance result or acceptance claimed.
+
+**Limitations**
+
+- This defers performance work; it neither completes the seven-phase ROM data TODO nor waives remaining functional/catalog/language/native-Windows validation. No new benchmark, profile, startup/RSS run, compression campaign, runtime rebuild, archive/export, agent commit/push or AndroidPort update follows this steering.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md).
+
+[Change record](docs/changes/2026-10-21-defer-rom-data-performance-measurements.json)
+
 ## 2026-10-21 — Decode bounded LZ77 streams against observed regional graphics producers
 
 Type: added. Platforms: Linux, Windows-GNU-Wine.
@@ -1213,6 +1275,31 @@ Type: added. Platforms: Linux, Windows GNU/Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-21-consume-authenticated-bg-descriptor-metadata.json)
+
+## 2026-10-21 — Consume authenticated background palette banks with exact source views
+
+Type: added. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Retain all162typed base palettes in immutable runtime resources. CPU/DMA/native and guest-BIOS source reads use file-derived bytes through fixed asset pages; raw payloads derive from bank words and compressed/header views retain exact original representation. Verified LZ77HLE sources use decoded output with unchanged ordered write_out, SWI/control flow and modeled cycles; CpuSet and nonpalette/dynamic-RAM fallback retain existing behavior.
+- Add exact consumed encoded_source compatibility metadata beside readable banks, validating both forms and authenticating exact source bytes rather than recompressing. Schema1/extractor6/decoder5 and palette v2JSON select v1/e6-d5 and retain earlier e5. Four filenames and semantic IDs stay fixed; malformed-input guards are64KiBmanifest/16KiBOBJ/256KiBdescriptors/1MiBpalettes/1280KiBtotal, with no storage optimization target.
+- Expose distinct palette file identity, source bus operations/bytes and decoded-call/output counters. Base source/native/save identities, RtApi, machine layout and snapshot schema remain unchanged. Owned output borrows keep resources alive during writes; transactional binding and nonserialized Arc ownership preserve Load/Undo/backup clean boot and continued use after file deletion.
+
+**Validation**
+
+- Warning-free release core builds and serial suites pass210Linux/210Wine (7optional ignored each); frontend defaults pass101Linux/100Wine (22optional ignored). Three new core cases cover poisoned source spans, every read width/mirror/edge/native API, DMA16/32, SWI11/12 and raw CpuSet to RAM/paletteRAM/VRAM/OAM, nonpalette/dynamic-RAM fallback, full snapshot equality and resource ownership.
+- Four original interpreter/native producer cases (EUR/USA on Linux/Wine) each pass1296calls/72792original instructions/4208native dispatches after all palette source spans, including headers, are poisoned postactivation. Registers/CPSR/clock/RAM match every interpreter step/native boundary and full final states match. Each owner reports1272decoded LZ77calls/231936output bytes and3544source bus reads/5720source bytes. Missing/corrupt binding preserves live Arc/state; Slot Load/Undo and backup reset retain resources and deleted files do not prevent later decoded use.
+- Current regional four-file extraction matches all retained original output buffers, validates source aliases and whole-set identity, and passes repair/move/e4retention checks. Palette JSON513639B and complete USA/EURsets689678/689684B are identical across targets; measured owner448shared/OBJ+28672BG+94713palette=123833B on both64-bit targets, excluding allocator overhead/RSS.
+- New EURnative1200-frame legacy/decoded pairs match every full state/image/OAM/dispatch and mixed/PSG/FIFO/HLE-bit audio on Linux/Wine, with positive one160Bdecoded palette and53BGreads. Both warning-free production builds pass24actual CLI checks each, including e5refusal/retention and current extract/verify/create/no-write reuse/repair/relocation. Actual interpreter/native1200-frame CLI pairs match legacy frame and native final-state hashes with positive palette use; source/cache/input/canonical hashes and dataset mtimes remain unchanged. Canonical binaries restored by hash and Cargo source mtime refreshed.
+
+**Limitations**
+
+- Completes this declared base-palette runtime unit, not the full ROM data TODO. Alternate environment palette programs, other catalogs/languages/families, broader scene/GUI/cost/archive checks, native Windows/default enablement and mods remain open. User currently has Linux/Wine only. Byte-exact guest-BIOS source reads are tested, not execution of an actual BIOS image; HLE timing equivalence refers to the existing emulator model. No speedup, storage-compression campaign, public asset/code export, AndroidPort change, agent commit or push.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-21-consume-authenticated-background-base-palettes.json)
 
 ## 2026-10-21 — Compile desktop helpers only on their intended platforms and tests
 

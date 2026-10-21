@@ -1,8 +1,8 @@
-# Direct decoded metadata consumption
+# Direct decoded resource consumption
 
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
-and load `graphics.obj-dimensions` and `graphics.bg-descriptors` from the
-selected ROM's decoded dataset.
+and load `graphics.obj-dimensions`, `graphics.bg-descriptors` and
+`graphics.bg-base-palettes` from the selected ROM's decoded dataset.
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
@@ -28,21 +28,23 @@ execution/provenance coverage, described below; the EUR replay observes alias
 reads without attributing them to an initializer PC.
 That alias expansion retained schema/decoder1 and selected `v1/e2-d1`,
 preserving `e1-d1`, because the OBJ format was unchanged.
-The managed metadata extension introduced `v1/e3-d2`. Current `v1/e5-d4`
-adds readable base-palette banks and retains all earlier revisions.
+The managed metadata extension introduced `v1/e3-d2`. Current `v1/e6-d5`
+adds exact palette source views beside readable banks and retains all earlier
+revisions, including preparation-only palette e5.
 Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
 The borrowed complete-file view authenticates all resources before changing
 the live object and includes every resource ID/file hash in dataset identity.
-Palette data are prepared with `runtime=rom`; their gameplay consumer is the
-next04step, not inferred from successful extraction. Both files are authenticated, contribute to dataset identity and
-remain in the immutable session. BG CPU/DMA/native reads now consume the
-file-derived projection, with independent counters; linked payloads remain ROM.
+All three resources remain in the immutable session and report
+`runtime=decoded`. BG metadata and palette CPU/DMA/native reads consume
+file-derived projections, with independent counters. The palette LZ77 HLE
+consumes decoded bank bytes; raw CpuSet keeps its original bus-read loop.
+Alternate palette programs and other linked payloads remain ROM.
 
 `RuntimeResources` in `gba-core::rom_data` owns immutable typed entries and
 little-endian source projections:48bytes for OBJ,14256bytes for BG. Current
-owned memory is440bytes shared/OBJ including Arc counters and identity strings,
-plus28672bytes for the BG owner, typed records, projection and file hash:
-29112bytes total on both tested64-bit targets. Enforced bounds were declared
+owned memory is448bytes shared/OBJ including Arc counters and identity strings,
+plus28672bytes for BG and94713bytes for palette models, decoded byte views,
+source bindings and file identity:123833bytes total on both tested64-bit targets. Enforced bounds were declared
 before testing:shared/OBJ<=1KiB and extraBG<=64KiB. Historical OBJ-only
 measurements below retain their432byte scope. The machine also holds one optional Arc handle; allocator overhead and
 process RSS are separate ROMDATA-05 measurements. The resource contains no file
@@ -50,13 +52,15 @@ handle, filesystem callback, translation pointer or serialized guest state.
 There is no allocation or I/O on resource reads.
 
 The ROM arms of `MemMap::read8/read16/read32` check only fixed source
-pages:four for OBJ and four BG pages per region. A regional constant-range dispatch supplies migrated bytes, including
+pages:four for OBJ, four BG pages per region and fixed palette asset regions
+USA56f..697/EUR76c..894. A regional dispatch supplies migrated bytes, including
 unaligned/crossing accesses; adjacent opaque bytes retain the original path.
 GPIO/EEPROM, mirrors and bounds/open-bus behavior keep their existing order.
 This is not a general manifest/resource lookup on every bus access. DMA already
 uses these bus reads, and generated native loads already call the same RtApi
-callbacks. No guest instruction, cycle, write, IRQ, DMA or decompression is
-skipped. The source ROM buffer is retained for code and unmigrated data.
+callbacks. No guest instruction, modeled cycle, write, IRQ or DMA is skipped. Verified
+palette HLE calls use the already decoded bank bytes and the same ordered
+`write_out`; their guest producer/control flow still executes. The source ROM buffer is retained for code and unmigrated data.
 
 Host sprite draw decoding reads the typed dimensions directly. Copied battle
 and visibility routines retain their RAM table at IWRAM 0x03006d28: unchanged
@@ -96,10 +100,52 @@ Activation prints `ROM_DATA runtime=decoded` with resource/source/dataset/file
 identities and resident bytes. Shutdown/headless completion prints
 `ROM_DATA_USE` counters for OBJ bus, typed host ROM/RAM, changed RAM and
 validation, plus separate BG bus operations and projected byte counts.
+Palette counters distinguish source bus operations/bytes from decoded LZ77
+calls/output bytes. Exact compatibility views cover compressed streams and
+raw headers; they are validated against banks rather than recompressed.
 `bus_source_mask` bit 0 identifies the direct/primary source, bit 1 the copied
 alias. Counters describe use, not timing or speedup. An in-view boot scene can
 legitimately show zero guest metadata reads because the original draw routine
 fetches dimensions only for clipping/flips; host file use is recorded separately.
+
+## Current base-palette consumption evidence
+
+The162record-indexed models cover127unique sources per region (125LZ77/2raw).
+The owner authenticates exact encoded bytes and decoded banks together. Raw
+body reads come from bank bytes; compressed/header reads come from the file's
+source representation. LZ77 SWI11/12only select a bank at an authenticated
+source start, including cartridge wait-state mirrors. Dynamic RAM and other
+ROM sources keep the existing decoder. Real BIOS guest code can read every
+original stream byte through the bus; no actual BIOS-ROM execution is inferred
+from the byte-equivalence checks.
+
+The existing HLE charges no per-source-byte cycles or device effects for these
+ROM spans. Both paths execute the same SWI, instruction cost/return hook and
+ordered halfword writes, including paletteRAM/VRAM/OAM destination semantics.
+This preserves the emulator's modeled timing, not a new hardware BIOS claim.
+
+Linux and Windows GNU/Wine pass210serial core tests each (7optional ignored),
+including all widths/mirrors/edges/native callbacks, poisoned source views,
+DMA16/32, SWI11/12, raw CpuSet, all destination types and full snapshot equality.
+Frontend defaults pass101Linux/100Wine (22optional ignored). Four original
+producer cases (EUR/USA ×Linux/Wine) each pass1296calls/72792instructions and
+4208native dispatches after poisoning every old source span, including headers.
+Interpreter registers/CPSR/clock/RAM match at every step and native boundary;
+complete final states match. Each file owner records1272decoded LZ77calls /
+231936output bytes and3544source bus reads. Load/Undo/backup, failed binding,
+corrupt/deleted files and continued use after deletion preserve the live owner.
+
+New EUR1200-frame native pairs match every full state, image, OAM, dispatch and
+mixed/PSG/FIFO/HLE audio on both targets. Each consumes one160byte decoded
+palette and53BG reads. Actual CLI checks cover e5refusal/retention, current
+extract/verify/create/reuse/repair/move; interpreter/native1200-frame pairs have
+positive palette diagnostics and identical legacy frame/final-state hashes.
+See [the graphics contract](rom_data_graphics.md#direct-base-palette-consumption).
+The subsequent e6recorded-scene checks now pass240worldmap,3530battle/menu
+and8476transition frames on both targets, including every full state/image/OAM/
+dispatch/audio stream. Stable segments have zero palette reads; the transition
+consumes one160Bdecoded palette. See the [scene results](development/ROM_DATA_VALIDATION.md#base-palette-e6-scene-acceptance).
+GUI/costs, native Windows and default enablement remain05gates.
 
 ## Current BG consumption evidence
 
@@ -210,3 +256,9 @@ Linux/Wine. Other families/mods stay open. Canonical runtime and archive bytes a
 a prior BUILD-INFO metadata hash variation is retained in the
 [artifact evidence](development/ROM_DATA_VALIDATION.md#actual-portable-archives).
 Game-derived test artifacts remain local/ignored.
+
+The user's current priority is functional migration without performance
+measurement or space-reduction work; optimization comes later. Prior benchmark/
+RSS limits and results are historical, and no performance campaign should be
+resumed from an older next-action line. Guest clock/state/audio correctness,
+source provenance and save/native compatibility checks remain required.

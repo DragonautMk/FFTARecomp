@@ -13,6 +13,8 @@ use std::{
 };
 
 #[cfg(test)]
+mod alternate_palette_tests;
+#[cfg(test)]
 mod bg_descriptor_tests;
 #[cfg(test)]
 mod bg_packet_tests;
@@ -28,6 +30,8 @@ mod managed_tests;
 mod native_tests;
 #[cfg(test)]
 mod palette_data_tests;
+#[cfg(test)]
+mod palette_runtime_tests;
 mod preparation;
 #[cfg(test)]
 mod validation_tests;
@@ -184,7 +188,8 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         gba_core::rom_data::RuntimeResources::from_base_files(&machine.bus.rom, dataset.files())?;
     let obj_resident = resources.obj_resident_bytes() + 2 * std::mem::size_of::<usize>();
     let bg_resident = resources.background_resident_bytes();
-    let resident = obj_resident + bg_resident;
+    let palette_resident = resources.palette_resident_bytes();
+    let resident = obj_resident + bg_resident + palette_resident;
     if obj_resident > 1024 {
         return Err("Decoded OBJ metadata exceed the session memory budget".into());
     }
@@ -199,10 +204,7 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         resources.source_sha256(),resources.dataset_sha256(),
         resources.background_file_sha256().unwrap(),dataset.background.entries.len()
     );
-    eprintln!(
-        "ROM_DATA prepared resource={BG_BASE_PALETTES_ID} records={} runtime=rom",
-        dataset.palettes.entries.len()
-    );
+    eprintln!("ROM_DATA runtime=decoded resource={BG_BASE_PALETTES_ID} source={} dataset={} file={} records={} resident_bytes={palette_resident}", resources.source_sha256(), resources.dataset_sha256(), resources.palette_file_sha256().unwrap(), dataset.palettes.entries.len());
     Ok(())
 }
 
@@ -220,6 +222,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(bg) = resources.background_stats() {
             eprintln!("ROM_DATA_USE resource={BG_DESCRIPTORS_ID} dataset={} bus_reads={} projected_bytes={}",
                 resources.dataset_sha256(),bg.bus_reads,bg.projected_bytes);
+        }
+        if let Some(palette) = resources.palette_stats() {
+            eprintln!("ROM_DATA_USE resource={BG_BASE_PALETTES_ID} dataset={} bus_reads={} source_bytes={} lz77_calls={} decoded_bytes={}", resources.dataset_sha256(), palette.bus_reads, palette.source_bytes, palette.lz77_calls, palette.decoded_bytes);
         }
     }
 }
@@ -379,7 +384,12 @@ mod tests {
         let decoded_palettes = Palettes {
             entries: vec![
                 bg_palettes::Palette {
-                    banks: vec![[0x8123; 16]; 4]
+                    banks: vec![[0x8123; 16]; 4],
+                    encoded_source: [
+                        vec![0, 128, 0, 0],
+                        (0..64).flat_map(|_| 0x8123u16.to_le_bytes()).collect()
+                    ]
+                    .concat(),
                 };
                 bg_descriptors::BASE_RECORDS
             ],
@@ -646,7 +656,7 @@ mod tests {
         assert_eq!(encode_palettes(&palettes).unwrap(), bytes);
         assert_eq!(palettes.entries[0].banks[0][0], 0x8123);
         let value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
-        for invalid in 0..5 {
+        for invalid in 0..6 {
             let mut changed = value.clone();
             match invalid {
                 0 => changed["entries"][0]["unknown"] = serde_json::json!(0),
@@ -659,13 +669,36 @@ mod tests {
                 }
                 3 => changed["entries"][0]["banks"] = serde_json::json!([]),
                 4 => changed["entries"] = serde_json::json!([]),
+                5 => changed["entries"][0]["banks"][0][0] = serde_json::json!(1),
                 _ => unreachable!(),
             }
             assert!(parse_palettes(&serde_json::to_vec(&changed).unwrap()).is_err());
         }
         assert!(parse_palettes(&bytes[..bytes.len() - 1]).is_err());
+        // Equal decoded words with different source bytes would change guest
+        // branches/reads, so even a coherent re-encoding is not valid base data.
+        let mut recoded = palettes.clone();
+        let words = recoded.entries[0].source_bytes().unwrap();
+        let mut encoded = (((words.len() as u32) << 8) | 0x10).to_le_bytes().to_vec();
+        for group in words.chunks(8) {
+            encoded.push(0);
+            encoded.extend_from_slice(group);
+        }
+        recoded.entries[0].encoded_source = encoded;
+        let recoded = encode_palettes(&recoded).unwrap();
+        let mut manifest = source.manifest.clone();
+        manifest.resources[2].sha256 = gba_core::ffta_rom::digest(&recoded);
+        fs::write(path.join(BG_BASE_PALETTES_FILE), recoded).unwrap();
+        fs::write(
+            path.join(MANIFEST_FILE),
+            toml::to_string_pretty(&manifest).unwrap(),
+        )
+        .unwrap();
+        assert!(verify(&path, &source).unwrap_err().contains("reproduce"));
         let mut edited = palettes;
         edited.entries[0].banks[0][0] ^= 0x8000;
+        let word = edited.entries[0].banks[0][0].to_le_bytes();
+        edited.entries[0].encoded_source[4..6].copy_from_slice(&word);
         let edited = encode_palettes(&edited).unwrap();
         let mut manifest = source.manifest.clone();
         manifest.resources[2].sha256 = gba_core::ffta_rom::digest(&edited);

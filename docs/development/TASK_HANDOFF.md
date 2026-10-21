@@ -6,7 +6,11 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Latest request: `/goal esegui il todo rom_data_todo` (2026-10-21).
+- Latest request: full `rom_data_todo`, readable extracted files without space
+  reduction; **updated user steering: do not measure performance regressions
+  now, optimize later** (2026-10-21). This supersedes older queued benchmarks,
+  startup/RSS campaigns and performance acceptance work. Preserve their evidence;
+  continue functional migration/equivalence and correctness checks only.
 - **ROMDATA-01-CONTRACT — complete**, inventory/contract in
   [ROM_DATA_INVENTORY.md](ROM_DATA_INVENTORY.md). Both exact local images checked:
   USA direct0x149510/copy0xa398dc and EUR0x14ced8 are identical48byte dimension
@@ -718,21 +722,103 @@ An open parent never reopens completed children or rejected experiments.
   64KiBmanifest/16KiBOBJ/256KiBdesc/512KiBpal/768KiBtotal, not disk targets.
   Handles5597/46792/37763/53062/30348/79211/45316/30694/78893/57047/54720/
   70424/89500/37424/87785terminal; no live process or missing02deliverable.
-- **Next open unit: ROMDATA-04-BG-BASE-PALETTE-CONSUMPTION**. Select checkpoint,
-  then retain the verified parsed palette banks in the immutable runtime owner.
-  Serve raw palette/size-header reads from a fixed asset-region projection and
-  use the predecoded words in the existing BIOS LZ77 HLE only for authenticated
-  palette sources, reusing existing write_out semantics. Raw CpuSet can keep its
-  original read16/write16loop through file-derived bus data; no new generic
-  lookup on every ROM/code read, no guest instruction/cycle skip. Preserve old
-  HLE for nonpalette sources, all mirrors/edges/destinations and modelhighbits.
-  Determine/record original HLE timing/read side effects before changing it.
-  Validate exact CPU/clock/RAM/full states, both codecs/allrecords, payload-poison
-  provenance, native compiled producer and Load/Undo/backup ownership on Linux/
-  Wine. Reuse e5files, original buffers/oracles/native caches; changed common
-  bus/HLE paths justify affected/full core tests, not old scene reruns for context.
-  Other programs/catalogs/families, native Windows and mods remain open; user
-  prioritizes real migration/readability over space or budget-only optimization.
+- **ROMDATA-04-BG-BASE-PALETTE-CONSUMPTION — complete for the declared base
+  catalog and initial correctness/provenance.**
+  [Record](../changes/2026-10-21-consume-authenticated-background-base-palettes.json),
+  [contract/evidence](../rom_data_graphics.md#direct-base-palette-consumption).
+  Immutable typed banks now feed authenticated palette LZ77HLE; exact consumed
+  source bytes beside banks supply CPU/DMA/native/guest-BIOS reads. Raw CpuSet
+  stays unchanged. Existing SWI/control flow/modeled cycles and ordered writes,
+  ROM/native/save identities, RtApi and state schema are preserved. Real BIOS
+  byte views are tested, not execution with an actual BIOS image.
+- Completeness required exact source metadata (unused flags/header/streams),
+  validated against banks and authenticated rather than recompressed. Current
+  schema1/extractor6/decoder5, palettev2JSON, v1/e6-d5 retains e5and earlier.
+  Palette513639B, complete USA689678/EUR689684B; guards64KiBmanifest/16KiBOBJ/
+  256KiBdescriptors/1MiBpalettes/1280KiBtotal are malformed-input limits only.
+  Owned total123833B=448shared/OBJ+28672BG+94713palette on both64-bit targets;
+  no new memory budget or storage optimization campaign.
+- Terminal release210core each,101Linux/100Winefrontend defaults pass (7/22
+  optional ignored). Core covers all widths/mirrors/edges/native API, DMA16/32,
+  SWI11/12/rawCpuSet destinations/fallback, full state and ownership. Four
+  original interpreter/native producer cases each pass1296calls/72792instr /
+  4208native dispatches after poisoning all old source spans including headers.
+  Each owner1272LZ77calls/231936decoded bytes/3544bus reads/5720source bytes.
+  Load/Undo/backup, failed binding/deleted files and subsequent file-free use pass.
+- New native EUR1200-frame pairs match every full state/image/OAM/dispatch/audio
+  on Linux/Wine and consume one160Bdecoded palette plus53BGreads. Actual24CLI
+  checks pertarget pass extract/reuse/verify/repair/move/e5refusal+retention;
+  e4retention/regional models/source equality also pass. Current four files
+  match across targets. Actual interpreter/native1200framepairs match hashes
+  and native final state with positive decoded use, no dataset writes.
+- All handles43420/67942/23109/10824/67817/95295/29692/17778/51099terminal;
+  both production builds warning-free, canonical runtime/ROM/native cache/input
+  hashes verified, mainmtime refreshed. Evidence ignored
+  target/rom-data-bg-palette-runtime/verification-summary.json, core/default/
+  private reports, producer outputs, regional/CLI datasets, runtime pairs,
+  canonical backups/hashes and scripts. No export/agent commit/push/AndroidPort.
+- **ROMDATA-05-BG-BASE-PALETTE-SCENES — complete for declared EURscenes.**
+  [Record](../changes/2026-10-21-validate-decoded-base-palette-scenes.json),
+  [acceptance/results](ROM_DATA_VALIDATION.md#base-palette-e6-scene-acceptance).
+  New e6palette paths justify affected checks; all six Linux/Wine cases pass:
+  worldmap240,battle/menu3530,boot-to-battle8476. Every full state/image/OAM/
+  dispatch and mixed/PSG/bothFIFO/HLE-bit audio matches. Stable segments have
+  palette/BG0; transition requires/records one160Bdecoded palette, one tag-byte
+  source read and53BGreads. Zero-use stable scenes are not source-use proof.
+- Only ignored diagnostic counters/required-use/progress changed. Both release
+  test builds warning-free; handles10397/47587/24819/44936terminal. No repeated
+  core/default suite or production rebuild needed for this test-only change.
+  Protected e6files/source/snapshot/input/cartridge/native/TinyCC/testexe and
+  canonical hashes retained; no fixture recreation/new extraction/export.
+  Evidence ignored target/rom-data-bg-palette-validation/verification-summary.json,
+  six logs, protected manifests, source hashes and build metadata. Memory/links/
+  CRLF checks apply at handoff. HEAD8468b68observed externally committed earlier
+  palette-data work; no agent commit/revert or code conflict.
+- **ROMDATA-05-BG-BASE-PALETTE-COSTS — deferred by updated user instruction;
+  selection closed, no measurement/optimization queue.** User now explicitly
+  says to avoid measuring performance and optimize later. Existing first/cached
+  startup/nativeRSS/Wine-launch and complete worldmap five-pair observations
+  are retained under target/rom-data-bg-palette-validation/. Battle timing was
+  stopped on request, not accepted/retried: runner3457exit143, only its exact
+  runner/benchmark/runtime descendants terminated. Sandboxed /proc could not
+  see the runner; scoped host-process access found/stopped it successfully.
+- performance-deferred.json records the stop and excluded claims. Old raw
+  numbers and RSS diagnostic failure remain historical evidence, not work to
+  fix, finish, repeat or optimize now. No remaining performance process, no
+  complete battle timing/profile claim, no performance gate blocks ongoing
+  functional migrations under this user steering. Normal-enable/nativeWindows/
+  other-family correctness questions remain separate, not waived by this note.
+- Functional GUI/archive checks remain outstanding; old GUI telemetry helpers
+  require removal of profiling/FPS/callback-period measurements before reuse.
+  Recorded boot trace places the actual base palette call atframe1161; loading
+  a later battle snapshot before that does not establish new palette use.
+  Do not call zero-use GUI observations source-use proof or recreate fixtures
+  merely to resume. Existing core/original/native/scene correctness stays closed.
+- **ROMDATA-01-BG-ALTERNATE-PALETTE-PROGRAMS — complete for valid indices.**
+  [Record](../changes/2026-10-21-inventory-alternate-background-palettes.json),
+  [contract](../rom_data_graphics.md#alternate-background-palette-catalogs).
+  Independent USA427a04/42cc80and EUR489bb0/48ee2ctables, consumers0800543c/
+  080054a0. Environment2first/1second;157keys0..156each,314streams/region,
+  BEu32size256, literal/copy/zero custom codec. Source39933B/output80384B;
+  every regional source/output/link-table hash agrees. FFonrecords29/31/144/
+  145/146is unavailable; original has no local guard, caller exclusion unknown.
+- Warning-free test builds and four original Linux/Wine×EUR/USAoracles pass
+  1256calls/2655156guest instructions each; actual consumer/arguments, complete
+  output/guards, unchanged EWRAM/restoredSPchecked. Only cfg(test) source added;
+  no production codec/dataset/native/state/canonical change or performance
+  measurement. Handles62268/18524/85025terminal; native runner terminalinline.
+  Evidence target/rom-data-bg-alternate-palettes/verification-summary.json,
+  private disassembly/literal/stream inventories, decoded buffers, hypothesis
+  decoder and four original reports. FFcases are deliberately not invoked.
+- **Next open unit: ROMDATA-02-BG-ALTERNATE-PALETTE-CODEC**. Implement bounded
+  typed custom decoder and catalog/source authentication for valid157keys×2,
+  preserving fullu16values and FFmarkers. Validate exact consumption, malformed
+  headers/tokens/references/truncation, overlap/zero/FFfill and length bounds
+  against synthetic original-consumer probes; reuse retained314buffers and
+  original oracles on Linux/Wine. Do not recreate old boot/scene fixtures or
+  resume deferred performance work. Then managed extraction and actual runtime
+  file consumption, remaining GUI/archive/caller-precondition/language/family
+  coverage and mods stay in the full active goal. User has Linux/Wine only.
 
 ### Previous planning outcome (retained)
 

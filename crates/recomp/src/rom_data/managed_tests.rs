@@ -44,7 +44,7 @@ fn json_revision_retains_previous_background_generation() {
     assert!(verify(&old_directory, &source).is_err());
     let prepared = preparation::prepare(&root, &mut source, &mut |_| Ok(())).unwrap();
     assert_eq!(prepared.action, "created");
-    assert!(prepared.directory.parent().unwrap().ends_with("v1/e5-d4"));
+    assert!(prepared.directory.parent().unwrap().ends_with("v1/e6-d5"));
     let json = fs::read(prepared.directory.join(BG_DESCRIPTORS_FILE)).unwrap();
     let decoded = parse_background(&json).unwrap();
     let prior: Descriptors = parse(&old_bytes[2], "prior BG").unwrap();
@@ -74,7 +74,7 @@ fn json_revision_retains_previous_background_generation() {
         fs::read(old_directory.parent().unwrap().join("current")).unwrap(),
         b"generation-retained\n"
     );
-    fs::write(root.join("json-result.txt"), format!("previous_revision_retained=true\nnew_revision=e5-d4\nbg_json_bytes={}\ngeneration_logical_bytes={logical}\nsource_equal=true\nreuse=true\n", json.len())).unwrap();
+    fs::write(root.join("json-result.txt"), format!("previous_revision_retained=true\nnew_revision=e6-d5\nbg_json_bytes={}\ngeneration_logical_bytes={logical}\nsource_equal=true\nreuse=true\n", json.len())).unwrap();
 }
 
 #[test]

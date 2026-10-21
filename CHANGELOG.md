@@ -194,6 +194,28 @@ Documentation: [2026-10-21-order-timer-audio-events.json](docs/changes/2026-10-2
 
 [Change record](docs/changes/2026-10-21-preserve-native-event-boundaries.json)
 
+## 2026-10-21 — Plan ROM extraction and direct decoded-resource consumption before mod support
+
+Type: docs. Platforms: Desktop Windows and Linux (planning only).
+
+**Changes**
+
+- Add a seven-phase TODO prioritizing ROM resource inventory, extraction/decoding, automatic startup preparation, direct runtime consumption and verification; mod overrides and broader content/code changes follow the main delivery.
+- Define per-family coverage and provenance checks, guest timing and audio equivalence, native/profile/save identity, storage lifecycle and measured performance criteria. Link the plan from the desktop TODO and project state, and reconcile the task handoff with the latest planning request.
+
+**Validation**
+
+- Inspected existing ROM loading and in-memory reads, exact ROM profiles, native-cache identity, save-state identity and portable storage documentation.
+- Documentation checks pass: seven ordered unique phase IDs, all implementation phases pending, local links resolve in the plan and its two indexes, and git diff --check passes. No runtime tests or builds were run for this documentation-only change.
+
+**Limitations**
+
+- Planning only: no extraction, decoding pipeline, runtime resource migration, mod support or performance improvement is implemented or claimed; formats and migration coverage must be verified during ROMDATA-01.
+
+Documentation: [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
+
+[Change record](docs/changes/2026-10-21-plan-decoded-rom-data-runtime.json)
+
 ## 2026-10-21 — Turn desktop bug notes into an analyzed implementation checklist
 
 Type: docs. Platforms: Desktop, Windows validation priority.

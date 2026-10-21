@@ -24,6 +24,12 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   guest semantics; a host-only overlay does not itself change the guest ABI.
 - Desktop packaging covers Windows and Linux. The release profile uses thin
   LTO and 16 codegen units; the Cargo manifest is authoritative.
+- The desktop loads the full ROM into `MemMap.rom` at startup; ordinary guest
+  ROM reads use that in-memory buffer. The [ROM data TODO](ROM_DATA_TODO.md)
+  plans extraction/decoding, startup reuse and direct runtime consumption first,
+  followed by mod overrides and broader changes. These features are not yet
+  implemented. Exporting files alone is not completion; preserve guest behavior,
+  native-cache/profile/save identity and measure costs against the memory baseline.
 
 ## Container builds
 

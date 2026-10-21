@@ -14,8 +14,11 @@ Ambito: workspace desktop, con priorità di verifica su Windows.
 per il caso Fast confermato. **BUG-03-FAST-AUDIO** ha reset, consumo effettivo
 e Normal limitato; restano ascolto/eventi/hardware. **FEAT-01-MUTE** e
 **FEAT-02-FULLSCREEN** sono implementati, con limiti di verifica espliciti.
-Prossima funzionalità: **FEAT-03-TACTICAL-OVERLAY** (P3, prima dati verificati e
-visualizzazione, poi previsione). Un genitore aperto non riapre figli conclusi.
+**FEAT-03-TACTICAL-OVERLAY** resta aperto (P3, prima dati verificati e
+visualizzazione, poi previsione). L'ultima richiesta aggiunge il piano
+**FEAT-04-ROM-DATA**: estrazione, decodifica e uso diretto dei dati, poi mod.
+La richiesta attuale riguarda il TODO; l'implementazione resta da avviare.
+Un genitore aperto non riapre figli conclusi.
 
 ## BUG-01-LAWS — Schermata delle leggi in battaglia
 
@@ -342,6 +345,28 @@ la funzionalità completa si chiude solo con anteprima attendibile nei casi
 supportati, limiti visibili e nessun effetto dell'overlay sull'esecuzione guest.
 La correzione BUG-01 aiuta il confronto delle leggi, ma non sostituisce la
 verifica delle strutture dati e dello scheduler.
+
+## FEAT-04-ROM-DATA — Estrazione e uso diretto dei dati, poi mod
+
+**Stato:** TODO redatto; implementazione non avviata. **Complessità:** alta.
+La priorità interna è estrarre e decodificare i dati della ROM selezionata,
+prepararli al primo avvio e farli usare effettivamente dal runtime. Il supporto
+alle mod e alle modifiche della logica segue questa consegna principale.
+
+Il [TODO dedicato](ROM_DATA_TODO.md) contiene dipendenze e criteri per:
+
+- [ ] ROMDATA-01 — inventario dei formati, identità e contratti delle risorse.
+- [ ] ROMDATA-02 — estrazione e decodifica verificate per famiglia.
+- [ ] ROMDATA-03 — preparazione automatica, riuso e ripristino del dataset.
+- [ ] ROMDATA-04 — consumo diretto nel runtime, con prova della provenienza.
+- [ ] ROMDATA-05 — equivalenza, salvataggi e misure delle prestazioni.
+- [ ] ROMDATA-06 — mod come override delle risorse, con conflitti e compatibilità.
+- [ ] ROMDATA-07 — estensioni dei contenuti e modifiche alla logica.
+
+**Criterio principale:** dataset realmente utilizzato dal gioco per le famiglie
+previste, con estrazione automatica, equivalenza senza mod e dipendenze residue
+dalla ROM esplicite. La ROM è già letta in RAM: un vantaggio prestazionale va
+misurato. La sola esportazione di file o ricomposizione di una ROM non basta.
 
 ## Consegna di ciascuna attività futura
 

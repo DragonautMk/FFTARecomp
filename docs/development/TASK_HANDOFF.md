@@ -6,16 +6,24 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Latest request: generate a TODO for startup ROM resource extraction and future
-  folder-based mods. **FEAT-04-ROM-MODDING-PLAN — selected / documentation only.**
-- Existing outcome: source inspection confirms `play.rs` reads the ROM once into
-  `MemMap.rom`; guest reads then use memory. No resource extraction or mod loader
-  is implemented. Git is clean at selection; previous desktop fixes are retained.
-- Missing deliverable: an actionable phased TODO covering resource discovery,
-  extraction/cache, overrides, native-code/profile/save identity and validation.
-- Next action: add the dedicated plan and link it from the desktop TODO and
-  project state; check documentation and memory. No runtime work, builds or
-  performance claims are selected by this planning request.
+- Latest request: resume the TODO, prioritizing ROM extraction into decoded data
+  files and actual runtime reads from those resources; mods follow afterwards.
+  **FEAT-04-ROM-DATA-PLAN — complete / documentation only**, superseding the
+  earlier FEAT-04-ROM-MODDING-PLAN draft selection.
+- Delivered: [seven-phase TODO](ROM_DATA_TODO.md), linked from the desktop TODO
+  and project state; [record](../changes/2026-10-21-plan-decoded-rom-data-runtime.json).
+  Main delivery is extraction/decoding, startup reuse and verified direct
+  consumption per resource family. Mod overrides and broader changes follow.
+- Source inspection confirms the current ROM is loaded into `MemMap.rom` and
+  read from memory. The plan therefore requires measured performance, provenance,
+  native/profile/save identity and strict guest/audio/timing equivalence checks.
+- Documentation checks pass: seven ordered unique phase IDs, implementation
+  unchecked, local links resolve and whitespace clean. No runtime tests/builds,
+  extraction, mod loader or speedup is claimed. Previous desktop fixes retained.
+- No missing deliverable or live process for this planning request. All seven
+  implementation phases remain pending. When implementation is selected, begin
+  with ROMDATA-01: resource inventory and the first family to migrate end to end.
+  The older tactical/performance queue remains unselected by this request.
 
 ## Previous desktop request outcomes
 

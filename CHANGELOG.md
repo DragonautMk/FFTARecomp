@@ -54,6 +54,56 @@ Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
 
 [Change record](docs/changes/2026-10-21-validate-virtual-monitor-transitions.json)
 
+## 2026-10-21 — Include resource guides in container exports and validate actual portable bundles
+
+Type: fixed. Platforms: Linux Docker/Ubuntu X11, Windows GNU Docker/Wine.
+
+**Changes**
+
+- Align the Docker allowlist and both Dockerfile COPY lists with the packager's two required resource guides. The missing inputs were found before the real builds; no runtime logic or launcher behavior changes.
+- Build/test/export actual candidate bundles into an isolated validation directory from frozen current-worktree inputs, inspect archive/binary/privacy requirements and run the actual extracted executables with decoded data.
+
+**Validation**
+
+- Both container build/test/export stages pass:392Windows/Wine and395Linux tests,24optional ignored per platform. Rust/compiler output has no warnings; cold Windows apt setup has only missing optional man-page alternatives warnings.
+- Actual zip/tar integrity, safe member types/paths, executable modes, selected document/TinyCC/source hashes and nested TinyCC source archive pass. Archive file paths/content hashes exclude known ROMs, saves/states/recordings, extracted data, native game caches and generated code. Only bundled libtcc.dll appears in the Windows DLL set; both PE executables contain resources and require no unbundled GCC/C++/pthread runtime. Linux binary maximum GLIBC requirement is2.35 with resolved host runtime libraries.
+- Actual extracted Windows/Wine and Linux runtimes automatically locate bundled TinyCC without FFTA_TCC_LIBRARY, create portable Data/resources without an override and consume the data while loading the protected battle slot, Undoing, reloading and closing0. Captures inspected, original inputs and every public archive-member hash remain unchanged. Private fixtures/caches are added only after privacy inspection; archive bytes stay unchanged.
+- The preservation guard reports one changed prior dist/docker-linux/BUILD-INFO.txt hash, while all prior archive bytes and canonical runtimes match their original hashes. Its current contents match the actual identical Linux archive; cause is unestablished and exact old bytes are unavailable, so no invented restoration or all-metadata-preserved claim is made. Both actual build/export stages had passed before this guard assertion; metadata difference is retained.
+- An inspection helper initially matched an empty TinyCC source file to the empty prepare.lock hash, and its inspect.py name shadowed the standard module in error reporting. Rename the helper, exclude the empty lock identity and verify the surviving extraction byte-for-byte before completing inspection; no build or extraction is repeated.
+- Final project_memory.py check, CRLF-aware git diff --check and affected local-document links pass. Final runtime/source (excluding documented post-export outcome docs), canonical, public archive-member, artifact and original private-fixture hashes are checked; all selected handles are terminal and the next USA initializer criterion is recorded.
+
+**Limitations**
+
+- Native Windows hardware, USA initializer trace and the remaining family/catalog migrations/mods are still open; base resource use stays opt-in. Actual GUI archive checks are Xvfb/llvmpipe and Wine compatibility, not new speed/audio-quality/physical-device claims. Existing archive bytes and canonical binaries remain unchanged; one prior BUILD-INFO metadata difference is explicitly retained. No AndroidPort update, external publication, agent commit or push.
+
+Documentation: [docker.md](docs/docker.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-21-validate-decoded-resource-portable-archives.json)
+
+## 2026-10-21 — Validate decoded-resource GUI Fast, restore and audio lifecycle
+
+Type: docs. Platforms: Linux X11/CPAL/llvmpipe, Windows GNU/Wine/llvmpipe.
+
+**Changes**
+
+- Close the local EUR ROMDATA-05-OBJ-GUI gate with existing source-verified production candidates, immutable prepared data and protected battle fixtures; update the validation protocol, runtime documentation and remaining TODO gates. No runtime implementation or executable rebuild is required.
+
+**Validation**
+
+- Actual Linux native-translation and Windows/Wine native-translation/interpreter GUI runs pass battle Slot Load, momentary Fast, release, toggle, pause/Return-resume preserving Fast, return to 1x, Undo load, reload, resumed battle and clean WM close0. Captures inspected; FPS Fast INT/EXT ratios stay about4 and return to about59.7/59.7 at1x. Existing TinyCC objects are reused in isolated caches; all original fixture/executable/library/dataset and imported slot hashes remain unchanged.
+- Every session reports positive decoded guest/host ROM/host RAM use. Native Linux bus14640/hostROM27061/hostRAM222040; Wine native15744/29102/238784; Wine interpreter14874/27473/225589. No dynamic-RAM fallback is observed in these idle battles, and no resource regeneration occurs.
+- Actual volume-zero callbacks execute in playing/paused/Fast contexts at44.1kHz Linux and48kHz Wine. Fast callback counts382/1634/1631; device errors, callback-over-period and producer drops0 in all sessions. Inclusive Fast p99 totals0.836176/0.265100/0.256200ms. Retain transition priming/waiting and Linux playing holds rather than claiming steady zero-starvation or a speedup.
+- A separate Windows/Wine native GUI backup check starts from a new copy of the GUI-generated test save, observes safe Cancel-default confirmation, Restore and restart success, exact restored primary bytes while paused, Resume clean boot and clean close. Backup files do not rotate/change, imported slot/source save remain unchanged, resource usage survives reset and three actual stream constructions report0device errors.
+- Final project_memory.py check, CRLF-aware git diff --check and affected local-document links pass. Final runtime/source (excluding documented post-export outcome docs), canonical, public archive-member, artifact and original private-fixture hashes are checked; all selected handles are terminal and the next USA initializer criterion is recorded.
+
+**Limitations**
+
+- Local EUR first-family GUI coverage with muted final gain; not audible quality, physical audio/video latency, native Windows hardware, all-mode steady callback performance or cross-platform timing equality. Native Linux capture clips the wide window right edge on its smaller virtual screen; FPS/menu/battle were inspected, while complete-frame equality remains the previously closed headless check. Windows runs use a larger virtual screen. USA initializer trace, actual updated archives and native Windows remain before normal enablement; other families/mods remain open. No production code, canonical executable, release, AndroidPort, commit or push changes.
+
+Documentation: [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [fast_forward_audio.md](docs/fast_forward_audio.md), [save_backups.md](docs/save_backups.md).
+
+[Change record](docs/changes/2026-10-21-validate-decoded-resource-gui-lifecycle.json)
+
 ## 2026-10-21 — Validate decoded OBJ scene parity and measure migration costs
 
 Type: changed. Platforms: Linux, Windows GNU/Wine.

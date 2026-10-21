@@ -16,7 +16,7 @@ COPY TinyCC/ TinyCC/
 COPY Licenses/ Licenses/
 COPY gamedb.sqlite ./
 COPY scripts/package_ffta_linux.sh scripts/package_ffta_portable.py scripts/
-COPY docs/portable.md docs/docker.md docs/fps_overlay.md docs/menu_shortcuts.md docs/save_states.md docs/save_backups.md docs/
+COPY docs/portable.md docs/docker.md docs/fps_overlay.md docs/menu_shortcuts.md docs/save_states.md docs/save_backups.md docs/rom_data.md docs/rom_data_runtime.md docs/
 
 # Source, game data and Docker sockets are never bind-mounted into the build.
 # Export outside the cache mount so a warm build still has real output files.

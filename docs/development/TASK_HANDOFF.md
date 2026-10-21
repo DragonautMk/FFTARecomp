@@ -180,13 +180,80 @@ An open parent never reopens completed children or rejected experiments.
   windows-startup-results.json, RSS raw logs, package/benchmark test logs,
   source hashes and helper scripts. These are terminal results, not a rerun queue.
 - No remaining deliverable/live process for this bounded scene/cost unit.
-  **Next open unit: ROMDATA-05-OBJ-GUI**, Fast/pause/resume and realtime audio
-  with decoded resources using protected existing fixtures/candidates. Select
-  it with a new checkpoint before mutation, rather than rerunning these closed
-  timing/scene/matrix/lifecycle checks. USA initializer, actual updated archive
-  GUI/privacy gates and native Windows remain distinct before normal enablement.
-  Other catalogs/families and mods remain in the full active goal; the goal is
-  not complete and no unrelated performance queue is selected.
+  The subsequently completed GUI outcome follows below. Closed timing/scene/
+  matrix/lifecycle checks are not a rerun queue. USA initializer, actual updated
+  archive and native Windows gates remain distinct before normal enablement;
+  other catalogs/families/mods stay in the full active goal.
+
+- **ROMDATA-05-OBJ-GUI — complete for local EUR declared scope.** Previous
+  turn was progress; selected new GUI criterion without reopening completed
+  headless timing/scene/matrix/file tests. [Record](../changes/2026-10-21-validate-decoded-resource-gui-lifecycle.json).
+  Source-verified existing candidates, TinyCC objects, datasets and battle slot
+  reused in new isolated config/save/cache roots. Linux native and Wine native/
+  interpreter pass held/released/toggled Fast, pause/Return-resume preserving
+  Fast,1xreturn, Slot Load/Undo/reload and WM close0. Captures inspected; Fast
+  ratio4:1and1x~59.7. Positive decoded guest/host ROM/RAM use on all paths.
+- Actual CPAL44.1kHz Linux/Wine48kHz callbacks execute all contexts with final
+  volume0. Fast382/1634/1631callbacks; device errors, producer drops and
+  over-period callbacks0. Transition priming/waiting and Linux playing holds
+  retained: no steady zero-starvation/audibility/A-B callback speed claim.
+  Native smaller virtual display clips the wide window right edge; FPS/menu
+  and actual battle inspected. Complete-image parity is the closed headless gate.
+- Separate actual Wine/native backup confirmation/restoration/restart passes:
+  safe Cancel default, exact restored primary bytes while paused, Resume clean
+  boot, backup order/content preserved, slot/source-save unchanged and resource
+  ownership retained through reset.3stream constructions/0device errors.
+  All original fixture/library/executable/dataset hashes and imported slot bytes
+  protected. Four handles52685/14957/14446/26083terminal/pass, no live process.
+  Evidence target/rom-data-gui/{verification-summary.json,run.py,run-backup.py},
+  native/windows-native/windows-interp/windows-backup result/measurement JSON,
+  play/Xvfb/Openbox logs and inspected PNGs. No runtime rebuild/code change,
+  canonical/export update, agent commit/push or AndroidPort update. HEAD69cf601
+  observed externally; preserved existing work, no agent commit.
+- No missing deliverable for this bounded GUI unit. Subsequent actual archive
+  results follow below. USA initializer/native Windows remain separate gates;
+  all remaining catalogs/families/mods stay in the full active goal.
+
+- **ROMDATA-05-OBJ-ARCHIVES — complete for declared container/host scope.**
+  Full goal unchanged; GUI previous unit was progress. Required artifact work
+  selected with checkpoint; static inspection found packager's required resource
+  guides absent from Docker allowlist/COPY. Fixed both before actual builds.
+  [Record](../changes/2026-10-21-validate-decoded-resource-portable-archives.json).
+- Both build/test/export stages pass392Windows/Wine and395Linux tests,24optional
+  ignored each; compiler output warning-free (cold apt optional man-page warnings
+  retained). Explicit target/rom-data-archives outputs. Archive privacy/content/
+  nested TinyCC source hashes, safe paths/types/modes, PE/resources/imports and
+  Linux maximum GLIBC2.35/ldd checks pass. Windows DLL set onlylibtcc.dll.
+- Actual extracted binaries, not previous host candidates, automatically find
+  bundled TinyCC, create portable Data/resources without overrides, then pass
+  battle Slot Load/Undo/reload/resume/WM close0 with inspected captures and
+  positive decoded bus/host ROM/host RAM use. Public archive files and all
+  source fixtures unchanged; test native caches/data inserted only after privacy
+  inspection and never added to zip/tar. Both archive hashes retained in results.
+- Guard exception: one prior dist/docker-linux/BUILD-INFO.txt hash changed;
+  every prior archive and canonical runtime hash matches. Current metadata
+  matches the identical current archive; cause unestablished, exact old bytes
+  unavailable. Do not claim all metadata preserved, invent ASLR addresses or
+  rerun successful builds. Both exports had passed before guard4102 exited1;
+  build-results explicitly reconciles that exception. Scanner initially matched
+  an empty TinyCC file to an empty prepare.lock hash and inspect.py shadowed
+  stdlib traceback reporting; helper renamed/empty non-asset hash excluded,
+  surviving extraction verified byte-exact, both inspections completed without
+  another build/unpack. Not a game-data leak or production runtime failure.
+- All handles4102/48361/6979terminal; no live work. Evidence ignored
+  target/rom-data-archives/: frozen source/build-results.json, per-platform
+  build logs/test counts, docker-* archives/BUILD-INFO, inspection JSON/PE dumps,
+  verification-summary.json, actual extracted-root result/measurement/logs/PNGs,
+  metadata difference/preimage-search evidence, original/corrected helpers.
+  Source/implementation and canonical bytes preserved; outcome docs updated
+  after frozen export inputs, no extra runtime rebuild. No agent commit/push,
+  external publication or AndroidPort change.
+- This artifact unit has no remaining deliverable. **Next open unit:
+  ROMDATA-05-OBJ-USA-INITIALIZER**: establish independent actual USA copied-table
+  initialization/read coverage, reusing existing ROM/profile/decoder evidence.
+  Select with checkpoint; do not rerun closed EUR replay, timings, GUI or archive
+  gates for context. Native Windows remains distinct before normal enablement;
+  remaining catalogs/families and mods are still in the full active goal.
 
 ### Previous planning outcome (retained)
 

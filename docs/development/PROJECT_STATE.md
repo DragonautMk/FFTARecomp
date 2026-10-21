@@ -45,9 +45,14 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   boot-transition full-state/audio checks pass independently on Linux and Wine;
   the copied alias is actually read at frame5400. Local frame/startup/memory/disk
   costs pass the predefined [validation protocol](ROM_DATA_VALIDATION.md), with
-  neutral frame results and retained Wine startup variability. GUI Fast/pause/
-  realtime audio, USA initializer and native Windows gates still precede normal
-  enablement; other families/mods remain open.
+  neutral frame results and retained Wine startup variability. Actual Linux/
+  Wine native/interpreter Fast/pause/Load/Undo and backup clean-boot GUI checks
+  now pass with real muted callbacks and positive decoded use. Actual container
+  archives pass395Linux/392Wine tests, privacy/PE/ELF checks and extracted-runtime
+  GUI consumption with automatic bundled TinyCC and new portable preparation.
+  Both Docker recipes/context include the packager's resource guides. USA
+  initializer and native Windows gates still precede normal enablement; other
+  families/mods remain open.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

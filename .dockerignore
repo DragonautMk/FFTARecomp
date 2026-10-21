@@ -28,6 +28,8 @@
 !docs/menu_shortcuts.md
 !docs/save_states.md
 !docs/save_backups.md
+!docs/rom_data.md
+!docs/rom_data_runtime.md
 # Reject private/runtime files even if they appear inside an allowed directory.
 **/.git/**
 **/target/**

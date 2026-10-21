@@ -227,10 +227,21 @@ Linux e109,222/91,891ms Wine; massimo riuso Wine183,130ms conservato, con gate
 sulla mediana. RSS Linux e spazio disco rispettano i budget. Test sintetico
 archivi tar/zip esclude dati privati e include le nuove istruzioni.
 
-ROMDATA-05 resta parziale: GUI Fast/pausa e audio realtime, trace USA,
-verifica Windows nativo e archivi reali aggiornati restano gate distinti prima
-dell'abilitazione normale. Le voci generali non chiudono altre famiglie della
-matrice. Prossima sottofase: **ROMDATA-05-OBJ-GUI**, riusando i risultati già chiusi.
+**ROMDATA-05-OBJ-GUI completato nel perimetro EUR Linux/Windows-Wine:**
+Fast tenuto e commutato, pausa/ripresa mantenendo Fast, ritorno1x, Load/Undo/
+ricaricamento e ripristino backup dal menu passano con uso delle risorse,
+catture ispezionate, veri callback44,1/48kHz e file protetti invariati.
+[Record e limiti](../changes/2026-10-21-validate-decoded-resource-gui-lifecycle.json).
+Il gain finale è0: nessuna prova di udibilità o prestazioni callback A/B.
+**ROMDATA-05-OBJ-ARCHIVES completato nel perimetro dichiarato:** corrette le
+copie/allowlist Docker per includere le guide richieste dal packager; archivi
+reali con395test Linux/392Windows-Wine passati (24opzionali ignorati ciascuno).
+Privacy, PE/ELF, TinyCC automatico e GUI del runtime effettivamente estratto con
+nuova preparazione portable/Load/Undo/ricaricamento passano.
+[Record e limiti](../changes/2026-10-21-validate-decoded-resource-portable-archives.json).
+Archivi/binari precedenti invariati; variazione di un metadato BUILD-INFO
+registrata esplicitamente. ROMDATA-05 resta parziale per trace USA e Windows
+nativo prima dell'abilitazione normale; altre famiglie/mod restano aperte.
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
@@ -281,6 +292,6 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-05-OBJ-GUI, Fast/pausa e audio realtime nel
-percorso risorse; abilitazione normale soltanto con tutti i gate soddisfatti.
+**Prossima azione:** ROMDATA-05-OBJ-USA-INITIALIZER, traccia verificata della
+copia USA; abilitazione normale soltanto con tutti i gate soddisfatti.
 Gli altri cataloghi, le migrazioni e le fasi mod restano nell'obiettivo completo.

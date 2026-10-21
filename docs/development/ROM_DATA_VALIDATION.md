@@ -88,7 +88,8 @@ Private evidence: `target/rom-data-validation/` reference-build.json, repaired
 build log/help/hashes, native-{worldmap,enemy-menu}/summary.json and individual
 logs, runner logs and per-second host-load observations. Full per-frame
 state/audio and startup/storage/RSS results follow below. GUI
-Fast/pause, native Windows and other regional initializer coverage remain open;
+The later GUI/archive results below close those local gates; native Windows
+and other regional initializer coverage remain open;
 the comparison above alone does not enable the default.
 
 ### Native Linux complete-state and startup observations
@@ -129,7 +130,8 @@ Seven first/cached observations through the production helpers pass:
   observations remain in startup-results.json, not presented as one dataset.
 
 These costs pass the stated native Linux gates. GUI/audio callback behavior
-and native Windows remain separate criteria.
+and native Windows remain separate criteria; actual callback lifecycle is
+covered below.
 
 ### Windows GNU through Wine
 
@@ -205,3 +207,91 @@ Explicit-root lookup and progress-console formatting are outside those helper
 timings; independent whole-process startup/RSS observations include normal
 startup behavior. Report every value/max and evaluate the preselected medians;
 do not delete earlier outputs or rerun an exceeded budget without a reason.
+
+## Actual GUI and callback lifecycle
+
+ROMDATA-05-OBJ-GUI is complete for local EUR Linux/Wine coverage. Source-verified
+production candidates and previously validated immutable datasets were reused;
+no runtime rebuild, extraction, benchmark or recording was needed. New isolated
+config/save/cache roots import the protected frame8476battle slot read-only.
+
+Linux with native guest translation, and Windows/Wine with native translation
+and interpreter, each pass actual Slot Load, held Fast/release, toggle, pause/
+Return-resume keeping Fast, return to1x, Undo load, reload, resumed battle and
+clean WM close. Captures show about4:1 INT/EXT in Fast and about59.7/59.7at1x.
+Native dispatch uses each platform's existing hash-protected TinyCC ELF object.
+Positive decoded usage (guest/typed host ROM/typed host RAM):14640/27061/222040
+Linux;15744/29102/238784Wine native;14874/27473/225589Wine interpreter. No
+regeneration or dynamic-RAM fallback occurs; original resource and slot hashes
+remain unchanged. These counters are cumulative session use, not per-phase
+trace or instruction timing. Native Linux's smaller virtual screen clips the
+wide window right edge; inspected FPS/menu/battle establish these controls,
+while complete-image equality is the already closed headless criterion.
+
+Actual callbacks run at44.1kHz Linux/48kHz Wine with final volume0. Playing,
+paused and Fast contexts all have callbacks; Fast382/1634/1631respectively.
+All sessions report0device errors, callbacks over period and producer drops.
+Fast inclusive callback p99 is0.836176/0.265100/0.256200ms. The whole-session
+profiles include transitions: Linux playing has17callbacks with faithful holds,
+and Fast waiting device frames11290/7680/7200are retained, with0rebuffers and
+maximum estimated source queues156.616/122.350/114.466ms. This is actual
+callback/lifecycle observation, not steady-play zero-starvation, an audio
+quality judgment or an A/B callback-performance claim.
+
+A separate Wine/native GUI backup check observes Cancel selected by default,
+explicit Restore and restart, success feedback, exact startup save bytes while
+paused, Resume into clean boot and clean close. Backup bytes/order do not
+change, slot/source save hashes stay protected, and decoded resource usage
+survives the reset. Three stream constructions report0device errors. Closed
+file-level Load/Undo/backup retention tests are reused, not rerun.
+
+Private evidence: `target/rom-data-gui/verification-summary.json`, per-mode
+result.json, measurement-inputs.json, play logs, inspected PNG captures and
+helpers. Every process52685/14957/14446/26083is terminal. The observed controls
+close this bounded GUI gate. Actual archive evidence follows below; USA
+initializer, native Windows and all other families/mods remain open.
+
+## Actual portable archives
+
+ROMDATA-05-OBJ-ARCHIVES is complete for the declared container/host scope.
+The packager required rom_data.md/rom_data_runtime.md, but the Docker context
+allowlist and COPY lists omitted them. Both recipes now include those explicit
+files. Frozen input hashes identify the actual worktree rather than assuming a
+commit contains all uncommitted implementation files.
+
+Both real builds/test/exports pass:392Windows GNU/Wine and395Linux tests,
+24optional ignored per platform. No compiler warnings occur; cold Windows apt
+setup reports only absent optional man-page links. Exported zip/tar files pass
+integrity, safe path/member checks, executable modes and public source/document
+hash checks. No Data files, private game/resource/save/recording/cache/code
+members or matching known private content hashes occur, including inside the
+TinyCC source zip. Windows has only the intended libtcc DLL, PE resources and
+no unbundled GCC/C++/pthread runtime imports. Linux maximum required GLIBC is
+2.35and host ldd resolves its libraries.
+
+The actual extracted executables automatically find the bundled TinyCC, create
+portable Data/resources with no resource override, load the protected battle
+slot, Undo/reload/resume and close0. Windows guest/host ROM/host RAM resource
+reads3084/5875/46774; Linux3072/5870/46592. Captures are inspected. All original
+fixtures and public archive-member hashes match; private test caches/data are
+added only after archive inspection, while zip/tar bytes remain untouched.
+This validates these artifact bytes, not the old host candidate by substitution.
+
+The post-build preservation guard finds one prior BUILD-INFO.txt hash changed
+outside the selected export path. All prior archive bytes and both canonical
+runtime hashes are unchanged; current Linux metadata matches the identical
+archive. The cause is unestablished and an exact old preimage is unavailable;
+retain this exception rather than inventing old ldd ASLR addresses. Both build/
+export stages had already passed, so they are not rerun. The first scanner also
+mistook a harmless empty TinyCC source file for the empty prepare.lock payload;
+excluding that non-asset identity and byte-checking the existing extraction
+completes the failed inspection without another build/unpack.
+
+Evidence: `target/rom-data-archives/` build-results.json/source hashes,
+windows/linux-build.log and test-counts.json, both docker-* archives/BUILD-INFO,
+platform-inspection.json/PE dumps, extracted runtime result/measurement JSON,
+logs/PNG captures and verification-summary.json. Windows archive SHA-256
+88ea78fc5c03fe5dc3c073086b2f18d7b7106ed08cf2d5bb705a3c2d5f3b5b94;
+Linux08726f7fcea11f0ed4bfd967b70eefdee49693fb09a44a307d0ddd968f44904c.
+Handles4102/48361/6979are terminal. USA initializer/native Windows still gate
+normal enablement, and the full remaining resource matrix/mods stay open.

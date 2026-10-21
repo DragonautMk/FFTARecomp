@@ -2,7 +2,7 @@
 
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
 and load `graphics.obj-dimensions` from the selected ROM's decoded dataset.
-Normal enablement awaits the remaining ROMDATA-05 GUI, regional and native
+Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
 [full TODO](development/ROM_DATA_TODO.md). This is a first-family migration,
@@ -142,7 +142,20 @@ one-generation root uses1164logical/32768allocated bytes on the host filesystem.
 Portable archives include these resource help documents. Synthetic Linux tar/
 Windows zip marker checks prove the selected inputs exclude neighboring private
 resources, ROM/save/state/recordings, native caches and generated code; no new
-release export is claimed. Fast/pause GUI and realtime audio behavior, USA
-initializer coverage and native Windows hardware remain ROMDATA-05 work before
-normal enablement. Other families/mods remain open. Canonical binaries and input
-hashes are preserved; resources and game-derived artifacts stay local/ignored.
+release export is claimed. Actual decoded-resource GUI native/interpreter
+checks now pass on Linux/Wine: held/toggled Fast, pause/resume preserving Fast,
+return to1x, Slot Load/Undo/reload and a separate in-menu backup clean boot.
+Real callbacks at44.1/48kHz report0device errors, over-period callbacks and
+producer drops; muted output and transition-inclusive profiles do not establish
+audibility or steady zero-starvation. Protected files and source hashes match.
+[Detailed GUI evidence and limits](development/ROM_DATA_VALIDATION.md#actual-gui-and-callback-lifecycle).
+Actual Docker archives also pass395Linux/392Windows-Wine tests (24optional
+ignored each), privacy/identity checks and extracted-runtime GUI Load/Undo/
+reload with automatic bundled TinyCC and fresh portable resources. The Docker
+context/COPY lists now include both resource guides required by the packager.
+Linux requires at most GLIBC2.35; Windows PE/resources/dependencies are checked.
+USA initializer and native Windows remain before normal enablement; other
+families/mods stay open. Canonical runtime and archive bytes are preserved;
+a prior BUILD-INFO metadata hash variation is retained in the
+[artifact evidence](development/ROM_DATA_VALIDATION.md#actual-portable-archives).
+Game-derived test artifacts remain local/ignored.

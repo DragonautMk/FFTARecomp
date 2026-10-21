@@ -220,3 +220,20 @@ arguments, missing Docker and nonzero exit propagation. Native Windows/Docker
 Desktop, Windows PowerShell 5.1 and physical controllers were not available
 for validation; do not treat Wine or the PowerShell mock as native Windows
 coverage.
+
+## Decoded-resource archive gate
+
+Both container context/COPY lists include docs/rom_data.md and
+rom_data_runtime.md alongside the existing selected portable guides. The
+packager requires them; adding a required document to packaging also requires
+updating the Docker allowlist and COPY inputs. Keep the explicit privacy
+exclusions for game data and runtime storage.
+
+ROMDATA-05 candidate exports pass395Linux and392Windows/Wine tests,24optional
+ignored each, archive privacy/identity and PE/ELF requirements (Linux GLIBC2.35
+maximum). Their actual extracted runtimes automatically find bundled TinyCC,
+create portable decoded resources and pass GUI Slot Load/Undo/reload/close.
+The resource route remains opt-in; USA initializer/native Windows gates are
+separate. A prior Linux BUILD-INFO metadata hash variation, with unchanged
+archive/canonical bytes, is retained rather than claimed preserved.
+[Detailed scope and evidence](development/ROM_DATA_VALIDATION.md#actual-portable-archives).

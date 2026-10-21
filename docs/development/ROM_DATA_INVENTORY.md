@@ -80,8 +80,11 @@ remain groundwork for other linked graphics families.
   block is now source-authenticated/typed, with full metadata roundtrip and
   original conditional-selector checks for all records on both targets. Relative
   sources, optional transfer triples/variant source and tail bytes are retained.
-  Linked formats/programs, other catalog bounds, sharing and language completeness
-  remain unverified; this is not a complete graphics catalog.
+  All field04/08/10packet links now resolve352verified source programs per region,
+  with wrapper/raw/LZ77/inheritance/dictionary extents and original-loader output
+  equivalence for every162records. Main field00graphics, transfer/variant
+  programs, other catalog bounds and language completeness remain unverified;
+  this is not a complete graphics catalog.
   [Decoder contract, exact evidence and remaining work](../rom_data_graphics.md).
   Managed descriptor extraction/preparation: implemented, v1/e6-d5; bounded
   offline LZ77/packet decoders also tested. Authenticated BG descriptor reads
@@ -95,8 +98,16 @@ remain groundwork for other linked graphics families.
   157valid keys in each of two regional tables,314streams/256Boutputs per region,
   custom LZ/RLE with BEsize header. All source/output hashes agree and original
   producers match on Linux/Wine. Five FFdescriptor keys are unavailable;
-  caller preconditions remain unknown. Typed production decoding, managed
-  extraction and runtime consumption of alternates remain open. Base words now have typed readable extraction/preparation and direct04
+  caller preconditions remain unknown. Typed production decoding now matches
+  retained outputs and new original synthetic/negative cases on Linux/Wine.
+  Full banks, original links/keys and consumed source metadata are preserved;
+  malformed input/overruns are rejected. Managed extraction/preparation now publishes and authenticates the fifth
+  fixed file under e7-d6, retaining e6and all original source metadata. Actual
+  runtime consumption of alternates now serves literal source bytes from
+  decoded banks through CPU/DMA/native reads, with exact typed links/control
+  metadata. Poisoned-source original/native and lifecycle checks pass; declared
+  EUR LCD B/TV pub source-use scenes and native GUIs now pass on Linux/Wine.
+  Broader scenes and global FFcaller preconditions remain separate. Base words now have typed readable extraction/preparation and direct04
   consumption: decoded banks for palette HLE, exact source views for CPU/DMA/
   native/guest BIOS reads, with original writes/cycles and state parity. Needed:
   indexed pixels, palette identity/indices, transparency, tile order and all
@@ -151,9 +162,10 @@ remain groundwork for other linked graphics families.
 ## Version 1 base dataset contract
 
 The managed set contains `graphics.obj-dimensions`, `graphics.bg-descriptors`
-and `graphics.bg-base-palettes`. IDs remain semantic: OBJ index `shape * 4 + size`,
+`graphics.bg-base-palettes` and `graphics.bg-alternate-palettes`. IDs remain semantic: OBJ index `shape * 4 + size`,
 BG record index within the authenticated162-record block; source offsets are
-provenance, not resource IDs. All three resources have direct consumption;
+provenance, not resource IDs. All four resources have direct consumption through their verified readers;
+whole-set activation authenticates every file.
 other linked payloads/programs remain ROM.
 
 - `manifest.toml`: schema revision, extractor revision, decoder revision,
@@ -169,31 +181,37 @@ other linked payloads/programs remain ROM.
   roundtrip, validated relative links/transfer triples and retained tail bytes.
   It does not contain linked graphics/program payloads. Its source range is
   independently authenticated for each profile; file hashes cannot authorize
-  edited base semantics. All three resource files contribute to complete dataset identity.
+  edited base semantics. All four resource files contribute to complete dataset identity.
 - `bg-base-palettes.json`: all162record-indexed base palettes as fullu16banks,
   with source aliases preserved in162manifest ranges and a dependency on BG
   descriptor IDs. Known source codecs raw0/LZ7710are bounded and exact extents
   exclude padding. Preserve bit15and bank/index order; alternate environment
-  programs are distinct, unclassified assets. Exact consumed source bytes are
+  programs use the separate verified alternate family. Exact consumed source bytes are
   retained beside banks for compatibility reads; both forms must agree.
   Decoded banks feed verified LZ77 HLE while raw CpuSet uses file-derived reads.
+- `bg-alternate-palettes.json`: two157-key catalogs of eight16-wordu16banks,
+ 162descriptor keys including five unavailableFF, original relativeu16links
+  and exact consumed custom-codec metadata. Two314Blink tables plus314streams
+  retain their own manifest ranges/hashes and a dependency on descriptors.
+  All fields and file hashes are authenticated; current activation verifies this
+  family and its guest source reads now consume decoded literal bank bytes.
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
   digest against the selected exact image. User edits belong to a future mod
   layer; do not silently accept them as base data.
-- Keep fixed names and bounded input:64KiB manifest (including162palette
-  provenance entries),16KiB OBJ,256KiB BG descriptors,1MiB base palettes and
-  1280KiB total. These guard malformed input, not extracted-data space targets.
+- Keep fixed names and bounded input:256KiB manifest (including162base and316alternate
+  provenance entries),16KiB OBJ,256KiB BG descriptors,1MiB base palettes,
+ 4MiBalternate palettes and5MiBtotal. These guard malformed input, not extracted-data space targets.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Automatic path: portable `Data/resources/<rom-sha256>/v1/e6-d5/`;
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e7-d6/`;
   installed uses local application data `FFTARecomp/resources`. Immutable
-  `generation-*` directories contain four files; an atomic relative `current`
+  `generation-*` directories contain five files; an atomic relative `current`
   file selects one verified generation. Revisions have separate paths and an OS
   lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
-  implement reuse/recovery, retaining e1/e2/e3/e4/e5 generations; direct OBJ, BG
+  implement reuse/recovery, retaining e1/e2/e3/e4/e5/e6 generations; direct OBJ, BG
   metadata and base-palette consumption is opt-in. Other linked payloads/programs
   remain ROM.
   Normal enablement awaits05.
@@ -214,3 +232,30 @@ ROMDATA-05 needs deterministic state/image/audio equality, lifecycle checks
 and measured startup/memory/frame cost against the existing in-memory ROM.
 No speedup, removal of the ROM dependency, complete graphics migration or mod
 support follows from this first family.
+
+### Alternate palette mode naming and caller scope
+
+The original EUR Options UI and unchanged-frame snapshot reads establish
+LCD A=0, LCD B=1(second alternate catalog), TV=2(first). Only Save changes Yes
+commits the candidate. Four direct Thumb callers per region and the original
+setter/confirmation are inventoried; no local descriptor-FF guard was found.
+Global FFreachability is unresolved. See the [bounded caller contract](../rom_data_graphics.md#alternate-palette-callers-and-color-mode).
+Worldmap/Party mode changes alone produced0alternate reads and cannot count as
+actual alternate-palette scene coverage.
+The subsequent Cyril-pub BG62transition does consume both catalogs: declared
+Linux/Wine LCD B/TV full-state/audio and GUI checks pass. See the [scene results](ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
+
+### Descriptor-linked packet programs
+
+The declared field04/08/10catalog has122paired/117halfword/113auxiliary unique
+sources per exact region:352disjoint ranges,398227encoded bytes,523794decoded
+body bytes. Four-byte wrapper01/11selects raw/LZ77body; upper24bits are a parent
+descriptor ID or FFFFFFinitial fill. All aliases/content/parent graphs match
+EUR/USA, no cycles, maximum2nodes. Paired fill is live EWRAM02007f5e; other two
+families fill zero. Preserve this initialization and ordered writes.
+Four Linux/Wine original-loader cases each pass486wrapper invocations with
+complete destination/guards/SP checks. The core's new referenced_extent bounds
+raw dictionary reads separately from stream termination. See the [complete
+catalog contract](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
+No new managed file or runtime consumer exists for these packet resources yet;
+field00and transfer/variant programs remain separate unknowns.

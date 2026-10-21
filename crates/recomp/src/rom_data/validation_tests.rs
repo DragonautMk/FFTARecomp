@@ -127,10 +127,18 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         clear_audio(machine);
     }
     assert_eq!(legacy.save_state().unwrap(), decoded.save_state().unwrap());
+    let alternate_mode = std::env::var("FFTA_STATE_TEST_ALTERNATE_MODE")
+        .ok()
+        .map(|value| value.parse::<u8>().unwrap());
+    if let Some(mode) = alternate_mode {
+        assert!(matches!(mode, 1 | 2), "select an original alternate Color Mode");
+        assert_eq!(decoded.bus.ewram[0x2fc2] & 3, mode, "loaded Color Mode");
+    }
     let first = legacy.bus.frames;
     let mut dispatch = [0u64; 2];
     let mut audio = [0u64; 5];
     let mut source_mask = 0;
+    let mut first_alternate_read = None;
     for relative in 0..frames {
         let mut counts = [(0, 0); 2];
         for (index, machine) in [&mut legacy, &mut decoded].into_iter().enumerate() {
@@ -176,6 +184,14 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
             legacy.save_state().unwrap() == decoded.save_state().unwrap(),
             "full state at {relative}"
         );
+        if let Some(mode) = alternate_mode {
+            assert_eq!(decoded.bus.ewram[0x2fc2] & 3, mode, "Color Mode at {relative}");
+            let alternate = decoded.bus.rom_resources().unwrap().alternate_palette_stats().unwrap();
+            if alternate.decoded_literal_bytes > 0 && first_alternate_read.is_none() {
+                let id = u16::from_le_bytes(decoded.bus.ewram[0x7f10..0x7f12].try_into().unwrap());
+                first_alternate_read = Some((relative, decoded.bus.frames, id));
+            }
+        }
         for (sum, len) in audio.iter_mut().zip([
             decoded.bus.audio_buf.len(),
             decoded.bus.psg_tap.len(),
@@ -230,6 +246,13 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         );
     }
     eprintln!("ROM_DATA_PALETTE_SCENE frames={frames} bus_reads={} source_bytes={} lz77_calls={} decoded_bytes={}", palette.bus_reads, palette.source_bytes, palette.lz77_calls, palette.decoded_bytes);
+    if let Some(mode) = alternate_mode {
+        let alternate = decoded.bus.rom_resources().unwrap().alternate_palette_stats().unwrap();
+        assert!(alternate.table_bytes > 0 && alternate.decoded_literal_bytes > 0,
+            "this scene must read alternate links and decoded literal banks");
+        let (relative, absolute, id) = first_alternate_read.expect("an actual alternate scene");
+        eprintln!("ROM_DATA_ALTERNATE_SCENE mode={mode} frames={frames} first_relative={relative} first_absolute={absolute} background_id={id} bus_reads={} source_bytes={} table_bytes={} decoded_literal_bytes={}", alternate.bus_reads, alternate.source_bytes, alternate.table_bytes, alternate.decoded_literal_bytes);
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

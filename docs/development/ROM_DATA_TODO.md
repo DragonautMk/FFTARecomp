@@ -112,9 +112,29 @@ LZ/RLE distinto dal BIOS; ciascuno produce256B. Tabelle, sorgenti e output
 coincidono tra EUR/USA; quattro oracoli originali Linux/Wine passano1256chiamate
 ciascuno, output/guardie completi ed EWRAM/SP invariati. Cinque record con FF
 restano distinti: nessuna dereferenziazione o fallback inventato, precondizioni
-dei chiamanti ancora da verificare. Parser tipizzato/estrazione/consumo02/04
-sono i prossimi passi. Nessuna misura prestazionale.
+dei chiamanti ancora da verificare. Il parser tipizzato02è ora verificato sotto; estrazione gestita e consumo04
+sono conclusi nelle unità02/04sotto. Nessuna misura prestazionale.
 [Contratto](../rom_data_graphics.md#alternate-background-palette-catalogs).
+
+**ROMDATA-01-BG-ALTERNATE-CALLER-CONTRACT: inventario diretto e modalità EUR
+completati; precondizioni globaliFF aperte.** Quattro chiamanti Thumb per regione,
+setter originale e relativa conferma individuati. Il menu Options applica LCD A=0,
+LCD B=1(secondo catalogo), TV=2(primo catalogo) solo dopo Save changes→Yes.
+Snapshot della GUI nativa EUR confermano i valori senza forzare RAM. Nessun
+controllo locale del byte56FF nei percorsi ispezionati; il controllo ID00ff è
+distinto. GUI mappa/Party e deployment non leggono gli stream alternativi:
+le scene pub con uso positivo sono concluse sotto; restano le precondizioniFF.
+[Contratto e limiti](../rom_data_graphics.md#alternate-palette-callers-and-color-mode).
+
+**ROMDATA-01-BG-PACKET-CATALOG completato per i campi04/08/10 dichiarati:**
+352sorgenti distinte per regione (122paired,117halfword,113auxiliary), involucri
+01grezzo/11LZ77con padre opzionale, inizializzazione e dizionari verificati.
+Tutti i riferimenti/alias/hash coincidono EUR/USA, niente sovrapposizioni/cicli,
+catene al massimo di2nodi. Quattro casi Linux/Wine con i lettori originali
+passano486invocazioni ciascuno, buffer completi/guardie/SP. Il decoder ora
+espone anche l'estensione letta dei dizionari. Modello tipizzato/file gestito e
+consumo effettivo restano02/03/04; campo00e programmi transfer/variant separati.
+[Contratto](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
 
 ## ROMDATA-02 — Estrattori e decoder
 
@@ -188,6 +208,27 @@ integrità/riparazione/rilocazione e compatibilità delle risorse già consumate
 [Contratto e limiti](../rom_data_graphics.md#typed-palette-extraction-and-preparation).
 Questa unità copre la preparazione; il successivo consumo04è completato sotto
 con revisione1/6/5e metadati di compatibilità. Nessun lavoro di compressione/spazio.
+
+**ROMDATA-02-BG-ALTERNATE-PALETTE-CODEC completato per il catalogo verificato:**
+codec custom limitato, header BE, tutti i token e controlli originali03..0F,
+consumo esatto e rifiuto di troncamenti, riferimenti fuori storia e overrun.
+Modello con banchiu16completi, metadati sorgente/link e cinqueFFconservati.
+Linux/Wine:4test core,314buffer per regione uguali agli oracoli conservati,
+70flussi sintetici/1120chiamate originali per caso regionale/target e prova
+negativa dell'overrun originale. JSON leggibile deterministico sui quattro
+percorsi; nessuna misura prestazionale. Estrazione/preparazione gestita e
+consumo dei file alternativi sono selezionati separatamente sotto.
+[Contratto e prove](../rom_data_graphics.md#typed-alternate-palette-codec).
+
+**ROMDATA-02-BG-ALTERNATE-PALETTE-MANAGED completato:** quinto file JSON
+leggibile con tutti i banchi/chiavi/link e316intervalli di provenienza; schema1/
+estrattore7/decoder6, vecchie generazionie6conservate. Scrittura/verifica atomica
+dell'insieme, riuso senza scritture, riparazione e attivazione autenticata con
+identità completa. Linux23default+4privati e Wine21+4passano;23verifiche dei
+veri CLI per target, inclusi EUR/USA, recupero e rilocazione. Nessuna misura
+prestazionale o riduzione di spazio. L'attivazione degli alternativi è ancora
+`verified-only`al termine di questa unità; il consumo04è completato sotto.
+[Prove e limiti](../rom_data_graphics.md#managed-alternate-palette-datasets).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -298,6 +339,18 @@ su entrambi i target; nessuna ottimizzazione di spazio.
 [Prove e limiti](../rom_data_graphics.md#direct-base-palette-consumption).
 Programmi alternativi, altre famiglie/lingue e ulteriori gate05restano aperti.
 
+**ROMDATA-04-BG-ALTERNATE-PALETTE-CONSUMPTION completato per il catalogo valido:**
+owner immutabile e letture CPU/DMA/native dai banchi decodificati per i letterali,
+link tipizzati e metadati di controllo esatti. Nessuna istruzione/copia/ciclo
+saltato, I/O nel gameplay o cambio di schema/cache nativa; dataset ancorae7-d6.
+Linux216core/104runtime e Wine216/103passano, più quattro prove regionali dei
+produttori originali/nativi con ROM dati avvelenati:1256chiamate/caso, stato
+completo e clock uguali, uso positivo dei banchi e prova separata dei byte
+letterali tramiteAPI nativa. Load/Undo/backup/riavvio conservano owner/contatori
+anche con file eliminati. Restano scene alternate reali, precondizioniFF,
+GUI/archivi e Windows nativo; nessuna misura prestazionale.
+[Contratto e prove](../rom_data_graphics.md#direct-alternate-palette-consumption).
+
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
 **Dipendenze:** ogni integrazione ROMDATA-04, prima di abilitarla normalmente.
@@ -397,6 +450,16 @@ riusate e protette. [Risultati](ROM_DATA_VALIDATION.md#base-palette-e6-scene-acc
 Costi/GUI/archivi e Windows nativo restano gate separati; nessuna abilitazione
 normale o migrazione di altre famiglie è dedotta da queste scene.
 
+**ROMDATA-05-BG-ALTERNATE-SCENES / GUI completati nel perimetro EUR dichiarato:**
+LCD B/TV confermati nel menu originale, ingresso nel pub di Cyril con BG62.
+Quattro coppie native397frame Linux/Wine coincidono per ogni stato completo,
+immagine centrale/wide, OAM, dispatch e tutti gli stream audio non vuoti.
+Uso alternativo positivo: LCD B165byte letterali/2link, TV153/2. Le GUI native
+Linux/Wine presentano entrambe le modalità e chiudono0con318byte letterali/4link.
+Snapshot/ROM/cache/dataset/canonici protetti; nessuna forzatura RAM/PC o misura
+prestazionale. Restano scene/regione/lingue più ampie, FFglobali, archivi e Windows
+nativo. [Prove](ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **Dipendenze:** completare la consegna principale ROMDATA-01…05.
@@ -446,7 +509,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-04-BG-CONSUMPTION, collegare ai descrittori preparati
-le letture effettive CPU/DMA/API native e verificare provenienza e compatibilità;
-abilitazione normale soltanto con tutti i gate soddisfatti.
-Gli altri cataloghi, le migrazioni e le fasi mod restano nell'obiettivo completo.
+**Prossima azione:** ROMDATA-02-BG-PACKET-DATA, modello tipizzato autenticato dei
+352programmi/486riferimenti verificati, mantenendo ordine, padri e inizializzazione.
+Riutilizzare i buffer originali del catalogo01appena concluso. Le letture04dei
+descrittori/palette base e alternative, chiamanti/modalità e scene/GUI EUR
+sono già concluse: non ripeterle seguendo la vecchia coda. Restano precondizioniFFglobali,
+altri cataloghi/lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione
+normale soltanto con i gate richiesti; misure prestazionali rinviate dall'utente.

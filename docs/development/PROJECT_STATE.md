@@ -116,9 +116,39 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   per region,314custom LZ/RLEstreams producing256Beach. Source/output/link-table
   hashes agree EUR/USA; four original producer oracles match1256calls each.
   Five descriptor FFkeys are unavailable and caller preconditions remain
-  unknown. Next add bounded typed decoding before managed extraction/runtime.
+  unknown. Bounded typed alternate decoding now matches all retained sources/
+  outputs and1120synthetic original calls per regional/target case, including
+  every token/03..0Fcontrol, alignments and source cursor. A malformed original
+  overrun is rejected offline. Fullu16banks, relative links, keyFFand exact
+  source metadata are retained. Managed alternate extraction/preparation now adds a fifth fixed JSON file
+  under e7-d6, with all316provenance ranges, complete dataset identity and
+  transactional activation authentication. e6is retained; standard readable
+  JSON is used without space tuning. Actual regional CLI, repair/reuse/move,
+  Load/Undo/backup/restart and failed activation checks pass on Linux/Wine.
+  Alternate guest consumption now retains immutable banks/links and resolves
+  custom-codec literals from decoded words, controls from exact metadata. Shared
+  codec maps preserve every original instruction/write/cycle through existing
+  CPU/DMA/native bus APIs. Four regional/target poisoned-source producer cases
+  match1256calls/final full states each, with positive decoded/native bank reads;
+  Load/Undo/backup/restart retain the owner after file deletion. Native216core/
+ 104runtime and Wine216/103pass; separate first-frame CLI/cache checks are
+  activation-only with0alternate reads. Original EUR Options now identifies LCD A=0, LCD B=1(second alternate catalog),
+  TV=2(first), committed only through Save changes Yes. Four direct callers per
+  region and the setter are inventoried; local descriptor-FF guards were not
+  found. Worldmap/Party mode changes report0alternate reads, while the new
+  Cyril-pub BG62transition proves positive link/literal use for LCD B/TV. Four
+  native397-frame Linux/Wine pairs match every full state/image/OAM/dispatch/
+  audio sample; actual GUIs present both modes and close0with positive use.
+  Field04/08/10packet catalogs now have352disjoint sources per region,
+  raw/LZ77wrappers, at most2-node descriptor inheritance and exact dictionary
+  read extents. All source/body/alias/parent hashes agree EUR/USA. Four original
+  component loader cases on Linux/Wine match every162×3complete target buffer,
+  guards and SP. Dynamic paired fill and ordered patches remain explicit;
+  typed packet files/managed startup/runtime consumption are next. Field00and
+  transfer/variant programs, broader regional/gameplay/catalog/language coverage,
+  global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,
-  native-cache/profile/save identity and measure costs against the memory baseline.
+  native-cache/profile/save identity; cost measurements are deferred by the user.
 
 ## Container builds
 

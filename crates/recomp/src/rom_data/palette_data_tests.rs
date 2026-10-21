@@ -48,7 +48,7 @@ fn regional_palette_files_match_captures_and_retain_previous_datasets() {
         let base = root.join(profile);
         let offline = base.join("offline");
         extract(&offline, &mut source).unwrap();
-        assert_eq!(fs::read_dir(&offline).unwrap().count(), 4);
+        assert_eq!(fs::read_dir(&offline).unwrap().count(), 5);
         let original = fs::read(offline.join(BG_BASE_PALETTES_FILE)).unwrap();
         let parsed = parse_palettes(&original).unwrap();
         assert_eq!(parsed, source.palettes.as_ref().unwrap().decoded);
@@ -149,7 +149,7 @@ fn regional_palette_files_match_captures_and_retain_previous_datasets() {
         assert!(verify(&old_generation, &source).is_err());
         let first = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(first.action, "created");
-        assert!(first.directory.parent().unwrap().ends_with("v1/e6-d5"));
+        assert!(first.directory.parent().unwrap().ends_with("v1/e7-d6"));
         let reused = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(reused.action, "reused");
         assert_eq!(first.directory, reused.directory);

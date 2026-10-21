@@ -510,3 +510,48 @@ exit143), with raw completed output retained. No complete battle timing/profile
 or overall performance acceptance is claimed. Do not finish or rerun these
 measurements until the user asks. See performance-deferred.json in the private
 output root. Continue functional migration with completed scene parity above.
+
+### Alternate-palette e7 scene and GUI acceptance
+
+ROMDATA-05-BG-ALTERNATE-SCENES selects the previously uncovered actual
+alternate-stream requirement. The original EUR Options confirmation establishes
+LCD B=1(second catalog) and TV=2(first); isolated copies of those naturally
+committed worldmap snapshots supply the starting states. No ROM/RAM/PC forcing
+or old boot/battle replay is used to manufacture this gameplay coverage.
+The new397-frame input enters Cyril pub, loading background62. The existing
+complete-state/audio checker gains `FFTA_STATE_TEST_ALTERNATE_MODE=1|2`:
+require that original low-two-bit value initially and every frame, then require
+positive typed link and decoded literal reads. Record the first consuming frame
+and current BGID. A zero-read scene cannot satisfy this gate.
+
+All four native legacy/decoded comparisons pass on Linux and Windows GNU/Wine:
+397frames each in LCD B and TV. Every complete serialized state, central/wide
+image, OAM, per-frame dispatch and mixed/PSG/bothFIFO/HLE-bit sample matches.
+All five streams are nonempty. First alternate consumption is relative102,
+BG62; LCD B records179bus reads/200sourceB/2tableB/165decoded-literalB, TV
+172/197/2/153, identically on both targets. Each also reads87BGmetadata bytes.
+Mixed/PSG/FIFO0/FIFO1 sample totals are871216/871216/104808/104808; HLE totals
+871140for LCD B and871144for TV on each platform. The starting snapshots have
+different original guest frame/clock phases; equality is within each pair,
+not between Color Modes or platform dispatch counts.
+
+Existing production e7candidates and prior native caches also pass actual
+Linux/Wine GUI checks. Each loads LCD B, enters the pub, then loads TV and
+enters it again. Pub background, greeting/portrait, menu and funds are visually
+inspected in both captures per target. Each closes0with351alternate reads,
+4typed table bytes and318decoded literal bytes. Asynchronous captures are
+presentation inspection; exact equivalence is the per-frame check above.
+Original ROM/states/cache/loader/dataset/canonical hashes are preserved;
+only ignored private state copies/config/save files are written. Both test
+builds are warning-free. Only the ignored checker changed; no production
+rebuild, repeated core/default suite, archive, performance/space campaign,
+AndroidPort edit, agent commit or push was needed.
+
+Evidence:target/rom-data-bg-alternate-scenes/verification-summary.json,
+{native,windows}-scene-results.json and four full-state/audio logs,
+{native,windows}-pub-gui/result.json/log/pub captures, pub.input and independent
+production TV locator. Mode identification/caller evidence lives separately
+under target/rom-data-bg-alternate-callers. All process handles are terminal.
+These declared EUR scene/GUI units are complete; other regional/gameplay scenes,
+global exclusions of the five FFrecords, languages/catalogs, actual archives,
+native Windows/default enablement and the other resource/mod phases remain.

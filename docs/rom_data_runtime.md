@@ -262,3 +262,27 @@ measurement or space-reduction work; optimization comes later. Prior benchmark/
 RSS limits and results are historical, and no performance campaign should be
 resumed from an older next-action line. Guest clock/state/audio correctness,
 source provenance and save/native compatibility checks remain required.
+
+## Alternate palette banks
+
+The verified `e7-d6`dataset now retains both alternate catalogs in immutable
+session resources. Literal payload reads for the original custom decoder come
+from fullu16banks; typed relative links and authenticated control metadata
+preserve all original guest instructions/writes/cycles. These bus paths serve
+CPU, DMA and native API reads without runtime disk access. Native cache and
+snapshot identities remain based on the original image; no ABI/schema bump.
+
+`ROM_DATA_USE resource=graphics.bg-alternate-palettes` reports `bus_reads`,
+`source_bytes`, `table_bytes` and `decoded_literal_bytes`. The last counter
+proves decoded bank use independently of preparation/control-byte reads.
+Positive original/native poisoned-source and separate native-API bank probes,
+full-state/clock equivalence and deleted-file Load/Undo/backup/restart pass on
+Linux/Wine. The translated path includes existing interpreter shells; a cold
+first-frame CLI check is activation/cache evidence with0alternate reads.
+See the [complete contract and results](rom_data_graphics.md#direct-alternate-palette-consumption).
+Original EUR Color Mode LCD B/TV now has actual Cyril-pub source-use evidence:
+four397-frame Linux/Wine legacy/decoded native pairs match every full state,
+image/OAM/dispatch and audio stream. Actual GUIs present both modes and close0
+with positive typed link/literal reads. See the [scene protocol and limits](development/ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
+Global FFpreconditions, broader regional/gameplay/catalog/language coverage,
+archives and native Windows remain separate. No performance measurements were selected.

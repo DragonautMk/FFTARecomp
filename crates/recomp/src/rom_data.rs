@@ -5,6 +5,9 @@ use gba_core::rom_data::{
     BG_DESCRIPTORS_ID, MANIFEST_FILE, MAX_BG_BASE_PALETTES_FILE_BYTES,
     MAX_BG_DESCRIPTORS_FILE_BYTES, MAX_DATASET_BYTES, MAX_FILE_BYTES, MAX_MANIFEST_FILE_BYTES,
     OBJ_DIMENSIONS_FILE,
+    bg_alternate_palettes::Palettes as AlternatePalettes,
+    BG_ALTERNATE_PALETTES_FILE, BG_ALTERNATE_PALETTES_ID,
+    MAX_BG_ALTERNATE_PALETTES_FILE_BYTES,
 };
 use std::{
     fs,
@@ -15,9 +18,15 @@ use std::{
 #[cfg(test)]
 mod alternate_palette_tests;
 #[cfg(test)]
+mod alternate_palette_data_tests;
+#[cfg(test)]
+mod alternate_palette_runtime_tests;
+#[cfg(test)]
 mod bg_descriptor_tests;
 #[cfg(test)]
 mod bg_packet_tests;
+#[cfg(test)]
+mod bg_packet_catalog_tests;
 #[cfg(test)]
 mod bg_palette_tests;
 #[cfg(test)]
@@ -91,6 +100,18 @@ fn encode_palettes(palettes: &Palettes) -> Result<Vec<u8>, String> {
     serde_json::to_vec_pretty(palettes).map_err(|e| format!("Cannot encode base palettes: {e}"))
 }
 
+fn parse_alternate_palettes(bytes: &[u8]) -> Result<AlternatePalettes, String> {
+    let palettes: AlternatePalettes = serde_json::from_slice(bytes)
+        .map_err(|e| format!("Invalid alternate palettes: {e}"))?;
+    palettes.validate()?;
+    Ok(palettes)
+}
+
+fn encode_alternate_palettes(palettes: &AlternatePalettes) -> Result<Vec<u8>, String> {
+    palettes.validate()?;
+    serde_json::to_vec_pretty(palettes).map_err(|e| format!("Cannot encode alternate palettes: {e}"))
+}
+
 pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String> {
     let dataset = read_dataset(path)?;
     source.validate_files(dataset.files())?;
@@ -105,6 +126,8 @@ struct Dataset {
     bg_bytes: Vec<u8>,
     palettes: Palettes,
     palette_bytes: Vec<u8>,
+    alternate_palettes: AlternatePalettes,
+    alternate_palette_bytes: Vec<u8>,
 }
 
 impl Dataset {
@@ -114,6 +137,7 @@ impl Dataset {
             dimensions: (&self.dimensions, &self.obj_bytes),
             background: Some((&self.background, &self.bg_bytes)),
             palettes: Some((&self.palettes, &self.palette_bytes)),
+            alternate_palettes: Some((&self.alternate_palettes, &self.alternate_palette_bytes)),
         }
     }
 }
@@ -138,15 +162,20 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         &path.join(BG_BASE_PALETTES_FILE),
         MAX_BG_BASE_PALETTES_FILE_BYTES,
     )?;
+    let alternate_palette_bytes = read_bounded(
+        &path.join(BG_ALTERNATE_PALETTES_FILE), MAX_BG_ALTERNATE_PALETTES_FILE_BYTES,
+    )?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
         bg_bytes.len(),
         palette_bytes.len(),
+        alternate_palette_bytes.len(),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
     let palettes = parse_palettes(&palette_bytes)?;
+    let alternate_palettes = parse_alternate_palettes(&alternate_palette_bytes)?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -155,6 +184,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         bg_bytes,
         palettes,
         palette_bytes,
+        alternate_palettes,
+        alternate_palette_bytes,
     })
 }
 
@@ -163,11 +194,13 @@ fn check_dataset_budget(
     obj: usize,
     bg: usize,
     palettes: usize,
+    alternate_palettes: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
         || bg as u64 > MAX_BG_DESCRIPTORS_FILE_BYTES
         || palettes as u64 > MAX_BG_BASE_PALETTES_FILE_BYTES
+        || alternate_palettes as u64 > MAX_BG_ALTERNATE_PALETTES_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
     }
@@ -175,6 +208,7 @@ fn check_dataset_budget(
         .saturating_add(obj)
         .saturating_add(bg)
         .saturating_add(palettes)
+        .saturating_add(alternate_palettes)
         > MAX_DATASET_BYTES
     {
         return Err("Resource dataset exceeds its total size budget".into());
@@ -189,7 +223,7 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     let obj_resident = resources.obj_resident_bytes() + 2 * std::mem::size_of::<usize>();
     let bg_resident = resources.background_resident_bytes();
     let palette_resident = resources.palette_resident_bytes();
-    let resident = obj_resident + bg_resident + palette_resident;
+    let resident = resources.resident_bytes() + 2 * std::mem::size_of::<usize>();
     if obj_resident > 1024 {
         return Err("Decoded OBJ metadata exceed the session memory budget".into());
     }
@@ -205,6 +239,7 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         resources.background_file_sha256().unwrap(),dataset.background.entries.len()
     );
     eprintln!("ROM_DATA runtime=decoded resource={BG_BASE_PALETTES_ID} source={} dataset={} file={} records={} resident_bytes={palette_resident}", resources.source_sha256(), resources.dataset_sha256(), resources.palette_file_sha256().unwrap(), dataset.palettes.entries.len());
+    eprintln!("ROM_DATA runtime=decoded resource={BG_ALTERNATE_PALETTES_ID} source={} dataset={} file={} catalogs=2 keys=157", resources.source_sha256(), resources.dataset_sha256(), resources.alternate_palette_file_sha256().unwrap());
     Ok(())
 }
 
@@ -225,6 +260,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(palette) = resources.palette_stats() {
             eprintln!("ROM_DATA_USE resource={BG_BASE_PALETTES_ID} dataset={} bus_reads={} source_bytes={} lz77_calls={} decoded_bytes={}", resources.dataset_sha256(), palette.bus_reads, palette.source_bytes, palette.lz77_calls, palette.decoded_bytes);
+        }
+        if let Some(alternate) = resources.alternate_palette_stats() {
+            eprintln!("ROM_DATA_USE resource={BG_ALTERNATE_PALETTES_ID} dataset={} bus_reads={} source_bytes={} table_bytes={} decoded_literal_bytes={}", resources.dataset_sha256(), alternate.bus_reads, alternate.source_bytes, alternate.table_bytes, alternate.decoded_literal_bytes);
         }
     }
 }
@@ -288,7 +326,10 @@ fn write_dataset(
             .ok_or("Missing base palette extraction")?
             .decoded,
     )?;
-    source.set_file_hashes(&[data.as_bytes(), &bg_data, &palette_data])?;
+    let alternate_palette_data = encode_alternate_palettes(
+        &source.alternate_palettes.as_ref().ok_or("Missing alternate palette extraction")?.decoded,
+    )?;
+    source.set_file_hashes(&[data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data])?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
     check_dataset_budget(
@@ -296,10 +337,12 @@ fn write_dataset(
         data.len(),
         bg_data.len(),
         palette_data.len(),
+        alternate_palette_data.len(),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
     write(&path.join(BG_BASE_PALETTES_FILE), &palette_data)?;
+    write(&path.join(BG_ALTERNATE_PALETTES_FILE), &alternate_palette_data)?;
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -338,7 +381,7 @@ pub fn cmd(args: &[String]) -> Result<(), String> {
         verify(path, &source)?;
         "verified"
     };
-    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=4 runtime=offline",
+    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=5 runtime=offline",
         source.manifest.profile, source.manifest.source_rom_sha256, source.manifest.schema,
         source.manifest.coverage.join(","));
     Ok(())
@@ -362,7 +405,7 @@ mod tests {
             data_source: 0,
             destination: 0,
         };
-        let background = Descriptors {
+        let mut background = Descriptors {
             entries: vec![
                 bg_descriptors::Descriptor {
                     graphics_source: 0x4000,
@@ -380,6 +423,9 @@ mod tests {
                 bg_descriptors::BASE_RECORDS
             ],
         };
+        for (id, entry) in background.entries.iter_mut().enumerate() {
+            entry.alternate_palette_key = if id < bg_alternate_palettes::BASE_KEYS {id as u8} else {255};
+        }
         let bg_hash = gba_core::ffta_rom::digest(&background.source_bytes().unwrap());
         let decoded_palettes = Palettes {
             entries: vec![
@@ -409,6 +455,26 @@ mod tests {
             .iter()
             .map(|source| source.range.clone())
             .collect();
+        let alternate_tables = std::array::from_fn(|group| SourceRange {
+            offset: 0x6000 + group as u32 * 0x2000, length: 314,
+            sha256: format!("synthetic-alternate-links-{group}"),
+            role: format!("alternate-palette-links/{group}"),
+        });
+        let alternate_sources: Vec<_> = (0..314).map(|index| SourceRange {
+            offset: alternate_tables[index / 157].offset + 316 + (index % 157) as u32 * 8,
+            length: 6, sha256: "synthetic-alternate-source".into(),
+            role: format!("alternate-palette/{}/{}", index / 157, index % 157),
+        }).collect();
+        let alternate_ranges = alternate_tables.iter().chain(&alternate_sources).cloned().collect();
+        let alternate_palettes = bg_alternate_palettes::Catalog {
+            tables: alternate_tables,
+            sources: alternate_sources,
+            decoded: AlternatePalettes {
+                descriptor_keys: background.entries.iter().map(|e| e.alternate_palette_key).collect(),
+                relative_sources: std::array::from_fn(|_| (0..157).map(|i| (316+i*8) as u16).collect()),
+                catalogs: std::array::from_fn(|group| vec![bg_alternate_palettes::Palette::decode(&[0,0,1,0,if group==0 {1}else{2},253]).unwrap().0;157]),
+            },
+        };
         Extraction {
             manifest: Manifest {
                 schema: SCHEMA,
@@ -421,6 +487,7 @@ mod tests {
                     OBJ_DIMENSIONS_ID.into(),
                     BG_DESCRIPTORS_ID.into(),
                     BG_BASE_PALETTES_ID.into(),
+                    BG_ALTERNATE_PALETTES_ID.into(),
                 ],
                 resources: vec![
                     Resource {
@@ -458,6 +525,11 @@ mod tests {
                         dependencies: vec![BG_DESCRIPTORS_ID.into()],
                         sources: palette_ranges,
                     },
+                    Resource {
+                        id: BG_ALTERNATE_PALETTES_ID.into(), path: BG_ALTERNATE_PALETTES_FILE.into(),
+                        format: BG_ALTERNATE_PALETTES_FORMAT.into(), sha256: String::new(),
+                        dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: alternate_ranges,
+                    },
                 ],
             },
             dimensions,
@@ -466,6 +538,7 @@ mod tests {
                 decoded: decoded_palettes,
                 sources: palette_sources,
             }),
+            alternate_palettes: Some(alternate_palettes),
         }
     }
 
@@ -485,6 +558,7 @@ mod tests {
             OBJ_DIMENSIONS_FILE,
             BG_DESCRIPTORS_FILE,
             BG_BASE_PALETTES_FILE,
+            BG_ALTERNATE_PALETTES_FILE,
         ] {
             assert_eq!(
                 fs::read(a.join(name)).unwrap(),
@@ -747,6 +821,7 @@ mod tests {
             OBJ_DIMENSIONS_FILE,
             BG_DESCRIPTORS_FILE,
             BG_BASE_PALETTES_FILE,
+            BG_ALTERNATE_PALETTES_FILE,
         ];
         let original: Vec<_> = names
             .iter()
@@ -773,12 +848,18 @@ mod tests {
             toml::to_string_pretty(&manifest).unwrap(),
         )
         .unwrap();
+        verify(&path, &source).unwrap();
+        let alternates = padded(original[4].clone(), MAX_BG_ALTERNATE_PALETTES_FILE_BYTES as usize);
+        manifest.resources[3].sha256 = gba_core::ffta_rom::digest(&alternates);
+        fs::write(path.join(BG_ALTERNATE_PALETTES_FILE), &alternates).unwrap();
+        fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
         assert!(verify(&path, &source).unwrap_err().contains("total size"));
         for (name, limit) in [
             (MANIFEST_FILE, MAX_MANIFEST_FILE_BYTES),
             (OBJ_DIMENSIONS_FILE, MAX_FILE_BYTES),
             (BG_DESCRIPTORS_FILE, MAX_BG_DESCRIPTORS_FILE_BYTES),
             (BG_BASE_PALETTES_FILE, MAX_BG_BASE_PALETTES_FILE_BYTES),
+            (BG_ALTERNATE_PALETTES_FILE, MAX_BG_ALTERNATE_PALETTES_FILE_BYTES),
         ] {
             for (name, bytes) in names.iter().zip(&original) {
                 fs::write(path.join(name), bytes).unwrap();
@@ -792,6 +873,55 @@ mod tests {
             assert!(verify(&path, &source)
                 .unwrap_err()
                 .contains(&format!("at most {limit}")));
+        }
+    }
+
+    #[test]
+    fn alternate_json_is_strict_and_rehashed_edits_are_not_base_data() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("data");
+        let mut source = fixture();
+        extract(&path, &mut source).unwrap();
+        let original = fs::read(path.join(BG_ALTERNATE_PALETTES_FILE)).unwrap();
+        let parsed = parse_alternate_palettes(&original).unwrap();
+        assert_eq!(encode_alternate_palettes(&parsed).unwrap(), original);
+        let value: serde_json::Value = serde_json::from_slice(&original).unwrap();
+        for invalid in 0..8 {
+            let mut changed = value.clone();
+            match invalid {
+                0 => changed["unknown"] = serde_json::json!(0),
+                1 => changed["catalogs"][0][0]["banks"][0][0] = serde_json::json!(65536),
+                2 => { changed["catalogs"][0][0]["banks"][0].as_array_mut().unwrap().pop(); },
+                3 => changed["catalogs"][0][0]["encoded_source"] = serde_json::json!([0,0,1,0,0x80]),
+                4 => changed["descriptor_keys"][0] = serde_json::json!(157),
+                5 => changed["relative_sources"][0][0] = serde_json::json!(0),
+                6 => changed["catalogs"] = serde_json::json!([]),
+                _ => changed["descriptor_keys"][0] = serde_json::json!(255),
+            }
+            assert!(parse_alternate_palettes(&serde_json::to_vec(&changed).unwrap()).is_err());
+        }
+        assert!(parse_alternate_palettes(&original[..original.len()-1]).is_err());
+        // A new canonical source representation with equal banks is still an
+        // edit to original guest reads and cannot enter as authenticated base.
+        let mut recoded = parsed;
+        recoded.catalogs[0][0].encoded_source.insert(4, 3);
+        let recoded = encode_alternate_palettes(&recoded).unwrap();
+        let mut manifest = source.manifest.clone();
+        manifest.resources[3].sha256 = gba_core::ffta_rom::digest(&recoded);
+        fs::write(path.join(BG_ALTERNATE_PALETTES_FILE), recoded).unwrap();
+        fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
+        assert!(verify(&path, &source).unwrap_err().contains("reproduce"));
+        fs::write(path.join(BG_ALTERNATE_PALETTES_FILE), original).unwrap();
+        for invalid in 0..4 {
+            let mut manifest = source.manifest.clone();
+            match invalid {
+                0 => manifest.resources[3].path = "../outside".into(),
+                1 => manifest.resources[3].dependencies.clear(),
+                2 => manifest.resources[3].sources[0].offset += 2,
+                _ => { manifest.resources.pop(); },
+            }
+            fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
+            assert!(verify(&path, &source).is_err());
         }
     }
 

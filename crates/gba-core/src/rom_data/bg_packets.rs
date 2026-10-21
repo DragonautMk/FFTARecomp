@@ -27,6 +27,9 @@ pub struct Patches<T> {
 pub struct PlanePatches {
     pub header: u32,
     pub dictionary_offset: Option<usize>,
+    /// Highest byte read by packets or referenced dictionary entries. Unlike
+    /// payload.consumed, this also bounds an uncompressed indexed source.
+    pub referenced_extent: usize,
     pub payload: Patches<u32>,
 }
 
@@ -108,6 +111,7 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
     let mut offset = cursor.halfword()?;
     let mut packets = Vec::new();
     let mut written = 0;
+    let mut dictionary_end = 0;
     loop {
         let count = if dictionary_offset.is_some() {
             cursor.byte()? as usize
@@ -132,11 +136,13 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
                     position: dictionary + index * 2,
                 };
                 let low = entry.halfword()? as u32;
-                if low & 0x8000 != 0 {
+                let value = if low & 0x8000 != 0 {
                     (low | (entry.halfword()? as u32) << 16) & 0x7fff_7fff
                 } else {
                     low | ((low + 1) << 16)
-                }
+                };
+                dictionary_end = dictionary_end.max(entry.position);
+                value
             } else {
                 cursor.word()?
             });
@@ -156,6 +162,7 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
     Ok(PlanePatches {
         header,
         dictionary_offset,
+        referenced_extent: cursor.position.max(dictionary_end),
         payload: Patches {
             packets,
             consumed: cursor.position,
@@ -258,6 +265,7 @@ mod tests {
             }
         );
         assert_eq!(value.payload.consumed, 14);
+        assert_eq!(value.referenced_extent, 14);
         assert!(value.calculated_plane_writes().is_err());
         for wide in [false, true] {
             let mut input = (0x8000_0010u32 | if wide { 0x4000_0000 } else { 0 })
@@ -281,9 +289,12 @@ mod tests {
                 [0x00130012, 0x2bcd1234]
             );
             assert_eq!(value.payload.consumed, if wide { 13 } else { 11 });
+            assert_eq!(value.referenced_extent, 22);
             for end in 0..input.len() {
                 assert!(decode_planes(&input[..end], LIMITS).is_err());
             }
+            input.extend_from_slice(&[0xcc; 5]);
+            assert_eq!(decode_planes(&input, LIMITS).unwrap().referenced_extent, 22);
         }
     }
 

@@ -3,8 +3,10 @@
 The next resource work units extend the OBJ metadata prototype toward actual
 graphics. They provide bounded offline LZ77, packet and descriptor decoders,
 with verified source ranges and original-instruction consumer checks.
-Descriptor metadata now belongs to the managed dataset; linked graphics and
-program files remain unextracted, and direct BG metadata consumption is pending.
+Descriptor metadata, base palettes and alternate palettes now belong to the
+managed dataset and are directly consumed. Descriptor-linked packet catalogs
+are also verified below; their typed managed files/runtime integration and
+other linked graphics/programs remain open.
 The [inventory](development/ROM_DATA_INVENTORY.md) and
 [full TODO](development/ROM_DATA_TODO.md) retain the remaining catalog,
 semantic decoding, extraction and runtime integration work.
@@ -446,8 +448,8 @@ padding. This is a distinct custom LZ/RLE format, not BIOS LZ77. A BEu32output
 length precedes tokens. Token classes are literal data, short/medium/long
 back-references and short/long zero runs; an FFfill branch exists in code but
 is absent from these valid streams. Retain allu16bits and source semantics.
-A bounded private decoder establishes the inventory hypothesis; a production
-parser and malformed-input contract remain the next02unit.
+The initial private decoder established the inventory hypothesis; the typed
+production decoder and malformed-input contract below now validate that syntax.
 
 Four original interpreter cases (EUR/USAonLinux/Wine) each pass1256calls /
 2655156guest instructions:157valid records×four environment bytes1/2/FD/FE×
@@ -465,6 +467,234 @@ registration are added. No active dataset revision, production decoder, native
 ABI, save schema, runtime/archive or canonical executable changes in this unit.
 Typed decoding/managed extraction/consumption, caller preconditions for FF,
 other catalogs/languages and remaining GUI checks stay open.
+
+## Alternate palette callers and Color Mode
+
+ROMDATA-01-BG-ALTERNATE-CALLER-CONTRACT closes the bounded direct-caller
+inventory and the EUR mode meaning; the global exclusion of unavailable FF
+records remains open. A whole-image aligned Thumb BL scan finds four direct
+calls per region: USA0801a8b6/0801aeea/080e0ad8/0811b616 and
+EUR0801ba26/0801c05a/080e45e8/0811f126. Their original instruction slices
+cover staged graphics loading, palette refresh and alternate dynamic-palette
+branches. No direct ARM BL or producer-address literal candidate was found;
+this is not proof that indirect callers cannot exist. None of the inspected
+local paths checks descriptor byte56 against FF. The staged loader's separate
+current-background ID00ff check does not establish that descriptor precondition.
+
+The setter USA08135cfc/EUR08139974 preserves the upper six bits of
+EWRAM02002fc2 and replaces the low two. Its one direct BL caller per region
+is USA08136c7c/EUR0813a96c in the original options confirmation path. Candidate
+selection alone does not commit the setting. In an isolated EUR native GUI
+session loaded from the existing worldmap state, original Options > Color Mode
+cycles LCD A, LCD B and TV; B opens Save changes, then Yes applies it. Snapshots
+read without advancing guest frames establish LCD A=0, LCD B=1 and TV=2.
+Thus LCD B selects the second verified catalog and TV the first. Low bits3
+still take the original base branch, with no selectable label established.
+These are display-hardware color settings, not an inferred day/night cycle;
+the [official Nintendo manual](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/game_boy_advance_8/Manual_GameBoyAdvance_FinalFantasyTacticsAdvance_EN_DE_FR_ES_IT.pdf)
+describes the three intended hardware targets. Internal values come from the
+local original UI and snapshots, not from the manual.
+
+Original slot/ROM/cache/loader/canonical hashes remain unchanged; the GUI uses
+private copies and closes0. Captures cover candidate cycling, confirmation,
+committed LCD B/TV and Party. Its alternate counter is0: this closes mode
+identification, not actual alternate-stream consumption or full GUI equivalence.
+The supplied deployment dumps also use mode0. A later scene must explicitly
+record positive alternate table/literal reads. No build, old producer oracle,
+performance measurement or public package was repeated for this inventory.
+Evidence:target/rom-data-bg-alternate-callers/verification-summary.json,
+regional static candidates/disassembly, natural-mode-fields.json and isolated
+GUI logs/captures. Five unavailable FFrecord preconditions, indirect reachability,
+other languages and native Windows remain unverified.
+
+## Typed alternate-palette codec
+
+`gba_core::rom_data::bg_alternate_palettes` decodes the distinct BE-size custom
+format without using the BIOS LZ77 parser. It checks every read and every
+back-reference, copies overlapping history in output order, and returns exact
+consumption without padding. A declared output must be nonzero, within the
+caller's budget and at most256B. Complete tokens must fit; malformed final
+runs are rejected rather than clipped or allowed to overwrite another asset.
+A4096Bconsumption guard bounds nonproducing controls independently of output;
+it is an input-safety limit, not a packing or disk-size target.
+
+Tokens80..FFcopy3..18Bfrom an11-bit-distance representation;10..1Fcopy4..67B
+with a14-bit distance;00copies5..260Bwith a16-bit distance. Distances are
+stored minus1. Tokens40..7Fcarry1..64literal bytes,20..3Ffill2..33zero bytes,
+01fills3..258FFbytes and02fills3..258zero bytes. The verified palette size
+further limits which whole tokens can fit. Contrary to an unknown-token-error
+assumption, original dispatch skips03..0Fwithout output. The production parser
+preserves those controls and bounds them; a synthetic oracle verifies them.
+
+`Palette` holds eight16-wordu16banks and exact consumed source bytes as
+compatibility metadata. Validation redecodes those bytes and checks the full
+banks, retaining bit15. `Palettes` holds two157-key catalogs, relativeu16links
+and the162original descriptor keys. It rejects missing/duplicate/out-of-range
+keys, overlapping extents and inconsistent banks. `get` masks environment low
+bits, returns no alternate for0/3and never dereferencesFFor an invalid ID.
+There are no invented day/night names or substitute palettes for unavailable IDs.
+
+`Catalog::from_rom` authenticates the entire supported regional image, original
+root literals and each314Brelative-link table. Every stream gets its exact
+source range/hash; table padding is excluded. The bounded descriptor catalog
+supplies the key map. This is a verified base catalog, not a generic search for
+plausible compressed headers or support for arbitrary modified ROMs.
+
+Validation on Linux and Windows GNU/Wine:
+
+- Four synthetic core checks pass for all token classes, overlap, full words,
+  exact consumption, every truncated prefix of the synthetic streams, malformed
+  headers/budgets/history/overruns, source/model edits, selection and key bounds.
+- All314typed outputs and consumed sources per region match the retained
+  independently verified original-consumer buffers:39933sourceB/80384decodedB.
+  EUR/USAandLinux/Wineproduce identical deterministic readable JSON; semantic
+  roundtrip and source authentication pass. No old boot/oracle is rerun.
+-70new synthetic streams per regional original consumer, with4source×4target
+  alignments (1120calls/case), check all copy/fill/literal/control classes,
+  original source cursor, return value, complete outputs, guards, unchanged
+  EWRAM/source and restoredSP. Four regional/target cases pass.
+- A separate bounded malformed probe shows the original writes2literal bytes
+  despite a declared size1. The offline parser rejects this input. This is
+  retained negative evidence, not permission to accept an overrun or change the
+  original runtime consumer. Both regional cases pass on both targets.
+
+At the codec boundary the typed files were standalone test outputs and the
+active set remained `v1/e6-d5`. Managed integration is now implemented below;
+actual alternate runtime consumption remains separate. No guest/HLE/native/save ABI, canonical executable, archive
+or AndroidPort change, and no performance measurements. Evidence is under
+ignored `target/rom-data-bg-alternate-codec/` (protected inputs, builds/tests,
+source hashes, typed files and original synthetic/negative logs).
+
+## Managed alternate-palette datasets
+
+The managed set now publishes `bg-alternate-palettes.json` as its fifth fixed
+file, with ID `graphics.bg-alternate-palettes` and format
+`bg-alternate-palettes-v1-json`. Schema stays1, extractor/decoder advance to7/6
+and storage selects `v1/e7-d6`, retaining existing e6and earlier namespaces.
+The manifest includes both314Blink tables and all314consumed stream ranges,
+plus a dependency on descriptor keys. The file contains fullu16banks, original
+relative links/keyFFand exact consumed compatibility metadata, with standard
+readable JSON. Input guards are256KiBmanifest/16KiBOBJ/256KiBdescriptors/
+1MiBbase/4MiBalternate and5MiBtotal. These are parser safety guards, not targets
+for reducing or packing the decoded data.
+
+All five files are written/synced, parsed and source-authenticated before
+publication/selection. Valid reuse writes nothing. A missing/corrupt alternate
+file repairs into a fresh generation while retaining earlier generations;
+cancellation, partial fifth-file writes and process death preserve a valid
+selection. The reader uses fixed names, rejects symlinks, bounds every file
+before parsing, and compares the complete typed model and original compatibility
+representation against the selected exact image. A recomputed file hash cannot
+authorize modified banks, source encoding, key maps, links or manifest paths.
+
+Activation checks the complete set before replacing its existing owner. Every
+file/ID contributes to dataset identity: whitespace-only semantic-equivalent
+alternate JSON changes that identity while OBJ/BG/base file identities and
+machine snapshots stay the same. Missing or forged data leave the current
+machine/owner intact. The existing three gameplay consumers remain unchanged;
+alternates are explicitly reported as `runtime=verified-only` in this unit.
+Preparation/authentication is not evidence of alternate guest use.
+
+Validation on Linux and Windows GNU/Wine:
+
+-2core extraction and10file+11preparation defaults pass on Linux;2+9+10on
+  Wine (Unix symlink checks explain the difference). Checks include the fifth
+  file's parser/count/key/link/source guards, rehashed edits, total/per-file
+  limits,4publishers/preparers, cancellation and three forced process deaths.
+  Partial-write regression now covers both base and alternate palette files.
+- A new regional private test on each target covers coherent bank/source edits,
+  equal-bank re-encoding rejection, whitespace identity, failed activation,
+  new extraction/reuse/corrupt+missing repair/move and byte-exact e6retention.
+  Existing Load/Undo/backup and the USA/EURresource-owner restart tests also
+  pass using the new complete set. No old producer or scene fixture is replayed.
+- Both production CLIs build warning-free.23actual checks per target pass from
+  unrelated working directories: regional extract/reuse/verify, e6refusal and
+  preservation, first prepare/no-write reuse, alternate corruption/missing-file
+  repair, invalid offline data refusal without overwrite and resource-root move.
+  Regional output files match across targets; the prior three data files match
+  e6exactly. Canonical runtime/source/old-dataset hashes remain protected.
+
+Private evidence: ignored `target/rom-data-bg-alternate-managed/` test/build/CLI
+logs, regional results, protected/source manifests and helpers. The first forged
+probe re-encoded a short stream as a larger literal stream and correctly hit
+the overlap guard before source authentication. The helper now uses a coherent
+same-extent mutation; only that private criterion was repeated, retaining the
+failed observation and already passed defaults. No production workaround.
+Final post-build edits only format existing statements or adjust test helpers;
+no functional production change follows the verified builds.
+
+Actual alternate runtime file consumption, FFcaller preconditions, broader
+catalog/language/scene/GUI/archive coverage and native Windows remain separate.
+No performance measurements, space optimization, public archive, AndroidPort,
+agent commit or push is part of this unit.
+
+## Direct alternate-palette consumption
+
+The `e7-d6` fields already contain the needed banks, links and source metadata;
+no file-format, dataset revision, native ABI/key or snapshot revision changes
+for this04unit. `RuntimeResources` retains an immutable alternate owner. The
+shared verified codec also exposes each literal token's encoded/output offsets.
+At activation these build a bounded byte map: original CPU/DMA/native reads of
+literal payloads resolve fullu16bank bytes, link-table reads resolve typed
+relative links, and headers/control bytes resolve exact compatibility metadata.
+The literal bytes are not copied back from the original ROM or taken from the
+retained encoded payload. No guest instruction, copy, write, cycle or decoder
+call is bypassed; the original custom decompressor still runs normally.
+
+The existing bus entry points route only fixed verified asset pages:
+USA427..431andEUR489..493. Within those pages, only exact table/stream extents
+are mapped; unrelated data and padding retain original ROM behavior. Widths,
+mirrors and mixed mapped/unmapped reads use the existing bus APIs. All fields
+and bindings authenticate once at activation; gameplay does no file I/O or
+revalidation. A separately counted `decoded_literal_bytes` distinguishes real
+bank reads from merely preparing data or reading control tokens. There is no
+invented host dereference/fallback for unavailableFFkeys; original caller
+preconditions remain an open contract.
+
+Verification on Linux and Windows GNU/Wine:
+
+- Final release suites:216core+104runtime pass on Linux,216+103onWine;
+ 7core/31runtime optional ignored per target, with selected private checks run
+  separately. Builds are warning-free. The new core fixture poisons both raw
+  ROM spans and retained encoded literal bytes after authentication: every
+  output still matches typed banks for both regions, widths/mirrors/boundaries,
+  native API, DMA and Load/owner/counter preservation. Thus identical metadata
+  alone cannot make the provenance test pass.
+- Four regional/target original-producer probes each pass1256calls covering
+ 157valid IDs, environments1/2/FD/FEand direct/current arguments. Descriptor
+  metadata, both link tables and all314raw stream spans are poisoned. Original
+  interpreter and translated execution match CPU/register/CPSR/clock/RAM at
+  boundaries, complete outputs/guards, restoredSPand final full serialized
+  machine states after restoring raw source bytes. Each records143980bus reads,
+ 2512typed link bytes and116020decoded literal bytes.
+- The translated path includes11767existing interpreter shells among14262
+  dispatches; it is not claimed to be entirely native. Native API callbacks
+  independently count143037asset reads. A separate reused-component probe
+  proves92literal bytes are read specifically by native API calls (104asset
+  calls) for each region/target, with correct complete output.
+- Separate regional lifecycle cases delete copied dataset files, then pass
+  Slots Load/Undo, backup restore and quick Restart ROM. The same alternate
+  owner and counters survive; current cartridge bytes stay correct. Loaded
+  resources remain usable without reopening the absent files.
+- Both actual production CLIs activate the existing e7dataset and reuse its
+  unchanged files with the prior TinyCC cache. Interpreter/native first-frame
+  legacy/decoded hashes agree and native dispatch is positive. This is CLI/
+  cache compatibility evidence: the cold first frame uses0alternate bytes;
+  positive alternate use comes from the stronger original/native probes above.
+
+Evidence: ignored `target/rom-data-bg-alternate-runtime/` source preimages,
+initial/final warning-free builds, core/full suites, four producer reports,
+separate native-bank/lifecycle logs, candidate production/CLI results. Existing
+codec/managed/e6artifacts and original ROM/canonical runtime hashes are protected.
+Only newly added test expectations/coverage changed after initial builds; raw
+bus methods use byte offsets, with CPU alignment handled by instruction helpers.
+No successful producer matrix was repeated merely to add the separate bank/
+lifecycle criterion; its existing compiled components were reused.
+
+The initial04boundary leaves broader scene/GUI/FF/archive acceptance separate;
+the declared EUR pub scene and GUI checks are closed below. No benchmark,
+profile, startup/RSS campaign, space optimization, AndroidPort, commit or push. The full
+ROM_DATA_TODO remains active.
 
 ## Decoder contract and checks
 
@@ -559,6 +789,69 @@ writer disassembly and regional root literal references remain private under
 `target/rom-data-graphics/`. Neither original instructions nor resource bytes
 are embedded in tracked sources; public fixtures use original synthetic data.
 
+## Complete descriptor packet catalogs
+
+ROMDATA-01-BG-PACKET-CATALOG extends the earlier observed three-body contract
+to every field04/08/10 link in the authenticated162-record descriptor block.
+This does not decode field00graphics or the transfer/variant programs. Each
+exact region has352distinct, nonoverlapping source ranges:122paired-plane,
+117halfword-plane and113auxiliary programs. Total consumed source bytes398227,
+post-wrapper bodies523794; aliases, source/body hashes and parent references
+agree between EUR and USA. Equal catalogs do not prove language completeness.
+
+All sources in this declared set have a four-byte wrapper. Low byte01means
+raw packet body,11means an LZ77body at source+4. Upper24bits select a parent
+*descriptor ID in the same family*, with FFFFFFmeaning initial fill. Parents
+are decoded before the child's patches; all chains are acyclic with at most
+two nodes. There are9paired,6halfword and9auxiliary inherited descriptor
+references, distinct from deduplicated source counts. The paired initial fill
+reads the live u16at EWRAM02007f5e and repeats it across the combined0x4000B
+planes; halfword0x2000B and auxiliary0x200B initialize to zero. This dynamic
+fill cannot be replaced by a constant in the extracted data.
+
+Paired programs use indexed packet dictionaries exclusively in this catalog:
+35unique sources have8-bit indices,87have16-bit indices. Wrapper counts are
+91compressed/31raw. Halfword programs are116compressed/1raw; auxiliary are
+110compressed/3raw. Both halfword families use literal u16packets. Keep packet
+order and original inheritance, full words, offsets, dictionary/control bytes
+and exact source extents. A rendered or flattened image discards these semantics.
+For raw indexed sources, packet termination alone does not locate the end:
+`PlanePatches::referenced_extent` now also includes every actually read
+halfword/explicit-pair dictionary entry. `payload.consumed` retains its prior
+stream-only meaning. Trailing padding is excluded; compressed body padding
+within the LZ77declared output stays part of the body.
+
+Original loader entries are USA0801f1a8/0801f2ec/0801f438 and
+EUR08020318/0802045c/080205a8, in paired/halfword/auxiliary order. Bounded
+original regional disassembly independently establishes tag handling, parent
+field selection, fill and body dispatch. The normal paired wrapper's setup
+sets processing flagbit2, so these complete wrapper calls leave no pending
+continuation. The earlier direct chunk-writer oracle used flags without that
+bit; its staged contract remains valid and is not rerun here.
+
+Three affected core tests pass on Linux and Windows GNU/Wine, including exact
+referenced extents, both index widths, implicit/explicit pairs, truncation,
+malformed bounds and trailing padding. Four new original-loader cases pass,
+one per region/target, each486wrapper calls/8081987original steps. For every
+162descriptor×3families they compare complete target buffers,16Bprefix/suffix
+guards and restored SP against ordered offline programs. Paired tests use a
+nonzero live fill word; inherited writes are composed before the child. This
+is a component invocation with existing BIOS HLE, not a real-BIOS or full
+CPU/clock/audio/native/scene comparison.
+
+An independent private classifier matches the core decoder's every source
+extent/hash and body/hash. All352body files per regional/target case are
+hash-checked; source/alias/parent data agree across targets. Test builds are
+warning-free, ROM/canonical hashes preserved, all processes terminal/pass.
+No new boot/scene/old producer oracle, production rebuild, performance/space
+campaign, managed revision, archive, AndroidPort change, agent commit or push.
+Evidence:target/rom-data-bg-packet-catalog/verification-summary.json,
+headers/classified/range-comparison/cross-target-comparison JSON, bounded
+regional disassembly, four original-loader result/body directories and logs.
+Typed source-authenticated program files, managed publication and actual
+runtime consumption are the next distinct02/03/04work; source files alone
+will not complete that migration.
+
 ## Reproduction and remaining work
 
 Build the `recomp` test executable using the existing Windows/native build
@@ -591,3 +884,24 @@ No BIOS call, guest instruction, cycle, DMA/IRQ, audio path, save/native
 identity, current dataset schema/revision or default startup behavior changes.
 This work gives no decompression speedup or native Windows result. Windows
 hardware is unavailable to the user; Linux/Wine remain distinct evidence.
+
+## Actual alternate-palette scenes
+
+ROMDATA-05-BG-ALTERNATE-SCENES and ROMDATA-05-BG-ALTERNATE-GUI close the
+previously missing actual source-use requirement for the declared EUR Cyril
+pub transition. Original Options-confirmed LCD B/TV worldmap state copies and
+normal A-button input load BG62. Four397-frame Linux/Wine native legacy/decoded
+pairs match every full state/image/OAM/dispatch/audio sample, with first actual
+alternate reads at relative102. LCD B consumes165decoded literal bytes and TV
+153, plus2typed link bytes each. Both interactive native GUIs then present the
+pub in both modes and close0with aggregate351reads/4linkB/318decoded literalB;
+pub captures are inspected. No forced mode/PC or scene0read is used as source
+proof. [Protocol, exact checks and remaining scope](development/ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
+
+The ignored per-frame diagnostic now accepts
+`FFTA_STATE_TEST_ALTERNATE_MODE=1|2`, checks the loaded/current original mode
+on every frame and rejects missing table/literal consumption. Original data,
+states, caches, loader and canonical binaries remain hash-protected. No
+production rebuild, old base/producer replay, performance measurement, public
+archive or default-enablement claim follows. Five global FFpreconditions,
+other regional/gameplay/language/catalog coverage and native Windows remain.

@@ -6,6 +6,95 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **ROMDATA-01-BG-PACKET-CATALOG — complete for descriptor04/08/10 of
+  the verified162-record block.** Previous turn is progress, preserved; this
+  continuation adds the next functional catalog, no performance/space work.
+  Each exact region: paired122sources(91LZ/31raw;35index8/87index16),
+  halfwords117(116LZ/1raw), auxiliary113(110LZ/3raw). All486links resolve352
+  disjoint sources/398227encodedB/523794bodyB; hashes/parents/aliases agree
+  EUR/USA. Wrapper01raw/11LZ, upper24bits parentID orFFFFFFfill. No cycles,
+  maximum2chain nodes. Core now exposes plane referenced_extent independently
+  from packet-stream consumed, bounding actually read dictionary entries.
+- Three packet core tests pass per target and four catalog original-loader
+  cases pass(486wrapper calls/8081987original steps each). Complete destinations,
+  prefix/suffix guards and SP match; no pending paired continuations. Normal
+  wrapper setup explicitly sets flagbit2; the older direct staged-writer test
+  without that flag is a different contract and is not reopened. Independent
+  private classifier/core decoding/source/body hashes agree. Warning-free builds,
+  all ROM/canonical hashes preserved; all processes terminal/pass. Evidence
+  target/rom-data-bg-packet-catalog/verification-summary.json, regional bounded
+  disassembly, classified.json, range-comparison.json, four oracle reports/bodies
+  and cross-target-comparison.json. No scene/boot/native/performance rerun.
+  [Change record](../changes/2026-10-21-classify-background-packet-catalogs.json).
+  Final memory/CRLF-aware whitespace and new source-hash checks pass; no live
+  process or temporary tracked helper remains. Prior dirty units are preserved.
+- Next unfinished unit **ROMDATA-02-BG-PACKET-DATA**: typed ordered programs
+  for these352sources and486record links, source-authenticated parent graph,
+  exact encoded/control metadata and decoded writes. Reuse above original
+  outputs and existing core LZ77/packet decoders; do not rerun the closed486-call
+  oracles merely to rebuild context. Keep inherited initialization and packet
+  order; a flattened image loses this contract. Managed extraction/startup and
+  actual runtime consumption follow under new revisions, not part of the closed
+  inventory. Field00graphics, transfer/variant programs, languages/other catalogs,
+  global paletteFFconditions/archive/nativeWindows and other resource/mod
+  phases remain; write a fresh selection checkpoint before new execution.
+
+- **ROMDATA-01-BG-ALTERNATE-CALLER-CONTRACT — bounded inventory/mode
+  semantics complete; global FFpreconditions explicitly open.** Four direct
+  Thumb producer callers per region, one direct setter caller and original
+  Options confirmation inspected. EUR native GUI establishes LCD A=0, LCD B=1
+  (second catalog), TV=2(first); candidate cycling does not apply until B/Save
+  changes Yes. Zero-frame reads of isolated slot5/6 confirm1/2; worldmap source
+  remains0. No local descriptor-byte56FFguard; staged currentBGid00ffguard is
+  distinct. No exhaustive indirect/global invariant claimed. All originals
+  protected and GUI close0; no old decoder/build/matrix/performance rerun.
+  Evidence target/rom-data-bg-alternate-callers/verification-summary.json and
+  [contract](../rom_data_graphics.md#alternate-palette-callers-and-color-mode).
+  Those mode-only worldmap/Party captures read0alternate bytes; subsequent pub
+  source-use scenes below close the declared scene criterion. Original mode
+  identification is closed; do not repeat it to recover context.
+
+- **ROMDATA-05-BG-ALTERNATE-SCENES — complete for two declared EUR pub
+  transitions on Linux/Wine.** Existing original Options-confirmed LCD B/TV
+  slot5/6copies plus new397-frame three-A input enter Cyril pub BG62. Four
+  native legacy/decoded pairs match every full state, central/wide pixel, OAM,
+  dispatch and mixed/PSG/FIFO/HLE sample (HLE by bits). Original mode1/2 is
+  checked every frame; positive alternate link/literal use is now mandatory.
+  First read relative102; LCD B179reads/2tableB/165literalB, TV172/2/153 on
+  each target. Both record87BGmetadata reads and all audio streams nonempty.
+  Warning-free test builds; all original states/ROM/cache/loader/dataset files
+  hash-preserved. Existing production CLI locator independently confirms TV
+  source use; no old base scene/producer oracle/performance rerun. Evidence
+  target/rom-data-bg-alternate-scenes/{native,windows}-scene-results.json/logs.
+  Native Windows, other scenes/languages/FFpreconditions remain separate.
+
+- **ROMDATA-05-BG-ALTERNATE-GUI — complete for declared EUR Linux/Wine
+  scope.** Existing normal e7native candidates and TinyCC caches, isolated
+  copies of original Options-committed LCD B/TV slots. Each GUI loads both,
+  enters Cyril pub using normal A input, presents background/greeting/portrait/
+  menu/funds and closes0. Both pub captures per target visually inspected.
+  Aggregated351alternate reads/4typed tableB/318decoded literalB per GUI;
+  source/slot/cache/loader/canonical hashes unchanged. No asynchronous screenshot
+  pixel-equivalence or native Windows claim. No production rebuild/archive/
+  performance run. All processes terminal/pass. Evidence
+  target/rom-data-bg-alternate-scenes/verification-summary.json and
+  {native,windows}-pub-gui/result.json/log/captures. Scene and GUI units closed;
+  do not repeat them from an old next-action line.
+
+- Remaining queue: full ROM_DATA_TODO is still active. Prior codec/managed/
+  consumption/caller-mode/declared scene/GUI children are complete; global
+  FFpreconditions, other graphic catalogs/programs/languages, text/audio/gameplay
+  data, archive acceptance and mod phases remain. Native Windows unavailable,
+  no new request needed; performance/space work stays deferred. Next select one
+  unfinished exact regional graphics payload/consumer contract from the
+  inventory using a bounded static read; the packet catalog selected above is
+  now closed and its typed02model is next. Write a fresh checkpoint before
+  mutation/expensive work. Reuse retained catalogs/buffers/state artifacts.
+  Current branch decomp ed495fe; optimizations b43f943/main124de1f unchanged.
+  Dirty ROM-data code/docs are preserved uncommitted; no push/archive made.
+  Final project-memory and CRLF-aware whitespace checks pass; newest scene
+  source hash verified. No temporary tracked helper or live process remains.
+
 - **FEAT-RESTART-ROM / BUG-01-LAWS-DEPLOYMENT — implementation and local
   validation complete; integrated locally into decomp.** Latest
   request is both changes here then decomp; root5266a4c remains preserved.
@@ -864,15 +953,94 @@ An open parent never reopens completed children or rejected experiments.
   Evidence target/rom-data-bg-alternate-palettes/verification-summary.json,
   private disassembly/literal/stream inventories, decoded buffers, hypothesis
   decoder and four original reports. FFcases are deliberately not invoked.
-- **Next open unit: ROMDATA-02-BG-ALTERNATE-PALETTE-CODEC**. Implement bounded
-  typed custom decoder and catalog/source authentication for valid157keys×2,
-  preserving fullu16values and FFmarkers. Validate exact consumption, malformed
-  headers/tokens/references/truncation, overlap/zero/FFfill and length bounds
-  against synthetic original-consumer probes; reuse retained314buffers and
-  original oracles on Linux/Wine. Do not recreate old boot/scene fixtures or
-  resume deferred performance work. Then managed extraction and actual runtime
-  file consumption, remaining GUI/archive/caller-precondition/language/family
-  coverage and mods stay in the full active goal. User has Linux/Wine only.
+- **ROMDATA-02-BG-ALTERNATE-PALETTE-CODEC — complete** for bounded offline
+  decoding, typed catalog and source authentication.
+  [Record](../changes/2026-10-21-decode-alternate-background-palettes.json),
+  [contract](../rom_data_graphics.md#typed-alternate-palette-codec).
+  Custom BE/LZ/RLE handles every literal/copy/zero/FFbranch and original03..0F
+  nonproducing controls, exact consumed extents, overlapping history and full
+  u16banks. Limits256Boutput/4096Bconsumption guard; no space/packing target.
+  Two157-key catalogs retain relative links and162keys including5FFmarkers.
+- Linux/Wine4core tests each and four typed regional comparisons pass all314
+  retained original buffers and sources (39933B/80384B). Deterministic readable
+  JSON1387839Bidentical across both regions/targets, semantic roundtrip checked.
+  Four new original synthetic cases pass70streams/1120calls each, all4×4source/
+  destination alignments, source cursor, output/guards, EWRAM/SP/source unchanged.
+  Both regional negative probes on both targets prove original header1writes2B;
+  safe offline parser rejects it. No old oracle/boot/scene replay repeated.
+- Final release test builds warning-free; original ROM/canonical runtimes and
+  prior complete inventory/oracle hashes unchanged. All handles20370/15348/
+  48774/32984/60653/43819/2576terminal/pass, native commands terminal too.
+  Evidence target/rom-data-bg-alternate-codec/: verification-summary.json,
+  protected/source hashes, initial/final builds, typed files and synthetic/
+  negative logs. Only test prefix/negative coverage changed after initial pass;
+  only affected4core and newnegative checks repeated. No native Windows claim.
+  Active dataset stillv1/e6-d5; no runtime/HLE/state/native/archive change.
+- **ROMDATA-02-BG-ALTERNATE-PALETTE-MANAGED — complete** for deterministic
+  extraction/verification and versioned atomic preparation/activation checks.
+  [Record](../changes/2026-10-21-prepare-alternate-background-palettes.json),
+  [contract](../rom_data_graphics.md#managed-alternate-palette-datasets).
+  Fifth fixed file is standard readableJSON1387839B; manifest includes316new
+  source ranges. Schema1/extractor7/decoder6 selectsv1/e7-d6, keepinge6. Bounds
+ 256KiBmanifest/16KiBOBJ/256KiBBG/1MiBbase/4MiBalt/5MiBtotal are input guards,
+  not space targets. Whole-set identity includes alternate hash/ID, transactional
+  activation validates it but reports runtime=verified-only. Actual use is04.
+- Native2core+10file+11preparation and Wine2+9+10pass (Unix symlinks differ).
+  Four private checks per target pass regional coherent edits/re-encoding refusal,
+  semantic-whitespace identity, failed activation isolation, all-generation
+  repair/move/retainede6, existing Load/Undo/backup and both regional resource
+  restart/backup cases. Three forced child deaths and4publisher/preparer cases
+  cover the new complete set; late palette write regression covers base+alt.
+- Initial regional helper expanded a short stream, correctly failing the overlap
+  guard before source authentication. Changed only that test to a coherent same-
+  extent edit; repaired regional tests pass, defaults reused, failed evidence
+  retained. Final post-build formatting/test-only changes do not alter production.
+  Both production builds warning-free; mainmtime refreshed after hash-verified
+  canonical restoration. ActualCLI23checks/target pass from unrelatedcwd, native/
+  Wine five files equal, three prior data files matche6, original hashes intact.
+- All handles23630/26319/66937/70443/85132/46024/99906/3553/53983/61501/4514/
+ 96579terminal; initial private failures above distinct from final pass. No live
+  process or missing deliverable for this02unit. Evidence ignored target/
+  rom-data-bg-alternate-managed/:verification-summary.json, protected/source/
+  preimages, builds, default/private/CLI results and helpers. No performance,
+  boot/scene rerun, compression, archive, agent commit/push or AndroidPort work.
+- **ROMDATA-04-BG-ALTERNATE-PALETTE-CONSUMPTION — complete** for valid catalogs.
+  [Record](../changes/2026-10-21-consume-alternate-background-palettes.json),
+  [contract](../rom_data_graphics.md#direct-alternate-palette-consumption).
+  Immutable banks/links retained; shared codec exposes literal spans so source
+  payload reads come from decoded banks, controls from authenticated metadata.
+  Fixed USA427..431/EUR489..493pages route CPU/DMA/native accesses without
+  skipping original instructions/copies/writes/cycles or adding gameplayI/O.
+  e7files/dataset keys, nativeRtApi/cache and snapshot schema unchanged.
+- Final native216core/104runtime and Wine216/103pass;7core/31runtime optional
+  ignored each. Synthetic source/encoded-literal poisoning still matches typed
+  banks for widths/mirrors/boundaries/nativeAPI/DMA/Load. Four original/native
+  regional cases pass1256calls/2655156instructions each, poisoned descriptor/
+  tables/all314streams, equal CPU/CPSR/clock/RAM/output/guards/SPand final full
+  states. Counts143980bus/2512table/116020decoded literal bytes each.
+- Native dispatch14262includes11767normal interpreter shells; no entirely-native
+  claim.143037nativeAPIasset reads. Separate reused-component tests prove104
+  APIcalls/92decoded literal bank bytes per regional/target case. Separate
+  deleted-file Slots Load/Undo/backup/RestartROMcases preserve alternate owner/
+  counters/current cartridge data. These gates did not repeat full producer
+  matrices or regenerate old native/scene fixtures. Core test aligned raw-bus
+  byte-offset expectations before final pass; no production repair required.
+- Both production builds warning-free, canonical hashes restored and mainmtime
+  refreshed. Actual interpreter/native CLI first-frame hashes equal, priorTinyCC
+  cache dispatch positive, existinge7files reused without writes. Cold first
+  frame has0alternate reads: activation/cache proof only, not source-use proof.
+  All handles3025/56195/18409/23547/95132/70245/24343/38789/17203/25551/74371/
+ 11550/66501/9604/89896terminal/pass. No live process or missing04deliverable.
+  Evidence target/rom-data-bg-alternate-runtime/verification-summary.json,
+  source/preimages, builds/full suites, four producer reports, bank/lifecycle/
+  actualCLIlogs. Protected original ROM/canonical/e6files unchanged. Current
+  codec/managed/runtime edits remain uncommitted; prior user UI commits retained.
+- The former next unit ROMDATA-01-BG-ALTERNATE-CALLER-CONTRACT is now closed
+  for bounded direct callers and EUR Color Mode meaning above; only global FF
+  exclusions remain unknown. New pub source-use scenes are also closed above.
+  Follow the current top checkpoint, not this historical queue. Remaining linked
+  graphics/programs/catalogs/languages/archive/nativeWindows/mod phases stay in
+  the full goal; unavailable Windows does not block other useful work.
 
 ### Previous planning outcome (retained)
 

@@ -6,6 +6,19 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Latest request: generate a TODO for startup ROM resource extraction and future
+  folder-based mods. **FEAT-04-ROM-MODDING-PLAN — selected / documentation only.**
+- Existing outcome: source inspection confirms `play.rs` reads the ROM once into
+  `MemMap.rom`; guest reads then use memory. No resource extraction or mod loader
+  is implemented. Git is clean at selection; previous desktop fixes are retained.
+- Missing deliverable: an actionable phased TODO covering resource discovery,
+  extraction/cache, overrides, native-code/profile/save identity and validation.
+- Next action: add the dedicated plan and link it from the desktop TODO and
+  project state; check documentation and memory. No runtime work, builds or
+  performance claims are selected by this planning request.
+
+## Previous desktop request outcomes
+
 - Latest request: continue the desktop TODO; user confirms the reported INT/EXT
   difference occurs **only with Fast active**.
 - **FEAT-02-FULLSCREEN — complete / retained for implemented desktop scope.**
@@ -124,8 +137,8 @@ Previous completed consumption request:
   gui-under-build-load). Build/test/GUI handles51951/72493/97293/98575/10060/85875/
  43855/56671/2008/14367/43406 are terminal. No commit/push/export update.
 - BUG-03 parent remains partial for audible/event/device and native Windows
-  validation. Normal backlog bounds are completed above; the current checkpoint
-  selects FPS after that closed unit. Do not
+  validation. Normal backlog bounds and the Fast-only FPS diagnosis are completed
+  above. Do not
   reopen the completed consumption fix merely because the parent is unchecked.
 
 Previous completed build-warning request:

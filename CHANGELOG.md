@@ -409,6 +409,33 @@ Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.m
 
 [Change record](docs/changes/2026-10-21-flush-skipped-presentation-uploads.json)
 
+## 2026-10-21 — Keep battle laws and HELP together in the centered desktop modal
+
+Type: fixed. Platforms: Desktop Linux and Windows/Wine.
+
+**Changes**
+
+- Recognize the observed battle laws frame independently of translated labels and the action-menu X=160 split; keep table, HELP, selector and continuation marker together in the existing centered Notice layer.
+- Recompute a serde-skipped host subtype every frame; preserve guest memory, snapshot bytes, translation ABI and existing fallback behavior for unrecognized layouts. Update the TODO with implemented work and explicit remaining coverage.
+- Remove the supplied image from both affected optimizations commits and the working tree; preserve every other historical tree byte and commit metadata, then update origin/optimizations with an exact old-tip lease. Code fixes remain uncommitted in the worktree.
+
+**Validation**
+
+- Native release core suite: 183 passed/5 optional ignored; runtime: 67 passed/4 optional ignored. Windows GNU core under Wine: 183 passed/5 optional ignored. Final targeted native and Wine laws/snapshot-byte tests pass; disabling recognition fails the layout regression.
+- All 72 private EUR snapshot matrix cases reconstruct the native framebuffer exactly; 24 synthetic centered-modal GPU/software cases match on llvmpipe Vulkan. Actual Linux GUI 600-frame replay and Windows/Wine normal-play slot load/render/WM-close pass with inspected captures.
+- Native and Windows release builds succeed. No runtime tests or captures are inferred from the supplied image alone.
+- Verified the remote tip e459c65 with git ls-remote after the lease-protected rewrite. No local/remote branch or tag history contains docs/development/image01.png; both rewritten commits differ only by its deletion. Recovery bundle and app-owned tree checkpoints are local and outside branch history.
+- project_memory.py check and git diff --check pass; current documentation links resolve and the pending performance queue is preserved.
+
+**Limitations**
+
+- Native Windows, USA, other laws-table formats/counts, exact original tutorial scene, zoom above 2 and a laws-specific load/Undo cycle remain unverified. Portable archives are unchanged.
+- The Windows bounded benchmark displayed the panel but failed at 601/600 frames; normal-play evidence is separate. Early harness input/menu mistakes are retained as negative evidence.
+
+Documentation: [ffta_laws_layout.md](docs/ffta_laws_layout.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
+
+[Change record](docs/changes/2026-10-21-fix-battle-laws-modal.json)
+
 ## 2026-10-21 — Skip world-only sorting in native UI capture
 
 Type: performance. Platforms: Native Linux, Windows GNU / Wine / Docker.

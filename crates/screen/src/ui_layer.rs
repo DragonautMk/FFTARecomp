@@ -783,6 +783,49 @@ mod tests {
 
     #[test]
     #[ignore = "requires a working graphics adapter; run explicitly"]
+    fn centered_laws_modal_matches_cpu_across_sizes() {
+        let instance = wgpu::Instance::default();
+        let adapter = pollster::block_on(instance.request_adapter(&Default::default())).unwrap();
+        eprintln!("LAWS_UI_GPU adapter={}", adapter.get_info().name);
+        let (device, queue) = pollster::block_on(adapter.request_device(&Default::default())).unwrap();
+        let lut: Vec<_> = (0..32768).map(|c| std::array::from_fn(|i| {
+            if i == 3 { 255 } else { let v = (c >> (5 * i)) & 31; ((v << 3) | (v >> 2)) as u8 }
+        })).collect();
+        let world: Vec<_> = (0..284 * 160).map(|i| ((i * 13) & 32767) as u16).collect();
+        let mut layers = Vec::new();
+        for bounds in [[0,72,216,128], [0,16,224,128]] {
+            let pixels: Vec<_> = (0..480 * 160).map(|i| {
+                let x = (i % 480) as i32 - 120;
+                let y = (i / 480) as i32;
+                if x < bounds[0] || x >= bounds[2] || y < bounds[1] || y >= bounds[3] || (x + y) % 7 == 0 {
+                    [0,0,0,16]
+                } else {
+                    let c = ((i * 17) & 32767) as u16;
+                    [c as u8,(c >> 8) as u8,8,8]
+                }
+            }).collect();
+            for (window, base_width) in [((720,480),240.), ((852,480),284.), ((1704,480),568.), ((853,481),284.)] {
+                for size in [0.5,1.,2.] {
+                    let frame = Frame {
+                        pixels: &pixels, pixels_revision: None, raw_world: &world,
+                        world_dims: (284,160), lut: &lut,
+                        layout: Layout::centered_panel(window,base_width,size,bounds),
+                        world_view: [0.,0.,284.,160.],
+                    };
+                    update_layers(&mut layers,&device,&queue,wgpu::TextureFormat::Rgba8Unorm,false,&[Some(frame)]);
+                    let actual = gpu_layer_pixels_at(&device,&queue,layers[0].as_ref().unwrap(),window);
+                    for y in 0..window.1 as usize { for x in 0..window.0 as usize {
+                        let expected = frame.sample(x as f32+0.5,y as f32+0.5).unwrap_or([0,0,0,255]);
+                        assert_eq!(actual[(y*window.0 as usize+x)*4..(y*window.0 as usize+x+1)*4],expected,
+                            "bounds={bounds:?} window={window:?} size={size} x={x} y={y}");
+                    }}
+                }
+            }
+        }
+        eprintln!("LAWS_UI_CPU_GPU_PARITY cases=24 differences=0");
+    }
+    #[test]
+    #[ignore = "requires a working graphics adapter; run explicitly"]
     fn gpu_matches_cpu_native_layer_without_window() {
         let instance = wgpu::Instance::default();
         let adapter =

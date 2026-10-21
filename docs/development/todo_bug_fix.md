@@ -1,68 +1,66 @@
 # TODO — Bug fix e funzionalità desktop
 
-Analisi del 21 ottobre 2026, basata sul codice corrente e su
-[image01.png](image01.png). Questo documento trasforma le sei segnalazioni
-originali in attività da sviluppare successivamente. Le caselle riguardano
-il lavoro futuro: l'ispezione dei sorgenti non equivale a una riproduzione
-del bug o a una validazione del runtime.
+Analisi e avanzamento del 21 ottobre 2026, basati sul codice e sulla cattura
+fornita dall'utente (immagine rimossa dalla storia Git dopo la diagnosi).
+Le caselle distinguono il lavoro verificato dalle attività ancora aperte;
+le proposte delle sezioni successive restano da sviluppare.
 
 Ambito: workspace desktop, con priorità di verifica su Windows.
 `AndroidPort/` è un albero separato. Per riprendere lo sviluppo consultare
 [TASK_HANDOFF.md](TASK_HANDOFF.md): riutilizzare le verifiche già concluse nel
 [PERFORMANCE_TODO.md](PERFORMANCE_TODO.md), senza riaprire esperimenti scartati.
 
-Ordine proposto: diagnosi di **BUG-01-LAWS**, **BUG-03-FAST-AUDIO** e
+**BUG-01-LAWS** ha una correzione verificata nei limiti descritti sotto.
+Ordine successivo proposto: diagnosi di **BUG-03-FAST-AUDIO** e
 **BUG-02-FPS** (P1); **FEAT-01-MUTE** e **FEAT-02-FULLSCREEN** (P2);
 **FEAT-03-TACTICAL-OVERLAY** (P3, prima dati e visualizzazione, poi previsione).
 Le priorità indicano l'ordine di lavoro suggerito, non una gravità già misurata.
 
 ## BUG-01-LAWS — Schermata delle leggi in battaglia
 
-**Stato:** da riprodurre. **Priorità:** P1. **Complessità:** media.
+**Stato:** correzione implementata e verificata per il layout osservato;
+resta aperta la copertura estesa sotto. **Priorità:** P1. **Complessità:** media.
 
-**Evidenza e analisi.** Nell'immagine il testo «Pena per colpo riuscito con:»
-e la riga «Cavalleria» sono nel pannello sinistro, mentre a destra compare
-un riquadro vuoto separato; intestazione e contenuti risultano tagliati.
-Il ritratto e le statistiche restano visibili in basso. Non conosciamo ancora
-ROM/build, zoom, rapporto d'aspetto e impostazioni Text Bubbles della cattura.
+**Causa verificata.** La tabella leggi usa BG2=5C08/BG3=4A09, come il menu
+azioni, ma non attiva WIN0 per l'aiuto. Il vecchio riconoscimento `Notice`
+non la ammetteva. Senza HUD a bordo schermo la separazione era saltata;
+con HUD poteva scattare il layout azioni e il ripiego a X=160, producendo
+il contenuto diviso e il pannello destro vuoto della segnalazione.
 
-Il rendering distingue `Stats`, `Actions` e `Notice`, ma non ha una categoria
-dedicata alle leggi. In [ppu.rs](../../crates/gba-core/src/ppu.rs),
-`begin_dialogue_frame` riconosce i pannelli e `notice_bounds` richiede una
-specifica firma grafica; il percorso azioni può usare il taglio di ripiego
-a X=160. Una classificazione errata o un rettangolo incompleto sono ipotesi
-plausibili, da verificare. Le correzioni già descritte per
-[Notice](../ffta_notice_layout.md) e [menu azioni](../ffta_action_frame_width.md)
-non dimostrano che questa schermata sia coperta.
+**Soluzione implementata.** `laws_bounds` in
+[ppu.rs](../../crates/gba-core/src/ppu.rs) riconosce cornice, righe e divisore
+della tabella, senza leggere le parole tradotte. Riutilizza il livello
+centrale `Notice` per tabella e aiuto, comprensivo di selettore e indicatore
+di continuazione; l'HUD restante rimane separato. Il sottotipo host
+`laws_layout` in [ffta_dialogue.rs](../../crates/gba-core/src/ffta_dialogue.rs)
+è ricalcolato a ogni frame e non viene serializzato. La geometria completa
+non subisce Length o il clamp dei pannelli laterali. Restano i controlli
+esistenti di ROM, terreno e registri; firme incomplete conservano il vecchio
+percorso. Vedi [documentazione e verifiche](../ffta_laws_layout.md).
 
-**Soluzione proposta.** Individuare il pannello completo della schermata leggi
-e assegnare testo, cornice, sfondo e cursore allo stesso livello UI. Riutilizzare
-`Notice` solo se le sue regole coincidono; altrimenti introdurre un profilo
-dedicato, vincolato a ROM e scena verificate. Conservare il comportamento
-precedente nelle scene non riconosciute, senza estendere indiscriminatamente
-il riconoscimento delle finestre.
+- [x] Riprodurre lista e aiuto con ROM EUR e salvataggi locali, in italiano
+  e inglese; osservare BG, finestre e sprite. Conservare dati e catture sotto
+  `target/laws-fix/`, ignorato da Git.
+- [x] Correggere classificazione, proprietà dei pixel e dei due indicatori,
+  riutilizzando layout e modalità mouse dei pannelli modali.
+- [x] Verificare testo su entrambi i lati del vecchio taglio, HUD presente o
+  assente, tre larghezze, ricomposizione nativa esatta e VRAM/OAM/framebuffer
+  invariati; la regressione fallisce disattivando il riconoscimento.
+- [x] Verificare 72 casi da snapshot: lista/aiuto, 3:2/16:9/ultrawide, zoom
+  1 e 2, Size 0,5/1/2 e Length 1/2. Ricomposizione nativa: zero pixel diversi.
+  Parità GPU/software: zero differenze in 24 casi sintetici, incluso resize
+  fra dimensioni pari/dispari e variazioni di Size.
+- [x] Eseguire suite core e runtime native, suite core Windows/Wine e
+  regressioni finali sui byte degli snapshot; ispezionare lista/aiuto nel
+  frontend Linux e Windows/Wine e verificare caricamento e uscita normale.
+- [ ] Completare la copertura aggiuntiva: Windows nativo, ROM USA, altre
+  disposizioni/quantità di leggi, scena tutorial esatta della cattura,
+  zoom oltre 2 e un ciclo load/Undo specifico nella schermata leggi.
 
-- [ ] Riprodurre apertura, cambio legge/pagina e chiusura; annotare versione,
-  lingua, impostazioni e passaggi. Confrontare 3:2 senza espansione, widescreen
-  e `FFTA_UI_LAYER=0/1` su avvii distinti. Conservare eventuali snapshot solo
-  nello spazio locale ignorato da Git.
-- [ ] Ispezionare BG, finestre hardware, sprite e `PanelKind` della scena;
-  distinguere un errore di estrazione da uno di posizionamento o clipping.
-- [ ] Correggere il riconoscimento/ritaglio in `ppu.rs` e, se necessario,
-  [ffta_dialogue.rs](../../crates/gba-core/src/ffta_dialogue.rs),
-  [ui_pixels.rs](../../crates/recomp/src/ui_pixels.rs) e il layout in
-  [play.rs](../../crates/recomp/src/play.rs). Conservare la semantica dei
-  pannelli modali anche nel controllo mouse.
-- [ ] Aggiungere una regressione sintetica con testo/cornice su entrambi i
-  lati del vecchio taglio; verificare ricomposizione nativa, OAM/framebuffer
-  guest invariati e parità GPU/software del nuovo caso.
-- [ ] Verificare 3:2, 16:9 e ultrawide, zoom minimo/predefinito/massimo,
-  Size/Length e resize; controllare anche azioni, Notice, statistiche e
-  load/Undo. Segnalare separatamente regioni o lingue non provate.
-
-**Criterio di chiusura:** schermata leggibile e completa, senza frammenti,
-duplicazioni o pannelli vuoti introdotti dalla separazione UI; nessuna
-regressione negli altri pannelli. Allegare confronto visivo prima/dopo.
+**Criterio di chiusura:** il layout verificato mantiene lista, testo e
+indicatori integri e coerenti con il framebuffer originale. Le prove
+aggiuntive elencate restano esplicite e non riaprono la correzione già
+validata. Non sono stati aggiornati i pacchetti portable.
 
 ## BUG-02-FPS — Differenza tra framerate interno ed esterno
 

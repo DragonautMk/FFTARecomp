@@ -6,21 +6,34 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Latest request: turn `todo_bug_fix.md` into an analyzed TODO checklist with
-  proposed solutions for later development; documentation only.
-- Selected ID: **DOC-BUGFIX-CHECKLIST — complete / documentation verified**.
-- Outcome: [Italian checklist](todo_bug_fix.md) preserves all six requests,
-  with 39 pending steps, code/image evidence, proposed solutions, priorities,
-  dependencies and closure criteria. Existing F11, FPS semantics and Fast audio
-  modes are distinguished from missing work; overlay data/prediction need study.
-- Validation: supplied image and relevant source/docs inspected; six unique
-  task IDs, six closure criteria and all 17 local links checked. No runtime
-  code, builds, benchmarks or fixtures changed.
-- Missing deliverable: none for this planning request. No execution selected;
-  future work follows the checklist priorities when implementation is requested.
-- Evidence: [planning record](../changes/2026-10-21-plan-bugfix-checklist.json).
+- Latest request: begin resolving the TODO, starting with the broken battle
+  laws display; remove the example screenshot from commit history afterwards.
+- **BUG-01-LAWS — implemented / verified for the observed layout.** Frame-based
+  laws recognition and serde-skipped host subtype keep the table, HELP and both
+  indicators in the centered modal. Native183core/67runtime and Wine183core
+  suites pass, plus final native/Wine laws+snapshot-byte regressions. All72 EUR
+  snapshot reconstructions and24 synthetic GPU/CPU modal cases are exact.
+  Linux bounded GUI and inspected Windows/Wine normal-play load/WM-close pass.
+- Evidence: [fix record](../changes/2026-10-21-fix-battle-laws-modal.json),
+  [feature coverage/limits](../ffta_laws_layout.md). Local artifacts:
+  `target/laws-fix/`; canonical Linux binary restored, candidate builds kept
+  separately. Portable exports unchanged. Additional manual/platform cases in
+  the checklist stay open, not reasons to repeat completed checks.
+- **BUG-01-IMAGE-HISTORY — complete / remote verified.** Rewrote only the
+  image-bearing trees: c890cf0 -> 6eaecd5 and e262699 -> e459c65. All other tree
+  bytes and original authors/dates/messages preserved. Exact-lease push succeeded;
+  remote `ls-remote` confirms e459c65. No branch/tag history contains the image.
+  Local ignored recovery bundle and app-owned tree checkpoints are not published
+  branch history. Current TODO no longer links the removed file.
+- Missing deliverable: none for the requested first rendering fix/history cleanup.
+  Other five TODO areas remain unimplemented; no runtime performance task resumed.
+- No process live. Failed Windows bounded benchmark601/600 and early harness
+  mistakes are documented separately from successful final normal-play checks.
+- Next remaining checklist work: BUG-03-FAST-AUDIO diagnosis, then BUG-02-FPS;
+  native Windows/other-layout laws coverage stays explicit in the checklist.
+- Prior planning evidence: [record](../changes/2026-10-21-plan-bugfix-checklist.json).
 - The performance work below remains partial and is retained as a future queue;
-  it is not the current instruction for this documentation-only request.
+  it is not selected by the current laws-display request.
 
 ## Pending performance context (not selected by the current request)
 

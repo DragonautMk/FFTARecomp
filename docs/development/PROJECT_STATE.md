@@ -64,6 +64,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Desktop behavior
 
+- The observed battle laws table and its HELP window use the existing centered
+  Notice layer, including the selector/continuation sprites, independently of
+  the action-menu split and any remaining HUD. Recognition checks the frame,
+  rows and divider inside the existing ROM/terrain/action gate, not translated
+  words. The host subtype resets per frame and is skipped in snapshots. Native
+  and Windows/Wine suites, 72 private EUR reconstruction cases, 24 synthetic
+  GPU/CPU modal cases and inspected frontend checks pass. Other layouts/USA,
+  native Windows and exact original tutorial coverage remain open. See
+  [laws layout](../ffta_laws_layout.md).
+
 - Native UI capture skips per-pixel sorting/blending when no admitted UI BG or
   portrait can reach the texture, retaining a default destination write to clear
   stale pixels. Real UI keeps the full blend/world-target path. No persistent

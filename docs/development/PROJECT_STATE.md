@@ -64,11 +64,28 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Desktop behavior
 
+- [Fullscreen](../fullscreen.md): Video > Fullscreen (F11) persists default-off
+  `video.fullscreen`, sharing startup/menu/shortcut requests and asynchronous
+  reported-state reconciliation. Winit/WM restore normal placement/maximization;
+  missing-monitor fallback keeps a usable window. Existing resize/cursor/presenter
+  paths remain; no guest/audio/aspect/zoom/history change. Menu GPU/software
+  presentation uses the completed canvas dimensions across concurrent resize,
+  avoiding upload overflow and a fallback stride panic. Native28config/35menu/
+ 81runtime and Wine28/35/82 pass; physical/native Windows coverage stays open.
+
+- [Audio controls](../audio_controls.md): Audio > Mute persists default-off
+  `audio.mute` separately from Volume and temporary Fast Silent/fallback mute.
+  Startup/live edits share audio configuration; source consumption continues
+  while output gain slews to silence, retaining volume and timing. Timeline
+  resets preserve user mute. Audio-only edits do not reset video history.
+  Native27config/34menu/79runtime and Wine27/34/80 pass; hardware listening and
+  native Windows remain unverified.
+
 - Fast audio transitions invalidate callback DSP history as well as queues:
   host epoch resets DAC/sinc/FIFO/DC/crossfade state under the existing mutex,
   retaining filter tables and ramping new output through the volume slew.
   Pause discards pending output while preserving the Fast latch; device loss
-  also discards Normal's temporary backlog. Load/Undo retains stream recreation.
+  also discards Normal's backlog. Load/Undo retains stream recreation.
   Fast consumption now follows produced PCM pairs against device sample-clock
   progress with a common smoothed clock for faithful/PSG/HLE/FIFO, a60ms reserve
   after each callback and fractional sinc cutoff tables. Normal1x retains its
@@ -79,8 +96,14 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   and max estimated source queue stays~108ms. Under changing compilation load,
   recovery can still require silence; this is reported, not continuous playback
   proof during arbitrary stalls. Backend-buffered audio cannot be retracted;
-  native Windows/hardware/event latency, audible quality and Normal backlog
-  limits remain open. See [Fast audio](../fast_forward_audio.md).
+  native Windows/hardware/event latency and audible quality remain open.
+  Normal delayed1x now uses a preallocated512KiB/2second queue, replacing old
+  audio with the latest250ms and a10ms stereo fade on overflow; no temporary
+  file or callback I/O. Its menu states the delay, legacy config remains valid,
+  and Enhanced configuration still uses faithful PCM for Normal. Native78/
+  Wine79runtime and33menu checks pass; real Linux4x Normal callbacks stay
+  below131072pairs through10resyncs per mode with no holds/over-period calls.
+  The queue budget excludes backend buffering. See [Fast audio](../fast_forward_audio.md).
 
 - The observed battle laws table and its HELP window use the existing centered
   Notice layer, including the selector/continuation sprites, independently of
@@ -275,7 +298,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   `FFTA_FRAME_PACING` is resolved at startup. See [FPS notes](../fps_overlay.md)
   and the performance TODO for remaining optimization work.
 - [FPS overlay](../fps_overlay.md): Video > FPS counter; off/internal/external/
-  both. INT measures completed guest frames per wall second; EXT measures host
+  both. Inline row help explains game/present counts and expected Fast divergence;
+  the user confirms the report occurs only with Fast, consistent with the4:1
+  live captures at4x and~59.7/59.7 after disabling it. No pacing change.
+  INT measures completed guest frames per wall second; EXT measures host
   presentations, not display scanout. Configuration uses `video.fps` in
   `%APPDATA%\FFTARecomp\av.cfg` in installed Windows mode.
 - [Menu shortcuts](../menu_shortcuts.md): configurable single controls/chords

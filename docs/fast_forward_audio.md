@@ -2,16 +2,16 @@
 
 Fast Forward has three audio choices: `fast` follows actual guest audio
 production up to the selected 2x/4x/8x multiplier, `silent` discards guest audio,
-and `normal` plays the accelerated
-guest's faithful PCM at 1x from a temporary file. The latter can fall behind
-the video; it is not pitch-preserving time stretch. Its backlog limit remains
-an open item in [BUG-03](development/todo_bug_fix.md).
+and `normal` plays the accelerated guest's faithful PCM at 1x from a bounded
+memory queue. The menu describes this as delayed 1x audio: it can fall behind
+the video and periodically skip old audio. It is not pitch-preserving time
+stretch. See the queue policy below and [BUG-03](development/todo_bug_fix.md).
 
 ## Discarding an old audio timeline
 
 Fast activation/deactivation, multiplier changes and audio-mode changes now
 invalidate both the producer queues and the callback's signal history. Opening
-the pause menu does the same, discarding any Normal temporary backlog. The
+the pause menu does the same, discarding any Normal backlog. The
 session Fast latch is preserved and the effective speed is evaluated again on
 resume. Returning to 1x primes the ordinary rings again.
 
@@ -155,5 +155,52 @@ after compilation ended; existing baseline and passing suites were reused.
 
 These checks establish the consumption correction. Native Windows hardware,
 audible transition quality and recognizable audio/video event latency remain
-separate validation. Normal's unbounded temporary file and blocking read path
-remain open in BUG-03; this change does not implement pitch-preserving stretch.
+separate validation. The later Normal queue correction below is independent
+of the effective-rate fix and does not implement pitch-preserving stretch.
+
+## Bounded delayed Normal audio
+
+Normal keeps at most 2 seconds of stereo i16 PCM at 65536 Hz: 131072 pairs,
+512 KiB, reserved once on producer setup. It always consumes at 1x through the
+faithful path, including when Enhanced is configured. On overflow, it replaces
+the old backlog with the latest 250 ms and crossfades from the old read head
+over about 10 ms. This intentionally skips old sounds rather than allowing
+delay to grow throughout a Fast session. A fixed 2620-byte tail holds the old
+samples, including an unfinished earlier fade; both channels share the fade.
+
+There is no temporary audio file, file growth, callback disk read, allocation
+or error logging on consumption. The existing mutex protects the queue and
+the transition epoch still discards it on mode/speed/pause/load/device changes.
+Legacy `ff.audio=normal` remains valid; the menu labels the choice `1X` and
+explains `UP TO 2S DELAY`. The 2-second budget bounds application PCM, not the
+device/backend buffers or physical speaker latency.
+
+With `FFTA_PROFILE=1`, `FFTA_NORMAL_AUDIO` reports per-context callback counts,
+maximum queue pairs, queue limit, resync count and skipped pairs. Counters use
+the existing frame gate and epoch-aware baselines, excluding earlier jumps.
+
+Four queue tests cover stereo/order/reuse/invalid input, overflow fades,
+oversized/repeated bursts during a fade and fixed storage over 6000 producer
+ticks at each of 2x/4x/8x (93.75 seconds of 1x consumption per speed). A real
+callback regression checks exact observed/unobserved output, audible synthetic
+samples, 1x consumption, zero holds and silent discard. Native release suites
+pass 78 runtime and 33 menu tests; Windows GNU/Wine passes 79 runtime and
+33 menu tests (4 optional runtime tests ignored on each). Both production
+builds are warning-free. Existing canonical binaries were restored by hash;
+portable exports were not replaced.
+
+Actual Linux CPAL 44.1 kHz/native/Xvfb idle-battle Normal-at-Fast4x gates
+9400:11400 pass with Faithful 365 / Enhanced-configured 376 callbacks. Maximum
+queues are 130287/130783 pairs, below the 131072 limit; each resynchronizes
+10 times with zero faithful holds, producer drops or over-period callbacks.
+Enhanced sources remain unrouted as required by Normal. Menu selection and
+persistence, pause/resume, Fast-off return to approximately 59.7 INT/EXT,
+unchanged slot bytes, absent audio spool files and clean closes are verified.
+Captures were inspected. The first harness attempt paused at the root menu
+due to an extra Escape and never reached the capture gate; it remains setup
+failure evidence, not an audio result. Only the unmeasured gates were repeated
+after correcting that helper. Logs and manifests are retained under ignored
+`target/normal-audio-bounds/`.
+
+These live checks use volume zero and do not establish audible fade quality,
+audio/video event offsets, native Windows hardware or physical reconnection.

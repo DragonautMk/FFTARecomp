@@ -77,6 +77,8 @@ pub enum Changed {
     Gamut,
     /// `video_vsync` flipped; the loop retunes the presenter in place.
     Vsync,
+    /// Borderless fullscreen; shared with F11, without rebuilding game/video state.
+    Fullscreen,
     /// Persisted FPS overlay setting; no video or audio rebuild needed.
     Overlay,
 }
@@ -139,6 +141,7 @@ enum Row {
     FastForwardMenu,
     FastForward,
     AudioMenu,
+    Mute,
     FastForwardAudio,
     VideoMenu,
     TextBubblesMenu,
@@ -162,6 +165,7 @@ enum Row {
     Scaling,
     Aspect,
     Vsync,
+    Fullscreen,
     Fps,
     Key(Button),
     FfKey,
@@ -184,7 +188,7 @@ const MAIN_ROWS: [Row; 10] = [
     Row::Quit,
 ];
 
-const AUDIO_ROWS: [Row; 3] = [Row::Volume, Row::Audio, Row::Back];
+const AUDIO_ROWS: [Row; 4] = [Row::Volume, Row::Mute, Row::Audio, Row::Back];
 const EXIT_ROWS: [Row; 2] = [Row::QuitYes, Row::QuitNo];
 const SWITCH_ROM_ROWS: [Row; 2] = [Row::ReturnToGame, Row::ChangeRom];
 const FAST_FORWARD_ROWS: [Row; 3] = [Row::FastForward, Row::FastForwardAudio, Row::Back];
@@ -196,8 +200,9 @@ const SCALING_MODES: [&str; 4] = ["off", "nearest", "sharp", "epx"];
 /// Aspect ratios offered by the menu (`av.video_aspect`). Applied on resume.
 const ASPECT_MODES: [&str; 7] = ["auto", "3:2", "16:10", "16:9", "20:9", "21:9", "32:9"];
 
-const VIDEO_ROWS: [Row; 10] = [
+const VIDEO_ROWS: [Row; 11] = [
     Row::Aspect,
+    Row::Fullscreen,
     Row::Screen,
     Row::Brightness,
     Row::Darken,
@@ -307,6 +312,8 @@ impl Row {
             Row::ReturnToGame => "Return to game",
             Row::ChangeRom => "Choose ROM...",
             Row::Volume => "Volume",
+            Row::Fullscreen => "Fullscreen (F11)",
+            Row::Mute => "Mute",
             Row::Audio => "Enhanced Audio",
             Row::Screen => "Screen",
             Row::Brightness => "Brightness",
@@ -1129,9 +1136,10 @@ fn value_of(
             }
         }
         Row::Volume => percent(av.audio_volume),
+        Row::Mute => if av.audio_mute { "ON" } else { "OFF" }.to_string(),
         Row::FastForwardAudio => match av.ff_audio.as_str() {
             "fast" => "FAST AUDIO",
-            "normal" => "NORMAL",
+            "normal" => "1X DELAYED",
             _ => "SILENT",
         }
         .to_string(),
@@ -1146,6 +1154,7 @@ fn value_of(
         Row::Scaling => scaling_name(av).to_uppercase(),
         Row::Aspect => aspect_name(av).to_uppercase(),
         Row::Vsync => if av.video_vsync { "ON" } else { "OFF" }.to_string(),
+        Row::Fullscreen => if av.video_fullscreen { "ON" } else { "OFF" }.to_string(),
         Row::Fps => av.video_fps.to_uppercase(),
         Row::Key(b) => {
             if capture == Some(Bind::Gamepad(b)) {
@@ -1255,6 +1264,14 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             Some(Changed::Gamut)
         }
         Row::Volume => step_slider(&mut av.audio_volume, forward, 0, 10).then_some(Changed::Audio),
+        Row::Fullscreen => {
+            av.video_fullscreen = !av.video_fullscreen;
+            Some(Changed::Fullscreen)
+        }
+        Row::Mute => {
+            av.audio_mute = !av.audio_mute;
+            Some(Changed::Audio)
+        }
         Row::FastForwardAudio => {
             let modes = ["silent", "fast", "normal"];
             av.ff_audio = step_enum(
@@ -1424,6 +1441,26 @@ mod tests {
     }
 
     #[test]
+    fn fullscreen_menu_and_mouse_toggle_without_rebuilding_video_or_losing_scroll() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Video);
+        menu.handle(MenuInput::Down, &mut av);
+        assert_eq!(rows_of(menu.page)[menu.selected], Row::Fullscreen);
+        assert_eq!(menu.handle(MenuInput::Right, &mut av), Some(MenuAction::Changed(Changed::Fullscreen)));
+        assert_eq!(value_of(Row::Fullscreen, &av, &keys(), "Tab", None).unwrap(), "ON");
+        assert!(AvConfig::parse(&av.serialize()).video_fullscreen);
+        let (w,h) = (640,480);
+        let l = menu.page_layout(w,h);
+        assert_eq!(menu.click(l.panel_x+l.pad+20, l.rows_y+l.line_h+2,w,h,true,&mut av),
+            Some(MenuAction::Changed(Changed::Fullscreen)));
+        assert!(!av.video_fullscreen);
+        at(&mut menu, Row::Back);
+        assert!(menu.first_visible(l)>0);
+        assert!(menu.first_visible(l)+l.visible_rows>=VIDEO_ROWS.len());
+    }
+
+    #[test]
     fn fps_dropdown_commits_and_cycles_without_rebuilding_video() {
         let mut menu = Menu::new(true, true);
         let mut av = AvConfig::default();
@@ -1589,6 +1626,27 @@ mod tests {
         let act = menu.handle(MenuInput::Right, &mut av);
         assert_eq!(act, Some(MenuAction::Changed(Changed::Audio)));
         assert!(av.audio_enhanced);
+    }
+
+    #[test]
+    fn mute_navigation_keeps_volume_and_reports_live_audio_change() {
+        let mut av = AvConfig { audio_volume: 0.6, ..Default::default() };
+        let mut menu = Menu::new(true, true);
+        menu.open(Page::Audio);
+        menu.handle(MenuInput::Down, &mut av);
+        assert_eq!(rows_of(menu.page)[menu.selected], Row::Mute);
+        assert_eq!(menu.handle(MenuInput::Right, &mut av), Some(MenuAction::Changed(Changed::Audio)));
+        assert_eq!(value_of(Row::Mute, &av, &keys(), "Tab", None).unwrap(), "ON");
+        assert!(av.audio_mute);
+        assert_eq!(av.audio_volume, 0.6);
+        at(&mut menu, Row::Volume);
+        menu.handle(MenuInput::Left, &mut av);
+        assert!(av.audio_mute);
+        assert_eq!(av.audio_volume, 0.5);
+        at(&mut menu, Row::Mute);
+        menu.handle(MenuInput::Left, &mut av);
+        assert!(!av.audio_mute);
+        assert_eq!(av.audio_volume, 0.5);
     }
 
     #[test]
@@ -1868,6 +1926,7 @@ mod tests {
         assert_eq!(av.ff_audio, "fast");
         menu.handle(MenuInput::Right, &mut av);
         assert_eq!(av.ff_audio, "normal");
+        assert_eq!(value_of(Row::FastForwardAudio, &av, &keys(), "Tab", None).unwrap(), "1X DELAYED");
         menu.handle(MenuInput::Right, &mut av);
         assert_eq!(av.ff_audio, "silent");
         menu.open(Page::Inputs);
@@ -2003,16 +2062,25 @@ mod tests {
         assert_eq!(menu.click(x, y_main(audio_row), w, h, true, &mut av), None);
         assert_eq!(menu.page, Page::Audio);
 
-        // Audio page row 1 = Enhanced Audio: left = next, right = previous.
+        // Both boolean controls support mouse toggles without changing volume.
         let l = layout(AUDIO_ROWS.len(), w, h);
         let y_audio = |i: usize| l.rows_y + i * l.line_h + 1;
+        let mute_row = AUDIO_ROWS.iter().position(|r| *r == Row::Mute).unwrap();
+        assert_eq!(menu.click(x, y_audio(mute_row), w, h, true, &mut av),
+            Some(MenuAction::Changed(Changed::Audio)));
+        assert!(av.audio_mute);
+        assert_eq!(av.audio_volume, 1.);
+        assert_eq!(menu.click(x, y_audio(mute_row), w, h, false, &mut av),
+            Some(MenuAction::Changed(Changed::Audio)));
+        assert!(!av.audio_mute);
+        let audio_row = AUDIO_ROWS.iter().position(|r| *r == Row::Audio).unwrap();
         assert_eq!(
-            menu.click(x, y_audio(1), w, h, true, &mut av),
+            menu.click(x, y_audio(audio_row), w, h, true, &mut av),
             Some(MenuAction::Changed(Changed::Audio))
         );
         assert!(av.audio_enhanced);
         assert_eq!(
-            menu.click(x, y_audio(1), w, h, false, &mut av),
+            menu.click(x, y_audio(audio_row), w, h, false, &mut av),
             Some(MenuAction::Changed(Changed::Audio))
         );
         assert!(!av.audio_enhanced);

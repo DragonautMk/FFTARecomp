@@ -10,6 +10,8 @@ Open the pause menu with Esc, then **Video > FPS counter**. Choose **Off**,
 **Internal**, **External**, or **Both**, using Left/Right or the dropdown.
 The choice persists as `video.fps` in `av.cfg`; existing configs default to Off.
 On Windows this file is `%APPDATA%\FFTARecomp\av.cfg`.
+The row explains `INT: GAME / EXT: PRESENTS` and that Fast can show different
+rates, so both measures can be understood before choosing the overlay.
 
 The small top-left panel shows:
 
@@ -25,6 +27,16 @@ Pausing/resuming or changing the selected mode resets the window. The HUD is
 hidden while the pause menu is open. It stays the same size when changing
 game zoom or aspect ratio and follows window DPI for readability.
 
+The reported difference was confirmed by the user to occur only with Fast
+active. This is expected: at requested 4x the loop completes four guest frames
+per host presentation. Local inspected captures show 128.9 INT / 32.2 EXT with
+Normal audio and 130.0 / 32.5 with Fast audio; after disabling Fast they return
+to approximately 59.7 / 59.7. A host that cannot reach the requested speed can
+show fewer than 239 INT while retaining this ratio. Neither counter claims
+physical display refresh. There is no reason to make these numbers equal or
+change pacing for this reported case. Normal-speed anomalies on another setup
+would require their own evidence; native Windows hardware remains unverified.
+
 The GPU uses a final native UI layer above the dialogue layers; the software
 presenter samples the same panel after composing the game UI. The panel uses
 its own high-contrast palette, independently of game brightness and screen
@@ -33,6 +45,17 @@ HUD textures or per-frame text rendering. Guest memory, timing and save data
 are untouched.
 
 ## Validation
+
+The Fast-only clarification and inline menu help were checked without
+repeating the completed presentation matrix. The existing native and Wine
+3-test meter suites pass (Fast ratio, pause/skipped frames, clipping and
+revision behavior), as does the native FPS dropdown test. Windows menu builds
+without warnings and all 33 menu tests pass under Wine; its actual 640x480
+render is byte-identical to the inspected native preview. The first menu-only
+native build lacked Wayland pkg-config data; using the established combined
+runtime/menu feature selection succeeded. No pacing source was changed.
+Local evidence: `target/fps-menu-help/`; reused runtime screenshots under
+`target/fast-audio-rate/` and `target/normal-audio-bounds/`.
 
 Windows x86_64 GNU release builds were executed via Wine:
 

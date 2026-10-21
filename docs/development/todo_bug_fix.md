@@ -10,11 +10,12 @@ Ambito: workspace desktop, con priorità di verifica su Windows.
 [TASK_HANDOFF.md](TASK_HANDOFF.md): riutilizzare le verifiche già concluse nel
 [PERFORMANCE_TODO.md](PERFORMANCE_TODO.md), senza riaprire esperimenti scartati.
 
-**BUG-01-LAWS** ha una correzione verificata nei limiti descritti sotto.
-Ordine successivo proposto: diagnosi di **BUG-03-FAST-AUDIO** e
-**BUG-02-FPS** (P1); **FEAT-01-MUTE** e **FEAT-02-FULLSCREEN** (P2);
-**FEAT-03-TACTICAL-OVERLAY** (P3, prima dati e visualizzazione, poi previsione).
-Le priorità indicano l'ordine di lavoro suggerito, non una gravità già misurata.
+**BUG-01-LAWS** è corretto per il layout osservato; **BUG-02-FPS** è spiegato
+per il caso Fast confermato. **BUG-03-FAST-AUDIO** ha reset, consumo effettivo
+e Normal limitato; restano ascolto/eventi/hardware. **FEAT-01-MUTE** e
+**FEAT-02-FULLSCREEN** sono implementati, con limiti di verifica espliciti.
+Prossima funzionalità: **FEAT-03-TACTICAL-OVERLAY** (P3, prima dati verificati e
+visualizzazione, poi previsione). Un genitore aperto non riapre figli conclusi.
 
 ## BUG-01-LAWS — Schermata delle leggi in battaglia
 
@@ -64,16 +65,18 @@ validata. Non sono stati aggiornati i pacchetti portable.
 
 ## BUG-02-FPS — Differenza tra framerate interno ed esterno
 
-**Stato:** comportamento da classificare, non ancora bug confermato.
-**Priorità:** P1 per la diagnosi. **Complessità:** bassa per l'analisi;
-eventuali modifiche al pacing richiedono misure dedicate.
+**Stato:** diagnosi conclusa per il caso segnalato: l'utente conferma la
+differenza solo con Fast attivo; il comportamento è previsto. Spiegazione
+aggiunta alla voce FPS del menu. **Priorità:** P1 per la diagnosi conclusa.
 
 **Evidenza e analisi.** [fps.rs](../../crates/recomp/src/fps.rs) conta i frame
 guest completati (**INT**) e le presentazioni host riuscite (**EXT**) sul tempo
 reale. EXT non misura il refresh fisico del monitor. Il ciclo in `play.rs`
 può simulare più frame prima di presentarne uno: in fast-forward la differenza
 è quindi prevista. A 4×, se il carico lo consente, circa 239 INT e 60 EXT
-sono coerenti; non sono una misura ottenuta in questa analisi. Anche pacing
+sono coerenti come esempio teorico. Le catture locali a 4× mostrano
+128,9 INT / 32,2 EXT e 130,0 / 32,5, tornando a circa59,7 / 59,7 senza Fast.
+Il rapporto resta4:1 anche quando il PC non raggiunge239 INT. Anche pacing
 audio a blocchi e presentazioni saltate possono separare i due contatori.
 
 La cattura allegata mostra **59,7 INT / 59,7 EXT**: documenta il difetto grafico,
@@ -82,23 +85,22 @@ non la divergenza segnalata. Esistono già test del contatore,
 `PERF-10-PRESENTATION-CADENCE`. Il pacing `clock` è già predefinito su
 Linux/Windows; non va proposto come funzionalità mancante.
 
-**Soluzione proposta.** Rendere comprensibili le due misure e correggere solo
-un'eventuale differenza inattesa a velocità normale, dopo averne individuato
-la causa. Non forzare INT ed EXT a coincidere e non legare il clock GBA al monitor.
+**Soluzione implementata.** La riga Video > FPS counter spiega simulazione e
+presentazioni e indica che in Fast le frequenze possono differire. Il caso
+segnalato non richiede correzioni al pacing o al clock GBA.
 
-- [ ] Raccogliere il caso preciso: valori, durata, scena, Fast on/off e
-  moltiplicatore, VSync, refresh, backend GPU/audio, finestra visibile o ridotta.
-- [ ] Riutilizzare `FFTA_PROFILE=1` e l'eventuale finestra
-  `FFTA_PRESENT_PROFILE_FRAMES=START:END` per distinguere frame multipli,
-  attese, carico e presentazioni saltate; usare i risultati esistenti come
-  riferimento, senza ripetere l'intera matrice PERF-10.
-- [ ] Aggiungere una spiegazione accessibile da Video > FPS counter:
+- [x] Precisare il caso: l'utente conferma «Solo con Fast attivo». Le catture
+  e i contatori delle prove audio4× esistenti mostrano il rapporto4:1 atteso.
+- [x] Riutilizzare test del contatore e prove PERF-10/audio già concluse:
+  frame multipli per presentazione, reset pausa e presentazioni saltate;
+  nessuna nuova matrice di cadenza necessaria per questa segnalazione.
+- [x] Aggiungere una spiegazione accessibile da Video > FPS counter:
   «INT: simulazione; EXT: presentazioni; in Fast possono differire».
-- [ ] Se il caso a 1× è anomalo, collegare la correzione al criterio ancora
-  aperto di PERF-02/04/10 e aggiungere una regressione mirata. Se è previsto,
-  chiudere la segnalazione con spiegazione e prova del caso osservato.
-- [ ] Verificare contatori dopo pausa/ripresa, Fast e presentazioni saltate;
-  confrontare la cadenza con/senza VSync sul dispositivo interessato.
+- [x] Chiudere la diagnosi del caso previsto con spiegazione e catture.
+  Non è stata segnalata una divergenza a 1× e non si forza l'uguaglianza.
+- [x] Riutilizzare il test indipendente Fast/reset pausa/frame non presentati.
+  Confronti VSync/refresh sul dispositivo e Windows nativo restano copertura
+  hardware generale in PERF-10, non una correzione richiesta da questo caso.
 
 **Criterio di chiusura:** ogni divergenza riprodotta ha una spiegazione
 misurabile; quelle patologiche sono corrette senza rallentare la simulazione
@@ -107,8 +109,8 @@ o alterare la definizione dei contatori. L'uguaglianza numerica non è un requis
 ## BUG-03-FAST-AUDIO — Audio fuori sincrono in modalità Fast
 
 **Stato:** caso segnalato precisato (Fast audio, 4×); reset delle transizioni e
-consumo sulla produzione effettiva implementati. Copertura hardware/eventi e
-limite del backlog Normal restano aperti.
+consumo sulla produzione effettiva e limite del backlog Normal implementati.
+Restano aperti ascolto e copertura hardware/eventi.
 **Priorità:** P1. **Complessità:** medio-alta. Collegato a PERF-09/10.
 
 **Evidenza e analisi.** `AvConfig` e il menu Fast forward espongono già
@@ -123,10 +125,10 @@ produzione misurata dal clock del device e alla riserva in coda; il frontend
 continua a eseguire il gruppo di frame indipendentemente dall'audio.
 
 `normal` usa invece [NormalAudio](../../crates/recomp/src/ff_audio.rs): riproduce
-a 1× il PCM prodotto dal gioco accelerato, conservandolo in un file temporaneo.
-Se il guest avanza più rapidamente del consumo, il ritardo cresce per
-costruzione. La RAM è limitata, ma il file non ha un limite esplicito di durata
-o dimensione. Questo è distinto da un possibile difetto di `fast`: se il PC
+a 1× il PCM prodotto dal gioco accelerato. Il vecchio file temporaneo non
+aveva un limite di durata o dimensione; ora una coda preallocata limita il
+PCM a 2 secondi/512 KiB e salta all'audio recente con fade quando è piena.
+Questo è distinto dal difetto di `fast`: se il PC
 non sostiene il moltiplicatore richiesto, consumo nominale e produzione reale
 possono divergere. Il caso dell'utente riguarda Fast audio a 4×, non Normal.
 Nella prova locale Linux/CPAL/llvmpipe, Faithful ed Enhanced raggiungono solo
@@ -146,8 +148,10 @@ Il filtro sinc usa cutoff frazionari continui; priming/riempimenti emettono
 silenzio esplicito, contato da `FFTA_FAST_AUDIO`, senza ripetere campioni vecchi.
 Nessun nuovo lock, I/O, allocazione o clock host nel callback.
 
-**Proposta ancora aperta per Normal.** Rendere
-esplicito «audio 1× ritardato» e definire un limite al backlog. Un'eventuale
+**Soluzione implementata per Normal.** Menu «1× ritardato», coda da 2 secondi,
+salto agli ultimi 250 ms con fade stereo di 10 ms e coda di transizione fissa.
+Nessun file temporaneo né I/O nel callback. Il budget riguarda il PCM host,
+non la latenza aggiunta dal backend. Un'eventuale
 modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
 è una scelta ulteriore, non una proprietà della coda 1×.
 
@@ -168,10 +172,13 @@ modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
   e zero silenzio di priming. Consumo medio2,2032/2,1906× segue produzione
  2,2030/2,1906×; coda stimata massima107,3/108,0ms. Volume zero e scena
   inattiva: non è una misura di latenza sonora su Windows nativo.
-- [ ] Stabilire per `normal` un budget in secondi/byte e il comportamento al
-  limite, per esempio salto controllato verso l'audio recente con breve fade;
-  aggiornare nome/descrizione e rimuovere il backlog quando non serve.
-  Spostare eventuale I/O bloccante fuori dal callback se quel percorso cambia.
+- [x] **BUG-03-NORMAL-BOUNDS:** budget 2 secondi/512 KiB, salto agli ultimi
+  250 ms e fade stereo di 10 ms. Menu esplicito, consumo 1× Faithful anche
+  con Enhanced configurato, reset invariati, nessun file/I/O nel callback.
+  Suite native78runtime/33menu e Wine79runtime/33menu, build senza warning;
+  callback Linux reali365/376, massimi130287/130783coppie sotto131072,
+  10salti per modalità senza holds/drop/over-period. Persistenza, pausa,
+  ritorno a 1×, slot invariati e uscita verificati; volume zero.
 - [x] **BUG-03-TRANSITION-RESET:** invalidare anche DAC, interpolatori, filtri e
   crossfade all'ingresso/uscita Fast e al cambio moltiplicatore/modalità;
   svuotare l'audio in pausa e alla perdita del device. Load/Undo conserva la
@@ -179,8 +186,10 @@ modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
   confrontati con un callback appena inizializzato, native e Windows/Wine.
 - [ ] Completare ascolto e misure sul dispositivo: hold/toggle, pausa, load/Undo
   e riconnessione fisica; il reset host non ritira i campioni già nel backend.
-- [ ] Testare sinteticamente consumo, limite del backlog e transizioni; poi
-  verificare su Windows con audio reale. Fissare prima del confronto una soglia
+- [x] Test sintetici di consumo, limite del backlog, fade e transizioni:
+  6000tick a 2×/4×/8× senza crescita di capacità e callback osservato/non
+  osservato identico, con uscita sintetica udibile e consumo1× senza holds.
+- [ ] Verificare su Windows con audio reale. Fissare prima del confronto una soglia
   di latenza coerente con il buffer del device e controllare che non cresca
   durante una sessione prolungata; verificare stabilità di memoria e file.
 
@@ -191,67 +200,72 @@ alla serializzazione o ai timer è giustificato dalla sola segnalazione.
 
 ## FEAT-01-MUTE — Comando Mute nel menu Audio
 
-**Stato:** da implementare. **Priorità:** P2. **Complessità:** bassa.
-Coordinare il comportamento con BUG-03-FAST-AUDIO.
+**Stato:** implementato e verificato nei limiti sotto. **Priorità:** P2.
 
-**Evidenza e analisi.** Il menu Audio contiene Volume e modalità audio.
-`audio_volume = 0` silenzia l'uscita, ma manca un interruttore che conservi il
-volume scelto. `AudioStreams::muted` è già usato da Fast silent e dagli errori
-del backlog; riutilizzarlo come unico stato utente perderebbe il mute durante
-le transizioni. Il callback dispone già di una rampa del volume di circa 20 ms.
+**Soluzione implementata.** Audio > Mute On/Off salva `audio.mute`, predefinito
+Off per le configurazioni vecchie. Volume resta indipendente e può cambiare
+mentre Mute è attivo. Il callback applica l'unione del mute utente e di quello
+temporaneo Fast Silent/fallback all'uscita finale, continuando il consumo;
+la rampa esistente chiude a zero la coda sotto -100 dB. Configurazione audio
+condivisa fra avvio e modifiche live: anche il volume salvato si applica subito.
+Gli edit solo audio non ricreano la storia video. Nessun cambio a input guest,
+timer, formato dei salvataggi o pacing. Vedi [controlli audio](../audio_controls.md).
 
-**Soluzione proposta.** Aggiungere `Audio > Mute: On/Off` e un booleano
-persistente `audio.mute`, predefinito Off. Separare il mute utente dalle cause
-temporanee; applicare l'unione delle cause all'uscita finale, conservando
-`audio_volume` e continuando a consumare i campioni.
+- [x] Default, parsing, serializzazione e compatibilità di `audio.mute` in
+  AvConfig, con percorsi installed/portable invariati.
+- [x] Riga Mute, valore e gestione menu condivisa tastiera/gamepad/mouse;
+  modifiche volume durante Mute e ripristino al livello scelto.
+- [x] Separare stato utente e temporaneo; applicare con rampa senza fermare
+  consumo/stream/pacing. Unmute non annulla Fast Silent/fallback; i reset
+  pausa/Fast/load conservano la scelta utente.
+- [x] Regressione callback Faithful/Enhanced/Fast/Normal: code e consumo uguali
+  al riferimento, rampa verificata, silenzio esatto a regime, uscita sintetica
+  udibile al ritorno e volume modificato conservato. Native27config/34menu/
+ 79runtime e Wine27/34/80 passano,4runtime opzionali ignorati per target.
+- [ ] Ascolto su Windows nativo e controller fisico restano copertura hardware;
+  i test menu condivisi e Wine non costituiscono quella verifica.
 
-- [ ] Estendere [AvConfig](../../crates/input-config/src/lib.rs): default,
-  parsing, serializzazione e compatibilità dei vecchi `av.cfg`; usare la
-  risoluzione esistente dei percorsi installed/portable.
-- [ ] Aggiungere riga, valore e gestione mouse/tastiera/gamepad in
-  [menu](../../crates/menu/src/lib.rs); applicare il cambiamento dal frontend.
-- [ ] Separare stato persistente e mute temporaneo in `AudioStreams` e
-  `apply_av_change`; utilizzare la rampa esistente senza fermare stream,
-  consumo o pacing. Disattivare Mute non deve annullare Fast silent o un errore.
-- [ ] Testare persistenza, mute/unmute al volume precedente, cambio volume
-  mentre Mute è attivo, Faithful/Enhanced, Fast e assenza di backlog al ritorno.
-
-**Criterio di chiusura:** mute accessibile dal menu e persistente; nessun suono
-dopo la rampa, nessun salto di volume al ripristino, contatori e velocità di
-gioco invariati. Volume 0 resta distinto da Mute On.
+**Criterio di chiusura funzionale soddisfatto:** mute accessibile e persistente,
+volume conservato, silenzio a regime e consumo invariato. Volume0 resta distinto.
 
 ## FEAT-02-FULLSCREEN — Fullscreen On/Off nel menu Video
 
-**Stato:** scorciatoia già presente; integrazione nel menu da implementare.
-**Priorità:** P2. **Complessità:** bassa-media.
+**Stato:** implementato e verificato su Linux e Windows/Wine; copertura fisica
+separata. **Priorità:** P2. **Complessità:** bassa-media.
 
-**Evidenza e analisi.** `play.rs` gestisce già F11 con
-`Fullscreen::Borderless(None)` e ritorno alla finestra. `VIDEO_ROWS` e
-`AvConfig` non espongono Fullscreen. Resize, DPI, cursore e recupero della
-superficie hanno percorsi esistenti da riutilizzare; fullscreen esclusivo
-non è necessario per questa richiesta.
+**Soluzione implementata.** Video > Fullscreen (F11) e F11 condividono il setter
+borderless e `video.fullscreen`, default Off e applicato al successivo avvio.
+Il controller riconcilia lo stato riferito da winit, attendendo fino a 2 secondi
+le richieste asincrone, senza leggere clock quando non c'è una richiesta pendente.
+Winit/WM conservano geometria e massimizzazione; un fallback riposiziona la
+finestra se la vecchia area non interseca più un monitor disponibile.
 
-**Soluzione proposta.** Esporre `Video > Fullscreen: On/Off` tramite un'unica
-operazione condivisa con F11. Proposta di persistenza: `video.fullscreen`,
-predefinito Off per le configurazioni esistenti, applicato alla creazione
-della finestra. Sincronizzare la voce con lo stato effettivo della finestra.
+Il test reale ha inoltre trovato e corretto una corsa al resize del menu:
+upload GPU e lettura software devono usare le dimensioni del canvas già
+disegnato, non quelle di una finestra ridimensionata nel frattempo. Vedi
+[comportamento, prove e limiti](../fullscreen.md).
 
-- [ ] Aggiungere impostazione e riga del menu; verificare navigazione e
-  scorrimento dopo l'aumento delle voci Video.
-- [ ] Centralizzare F11 e menu nello stesso setter, evitando auto-repeat e
-  doppi toggle; gestire anche cambiamenti di stato richiesti dal sistema.
-- [ ] Conservare/ripristinare geometria windowed e stato massimizzato;
-  mantenere posizione valida se il monitor precedente non è disponibile.
-- [ ] Riutilizzare resize/DPI/cursore/presenter esistenti; non ricreare la
-  macchina guest né cambiare aspect, zoom o velocità di emulazione.
-- [ ] Verificare menu con tastiera/gamepad, F11 durante il menu, riavvio,
-  Alt-Tab, minimize/restore, VSync e ritorno windowed su Windows. Riutilizzare
-  le prove PERF-04 già concluse e aggiungere solo i casi fullscreen mancanti;
-  distinguere prove Wine da Windows nativo.
+- [x] Configurazione default/vecchi file/roundtrip, riga Video, navigazione,
+  mouse e scorrimento fino a Back dopo l'aumento a 11 voci.
+- [x] Unica richiesta startup/F11/menu; auto-repeat ignorato, preferenza e voce
+  sincronizzate con lo stato winit. Risposta ritardata/rifiuto/cancellazione
+  testati; cambiamenti esterni non esposti dal backend restano un limite API.
+- [x] Ripristino finestra640x360 con coordinate invariate e geometria normale/
+  massimizzata verificati su X11/Openbox e Windows/Wine. Test puro su monitor
+  rimosso, coordinate negative e limiti della finestra; hotplug fisico aperto.
+- [x] Riutilizzare resize/DPI/cursore/presenter, senza ricreare macchina guest,
+  storia video o audio, né cambiare aspect/zoom/velocità. Correggere la corsa
+  fra canvas e finestra rilevata dal test, preservando la prova negativa.
+- [x] Menu e F11 durante pausa, pressione prolungata singola, riavvio fullscreen,
+  VSyncOn, minimize/restore fullscreen e ritorno windowed. Suite native28config/
+ 35menu/81runtime e Wine28/35/82,4runtime opzionali ignorati per target; build
+  senza warning, slot invariati e uscite normali. Matrice PERF-04 riutilizzata.
+- [ ] Windows nativo, controller fisico, Wayland/macOS, hotplug/DPI/refresh e
+  Alt-Tab fisico restano copertura hardware; Wine usa il frontend interprete.
 
-**Criterio di chiusura:** menu, F11 e finestra concordano sullo stato, si può
-entrare/uscire senza riavviare il gioco e senza perdere geometria, focus o
-contenuti; la preferenza viene ripristinata al successivo avvio.
+**Criterio funzionale soddisfatto:** menu, F11 e stato riferito dalla finestra
+concordano; entrata/uscita e ripristino preferenza funzionano senza riavviare
+il gioco o perdere la geometria della sessione. Nessun pacchetto aggiornato.
 
 ## FEAT-03-TACTICAL-OVERLAY — Riepilogo battaglia e previsione turni
 

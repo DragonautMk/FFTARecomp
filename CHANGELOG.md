@@ -218,6 +218,59 @@ Documentation: [todo_bug_fix.md](docs/development/todo_bug_fix.md), [TASK_HANDOF
 
 [Change record](docs/changes/2026-10-21-plan-bugfix-checklist.json)
 
+## 2026-10-21 — Add persistent user Mute without stopping audio consumption
+
+Type: added. Platforms: Desktop Linux and Windows GNU/Wine.
+
+**Changes**
+
+- Add Audio > Mute On/Off and default-off audio.mute persistence through existing installed/portable paths; preserve selected volume across mute and volume edits.
+- Separate user mute from temporary Fast Silent/fallback state. Combine only at final output gain while consuming all source paths and retaining guest pacing/queues/DSP. Preserve user choice across timeline resets; unmute cannot cancel temporary silence.
+- Share audio configuration between startup and live menu changes, applying saved volume before the first callback. Retain the20ms exponential gain time constant, snap mute tail below-100dB to exact zero, and avoid video temporal-history rebuilds on audio-only edits.
+
+**Validation**
+
+- Native release suites:27input/config,34menu,79runtime pass,4optional runtime ignored. Final callback gain-curve assertions pass separately. Windows GNU production/test builds warning-free; Wine27config/34menu/80runtime pass,4optional runtime ignored. Native production succeeds; canonical native/Windows binaries restored and verified by SHA-256, source mtime refreshed.
+- Config tests cover defaults/old configs/invalid booleans/roundtrip and Volume0 distinction. Shared menu navigation and mouse tests cover toggles, labels and volume edits while muted. Callback test covers Faithful/Enhanced/Fast/Normal startup, mute/unmute ramps, exact settled silence, retained edited volume, temporary mute and reset, with identical queues/consumption/counters to a reference and audible synthetic return.
+- Actual isolated Linux CPAL44.1kHz/native/Xvfb GUI:MuteOn20percent, edit30percent and EnhancedOn, clean restart retains both. Unmute after setting volume0; both runs load the private slot, exercise Fast4x and return~59.7INT/EXT. Inspected captures, unchanged slot bytes, clean exits. Playing171/170 and Fast108/108callbacks continue with0holds/drops/over-period; priming/pause separated. Local evidence under ignored target/audio-mute/.
+
+**Limitations**
+
+- GUI uses saved user mute or Volume0 to stay quiet; physical listening/native Windows latency/controller hardware remain unverified. The slew time constant is20ms, with exact silence after settling below-100dB (~231ms from full volume), not a20ms hard cutoff.
+- No guest timing/save/native ABI or AndroidPort changes. No portable export, commit, push or release.
+
+Documentation: [audio_controls.md](docs/audio_controls.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
+
+[Change record](docs/changes/2026-10-21-persist-independent-user-audio-mute.json)
+
+## 2026-10-21 — Share persistent fullscreen between Video menu and F11
+
+Type: added. Platforms: Desktop Linux and Windows GNU/Wine.
+
+**Changes**
+
+- Add Video > Fullscreen (F11), default-off video.fullscreen persistence and one startup/menu/shortcut borderless request path. Ignore auto-repeat, permit cancellation of pending requests and reconcile backend-reported state after up to2seconds acknowledgement without idle clock reads.
+- Reuse winit/WM normal placement/maximized restoration. If the previous window area no longer usefully intersects an available monitor, move to current/primary monitor, bound oversized normal dimensions and preserve maximization. Keep benchmark startup windowed and guest/audio/aspect/zoom/temporal history unchanged.
+- Fix a menu resize race found in the actual GUI: GPU upload dimensions and software source stride use the completed canvas view instead of a potentially newer physical window size. Retain negative evidence and update feature/TODO/state/handoff documentation.
+
+**Validation**
+
+- Native release:28input/config,35menu,81runtime pass; Windows GNU/Wine28/35/82 pass,4optional runtime ignored each. After the resize correction both runtime suites pass again; unchanged config/menu results reused. Native/Windows production builds warning-free; canonical binaries restored and verified by SHA-256, source mtime refreshed.
+- Tests cover legacy/default/roundtrip fullscreen config, menu/mouse toggles and scrolling through11Video rows, delayed acknowledgement/rejection, pending cancellation, external reported state, zero idle clock calls, negative/removed monitor coordinates and oversized fallback dimensions.
+- Actual Linux CPAL/native-translation/Xvfb/Openbox and Windows GNU/Wine interpreter frontend pass held-F11 once, exact640x360normal restoration, menu/F11 synchronization, persisted fullscreen at restart, maximized and normal geometry, VSyncOn, fullscreen minimize/restore, unchanged private slots and clean exit0. Maximized client1200x779 on both. Menu/fullscreen/startup/windowed captures inspected.
+- First live native run fails with GPU copy overrun640x360->1200x800 and software stride panic; old candidate/source/log retained under target/fullscreen-menu/resize-race-before/. Corrected presentation passes. Later pointer/focus harness failures do not reach the intended menu criterion; retained passed F11/geometry checks were not repeated, only unmeasured menu/restart gates followed helper corrections.
+- Additional actual native software fallback passes held F11, exact normal restoration and menu/F11 sync with inspected captures, unchanged slot and clean exit. Process-local invalid driver paths produce a GL configuration failure and existing CPU fallback; an earlier empty-EGL-vendor setup panics inside wgpu before a usable window and is retained separately, not counted as a presentation result.
+- Local evidence under ignored target/fullscreen-menu/:source/candidate/canonical hashes, native/Wine suites, build logs, GUI scripts/results/captures and separate negative setups. No prior PERF-04 matrix, fixture generation or accepted audio/FPS unit was reopened.
+
+**Limitations**
+
+- Native Windows/macOS/Wayland, physical controllers, Alt-Tab and monitor hotplug/DPI/refresh changes remain unverified. Offscreen policy has synthetic coverage, not physical removal proof. Window state follows winit; backends that do not expose external WM fullscreen changes cannot synchronize those changes.
+- Wine GUI uses interpreter to reuse the private state, not Windows native-translation performance. Window geometry is retained within a session, not persisted across restart. No guest/save/translation ABI or AndroidPort change, portable export, commit, push or release.
+
+Documentation: [fullscreen.md](docs/fullscreen.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
+
+[Change record](docs/changes/2026-10-21-persist-borderless-fullscreen-menu.json)
+
 ## 2026-10-21 — Service timer and audio events chronologically across native tick batches
 
 Type: fixed. Platforms: Linux desktop, Windows GNU / Wine.
@@ -494,6 +547,29 @@ Type: fixed. Platforms: Desktop Linux and Windows/Wine.
 Documentation: [ffta_laws_layout.md](docs/ffta_laws_layout.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
 
 [Change record](docs/changes/2026-10-21-fix-battle-laws-modal.json)
+
+## 2026-10-21 — Explain expected INT and EXT divergence during Fast
+
+Type: changed. Platforms: Desktop Linux and Windows GNU/Wine.
+
+**Changes**
+
+- Add compact inline Video > FPS counter help explaining INT game frames, EXT presentations and expected differing rates during Fast. Preserve definitions, settings, meter and pacing.
+- Close BUG-02-FPS diagnosis for the clarified Fast-only report using existing actual4x captures (~129/32 and130/32.5) and normal59.7/59.7; retain general hardware/VSync limits without reopening PERF-10.
+
+**Validation**
+
+- Existing native and Wine3-test FPS suites pass, including4guest frames per present, pause reset, skipped frames, clipping and revision behavior. Native targeted FPS dropdown test passes.
+- Windows menu compiles warning-free and all33menu tests pass under Wine. Its640x480 preview is byte-identical to the visually inspected native menu. First menu-only native build failed Wayland pkg-config setup; established runtime/menu feature selection succeeds. No production rebuild, replay or repeated cadence matrix was needed.
+- Reused inspected CPAL/native Fast and Normal4x captures and normal return from target/fast-audio-rate/ and target/normal-audio-bounds/. New menu/log evidence is under ignored target/fps-menu-help/.
+
+**Limitations**
+
+- EXT measures successful host API presentations, not physical scanout. Native Windows hardware/refresh/VSync coverage remains separate; no normal-speed difference was reported and no pathological pacing issue is inferred. No AndroidPort/export/release change.
+
+Documentation: [fps_overlay.md](docs/fps_overlay.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md).
+
+[Change record](docs/changes/2026-10-21-explain-fast-fps-counter-difference.json)
 
 ## 2026-10-21 — Skip world-only sorting in native UI capture
 
@@ -786,6 +862,33 @@ Type: docs. Platforms: Native Linux headless.
 Documentation: [PROJECT_STATE.md](docs/development/PROJECT_STATE.md).
 
 [Change record](docs/changes/2026-10-21-characterize-enemy-fallback-host-cost.json)
+
+## 2026-10-21 — Bound delayed Normal audio and remove callback file I/O
+
+Type: fixed. Platforms: Desktop Linux and Windows GNU/Wine.
+
+**Changes**
+
+- Replace the unbounded Normal temporary file with a preallocated 131072-pair stereo i16 queue: 2 seconds/512 KiB at 65536 Hz. Overflow keeps the latest 250 ms and crossfades the old read head over 10 ms with a fixed 2620-byte tail, including repeated overflow during a fade.
+- Consume Normal entirely from memory without callback file I/O, allocation or error logging. Keep faithful 1x consumption, existing timeline resets, allocation-failure fallback and legacy ff.audio=normal config. Label the menu choice as delayed 1x with its 2-second application queue budget.
+- Add optional epoch/frame-gated Normal queue/resync/skipped telemetry; update feature documentation, TODO, lasting state and handoff.
+
+**Validation**
+
+- Four ROM-free queue tests cover ordering/stereo/reuse/invalid input, recent-audio recovery and continuous stereo fade, oversized/repeated overflow and 6000 ticks per 2x/4x/8x producer with unchanged capacity (93.75 seconds of 1x consumption per speed).
+- Actual callback regression verifies exact observed/unobserved output, audible synthetic samples, faithful 1x consumption despite Enhanced configuration, no holds and silent discard. Frame-gated counter test excludes earlier jumps and handles new epochs.
+- Native release suites pass 78 runtime/33 menu; Windows GNU/Wine passes 79 runtime/33 menu, 4 optional runtime tests ignored per platform. Native and Windows production builds succeed without warnings; existing canonical binaries restored and verified by SHA-256. Source mtime refreshed for correct subsequent Cargo regeneration.
+- Actual Linux CPAL44.1kHz/native/Xvfb Normal-at-Fast4x gates9400:11400 pass:365 Faithful/376 Enhanced-configured callbacks, max130287/130783 queued pairs below131072,10 resyncs each, zero faithful holds/over-period callbacks/producer drops. Enhanced sources stay unrouted. Inspected menu/Fast/normal captures, persisted config, no spool files, unchanged slot bytes and clean exit0.
+- First GUI helper used an extra Escape and paused before gate9400; counts stayed zero and no audio result was inferred. Correcting only that setup allowed the previously unmeasured Faithful/Enhanced gates to pass; no rebuild or fixture recreation. Evidence retained under ignored target/normal-audio-bounds/.
+
+**Limitations**
+
+- Live checks use volume zero and an idle battle. Audible fade quality, recognizable audio/video event offset, physical reconnection and native Windows hardware remain unverified; the 2-second budget excludes backend/device buffering.
+- Normal intentionally skips old sounds at overflow and is not pitch-preserving time stretch. No guest mix/timer/save/translation ABI change, AndroidPort change, portable export, commit or release.
+
+Documentation: [fast_forward_audio.md](docs/fast_forward_audio.md), [todo_bug_fix.md](docs/development/todo_bug_fix.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-21-bound-delayed-normal-audio.json)
 
 ## 2026-10-21 — Align native UI texel selection with the software sampling policy
 

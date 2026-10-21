@@ -14,6 +14,7 @@ mod fast_audio_rate;
 mod audio_profile;
 mod profile_window;
 mod fps;
+mod fullscreen;
 mod ui_pixels;
 mod perf;
 mod packfile;
@@ -1051,10 +1052,9 @@ fn apply_av_change(
             // Live: the producer keeps both rings filled; the callback
             // crossfades to the selected path over ~40 ms.
             let mut st = streams.lock().unwrap();
-            st.enhanced_on = av.audio_enhanced;
-            st.vol_cut = 1.0 - av.audio_volume.clamp(0.0, 1.0);
+            st.configure_audio(av);
         }
-        menu::Changed::Overlay => {}
+        menu::Changed::Overlay | menu::Changed::Fullscreen => {}
         menu::Changed::Gamut => {
             // Restart-required: persisted to av.cfg by the caller, applied
             // on the next launch. Live rebuild would tear down the GPU
@@ -1315,8 +1315,9 @@ struct AudioStreams {
     /// volume, 1.0 = silent). Stored as a cut so the derived `Default`
     /// means "full volume". Set from av.cfg and the in-game menu.
     vol_cut: f32,
-    /// Hard mute (reserved for fast-forward); the callback slews to it.
+    /// Temporary Fast silent/fallback mute; independent of the saved user choice.
     muted: bool,
+    user_muted: bool,
     playback_speed: f64,
     /// Guest PCM pairs produced in the current Fast timeline, measured against
     /// the device sample clock by the callback (no host timestamp required).
@@ -1354,6 +1355,16 @@ struct AudioStreams {
 }
 
 impl AudioStreams {
+    fn configure_audio(&mut self, av: &input_config::AvConfig) {
+        self.enhanced_on = av.audio_enhanced;
+        self.vol_cut = 1.0 - av.audio_volume.clamp(0.0, 1.0);
+        self.user_muted = av.audio_mute;
+    }
+
+    fn volume_target(&self) -> f32 {
+        if self.muted || self.user_muted { 0. } else { 1. - self.vol_cut }
+    }
+
     /// Discard output from a timeline/speed that is no longer being played.
     fn discard_pending(&mut self) {
         self.mixed.clear();
@@ -1539,11 +1550,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
     // Master volume, slewed (~20 ms) so menu changes and mutes never click.
     let mut vol_cur: f32 = {
         let st = streams.lock().unwrap();
-        if st.muted {
-            0.0
-        } else {
-            1.0 - st.vol_cut
-        }
+        st.volume_target()
     };
     let vol_k = (1.0 / (0.020 * rate)) as f32;
     let mut epoch = streams.lock().unwrap().epoch;
@@ -1554,6 +1561,9 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
         let acquired = begin.map(|_| std::time::Instant::now());
         let observation = OBSERVE.then(|| (st.holds, st.mixed.len() / 2));
         let mut source_reads = [audio_profile::SourceReads::default(); 4];
+        let normal_observation = if OBSERVE {
+            st.normal_audio.as_ref().map(|queue| (st.epoch, queue.stats()))
+        } else { None };
         let requested_speed = st.playback_speed.max(1.0);
         let normal_audio = st.normal_audio.is_some();
         let fast_audio = requested_speed > 1. && !normal_audio;
@@ -1665,13 +1675,8 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                     frac -= 1.0;
                     let queued = st.normal_audio.as_mut().map(|queue| queue.next_pair());
                     match queued {
-                        Some(Ok(Some(pair))) => last = pair,
-                        Some(Ok(None)) => st.holds += 1,
-                        Some(Err(error)) => {
-                            eprintln!("audio: normal-speed backlog read failed ({error}); muting fast-forward audio");
-                            st.normal_audio = None;
-                            st.muted = true;
-                        }
+                        Some(Some(pair)) => last = pair,
+                        Some(None) => st.holds += 1,
                         None => match (st.mixed.pop_front(), st.mixed.pop_front()) {
                             (Some(l), Some(r)) => last = (l, r),
                             _ => st.holds += 1,
@@ -1698,8 +1703,11 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
             // path's soft knee. The clamp is a safety net for
             // DC-block overshoot — faithful content was already
             // rail-clipped at the mix (the canon hard clip).
-            let vol_target = if st.muted { 0.0 } else { 1.0 - st.vol_cut };
+            let vol_target = st.volume_target();
             vol_cur += (vol_target - vol_cur) * vol_k;
+            // Finish the exponential mute tail below -100 dB instead of
+            // leaving tiny nonzero floating-point output indefinitely.
+            if vol_target == 0. && vol_cur < 0.00001 { vol_cur = 0.; }
             let l = (l * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
             let r = (r * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
             match frame {
@@ -1726,6 +1734,9 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                 enhanced_target && !st.hle_on && st.route[1] != 0,
             ];
             if let Some(profile) = st.profile.as_mut() {
+                if let Some((epoch, stats)) = normal_observation {
+                    profile.normal_audio(epoch, stats);
+                }
                 if let Some(plan) = fast_plan {
                     profile.fast_audio(plan, out.len() / channels.max(1), mixed);
                 }
@@ -4249,6 +4260,138 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn user_mute_ramps_output_but_keeps_consumption_volume_and_temporary_mute() {
+        use std::sync::{Arc, Mutex};
+        for mode in ["faithful", "enhanced", "fast", "normal"] {
+            let mut av = input_config::AvConfig {
+                audio_volume: 0.6, audio_enhanced: mode == "enhanced",
+                audio_mute: true, ..Default::default()
+            };
+            let make = || {
+                let mut st = AudioStreams { playback_speed: if mode == "fast" { 4. } else { 1. },
+                    ..Default::default() };
+                st.configure_audio(&av);
+                if mode == "normal" { st.normal_audio = Some(ff_audio::NormalAudio::new().unwrap()); }
+                Arc::new(Mutex::new(st))
+            };
+            let muted = make();
+            let reference = make();
+            reference.lock().unwrap().user_muted = false;
+            let mut a = output_callback::<f32>(48_000., 2, muted.clone());
+            let mut b = output_callback::<f32>(48_000., 2, reference.clone());
+            let pcm: Vec<i16> = (0..if mode == "fast" {8192} else {2048})
+                .map(|i| if i % 64 < 32 { 6000 } else { -6000 }).collect();
+            let mut out_a = [0.; 1024];
+            let mut out_b = [0.; 1024];
+            for tick in 0..240 {
+                av.audio_mute = tick < 5 || (30..90).contains(&tick) || (120..150).contains(&tick);
+                if tick >= 60 { av.audio_volume = 0.3; }
+                for shared in [&muted, &reference] {
+                    let mut st = shared.lock().unwrap();
+                    st.configure_audio(&av);
+                    if Arc::ptr_eq(shared, &reference) { st.user_muted = false; }
+                    st.muted = (120..180).contains(&tick);
+                    if let Some(queue) = st.normal_audio.as_mut() { queue.push(&pcm).unwrap(); }
+                    else {
+                        st.mixed.extend(&pcm);
+                        st.psg.extend(pcm.iter().map(|&v| v as f32 / 32768.));
+                        st.fast_produced += (pcm.len() / 2) as u64;
+                    }
+                }
+                a(&mut out_a); b(&mut out_b);
+                if tick == 30 || tick == 90 {
+                    let gain = |range: std::ops::Range<usize>| {
+                        let values: Vec<_> = range.filter(|&i| out_b[i].abs() > 0.0001)
+                            .map(|i| out_a[i] / out_b[i]).collect();
+                        assert!(!values.is_empty());
+                        values.iter().sum::<f32>() / values.len() as f32
+                    };
+                    let first = gain(0..40); let last = gain(984..1024);
+                    if tick == 30 {
+                        assert!(first > 0.98 && first <= 1.);
+                        assert!((0.55..0.65).contains(&last));
+                    } else {
+                        assert!(first < 0.03);
+                        assert!((0.35..0.45).contains(&last));
+                    }
+                }
+                if tick < 5 || (85..90).contains(&tick) || (175..180).contains(&tick) {
+                    assert!(out_a.iter().all(|&s| s == 0.), "{mode}/{tick} not silent");
+                }
+                if (85..90).contains(&tick) {
+                    assert!(out_b.iter().any(|s| s.abs() > 0.001), "{mode} reference not audible");
+                }
+                if tick > 225 {
+                    assert!(out_a.iter().any(|s| s.abs() > 0.001));
+                    assert!(out_a.iter().zip(out_b).all(|(a,b)| (a-b).abs() < 0.00001));
+                }
+                let st = muted.lock().unwrap(); let other = reference.lock().unwrap();
+                assert_eq!((st.consumed, st.holds), (other.consumed, other.holds));
+                assert_eq!(st.mixed, other.mixed); assert_eq!(st.psg, other.psg);
+                assert_eq!(st.normal_audio.as_ref().map(|q| q.stats().queued_pairs),
+                    other.normal_audio.as_ref().map(|q| q.stats().queued_pairs));
+            }
+            let mut st = muted.lock().unwrap();
+            av.audio_mute = true;
+            st.configure_audio(&av);
+            st.discard_pending(); // Fast/pause/load reset must retain user choice.
+            assert!(st.user_muted);
+            assert_eq!(st.volume_target(), 0.);
+            av.audio_mute = false;
+            st.muted = true; // Silent/fallback must survive user unmute/config edits.
+            st.configure_audio(&av);
+            assert_eq!(st.volume_target(), 0.);
+            st.muted = false;
+            assert!((st.volume_target() - 0.3).abs() < 0.00001);
+        }
+    }
+
+    #[test]
+    fn bounded_normal_audio_is_1x_and_profile_parity_survives_resync_and_discard() {
+        use std::sync::{Arc, Mutex};
+        let make = |observed: bool| Arc::new(Mutex::new(AudioStreams {
+            profile: observed.then(crate::audio_profile::Profile::new),
+            normal_audio: Some(ff_audio::NormalAudio::new().unwrap()),
+            enhanced_on: true, playback_speed: 1., ..Default::default()
+        }));
+        let plain = make(false);
+        let observed = make(true);
+        let mut a = output_callback::<f32>(48_000., 2, plain.clone());
+        let mut b = output_callback::<f32>(48_000., 2, observed.clone());
+        let pcm: Vec<_> = (0..8192).map(|i| if i % 64 < 32 { 4000 } else { -4000 }).collect();
+        let mut out_a = [0.; 1024];
+        let mut out_b = [0.; 1024];
+        for _ in 0..250 {
+            for shared in [&plain, &observed] {
+                shared.lock().unwrap().normal_audio.as_mut().unwrap().push(&pcm).unwrap();
+            }
+            a(&mut out_a); b(&mut out_b);
+            assert_eq!(out_a, out_b);
+            assert!(out_a.iter().any(|s| s.abs() > 0.001));
+        }
+        for shared in [&plain, &observed] {
+            let mut st = shared.lock().unwrap();
+            assert_eq!(st.holds, 0);
+            let queue = st.normal_audio.as_ref().unwrap();
+            assert!(queue.stats().resyncs > 0);
+            assert!(queue.stats().queued_pairs <= ff_audio::MAX_PAIRS);
+            // A callback consumes only the 1x source budget, not the faster
+            // producer batch; a pending skip fade must disappear on epoch reset.
+            let before = queue.stats().queued_pairs;
+            drop(st);
+            if Arc::ptr_eq(shared, &plain) { a(&mut out_a); }
+            else { b(&mut out_b); }
+            st = shared.lock().unwrap();
+            let consumed = before - st.normal_audio.as_ref().unwrap().stats().queued_pairs;
+            assert!((698..=700).contains(&consumed));
+            st.discard_pending();
+        }
+        a(&mut out_a); b(&mut out_b);
+        assert!(out_a.iter().all(|&s| s == 0.));
+        assert_eq!(out_a, out_b);
     }
 
     #[test]

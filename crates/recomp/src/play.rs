@@ -344,7 +344,7 @@ use winit::dpi::LogicalSize;
 use winit::event::{ElementState, KeyEvent, MouseButton, MouseScrollDelta, WindowEvent};
 use winit::event_loop::{ActiveEventLoop, ControlFlow, EventLoop};
 use winit::keyboard::{KeyCode, PhysicalKey};
-use winit::window::{Fullscreen, Window, WindowId};
+use winit::window::{Window, WindowId};
 
 use recomp_core::fnv64;
 
@@ -579,6 +579,7 @@ struct PlayApp {
     title: String,
     status: bool,
     window: Option<Arc<Window>>,
+    fullscreen: crate::fullscreen::Controller,
     presenter: Option<screen::present::Presenter>,
     sb_context: Option<softbuffer::Context<Arc<Window>>>,
     sb_surface: Option<softbuffer::Surface<Arc<Window>, Arc<Window>>>,
@@ -640,6 +641,17 @@ struct PlayApp {
 }
 
 impl PlayApp {
+    fn set_fullscreen(&mut self, enabled: bool) {
+        let Some(window) = &self.window else { return; };
+        self.fullscreen.request(window, enabled);
+        self.av.video_fullscreen = enabled;
+        self.menu_dirty = true;
+        self.profile.presentation_boundary();
+        if let Err(error) = self.av.save() {
+            eprintln!("menu: could not save fullscreen preference ({error})");
+        }
+    }
+
     /// Width of the starting (x1) view, in frame pixels.
     fn base_w(&self) -> f32 {
         (240 + 2 * self.base_extra) as f32
@@ -842,8 +854,10 @@ impl PlayApp {
         }
         let phys = (size.width, size.height);
         let frame_dims = if self.paused {
-            let (w, h) = self.menu_dimensions();
-            (w as u32, h as u32)
+            // The window can resize while its menu canvas is being drawn.
+            // Upload the dimensions of that completed canvas, then scale to
+            // the latest physical window size; never reinterpret its stride.
+            (self.view[2] as u32, self.view[3] as u32)
         } else {
             (wide_w() as u32, wide_h() as u32)
         };
@@ -910,7 +924,7 @@ impl PlayApp {
         // Zoom crop, computed before `surf` borrows `self` mutably.
         let [vx0, vy0, vw, vh] = self.view;
         let (stride, frame_h) = if self.paused {
-            self.menu_dimensions()
+            (vw as usize, vh as usize)
         } else {
             (wide_w(), wide_h())
         };
@@ -2082,7 +2096,7 @@ impl PlayApp {
             if let Some(queue) = st.normal_audio.as_mut() {
                 if let Err(error) = queue.push(&bus.audio_buf) {
                     eprintln!(
-                        "audio: normal-speed backlog write failed ({error}); muting fast-forward audio"
+                        "audio: invalid normal-speed PCM ({error}); muting fast-forward audio"
                     );
                     st.normal_audio = None;
                     st.muted = true;
@@ -2282,6 +2296,7 @@ impl ApplicationHandler for PlayApp {
             }
         };
         self.window = Some(window);
+        if self.benchmark.is_none() && self.av.video_fullscreen { self.set_fullscreen(true); }
         // The window now exists: tell a supervising frontend we're live.
         if self.status {
             status_line("playing");
@@ -2339,12 +2354,8 @@ impl ApplicationHandler for PlayApp {
                     // auto-repeat.
                     if code == KeyCode::F11 && !repeat {
                         if let Some(w) = self.window.as_ref() {
-                            let next = if w.fullscreen().is_some() {
-                                None
-                            } else {
-                                Some(Fullscreen::Borderless(None))
-                            };
-                            w.set_fullscreen(next);
+                            let next = !self.fullscreen.desired(w.fullscreen().is_some());
+                            self.set_fullscreen(next);
                         }
                     }
                     if !self.paused && !menu_combo_down {
@@ -2434,6 +2445,15 @@ impl ApplicationHandler for PlayApp {
             .window
             .as_ref()
             .is_some_and(|w| w.fullscreen().is_some());
+        if let Some(actual) = self.fullscreen.observe(fullscreen) {
+            if actual != self.av.video_fullscreen {
+                self.av.video_fullscreen = actual;
+                self.menu_dirty = true;
+                if let Err(error) = self.av.save() {
+                    eprintln!("menu: could not save fullscreen state ({error})");
+                }
+            }
+        }
         let want_cursor = self.paused || !fullscreen || self.machine.bus.ffta_battle_mouse.enabled || self.game_mouse.scene(&self.machine.bus).is_some();
         if want_cursor != self.cursor_visible {
             if let Some(w) = self.window.as_ref() {
@@ -2727,6 +2747,9 @@ impl ApplicationHandler for PlayApp {
                         }
                     }
                     menu::MenuAction::Changed(what) => {
+                        if what == menu::Changed::Fullscreen {
+                            self.set_fullscreen(self.av.video_fullscreen);
+                        }
                         // Vsync is the presenter's own knob; everything
                         // else routes through apply_av_change.
                         if what == menu::Changed::Vsync {
@@ -2749,11 +2772,15 @@ impl ApplicationHandler for PlayApp {
                         );
                         // apply_av_change may rebuild the temporal state for
                         // a 160-row frame; make it match the zoomed size.
-                        if what != menu::Changed::Overlay { self.rebuild_temporal(); }
+                        if !matches!(what, menu::Changed::Overlay | menu::Changed::Audio | menu::Changed::Fullscreen) {
+                            self.rebuild_temporal();
+                        }
                         // apply_av_change rebuilds grid_params from scratch.
                         self.grid_params.scale_mode = scale_mode_of(&self.av.scaling);
-                        if let Err(e) = self.av.save() {
-                            eprintln!("menu: could not save av.cfg ({e})");
+                        if what != menu::Changed::Fullscreen {
+                            if let Err(e) = self.av.save() {
+                                eprintln!("menu: could not save av.cfg ({e})");
+                            }
                         }
                     }
                 }
@@ -3229,7 +3256,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let streams = Arc::new(Mutex::new(AudioStreams::default()));
     {
         let mut st = streams.lock().unwrap();
-        st.enhanced_on = av.audio_enhanced;
+        st.configure_audio(&av);
         if benchmark.is_none() && std::env::var("FFTA_PROFILE").as_deref() == Ok("1") {
             st.profile = Some(crate::audio_profile::Profile::with_frame_window(
                 std::env::var("FFTA_AUDIO_PROFILE_FRAMES").ok().as_deref(),
@@ -3405,6 +3432,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         title,
         status,
         window: None,
+        fullscreen: Default::default(),
         presenter: None,
         sb_context: None,
         sb_surface: None,

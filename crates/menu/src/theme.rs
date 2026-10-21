@@ -265,17 +265,21 @@ pub(super) fn draw(
             let (sx, sw) = segment_geometry(l);
             c.text(
                 tx,
-                ty,
+                if row == Row::FastForwardAudio { ty - 6. * scale } else { ty },
                 row.label(),
                 fg,
                 fs,
                 true,
                 (sx as f32 - tx - 8. * scale).max(1.),
             );
+            if row == Row::FastForwardAudio {
+                c.text(tx, ty + 13. * scale, "1X: UP TO 2S DELAY", fg, fs * 0.62,
+                    false, (sx as f32 - tx - 8. * scale).max(1.));
+            }
             let labels = if row == Row::FastForward {
                 ["2X", "4X", "8X"]
             } else {
-                ["NORMAL", "MUTE", "FAST"]
+                ["1X", "SILENT", "FAST"]
             };
             for i in 0..3 {
                 let active = if row == Row::FastForward {
@@ -325,14 +329,14 @@ pub(super) fn draw(
         let vx = xx + bw - vw - 8. * scale;
         c.text(
             tx,
-            ty,
+            if row == Row::Fps { yy + 2. * scale } else { ty },
             if row == Row::Audio && !menu.audio_live {
                 "ENHANCED (RESTART)"
             } else {
                 row.label()
             },
             fg,
-            fs,
+            if row == Row::Fps { fs * 0.82 } else { fs },
             true,
             if val.is_some() {
                 (vx - tx - 8. * scale).max(1.)
@@ -340,6 +344,13 @@ pub(super) fn draw(
                 bw - 36. * scale
             },
         );
+        if row == Row::Fps {
+            let help_width = (vx - tx - 8. * scale).max(1.);
+            c.text(tx, yy + 16. * scale, "INT: GAME / EXT: PRESENTS", fg,
+                fs * 0.55, false, help_width);
+            c.text(tx, yy + 27. * scale, "FAST CAN SHOW DIFFERENT RATES", fg,
+                fs * 0.52, false, help_width);
+        }
         if let Some(v) = val {
             if controller {
                 super::controller_icons::draw(

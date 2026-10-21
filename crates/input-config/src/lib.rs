@@ -718,6 +718,8 @@ pub struct AvConfig {
     pub audio_enhanced: bool,
     /// Master output volume, 0..1 (1 = full).
     pub audio_volume: f32,
+    /// Persistent user mute; retains volume and does not stop consumption.
+    pub audio_mute: bool,
     /// Persistent fast-forward multiplier: 2, 4 or 8. Activation is session-only.
     pub ff_speed: u32,
     /// silent, fast (accelerated audio), or normal (buffered 1x audio).
@@ -742,6 +744,8 @@ pub struct AvConfig {
     /// (AutoNoVsync); on trades possible tearing for compositor pacing.
     /// Emulation speed is owned by the audio clock either way.
     pub video_vsync: bool,
+    /// Borderless fullscreen at startup; shares the live menu/F11 state.
+    pub video_fullscreen: bool,
     /// FPS overlay: off | internal | external | both.
     pub video_fps: String,
     /// Output aspect ratio: auto | 3:2 (original) | 16:10 | 16:9 | 20:9 | 21:9 | 32:9.
@@ -756,6 +760,7 @@ impl Default for AvConfig {
         Self {
             audio_enhanced: false,
             audio_volume: 1.0,
+            audio_mute: false,
             ff_speed: 4,
             ff_audio: "silent".into(),
             video_brightness: 1.0,
@@ -767,6 +772,7 @@ impl Default for AvConfig {
             scaling: "nearest".into(),
             display_gamut: "auto".into(),
             video_vsync: false,
+            video_fullscreen: false,
             video_fps: "off".into(),
             video_aspect: "16:9".into(),
             bubble_size: 1.,
@@ -786,6 +792,7 @@ impl AvConfig {
             let v = v.trim();
             match k.trim() {
                 "audio.enhanced" => cfg.audio_enhanced = v.eq_ignore_ascii_case("true"),
+                "audio.mute" => cfg.audio_mute = v.eq_ignore_ascii_case("true"),
                 "ff.speed" => {
                     if let Ok(speed @ (2 | 4 | 8)) = v.parse::<u32>() {
                         cfg.ff_speed = speed;
@@ -816,6 +823,7 @@ impl AvConfig {
                 "video.scaling" => cfg.scaling = v.to_ascii_lowercase(),
                 "video.gamut" => cfg.display_gamut = v.to_ascii_lowercase(),
                 "video.vsync" => cfg.video_vsync = v.eq_ignore_ascii_case("true"),
+                "video.fullscreen" => cfg.video_fullscreen = v.eq_ignore_ascii_case("true"),
                 "video.fps" => {
                     let mode = v.to_ascii_lowercase();
                     if matches!(mode.as_str(), "off" | "internal" | "external" | "both") {
@@ -840,6 +848,7 @@ impl AvConfig {
             "# gba-recomp a/v settings\n\
              audio.enhanced = {}\n\
              audio.volume = {}\n\
+             audio.mute = {}\n\
              ff.speed = {}\n\
              ff.audio = {}\n\
              video.brightness = {}\n\
@@ -851,12 +860,14 @@ impl AvConfig {
              video.scaling = {}\n\
              video.gamut = {}\n\
              video.vsync = {}\n\
+             video.fullscreen = {}\n\
              video.fps = {}\n\
              video.aspect = {}\n\
              bubble.size = {}\n\
              bubble.length = {}\n",
             self.audio_enhanced,
             self.audio_volume,
+            self.audio_mute,
             self.ff_speed,
             self.ff_audio,
             self.video_brightness,
@@ -868,6 +879,7 @@ impl AvConfig {
             self.scaling,
             self.display_gamut,
             self.video_vsync,
+            self.video_fullscreen,
             self.video_fps,
             self.video_aspect,
             self.bubble_size,
@@ -1243,6 +1255,18 @@ mod tests {
     }
 
     #[test]
+    fn user_mute_is_default_off_and_roundtrips_without_losing_volume() {
+        let old = AvConfig::parse("audio.volume = 0.6\naudio.enhanced = true\n");
+        assert!(!old.audio_mute);
+        let muted = AvConfig::parse("audio.mute = TRUE # user choice\naudio.volume = 0.6\n");
+        assert!(muted.audio_mute);
+        assert_eq!(muted.audio_volume, 0.6);
+        assert_eq!(AvConfig::parse(&muted.serialize()), muted);
+        assert!(!AvConfig::parse("audio.mute = invalid\n").audio_mute);
+        assert!(!AvConfig::parse("audio.mute = false\naudio.volume = 0\n").audio_mute);
+    }
+
+    #[test]
     fn av_volume_brightness_and_ff_multiplier_roundtrip() {
         let d = AvConfig::default();
         assert_eq!(
@@ -1274,6 +1298,15 @@ mod tests {
         let err = install_bios(&src).unwrap_err();
         assert!(err.contains("16384-byte"), "got: {err}");
         let _ = std::fs::remove_file(&src);
+    }
+
+    #[test]
+    fn fullscreen_preference_roundtrips_and_old_configs_remain_windowed() {
+        assert!(!AvConfig::parse("video.vsync = true\n").video_fullscreen);
+        let cfg = AvConfig::parse("video.fullscreen = TRUE # borderless\n");
+        assert!(cfg.video_fullscreen);
+        assert_eq!(AvConfig::parse(&cfg.serialize()), cfg);
+        assert!(!AvConfig::parse("video.fullscreen = invalid\n").video_fullscreen);
     }
 
     #[test]

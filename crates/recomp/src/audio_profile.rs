@@ -77,6 +77,7 @@ struct Series {
     max_mixed_pairs: usize,
     sources: [SourceTotals; 4],
     fast: FastTotals,
+    normal: NormalTotals,
 }
 
 #[derive(Default)]
@@ -92,6 +93,14 @@ struct FastTotals {
     max_queue_ms: f64,
 }
 
+#[derive(Default)]
+struct NormalTotals {
+    callbacks: u64,
+    max_pairs: usize,
+    resyncs: u64,
+    skipped_pairs: u64,
+}
+
 pub(crate) struct Profile {
     context: Context,
     series: [Series; 4],
@@ -103,6 +112,7 @@ pub(crate) struct Profile {
     window: Option<FrameWindow>,
     excluded_callbacks: u64,
     excluded_dropped_items: u64,
+    normal_previous: Option<(u64, u64, u64)>,
 }
 
 impl Profile {
@@ -159,6 +169,7 @@ impl Profile {
                 max_mixed_pairs: 0,
                 sources: [SourceTotals::default(); 4],
                 fast: FastTotals::default(),
+                normal: NormalTotals::default(),
             }),
             previous: None,
             callback_builds: 0,
@@ -168,6 +179,7 @@ impl Profile {
             window: None,
             excluded_callbacks: 0,
             excluded_dropped_items: 0,
+            normal_previous: None,
         }
     }
 
@@ -238,6 +250,22 @@ impl Profile {
             queued as f64 * 1000. / (gba_core::mem::AUDIO_RATE_HZ as f64 * plan.estimate));
     }
 
+    pub fn normal_audio(&mut self, epoch: u64, stats: crate::ff_audio::Stats) {
+        // Update the baseline even outside a frame gate; entering a capture
+        // must not attribute an earlier queue jump to this measured interval.
+        let previous = self.normal_previous.replace((epoch, stats.resyncs, stats.skipped_pairs));
+        let (last_resyncs, last_skipped) = match previous {
+            Some((old_epoch, resyncs, skipped)) if old_epoch == epoch => (resyncs, skipped),
+            _ => (0, 0),
+        };
+        if !self.capturing() { return; }
+        let normal = &mut self.series[self.context as usize].normal;
+        normal.callbacks += 1;
+        normal.max_pairs = normal.max_pairs.max(stats.queued_pairs);
+        normal.resyncs += stats.resyncs.saturating_sub(last_resyncs);
+        normal.skipped_pairs += stats.skipped_pairs.saturating_sub(last_skipped);
+    }
+
     pub fn callback(
         &mut self,
         clocks: [Instant; 3],
@@ -290,6 +318,14 @@ impl Profile {
         for context in CONTEXTS {
             let s = &self.series[context as usize];
             let name = context.name();
+            let normal = &s.normal;
+            if normal.callbacks != 0 {
+                println!(
+                    "FFTA_NORMAL_AUDIO context={name} callbacks={} max_queue_pairs={} queue_limit_pairs={} resyncs={} skipped_pairs={}",
+                    normal.callbacks, normal.max_pairs, crate::ff_audio::MAX_PAIRS,
+                    normal.resyncs, normal.skipped_pairs
+                );
+            }
             let f = &s.fast;
             if f.callbacks != 0 {
                 println!(
@@ -363,6 +399,33 @@ fn report_metric(context: &str, phase: &str, mut values: Vec<Duration>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn normal_resync_observation_excludes_old_events_and_handles_new_epochs() {
+        let mut p = Profile::with_frame_window(Some("100:103")).unwrap();
+        p.set_context(Context::FastForward);
+        let mut queue = crate::ff_audio::NormalAudio::new().unwrap();
+        let pcm = vec![1; crate::ff_audio::MAX_PAIRS * 2 + 2];
+        queue.push(&pcm).unwrap();
+        p.publish_frame(99);
+        p.normal_audio(1, queue.stats());
+        queue.push(&pcm).unwrap();
+        p.publish_frame(100);
+        p.normal_audio(1, queue.stats());
+        let mut replacement = crate::ff_audio::NormalAudio::new().unwrap();
+        p.publish_frame(101);
+        p.normal_audio(2, replacement.stats());
+        replacement.push(&pcm).unwrap();
+        p.publish_frame(102);
+        p.normal_audio(2, replacement.stats());
+        replacement.push(&pcm).unwrap();
+        p.publish_frame(103);
+        p.normal_audio(2, replacement.stats());
+        let stats = &p.series[Context::FastForward as usize].normal;
+        assert_eq!((stats.callbacks, stats.resyncs), (3, 2));
+        assert!(stats.skipped_pairs > 0);
+        assert!(stats.max_pairs <= crate::ff_audio::MAX_PAIRS);
+    }
 
     #[test]
     fn fast_repriming_is_silent_and_observed_as_waiting_output() {

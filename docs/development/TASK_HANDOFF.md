@@ -6,6 +6,93 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Latest request: continue the desktop TODO; user confirms the reported INT/EXT
+  difference occurs **only with Fast active**.
+- **FEAT-02-FULLSCREEN — complete / retained for implemented desktop scope.**
+  [Record](../changes/2026-10-21-persist-borderless-fullscreen-menu.json),
+  [feature details](../fullscreen.md). Menu/F11/startup share borderless requests,
+  default-off `video.fullscreen`, delayed state reconciliation/cancellation.
+  Winit/WM retain normal/maximized placement; removed-monitor fallback is bounded.
+  Fix real menu resize race: completed-canvas dimensions for GPU and software.
+- Native28config/35menu/81runtime and Wine28/35/82 pass (4runtime ignored);
+  final runtime suites repeated only after the resize correction. Both production
+  builds warning-free. Actual Linux native/CPAL/Openbox and Wine interpreter GUI
+  pass heldF11 once,640x360exact restoration, menu/F11 sync, restart fullscreen,
+  maximize/unmaximize, VSyncOn, fullscreen minimize/restore, slots unchanged and
+  clean exits. Inspected captures; max client1200x779 on both. CPU fallback GUI
+  separately passes F11/menu/normal geometry, inspected captures and clean exit.
+- Negative evidence retained: first upload640x360->1200x800/fallback panic under
+  `resize-race-before/`; pointer-selected root rows under `pointer-harness/` and
+  `wine-pointer-harness/` were setup failures. Passed F11/geometry checks reused;
+  only remaining menu/restart cases followed helper correction. Empty EGL vendors
+  panic inside wgpu initialization before usable window; valid-vendor/unavailable-
+  driver setup then exercises actual CPU fallback. No production env switch.
+- All processes terminal:30579/7770/52050/75415/49345/85211/26366/2311/75640/
+ 49486/4020/52453 and Wine36993. Evidence under ignored `target/fullscreen-menu/`.
+  Canonical hashes verified/restored, source mtime refreshed. No export/commit/push.
+  Hardware/native Windows/physical Alt-Tab/hotplug/DPI remain explicit limits;
+  external WM state synchronization is limited to what winit reports.
+- No selected unit or missing deliverable for Fullscreen. Under the broad active
+  goal, next unfinished feature is **FEAT-03-TACTICAL-OVERLAY**, beginning with
+  verified read-only data sources. Audio hardware/event and broader laws coverage
+  remain separate; do not reopen any completed code unit to fill those limits.
+
+- **FEAT-01-MUTE — complete / retained.** Audio menu/default-off `audio.mute`
+  preserve volume, separate user and temporary mute, consume sources normally.
+  Shared startup/live config now applies saved volume too;20ms gain time constant,
+  exact zero below-100dB, no audio-only temporal rebuild. [Record](../changes/2026-10-21-persist-independent-user-audio-mute.json),
+  [feature details](../audio_controls.md).
+- Native27config/34menu/79runtime (4ignored), final gain-curve test and Windows
+  GNU/Wine27/34/80 (4ignored) pass; both production builds warning-free. Callback
+  tests cover Faithful/Enhanced/Fast/Normal ramp, settled silence, volume changes,
+  reference queue/counter parity, temporary mute and discard.
+- Actual Linux CPAL44.1kHz/native/Xvfb two-run GUI passes:20->30percent with MuteOn,
+  EnhancedOn, restart retains values; unmute checked at Volume0. Inspected
+  captures, Fast4x/normal return, unchanged slot and clean exits. Playing171/170
+  and Fast108/108callbacks have0holds/drop/over-period; priming/pause excluded.
+  No audible-quality/native Windows/controller-hardware claim.
+- Processes37379/24412/4406/28130/17962 terminal. Evidence `target/audio-mute/`:
+  source preimages/hashes, tests/builds/canonical hashes, Wine, two GUI logs/results/
+  captures. Canonical binaries restored/verified, source mtime refreshed. No export,
+  commit or push; Fullscreen is now completed above. Closed audio stays closed.
+
+- **BUG-02-FPS — complete for the reported scope.** Inline Video row explains
+  INT game / EXT presentations and differing Fast rates. No meter/pacing change.
+  User clarification plus existing actual4x~129/32 and normal~59.7/59.7 establish
+  expected behavior. [Record](../changes/2026-10-21-explain-fast-fps-counter-difference.json),
+  [feature details](../fps_overlay.md). General hardware/VSync limits stay separate.
+- Native targeted menu1 and existing FPS3 tests pass. Windows menu warning-free,
+  Wine33menu+3FPS pass. Native/Wine640x480 render byte-equal, inspected/legible.
+  Initial standalone-native menu build failed Wayland pkg-config setup; established
+  combined runtime/menu features pass. No cadence matrix/replay/production rebuild.
+- All processes terminal60293/70141; Wine command terminal too. Evidence under
+  `target/fps-menu-help/`; reused actual audio captures. No missing deliverable,
+  export, commit or push. Remaining TODO features can be selected under full goal;
+  neither FPS diagnosis nor the Normal unit below is pending runtime work.
+
+**BUG-03-NORMAL-BOUNDS — complete / retained.**
+- [Record](../changes/2026-10-21-bound-delayed-normal-audio.json),
+  [feature details](../fast_forward_audio.md). Fixed512KiB/2second queue plus
+ 2620byte fade tail; overflow keeps latest250ms with10ms stereo fade. Faithful1x
+  even with Enhanced configured; no temporary file or callback I/O/allocation.
+  Menu delay label, legacy config and existing timeline resets retained.
+- Native78runtime/33menu and Wine79runtime/33menu pass (4optional runtime ignored),
+  production builds warning-free. Actual Linux CPAL44.1kHz/native/Xvfb4x Normal
+  gate9400:11400 passes365/376callbacks, max130287/130783pairs<131072,
+ 10resyncs each, zero holds/over-period/producer drops, Enhanced sources unrouted.
+  Persisted menu choice, inspected captures, slot bytes unchanged, no spool,
+  normal return~59.7INT/EXT and clean exit0. Volume0, not audible-quality proof.
+- First GUI harness paused at root due to a second Escape, last guest9305<9400
+  and all counts0. Retained as setup failure; only unmeasured gates repeated
+  after single-Escape correction, no fixture recreation/rebuild.
+- All processes terminal (GUI98315 included). Evidence under ignored
+  `target/normal-audio-bounds/`: source preimages/hashes, build/test/Wine logs,
+  canonical/candidate hashes, GUI result/captures and first failed setup.
+  Canonical binaries restored/verified, source mtime refreshed. Memory and
+  whitespace checks pass. No export/commit/push; audible/event/native Windows
+  hardware checks remain open. Never reopen bounds due to the open parent.
+
+Previous completed consumption request:
 - Latest request: fix the second verified Fast audio cause, nominal4x consumption
   exceeding actual guest production. **BUG-03-EFFECTIVE-RATE — complete / retained.**
 - Common host production/device-frame clock now drives faithful/PSG/HLE/FIFO;
@@ -36,9 +123,9 @@ An open parent never reopens completed children or rejected experiments.
   hashes, native/Wine logs, GUI results/captures and first negative run under
   gui-under-build-load). Build/test/GUI handles51951/72493/97293/98575/10060/85875/
  43855/56671/2008/14367/43406 are terminal. No commit/push/export update.
-- BUG-03 parent remains partial for Normal backlog bounds, audible/event/device
-  and native Windows validation. Next runtime work can select those remaining
-  criteria, then BUG-02-FPS, when consistent with the latest request. Do not
+- BUG-03 parent remains partial for audible/event/device and native Windows
+  validation. Normal backlog bounds are completed above; the current checkpoint
+  selects FPS after that closed unit. Do not
   reopen the completed consumption fix merely because the parent is unchecked.
 
 Previous completed build-warning request:

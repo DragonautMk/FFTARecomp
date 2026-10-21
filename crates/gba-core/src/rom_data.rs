@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 mod runtime;
 pub use runtime::{ResourceStats, RuntimeResources};
+pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
 pub const EXTRACTOR_REV: u32 = 2;

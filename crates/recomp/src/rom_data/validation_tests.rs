@@ -217,3 +217,120 @@ fn clear_audio(machine: &mut gba_core::Machine) {
     machine.bus.hle_tap.clear();
     machine.bus.fifo_tap.iter_mut().for_each(Vec::clear);
 }
+
+#[test]
+#[ignore = "requires the exact private USA ROM; follows clean-boot demo input to the original copier"]
+fn usa_copied_obj_initializer_from_clean_boot_uses_decoded_source() {
+    crate::configure_headless_widescreen();
+    let rom = fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").expect("USA ROM fixture")).unwrap();
+    assert_eq!(gba_core::ffta_rom::digest(&rom), gba_core::ffta_rom::SHA256);
+    // Independently located USA literals and function entry. No EUR offset
+    // arithmetic or copied guest instructions are used to construct this test.
+    const ENTRY: u32 = 0x0808_f74c;
+    const START: usize = 0xa38adc;
+    const END: usize = 0xa3991c;
+    const ALIAS: usize = 0xa398dc;
+    const DEST: usize = 0x5f28;
+    let word = |offset| u32::from_le_bytes(rom[offset..offset + 4].try_into().unwrap());
+    assert_eq!(word(0x8f764), 0x0800_0000 + END as u32);
+    assert_eq!(word(0x8f768), 0x0800_0000 + START as u32);
+    assert_eq!(word(0x8f76c), 0x0300_0000 + DEST as u32);
+    assert_eq!(DEST + ALIAS - START, 0x6d28);
+
+    let mut source = Extraction::from_rom(&rom).unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let dataset = directory.path().join("decoded");
+    extract(&dataset, &mut source).unwrap();
+    let mut decoded = make_machine(rom.clone(), None);
+    attach_from_directory(&mut decoded, &dataset).unwrap();
+    let max_frames: u64 = std::env::var("FFTA_STATE_TEST_FRAMES")
+        .unwrap_or_else(|_| "12000".into())
+        .parse()
+        .unwrap();
+    assert!((1..=30000).contains(&max_frames));
+    for frame in 0..max_frames {
+        decoded.bus.keys = crate::demo_keys(frame);
+        decoded.bus.frame_ready = false;
+        for _ in 0..FRAME_STEP_GUARD {
+            if decoded.cpu.regs[15] == ENTRY {
+                assert!(decoded.cpu.thumb());
+                let checkpoint = decoded.save_state().unwrap();
+                let entered_frame = decoded.bus.frames;
+                let entered_clock = decoded.bus.clock;
+                let return_pc = decoded.cpu.regs[14] & !1;
+                let before = decoded.bus.rom_resources().unwrap().stats();
+                let mut legacy = make_machine(rom.clone(), None);
+                legacy.load_state(&checkpoint).unwrap();
+                assert_eq!(legacy.save_state().unwrap(), checkpoint);
+                let mut count = 0;
+                let mut read_pc = None;
+                while decoded.cpu.regs[15] != return_pc || count == 0 {
+                    assert!(count < 10000, "original initializer did not return");
+                    let pc = decoded.cpu.regs[15];
+                    let reads = decoded.bus.rom_resources().unwrap().stats().bus_reads;
+                    legacy.step();
+                    decoded.step();
+                    assert!(
+                        legacy.save_state().unwrap() == decoded.save_state().unwrap(),
+                        "initializer full state at step {count}/PC {pc:08x}"
+                    );
+                    if decoded.bus.rom_resources().unwrap().stats().bus_reads > reads {
+                        assert!(
+                            read_pc.replace(pc).is_none(),
+                            "unexpected multiple copy instructions"
+                        );
+                    }
+                    count += 1;
+                }
+                assert_eq!(
+                    &decoded.bus.iwram[DEST..DEST + END - START],
+                    &rom[START..END]
+                );
+                assert_eq!(
+                    &decoded.bus.iwram[0x6d28..0x6d58],
+                    &source.dimensions.source_bytes()
+                );
+                let after = decoded.bus.rom_resources().unwrap().stats();
+                assert_eq!(after.bus_reads - before.bus_reads, 24);
+                assert_eq!(after.bus_source_mask & 2, 2);
+                let read_pc = read_pc.expect("original copier must read the file-backed alias");
+
+                // A separate provenance probe poisons only the old raw table
+                // AFTER authenticated activation. Original code, other source
+                // bytes and the caller's real checkpoint are left intact.
+                let mut file_only = make_machine(rom.clone(), None);
+                attach_from_directory(&mut file_only, &dataset).unwrap();
+                file_only.load_state(&checkpoint).unwrap();
+                file_only.bus.rom[ALIAS..ALIAS + 48].fill(0xa5);
+                for _ in 0..count {
+                    file_only.step();
+                }
+                assert_eq!(
+                    &file_only.bus.iwram[DEST..DEST + END - START],
+                    &rom[START..END]
+                );
+                assert_eq!(file_only.bus.rom_resources().unwrap().stats().bus_reads, 24);
+                assert_eq!(file_only.cpu.regs[15], return_pc);
+                // Restore the test poison only after the guest returned, so
+                // snapshot ROM identity can be compared without masking state.
+                file_only.bus.rom[ALIAS..ALIAS + 48].copy_from_slice(&rom[ALIAS..ALIAS + 48]);
+                assert!(file_only.save_state().unwrap() == legacy.save_state().unwrap());
+                eprintln!("ROM_DATA_USA_INITIALIZER frame={entered_frame} clock={entered_clock} entry={ENTRY:08x} return={return_pc:08x} read_pc={read_pc:08x} steps={count} copied_bytes={} table_bytes=48 decoded_reads=24 poisoned_rom_probe=true full_states={count}", END-START);
+                return;
+            }
+            decoded.step();
+            if decoded.bus.frame_ready {
+                break;
+            }
+        }
+        assert_eq!(decoded.bus.frames, frame + 1, "incomplete boot frame");
+        clear_audio(&mut decoded);
+        if frame % 500 == 499 {
+            eprintln!(
+                "ROM_DATA_USA_BOOT frames={} pc={:08x}",
+                decoded.bus.frames, decoded.cpu.regs[15]
+            );
+        }
+    }
+    panic!("original USA initializer was not reached in {max_frames} clean-boot frames");
+}

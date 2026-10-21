@@ -248,12 +248,93 @@ An open parent never reopens completed children or rejected experiments.
   Source/implementation and canonical bytes preserved; outcome docs updated
   after frozen export inputs, no extra runtime rebuild. No agent commit/push,
   external publication or AndroidPort change.
-- This artifact unit has no remaining deliverable. **Next open unit:
-  ROMDATA-05-OBJ-USA-INITIALIZER**: establish independent actual USA copied-table
-  initialization/read coverage, reusing existing ROM/profile/decoder evidence.
-  Select with checkpoint; do not rerun closed EUR replay, timings, GUI or archive
-  gates for context. Native Windows remains distinct before normal enablement;
-  remaining catalogs/families and mods are still in the full active goal.
+- This artifact unit has no remaining deliverable. The subsequent independent
+  USA initializer result follows below. Native Windows remains distinct before
+  normal enablement; remaining catalogs/families and mods stay in the full goal.
+
+- **ROMDATA-05-OBJ-USA-INITIALIZER — complete on Linux and Windows GNU/Wine.**
+  [Record](../changes/2026-10-21-verify-original-usa-resource-initializer.json),
+  [precise protocol/scope](ROM_DATA_VALIDATION.md#original-usa-initializer).
+  Original USA/EUR entries/literals independently located; code remains ROM.
+  New cfg(test) helper reaches the actual USA entry from clean boot/demo input,
+  no save/forced PC. Both targets reach frame791/clock222325013, compare13full
+  original-instruction states and observe24decoded reads at0814186c. Entire
+  3648byte transfer and post-activation poisoned48byte raw alias probe pass.
+  This is initializer parity, not full-USA scene/audio parity.
+- Both test builds warning-free; native/Wine test logs terminal/pass3.44/3.53s.
+  Evidence target/rom-data-initializer/: copy-pointer-xrefs.json, regional
+  overlay-copy disassemblies, build logs/metadata and native/windows-result.json
+  plus usa-initializer logs. Lost/truncated observation resolved by cheap reads,
+  no successful test repeated. Source ROM/canonical binary hashes preserved.
+  HEAD3a9313b includes earlier archive work committed externally; no agent commit.
+  No production/ABI/cache/schema/archive/AndroidPort change or live process.
+- User confirms **only Linux/Wine, no native Windows PC**. This does not waive
+  the native Windows gate; normal enablement remains pending. No remaining
+  deliverable for this initializer unit. Next select an unfinished resource
+  family inventory under the full ROM_DATA_TODO; closed first-family tests,
+  timings, GUI and archive checks are not a rerun queue.
+
+- **ROMDATA-01-GRAPHICS-LZ77 / ROMDATA-02-LZ77-DECODER — complete for observed
+  early producers and offline codec**, not a graphics-family migration.
+  [Contract/results](../rom_data_graphics.md),
+  [record](../changes/2026-10-21-decode-verified-boot-graphics-streams.json).
+  Four independent1200frame EUR/USA Linux/Wine traces terminal/pass; each has
+  4LZ77SWI11calls, matching actual output and trace bytes across targets.
+  Bounded decoder verifies all8regional ranges on each target against retained
+  guest outputs without boot replay.125/133/1481/2507source bytes decode to
+  160/456/1996/2960; payload hashes equal across regions. Four synthetic tests
+  per target pass including both BIOS11/12oracles, malformed/truncated/size/
+  history, overlap/maxdistance4096 and exact consumption. Both builds warning-free.
+- Original callers independently identify88byte descriptor rootsUSA569104 and
+  EUR7662a8; field0c of record0resolves the first observed source. Count, other
+  fields/selectors/raw alternatives, downstream packet semantics/sharing and
+  regional/language completeness remain unknown. No active dataset/BIOS/cycle/
+  startup/default/schema/cache/save change, speedup or native Windows claim.
+- Evidence target/rom-data-graphics/verification-summary.json, native/windows
+  result/decoder JSON, core test logs, calls.toml/destination dumps/verified
+  source reports and original caller disassembly. All selected processes
+  83624/78791/56413/92756/31383/55161/20309/9803/79899/75582/68474terminal;
+  setup/compiler failures explicitly retained. Observer typo fixed before
+  tracing. Stale native library binary dep-info tracked previous isolated
+  measurement source; original fingerprint preserved and only affected lib
+  fingerprint invalidated. Source touch alone had failed; no successful trace,
+  prior measurement or reference source changed/repeated. Canonical ROM/runtime
+  and original trace/output hashes preserved. No agent commit/push/export.
+- No remaining deliverable/live process for these bounded units. Full goal
+  continues; native Windows unavailable and not waived. **Next open unit:
+  ROMDATA-01-BG-DESCRIPTORS**: verify count/bounds, relative fields, selectors and
+  downstream packet meanings of the actual88byte catalog before designing a
+  managed graphics resource. Select with checkpoint; reuse the exact traces,
+  offline decoder and caller disassembly, not old OBJ benchmarks/GUI/archives.
+- Selection checkpoint: latest full goal and Linux/Wine-only availability
+  unchanged. **ROMDATA-01-BG-DESCRIPTORS — selected / in progress**. Preceding
+  producer/decoder units are closed with terminal evidence; no build/test repeat
+  selected. Known: regional roots, stride88 and record0field0c pointer. Missing:
+  independently bounded catalog, complete field semantics, selectors and packet
+  consumers. Next inspect exact regional records and original loader routines
+  with bounded local reads/disassembly; preserve unknowns rather than infer
+  validity from a plausible pointer sweep. Existing uncommitted work retained.
+- Automatic continuation checkpoint: previous turn **progress** (new USA
+  initializer coverage, bounded LZ77 decoder and regional producer evidence),
+  confirmed by terminal verification-summary.json and source hashes. Full
+  ROM_DATA_TODO remains active. **ROMDATA-01-BG-DESCRIPTORS continues**, with
+  no successful build/replay reopened. Missing deliverable remains catalog
+  bounds and packet/field semantics; next read the original packet consumers
+  and validate a typed packet interpretation against the saved outputs.
+- Initial static inspection retained in target/rom-data-graphics/
+  descriptor-candidate-structure.json: first relative payload offset0x37b0
+  aligns with162records of88bytes, but **162 remains a count hypothesis**,
+  not a verified catalog limit. Candidate records match across the two roots.
+  Record0fields04/08/10point to an outer11ffffff wrapper, with the actual
+  observed LZ77 stream4bytes later; field0c points directly to LZ77. Several
+  later fields mix optional relative pointers and absolute VRAM destinations,
+  so treating all22words as pointers would be wrong. No new decoder/catalog
+  implementation selected from this observation. Next follow the original
+  post-LZ77 packet consumers (USA1f124/1f098 and independently located EUR
+  counterparts), prove the table boundary and field roles, then define a typed
+  contract. Reuse private caller/descriptor-loader disassembly and existing
+  source captures. All processes terminal; no new boot/build/replay required
+  merely for resumption. This descriptor unit remains partial/unimplemented.
 
 ### Previous planning outcome (retained)
 

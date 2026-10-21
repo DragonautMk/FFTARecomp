@@ -50,9 +50,17 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   now pass with real muted callbacks and positive decoded use. Actual container
   archives pass395Linux/392Wine tests, privacy/PE/ELF checks and extracted-runtime
   GUI consumption with automatic bundled TinyCC and new portable preparation.
-  Both Docker recipes/context include the packager's resource guides. USA
-  initializer and native Windows gates still precede normal enablement; other
-  families/mods remain open.
+  Both Docker recipes/context include the packager's resource guides. An
+  independent USA clean boot reaches the original copied-table initializer:
+  all13instructions match full legacy states and24reads consume decoded data,
+  including a poisoned-raw-source provenance probe, on Linux and Wine. Native
+  Windows remains a gate before normal enablement; the user currently has only
+  Linux/Wine. Other families/mods remain open.
+  [Graphics groundwork](../rom_data_graphics.md) adds bounded offline LZ77
+  decoding, four independently observed source ranges per region and exact
+  comparisons to captured guest destinations on Linux/Wine. Original callers
+  identify88byte descriptor roots atUSA569104/EUR7662a8; catalog bounds and
+  packet semantics remain unverified. Graphics are not in the active dataset.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

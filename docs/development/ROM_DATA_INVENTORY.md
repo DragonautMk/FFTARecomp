@@ -26,8 +26,16 @@ mapped. The protected EUR boot-to-battle replay now observes actual alias reads
 at frame5400 (primary first read541), with every full guest/RAM state matching
 legacy reads through8476frames; see the
 [validation protocol/results](ROM_DATA_VALIDATION.md). This is per-frame source
-coverage, not attribution to a particular DMA/PC, and does not infer a USA
-initializer trace. Existing consumers and original execution are described in
+coverage, not attribution to a particular DMA/PC. An independent USA clean-boot
+trace now reaches the original copier at0x0808f74c, frame791. Its own literals
+at0x8f764/68/6c specify source0xa38adc..0xa3991c and IWRAM0x03005f28:
+3648bytes, including the48byte alias at relative0xe00. Original CpuSet SWI
+at0x0814186c performs24decoded halfword reads; all13initializer steps match
+legacy full states. Independently inspected EUR entry0x080924e8 and literals
+at0x92500/04/08 specify source0xd968e8..0xd97728 and the same destination;
+the EUR replay above does not attribute execution to that entry. These blobs
+include executable code, which remains in ROM; only48metadata bytes migrate.
+Existing consumers and original execution are described in
 [sprite routines](../ffta_sprite_routines.md) and implemented in
 `ffta_sprites::{decode,decode_battle,visibility_result,ffta_sprite_interpret}`.
 Both exact local regional images have been read independently: all four
@@ -50,15 +58,24 @@ guest reads from ordinary in-view boot/host use; broader gates remain05.
 
 Each entry names the known decoder/runtime reader, static versus dynamic
 boundary, regional evidence, remaining extraction work and residual ROM use.
-No additional family currently has an extractor or decoded-file reader.
+No additional family currently has a managed extractor or decoded-file reader.
+The bounded offline LZ77 decoder and four observed graphics producers below
+are groundwork, not an additional runtime migration.
 
 - **BG tiles, palettes and image graphics.** `ppu.rs` reads hardware VRAM
   (4/8-bpp indexed tiles and bitmap modes) and palette RAM (BGR555). Those are
   dynamic destinations, not ROM asset boundaries. CPU copies, DMA and BIOS
   HLE feed these regions. `hle.rs` implements LZ77, Huffman and run-length
   decoding, but support for a codec does not locate a game's compressed blocks.
-  The asset roots, compressed extents, palette sharing, regional/language
-  catalogs and all producer routines remain unverified. Extractor: absent;
+  New1200frame clean boots independently observe four LZ77 sources per region:
+  USA56f4a8/5704cc/56fefc/56f52c and EUR76c64c/76d670/76d0a0/76c6d0.
+  Consumed lengths125/133/1481/2507decode to160/456/1996/2960bytes, matching
+  actual IWRAM3860/EWRAM3cb0post-SWI outputs on Linux and Wine. Original callers
+  independently reference88byte descriptors atUSA569104/EUR7662a8; record0
+  field0c resolves the first source. Total catalog bounds, other fields, packet
+  semantics, sharing and regional/language selectors remain unverified.
+  [Decoder contract, exact evidence and remaining work](../rom_data_graphics.md).
+  Managed extractor: absent; bounded offline LZ77 decoder: implemented/tested;
   runtime: VRAM/palette plus original ROM producers. Verification needed:
   indexed pixels, palette identity/indices, transparency, tile order and all
   writes/timing, not only screenshot similarity.

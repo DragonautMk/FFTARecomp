@@ -89,7 +89,7 @@ build log/help/hashes, native-{worldmap,enemy-menu}/summary.json and individual
 logs, runner logs and per-second host-load observations. Full per-frame
 state/audio and startup/storage/RSS results follow below. GUI
 The later GUI/archive results below close those local gates; native Windows
-and other regional initializer coverage remain open;
+remains open; the subsequent independent USA initializer result follows below;
 the comparison above alone does not enable the default.
 
 ### Native Linux complete-state and startup observations
@@ -249,7 +249,7 @@ Private evidence: `target/rom-data-gui/verification-summary.json`, per-mode
 result.json, measurement-inputs.json, play logs, inspected PNG captures and
 helpers. Every process52685/14957/14446/26083is terminal. The observed controls
 close this bounded GUI gate. Actual archive evidence follows below; USA
-initializer, native Windows and all other families/mods remain open.
+initializer is covered below; native Windows and other families/mods stay open.
 
 ## Actual portable archives
 
@@ -293,5 +293,44 @@ platform-inspection.json/PE dumps, extracted runtime result/measurement JSON,
 logs/PNG captures and verification-summary.json. Windows archive SHA-256
 88ea78fc5c03fe5dc3c073086b2f18d7b7106ed08cf2d5bb705a3c2d5f3b5b94;
 Linux08726f7fcea11f0ed4bfd967b70eefdee49693fb09a44a307d0ddd968f44904c.
-Handles4102/48361/6979are terminal. USA initializer/native Windows still gate
-normal enablement, and the full remaining resource matrix/mods stay open.
+Handles4102/48361/6979are terminal. Native Windows still gates normal enablement,
+and the full remaining resource matrix/mods stay open.
+
+## Original USA initializer
+
+ROMDATA-05-OBJ-USA-INITIALIZER is complete on Linux and Windows GNU/Wine.
+Independent pointer searches and original disassembly identify USA entry
+0808f74c, sourcea38adc..a3991c, destination03005f28 and CpuSet wrapper0814186c.
+EUR entry080924e8 has independently read literals ford968e8..d97728; no regional
+offset arithmetic is used as evidence. The3648byte blobs contain code and the
+48byte dimension alias, at relativee00; only that metadata is redirected.
+
+The optional test boots the exact private USA image without a save or forced
+PC/registers, follows standard demo input and reaches the actual entry at
+frame791/clock222325013. A legacy instance loads this real caller checkpoint.
+All13original instructions compare full serialized guest states; the actual
+return is08023f76 and all3648IWRAM bytes match the original source. The CpuSet
+instruction performs24decoded halfword reads from the alias. A second instance
+authenticates the same files first, loads the same checkpoint and poisons only
+the48old raw-ROM alias bytes. It still copies the complete blob correctly in13
+steps with24decoded reads. The poison is removed only after guest return to
+compare snapshot ROM identity and complete state against legacy. Edited base
+data remain rejected by production activation; this is a test-only probe.
+
+Both targets compile warning-free and pass the exact new ignored test (3.44s
+Linux,3.53s Wine), with identical trace fields and protected ROM/source/canonical
+binary hashes. The earlier complete suites/scenes/archives are not repeated
+for this cfg(test)-only addition. No production runtime or public archive changes.
+This is initializer-instruction parity, not whole-USA boot/scene/audio parity.
+The user confirms native Windows is unavailable; Linux/Wine do not waive it.
+
+Reproduce with the existing private-test build/run setup and test name
+`rom_data::validation_tests::usa_copied_obj_initializer_from_clean_boot_uses_decoded_source`,
+`FFTA_STATE_TEST_ROM` pointing to the exact USA image, `FFTA_WIDESCREEN=0` and
+`--exact --ignored --test-threads=1 --nocapture`. The default12000frame limit
+can be set with `FFTA_STATE_TEST_FRAMES` (1..30000); failure to reach the actual
+entry fails the test. No private ROM/instructions are included in test source.
+Evidence: ignored `target/rom-data-initializer/` copy-pointer-xrefs.json,
+regional overlay-copy disassemblies, both build logs/executable metadata,
+native/windows-result.json and terminal usa-initializer logs. No live process
+or remaining deliverable for this bounded gate; other families remain open.

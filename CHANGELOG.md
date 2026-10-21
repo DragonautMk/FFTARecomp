@@ -3,6 +3,29 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-21 — Verify original USA copied-resource initialization from clean boot
+
+Type: changed. Platforms: Linux, Windows-GNU-Wine.
+
+**Changes**
+
+- Add an optional private-ROM test that reaches the actual USA initializer from clean boot/demo input, compares every original instruction with a legacy caller-state instance and tests file provenance with only the raw old alias poisoned after authenticated activation.
+- Independently identify regional original copy entries and literal source ranges; code and opaque bytes remain in ROM, while only the 48-byte OBJ metadata is supplied from decoded data.
+
+**Validation**
+
+- Native and Windows GNU test executables compile warning-free. The exact new ignored test passes independently on Linux (3.44s) and Wine (3.53s), reaching frame791/clock222325013 and returning from13original instructions to08023f76 with every full state matching.
+- CpuSet at0814186c copies3648bytes into IWRAM5f28, including24decoded halfword reads for the48-byte table at6d28. The post-activation poisoned-source probe copies the same whole blob and matches final guest state. Source ROM, test source and canonical runtime hashes remain unchanged during both runs.
+- Final project_memory.py check, CRLF-aware git diff --check, Rust formatting of the added/affected test and decoder files,142affected local-document links and protected fixture/canonical hashes pass. Task handoff closes these units and records the independently open descriptor-catalog criterion; all selected processes are terminal.
+
+**Limitations**
+
+- Initializer component parity is not whole-USA scene/audio coverage. Native Windows is unavailable per user confirmation and remains a gate before normal enablement; only Linux/Wine are available. Other resource families, catalogs and mods remain open. No production runtime, canonical binary, public archive, AndroidPort, agent commit or push changes.
+
+Documentation: [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [rom_data_runtime.md](docs/rom_data_runtime.md).
+
+[Change record](docs/changes/2026-10-21-verify-original-usa-resource-initializer.json)
+
 ## 2026-10-21 — Add observed window-manager minimize and restore regression coverage
 
 Type: added. Platforms: Linux X11, Openbox and llvmpipe Vulkan, Windows GNU/MinGW13 under Wine10 with Vulkan.
@@ -937,6 +960,31 @@ Type: performance. Platforms: Native Linux evaluation, Windows GNU / Wine core t
 Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
 
 [Change record](docs/changes/2026-10-21-evaluate-compact-ui-layer-ids.json)
+
+## 2026-10-21 — Decode bounded LZ77 streams against observed regional graphics producers
+
+Type: added. Platforms: Linux, Windows-GNU-Wine.
+
+**Changes**
+
+- Add a bounded offline GBA LZ77 decoder that returns exact decoded bytes and consumed source length, excludes padding, supports overlapping and clipped final matches, and rejects truncated inputs, invalid history, unsupported type and output-budget violations. It is not wired to BIOS or the active resource dataset.
+- Add optional test-only producer discovery through actual executed SWI events during clean demo boot, plus offline comparisons against retained post-SWI guest outputs without repeating the boot. Independently locate four source ranges per region and original relative descriptor roots at USA569104/EUR7662a8 with88-byte stride; packet semantics and catalog bounds remain open.
+
+**Validation**
+
+- All four1200-frame original-interpreter traces pass independently for EUR/USA on Linux and Windows GNU/Wine. Each observes four SWI11calls; per-region trace and destination files are byte-identical across targets. Original source ROMs and canonical runtime binaries are preserved.
+- Four synthetic core tests pass on each target, including both existing BIOS11/12output oracles, overlap/history-distance4096, partial final token/flag group, all truncated prefixes, bad type/history and allocation budgets. Core and recomp test builds are warning-free on both targets.
+- Offline checks verify eight regional source ranges per target against actual guest outputs. Consumed lengths125/133/1481/2507 yield160/456/1996/2960bytes; totals4246encoded/5572decoded per region, with equal payload hashes across regions and byte-identical verification reports across targets. Captured trace/output and source/canonical hashes remain unchanged.
+- An observer compile typo was corrected before any trace. Native Cargo then reused an old library whose binary dep-info tracked the previous isolated source; refreshing source mtime alone did not fix resolution. Preserve original logs/fingerprint and invalidate only the affected library fingerprint before a successful current-source rebuild; no successful trace, old measurement or reference source was repeated/changed.
+- Final project_memory.py check, CRLF-aware git diff --check, Rust formatting of the added/affected test and decoder files,142affected local-document links and protected fixture/canonical hashes pass. Task handoff closes these units and records the independently open descriptor-catalog criterion; all selected processes are terminal.
+
+**Limitations**
+
+- Verified early producers and a codec do not establish complete graphics assets, total descriptor count, packet semantics, regional/language catalogs, palette/tile/map sharing or consumer migration. No new resources enter managed extraction/startup/runtime yet, and existing dataset revisions are unchanged. No decompression speedup, native Windows, whole-scene parity, AndroidPort, canonical/public archive, agent commit or push claim.
+
+Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-21-decode-verified-boot-graphics-streams.json)
 
 ## 2026-10-21 — Consume decoded OBJ metadata through guest and host runtime readers
 

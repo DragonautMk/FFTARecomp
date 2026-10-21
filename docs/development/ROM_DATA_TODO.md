@@ -74,6 +74,13 @@ non verificati; non dichiara un catalogo completo delle risorse del gioco.
 La verifica EUR/USA è completa per la prima famiglia; cataloghi regionali e
 linguistici delle altre famiglie restano da individuare e verificare.
 
+**ROMDATA-01-GRAPHICS-LZ77 completato per i produttori iniziali osservati:**
+quattro sorgenti LZ77 per regione verificate su avvii puliti1200frame Linux e
+Windows/Wine; confini dei flussi e uscite guest coincidono. Individuati anche
+due root regionali di descrittori da88byte. Limiti del catalogo, campi interni,
+interpretazione dei pacchetti e lingue restano aperti.
+[Contratto e prove](../rom_data_graphics.md).
+
 ## ROMDATA-02 — Estrattori e decoder
 
 **Dipendenze:** ROMDATA-01. Procedere per famiglie senza dichiarare finito il
@@ -103,6 +110,12 @@ compressione); parser delle altre famiglie rimangono da implementare.
 Test Linux e Windows/Wine passano anche con le due ROM locali. Dettagli e
 limiti in [risorse decodificate](../rom_data.md). Il consumo diretto della prima
 famiglia è ora collegato nel percorso opt-in04.
+
+**ROMDATA-02-LZ77-DECODER completato come componente offline:** input e memoria
+limitati, riferimenti sovrapposti, consumo esatto senza padding e rifiuto di
+input malformati. Quattro test sintetici per target e confronto con le uscite
+guest già catturate passano su Linux/Wine. Non aggiunge ancora una famiglia al
+manifest: servono prima i contratti semantici del catalogo grafico.
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -184,8 +197,8 @@ La matrice di routine originali copre48casi EUR/USA con letture guest effettive;
 il confronto nativo600frame prova uso host e parità di stati/immagini/audio,
 senza attribuire letture guest non eseguite in quella schermata iniziale.
 La nuova tranche05 verifica scene/transizione EUR e costi locali descritti sotto;
-il trace dell'inizializzatore USA e gli altri gate rimangono distinti. Le altre
-famiglie restano aperte.
+il trace USA è ora verificato separatamente come descritto sotto. Gli altri
+gate e le altre famiglie restano aperti.
 
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
@@ -240,8 +253,17 @@ Privacy, PE/ELF, TinyCC automatico e GUI del runtime effettivamente estratto con
 nuova preparazione portable/Load/Undo/ricaricamento passano.
 [Record e limiti](../changes/2026-10-21-validate-decoded-resource-portable-archives.json).
 Archivi/binari precedenti invariati; variazione di un metadato BUILD-INFO
-registrata esplicitamente. ROMDATA-05 resta parziale per trace USA e Windows
-nativo prima dell'abilitazione normale; altre famiglie/mod restano aperte.
+registrata esplicitamente.
+
+**ROMDATA-05-OBJ-USA-INITIALIZER completato su Linux e Windows/Wine:** avvio
+pulito senza save né PC forzato fino al copier originale USA, frame791. Tutte
+le13istruzioni coincidono per stato completo; CpuSet legge24halfword dal file
+e copia correttamente3648byte, inclusi48di metadati. Anche la prova con il solo
+vecchio alias alterato dopo l'attivazione autentica passa.
+[Prova e limiti](ROM_DATA_VALIDATION.md#original-usa-initializer).
+Non è una verifica completa delle scene/audio USA. ROMDATA-05 resta parziale
+per Windows nativo, non disponibile all'utente: per ora solo Linux/Wine.
+Abilitazione normale e altre famiglie/mod restano aperte.
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
@@ -292,6 +314,7 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-05-OBJ-USA-INITIALIZER, traccia verificata della
-copia USA; abilitazione normale soltanto con tutti i gate soddisfatti.
+**Prossima azione:** ROMDATA-01-BG-DESCRIPTORS, confini e formato del catalogo
+grafico individuato dai chiamanti originali;
+abilitazione normale soltanto con tutti i gate soddisfatti.
 Gli altri cataloghi, le migrazioni e le fasi mod restano nell'obiettivo completo.

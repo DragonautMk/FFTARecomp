@@ -22,8 +22,9 @@ is 48 bytes, with the shared source digest recorded in the
 [inventory](development/ROM_DATA_INVENTORY.md). Searching both exact local
 images finds exactly these two occurrences per region. The fourth range was
 found during the runtime provenance investigation; extractor revision 2
-records it. Its position relative to the copied code matches the RAM table;
-the actual battle initializer/read trace still belongs to ROMDATA-05.
+records it. The original USA initializer now has independent clean-boot
+execution/provenance coverage, described below; the EUR replay observes alias
+reads without attributing them to an initializer PC.
 Schema and decoder stay at 1 because the decoded format is
 unchanged. Managed storage therefore selects `v1/e2-d1`, retaining `e1-d1`.
 
@@ -129,6 +130,16 @@ after loading snapshots; HLE compares bits with actual samples. The copied EUR
 alias is read at frame5400, mask3, while guest RAM/clock/RNG remain equal.
 The USA initializer trace is not inferred from this EUR replay.
 
+A separate USA test boots without a save or forced PC, using demo inputs,
+and reaches the original copier at0808f74c on frame791/clock222325013. Its13
+original instructions return to08023f76; every complete state matches a legacy
+instance starting from that real caller checkpoint. CpuSet at0814186c copies
+3648bytes to IWRAM5f28, including24decoded halfword reads for the48byte table
+at6d28. A separate probe poisons only the raw alias after authenticated file
+activation: the entire copied blob and final state still match. This passes
+independently on Linux and Wine. It proves the original USA initializer's file
+provenance, not full-USA scene/audio parity or native Windows execution.
+
 Five native Linux alternating timing pairs versus a corrected legacy binary
 without resource routing measure +1.0081% worldmap/-0.2355% battle mean cost;
 p95/p99 also pass predetermined limits. This is a neutral result, not a speedup.
@@ -154,8 +165,8 @@ ignored each), privacy/identity checks and extracted-runtime GUI Load/Undo/
 reload with automatic bundled TinyCC and fresh portable resources. The Docker
 context/COPY lists now include both resource guides required by the packager.
 Linux requires at most GLIBC2.35; Windows PE/resources/dependencies are checked.
-USA initializer and native Windows remain before normal enablement; other
-families/mods stay open. Canonical runtime and archive bytes are preserved;
+Native Windows remains before normal enablement; the user currently has only
+Linux/Wine. Other families/mods stay open. Canonical runtime and archive bytes are preserved;
 a prior BUILD-INFO metadata hash variation is retained in the
 [artifact evidence](development/ROM_DATA_VALIDATION.md#actual-portable-archives).
 Game-derived test artifacts remain local/ignored.

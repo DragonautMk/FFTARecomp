@@ -12,6 +12,8 @@ use std::{
 mod native_tests;
 #[cfg(test)]
 mod validation_tests;
+#[cfg(test)]
+mod compression_tests;
 mod preparation;
 pub use preparation::prepare_startup;
 

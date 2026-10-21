@@ -6,6 +6,20 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **REPO-BRANCH-DECOMP — complete (local Git refs only).** Latest user request
+  preserves the former `optimizations` tip as new `decomp` and restores
+  `optimizations` to124de1fa2955e41170609082dc492826768ad9e9. Exact source
+  2193457b6625ba329681630ca960dde686e51834is now the `decomp` tip and current
+  checkout; all existing commits remain reachable there. The target is main's
+  merge commit, so no ancestry/fast-forward claim is made. The optimization
+  ref move used an atomic transaction verifying both old source and new copy.
+  Main and all remote refs are unchanged; no push or new commit was performed.
+  The only working-tree edit is this handoff update. Branch hash/checkout/
+  history preservation verified; project-memory/whitespace checks run below.
+  This request selects no runtime/build/test/benchmark work. Future ROM-data
+  continuation belongs on `decomp`; completed units and the queue below remain
+  intact. Do not resume those changes on the restored `optimizations` baseline.
+
 - Latest request: full `rom_data_todo`, readable extracted files without space
   reduction; **updated user steering: do not measure performance regressions
   now, optimize later** (2026-10-21). This supersedes older queued benchmarks,

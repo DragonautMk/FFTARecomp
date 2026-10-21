@@ -1,7 +1,7 @@
 # TODO — Estrazione ROM, dati decodificati e mod
 
-Richiesta aggiornata il 21 ottobre 2026. **FEAT-04-ROM-DATA** è pianificato;
-nessuna delle funzionalità elencate sotto è ancora implementata.
+Richiesta aggiornata il 21 ottobre 2026. **FEAT-04-ROM-DATA** è in esecuzione;
+inventario e contratto iniziale sono definiti. Le migrazioni runtime restano aperte.
 Ambito: workspace desktop, Windows come piattaforma principale di verifica;
 Linux come controllo aggiuntivo. `AndroidPort/` richiede lavoro separato.
 
@@ -47,38 +47,46 @@ campione audio o istruzione. I miglioramenti di velocità restano da misurare.
 
 **Dipendenze:** nessuna. **Priorità:** prima fase obbligatoria.
 
-- [ ] Censire grafica, palette, tile/mappe, sprite/animazioni, testi, tabelle
+- [x] Censire grafica, palette, tile/mappe, sprite/animazioni, testi, tabelle
   di gioco e audio. Per ogni famiglia annotare formato, compressione, confini,
   puntatori, riferimenti incrociati, routine di lettura e grado di verifica.
   Distinguere dati statici della ROM e stato dinamico in RAM.
 - [ ] Verificare separatamente EUR/USA e lingue. Riutilizzare i lettori già
   presenti come evidenza parziale; non dedurre offset per sola analogia.
-- [ ] Definire ID stabili delle risorse, schema versionato e manifest con
+- [x] Definire ID stabili delle risorse, schema versionato e manifest con
   hash della ROM sorgente, versione estrattore/decoder, file e hash dei contenuti,
   dipendenze e copertura. Conservare la provenienza dagli intervalli originali.
-- [ ] Scegliere una prima famiglia verificabile dall'estrazione fino al gioco,
+- [x] Scegliere una prima famiglia verificabile dall'estrazione fino al gioco,
   in base alle routine individuate. Separare contenuti decodificati e metadati
   necessari: per esempio una sola immagine non conserva palette indicizzate,
   priorità, trasparenza e animazioni; un PCM non conserva il sequenziamento audio.
-- [ ] Pubblicare la matrice di migrazione: per ogni famiglia indicare estrattore,
+- [x] Pubblicare la matrice di migrazione: per ogni famiglia indicare estrattore,
   decoder, lettore runtime, verifiche e dipendenze residue dalla ROM.
 
 **Chiusura:** contratto e prima famiglia definiti con evidenza; famiglie ancora
 ignote elencate esplicitamente. L'inventario non è la migrazione completa.
+
+**ROMDATA-01-CONTRACT completato; ROMDATA-01 parziale:**
+[inventario e contratto](ROM_DATA_INVENTORY.md).
+Prima famiglia: `graphics.obj-dimensions`, metadati statici verificati sui due
+profili esatti. L'inventario distingue le fonti note da confini/cataloghi/lingue
+non verificati; non dichiara un catalogo completo delle risorse del gioco.
+La verifica EUR/USA è completa per la prima famiglia; cataloghi regionali e
+linguistici delle altre famiglie restano da individuare e verificare.
 
 ## ROMDATA-02 — Estrattori e decoder
 
 **Dipendenze:** ROMDATA-01. Procedere per famiglie senza dichiarare finito il
 resto del catalogo quando funziona il primo prototipo.
 
-- [ ] Implementare parser con controlli su lunghezze, offset, puntatori,
+- [x] Implementare parser con controlli su lunghezze, offset, puntatori,
   dimensioni decodificate e riferimenti; rifiutare input troncati o incoerenti.
-- [ ] Estrarre e decodificare la prima famiglia nel formato concordato,
+- [x] Estrarre e decodificare la prima famiglia nel formato concordato,
   mantenendo le informazioni necessarie a riprodurre il comportamento originale.
   Blocchi sconosciuti possono restare grezzi, marcati come non decodificati.
-- [ ] Rendere l'output deterministico e ispezionabile: gli stessi input e la
+- [x] Rendere l'output deterministico e ispezionabile: gli stessi input e la
   stessa versione producono manifest e dati equivalenti, senza percorsi assoluti.
-- [ ] Verificare con fixture sintetiche e confronti locali con il decoder
+- [x] Verificare con fixture sintetiche e confronti locali con il decoder
   originale o con dati osservati nel gioco. Quando il formato lo consente,
   verificare anche il roundtrip, senza richiedere compressione byte-identica
   se più codifiche rappresentano gli stessi dati.
@@ -87,6 +95,13 @@ resto del catalogo quando funziona il primo prototipo.
 
 **Chiusura per famiglia:** file decodificati corretti, metadati sufficienti e
 input errati gestiti. La sola esportazione di blocchi binari non basta.
+
+**ROMDATA-02-OBJ-DIMENSIONS completato:** estrattore e decoder tipizzato,
+CLI `rom-data extract|verify`, manifest e controlli di provenienza.
+Le prime quattro voci sono completate per questa famiglia (senza puntatori o
+compressione); parser delle altre famiglie rimangono da implementare.
+Test Linux e Windows/Wine passano anche con le due ROM locali. Dettagli e
+limiti in [risorse decodificate](../rom_data.md). Il runtime non è collegato.
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -222,5 +237,5 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione alla futura implementazione:** ROMDATA-01, inventario delle
-fonti e scelta della prima famiglia da portare fino al consumo diretto.
+**Prossima azione:** ROMDATA-03, preparazione automatica della prima famiglia;
+poi consumo diretto e verifica ROMDATA-04/05. Gli altri cataloghi restano aperti.

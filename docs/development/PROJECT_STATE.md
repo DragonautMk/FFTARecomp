@@ -26,9 +26,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   LTO and 16 codegen units; the Cargo manifest is authoritative.
 - The desktop loads the full ROM into `MemMap.rom` at startup; ordinary guest
   ROM reads use that in-memory buffer. The [ROM data TODO](ROM_DATA_TODO.md)
-  plans extraction/decoding, startup reuse and direct runtime consumption first,
-  followed by mod overrides and broader changes. These features are not yet
-  implemented. Exporting files alone is not completion; preserve guest behavior,
+  orders extraction/decoding, startup reuse and direct runtime consumption first,
+  followed by mod overrides and broader changes. The explicit
+  [rom-data CLI](../rom_data.md) now extracts/verifies typed OBJ dimensions for
+  exact EUR/USA images, with a source-authenticated manifest and bounded parsing.
+  [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
+  Automatic startup and runtime consumption are not connected yet.
+  Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 
 ## Container builds

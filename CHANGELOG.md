@@ -570,6 +570,29 @@ Documentation: [ffta_laws_layout.md](docs/ffta_laws_layout.md), [todo_bug_fix.md
 
 [Change record](docs/changes/2026-10-21-fix-battle-laws-modal.json)
 
+## 2026-10-21 — Extract source-verified decoded OBJ dimension resources for EUR and USA
+
+Type: added. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Document the regional resource inventory, explicit unknown catalogs and versioned base dataset contract; select graphics.obj-dimensions as the first migration family without claiming complete ROM extraction.
+- Add a bounded typed dimension decoder and deterministic source-authenticated manifest, plus rom-data extract/verify commands with verified temporary-directory publication, valid-data reuse and strict corruption/edited-base rejection.
+
+**Validation**
+
+- Release targeted tests pass on Linux: 3 core and 6 CLI, including both opt-in exact local regional ROM tests, independent aliases, source roundtrip, distinct manifests, deterministic payloads/reuse/relocation, malformed/bounded files, forged data and four publishers.
+- Windows GNU compilation is warning-free; the same targeted suites pass under Wine: 3 core and 5 CLI. The first Wine sandbox server-lock failure is retained; the same compiled binaries pass with normal Wine runtime access. The additional symlink rejection test is Unix-only.
+- Production CLI builds pass without warnings on Linux and Windows GNU; actual Linux and Windows/Wine commands pass help, first extraction, reuse and verification for both regions. Corresponding manifests and decoded files are byte-identical across the two platforms; canonical binaries are restored and verified by SHA-256.
+
+**Limitations**
+
+- Only OBJ dimension metadata are decoded. Automatic startup, runtime/guest reads, other asset catalogs, localized data, mods and performance/lifecycle equivalence remain pending; native Windows and crash/power-loss durability are unverified. No canonical binary, export, commit or push was changed.
+
+Documentation: [rom_data.md](docs/rom_data.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-21-extract-verified-obj-dimension-resources.json)
+
 ## 2026-10-21 — Explain expected INT and EXT divergence during Fast
 
 Type: changed. Platforms: Desktop Linux and Windows GNU/Wine.

@@ -6,6 +6,46 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Latest request: `/goal esegui il todo rom_data_todo` (2026-10-21).
+- **ROMDATA-01-CONTRACT — complete**, inventory/contract in
+  [ROM_DATA_INVENTORY.md](ROM_DATA_INVENTORY.md). Both exact local images checked:
+  USA direct0x149510/copy0xa398dc and EUR0x14ced8 are identical48byte dimension
+  tables. Existing sprite consumers inspected; other families and unknown
+  regional/language catalogs explicitly listed. ROMDATA-01 parent stays partial
+  for those unverified catalogs; no old runtime/performance work reopened.
+- **ROMDATA-02-OBJ-DIMENSIONS — complete**. Bounded core typed decoder and
+  source-authenticated schema1 manifest; explicit `rom-data extract|verify` CLI
+  publishes complete temporary directories, reuses valid data and refuses
+  corrupt/edited data. [Feature](../rom_data.md),
+  [record](../changes/2026-10-21-extract-verified-obj-dimension-resources.json).
+- Linux release3core/6CLI and Windows GNU/Wine3core/5CLI pass, including both
+  exact local ROMs. Determinism, provenance/aliases, roundtrip, forged data,
+  bounded/malformed inputs, missing files, relocation and4publishers covered.
+  Windows compilation warning-free; first Wine lock setup failed inside the
+  sandbox, same binaries pass with normal Wine runtime access. Native Windows,
+  startup/runtime/lifecycle/performance remain separate. No normal gameplay
+  path, state ABI, translation identity or canonical binary changed.
+- All test processes10215/66112/44836 terminal; final Wine runner exited0.
+  Evidence: ignored `target/rom-data/` (native-final-tests.log,
+  windows-tests-build.jsonl/log, windows-tests.json, wine-results.json,
+  wine-*.log, first setup failure, helper scripts and local input locators).
+  Do not rebuild/reextract this closed offline unit to reconstruct context.
+- **ROMDATA-02-CLI-PRODUCTION — complete**: native and Windows production CLI
+  builds warning-free; actual help/extract/reuse/verify pass on both regional
+  sources, native versus Wine output files byte-identical. Canonical binaries
+  restored/verified by hash; main source mtime refreshed for the next Cargo build.
+  Build handles45784/79661 and Wine smoke58438 terminal/passed. Reuse the
+  source hashes, build JSON/logs, *-cli.json/log and private `extracted/` data
+  under `target/rom-data/`; no rerun needed for these unchanged inputs.
+- Next open unit: **ROMDATA-03-OBJ-STARTUP**, automatic preparation/reuse/recovery
+  and installed/portable storage integration, followed by direct consumers and
+  equivalence gates in ROMDATA-04/05. Record a new selection checkpoint before
+  implementation. Gameplay is still unchanged; no live process or claimed
+  end-to-end migration. ROMDATA-01 regional/language catalogs and02 other families
+  remain open. No exports, commit or push.
+
+### Previous planning outcome (retained)
+
 - Latest request: resume the TODO, prioritizing ROM extraction into decoded data
   files and actual runtime reads from those resources; mods follow afterwards.
   **FEAT-04-ROM-DATA-PLAN — complete / documentation only**, superseding the

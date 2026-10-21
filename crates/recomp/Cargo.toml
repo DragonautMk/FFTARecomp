@@ -6,6 +6,7 @@ license.workspace = true
 description = "Static recompiler CLI"
 
 [dependencies]
+serde = { version = "1", features = ["derive"] }
 tempfile = "3"
 armv4t = { path = "../armv4t" }
 gba-core = { path = "../gba-core" }

@@ -20,6 +20,7 @@ mod perf;
 mod packfile;
 mod play;
 mod rom_switch;
+mod rom_data;
 mod save_path;
 mod save_state;
 mod save_backups;
@@ -96,6 +97,7 @@ fn main() -> ExitCode {
         Some("build") => cmd_build(&args[1..]),
         Some("mp2k-scan") => cmd_mp2k_scan(&args[1..]),
         Some("engine-scan") => cmd_engine_scan(&args[1..]),
+        Some("rom-data") => rom_data::cmd(&args[1..]),
         Some("runc") => cmd_runc(&args[1..]),
         Some("verify") => cmd_verify(&args[1..]),
         Some("labels") => cmd_labels(&args[1..]),
@@ -119,6 +121,8 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("rom-data", "recomp rom-data <extract|verify> <rom> <dataset-directory>", &[],
+     "Extract or verify source-authenticated decoded OBJ dimension metadata for exact FFTA EUR/USA images. Output is private local data; runtime startup is not connected yet."),
     ("controllers", "recomp controllers [--poll]", &["--poll    sample each DirectInput controller"], "List detected gilrs and Windows DirectInput controllers without loading a ROM."),
     ("build", "recomp build <rom> [--ram] [--bios file] [--labels file] [--gamedb file]", &[
         "--ram    profile a short interpreter run first, translating the RAM-resident \

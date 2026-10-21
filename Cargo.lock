@@ -4536,6 +4536,7 @@ dependencies = [
  "recomp-core",
  "rfd 0.15.4",
  "screen",
+ "serde",
  "sha2 0.11.0",
  "softbuffer",
  "tempfile",

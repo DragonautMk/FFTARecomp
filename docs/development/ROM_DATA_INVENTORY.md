@@ -1,0 +1,144 @@
+# ROM data inventory and contract
+
+Status: ROMDATA-01, 21 October 2026. This is an inventory of verified entry
+points and explicit unknowns, not a claim to have located every asset. Exact
+EUR and USA images are identified by `ffta_rom::{EUROPE_SHA256,SHA256}`.
+Offsets below are file offsets unless prefixed with a guest memory region.
+Do not apply a regional offset to another image or infer language coverage
+from a shared rendering format.
+
+## First migration unit: graphics.obj-dimensions
+
+The first family is the static OBJ dimension metadata, not sprite pixel data
+or animation. Twelve records in shape-major, size-minor order contain two
+little-endian u16 values, width and height in pixels. The range is 48 bytes,
+uncompressed, with no interior pointers or dependencies. Invalid shape 3 is
+outside the resource; guest memory beyond this table must keep its old behavior.
+
+The USA draw routines at 0x080014c8 and 0x080016d4 read the table at
+0x149510. The USA copied RAM sprite/visibility routines use a second table at
+0xa398dc, copied to IWRAM 0x03006d28. EUR draw routines at 0x08001500 and
+0x0800170c also use that IWRAM location, sourced from 0x14ced8. Existing
+consumers and original execution are described in
+[sprite routines](../ffta_sprite_routines.md) and implemented in
+`ffta_sprites::{decode,decode_battle,visibility_result,ffta_sprite_interpret}`.
+Both exact local regional images have been read independently: all three
+48-byte ranges have SHA-256
+`6ff886b23cde2726a4ceb9cba8c5569bbb4dc6a1185769547f78dfbcb7e2d991`.
+The USA alias must be checked independently, not assumed equal to the primary.
+The format is language independent; this does not validate localized assets.
+
+Decoded files retain indexed dimensions rather than a rendered picture.
+Host readers must preserve any genuinely changed RAM dimensions; a static
+resource cannot replace dynamic RAM without checking the consumer contract.
+CPU, DMA, interpreter and generated native reads currently retain the ROM
+path. No guest routine may be skipped to consume this metadata: timing,
+registers, writes and event order remain acceptance criteria for ROMDATA-04/05.
+
+## Other families and migration matrix
+
+Each entry names the known decoder/runtime reader, static versus dynamic
+boundary, regional evidence, remaining extraction work and residual ROM use.
+No additional family currently has an extractor or decoded-file reader.
+
+- **BG tiles, palettes and image graphics.** `ppu.rs` reads hardware VRAM
+  (4/8-bpp indexed tiles and bitmap modes) and palette RAM (BGR555). Those are
+  dynamic destinations, not ROM asset boundaries. CPU copies, DMA and BIOS
+  HLE feed these regions. `hle.rs` implements LZ77, Huffman and run-length
+  decoding, but support for a codec does not locate a game's compressed blocks.
+  The asset roots, compressed extents, palette sharing, regional/language
+  catalogs and all producer routines remain unverified. Extractor: absent;
+  runtime: VRAM/palette plus original ROM producers. Verification needed:
+  indexed pixels, palette identity/indices, transparency, tile order and all
+  writes/timing, not only screenshot similarity.
+- **Terrain maps and movement planes.** `ffta_stage.rs` observes DMA and
+  verifies two calculated 64x64 tile planes in EWRAM, then checks their VRAM
+  crop. `ffta_movement.rs` observes a separate dynamic movement plane.
+  `ffta_rom::map_producers_verified` independently pins producer code
+  0x1af08..0x1b5d0 for each region; this is code, not a map archive. Static map
+  descriptors, terrain geometry, pointer roots, compression and cross-map
+  sharing remain unknown. Extractor: absent; decoder/runtime: dynamic plane
+  observers and PPU. The calculated planes cannot be exported as static maps.
+- **OBJ graphics, descriptor lists and animation.** `ffta_sprites.rs` decodes
+  a signed/unsigned count followed by packed six-byte OBJ records, reads tile,
+  priority/palette/flip fields and observes partial OAM DMA. Lists can live in
+  ROM or RAM; animation, owner state, matrices and OAM are dynamic. Profiles
+  and copied routine source ranges are independently hash gated per region in
+  `ffta_rom.rs`; these are not a catalog of all lists or frames. Extractor:
+  absent except the selected dimension unit; runtime: original producers and
+  host descriptor readers. Static list roots, frame timing, graphics extent,
+  compression and cross-resource links still need discovery.
+- **Text and fonts.** `ffta_dialogue.rs` classifies already rendered layers
+  and portraits, not strings, font encodings or localized text archives.
+  `ffta_mouse.rs` identifies a name-entry row-count table via independently
+  checked regional literals: EUR 0x3ad2fe (three pages, six bytes each), USA
+  0x3a8320 (two pages). That table describes navigation widths, not character
+  codes or text resource pointers. Extractor: absent; runtime: guest text/font
+  rendering and host geometry. Encodings, terminators, control codes, language
+  root tables, glyph metrics/bitmaps and compressed bounds remain unknown.
+  EUR language selection observations do not verify all five text catalogs.
+- **Gameplay tables.** Unit structures at EWRAM 0x020223a4, stride 0x90,
+  are live state, not a static unit database; see
+  [character metrics](../ffta_character_metric.md). Battle/shop mouse readers
+  validate transient tasks/inventory. Static item/job/ability/law/AI tables,
+  record layouts, references, code dependencies and regional offsets remain
+  unknown. Extractor: absent; runtime: guest logic and semantic host readers.
+- **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
+  driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while
+  leaving original mixing/sequencing running. `MemView` resolves ROM/RAM
+  ranges, and each driver has its own sample/loop/instrument contract. Driver
+  detection is not an exhaustive instrument or song index. FFTA-specific bank
+  roots, compressed/sample extents, sequencer commands, language variants and
+  references remain to be verified per image. Extractor: absent; runtime:
+  guest mixer/DMA and shadow samplers. A PCM export alone loses sequencing,
+  pitch, envelopes, loops and original guest timing.
+- **Executable code and opaque data.** Native labels and copied IWRAM
+  instruction ranges are code, explicitly excluded from decoded assets.
+  Unknown regions stay in the original ROM. Do not label a sweep of plausible
+  compression headers as a verified asset catalog. Code/data interleaving,
+  embedded pointers/constants and opaque regions prevent ROM-free startup.
+
+## Version 1 base dataset contract
+
+The initial implementation supports only `graphics.obj-dimensions`. Use a
+stable semantic ID, with row index `shape * 4 + size`; never use a source offset
+as the resource ID. Future assets add entries without changing this ID.
+
+- `manifest.toml`: schema revision, extractor revision, decoder revision,
+  exact source ROM SHA-256/size and regional profile; a coverage list naming
+  only the decoded family; resource ID, relative file name, typed format,
+  decoded-file SHA-256, dependency IDs and all original source ranges/hashes.
+- `obj-dimensions.toml`: twelve typed width/height records in index order.
+  The file hash covers its exact bytes. The decoder verifies dimensions,
+  length, source ranges and that canonical little-endian encoding reproduces
+  the source table. No absolute paths, timestamps, ROM bytes or host pointers
+  appear in the manifest. Generated assets remain private local files.
+- Schema and decoder identity are separate from source identity and compiled
+  code identity. For a base dataset, matching its own declared hashes is
+  insufficient: verify the expected source ranges and reconstructed source
+  digest against the selected exact image. User edits belong to a future mod
+  layer; do not silently accept them as base data.
+- Keep a bounded parser and fixed allowed relative file names for version 1.
+  Reject unsupported schema/decoder revisions, duplicate/missing resources,
+  bad hashes, unknown fields, truncated/out-of-range data and path escapes.
+  Publication must validate all files before making a directory visible.
+- Planned automatic path: portable `Data/resources/<rom-sha256>/v1/`;
+  installed uses the existing application storage root's `resources` directory.
+  Preparation, corruption recovery, cancellation and concurrent writers belong
+  to ROMDATA-03. Native caches and saves remain separate.
+- Decoded base data are immutable host resources, shared for a session and
+  rebuilt/rebound on load/Undo/clean-boot restore. Do not serialize their
+  pointers or duplicate files in `.ffstate`. Existing ROM/BIOS identity remains
+  valid only after strict base equivalence is proven. Modified data require
+  a separate content identity and compatibility policy before enabling mods.
+
+## Gates before normal runtime use
+
+ROMDATA-02 must first validate synthetic malformed inputs and both local
+regional images. ROMDATA-03 needs preparation/reuse/recovery/move tests.
+ROMDATA-04 must trace every consumer, demonstrate decoded-file provenance
+and make fallback visible. A host-only migration does not close guest reads.
+ROMDATA-05 needs deterministic state/image/audio equality, lifecycle checks
+and measured startup/memory/frame cost against the existing in-memory ROM.
+No speedup, removal of the ROM dependency, complete graphics migration or mod
+support follows from this first family.

@@ -4,16 +4,29 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{ResourceStats, RuntimeResources};
+pub use runtime::{BackgroundStats, ResourceStats, RuntimeResources};
+pub mod bg_descriptors;
+pub mod bg_packets;
+pub mod bg_palettes;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 2;
-pub const DECODER_REV: u32 = 1;
+pub const EXTRACTOR_REV: u32 = 5;
+pub const DECODER_REV: u32 = 4;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
+pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
+pub const BG_DESCRIPTORS_FILE: &str = "bg-descriptors.json";
+pub const BG_DESCRIPTORS_FORMAT: &str = "bg-descriptors-json-v2";
+pub const BG_BASE_PALETTES_ID: &str = "graphics.bg-base-palettes";
+pub const BG_BASE_PALETTES_FILE: &str = "bg-base-palettes.json";
+pub const BG_BASE_PALETTES_FORMAT: &str = "bg-base-palettes-v1-json";
+pub const MAX_MANIFEST_FILE_BYTES: u64 = 64 * 1024;
+pub const MAX_BG_BASE_PALETTES_FILE_BYTES: u64 = 512 * 1024;
 pub const MANIFEST_FILE: &str = "manifest.toml";
 pub const MAX_FILE_BYTES: u64 = 16 * 1024;
+pub const MAX_BG_DESCRIPTORS_FILE_BYTES: u64 = 256 * 1024;
+pub const MAX_DATASET_BYTES: usize = 768 * 1024;
 pub const DIMENSIONS_SHA256: &str =
     "6ff886b23cde2726a4ceb9cba8c5569bbb4dc6a1185769547f78dfbcb7e2d991";
 
@@ -113,6 +126,18 @@ pub struct Manifest {
 pub struct Extraction {
     pub manifest: Manifest,
     pub dimensions: ObjDimensions,
+    pub background: Option<bg_descriptors::Descriptors>,
+    pub palettes: Option<bg_palettes::Catalog>,
+}
+
+/// Typed values borrowed from the exact captured file bytes. The frontend
+/// parses them once; source validation and runtime binding cover the whole set.
+#[derive(Clone, Copy)]
+pub struct BaseFiles<'a> {
+    pub manifest: &'a Manifest,
+    pub dimensions: (&'a ObjDimensions, &'a [u8]),
+    pub background: Option<(&'a bg_descriptors::Descriptors, &'a [u8])>,
+    pub palettes: Option<(&'a bg_palettes::Palettes, &'a [u8])>,
 }
 
 impl Extraction {
@@ -126,7 +151,34 @@ impl Extraction {
             ),
             _ => return Err("Decoded resources require a verified FFTA EUR or USA ROM".into()),
         };
-        Self::from_ranges(rom, hash, profile, ranges, DIMENSIONS_SHA256)
+        let catalog = bg_descriptors::Catalog::from_rom(rom)?;
+        let palettes = bg_palettes::Catalog::from_descriptors(rom, &catalog)?;
+        let mut result = Self::from_ranges(rom, hash, profile, ranges, DIMENSIONS_SHA256)?;
+        result.background = Some(catalog.decoded);
+        result.manifest.coverage.push(BG_DESCRIPTORS_ID.into());
+        result.manifest.resources.push(Resource {
+            id: BG_DESCRIPTORS_ID.into(),
+            path: BG_DESCRIPTORS_FILE.into(),
+            format: BG_DESCRIPTORS_FORMAT.into(),
+            sha256: String::new(),
+            dependencies: Vec::new(),
+            sources: vec![catalog.source],
+        });
+        result.manifest.coverage.push(BG_BASE_PALETTES_ID.into());
+        result.manifest.resources.push(Resource {
+            id: BG_BASE_PALETTES_ID.into(),
+            path: BG_BASE_PALETTES_FILE.into(),
+            format: BG_BASE_PALETTES_FORMAT.into(),
+            sha256: String::new(),
+            dependencies: vec![BG_DESCRIPTORS_ID.into()],
+            sources: palettes
+                .sources
+                .iter()
+                .map(|source| source.range.clone())
+                .collect(),
+        });
+        result.palettes = Some(palettes);
+        Ok(result)
     }
 
     fn from_ranges(
@@ -161,6 +213,8 @@ impl Extraction {
         }
         Ok(Self {
             dimensions: dimensions.ok_or("Missing OBJ dimensions source")?,
+            background: None,
+            palettes: None,
             manifest: Manifest {
                 schema: SCHEMA,
                 extractor_revision: EXTRACTOR_REV,
@@ -182,21 +236,61 @@ impl Extraction {
         })
     }
 
-    pub fn set_file_hash(&mut self, bytes: &[u8]) {
-        self.manifest.resources[0].sha256 = ffta_rom::digest(bytes);
+    pub fn set_file_hashes(&mut self, files: &[&[u8]]) -> Result<(), String> {
+        if self.manifest.resources.len()
+            != 1 + usize::from(self.background.is_some()) + usize::from(self.palettes.is_some())
+            || files.len() != self.manifest.resources.len()
+        {
+            return Err("Resource set does not match extraction".into());
+        }
+        for (resource, bytes) in self.manifest.resources.iter_mut().zip(files) {
+            resource.sha256 = ffta_rom::digest(bytes);
+        }
+        Ok(())
     }
 
     /// The expected manifest comes from the selected source, never the files.
     /// A self-consistent edited resource is still an invalid *base* dataset.
-    pub fn validate_files(
-        &self,
-        manifest: &Manifest,
-        dimensions: &ObjDimensions,
-        file_bytes: &[u8],
-    ) -> Result<(), String> {
+    pub fn validate_files(&self, files: BaseFiles<'_>) -> Result<(), String> {
+        if self.palettes.is_some() && self.background.is_none()
+            || self.manifest.resources.len()
+                != 1 + usize::from(self.background.is_some()) + usize::from(self.palettes.is_some())
+        {
+            return Err("Extraction resource set is inconsistent".into());
+        }
+        let (dimensions, file_bytes) = files.dimensions;
+        if file_bytes.len() as u64 > MAX_FILE_BYTES {
+            return Err("OBJ dimensions file exceeds size limit".into());
+        }
+        let mut total = file_bytes.len();
         let mut expected = self.manifest.clone();
         expected.resources[0].sha256 = ffta_rom::digest(file_bytes);
-        if manifest != &expected {
+        match (&self.background, files.background) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_BG_DESCRIPTORS_FILE_BYTES {
+                    return Err("Background descriptor file exceeds size limit".into());
+                }
+                total = total.saturating_add(bytes.len());
+                expected.resources[1].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected background descriptor resource".into()),
+        }
+        match (&self.palettes, files.palettes) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_BG_BASE_PALETTES_FILE_BYTES {
+                    return Err("Base palette file exceeds size limit".into());
+                }
+                total = total.saturating_add(bytes.len());
+                expected.resources[2].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected base palette resource".into()),
+        }
+        if total > MAX_DATASET_BYTES {
+            return Err("Resource files exceed total size limit".into());
+        }
+        if files.manifest != &expected {
             return Err(
                 "Resource manifest does not match the source/profile/schema or file hash".into(),
             );
@@ -207,6 +301,24 @@ impl Extraction {
                 != self.manifest.resources[0].sources[0].sha256
         {
             return Err("Decoded OBJ dimensions do not reproduce the selected ROM source".into());
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.background, files.background) {
+            let source = &self.manifest.resources[1].sources[0];
+            decoded.validate(source.offset, self.manifest.source_rom_size as usize)?;
+            if decoded != expected || ffta_rom::digest(&decoded.source_bytes()?) != source.sha256 {
+                return Err(
+                    "Decoded background descriptors do not reproduce the selected ROM source"
+                        .into(),
+                );
+            }
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.palettes, files.palettes) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {
+                return Err(
+                    "Decoded base palettes do not reproduce the selected ROM source".into(),
+                );
+            }
         }
         Ok(())
     }
@@ -263,12 +375,22 @@ mod tests {
         let mut manifest = extraction.manifest.clone();
         manifest.resources[0].sha256 = ffta_rom::digest(b"file");
         extraction
-            .validate_files(&manifest, &extraction.dimensions, b"file")
+            .validate_files(BaseFiles {
+                manifest: &manifest,
+                dimensions: (&extraction.dimensions, b"file"),
+                background: None,
+                palettes: None,
+            })
             .unwrap();
         let mut edited = extraction.dimensions.clone();
         edited.entries[0].width = 64;
         assert!(extraction
-            .validate_files(&manifest, &edited, b"file")
+            .validate_files(BaseFiles {
+                manifest: &manifest,
+                dimensions: (&edited, b"file"),
+                background: None,
+                palettes: None
+            })
             .is_err());
         for mutate in [0, 1, 2, 3, 4, 5, 6, 7] {
             let mut bad = manifest.clone();
@@ -283,11 +405,21 @@ mod tests {
                 _ => bad.coverage.push("unverified".into()),
             }
             assert!(extraction
-                .validate_files(&bad, &extraction.dimensions, b"file")
+                .validate_files(BaseFiles {
+                    manifest: &bad,
+                    dimensions: (&extraction.dimensions, b"file"),
+                    background: None,
+                    palettes: None
+                })
                 .is_err());
         }
         assert!(extraction
-            .validate_files(&manifest, &extraction.dimensions, b"other")
+            .validate_files(BaseFiles {
+                manifest: &manifest,
+                dimensions: (&extraction.dimensions, b"other"),
+                background: None,
+                palettes: None
+            })
             .is_err());
         rom[48] ^= 1;
         assert!(Extraction::from_ranges(&rom, "test".into(), "test", &ranges, &hash).is_err());

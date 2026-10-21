@@ -42,6 +42,12 @@ class PortableResourceTests(unittest.TestCase):
                     for name in ('ffta.gba', 'personal.sav', 'scene.ffstate', 'replay.input',
                                  'out/generated.c', 'Data/resources/source/v1/generation/manifest.toml',
                                  'Data/resources/source/v1/generation/obj-dimensions.toml',
+                                 'Data/resources/source/v1/e3-d2/generation/bg-descriptors.toml',
+                                 'resources/bg-descriptors.toml',
+                                 'Data/resources/source/v1/e4-d3/generation/bg-descriptors.json',
+                                 'resources/bg-descriptors.json',
+                                 'Data/resources/source/v1/e5-d4/generation/bg-base-palettes.json',
+                                 'resources/bg-base-palettes.json',
                                  'resources/obj-dimensions.toml', 'Data/cache/native.so'):
                         path = parent / name
                         path.parent.mkdir(parents=True, exist_ok=True)

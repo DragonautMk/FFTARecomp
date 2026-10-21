@@ -81,6 +81,23 @@ due root regionali di descrittori da88byte. Limiti del catalogo, campi interni,
 interpretazione dei pacchetti e lingue restano aperti.
 [Contratto e prove](../rom_data_graphics.md).
 
+**ROMDATA-01-BG-DESCRIPTOR-PREFIX completato per il blocco contiguo verificato:**
+162record/14256byte, tutti i riferimenti entro i limiti, primo payload distinto
+dai record e metadati identici nei due profili. Selettori condizionati verificati
+con le routine originali per ogni record, sentinelle e fallback. Riferimenti
+relativi, triple di trasferimento, puntatore variante e byte non interpretati
+sono distinti. La famiglia grafica01resta parziale per asset/programmi collegati,
+altri cataloghi e lingue. [Contratto](../rom_data_graphics.md#authenticated-descriptor-metadata).
+
+
+**ROMDATA-01-BG-PALETTES completato per il catalogo base dichiarato:** tutte
+le162voci puntano a127sorgenti per regione,125LZ77e2grezze. Intervalli, alias e
+buffer decodificati coincidono tra EUR/USA. Quattro oracoli originali Linux/Wine
+passano1296chiamate/72792istruzioni ciascuno, output/guardie completi e bit15
+preservato. I programmi per palette alternative sono distinti e non ancora
+classificati. Modello tipizzato gestito e consumo delle palette restano02/04.
+[Contratto e prove](../rom_data_graphics.md#base-background-palette-catalog).
+
 ## ROMDATA-02 — Estrattori e decoder
 
 **Dipendenze:** ROMDATA-01. Procedere per famiglie senza dichiarare finito il
@@ -116,6 +133,43 @@ limitati, riferimenti sovrapposti, consumo esatto senza padding e rifiuto di
 input malformati. Quattro test sintetici per target e confronto con le uscite
 guest già catturate passano su Linux/Wine. Non aggiunge ancora una famiglia al
 manifest: servono prima i contratti semantici del catalogo grafico.
+
+**ROMDATA-02-BG-PACKETS completato come componente offline:** parser tipizzati
+dei pacchetti a16bit e delle coppie indicizzate, con limiti di destinazione,
+scritture e numero di pacchetti. Tre test sintetici per target e confronti delle
+routine originali EUR/USA passano su Linux/Wine:7invocazioni/87160istruzioni
+per caso, tutta l'EWRAM confrontata e continuazione a blocchi verificata.
+Il ramo con coppie letterali conserva la sintassi, con guardia sulle destinazioni
+dopo una prova originale contraria all'ipotesi iniziale.
+[Contratto, prove e limiti](../rom_data_graphics.md#typed-background-packets).
+Catalogo e integrazione delle nuove risorse restano aperti.
+
+**ROMDATA-02-BG-DESCRIPTOR-METADATA completato come componente offline:** decoder
+tipizzato, controlli sui limiti, autenticazione della sorgente, roundtrip esatto
+e TOML deterministico. Tre test sintetici per target e quattro casi EUR/USA su
+Linux/Wine passano:2612chiamate originali/134629istruzioni per caso. I file di
+prova da106309byte coincidono sui quattro percorsi. Integrazione nel manifest,
+preparazione e consumo runtime sono stati selezionati separatamente come segue.
+
+**ROMDATA-02-BG-MANAGED completato per estrazione/verifica/preparazione:**
+nuovo file descrittori nel manifest, schema1/estrattore3/decoder2 e directory
+v1/e3-d2, con versioni precedenti conservate. Limiti16KiB manifest/OBJ,
+256KiB BG e272KiB totali; pubblicazione atomica di tre file, riuso completo,
+recupero, identità dell'intero dataset e attivazione autenticata. Passano25test
+Linux/23Wine,18controlli dei veri CLI per target e scenari privacy tar/zip.
+[Prove e limiti](../rom_data_graphics.md#managed-descriptor-extraction-and-preparation).
+Questa unità prova la preparazione; il successivo consumo diretto04è descritto sotto.
+
+
+**ROMDATA-02-BG-BASE-PALETTE-DATA completato:** modello di banchi da16valori
+u16, bit15conservato, parser limitato raw0/LZ7710e intervalli esatti senza
+padding. Tutte le162voci sono estratte in JSON leggibile; manifest con tutte
+le provenienze, quattro file e revisione1/5/4, vecchie generazioni conservate.
+Passano39test Linux/37Wine e22controlli CLI per target, inclusi oracoli originali,
+integrità/riparazione/rilocazione e compatibilità delle risorse già consumate.
+[Contratto e limiti](../rom_data_graphics.md#typed-palette-extraction-and-preparation).
+Le palette sono ora preparate/autenticate; il consumo effettivo04è il prossimo
+passo e resta distinto dai file esportati. Nessun lavoro di compressione/spazio.
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -200,6 +254,18 @@ La nuova tranche05 verifica scene/transizione EUR e costi locali descritti sotto
 il trace USA è ora verificato separatamente come descritto sotto. Gli altri
 gate e le altre famiglie restano aperti.
 
+**ROMDATA-04-BG-CONSUMPTION completato per metadati e prove iniziali:**
+162descrittori autenticati conservati come dati tipizzati immutabili; proiezioni
+CPU/DMA/API native e contatori BG separati. Schema/estrattore/decoder1/3/2,
+identità ROM/save/native e ABI invariati. Misurati440Bcondivisi/OBJ+28672BBG,
+entro i limiti1KiB/64KiB dichiarati prima dei test. Linux/Wine204core e98/97
+frontend passano; quattro casi regionali da2608chiamate confrontano originale,
+interprete e TinyCC anche con ROM sorgente in memoria alterata dopo attivazione.
+3867letture BG native per caso; Load/Undo/backup e file mancante verificati.
+Due avvii EUR nativi1200frame coincidono per tutti gli stati/immagini/OAM/audio,
+con53letture BG effettive. [Prove e limiti](../rom_data_graphics.md#direct-descriptor-consumption).
+Scene/GUI/costi05BG, asset/programmi collegati e altre famiglie restano aperti.
+
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
 **Dipendenze:** ogni integrazione ROMDATA-04, prima di abilitarla normalmente.
@@ -265,6 +331,31 @@ Non è una verifica completa delle scene/audio USA. ROMDATA-05 resta parziale
 per Windows nativo, non disponibile all'utente: per ora solo Linux/Wine.
 Abilitazione normale e altre famiglie/mod restano aperte.
 
+**ROMDATA-05-BG-SCENES-COSTS parziale:** parità completa Linux/Wine su mappa240,
+battaglia/menu3530e transizione8476frame; letture BG53nella transizione. Cinque
+coppie Linux passano i limiti di frame (+1,3600%/-0,6017%mediana media), così
+come avvio/riuso e spazio disco. Il picco RSS invece supera il limite2MiB:
++2864KiBmediana/+2944KiBmassimo. Risultato conservato, nessuna abilitazione
+normale. L'attribuzione individua la preparazione/parsing TOML; i prototipi
+TOML alternativo e inline sono respinti. Il prototipo JSON ha individuato il parsing diretto con22528Bdi heap; la
+revisione successiva adotta JSON standard leggibile, verificato nel runtime,
+seguendo la nuova preferenza utente descritta sotto.
+[Protocollo e risultati](ROM_DATA_VALIDATION.md#bg-metadata-e3-results-and-rss-failure).
+Le prove scene/tempi concluse non vanno ripetute per ricostruire il contesto;
+RSS, GUI/archivi BG e Windows nativo restano aperti.
+
+
+**ROMDATA-02-BG-JSON completato:** revisione1/4/3, BG in JSON leggibile standard
+con parsing diretto nelle strutture tipizzate; manifest/OBJ restano TOML.
+Generazioni e3precedenti conservate; autenticazione, guardie sugli input,
+riuso/riparazione e consumo nativo/interprete passano su Linux/Wine.
+[Prove](../rom_data_graphics.md#readable-json-datasets).
+**Preferenza aggiornata:** nessun lavoro per comprimere o risparmiare spazio
+nei dati estratti. I149261byte BG/150818del dataset sono accettati per
+leggibilità; limiti del parser proteggono da input malformati. I risultati dei
+costi e dei prototipi restano informativi, senza nuovi cicli per centrare il
+precedente limite disco. Prossima priorità: payload e cataloghi ancora in ROM.
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **Dipendenze:** completare la consegna principale ROMDATA-01…05.
@@ -314,7 +405,7 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-01-BG-DESCRIPTORS, confini e formato del catalogo
-grafico individuato dai chiamanti originali;
+**Prossima azione:** ROMDATA-04-BG-CONSUMPTION, collegare ai descrittori preparati
+le letture effettive CPU/DMA/API native e verificare provenienza e compatibilità;
 abilitazione normale soltanto con tutti i gate soddisfatti.
 Gli altri cataloghi, le migrazioni e le fasi mod restano nell'obiettivo completo.

@@ -72,11 +72,28 @@ are groundwork, not an additional runtime migration.
   Consumed lengths125/133/1481/2507decode to160/456/1996/2960bytes, matching
   actual IWRAM3860/EWRAM3cb0post-SWI outputs on Linux and Wine. Original callers
   independently reference88byte descriptors atUSA569104/EUR7662a8; record0
-  field0c resolves the first source. Total catalog bounds, other fields, packet
-  semantics, sharing and regional/language selectors remain unverified.
+  field0c resolves the first source. Fields04/08/10in record0point to outer
+  wrappers containing the observed LZ77 streams. Typed halfword and indexed-pair
+  packets now match actual regional writer instructions on Linux/Wine, including
+  staged/chunked application. Literal pair syntax retains a destination guard
+  after a contradictory original-code probe. The contiguous162-record descriptor
+  block is now source-authenticated/typed, with full metadata roundtrip and
+  original conditional-selector checks for all records on both targets. Relative
+  sources, optional transfer triples/variant source and tail bytes are retained.
+  Linked formats/programs, other catalog bounds, sharing and language completeness
+  remain unverified; this is not a complete graphics catalog.
   [Decoder contract, exact evidence and remaining work](../rom_data_graphics.md).
-  Managed extractor: absent; bounded offline LZ77 decoder: implemented/tested;
-  runtime: VRAM/palette plus original ROM producers. Verification needed:
+  Managed descriptor extraction/preparation: implemented, v1/e5-d4; bounded
+  offline LZ77/packet decoders also tested. Authenticated BG descriptor reads
+  now consume a file-derived session projection through CPU/DMA/native APIs,
+  with independent counters, real-file regional provenance and native boot
+  parity. Graphics payloads still reach VRAM/palette through original producers.
+  The complete base-palette links now identify127unique sources per region
+  (125LZ77,2raw), matching source/decoded hashes across regions and original
+  producers for all162records on Linux/Wine. Preserve allu16bits, including
+  bit15; alternate environment-specific palette programs remain distinct and
+  unclassified. Base words now have typed readable extraction/preparation; gameplay
+  consumption remains a separate04step. Needed:
   indexed pixels, palette identity/indices, transparency, tile order and all
   writes/timing, not only screenshot similarity.
 - **Terrain maps and movement planes.** `ffta_stage.rs` observes DMA and
@@ -128,34 +145,50 @@ are groundwork, not an additional runtime migration.
 
 ## Version 1 base dataset contract
 
-The initial implementation supports only `graphics.obj-dimensions`. Use a
-stable semantic ID, with row index `shape * 4 + size`; never use a source offset
-as the resource ID. Future assets add entries without changing this ID.
+The managed set contains `graphics.obj-dimensions`, `graphics.bg-descriptors`
+and `graphics.bg-base-palettes`. IDs remain semantic: OBJ index `shape * 4 + size`,
+BG record index within the authenticated162-record block; source offsets are
+provenance, not resource IDs. OBJ/BG metadata have direct consumption; base
+palette banks are prepared/authenticated while their gameplay remains ROM.
 
 - `manifest.toml`: schema revision, extractor revision, decoder revision,
   exact source ROM SHA-256/size and regional profile; a coverage list naming
-  only the decoded family; resource ID, relative file name, typed format,
+  only the decoded families; resource ID, relative file name, typed format,
   decoded-file SHA-256, dependency IDs and all original source ranges/hashes.
 - `obj-dimensions.toml`: twelve typed width/height records in index order.
   The file hash covers its exact bytes. The decoder verifies dimensions,
   length, source ranges and that canonical little-endian encoding reproduces
   the source table. No absolute paths, timestamps, ROM bytes or host pointers
   appear in the manifest. Generated assets remain private local files.
+- `bg-descriptors.json`: all162typed metadata records with exact source
+  roundtrip, validated relative links/transfer triples and retained tail bytes.
+  It does not contain linked graphics/program payloads. Its source range is
+  independently authenticated for each profile; file hashes cannot authorize
+  edited base semantics. All three resource files contribute to complete dataset identity.
+- `bg-base-palettes.json`: all162record-indexed base palettes as fullu16banks,
+  with source aliases preserved in162manifest ranges and a dependency on BG
+  descriptor IDs. Known source codecs raw0/LZ7710are bounded and exact extents
+  exclude padding. Preserve bit15and bank/index order; alternate environment
+  programs are distinct, unclassified assets. Gameplay consumption is pending.
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
   digest against the selected exact image. User edits belong to a future mod
   layer; do not silently accept them as base data.
-- Keep a bounded parser and fixed allowed relative file names for version 1.
+- Keep fixed names and bounded input:64KiB manifest (including162palette
+  provenance entries),16KiB OBJ,256KiB BG descriptors,512KiB base palettes and
+  768KiB total. These guard malformed input, not extracted-data space targets.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Automatic path: portable `Data/resources/<rom-sha256>/v1/e2-d1/`;
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e4-d3/`;
   installed uses local application data `FFTARecomp/resources`. Immutable
-  `generation-*` directories contain the two files; an atomic relative `current`
+  `generation-*` directories contain four files; an atomic relative `current`
   file selects one verified generation. Revisions have separate paths and an OS
   lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
-  implement reuse/recovery; direct consumption is opt-in, normal enablement awaits05.
+  implement reuse/recovery, retaining e1/e2/e3/e4 generations; direct OBJ and BG
+  metadata consumption is opt-in. Linked payloads/programs remain ROM.
+  Normal enablement awaits05.
   Native caches and saves remain separate.
 - Decoded base data are immutable host resources, shared for a session and
   rebuilt/rebound on load/Undo/clean-boot restore. Do not serialize their

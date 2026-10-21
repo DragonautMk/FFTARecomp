@@ -1,12 +1,13 @@
-# Direct decoded OBJ metadata consumption
+# Direct decoded metadata consumption
 
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
-and load `graphics.obj-dimensions` from the selected ROM's decoded dataset.
+and load `graphics.obj-dimensions` and `graphics.bg-descriptors` from the
+selected ROM's decoded dataset.
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
-[full TODO](development/ROM_DATA_TODO.md). This is a first-family migration,
-not ROM-free execution or complete graphics extraction.
+[full TODO](development/ROM_DATA_TODO.md). These bounded metadata migrations do not provide ROM-free execution or
+complete graphics extraction.
 
 ## Sources and typed readers
 
@@ -25,20 +26,31 @@ found during the runtime provenance investigation; extractor revision 2
 records it. The original USA initializer now has independent clean-boot
 execution/provenance coverage, described below; the EUR replay observes alias
 reads without attributing them to an initializer PC.
-Schema and decoder stay at 1 because the decoded format is
-unchanged. Managed storage therefore selects `v1/e2-d1`, retaining `e1-d1`.
+That alias expansion retained schema/decoder1 and selected `v1/e2-d1`,
+preserving `e1-d1`, because the OBJ format was unchanged.
+The managed metadata extension introduced `v1/e3-d2`. Current `v1/e5-d4`
+adds readable base-palette banks and retains all earlier revisions.
+Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
+The borrowed complete-file view authenticates all resources before changing
+the live object and includes every resource ID/file hash in dataset identity.
+Palette data are prepared with `runtime=rom`; their gameplay consumer is the
+next04step, not inferred from successful extraction. Both files are authenticated, contribute to dataset identity and
+remain in the immutable session. BG CPU/DMA/native reads now consume the
+file-derived projection, with independent counters; linked payloads remain ROM.
 
-`RuntimeResources` in `gba-core::rom_data` owns immutable typed entries and a
-48-byte little-endian guest projection. A source-bound session allocation is
-432 bytes by type-size/string-capacity accounting on the tested 64-bit targets,
-including Arc counters and identity strings, below the enforced 1 KiB resource
-limit. The machine also holds one optional Arc handle; allocator overhead and
+`RuntimeResources` in `gba-core::rom_data` owns immutable typed entries and
+little-endian source projections:48bytes for OBJ,14256bytes for BG. Current
+owned memory is440bytes shared/OBJ including Arc counters and identity strings,
+plus28672bytes for the BG owner, typed records, projection and file hash:
+29112bytes total on both tested64-bit targets. Enforced bounds were declared
+before testing:shared/OBJ<=1KiB and extraBG<=64KiB. Historical OBJ-only
+measurements below retain their432byte scope. The machine also holds one optional Arc handle; allocator overhead and
 process RSS are separate ROMDATA-05 measurements. The resource contains no file
 handle, filesystem callback, translation pointer or serialized guest state.
 There is no allocation or I/O on resource reads.
 
-The ROM arms of `MemMap::read8/read16/read32` check only the four fixed source
-pages. A regional constant-range dispatch supplies migrated bytes, including
+The ROM arms of `MemMap::read8/read16/read32` check only fixed source
+pages:four for OBJ and four BG pages per region. A regional constant-range dispatch supplies migrated bytes, including
 unaligned/crossing accesses; adjacent opaque bytes retain the original path.
 GPIO/EEPROM, mirrors and bounds/open-bus behavior keep their existing order.
 This is not a general manifest/resource lookup on every bus access. DMA already
@@ -63,7 +75,8 @@ and off-screen objects. Original guest instructions remain unchanged.
 ## Identity, snapshots and diagnostics
 
 ROM, decoded file and dataset have distinct SHA-256 identities. The dataset
-identity includes source, schema, extractor/decoder revisions and file hash.
+identity includes source, schema, extractor/decoder revisions and every
+prepared resource ID/file hash in the pinned order, including BG metadata.
 Only a source-equal unmodified base can enter this runtime API. Native cache
 keys and verified ROM profiles remain tied to the original image: generated
 loads use bus callbacks and the accepted guest representation is byte-equal.
@@ -81,13 +94,40 @@ falling back. Managed startup can regenerate those files from the source ROM.
 
 Activation prints `ROM_DATA runtime=decoded` with resource/source/dataset/file
 identities and resident bytes. Shutdown/headless completion prints
-`ROM_DATA_USE` counters for bus, typed host ROM/RAM, changed RAM and validation.
+`ROM_DATA_USE` counters for OBJ bus, typed host ROM/RAM, changed RAM and
+validation, plus separate BG bus operations and projected byte counts.
 `bus_source_mask` bit 0 identifies the direct/primary source, bit 1 the copied
 alias. Counters describe use, not timing or speedup. An in-view boot scene can
 legitimately show zero guest metadata reads because the original draw routine
 fetches dimensions only for clipping/flips; host file use is recorded separately.
 
-## Evidence and scope
+## Current BG consumption evidence
+
+The authenticated162-record block atUSA569104/EUR7662a8 now supplies all
+fixed-source bus projections. No payload decoder or original producer is
+bypassed. Linux/Wine pass204core tests (7optional ignored), including every
+width/mirror/edge, native API reads, CPU/DMA and unchanged snapshots. The
+frontend defaults pass98Linux/97Wine (18optional ignored).
+
+Real e3files feed2608selector invocations per region/target, with raw descriptor
+ROM bytes poisoned after activation. Original interpreter, file-backed
+interpreter and actual TinyCC code agree on registers/CPSR/clock/EWRAM/IWRAM;
+restoring only the test poison gives identical complete snapshots. Each case
+records134424original instructions,5836native dispatches,660event-boundary
+interpreter shells,3867native BG byte-load callbacks and3888total BG reads.
+No zero-fallback claim is made. Missing/corrupt activation is transactional;
+reads survive deletion of the activated BG file, Load, Slots Undo and backup
+clean boot with the same resource owner and retained counters.
+
+New EUR native1200-frame clean-boot pairs pass every complete state, central/
+wide image, OAM, dispatch and mixed/PSG/both FIFO/HLE audio stream (HLE by bits)
+on Linux and Wine independently. Both reach53BG reads; all five audio streams
+are nonempty. Existing target-specific TinyCC objects are reused. Actual
+production CLI evidence and detailed limits are in the
+[graphics runtime section](rom_data_graphics.md#direct-descriptor-consumption).
+Broader BG scenes/GUI/costs and native Windows remain separate05gates.
+
+## Retained OBJ evidence and scope
 
 - Linux release suites pass 191 core and 95 runtime tests; Windows GNU/Wine
   passes 191 and 94. Optional local-ROM/native tests are run separately. Tests

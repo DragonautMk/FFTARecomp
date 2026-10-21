@@ -1,6 +1,9 @@
-//! Immutable, authenticated base data. Only the verified OBJ metadata ranges
+//! Immutable, authenticated base data. Only the verified OBJ/BG metadata ranges
 //! are projected onto guest reads; no instruction, timing or DMA is skipped.
 use super::*;
+mod background;
+use background::BackgroundResources;
+pub use background::BackgroundStats;
 use std::sync::{
     atomic::{AtomicU64, Ordering},
     Arc,
@@ -29,34 +32,47 @@ pub struct RuntimeResources {
     host_ram_reads: AtomicU64,
     dynamic_ram_reads: AtomicU64,
     validation_reads: AtomicU64,
+    background: Option<Box<BackgroundResources>>,
 }
 
 impl RuntimeResources {
     /// The frontend supplies structures parsed from the very bytes whose file
     /// digest is in the manifest. Reauthenticate the base against the actual
     /// selected image; no editable/mod resource can enter through this API.
-    pub fn from_base_files(
-        rom: &[u8],
-        manifest: &Manifest,
-        dimensions: ObjDimensions,
-        file_bytes: &[u8],
-    ) -> Result<Arc<Self>, String> {
+    pub fn from_base_files(rom: &[u8], files: BaseFiles<'_>) -> Result<Arc<Self>, String> {
         let source = Extraction::from_rom(rom)?;
-        source.validate_files(manifest, &dimensions, file_bytes)?;
+        source.validate_files(files)?;
+        let manifest = files.manifest;
+        let dimensions = files.dimensions.0.clone();
+        let background = files.background;
         let file_sha256 = manifest.resources[0].sha256.clone();
         let mut identity = b"FFTA-BASE-RESOURCES-v1\0".to_vec();
         identity.extend_from_slice(manifest.source_rom_sha256.as_bytes());
         identity.extend_from_slice(&manifest.schema.to_le_bytes());
         identity.extend_from_slice(&manifest.extractor_revision.to_le_bytes());
         identity.extend_from_slice(&manifest.decoder_revision.to_le_bytes());
-        identity.extend_from_slice(file_sha256.as_bytes());
-        Ok(Arc::new(Self::new(
+        for resource in &manifest.resources {
+            identity.extend_from_slice(resource.id.as_bytes());
+            identity.push(0);
+            identity.extend_from_slice(resource.sha256.as_bytes());
+            identity.push(0);
+        }
+        let mut resources = Self::new(
             source.manifest.source_rom_sha256.clone(),
             ffta_rom::digest(&identity),
             file_sha256,
             source.version(),
             dimensions,
-        )))
+        );
+        if let Some((decoded, _)) = background {
+            let root = source.manifest.resources[1].sources[0].offset as usize;
+            resources.background = Some(Box::new(BackgroundResources::new(
+                root,
+                decoded.clone(),
+                manifest.resources[1].sha256.clone(),
+            )?));
+        }
+        Ok(Arc::new(resources))
     }
 
     fn new(
@@ -80,6 +96,7 @@ impl RuntimeResources {
             host_ram_reads: AtomicU64::new(0),
             dynamic_ram_reads: AtomicU64::new(0),
             validation_reads: AtomicU64::new(0),
+            background: None,
         }
     }
 
@@ -96,12 +113,29 @@ impl RuntimeResources {
         OBJ_DIMENSIONS_ID
     }
 
-    /// Fixed session allocation, excluding Arc's two reference counters.
-    pub fn resident_bytes(&self) -> usize {
+    /// Shared/OBJ session allocation, excluding Arc's two reference counters.
+    pub fn obj_resident_bytes(&self) -> usize {
         std::mem::size_of::<Self>()
             + self.source_sha256.capacity()
             + self.dataset_sha256.capacity()
             + self.file_sha256.capacity()
+    }
+
+    pub fn background_resident_bytes(&self) -> usize {
+        self.background.as_ref().map_or(0, |bg| bg.resident_bytes())
+    }
+
+    /// Complete owned session allocation, excluding the shared Arc headers.
+    pub fn resident_bytes(&self) -> usize {
+        self.obj_resident_bytes() + self.background_resident_bytes()
+    }
+
+    pub fn background_file_sha256(&self) -> Option<&str> {
+        self.background.as_ref().map(|bg| bg.file_sha256())
+    }
+
+    pub fn background_stats(&self) -> Option<BackgroundStats> {
+        self.background.as_ref().map(|bg| bg.stats())
     }
 
     pub fn stats(&self) -> ResourceStats {
@@ -128,10 +162,12 @@ impl RuntimeResources {
     }
 
     /// Only the ROM read arms call this, after their GPIO/EEPROM and bounds
-    /// checks, and only on one of the four fixed source pages. Crossing reads
+    /// checks, and only on the fixed metadata source pages. Crossing reads
     /// keep adjacent opaque ROM bytes without reading a migrated byte there.
     pub(crate) fn guest_read<const N: usize>(&self, index: usize, rom: &[u8]) -> Option<[u8; N]> {
-        let base = self.source_offset(index, N)?;
+        let Some(base) = self.source_offset(index, N) else {
+            return self.background.as_ref()?.guest_read(index, rom);
+        };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
             1
@@ -244,8 +280,9 @@ impl crate::MemMap {
     }
 
     #[inline]
-    pub(crate) fn obj_resource_page(index: usize) -> bool {
-        matches!(index >> 12, 0x149 | 0x14c | 0xa39 | 0xd97)
+    pub(crate) fn resource_page(index: usize) -> bool {
+        matches!(index >> 12, 0x149 | 0x14c | 0xa39 | 0xd97
+            | 0x569..=0x56c | 0x766..=0x769)
     }
 }
 

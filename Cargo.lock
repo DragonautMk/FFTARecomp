@@ -4537,6 +4537,7 @@ dependencies = [
  "rfd 0.15.4",
  "screen",
  "serde",
+ "serde_json",
  "sha2 0.11.0",
  "softbuffer",
  "tempfile",

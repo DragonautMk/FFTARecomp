@@ -59,8 +59,44 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   [Graphics groundwork](../rom_data_graphics.md) adds bounded offline LZ77
   decoding, four independently observed source ranges per region and exact
   comparisons to captured guest destinations on Linux/Wine. Original callers
-  identify88byte descriptor roots atUSA569104/EUR7662a8; catalog bounds and
-  packet semantics remain unverified. Graphics are not in the active dataset.
+  identify88byte descriptor roots atUSA569104/EUR7662a8. Typed halfword and
+  indexed-pair packet decoders now match original regional writers, including
+  chunk continuation, on Linux/Wine. Literal pair syntax has a separate
+  destination guard after an original-code negative probe. A source-authenticated
+  typed model now verifies the contiguous162-record/14256-byte descriptor block,
+  exact source/TOML roundtrip and original selectors for every record on Linux/
+  Wine. Links, transfer triples, optional variant pointer and opaque tail bytes
+  are distinguished. Managed v1/e5-d4 extracts/verifies/prepares OBJ, BG metadata and base
+  palette banks:64KiB manifest/16KiB OBJ/256KiB descriptors/512KiB palettes/
+  768KiB total input guards, atomic four-file publication/reuse/repair and prior-version retention. Activation
+  authenticates all files and hashes every ID/file into dataset identity;
+  direct BG source reads now use its retained typed metadata/projection through
+  fixed CPU/DMA/native bus paths with separate diagnostics/counters. Owned
+  memory440shared/OBJ+28672BGbytes stays within predeclared1KiB/64KiB limits.
+  Linux/Wine204core tests,98/97frontend defaults, regional original/native
+  poisoned-ROM provenance and Load/Undo/backup pass. New1200-frame EUR native
+  boots match every full state/image/OAM/dispatch/audio with53BG reads each.
+  Current BG worldmap/battle/boot-transition full-state/image/audio parity now
+  passes Linux/Wine; five native timing pairs and startup/disk gates pass.
+  Historical e3 TOML peak RSS exceeds the declared2MiB diagnostic bound,
+  mostly preparation/parsing rather than the29KiBowner. Current e4 JSON uses
+  direct typed parsing and standard readable formatting; actual regional file/
+  native/lifecycle/CLI checks pass and old e3data remain intact. The user removes
+  extracted-data space minimization as a priority, so no packing/indentation
+  tuning or extra budget-only campaign continues. Current whole-process JSON
+  RSS is not inferred from the parser prototype. Remaining BG GUI/archive,
+  associated payload/program formats, other catalogs and language coverage.
+
+  The next content family has a complete declared base-palette inventory:
+  all162descriptor links resolve127unique sources per region (125LZ77/2raw),
+  with equivalent source/output hashes. Original regional producers match all
+  decoded buffers on Linux/Wine in1296calls/72792instructions each, including
+  direct/current IDs and both base environment modes. Fullu16palette words
+  retain bit15; alternate environment programs remain unclassified. A bounded
+  typed palette model and readable four-file preparation now pass39Linux/37Wine
+  affected checks and22actual CLI checks per target, including original producer
+  comparison, prior e4retention, full-set identity and transactional failures.
+  Gameplay palette consumption is the next04step; preparation reports runtimeROM.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

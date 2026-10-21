@@ -124,7 +124,7 @@ fn ensure_directory(path: &Path) -> Result<(), String> {
 }
 
 fn active_dataset(revision: &Path, source: &Extraction) -> Result<Prepared, String> {
-    let bytes = read_bounded(&revision.join(ACTIVE))?;
+    let bytes = read_bounded(&revision.join(ACTIVE), 80)?;
     if bytes.len() > 80 {
         return Err("Game data generation name is too long".into());
     }
@@ -282,11 +282,13 @@ pub fn prepare_startup(rom: &[u8], status: bool) -> Result<Prepared, String> {
     let root = storage_root()?;
     let prepared = prepare(&root, &mut source, &mut console_progress(status))?;
     eprintln!(
-        "resources: {} {} from {} ({} dimensions loaded)",
+        "resources: {} {} from {} ({} dimensions, {} background descriptors, {} base palettes verified)",
         prepared.action,
         source.manifest.coverage.join(","),
         prepared.directory.display(),
-        prepared.dimensions.entries.len()
+        prepared.dimensions.entries.len(),
+        source.background.as_ref().map_or(0, |bg| bg.entries.len()),
+        source.palettes.as_ref().map_or(0, |catalog| catalog.decoded.entries.len())
     );
     Ok(prepared)
 }
@@ -355,6 +357,92 @@ mod tests {
         let repaired_missing = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(repaired_missing.action, "repaired");
         verify(&repaired_missing.directory, &source).unwrap();
+    }
+
+    #[test]
+    fn background_repair_and_partial_write_keep_committed_generation() {
+        let temp = tempfile::tempdir().unwrap();
+        let original = fixture();
+        let mut source = fixture();
+        let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        let revision = revision_directory(temp.path(), &source).unwrap();
+        let pointer = fs::read(revision.join(ACTIVE)).unwrap();
+        let bg = fs::read(first.directory.join(BG_DESCRIPTORS_FILE)).unwrap();
+        let mut updated = fixture();
+        updated.manifest.resources[1].format = "synthetic-updated-bg".into();
+        let error = prepare_with_writer(
+            temp.path(),
+            &mut updated,
+            &mut |_| Ok(()),
+            &mut |path, bytes| {
+                if path.file_name().unwrap() == BG_DESCRIPTORS_FILE {
+                    fs::write(path, b"partial-background").unwrap();
+                    return Err("simulated background storage failure".into());
+                }
+                write_synced(path, bytes)
+            },
+        )
+        .err()
+        .unwrap();
+        assert!(error.contains("background storage failure"));
+        assert_eq!(fs::read(revision.join(ACTIVE)).unwrap(), pointer);
+        assert_eq!(
+            fs::read(first.directory.join(BG_DESCRIPTORS_FILE)).unwrap(),
+            bg
+        );
+        verify(&first.directory, &original).unwrap();
+        fs::remove_file(first.directory.join(BG_DESCRIPTORS_FILE)).unwrap();
+        let repaired = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        assert_eq!(repaired.action, "repaired");
+        assert_ne!(repaired.directory, first.directory);
+        assert_eq!(
+            fs::read(repaired.directory.join(BG_DESCRIPTORS_FILE)).unwrap(),
+            bg
+        );
+        assert!(!first.directory.join(BG_DESCRIPTORS_FILE).exists());
+    }
+
+    #[test]
+    fn palette_partial_write_and_missing_repair_keep_prior_generation() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut source = fixture();
+        let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        let revision = revision_directory(temp.path(), &source).unwrap();
+        let pointer = fs::read(revision.join(ACTIVE)).unwrap();
+        let palette = fs::read(first.directory.join(BG_BASE_PALETTES_FILE)).unwrap();
+        let mut updated = fixture();
+        updated.manifest.resources[2].format = "synthetic-updated-palette".into();
+        let error = prepare_with_writer(
+            temp.path(),
+            &mut updated,
+            &mut |_| Ok(()),
+            &mut |path, bytes| {
+                if path.file_name().unwrap() == BG_BASE_PALETTES_FILE {
+                    fs::write(path, b"partial-palette").unwrap();
+                    return Err("simulated palette storage failure".into());
+                }
+                write_synced(path, bytes)
+            },
+        )
+        .err()
+        .unwrap();
+        assert!(error.contains("palette storage failure"));
+        assert_eq!(fs::read(revision.join(ACTIVE)).unwrap(), pointer);
+        assert_eq!(
+            fs::read(first.directory.join(BG_BASE_PALETTES_FILE)).unwrap(),
+            palette
+        );
+        verify(&first.directory, &source).unwrap();
+        fs::remove_file(first.directory.join(BG_BASE_PALETTES_FILE)).unwrap();
+        let repaired = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        assert_eq!(repaired.action, "repaired");
+        assert_ne!(repaired.directory, first.directory);
+        assert!(!first.directory.join(BG_BASE_PALETTES_FILE).exists());
+        assert_eq!(
+            fs::read(repaired.directory.join(BG_BASE_PALETTES_FILE)).unwrap(),
+            palette
+        );
+        verify(&repaired.directory, &source).unwrap();
     }
 
     #[test]

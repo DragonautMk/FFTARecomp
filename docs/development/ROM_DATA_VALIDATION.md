@@ -334,3 +334,111 @@ Evidence: ignored `target/rom-data-initializer/` copy-pointer-xrefs.json,
 regional overlay-copy disassemblies, both build logs/executable metadata,
 native/windows-result.json and terminal usa-initializer logs. No live process
 or remaining deliverable for this bounded gate; other families remain open.
+
+## BG metadata scene and cost protocol
+
+ROMDATA-05-BG-SCENES-COSTS is selected after the bounded04consumption unit.
+Its changed fixed bus pages/owner make new comparisons necessary; historical
+OBJ-only results remain closed at their original revision. Reuse existing e3
+files, recorded scenes/save/input and platform-specific TinyCC objects. No
+fixture is recreated merely to recover context.
+
+Before any new measurement, retain exact full-state/image/OAM/clock/RNG/audio
+and dispatch equality, five alternating timing pairs with+2%median mean,
++5%p95/+10%p99diagnostic gates, seven first/cached observations with250/100ms
+median limits, shared/OBJ<=1KiB and extraBG<=64KiB, plus peakRSS delta<=2MiB.
+The new three-file generation has a128KiB logical/256KiB allocated disk bound;
+the old32KiB OBJ-only bound predates the106309byte BG file and is retained
+only for its original scope. Report all observations/maxima and old/orphan
+storage separately; preserve prior generations and private inputs.
+
+Use the frozen warning-free managed CLI reference and04BG candidate compiled
+at the same root source path/toolchain/release flags. Reference flag-off versus
+candidate flag-on measures the full current decoded set against the preceding
+ROM-memory path, including the added fixed gate/owner overhead. Source/hash
+metadata must establish the comparison; on/off in the new binary alone would
+omit its always-present changes. A separate managed flag-on result is needed
+only if attributing the BG increment requires it. Original no-resource-layout
+OBJ measurements remain separate; no exact whole-history additive speedup is
+inferred. New source builds are not needed for already frozen production code.
+
+CPU affinity is not exclusivity: sample the selected CPU and SMT sibling,
+run timing after builds/verification have terminated, and retain host-load
+failures. Startup source-I/O/decode/preparation/activation and whole-process
+wall are separate. GUI/Fast/pause/Load/Undo/backup, archives, native Windows and
+payload/catalog/mod work remain distinct gates.
+
+The existing ignored diagnostic
+`rom_data::validation_tests::decoded_base_matches_recorded_scene_at_every_frame`
+accepts `FFTA_STATE_TEST_DATASET` to reuse a source-authenticated directory.
+It emits `ROM_DATA_BG_SCENE` with bus operations/projected bytes. Set
+`FFTA_STATE_TEST_REQUIRE_BG=1` only for a replay expected to read BG metadata;
+a stable world-map segment legitimately has no such reads. All previous
+state/image/OAM/dispatch/full-audio comparisons remain exact. With no explicit
+dataset, the helper retains its private temporary extraction path.
+
+### BG metadata e3 results and RSS failure
+
+All new recorded-scene comparisons pass independently on Linux and Wine:
+worldmap240,battle/menu3530and boot-to-battle8476frames. Every full state,
+central/wide image,OAM,dispatch and mixed/PSG/both FIFO/HLE stream matches;
+HLE compares bits with nonempty streams. Stable segments read BG0; the full
+transition requires and records53BG reads each. No missing use is inferred
+from the stable scene. These checks are closed for the frozen04runtime.
+
+Five alternating native timing pairs against the frozen preceding ROM-memory
+path pass all declared limits:worldmap2.153014->2.182296ms(+1.3600%),observed
+battle/menu6.011131->5.974965ms(-0.6017%). Separate p95/p99deltas are+1.7286/
++2.0514%and+1.0092/-2.0592%. CPU15's SMT14mean busy0.661/0.578%,one-second
+maxima1.98/12%; no agent build/heavy verification overlaps timing. This is a
+neutral local headless result. No realtime/native Windows speedup is claimed.
+
+Seven first/cached observations give medians51.943/40.225ms Linux and66.387/
+47.001ms Wine, maxima58.944/41.429and72.946/49.630ms, passing250/100ms gates.
+Owned memory29112B and one generation107861logical/118784allocated bytes
+pass their predeclared bounds. Its managed root is107879logical/139264allocated
+bytes including selection/lock/ancestors. No old/orphan generation exists in
+these new measurement roots; prior user generations were retained. Wine uses
+host-backed Z storage, not a native Windows filesystem measurement. Whole
+ready-dataset command medians264.836->314.892ms Linux and364.999->415.250ms
+Wine warm-prefix include common ROM/loader work and are separate observations.
+
+**Native RSS fails the2048KiB gate:** seven pairs have median+2864KiB and
+maximum+2944KiB. Raw values and failed status remain retained; normal enablement
+is withheld. Prepared-only e3 reference observations peak similarly (median
+184996/max185140KiB) to the active owner (185004/185224KiB). This attributes
+most excess to preparation/parsing; distributions do not establish a precise
+per-owner RSS increment. Owned type accounting is not a substitute for RSS.
+
+An isolated custom allocator measures the actual typed162-record parse and
+checks its complete source projection digest. Existing TOML0.8requests1942055B
+of peak temporary heap; inline-table TOML1952069B and cached TOML1.1requests
+3381232B. Both alternatives are rejected as memory remedies. Direct cached
+rlib setup initially mixed build/runtime serde traits and failed before any
+parse; a separate Cargo graph fixes only that diagnostic setup. No production
+parser dependency changes. JSON directly deserializes into the same typed data
+with22528Bpeak; default pretty output149261Bexceeds the128KiB logical gate.
+One-space pretty JSON123663Bfits it with the manifest/OBJ files and retains the
+same low parser peak. This is a concrete next encoding remedy, not an accepted
+runtime/RSS result or a reason to widen the measured limit.
+
+Evidence:target/rom-data-bg-validation/verification-summary.json, frozen-inputs,
+scene logs/protected inputs, native-{worldmap,enemy-menu} summaries/all raw runs,
+host-load samples, startup TOMLs/results, RSS/launch logs, cost-summary and the
+isolated parser/prepared-only attribution. Scene/time/startup/disk observations
+are terminal; the RSS gate stays open pending a versioned bounded-format change
+and actual runtime validation. No production rebuild, canonical update, export,
+AndroidPort change, agent commit/push or old fixture recreation occurred.
+
+### Updated user preference and JSON encoding
+
+The user now explicitly asks to prioritize the full migration without reducing
+or compressing the space used by extracted ROM data. Earlier measurements and
+failed thresholds above remain honest historical evidence; they do not trigger
+further disk packing or indentation tuning. Current e4-d3 adopts standard
+readable JSON149261B for BG,150818B per generation, with direct typed parsing.
+The one-space prototype is not adopted. Per-file limits remain malformed-input
+bounds. No current whole-process RSS result is inferred from the isolated heap
+probe, and no new budget-only benchmark campaign is required by this steering.
+Functional source/state/timing/native/save equivalence and native Windows
+requirements remain separate from that storage preference.

@@ -100,8 +100,14 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
     let mut decoded = make_machine(rom.clone(), None);
     let directory = tempfile::tempdir().unwrap();
     let mut source = Extraction::from_rom(&rom).unwrap();
-    let dataset = directory.path().join("decoded");
-    extract(&dataset, &mut source).unwrap();
+    let dataset = match std::env::var_os("FFTA_STATE_TEST_DATASET") {
+        Some(path) => PathBuf::from(path),
+        None => {
+            let dataset = directory.path().join("decoded");
+            extract(&dataset, &mut source).unwrap();
+            dataset
+        }
+    };
     attach_from_directory(&mut decoded, &dataset).unwrap();
     for machine in [&mut legacy, &mut decoded] {
         if let Some(path) = &state {
@@ -196,6 +202,18 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         "all audio streams need actual samples: {audio:?}"
     );
     let stats = decoded.bus.rom_resources().unwrap().stats();
+    let bg = decoded
+        .bus
+        .rom_resources()
+        .unwrap()
+        .background_stats()
+        .unwrap();
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_BG").is_some() {
+        assert!(
+            bg.bus_reads > 0,
+            "this scene must exercise BG metadata reads"
+        );
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(
@@ -209,6 +227,10 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         "typed consumers must execute"
     );
     eprintln!("ROM_DATA_SCENE frames={frames} first={first} native={} fallback={} full_states={frames} audio={audio:?} bus_reads={} host_rom_reads={} host_ram_reads={} dynamic_ram_reads={} bus_source_mask={}", dispatch[0], dispatch[1], stats.bus_reads, stats.host_rom_reads, stats.host_ram_reads, stats.dynamic_ram_reads, stats.bus_source_mask);
+    eprintln!(
+        "ROM_DATA_BG_SCENE frames={frames} bus_reads={} projected_bytes={}",
+        bg.bus_reads, bg.projected_bytes
+    );
 }
 
 fn clear_audio(machine: &mut gba_core::Machine) {

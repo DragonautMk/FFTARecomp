@@ -306,7 +306,7 @@ An open parent never reopens completed children or rejected experiments.
   downstream packet meanings of the actual88byte catalog before designing a
   managed graphics resource. Select with checkpoint; reuse the exact traces,
   offline decoder and caller disassembly, not old OBJ benchmarks/GUI/archives.
-- Selection checkpoint: latest full goal and Linux/Wine-only availability
+- Initial selection checkpoint (historical): full goal and Linux/Wine-only availability
   unchanged. **ROMDATA-01-BG-DESCRIPTORS — selected / in progress**. Preceding
   producer/decoder units are closed with terminal evidence; no build/test repeat
   selected. Known: regional roots, stride88 and record0field0c pointer. Missing:
@@ -323,18 +323,416 @@ An open parent never reopens completed children or rejected experiments.
   and validate a typed packet interpretation against the saved outputs.
 - Initial static inspection retained in target/rom-data-graphics/
   descriptor-candidate-structure.json: first relative payload offset0x37b0
-  aligns with162records of88bytes, but **162 remains a count hypothesis**,
-  not a verified catalog limit. Candidate records match across the two roots.
+  aligned with162records of88bytes, initially a count hypothesis.
+  The later authenticated contiguous-prefix result below supersedes that
+  hypothesis for this metadata block; other catalogs remain unverified.
   Record0fields04/08/10point to an outer11ffffff wrapper, with the actual
   observed LZ77 stream4bytes later; field0c points directly to LZ77. Several
   later fields mix optional relative pointers and absolute VRAM destinations,
   so treating all22words as pointers would be wrong. No new decoder/catalog
-  implementation selected from this observation. Next follow the original
-  post-LZ77 packet consumers (USA1f124/1f098 and independently located EUR
-  counterparts), prove the table boundary and field roles, then define a typed
-  contract. Reuse private caller/descriptor-loader disassembly and existing
-  source captures. All processes terminal; no new boot/build/replay required
-  merely for resumption. This descriptor unit remains partial/unimplemented.
+  implementation was selected from this observation alone. Subsequent packet
+  and metadata outcomes follow below; this historical exploration is not a
+  rerun queue. Full graphics descriptors/payload coverage remains partial.
+- **ROMDATA-02-BG-PACKETS — complete for offline typed packet component.**
+  [Contract/scope](../rom_data_graphics.md#typed-background-packets),
+  [record](../changes/2026-10-21-decode-background-patch-packets.json).
+  Halfword literal/external-dictionary syntax and compact paired-plane
+  dictionary8/16bit indices, implicit/explicit pairs, ordered repeated writes,
+  exact terminators and destination/cumulative-write/packet limits implemented.
+  Three core tests per target and four EUR/USA Linux/Wine original-code cases
+  pass; each case7invocations/87160instructions, all EWRAM at completion matches.
+  Captured payloads reused without boot replay. Wide indexed plane matches
+  unlimited and2048byte chunked original processing; narrow index also checked.
+- Literal plane destination assumption was contradicted by the original
+  isolated branch. Typed syntax retained; calculated-plane accessor refuses
+  that interpretation. Recording-bus negative probe on both regions/targets
+  confirms a write at region0 with plane RAM unchanged. This probe does not
+  advance the hardware clock; no timing/full-CPU/audio/IRQ equivalence claimed.
+  Initial8bit exploratory parse was also discarded after flag inspection showed
+  captured16bit indices. Failed literal pre-guard log/builds retained under
+  target/rom-data-bg-packets/before-literal-destination-evidence/.
+- Evidence target/rom-data-bg-packets/verification-summary.json, native/windows
+  results/build metadata/logs, core tests and original-packet logs. Source ROM,
+  canonical runtimes and old capture/trace/output hashes unchanged. Final API
+  doc comment only changes the consumed-field description; reconstructed tested
+  preimage matches its recorded source hash. No executable change after tests.
+  All processes57110/59294/51628/91395/69378/42448/80069/76845/70652/9101terminal;
+  no live work or remaining deliverable for this bounded packet component.
+  HEAD10af0e6 now contains the prior initializer/LZ77 unit committed externally;
+  no agent commit/push, public archive or AndroidPort change.
+- The subsequent metadata result closes the contiguous-prefix/selector
+  criterion of **ROMDATA-01-BG-DESCRIPTORS**. The broader graphics family stays
+  partial for linked formats/programs, other catalogs and language coverage.
+- Continuation checkpoint: preceding turn **progress**, verified by the closed
+  packet component's four terminal original-code results and protected hashes.
+  Full goal and Linux/Wine-only availability unchanged. **ROMDATA-01-BG-DESCRIPTORS
+  continues**: define a bounded authenticated catalog and verified field roles;
+  next inspect existing original getters/loaders and the exact table boundary.
+  No packet/boot/scene/performance rerun selected; existing uncommitted work
+  preserved. The resulting structural/original-consumer evidence follows.
+
+- **ROMDATA-01-BG-DESCRIPTOR-PREFIX / ROMDATA-02-BG-DESCRIPTOR-METADATA — complete
+  for authenticated contiguous metadata contract/offline decoder.**
+  [Contract](../rom_data_graphics.md#authenticated-descriptor-metadata),
+  [record](../changes/2026-10-21-decode-authenticated-bg-descriptors.json).
+  All162records/14256bytes structurally valid at independently read regional
+  roots/literals; lowest relative payload is0x37b0, all links outside table and
+  within image, transfer triples consistent/aligned. Next payload cannot extend
+  the descriptor block. Exact source bytes/hash match across regions.
+- Typed sources/optional transfers and variant pointer preserve all88bytes;
+  54/55are conditional selectors, not dimensions,56alternate palette key,
+  57retained opaque byte. Optional50is a relative source, not a boolean despite
+  presence getters. Payload lengths/programs/game-level selector names are not
+  inferred. Source-authenticated constructor rejects changed ROMs; bound record
+  count512 and strict group/range validation, full metadata roundtrip/serde.
+- Three core tests per target and four regional Linux/Wine original-selector
+  cases terminal/pass; each2612calls/134629instructions checks all162IDs,
+  eight environment values, direct/current forms, ff sentinels and memory-only
+  post-authentication fallback probe, restoring its byte; all EWRAM read-only.
+  Four deterministic106309-byte TOML outputs identical; builds warning-free.
+  Source ROM, decoder/test sources and canonical runtime hashes preserved.
+- Evidence ignored target/rom-data-bg-descriptors/: structural-boundary.json,
+  build/executable metadata, core/original-selector logs, native/windows-results,
+  four TOML/result directories and verification-summary.json. Exact root/loader
+  reference disassembly and descriptor-prefix-boundary.json retained under
+  target/rom-data-graphics/. Processes86422/7957/80795/66185terminal; Wine
+  final runner also terminal/exit0. No successful closed unit repeated, live
+  process, agent commit/push/export, public archive or AndroidPort change.
+- No remaining deliverable for these bounded metadata units. Full goal stays
+  active; native Windows unavailable/not waived. **Next open unit:
+  ROMDATA-02-BG-MANAGED**: add authenticated descriptors to managed extraction/
+  verification and versioned preparation with explicit per-file/total budgets,
+  retaining existing OBJ files/generations; then04actual CPU/native/DMA reads.
+  Current private TOML exceeds the OBJ-only16KiB bound and must not be silently
+  admitted by relaxing every file cap. Graphics payloads/programs/other catalogs/
+  languages remain distinct open migration work, not closed by this metadata.
+- **ROMDATA-02-BG-MANAGED — complete for three-file extraction/verification/
+  preparation and whole-set activation authentication.**
+  [Contract/results](../rom_data_graphics.md#managed-descriptor-extraction-and-preparation),
+  [record](../changes/2026-10-21-prepare-authenticated-bg-metadata-datasets.json).
+  Schema1/extractor3/decoder2 ->v1/e3-d2; e1/e2 retained. Fixed manifest/OBJ/BG
+  filenames,16KiB/16KiB/256KiB caps and272KiB total. All three files synced and
+  source-validated before atomic publication/selection; no-write verified reuse,
+  missing/corrupt BG repair retains old generations and simulated partial-BG
+  failure preserves the prior commit. Runtime activation authenticates both
+  metadata files and hashes all IDs/files into dataset identity, while current
+  ownership/projections stay OBJ-only; BG prints prepared/runtime=rom.
+- Affected release tests: native2core extraction+4core runtime+7file+10preparation,
+  Wine2+4+6+9; two Unix symlinks explain counts. Two private regional/lifecycle
+  tests per target pass on both ROMs: command handlers, actual old e2-d1import/
+  preservation, rehashed edit/missing-file transactional failure, semantic-equal
+  annotation changes complete identity while OBJ identity remains, source
+  snapshots/Load/Undo/backup preserved. No old fixture regenerated. Concurrency,
+  cancellation, forced process deaths, partial write, caps/total and relocation
+  pass with the expanded set. Native default checks ran before only the new
+  ignored-test module registration; production logic unchanged afterward.
+- Warning-free actual production builds and18real CLI checks per target pass
+  Linux/Wine. Help, both-region extract/reuse/verify, managed create/no-write
+  reuse, BG corrupt/missing repair, root move from unrelated cwd and retained/
+  refused e2-d1 pass. Cross-target files byte-identical per region;107861logical
+  bytes total. Synthetic tar/zip marker cases exclude new BG names too. Canonical
+  hashes restored to3db0749e.../f3e277db... and full protected source/ROM/legacy
+  hashes match; main source mtime refreshed for next Cargo build. No archive
+  rebuild, export, AndroidPort update or agent commit/push.
+- Final formatter only reorders two cfg(test) module declarations; production
+  functions/test bodies unchanged. Exact tested frontend source preimage/hash
+  retained in tested-rom-data-frontend.rs and verification-summary.json records
+  current source hashes plus this difference. Do not rebuild/replay for it.
+- Evidence target/rom-data-bg-managed/verification-summary.json, core/file/prep/
+  regional/lifecycle logs, build/executable metadata, native/windows results,
+  actual CLI candidates/logs/three-file datasets/results, old-generation imports,
+  canonical-before.json and marker log. All handles54019/17130/67181/4255/83722/
+  20421/16730/40024/97842/44034terminal/pass; no live process or deliverable left
+  for this bounded managed unit. Old OBJ scene/GUI/performance/archive outputs
+  retain their own frozen revision scope, not repeated for context.
+- **ROMDATA-04-BG-CONSUMPTION — complete for bounded metadata implementation
+  and initial correctness/provenance gates.** Full TODO remains active; native
+  Windows unavailable/not waived. Selection/resume checkpoints reconciled the
+  terminal managed unit and missing retained-file/guest/native/lifecycle work;
+  no old closed scene/benchmark was reopened. [Record](../changes/2026-10-21-consume-authenticated-bg-descriptor-metadata.json),
+  [contract/evidence](../rom_data_graphics.md#direct-descriptor-consumption).
+- Immutable owner now retains162typed records plus14256byte source projection.
+  Fixed BG pages join the OBJ gate for CPU/DMA/native API reads, with separate
+  BG source/file/dataset diagnostics, bus-operation/projected-byte counters and
+  residual ROM payloads preserved. No instruction/decompression/timing bypass.
+  Predeclared shared/OBJ<=1KiB inclArc and extraBG<=64KiB; measured440+28672=
+  29112bytes each target. Schema/extractor/decoder1/3/2, RtApi/native keys and
+  state schema1 unchanged. Allocator/RSS and scene/startup costs remain05.
+- mem.rs common bus change justified new full serial core suites, not context
+  reconstruction: Linux/Wine204passed/7ignored each. Frontend defaults98Linux/
+  97Wine pass/18optionalignored. Three new core cases cover all widths/edges/
+  mirrors/native APIs, CPU,16/32bit DMA and transactional snapshots.
+- Four real-file regional cases reuse existing e3data, poison raw BG ROM only
+  after source-authenticated binding and compile only original selector/helper
+  code through production TinyCC. Each2608calls/134424original instructions,
+  5836native dispatches/660event-boundary interpreter shells/3867native BG
+  byte callbacks/3888total BG reads. Legacy/file interpreter and native match
+  registers/CPSR/clock/EWRAM/IWRAM at boundaries/every interpreted step; complete
+  final states match after restoring only the test poison. BG and OBJ counters
+  stay distinct. Missing/corrupt activation preserves the live object/snapshot;
+  deleted activated BG file, Load/Slots Undo and backup clean boot retain the
+  owner/counters and continue file-backed reads.
+- New EUR native1200-frame boot pairs pass every full state, central/wide image,
+  OAM, dispatch and mixed/PSG/bothFIFO/HLE audio, HLE by bits; all streams
+  nonempty,53BG reads each. Linux6479719/Wine4067051native blocks execute using
+  existing target-specific TinyCC ELF objects. No cross-target dispatch/timing
+  equivalence or broad BG scene coverage inferred.
+- Actual production builds warning-free; updated help and interpreter demo/
+  native idle/explicit-demo1200-frame CLI pairs match legacy hashes. Native
+  final full-state hashes match too; demo paths53BG reads. runc idle naturally
+  reads0BG; only new explicit-input pair added after the helper's overstrict
+  gate. Existing generation/no-write reuse and source/library/canonical hashes
+  verified. Canonical3db0749e.../f3e277db...restored, main mtime refreshed. Tests
+  precede only final static HELP text; current production binaries check it.
+- First component harness stalled because it omitted frame-ready dispatcher
+  clearing; only harness corrected. Its negative evidence stays under
+  before-frame-ready-harness. Initial CLI helper gate retained successful
+  frames/idle runs; no production bug inferred. Wine background D-Bus messages
+  coexist with successful test/process exits, no workaround.
+- Evidence target/rom-data-bg-runtime/verification-summary.json, core/default/
+  region/boot logs/results, bounded component objects, source/executable hashes,
+  builds/candidates and CLI results/inputs. Handles82663/67480/73487/21731/
+  28577/37661/54878/79226/10347/71131/16608/12744/5721/19237/99371terminal;
+  no live process or missing deliverable for this04unit. Memory/format/CRLF
+  checks pass; no archive/export, AndroidPort update or agent commit/push.
+- **Next open unit: ROMDATA-05-BG-SCENES-COSTS.** Select with checkpoint before
+  work: current BG bus/owner input differs from frozen OBJ/managed revisions,
+  so new BG-relevant scene/lifecycle/GUI and startup/frame/RSS comparisons need
+  predeclared limits and actual evidence. Reuse private e3files, source-equal
+  snapshots/input/native caches and the warning-free managed CLI reference;
+  do not recreate fixtures or rerun old unchanged results for context. Broader
+  payload/program formats, other catalogs/languages, native Windows and mods
+  remain open in the full goal. No normal enablement yet.
+
+- Selection checkpoint: latest full ROM_DATA_TODO unchanged; previous goal turn
+  is **progress**, verified by terminal BG-runtime summary/default/core/CLI
+  results and current source hashes. **ROMDATA-05-BG-SCENES-COSTS selected**.
+  Existing04implementation/provenance/1200boot is closed, no live process.
+  Missing: current BG-relevant worldmap/battle/boot-transition full-state/audio,
+  incremental and total memory-path frame/startup/RSS/disk evidence. Next reuse
+  recorded snapshots/inputs/native caches and existing release binaries, add BG
+  counters/optional existing-dataset support to the diagnostic, then run new
+  changed-input checks. GUI is the subsequent distinct05unit, not silently
+  declared complete. No old fixture recreation or completed gate repetition for
+  context. Native Windows remains unavailable/not waived; full goal stays open.
+  Limits before measurements: exact state/audio/images/counts; five alternating
+  timing pairs +2% median mean/+5%p95/+10%p99; seven first/cached observations
+  median250/100ms; shared/OBJ<=1KiB, BG<=64KiB, peakRSS delta<=2MiB; one e3
+  generation <=128KiB logical/256KiB allocated. Old OBJ-only32KiB disk budget is
+  not applied to the new106309byte typed BG file. Retain every value/failure.
+  Frozen managed baseline and BG candidate were built at the same root path,
+  toolchain/release flags; comparing baseline flag-off to candidate flag-on
+  measures current decoded-set cost against its preceding ROM-memory path.
+
+- Current05substeps: **BG recorded-scene parity complete** on Linux/Wine for
+  worldmap240,battle/menu3530and boot-to-battle8476. Every full state/image/OAM/
+  dispatch and mixed/PSG/bothFIFO/HLE stream matches (HLE by bits). Stable scenes
+  BG0are reported honestly;8476requires and records53BG reads on each target.
+  Handles50145/80051build,91872/92924scene runners terminal/pass. Reuse logs/
+  protected-input manifests in target/rom-data-bg-validation; do not repeat
+  these closed comparisons merely because the cost parent remains open.
+- Startup/storage observations terminal: native first/cached medians51.943/
+  40.225ms;Wine66.387/47.001ms pass250/100ms gates. Seven generations per
+  target107861logical/118784allocated bytes each; one managed root107879/
+  139264bytes. Owned29112B. Native seven-pair RSS median+2864KiB/max+2944KiB
+  exceeds the predeclared2048KiB gate; preserve all fourteen original values.
+  No assertion of memory acceptance or widening of the measured limit.
+  Handles23654/98940terminal; Wine whole-command ready-dataset walls also kept.
+- Native timing runner75169 terminal/pass: five pairs/worldmap+1.3600%mean,
+  +1.7286%p95/+2.0514%p99; enemy-menu-0.6017%mean,+1.0092%p95/-2.0592%p99.
+  All frame/OAM/final-state/dispatch checks and predeclared time limits pass.
+  SMT14mean0.661%/0.578%,1s maxima1.98%/12%; no overlapping builds or heavy
+  agent jobs. Cost-summary budget-exceeded solely for native RSS. Preserve it.
+  No broad frame/scene replay is reopened for startup-parser investigation.
+- **ROMDATA-05-BG-RSS-ATTRIBUTION selected within the open cost unit** for the
+  concrete+2944KiB peak failure. Next isolate actual typed parser allocations
+  and compare managed preparation-only versus active BG ownership with existing
+  binaries. A direct cached-rlib probe rejected different build/runtime serde
+  trait identities before any parse; isolated Cargo probe now compiles under
+  target/rom-data-bg-validation/parse-heap-{probe,target}/. This is diagnostic,
+  not a production dependency change. No timing observation overlaps this build.
+
+- **ROMDATA-05-BG-SCENES-COSTS measurements terminal / acceptance partial**.
+  Verification-summary.json confirms all six scenes, five-pair timing,
+  startup/disk passes and failed RSS+2864/+2944KiB; no process remains. All
+  sources/canonical/reference/fixtures protected. Memory/format/link checks pass.
+  This closes the observation queue, not the RSS gate or full goal.
+- RSS attribution terminal: prepared-only median184996/max185140KiB resembles
+  active185004/185224KiB. Typed parser peak TOML0.8=1942055B; inline TOML=
+  1952069B, TOML1.1=3381232B — both rejected as remedies, no dependency upgrade.
+  Default pretty JSON149261Bfails disk budget; **one-space pretty JSON123663B/
+  22528Bparser heap** preserves source-equal162records and fits the existing
+  128KiB logical dataset budget with manifest/OBJ. Private probe is evidence,
+  not production/RSS acceptance. Handles20794/78286/86024/35283terminal.
+- Selection checkpoint: latest full TODO persists; previous scene/cost work is
+  progress and terminal evidence above is verified. **ROMDATA-02-BG-JSON selected
+  as the concrete RSS remedy**. Missing: versioned direct JSON encoding/parsing
+  with strict fields/source validation, old e3retention, actual activation and
+  runtime RSS acceptance. Next use existing cached serde_json with deterministic
+  one-space pretty output; change only BG file/format, extractor4/decoder3,
+  schema1/v1/e4-d3, preserve e3/e2/e1. Manifest/OBJ remain TOML, family ID and
+  typed source bytes unchanged. No TOML upgrade or weakened size/memory gates.
+  Existing scenes/frame timings are closed: startup-only parser/file change
+  requires affected core/file/preparation/parser/lifecycle, actual CLI and new
+  startup/RSS/disk measurements; no common bus/emitter/state logic changes to
+  justify full scene/matrix/benchmark replays. GUI/archive/native Windows and
+  other payload/catalog/mod work remain open.
+
+- Latest user steering supersedes space-minimization work: full TODO still
+  requested, but do not optimize/compress the extracted data to save space.
+  Existing05measurements remain evidence, not a reason for further disk-budget
+  tuning. **ROMDATA-02-BG-JSON remains in progress for direct typed parsing**;
+  drop one-space pretty formatting/disk-gate assertions and use standard readable
+  JSON. Finish only affected correctness/revision/file/lifecycle/CLI checks,
+  then return to unmigrated payload/catalog work. No new benchmark/RSS batch
+  solely to satisfy the former artificial space budget. Keep parser input caps
+  as malformed-input bounds, distinct from storage optimization. Native Windows
+  and real semantic/timing/state requirements remain separate.
+  At steering arrival, native test build35551terminal/pass predates only new
+  revision-retention test and forthcoming standard-pretty adjustment; no live
+  build remains. Cargo.lock only adds serde_json to recomp's existing graph.
+
+- **ROMDATA-02-BG-JSON — complete** for standard readable datasets, superseding
+  the former one-space/space-target plan. [Record](../changes/2026-10-21-parse-readable-bg-json-datasets.json).
+  Source contract1/4/3, bg-descriptors.json/bg-descriptors-json-v2, normal pretty
+  JSON149261B/generation150818B; manifest/OBJ remain TOML. Prior e3/e2/e1 are
+  retained. No data compression or further storage-budget tuning. File caps
+  remain malformed-input guards; no current RSS claim from the isolated probe.
+- Final affected checks32Linux/30Wine pass:2core+7runtime+8/7file+10/9prep
+  defaults and five private cases per target (regional/e2, original Load/Undo/
+  backup, actual old e3 retention and two regional JSON native/lifecycle probes).
+  Each original/native case2608calls/134424instructions,3867native BG callbacks,
+  3888reads. Strict parser/identity/source reconstruction/transactional failures
+  and deterministic output covered. Warning-free production builds,18actual CLI
+  operations/target and real interpreter/native1200-frame pairs pass (53BG reads,
+  equal frame/native final-state hashes). Files byte-identical across targets,
+  ready generations reused without writes. Tar/zip private-marker test passes.
+- Evidence target/rom-data-bg-json/verification-summary.json, preimages/final
+  source/build/test hashes, regional/revision/provenance/CLI/runtime results and
+  package marker log. Canonical3db0749e.../f3e277db...restored and main mtime
+  refreshed. Cargo.lock only adds recomp's already locked serde_json dependency.
+  Handles35551/74133/54831/43169/23041/87032/92655/33184/37841/36432/91491/
+  79632/56274/52968terminal; no live process or missing JSON deliverable.
+  Memory/CRLF checks pass; no export/AndroidPort/agent commit/push.
+- Full goal remains active with latest user steering: do not shrink/compress
+  extracted-data files to save space; prioritize the remaining real resources.
+  **ROMDATA-01-BG-PALETTES selected**. The prior parent graphics inventory is
+  partial; no completed descriptor/LZ77/packet/runtime/scene criterion reopens.
+  Missing: all162palette-source formats/extents/aliases across EUR/USA, decoded
+  color semantics and original producer destination/usage before migration.
+  Next cheaply classify headers at the already authenticated catalog's palette
+  links from existing JSON files and exact ROMs; reuse the previously observed
+  record0LZ77output rather than recreate its boot capture. Then define bounded
+  typed palette data and actual runtime consumer with unchanged guest effects.
+  GUI/archives/native Windows/other catalogs/mods remain separate, not waived by
+  the storage preference. Do not restart any terminal timing/scene build above.
+
+- Palette inventory now terminal for127unique sources per region/162records:
+  125tag10LZ77and2tag0raw payloads; strict decoder produces11504u16words
+  (23008B), all regional source/output hashes agree. All lengths64..256B in
+  32Bsteps;476words have bit15set, so preserve fullu16 rather than normalize or
+  infer alpha. Record0matches all four retained original160Bcaptures; no boot
+  replay. Raw sources are record5and shared54/56, independently located.
+- Exact original palette producers USA0801a42c/EUR0801b59c read the source
+  header:10calls the existing LZ77 wrapper; otherwise skip4Bheader and CpuSet
+  size/2halfwords. Environment lowbits0/3use this base catalog;1/2instead use
+  separate alternate-palette program roots via descriptor byte56. Those remain
+  unclassified, not silently included as decoded base palette colors.
+  Next add/run a bounded original-producer oracle for every record/direct-current
+  argument/base environment on Linux/Wine, comparing complete output/guards and
+  EWRAM. Only cfg(test) registration changes production source's text; exact
+  preceding tested frontend retained in target/rom-data-bg-json/tested-rom-data-
+  frontend.rs. No production binary rebuild/new cost campaign needed.
+
+- **ROMDATA-01-BG-PALETTES — complete for the declared base catalog**.
+  [Record](../changes/2026-10-21-inventory-original-background-base-palettes.json),
+  [contract](../rom_data_graphics.md#base-background-palette-catalog). Both exact
+  images:162records/127unique sources (125LZ77+2raw),15612source bytes ->23008
+  decoded bytes. All source/output hashes/aliases agree; record0matches four
+  retained captures. Preserve fullu16words/bit15 (476unique/480record-indexed),
+  no RGBA/alpha normalization. Raw record5/shared54-56 branches independently
+  verified in original regional producer; alternative environment programs
+  remain unclassified and outside this declared base catalog.
+- Four final original-producer oracles pass: each1296calls/72792instructions,
+  complete output/guards atIWRAM3860, unchanged EWRAM, SP restored. All4base
+  environment bytes and direct/current ID arguments covered. No full-clock/
+  native-replacement or migrated-palette-use claim. Warning-free builds and
+  handles86503/47357/89522terminal. Evidence target/rom-data-bg-palettes/
+  verification-summary.json, inventory/source/decoded hashes/private buffers,
+  exact original disassembly and per-target/profile results. No live process
+  or missing deliverable for this01unit; no old boot/scene fixture recreated.
+- **Next open unit: ROMDATA-02-BG-BASE-PALETTE-DATA**. Select with checkpoint:
+  implement a bounded typed model of full16-bit words grouped by16, explicit
+  raw0/LZ7710source codecs and exact consumed extents; malformed size/bounds/
+  unsupported tags rejected. Use all162base records (127aliases), not only0.
+  Match the completed original oracle and retain its buffers; do not rerun boot
+  captures or closed scenes just for context. Then extend managed extraction/
+  actual runtime consumers without skipping guest writes/cycles. Source/profile/
+  save/native identities must remain coherent. Environment1/2alternate programs,
+  other catalogs/languages and mods remain open. Latest user priority stays:
+  readable usable data and real migration, no compression/space-minimization
+  or additional cost campaigns solely for earlier storage targets.
+
+- Selection checkpoint: full TODO plus no extracted-data space minimization
+  remains latest request. Previous turn is **progress**: JSON contract/runtime
+  and palette01oracle terminal results verified cheaply above; no live process.
+  **ROMDATA-02-BG-BASE-PALETTE-DATA selected / in progress**. Missing: bounded
+  typed palette banks, malformed-source checks and complete authenticated
+  four-file extraction/verification/preparation. Next implement fullu16banks,
+  source0/10decoding and record-indexed catalog; integrate readable JSON as
+  graphics.bg-base-palettes, extractor5/decoder4/schema1, retaining e4/e3/etc.
+  Source limits are semantic/malformed-input guards, not storage optimization.
+  Manifest cap expands specifically for162source provenance entries; no disk
+  performance target. Add a borrowed complete-file view to keep validation/
+  runtime identity atomic as families grow. Palette gameplay consumption is
+  the following04step; do not claim file export alone as runtime migration.
+  Reuse cached original palette buffers and four oracle reports, no boot or
+  scene/benchmark rerun for context. ABI/state/native identity stays unchanged.
+
+- **ROMDATA-02-BG-BASE-PALETTE-DATA — complete** for typed decoding and managed
+  extraction/verification/preparation. [Record](../changes/2026-10-21-extract-authenticated-background-base-palettes.json),
+  [contract](../rom_data_graphics.md#typed-palette-extraction-and-preparation).
+  Full16-bit banks preserve allbits; raw0/LZ7710bounded sizes/extents reject
+  malformed inputs. All162entries and source provenance/aliases are retained.
+  Schema1/extractor5/decoder4 adds graphics.bg-base-palettes JSON, four fixed
+  files, earlier e4/e3/e2/e1retained. Borrowed BaseFiles authenticates the whole
+  parsed set and allIDs/hashes atomically. Palette gameplay still reports ROM.
+- Final release defaults32Linux/30Wine plus7private cases each pass(39/37).
+  Four original-producer controls now compare new typed model bytes, retaining
+  1296calls/72792instructions and exact output/guards/SP/EWRAM each. All banks
+  match retained buffers, full-set rehashed edits/missing activation transactional,
+  palette whitespace changes full identity while Obj/BG identities/states stay,
+  actual e4retention, partial writes and create/reuse/repair/move pass. Existing
+  Load/Undo/backup/native BG provenance remains correct with the complete-set API.
+- Production builds warning-free,22actual CLI operations per target pass regional
+  extract/reuse/verify, all-family corrupt/missing repair, relocation and old e2
+  retention/refusal. All4files match across targets; existing OBJ/BG bytes
+  unchanged. Actual interpreter/native1200pairs match frame/native final-state
+  hashes and53BG reads; palette diagnostics explicitly prepared/runtimeROM.
+  Canonical3db0749e.../f3e277db...restored; main mtime refreshed. Synthetic tar/zip
+  privacy markers pass. No compression/space tuning/new cost campaign or export.
+- Evidence target/rom-data-bg-palette-data/verification-summary.json, source
+  preimages/hashes, defaults/private/typed-oracle/provenance logs/results, actual
+  four-file datasets/CLI/runtime results and old revision imports. File sizes:
+  palette270075B,manifest26353USA/26359EUR,total446114/446120B. Input guards
+  64KiBmanifest/16KiBOBJ/256KiBdesc/512KiBpal/768KiBtotal, not disk targets.
+  Handles5597/46792/37763/53062/30348/79211/45316/30694/78893/57047/54720/
+  70424/89500/37424/87785terminal; no live process or missing02deliverable.
+- **Next open unit: ROMDATA-04-BG-BASE-PALETTE-CONSUMPTION**. Select checkpoint,
+  then retain the verified parsed palette banks in the immutable runtime owner.
+  Serve raw palette/size-header reads from a fixed asset-region projection and
+  use the predecoded words in the existing BIOS LZ77 HLE only for authenticated
+  palette sources, reusing existing write_out semantics. Raw CpuSet can keep its
+  original read16/write16loop through file-derived bus data; no new generic
+  lookup on every ROM/code read, no guest instruction/cycle skip. Preserve old
+  HLE for nonpalette sources, all mirrors/edges/destinations and modelhighbits.
+  Determine/record original HLE timing/read side effects before changing it.
+  Validate exact CPU/clock/RAM/full states, both codecs/allrecords, payload-poison
+  provenance, native compiled producer and Load/Undo/backup ownership on Linux/
+  Wine. Reuse e5files, original buffers/oracles/native caches; changed common
+  bus/HLE paths justify affected/full core tests, not old scene reruns for context.
+  Other programs/catalogs/families, native Windows and mods remain open; user
+  prioritizes real migration/readability over space or budget-only optimization.
 
 ### Previous planning outcome (retained)
 

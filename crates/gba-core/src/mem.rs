@@ -1463,7 +1463,7 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx < self.rom.len() {
-                    if Self::obj_resource_page(idx) {
+                    if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<1>(idx, &self.rom)) {
                             return bytes[0];
                         }
@@ -1589,7 +1589,7 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 2 <= self.rom.len() {
-                    if Self::obj_resource_page(idx) {
+                    if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<2>(idx, &self.rom)) {
                             return u16::from_le_bytes(bytes);
                         }
@@ -1665,7 +1665,7 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 4 <= self.rom.len() {
-                    if Self::obj_resource_page(idx) {
+                    if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<4>(idx, &self.rom)) {
                             return u32::from_le_bytes(bytes);
                         }

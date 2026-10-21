@@ -1408,7 +1408,9 @@ impl PlayApp {
                         .find(|(_, gp)| gp.name() == self.icfg.gamepad_name)
                 })
                 .or_else(|| g.gamepads().next());
-            if let Some((id, gp)) = chosen {
+            if let Some((id, _gp)) = chosen {
+                #[cfg(not(target_os = "linux"))]
+                let gp = _gp;
                 standard_selected = true;
                 #[cfg(not(target_os = "linux"))]
                 let pad_blocked = self

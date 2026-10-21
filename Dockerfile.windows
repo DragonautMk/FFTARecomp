@@ -11,7 +11,7 @@ ENV CARGO_HOME=/usr/local/cargo RUSTUP_HOME=/usr/local/rustup \
 
 RUN test "$(dpkg --print-architecture)" = amd64 \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         build-essential ca-certificates curl python3 gcc-mingw-w64-x86-64 \
         binutils-mingw-w64-x86-64 wine64 \
     && rm -rf /var/lib/apt/lists/* \

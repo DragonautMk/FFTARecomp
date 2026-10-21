@@ -1831,10 +1831,12 @@ impl SincResampler {
         }
     }
 
+    #[cfg(test)]
     fn next(&mut self, q: &mut std::collections::VecDeque<f32>) -> (f32, f32) {
         self.next_with_speed(q, 1.0)
     }
 
+    #[cfg(test)]
     fn next_with_speed(
         &mut self,
         q: &mut std::collections::VecDeque<f32>,
@@ -1931,13 +1933,6 @@ impl FifoInterp {
         self.period = 512.0;
     }
 
-    fn next_with_speed(
-        &mut self,
-        q: &mut std::collections::VecDeque<(i8, u32)>,
-        speed: f64,
-    ) -> f32 {
-        self.next_with_speed_observed::<false>(q, speed, &mut audio_profile::SourceReads::default())
-    }
     fn next_with_speed_observed<const OBSERVE: bool>(
         &mut self,
         q: &mut std::collections::VecDeque<(i8, u32)>,
@@ -1963,6 +1958,7 @@ impl FifoInterp {
         }
     }
 
+    #[cfg(test)]
     fn next(&mut self, q: &mut std::collections::VecDeque<(i8, u32)>) -> f32 {
         self.next_observed::<false>(q, &mut audio_profile::SourceReads::default())
     }
@@ -2031,6 +2027,7 @@ fn build_gilrs() -> Option<gilrs::Gilrs> {
 /// Gilrs button name (the launcher stores `{:?}` of the button) to a
 /// gilrs `Button`. Stick-direction tokens are handled elsewhere (they
 /// read axes, not buttons) and return `None` here.
+#[cfg(not(target_os = "linux"))]
 fn gilrs_button(name: &str) -> Option<gilrs::Button> {
     use gilrs::Button::*;
     Some(match name {
@@ -2060,6 +2057,7 @@ fn gilrs_button(name: &str) -> Option<gilrs::Button> {
 /// Is a stick token pushed past the deadzone right now? `(horizontal,
 /// positive)` from the token; gilrs reports both sticks' Y as up-positive,
 /// matching the token directions.
+#[cfg(not(target_os = "linux"))]
 fn stick_token_active(gp: &gilrs::Gamepad, tok: input_config::StickToken, deadzone: f32) -> bool {
     use gilrs::Axis::*;
     let (horizontal, positive) = tok.axis();
@@ -2078,6 +2076,7 @@ fn stick_token_active(gp: &gilrs::Gamepad, tok: input_config::StickToken, deadzo
 }
 
 /// Is the configured pad binding (button name or stick token) active?
+#[cfg(not(target_os = "linux"))]
 fn pad_pressed(gp: &gilrs::Gamepad, name: &str, deadzone: f32) -> bool {
     match input_config::pad_binding(name) {
         input_config::PadBinding::Button(b) => {

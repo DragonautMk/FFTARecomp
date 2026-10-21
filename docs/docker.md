@@ -134,6 +134,41 @@ The container's `target` cache is separate from the checkout's `target/`.
 Manage Docker cache using your normal Docker workflow; the build script does
 not prune images, containers, caches or unrelated projects.
 
+## Build warnings
+
+The Debian package-install step explicitly uses `DEBIAN_FRONTEND=noninteractive`
+in both Dockerfiles. This avoids attempting Dialog/Readline in a build without
+a terminal; the setting applies only to that install command.
+
+Minimal Debian images can still print package-maintenance notices:
+
+- `debconf: delaying package configuration, since apt-utils is not installed`:
+  optional package preconfiguration is unavailable; package installation still
+  performs its configuration.
+- `rehash: warning: skipping ca-certificates.crt`: that file is the combined
+  certificate bundle, while rehash expects individual certificates. This line
+  alone does not mean certificate installation or HTTPS validation failed.
+- `update-alternatives: ... /usr/share/man/... doesn't exist`: the slim image
+  omits those manual pages; the notice concerns their documentation links.
+
+Keep installation errors visible. Installing extra documentation packages or
+removing the certificate bundle merely to silence these messages is unnecessary.
+
+Project Rust helpers are compiled only for the platforms/tests that call them:
+DirectInput normalization on Windows and tests, reference PPU/audio wrappers in
+tests, and Gilrs binding helpers on the non-Linux path. Linux's device snapshot
+reader/table stay Linux-only while pure snapshot tests remain cross-platform.
+The RTC fallback constant is retained off Windows and in tests; Windows reads
+local time through GetLocalTime. The unused private FIFO wrapper has been
+removed. This cleanup preserves the runtime paths and leaves Rust warnings
+enabled.
+
+The supplied Linux log reaches `Finished release` and archive creation, then
+ends during test compilation; it does not contain the final test/export result.
+After the cleanup, native release build and affected core/input/runtime tests
+were checked separately; see the [validation record](changes/2026-10-21-clean-desktop-build-warnings.json)
+for actual platform coverage and limits.
+
 ## Validation
 
 The container build/export completed with Rust 1.94.0 on Debian Bookworm

@@ -6,6 +6,33 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Latest request: resume the assessment/fix of supplied Docker build warnings.
+- **BUILD-01-WARNING-CLEANUP — complete.** Scope test/platform helpers to their
+  callers, remove the unused FIFO wrapper and unused Linux Gilrs binding, retain
+  pure Linux snapshot tests on Windows. Windows-only RTC and hardware-reader
+  warnings found during validation are also resolved. No global lint suppression.
+  Both Dockerfiles select noninteractive apt configuration for that command only.
+- Evidence: [record](../changes/2026-10-21-clean-desktop-build-warnings.json),
+  [warning explanations](../docker.md#build-warnings). Native production build and
+ 184core/26input/69runtime tests pass without Rust warnings (5core/4runtime ignored);
+  final targeted4hostclock/4snapshot checks pass. Final Windows production/tests
+  compile warning-free; Wine184core/26input/70runtime pass with5/4optional ignored.
+- Existing canonical native/Windows runtime and launcher restored by SHA-256;
+  portable archives unchanged. No full Docker rebuild: pinned base is not local.
+  Local Debconf selects noninteractive. Debian slim apt-utils, combined-bundle
+  rehash and omitted-manpage notices are documented; they may remain visible.
+  The supplied log ends before final tests/export, despite successful archive
+  creation; no full user-build success is inferred from that partial log.
+- No missing deliverable or live process for this unit. Local evidence under
+  `target/build-warning-cleanup/`: validation/windows-validation.json,
+  wine-results.json, build/test logs and scripts, first-pass warning evidence.
+  Handles72956/69213/5375/57934/80220/9896/34509 are terminal. Final memory and
+  CRLF-aware whitespace checks pass. No commit, push or package update.
+- The previous audio/performance work below remains pending. The next runtime
+  criterion is BUG-03-EFFECTIVE-RATE only when selected by the latest request;
+  do not reopen completed transition-reset checks for these build warnings.
+
+Previous audio request and its remaining queue:
 - Latest request: continue resolving the desktop TODO. User clarified the audio
   report as **Fast audio at4x**, suspecting stale queued output.
 - Selected **BUG-03-TRANSITION-RESET — complete / retained**. Queues already

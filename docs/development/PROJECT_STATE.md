@@ -432,6 +432,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   consumes it without redo. A detected externally changed/missing slot prevents
   undo save. Load and undo load both use the shared frontend restore reset.
 
+- [Restart ROM](../restart_rom.md) in the pause menu flushes current cartridge
+  memory and transactionally rebuilds the startup machine in the same window.
+  It resets frontend timelines and slot Undo while preserving slot files and
+  startup backups. Failed writes and active recording keep the paused session.
+  Clean boot retains the current immutable decoded-resource owner without file
+  I/O, shared with backup recovery.
+  Deployment laws now recognize the distinct WIN0 compact table and WIN1 HELP
+  from user slot3, keeping both columns/selector intact and HUD separate.
+
 - [Cartridge save backups](../save_backups.md): capture the selected `.sav` at
   desktop startup, retain two raw copies under `SaveBackups/<save-filename>/`,
   and restore via the controller-operated Save backups menu. Sequence/hash

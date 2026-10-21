@@ -204,6 +204,35 @@ Documentation: [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md)
 
 [Change record](docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json)
 
+## 2026-10-21 — Restart the current ROM and keep deployment laws in one panel
+
+Type: fixed. Platforms: Desktop Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Add Restart ROM to the main menu, keeping eleven entries visible at normal desktop sizes. Prepare a clean startup machine with current cartridge memory and atomically flush the selected save before replacing the session; retain window, settings, translation, backup and slot files. Clear slot Undo and reset frontend audio/input/render timelines. Refuse while recording and keep failures in the paused menu.
+- Extend laws recognition for the supplied character-deployment scene: verified WIN0 compact table, optional WIN1 HELP overwriting its top frame, and selector tile037C. Keep both columns, HELP and indicators in one centered modal with independent character HUD; retain the earlier no-window variant and snapshot/native ABI.
+- Update feature guides, desktop TODO, lasting project state and handoff. Keep private fixtures and diagnostics outside tracked sources.
+- Integrate optimizations commit b43f943 into decomp while retaining its existing ROM-data history. Move the resource-owner copy into the common clean-boot helper so restart and backup restore keep the same immutable OBJ/BG/palette resources. Add a private regional lifecycle regression using existing datasets.
+
+**Validation**
+
+- Native release185core/36menu/83runtime and Windows GNU/Wine185core/36menu/84runtime pass,5core and4runtime optional ignored on each platform. Final test and production builds compile without warnings; original canonical executables restored by hash.
+- Restart tests cover startup CPU/RAM/clock, current cartridge bytes in memory and on disk, backup preservation, invalid boot and blocked atomic publication leaving the machine intact. Menu tests cover action/click/drawing/error recovery and11-entry layout. New synthetic laws test covers table/HELP with/without HUD at three widths, complete ownership/recomposition, unchanged IO/VRAM/OAM/framebuffer and negative window signature.
+- Actual supplied EUR slot3sequence changes Actions split to complete Notice bounds; nine native images and54memory dumps remain identical. Final serialized machine matches after clearing only computed dialogue/wide caches.72render cases cover table/HELP, three widths, zoom1/2, three Sizes and two Lengths:12native-only cases match directly;60separated cases have44native portrait overlap pixels explained by original per-layer ordering. Intentional relocated modal priority means no zero-difference fixed-order claim.
+- Actual Linux and Windows/Wine native-translation normal-play GUI passes slot3laws/HELP, Load/Undo/reload, Restart ROM to language screen in same window/process, slots preserved and clean exit0. Captures inspected; source ROM, original state and canonical executable hashes unchanged.
+- Ignored target/restart-deployment-ui stores protected hashes, failed/repaired builds, direct test logs, baseline/candidate guest comparisons, renderer matrix and GUI results/captures. Early stale shared-target menu rlibs and row-count assertions corrected; initial strict overlap comparison retained. No benchmark or performance measurements.
+- After integration into decomp: warning-free Linux/Windows release test builds; native211core/36menu/103runtime and Wine211core/36menu/102runtime pass (7core/24runtime optional ignored each). The new ignored lifecycle test is also explicitly run for USA and EUR on both targets: identical immutable OBJ/BG/palette owner and counters survive restart and backup restore after deleting copied dataset files; current cartridge bytes and backup recovery remain correct. Existing datasets reused without extraction or performance work.
+
+**Limitations**
+
+- Native Windows and physical controllers unverified; user currently has Linux/Wine only. Other ROM regions/deployment layouts/law counts and zoom above2 remain separate coverage. At original native positions the compact table overlaps portrait pixels; after independent relocation the modal intentionally wins.
+- No AndroidPort change, portable archive rebuild, remote push or release. Full ROM-data work remains separate from these requested UI/restart changes.
+
+Documentation: [restart_rom.md](docs/restart_rom.md), [ffta_laws_layout.md](docs/ffta_laws_layout.md).
+
+[Change record](docs/changes/2026-10-21-restart-rom-and-deployment-laws.json)
+
 ## 2026-10-21 — Discard callback history at Fast audio and pause boundaries
 
 Type: fixed. Platforms: Desktop Linux and Windows/Wine.

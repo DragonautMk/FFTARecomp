@@ -14,6 +14,8 @@ a new complete copy before removing the oldest one. Unchanged launches can
 produce identical copies. No copy is invented when the `.sav` does not yet exist.
 
 These are separate from the nine `.ffstate` slots and their one-step undo.
+[Restart ROM](restart_rom.md) reboots using current cartridge memory without
+rotating or restoring these startup copies.
 
 ## Restore using the controller
 

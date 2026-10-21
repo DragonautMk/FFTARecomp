@@ -17,12 +17,14 @@ e Normal limitato; restano ascolto/eventi/hardware. **FEAT-01-MUTE** e
 **FEAT-03-TACTICAL-OVERLAY** resta aperto (P3, prima dati verificati e
 visualizzazione, poi previsione). L'ultima richiesta aggiunge il piano
 **FEAT-04-ROM-DATA**: estrazione, decodifica e uso diretto dei dati, poi mod.
-La richiesta attuale riguarda il TODO; l'implementazione resta da avviare.
+Il piano ROM-data è separato dalle correzioni qui descritte.
+**FEAT-RESTART-ROM** è implementata e verificata su Linux/Wine.
 Un genitore aperto non riapre figli conclusi.
 
 ## BUG-01-LAWS — Schermata delle leggi in battaglia
 
-**Stato:** correzione implementata e verificata per il layout osservato;
+**Stato:** correzione implementata per il layout precedente e per la variante
+compatta durante assegnazione personaggi riprodotta dallo slot3;
 resta aperta la copertura estesa sotto. **Priorità:** P1. **Complessità:** media.
 
 **Causa verificata.** La tabella leggi usa BG2=5C08/BG3=4A09, come il menu
@@ -57,9 +59,12 @@ percorso. Vedi [documentazione e verifiche](../ffta_laws_layout.md).
 - [x] Eseguire suite core e runtime native, suite core Windows/Wine e
   regressioni finali sui byte degli snapshot; ispezionare lista/aiuto nel
   frontend Linux e Windows/Wine e verificare caricamento e uscita normale.
+- [x] **BUG-01-LAWS-DEPLOYMENT**: riprodurre lo slot3dell'utente durante
+  assegnazione; riconoscere WIN0/tabella compatta e WIN1/HELP senza spezzare le
+  colonne, includere il selettore037C e mantenere l'HUD separato. Suite Linux/
+  Wine, schermate reali e Load/Undo/reload della scena verificate.
 - [ ] Completare la copertura aggiuntiva: Windows nativo, ROM USA, altre
-  disposizioni/quantità di leggi, scena tutorial esatta della cattura,
-  zoom oltre 2 e un ciclo load/Undo specifico nella schermata leggi.
+  disposizioni/quantità di leggi e zoom oltre2.
 
 **Criterio di chiusura:** il layout verificato mantiene lista, testo e
 indicatori integri e coerenti con il framebuffer originale. Le prove
@@ -377,3 +382,13 @@ misurato. La sola esportazione di file o ricomposizione di una ROM non basta.
 - [ ] Aggiornare documentazione pertinente e record in `docs/changes/`,
   rigenerare `CHANGELOG.md` ed eseguire `python3 scripts/project_memory.py check`.
   Conservare ROM, salvataggi e registrazioni fuori da commit e pacchetti.
+
+## FEAT-RESTART-ROM — Riavvio rapido
+
+- [x] Aggiunta **Restart ROM** al menu principale: conferma singola, stessa
+  finestra e traduzione, salvataggio cartuccia corrente sincronizzato prima del
+  reset, slot e backup conservati. Errori nel menu; rifiuto durante registrazione.
+- [x] Test di reset e pubblicazione fallita, navigazione/disegno del menu, build
+  Linux/Windows e prove reali Linux/Wine dalla battaglia alla schermata iniziale.
+
+Vedi [riavvio ROM](../restart_rom.md). Windows nativo resta da verificare.

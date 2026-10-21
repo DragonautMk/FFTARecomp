@@ -1715,6 +1715,33 @@ impl PlayApp {
         pixels
     }
 
+    fn restart_rom(&mut self) {
+        if self.record.is_some() {
+            self.menu.session_result("Stop recording before restarting.".into());
+            self.menu_dirty = true;
+            return;
+        }
+        match crate::save_backups::restart(&mut self.machine, &self.boot_state, Path::new(&self.sav_path)) {
+            Ok(()) => {
+                self.sav_seen = self.machine.bus.save_data().map(fnv64);
+                self.state_slots = crate::save_state::Slots::new(Path::new(&self.sav_path), &self.machine.bus.rom);
+                let enabled = self.icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref() == Ok("1");
+                self.game_mouse = gba_core::ffta_mouse::LanguageMouse::new(&self.machine.bus.rom, enabled);
+                self.machine.bus.ffta_battle_mouse.set_enabled(self.icfg.mouse_keyboard);
+                self.after_state_restore();
+                self.refresh_state_slots();
+                self.menu.reset();
+                self.paused = false;
+            }
+            Err(error) => {
+                eprintln!("Cannot restart ROM: {error}");
+                self.menu.session_result(format!("Cannot restart ROM: {error}"));
+            }
+        }
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
     fn restore_save_backup(&mut self, generation: u64) {
         if self.record.is_some() {
             self.menu
@@ -2701,6 +2728,7 @@ impl ApplicationHandler for PlayApp {
             for action in acts {
                 match action {
                     menu::MenuAction::Resume => self.paused = false,
+                    menu::MenuAction::RestartRom => self.restart_rom(),
                     menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),

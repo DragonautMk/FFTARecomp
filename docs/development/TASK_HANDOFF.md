@@ -6,6 +6,46 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **FEAT-RESTART-ROM / BUG-01-LAWS-DEPLOYMENT — implementation and local
+  validation complete; integrated locally into decomp.** Latest
+  request is both changes here then decomp; root5266a4c remains preserved.
+  [Record](../changes/2026-10-21-restart-rom-and-deployment-laws.json),
+  [restart](../restart_rom.md), [laws](../ffta_laws_layout.md).
+  Restart flushes current cartridge bytes before replacing a prepared clean
+  machine; keeps window/translation, backup and slot files; resets Undo/frontend.
+  Slot3confirms WIN0compact table plus WIN1HELP; matched modal/selector037C now
+  stays whole, with HUD independent. Old no-window laws matcher retained.
+- Release native185core/36menu/83runtime and Wine185/36/84pass (5core/4runtime
+  optional ignored each). Production builds warning-free, canonical hashes
+  restored. Real Linux/Wine native-translation GUI passes supplied slot3laws,
+  HELP, Load/Undo/reload, restart to language screen same process/window, close0.
+  Inspected captures; all original fixture/ROM/executable hashes unchanged.
+- Nine raw native images and54memory dumps equal baseline; final full serialized
+  state equals after clearing only computed UI/wide caches.72render cases have
+  no unexplained pixels using original per-layer overlap order.60separated
+  cases differ by44portrait-over-table overlap pixels in fixed-order native
+  reconstruction; intentional modal protection after relocation, not a claim
+  of zero fixed-order differences. Initial strict-check failure retained.
+- Initial test vector move fixed; shared-target stale menu rlibs removed after
+  touch did not fix reuse; old ten-row assertions updated for11entries and
+  main row spacing reduced to fit. One menu-only Cargo attempt selected a
+  different feature set with missing Wayland pkg-config; affected workspace
+  lib/bin builds and directly executed test binaries pass instead. Private
+  diagnostic renderer's empty-layer indexing fixed; temporary helpers removed
+  from tracked sources. Evidence target/restart-deployment-ui/.
+- optimizations commit b43f943 is integrated into decomp, keeping all preexisting
+  ROM-data history. The common boot helper retains its immutable resource Arc.
+  Final integration native211core/36menu/103runtime and Wine211/36/102pass;
+ 7core/24runtime optional ignored each. Both regional USA/EUR restart+backup
+  lifecycle cases also explicitly pass on Linux/Wine: copied files deleted,
+  same OBJ/BG/palette owner/counters retained, current cartridge bytes correct.
+  Builds warning-free, source hashes intact; memory/whitespace checks pass.
+  All build/test/GUI processes terminal. Root remains checked out on decomp;
+  optimizations contains the requested changes, no ROM-data changes backported.
+  No missing deliverable for this bounded request. Preserve the separate ROM-data
+  queue below; no performance measurement, native Windows claim, archive or push.
+
+
 - **REPO-BRANCH-DECOMP — complete (local Git refs only).** Latest user request
   preserves the former `optimizations` tip as new `decomp` and restores
   `optimizations` to124de1fa2955e41170609082dc492826768ad9e9. Exact source

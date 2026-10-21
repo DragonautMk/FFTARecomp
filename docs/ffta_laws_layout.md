@@ -30,6 +30,26 @@ The flag resets before each frame and uses `serde(skip)`: it adds no snapshot
 bytes, guest writes, translation ABI or cache revision. An old snapshot can
 recompute it on the next rendered frame. No new serialized enum variant exists.
 
+## Character assignment variant
+
+The user's deployment slot3 supplies a distinct compact one-row layout. The old
+fix above did not cover it: WIN0 is enabled at [24,48,232,88], and the frame is
+at tiles X3..28/Y6..10. Both columns again fell into the action split at X160.
+The new matcher verifies WIN0, its controls, row ends, central divider and
+footer, without matching translated labels. The extra modal spans
+[16,48,232,88], including the protruding selector (OBJ tile037C).
+
+HELP enables WIN1 at [16,16,224,64] and overwrites the table's upper frame.
+The matcher verifies its four corners plus the remaining body/footer, with
+combined bounds [16,16,232,88]. It keeps HELP, both law columns, selector and
+continuation together while the portrait/HUD remains independent. Incomplete
+window/frame signatures are rejected. The earlier no-window variant is retained.
+
+The modal intentionally remains above the separately relocated portrait. At
+the original native positions the portrait can overlap this compact table;
+those overlap pixels have a different layer order after independent relocation.
+The native hardware framebuffer and guest memories remain unchanged.
+
 ## Validation, 2026-10-21
 
 - Native release core suite: 183 passed, 5 optional ignored; runtime: 67 passed,
@@ -58,11 +78,31 @@ Private evidence is under ignored `target/laws-fix/`: source probe, logs,
 snapshot matrix, GPU comparison, and before/after/frontend captures. No ROM,
 snapshot or screenshot is distributed in the repository or packages.
 
+## Deployment follow-up validation
+
+- Native and Windows GNU/Wine release core suites:185 pass,5optional ignored.
+  The new synthetic regression covers both table/HELP, HUD present/absent,
+  widths284/568/1136, selector/continuation ownership, exact recomposition for
+  nonoverlapping fixtures, unchanged IO/VRAM/OAM/framebuffer and rejected windows.
+- The real slot3 interpreter sequence reproduces the old Actions split and now
+  selects complete Notice bounds. All nine native images and54memory dumps
+  match the old renderer. Final serialized states match after clearing only
+  computed dialogue and wide-world caches; those caches intentionally differ.
+- A72-case private render matrix covers table/HELP, widths240/284/568,
+  zoom1/2, Size0.5/1/2 and Length1/2. All pixels are accounted for by the two
+  layers:12native-only cases match directly;60separated cases have44portrait
+  overlap pixels matching when the original portrait-over-table order is used.
+  The first strict whole-image recomposition check therefore fails on those
+  intentional overlap pixels; it is retained, not called a zero-difference run.
+- Actual Linux/native-translation and Windows/Wine/native-translation normal play:
+  inspected complete laws/HELP, Load/Undo/reload from HELP, and restarting the
+  ROM from deployment in the same window; clean exits, original fixtures intact.
+  Evidence is isolated under ignored `target/restart-deployment-ui/`.
+
 ## Limits and separate observations
 
-Native Windows, USA ROMs, other table layouts/law counts, the exact tutorial
-state from the supplied screenshot, zoom above 2 and a laws-specific load/Undo
-cycle remain unverified. Existing Notice/action/statistics and save-state tests
+Native Windows, USA ROMs, other table layouts/law counts, other deployment scenes and zoom above2remain unverified. The supplied slot3
+and laws-specific Load/Undo cycle are now covered above. Existing Notice/action/statistics and save-state tests
 pass; those do not replace the missing manual cases. Large Size values retain
 the centered layout's normal viewport clipping.
 

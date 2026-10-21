@@ -429,6 +429,10 @@ pub(super) fn draw(
             bw - 30. * scale,
         );
     }
+    if menu.page == Page::Main && !menu.session_message.is_empty() {
+        c.text(x + pad, y + ph + 3. * scale, &menu.session_message,
+            [255, 244, 211], 12. * scale, false, pw - pad * 2.);
+    }
     if let Some(dd) = menu.dropdown.as_ref() {
         draw_dropdown(dd, &mut c, w, h);
     }

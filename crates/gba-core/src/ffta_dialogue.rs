@@ -352,7 +352,9 @@ pub(crate) fn notice_cursor(attrs:[u16;3],x:i32,y:i32,bounds:Option<[i32;4]>) ->
 pub(crate) fn laws_cursor(attrs: [u16; 3], x: i32, y: i32, bounds: Option<[i32; 4]>) -> bool {
     let Some([l, t, r, b]) = bounds else { return false; };
     attrs[1] & 0xfe00 == 0 && x >= l && x + 8 <= r && y >= t && y + 16 <= b
-        && ((attrs[0] & 0xff00 == 0x8000 && attrs[2] == 0x02dc) || continuation(attrs))
+        && ((attrs[0] & 0xff00 == 0x8000 && (attrs[2] == 0x02dc
+            || (attrs[2] == 0x037c && matches!([l,t,r,b], [16,48,232,88] | [16,16,232,88]))))
+            || continuation(attrs))
 }
 
 /// Extend only the backing at its outer edge; translate foreground rigidly inward.

@@ -47,6 +47,8 @@ pub enum MenuInput {
 pub enum MenuAction {
     /// Close the menu and continue the game.
     Resume,
+    /// Reboot the selected cartridge without leaving this process.
+    RestartRom,
     /// Close the game (the .sav is flushed by the play loop's teardown).
     Quit,
     /// Close only the game process so the launcher can select another ROM.
@@ -138,6 +140,7 @@ enum Row {
     Menu,
     MouseMode,
     Resume,
+    RestartRom,
     FastForwardMenu,
     FastForward,
     AudioMenu,
@@ -175,7 +178,7 @@ enum Row {
     Back,
 }
 
-const MAIN_ROWS: [Row; 10] = [
+const MAIN_ROWS: [Row; 11] = [
     Row::Resume,
     Row::SaveStatesMenu,
     Row::SaveBackupsMenu,
@@ -184,6 +187,7 @@ const MAIN_ROWS: [Row; 10] = [
     Row::AudioMenu,
     Row::VideoMenu,
     Row::InputsMenu,
+    Row::RestartRom,
     Row::SwitchRomMenu,
     Row::Quit,
 ];
@@ -285,6 +289,7 @@ impl Row {
             Row::Menu => "Open menu",
             Row::MouseMode => "Mouse & Keyboard",
             Row::Resume => "Resume",
+            Row::RestartRom => "Restart ROM",
             Row::SaveStatesMenu => "Save states",
             Row::SaveBackupsMenu => "Save backups",
             Row::Backup(0) => "Copy 1 - latest",
@@ -352,6 +357,7 @@ impl Row {
                 | Row::LoadState
                 | Row::UndoState
                 | Row::Resume
+                | Row::RestartRom
                 | Row::Menu
                 | Row::Quit
                 | Row::QuitYes
@@ -422,7 +428,7 @@ fn layout_kind(n: usize, w: usize, h: usize, main: bool) -> Layout {
     let avail = h
         .saturating_sub(pad * 2)
         .min(if inputs { (460. * scale) as usize } else { h });
-    let line_h = ((if main { 40. } else { 44. }) * scale).round().max(12.) as usize;
+    let line_h = ((if main { 36. } else { 44. }) * scale).round().max(12.) as usize;
     let header = if main {
         0
     } else if inputs {
@@ -539,6 +545,7 @@ pub struct Menu {
     save_backups: [BackupInfo;2],
     backup_selection: Option<(u64,u8)>,
     backup_message: String,
+    session_message: String,
 }
 
 // Keep field access concise inside the renderer/tests while making
@@ -584,6 +591,7 @@ impl Menu {
             save_backups: std::array::from_fn(|_| BackupInfo::default()),
             backup_selection: None,
             backup_message: String::new(),
+            session_message: String::new(),
         }
     }
 
@@ -593,6 +601,7 @@ impl Menu {
         self.navigation.reset();
         self.state_message.clear();
         self.backup_message.clear();
+        self.session_message.clear();
         self.backup_selection = None;
         self.capture = None;
         self.scroll.set(0);
@@ -606,13 +615,19 @@ impl Menu {
     pub fn set_state_undo(&mut self, label: Option<String>) { self.state_undo = label; }
     pub fn set_save_backups(&mut self, copies: [BackupInfo;2]) { self.save_backups = copies; }
     pub fn backup_result(&mut self, message: String) { self.backup_message = message; }
+    pub fn session_result(&mut self, message: String) { self.session_message = message; }
 
     fn page_layout(&self, w: usize, h: usize) -> Layout {
         if matches!(self.page, Page::SaveStates | Page::ReplaceState) {
             save_states::layout(rows_of(self.page).len(), w, h)
         } else if matches!(self.page,Page::SaveBackups|Page::RestoreBackup) {
             save_backups::layout(self.page,rows_of(self.page).len(),w,h)
-        } else { layout_kind(rows_of(self.page).len(), w, h,self.page==Page::Main) }
+        } else {
+            let footer = if self.page == Page::Main && !self.session_message.is_empty() {
+                (32. * (h as f32 / 480.).min(w as f32 / 560.).max(0.28)) as usize
+            } else { 0 };
+            layout_kind(rows_of(self.page).len(), w, h.saturating_sub(footer),self.page==Page::Main)
+        }
     }
 
     fn change_state_slot(&mut self, forward: bool) {
@@ -758,6 +773,7 @@ impl Menu {
             MenuInput::Confirm => match row {
                 Row::MouseMode => self.toggle_mouse_mode(),
                 Row::Resume => Some(MenuAction::Resume),
+                Row::RestartRom => Some(MenuAction::RestartRom),
                 Row::Backup(copy) => {
                     if let Some(id) = self.save_backups[copy as usize].generation {
                         self.backup_selection = Some((id,copy));
@@ -1119,6 +1135,7 @@ fn value_of(
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
         Row::Backup(_) | Row::ConfirmRestoreBackup | Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
+        | Row::RestartRom
         | Row::Quit
         | Row::QuitYes
         | Row::QuitNo
@@ -1234,6 +1251,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
         Row::Menu => None,
         Row::MouseMode => None,
         Row::Backup(_) | Row::ConfirmRestoreBackup | Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
+        | Row::RestartRom
         | Row::Quit
         | Row::QuitYes
         | Row::QuitNo
@@ -1691,7 +1709,7 @@ mod tests {
     }
 
     #[test]
-    fn bubbles_are_main_menu_sibling_and_all_ten_rows_fit() {
+    fn bubbles_are_main_menu_sibling_and_all_main_rows_fit() {
         assert_eq!(MAIN_ROWS[4],Row::TextBubblesMenu);
         assert!(!VIDEO_ROWS.contains(&Row::TextBubblesMenu));
         assert_eq!(layout(MAIN_ROWS.len(),1280,720).visible_rows,MAIN_ROWS.len());
@@ -1791,10 +1809,10 @@ mod tests {
     }
 
     #[test]
-    fn main_and_video_with_ten_rows_have_distinct_correct_layouts() {
+    fn main_and_video_have_distinct_correct_layouts() {
         let mut menu=Menu::new(true,true);
         let main=menu.page_layout(1280,720);
-        assert_eq!(main.visible_rows,10);
+        assert_eq!(main.visible_rows,MAIN_ROWS.len());
         menu.open(Page::Video);
         let video=menu.page_layout(1280,720);
         assert!(video.panel_w>main.panel_w);
@@ -1961,6 +1979,28 @@ mod tests {
             menu.handle(MenuInput::Confirm, &mut av),
             Some(MenuAction::Quit)
         );
+    }
+
+    #[test]
+    fn restart_is_a_main_menu_action_and_errors_keep_navigation_available() {
+        let mut av = AvConfig::default();
+        let mut menu = Menu::new(true, true);
+        at(&mut menu, Row::RestartRom);
+        assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
+        assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::RestartRom));
+        menu.session_result("Cannot restart ROM: save is unavailable".into());
+        for (w,h) in [(240,160), (1280,720), (3840,2160)] {
+            let l = menu.page_layout(w,h);
+            let first = menu.first_visible(l);
+            let y = l.rows_y + (menu.selected - first) * l.line_h + l.line_h / 2;
+            assert_eq!(menu.click(l.panel_x + l.pad + 1, y, w, h, true, &mut av), Some(MenuAction::RestartRom));
+            let mut px = vec![[0,0,0,255];w*h];
+            let keys = std::array::from_fn(|_| String::new());
+            menu.draw(&av,&keys,"Tab","t","+","-",&mut px,w,h);
+        }
+        menu.reset();
+        assert!(menu.session_message.is_empty());
+        assert_eq!(menu.handle(MenuInput::Cancel, &mut av), Some(MenuAction::Resume));
     }
 
     #[test]

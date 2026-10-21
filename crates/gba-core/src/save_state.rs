@@ -67,6 +67,7 @@ impl Machine {
         state.bus.validate_state(&self.bus)?;
         // Keep host resources and cancelled input requests out of the file.
         std::mem::swap(&mut state.bus.rom, &mut self.bus.rom);
+        std::mem::swap(&mut state.bus.rom_resources, &mut self.bus.rom_resources);
         std::mem::swap(&mut state.bus.bios, &mut self.bus.bios);
         std::mem::swap(
             &mut state.bus.ffta_diagnostics,

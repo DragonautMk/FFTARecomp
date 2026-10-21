@@ -2981,6 +2981,7 @@ impl ApplicationHandler for PlayApp {
         drop(self.sb_surface.take());
         drop(self.sb_context.take());
         drop(self.window.take());
+        crate::rom_data::report_usage(&self.machine);
         self.profile.report();
         let audio_profile = self.streams.lock().unwrap().profile.take();
         if let Some(profile) = audio_profile { profile.report(); }
@@ -3027,7 +3028,7 @@ impl ApplicationHandler for PlayApp {
 pub fn cmd_play(args: &[String]) -> Result<(), String> {
     let mut rom_path = None;
     let mut interp_only = false;
-    // Opt-in preparation until direct consumption/equivalence gates pass.
+    // Opt-in decoded resources until the equivalence/cost gates pass.
     let mut prepare_rom_data = false;
     // Machine-readable lifecycle lines on stdout for a supervising frontend
     // (the launcher): `STATUS building <pct>` / `STATUS playing`.
@@ -3098,7 +3099,7 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
             ));
         }
     }
-    let _prepared_resources = if prepare_rom_data {
+    let prepared_resources = if prepare_rom_data {
         Some(crate::rom_data::prepare_startup(&rom, status)?)
     } else {
         None
@@ -3200,6 +3201,9 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     };
 
     let mut machine = make_machine(rom, bios.as_deref());
+    if let Some(prepared) = prepared_resources {
+        crate::rom_data::attach_from_directory(&mut machine, &prepared.directory)?;
+    }
     let save_backups = crate::save_backups::Backups::new(Path::new(&sav_path));
     if benchmark.is_none() {
         if let Some(sav) = save_backups.capture_startup().map_err(|e| format!("Cannot protect cartridge save: {e}"))? {

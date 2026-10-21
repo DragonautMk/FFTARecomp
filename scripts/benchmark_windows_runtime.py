@@ -196,6 +196,8 @@ def main(argv=None):
     parser.add_argument('--wine')
     parser.add_argument('--wine-prefix', type=Path)
     parser.add_argument('--verify-state', action='store_true', help='require full serialized final-state hashes')
+    parser.add_argument('--baseline-rom-data', action='store_true', help='enable --rom-data only for the baseline runtime')
+    parser.add_argument('--candidate-rom-data', action='store_true', help='enable --rom-data only for the candidate runtime')
     parser.add_argument('--profile', action='store_true', help='separate instrumented frame-time runs')
     parser.add_argument('--ppu-profile', action='store_true', help='also measure CPU scanlines/zoom/core remainder; implies --profile')
     parser.add_argument('--require-execution-counts', action='store_true',
@@ -273,6 +275,9 @@ def main(argv=None):
             command += ['--sav', str(args.sav.resolve())]
         if args.state:
             command += ['--state', str(args.state.resolve())]
+        variant = label.split('-', 1)[0]
+        if getattr(args, variant + '_rom_data'):
+            command.append('--rom-data')
         log = args.out / f'{label}.log'
         with log.open('w', encoding='utf-8') as output:
             subprocess.run(command, env=run_env, stdout=output, stderr=subprocess.STDOUT,
@@ -323,6 +328,7 @@ def main(argv=None):
             'initial_state': reference['initial_state'],
             'warmup': args.warmup, 'widescreen': args.widescreen,
             'zoom': env['FFTA_ZOOM_LEVEL'], 'runs': args.runs,
+            'decoded_resources': {'baseline': args.baseline_rom_data, 'candidate': args.candidate_rom_data},
             'framebuffer_oam_equal': True, 'full_final_state_equal': args.verify_state,
             'final_framebuffer': reference['framebuffer'], 'final_state_sha256': reference['state'],
             'execution_counts': counts, 'execution_counts_required': args.require_execution_counts,

@@ -54,6 +54,37 @@ Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
 
 [Change record](docs/changes/2026-10-21-validate-virtual-monitor-transitions.json)
 
+## 2026-10-21 — Validate decoded OBJ scene parity and measure migration costs
+
+Type: changed. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Add explicit per-variant decoded-resource switches to the existing benchmark runner, applied consistently to equivalence, timing and profile runs and recorded in summaries.
+- Fix acceptance limits before measurement and compare a corrected legacy reference without resource-routing overhead against the candidate built from the same isolated source path and toolchain.
+- Add opt-in private-fixture checks for every recorded frame/state/image/audio/dispatch, including boot from a read-only cartridge save and source-range coverage, plus seven first/cached startup observations using actual preparation/activation helpers.
+- Include decoded-resource help in explicit portable package inputs; a synthetic Linux tar/Windows zip regression plants private markers beside runtime/root inputs and verifies that resources, ROM/save/state/recordings, native cache and generated game code stay out.
+
+**Validation**
+
+- 13 benchmark-script tests pass, including independent switches with the same executable in all phases and alternating run order. Native and Windows GNU release test builds are warning-free.
+- Five alternating native Linux pairs match every framebuffer/OAM, loaded identity, full final state and execution counts: worldmap240 mean +1.0081%, p95+1.7287%, p99+0.2292%; observed battle/menu/enemy3530 mean -0.2355%, p95-3.7654%, p99-4.1991%. All predetermined limits pass. CPU15 pinned; sampled sibling load retained, no concurrent build during timing.
+- Initial candidate build was invalid due to copied old source mtimes; equal hashes exposed reuse before any measurement. Refreshing mtimes rebuilt only the candidate; distinct hashes/help were checked. A help-capture helper omitted stderr initially, corrected without rebuilding. Root source bytes, canonical executable and protected fixture hashes are preserved.
+- Synthetic portable archive test passes for Linux tar.gz and Windows zip, preserving selected runtime bytes and including both resource help documents while excluding every planted private marker. This is a package-selection check, not an actual release export.
+- Native Linux every-frame differential passes worldmap240, observed battle/menu/enemy3530 and protected-suspend-save boot8476: every full state, central/wide pixels, OAM, dispatch and mixed/PSG/FIFO/HLE stream matches; HLE compared by bits after equal observer setup. Actual primary read at541 and alias read at5400 (mask3), with guest RAM/clock/RNG equality throughout. Protected inputs/loaders remain unchanged.
+- Seven native Linux first/cached observations pass: after-ROM-read median32.415695/21.018705ms, maxima34.267605/21.626677ms; source I/O/decode/preparation/activation retained separately. Owned432B; independent seven-pair process peak RSS median delta672KiB/maxima delta752KiB, below2MiB. One generation1146logical/12288allocated bytes; complete managed root1164/32768bytes, no old/orphan cleanup. All observations and process wall times retained.
+- Windows GNU/Wine every-frame checks also pass240/3530/8476frames with full states, pixels/OAM, dispatch and all audio streams; actual EUR copied alias observed at5400 with mask3. Different platform TinyCC caches are retained and identified; no cross-platform machine/dispatch identity inferred. D-Bus background diagnostics did not prevent actual passing exits.
+- Seven Windows/Wine first/cached helper observations pass the preselected median gates:109.222100/91.891400ms, maxima194.175200/183.130300ms. Cached maximum exceeds100ms and is retained; the gate is explicitly median-only. Owned432B and host-backed Wine disk footprint match; no native Windows RSS/timing/filesystem claim.
+- Final project_memory.py check and CRLF-aware git diff --check pass. Source hashes, all protected private inputs and native/Windows canonical executable hashes are verified unchanged; terminal outcomes and the next GUI criterion are recorded in TASK_HANDOFF.
+
+**Limitations**
+
+- First-family EUR local scene/cost coverage; USA source and original-routine matrix gates remain retained but a USA initializer trace is still open. GUI Fast/pause/realtime audio, native Windows hardware/RSS/timing and actual updated release archive checks remain before normal enablement. Other catalog families and mods remain in the full active TODO. Per-frame full-state/audio checks compare current-runtime legacy reads versus decoded data; the distinct corrected-old-binary timing comparison separately checks all frame/OAM and final full state. No production runtime change, release export, AndroidPort update, agent commit or push in this unit.
+
+Documentation: [ROM_DATA_VALIDATION.md](docs/development/ROM_DATA_VALIDATION.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [windows_runtime_performance.md](docs/windows_runtime_performance.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md).
+
+[Change record](docs/changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json)
+
 ## 2026-10-21 — Discard callback history at Fast audio and pause boundaries
 
 Type: fixed. Platforms: Desktop Linux and Windows/Wine.
@@ -856,6 +887,32 @@ Type: performance. Platforms: Native Linux evaluation, Windows GNU / Wine core t
 Documentation: [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md).
 
 [Change record](docs/changes/2026-10-21-evaluate-compact-ui-layer-ids.json)
+
+## 2026-10-21 — Consume decoded OBJ metadata through guest and host runtime readers
+
+Type: added. Platforms: Linux, Windows GNU/Wine.
+
+**Changes**
+
+- Activate source-authenticated immutable OBJ dimensions with play/frames/runc --rom-data; fixed regional source projections serve bus/native API/DMA reads while typed host readers preserve changed RAM, with distinct ROM/file/dataset identities, usage counters and a 1 KiB cap (432 bytes observed).
+- Keep resource ownership and counters out of serialized machine state; preserve the live Arc across transactional Load/Slots Undo and clone it into backup clean boot before touching the cartridge save. Missing-file activation fails explicitly; an already loaded session requires no resource file I/O.
+- Correct the verified EUR main-draw host source from IWRAM to direct ROM dimensions, and independently inventory the additional EUR copied-code-area alias. Extractor revision 2 records both source ranges per region and retains prior generations; schema/decoder, guest instructions, RtApi and native cache keys remain unchanged for source-equal base data.
+
+**Validation**
+
+- Final release suites pass native191 core/95 runtime and Windows GNU/Wine191 core/94 runtime, with7 core/8 runtime optional ignored. Regional extraction/file/lifecycle cases pass on both targets; original EUR/USA instruction matrix covers48 cases with registers/CPSR/clock/RAM/host attributes equal,239 decoded guest reads and288 typed host reads per region.
+- Tests poison old ROM table bytes and cover all read widths/mirrors/boundaries, native API calls, original CPU loads, DMA, dynamic RAM, byte-equal pre-activation snapshots, foreign/missing activation rejection, file deletion during a loaded session, Slots Load/Undo and backup resource retention.
+- Linux and Windows/Wine native loops each match all600 full machine states, central/wide images, OAM, native/fallback dispatch and full mixed/PSG/FIFO/HLE audio (HLE by bits), with3519 typed host reads. Existing TinyCC ELF caches are reused; the Windows object has a DLL filename but uses the TinyCC loader. Boot guest reads0 are not claimed as guest-use evidence; original conditional reads are forced by the48-case matrix.
+- Production CLI builds are warning-free with canonical executables restored by SHA-256. Actual frames/runc commands match corresponding120-frame legacy hashes with decoded usage and unchanged ROM/library inputs. Actual Linux/Wine interpreter GUI create/close/move/reuse/close passes with positive file-use counters and inspected captures.
+- Retain negative boot provenance probes and the source investigation that found the missing alias and wrong host pointer. Helper-only missing cwd/TinyCC-path setup failures were corrected without rebuilding or recreating completed fixtures. Final source/memory/whitespace checks recorded separately.
+
+**Limitations**
+
+- Opt-in first-family implementation only. Other families, copied-table initializer/read trace, broad scene/transitions, Fast/pause GUI coverage, startup/frame/disk costs, normal enablement, packaging, native Windows hardware and mods remain pending in the full TODO. The host source correction can affect extended sprite clipping/flips; it is verified against original instructions rather than claiming preservation of the old incorrect host reader. No speedup, complete ROM extraction, ABI/state-format change, export, AndroidPort update, agent commit or push.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ffta_sprite_runtime.md](docs/ffta_sprite_runtime.md).
+
+[Change record](docs/changes/2026-10-21-consume-source-verified-obj-metadata.json)
 
 ## 2026-10-21 — Compile desktop helpers only on their intended platforms and tests
 

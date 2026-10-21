@@ -8,6 +8,10 @@ use std::{
     path::{Path, PathBuf},
 };
 
+#[cfg(test)]
+mod native_tests;
+#[cfg(test)]
+mod validation_tests;
 mod preparation;
 pub use preparation::prepare_startup;
 
@@ -36,6 +40,12 @@ fn parse<T: serde::de::DeserializeOwned>(bytes: &[u8], label: &str) -> Result<T,
 }
 
 pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String> {
+    let (manifest, dimensions, bytes) = read_dataset(path)?;
+    source.validate_files(&manifest, &dimensions, &bytes)?;
+    Ok(dimensions)
+}
+
+fn read_dataset(path: &Path) -> Result<(Manifest, ObjDimensions, Vec<u8>), String> {
     if !fs::symlink_metadata(path).is_ok_and(|m| m.file_type().is_dir()) {
         return Err(format!(
             "Dataset must be a directory, not a symlink: {}",
@@ -50,8 +60,39 @@ pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String>
     // exactly one resource and one fixed file name; source validation pins both.
     let bytes = read_bounded(&path.join(OBJ_DIMENSIONS_FILE))?;
     let dimensions: ObjDimensions = parse(&bytes, "OBJ dimensions")?;
-    source.validate_files(&manifest, &dimensions, &bytes)?;
-    Ok(dimensions)
+    Ok((manifest, dimensions, bytes))
+}
+
+pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Result<(), String> {
+    let (manifest, dimensions, bytes) = read_dataset(path)?;
+    let resources = gba_core::rom_data::RuntimeResources::from_base_files(
+        &machine.bus.rom,
+        &manifest,
+        dimensions,
+        &bytes,
+    )?;
+    let resident = resources.resident_bytes() + 2 * std::mem::size_of::<usize>();
+    if resident > 1024 {
+        return Err("Decoded OBJ metadata exceed the session memory budget".into());
+    }
+    machine.bus.set_rom_resources(Some(resources.clone()))?;
+    eprintln!("ROM_DATA runtime=decoded resource={} source={} dataset={} file={} resident_bytes={resident}",
+        resources.resource_id(), resources.source_sha256(), resources.dataset_sha256(), resources.file_sha256());
+    Ok(())
+}
+
+pub fn prepare_and_attach(machine: &mut gba_core::Machine, status: bool) -> Result<(), String> {
+    let prepared = prepare_startup(&machine.bus.rom, status)?;
+    attach_from_directory(machine, &prepared.directory)
+}
+
+pub fn report_usage(machine: &gba_core::Machine) {
+    if let Some(resources) = machine.bus.rom_resources() {
+        let stats = resources.stats();
+        eprintln!("ROM_DATA_USE resource={} dataset={} bus_reads={} host_rom_reads={} host_ram_reads={} dynamic_ram_reads={} validation_reads={} bus_source_mask={}",
+            resources.resource_id(), resources.dataset_sha256(), stats.bus_reads, stats.host_rom_reads,
+            stats.host_ram_reads, stats.dynamic_ram_reads, stats.validation_reads, stats.bus_source_mask);
+    }
 }
 
 fn write_synced(path: &Path, bytes: &[u8]) -> Result<(), String> {
@@ -131,7 +172,7 @@ pub fn cmd(args: &[String]) -> Result<(), String> {
             &mut source,
             &mut preparation::console_progress(false),
         )?;
-        println!("ROM_DATA action={} profile={} source={} schema={} decoded={} runtime=not-connected directory={}",
+        println!("ROM_DATA action={} profile={} source={} schema={} decoded={} runtime=offline directory={}",
             prepared.action, source.manifest.profile, source.manifest.source_rom_sha256,
             source.manifest.schema, source.manifest.coverage.join(","), prepared.directory.display());
         return Ok(());
@@ -143,7 +184,7 @@ pub fn cmd(args: &[String]) -> Result<(), String> {
         verify(path, &source)?;
         "verified"
     };
-    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=2 runtime=not-connected",
+    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=2 runtime=offline",
         source.manifest.profile, source.manifest.source_rom_sha256, source.manifest.schema,
         source.manifest.coverage.join(","));
     Ok(())
@@ -319,6 +360,84 @@ mod tests {
             &Extraction::from_rom(&usa).unwrap()
         )
         .is_err());
+    }
+
+    #[test]
+    #[ignore = "requires the user's exact USA and EUR ROMs; no game data is bundled"]
+    fn runtime_files_bind_transactionally_and_survive_slots_undo_and_backup_reboot() {
+        use gba_core::Bus;
+        use std::sync::Arc;
+        for env in ["FFTA_TEST_ROM_USA", "FFTA_TEST_ROM_EUR"] {
+            let temp = tempfile::tempdir().unwrap();
+            let rom = fs::read(std::env::var(env).unwrap()).unwrap();
+            let mut source = Extraction::from_rom(&rom).unwrap();
+            let path = temp.path().join("decoded");
+            extract(&path, &mut source).unwrap();
+            let mut machine = super::super::make_machine(rom, None);
+            let boot = machine.save_state().unwrap();
+            attach_from_directory(&mut machine, &path).unwrap();
+            let resources = machine.bus.rom_resources().unwrap().clone();
+            assert_eq!(
+                resources.file_sha256(),
+                gba_core::ffta_rom::digest(&fs::read(path.join(OBJ_DIMENSIONS_FILE)).unwrap())
+            );
+            assert_eq!(boot, machine.save_state().unwrap());
+            let offset = source.manifest.resources[0].sources[0].offset;
+            let expected = machine.bus.read32(0x08000000 + offset);
+            let save = temp.path().join("saves/test.sav");
+            fs::create_dir_all(save.parent().unwrap()).unwrap();
+            let mut slots = super::super::save_state::Slots::new(&save, &machine.bus.rom);
+            let preview = vec![[0; 4]; 240 * 160];
+            slots.save(&machine, 1, &preview, false).unwrap();
+            machine.cpu.regs[4] = 37;
+            let before = machine.save_state().unwrap();
+            slots.load(&mut machine, 1).unwrap();
+            assert_eq!(machine.cpu.regs[4], 0);
+            assert!(Arc::ptr_eq(
+                machine.bus.rom_resources().unwrap(),
+                &resources
+            ));
+            slots.undo(&mut machine).unwrap();
+            assert_eq!(machine.save_state().unwrap(), before);
+            assert!(Arc::ptr_eq(
+                machine.bus.rom_resources().unwrap(),
+                &resources
+            ));
+            // A new activation must reject absent files; a running session
+            // retains its already verified immutable in-memory resources.
+            fs::remove_file(path.join(OBJ_DIMENSIONS_FILE)).unwrap();
+            assert!(attach_from_directory(&mut machine, &path).is_err());
+            assert!(Arc::ptr_eq(
+                machine.bus.rom_resources().unwrap(),
+                &resources
+            ));
+            let mut fresh = super::super::make_machine(machine.bus.rom.clone(), None);
+            assert!(attach_from_directory(&mut fresh, &path).is_err());
+            assert!(fresh.bus.rom_resources().is_none());
+            assert_eq!(machine.bus.read32(0x08000000 + offset), expected);
+            let count = resources.stats();
+            machine.load_state(&boot).unwrap();
+            assert!(Arc::ptr_eq(
+                machine.bus.rom_resources().unwrap(),
+                &resources
+            ));
+            assert_eq!(resources.stats(), count);
+            let length = machine.bus.save_data().unwrap().len();
+            let backups = super::super::save_backups::Backups::new(&save);
+            fs::write(&save, vec![7; length]).unwrap();
+            backups.capture_startup().unwrap();
+            let generation = backups.choices(length)[0].generation.unwrap();
+            machine.cpu.regs[4] = 99;
+            backups.restore(generation, &mut machine, &boot).unwrap();
+            assert_eq!(machine.cpu.regs[4], 0);
+            assert!(Arc::ptr_eq(
+                machine.bus.rom_resources().unwrap(),
+                &resources
+            ));
+            assert_eq!(machine.bus.save_data().unwrap(), vec![7; length]);
+            assert_eq!(machine.bus.read32(0x08000000 + offset), expected);
+            assert!(resources.stats().bus_reads > 0);
+        }
     }
 
     #[cfg(unix)]

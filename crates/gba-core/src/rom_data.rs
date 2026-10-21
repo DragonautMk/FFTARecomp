@@ -3,8 +3,11 @@
 use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
+mod runtime;
+pub use runtime::{ResourceStats, RuntimeResources};
+
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 1;
+pub const EXTRACTOR_REV: u32 = 2;
 pub const DECODER_REV: u32 = 1;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
@@ -116,7 +119,10 @@ impl Extraction {
         let hash = ffta_rom::digest(rom);
         let (profile, ranges): (&str, &[(u32, &str)]) = match hash.as_str() {
             ffta_rom::SHA256 => ("usa", &[(0x149510, "direct"), (0xa398dc, "iwram-copy")]),
-            ffta_rom::EUROPE_SHA256 => ("europe", &[(0x14ced8, "iwram-copy")]),
+            ffta_rom::EUROPE_SHA256 => (
+                "europe",
+                &[(0x14ced8, "rom-table"), (0xd976e8, "iwram-copy")],
+            ),
             _ => return Err("Decoded resources require a verified FFTA EUR or USA ROM".into()),
         };
         Self::from_ranges(rom, hash, profile, ranges, DIMENSIONS_SHA256)
@@ -299,7 +305,7 @@ mod tests {
     fn regional_extractions_are_independent_and_roundtrip() {
         for (env, version, ranges) in [
             ("FFTA_TEST_ROM_USA", Version::Usa, 2),
-            ("FFTA_TEST_ROM_EUR", Version::Europe, 1),
+            ("FFTA_TEST_ROM_EUR", Version::Europe, 2),
         ] {
             let rom = std::fs::read(std::env::var(env).unwrap()).unwrap();
             let extraction = Extraction::from_rom(&rom).unwrap();

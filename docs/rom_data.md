@@ -2,9 +2,11 @@
 
 The desktop developer CLI can extract, verify and prepare the first supported family,
 `graphics.obj-dimensions`, from an exact supported FFTA EUR or USA ROM.
-`play --rom-data` opts into automatic preparation before boot. Direct runtime
-consumption is not connected yet; gameplay still uses the original ROM, and
-ordinary startup stays unchanged until the ROMDATA-04/05 gates pass.
+`play --rom-data` prepares and directly consumes the verified decoded metadata.
+`frames` and `runc` support the same opt-in. The source ROM remains required for
+code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
+See [runtime consumption](rom_data_runtime.md) for sources, identity, counters,
+snapshots, verified coverage and limitations.
 The [TODO](development/ROM_DATA_TODO.md) tracks the remaining phases and
 [inventory](development/ROM_DATA_INVENTORY.md) separates known readers from
 unknown asset catalogs and formats.
@@ -20,8 +22,9 @@ The output directory contains `manifest.toml` and `obj-dimensions.toml`.
 The latter stores twelve indexed width/height records. The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
-USA's direct table and copied alias are verified independently; EUR has its
-own verified source address. Resource identity is independent of file offsets.
+Both regional direct tables and copied aliases are verified independently.
+Extractor revision 2 includes the EUR copied alias found during runtime tracing;
+resource identity is independent of file offsets and the decoded format stays v1.
 There is no ROM code, image, save, absolute installation path or timestamp in
 the manifest. The generated decoded values remain private game data: keep
 outputs under ignored `target/` for this developer command, outside packages.
@@ -43,8 +46,8 @@ the manifest: base data must reconstruct the original source exactly. Mods
 will need a separate loader and compatibility identity.
 
 The commands print `ROM_DATA action=created|reused|verified|repaired`, source/profile,
-schema and decoded coverage. `runtime=not-connected` explicitly identifies the
-current stage. It does not claim that graphics, sprite pixels, text, maps,
+schema and decoded coverage. `runtime=offline` identifies these offline commands;
+active gameplay reports `runtime=decoded`. Neither claims that sprite pixels, text, maps,
 gameplay tables or audio have been exported or migrated.
 
 ## Managed preparation and startup
@@ -89,8 +92,8 @@ discovery, backup capture or native translation. Errors abort startup instead
 of silently selecting the old ROM resource path. Progress uses readable
 `resources:` messages and the existing `STATUS building` protocol with game-data
 phase labels; lock-wait messages are deduplicated. The prepared typed data are
-loaded from the validated files, but connecting guest/host consumers remains
-ROMDATA-04. This is opt-in preparation, not the completed data migration.
+loaded from validated files and connected to the first family's guest/host
+consumers. This remains opt-in first-family migration, not complete ROM extraction.
 
 ## Validation and limits
 
@@ -138,7 +141,8 @@ only the helper was corrected, and the existing dataset was reused.
 Native Windows and physical power-loss testing remain unverified. Directory
 metadata is explicitly synced on Unix; Windows uses synced files and atomic
 replacement without a portable directory-flush API. Old/orphan generations are
-retained for recovery rather than automatically pruned. Guest reads, native
-versus interpreter equivalence, load/Undo/backup resource rebinding and measured
-performance still need ROMDATA-04/05. Canonical executables are restored by hash;
+retained for recovery rather than automatically pruned. Direct reads and
+load/Undo/backup rebinding are now verified for this family in the
+[runtime evidence](rom_data_runtime.md); broader scene/lifecycle and measured
+performance gates remain. Canonical executables are restored by hash;
 archives and AndroidPort are unchanged.

@@ -18,22 +18,33 @@ outside the resource; guest memory beyond this table must keep its old behavior.
 The USA draw routines at 0x080014c8 and 0x080016d4 read the table at
 0x149510. The USA copied RAM sprite/visibility routines use a second table at
 0xa398dc, copied to IWRAM 0x03006d28. EUR draw routines at 0x08001500 and
-0x0800170c also use that IWRAM location, sourced from 0x14ced8. Existing
-consumers and original execution are described in
+0x0800170c use the direct ROM table at0x14ced8; their host decoder's old IWRAM
+selection was corrected against the original instructions during ROMDATA-04.
+EUR also contains an identical table at0xd976e8 in the copied-code source area,
+with the same relative source/RAM offset as the copied code. Both ranges are
+mapped. The protected EUR boot-to-battle replay now observes actual alias reads
+at frame5400 (primary first read541), with every full guest/RAM state matching
+legacy reads through8476frames; see the
+[validation protocol/results](ROM_DATA_VALIDATION.md). This is per-frame source
+coverage, not attribution to a particular DMA/PC, and does not infer a USA
+initializer trace. Existing consumers and original execution are described in
 [sprite routines](../ffta_sprite_routines.md) and implemented in
 `ffta_sprites::{decode,decode_battle,visibility_result,ffta_sprite_interpret}`.
-Both exact local regional images have been read independently: all three
+Both exact local regional images have been read independently: all four
 48-byte ranges have SHA-256
 `6ff886b23cde2726a4ceb9cba8c5569bbb4dc6a1185769547f78dfbcb7e2d991`.
-The USA alias must be checked independently, not assumed equal to the primary.
+Both copied aliases are checked independently, not assumed equal to the primary.
+Exact-byte occurrence searches find two copies per region. Extractor revision2
+records the newly discovered EUR alias; schema/decoder remain1.
 The format is language independent; this does not validate localized assets.
 
 Decoded files retain indexed dimensions rather than a rendered picture.
 Host readers must preserve any genuinely changed RAM dimensions; a static
 resource cannot replace dynamic RAM without checking the consumer contract.
-CPU, DMA, interpreter and generated native reads currently retain the ROM
-path. No guest routine may be skipped to consume this metadata: timing,
-registers, writes and event order remain acceptance criteria for ROMDATA-04/05.
+CPU/DMA/interpreter/native source reads and typed host consumers now use the
+decoded files with --rom-data. No original instruction or decompression is
+skipped. [Runtime evidence](../rom_data_runtime.md) distinguishes conditional
+guest reads from ordinary in-view boot/host use; broader gates remain05.
 
 ## Other families and migration matrix
 
@@ -122,12 +133,12 @@ as the resource ID. Future assets add entries without changing this ID.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Automatic path: portable `Data/resources/<rom-sha256>/v1/e1-d1/`;
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e2-d1/`;
   installed uses local application data `FFTARecomp/resources`. Immutable
   `generation-*` directories contain the two files; an atomic relative `current`
   file selects one verified generation. Revisions have separate paths and an OS
   lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
-  implement reuse/recovery; direct consumption and normal enablement await04/05.
+  implement reuse/recovery; direct consumption is opt-in, normal enablement awaits05.
   Native caches and saves remain separate.
 - Decoded base data are immutable host resources, shared for a session and
   rebuilt/rebound on load/Undo/clean-boot restore. Do not serialize their

@@ -33,7 +33,7 @@ def main(default_platform="windows"):
     for path in (ROOT / 'Licenses').rglob('*'):
         if path.is_file():
             files[path.relative_to(ROOT).as_posix()] = path
-    for name in ('portable', 'docker', 'fps_overlay', 'menu_shortcuts', 'save_states', 'save_backups'):
+    for name in ('portable', 'docker', 'fps_overlay', 'menu_shortcuts', 'save_states', 'save_backups', 'rom_data', 'rom_data_runtime'):
         files['docs/' + name + '.md'] = ROOT / 'docs' / (name + '.md')
     for name, source in files.items():
         if source.is_symlink() or not source.is_file():

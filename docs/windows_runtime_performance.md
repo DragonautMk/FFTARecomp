@@ -85,7 +85,14 @@ verification command. To reproduce a specific enemy turn, use a recording
 with `--input file.input` and optionally a read-only save copy with `--sav`.
 The script separates per-frame framebuffer/OAM verification from timing,
 alternates timing-run order, rejects incomplete or divergent runs, and writes
-the individual logs plus `summary.json`. Its default 120-frame warm-up uses
+the individual logs plus `summary.json`. For a decoded-resource comparison,
+`--baseline-rom-data` and `--candidate-rom-data` enable that runtime option
+independently in verification, timing and profile runs, including when both
+variants use the same executable path. The summary records both switches.
+Use a corrected legacy binary without resource routing as the reference when
+measuring the complete migration cost; see the
+[resource validation protocol](development/ROM_DATA_VALIDATION.md).
+Its default 120-frame warm-up uses
 the existing `FFTA_BENCH_FROM` mode, which restores sprite expansion at the
 start of the measured interval.
 

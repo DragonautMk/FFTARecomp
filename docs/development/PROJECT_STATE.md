@@ -36,7 +36,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   atomic relative selection and corruption recovery before save writes. Explicit
   `FFTA_RESOURCES_DIR` overrides the root. No old generation is recursively
   deleted; Linux and Windows/Wine process-interruption/relocation/startup checks
-  pass. Direct runtime consumption and normal enablement await ROMDATA-04/05.
+  pass. [Direct OBJ metadata consumption](../rom_data_runtime.md) is now opt-in
+  in play/frames/runc: fixed source projections serve CPU/DMA/native reads,
+  typed host readers preserve changed RAM and nonserialized Arc resources
+  survive Load/Undo/backup clean boot. Extractor2 adds EUR's copied alias;
+  the verified EUR host draw source is ROM14ced8, not IWRAM. Base data remain
+  source-equal, preserving save/native identities. New EUR worldmap/battle/menu/
+  boot-transition full-state/audio checks pass independently on Linux and Wine;
+  the copied alias is actually read at frame5400. Local frame/startup/memory/disk
+  costs pass the predefined [validation protocol](ROM_DATA_VALIDATION.md), with
+  neutral frame results and retained Wine startup variability. GUI Fast/pause/
+  realtime audio, USA initializer and native Windows gates still precede normal
+  enablement; other families/mods remain open.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity and measure costs against the memory baseline.
 

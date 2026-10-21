@@ -74,13 +74,119 @@ An open parent never reopens completed children or rejected experiments.
   offline extraction unit. Retained core/Cargo source hashes are unchanged;
   current uncommitted diff is the preparation unit above. No commit was made
   by this agent and no work was reverted on observing the updated HEAD.
-- Next open unit **ROMDATA-04-OBJ-CONSUMPTION**: trace and connect CPU/DMA,
-  interpreter/native and host sprite dimension consumers to loaded typed data;
-  add provenance/use counters, preserve dynamic RAM/timing and load/Undo/clean
-  boot host-resource lifetime. Current prepared data are loaded but not consumed.
-  Record a selection checkpoint before implementation. Normal enablement waits
-  for ROMDATA-05 equivalence/cost gates. Complete goal stays active, including
-  other catalogs/families/mods; no live process and no closed work reopened.
+- **ROMDATA-04-OBJ-CONSUMPTION — complete for opt-in first-family implementation
+  and initial correctness/provenance gates.** [Runtime](../rom_data_runtime.md),
+  [record](../changes/2026-10-21-consume-source-verified-obj-metadata.json).
+  play/frames/runc --rom-data now bind immutable source-authenticated typed data.
+  Four fixed source pages project CPU/DMA/native-API reads; host draw/visibility/
+  battle readers use typed data while preserving changed RAM and out-of-family
+  reads.432B session allocation; no hot-path I/O or instruction/timing bypass.
+  Distinct source/file/dataset identities, base-only constructor, unchanged
+  RtApi/native keys and state schema1. Serde-skipped Arc/counters survive
+  transactional Load, Slots Undo and backup clean-boot restore.
+- **ROMDATA-04-EUR-ALIAS — complete**: original01/02 provenance expanded by new
+  evidence, not context recovery. Exact source scan finds two48byte copies per
+  region: USA149510/a398dc, EUR14ced8/d976e8. Extractor2 records the additional
+  EUR copied-code-area alias; schema/decoder remain1 and managed e1 is retained.
+  The EUR host decoder incorrectly selected IWRAM for its main draws. Exact
+  original literal ROM15ac ->0814ced8 and original-instruction matrix verify the
+  corrected direct ROM source in both legacy/decoded modes. Copied routines keep
+  RAM semantics. Actual battle initializer/alias-read trace remains05 coverage.
+- Final release suites: native191core/95runtime and Wine191core/94runtime pass
+  (7core/8runtime optional ignored). Private regional extractor and file/lifecycle
+  checks pass on both targets.48-case actual EUR/USA draw matrix passes original
+  register/CPSR/clock-at-every-step, RAM and host replacement attributes; each
+  region records239decoded guest reads/288typed host reads. Synthetic poisoned
+  ROM, all widths/mirrors/boundaries/native API, DMA and dynamic-RAM gates pass.
+- Actual native600-frame legacy/decoded comparisons pass on Linux and Wine:
+  every full state, central/wide image, OAM, dispatch and full mixed/PSG/FIFO/HLE
+  audio (HLE by bits),3519typed host reads. Native blocks1350656Linux/261866Wine;
+  each target uses its own existing TinyCC ELF cache (Wine filename.dll, not
+  OS/GCC DLL). No cross-target timing or whole-scene coverage inferred.
+  Boot bus reads0 are explicitly NOT guest-use proof: original width reads are
+  conditional on clipping/flips, exercised by the stronger48-case matrix.
+- Negative probes retained: native-pair-before-eur-alias.log and
+  native-pair-final.log matched600states/audio/images but failed the unexercised
+  boot guest-read gate; second reports3519dynamicRAM reads, exposing wrong host
+  source. Fixed source and coverage established by actual disassembly/literal
+  and matrix, not by calling a0-read scene guest use. Private instruction output
+  in eur-draw-source-disassembly.txt; no game code/data committed.
+- Production Linux/Windows builds warning-free; canonical hashes restored.
+  Actual frames/runc120-frame legacy/decoded hashes match with decoded usage,
+  protected ROM/library unchanged. Native and Wine interpreter GUI each prove
+  positive typed-file use, create/close0/move/reuse same generation/close0;
+  inspected captures. File/lifecycle tests also prove missing activation fails,
+  loaded resources survive deleted files and legacy bytes/Load/Undo/backup reboot.
+- Setup failures only: native GUI helper initially lacked its unrelated cwd;
+  no game started, prepared folder reused after helper correction. Wine native
+  harness initially lacked explicit TinyCC path; same binary/cache passes after
+  specifying the existing library. Wine D-Bus background diagnostics did not
+  prevent the successful600comparison/test exit. No production workaround.
+- All processes13253/48498/32221/14224/93009/53423/45146/3944/72356/43043/16440/
+ 2295/30696/87589/50611/11325/13810/13803/75654/49859/17892/17777 terminal.
+  Evidence ignored target/rom-data-runtime/: preimages/source hashes, test/build/
+  matrix/lifecycle/native-pair logs, exact source occurrences, backend metadata,
+  before-alias candidates, headless/GUI results/captures, canonical hashes and
+  validated-sources.json. After final builds only new cfg(test) helper formatting
+  changed; production code unchanged. Main mtime refreshed after restoration.
+  No export, agent commit/push or AndroidPort update. Current work is based on
+  HEAD94b81c5 (prior preparation observed committed externally).
+- **ROMDATA-05-OBJ-VALIDATION — partial; ROMDATA-05-OBJ-SCENES-COSTS complete
+  for the declared local EUR unit.** Latest request remains the full
+  ROM_DATA_TODO. [Protocol/results](ROM_DATA_VALIDATION.md),
+  [record](../changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json).
+  Limits fixed before measurements; source04 hashes preserved.13benchmark
+  script tests, both synthetic tar/zip private-marker cases and warning-free
+  native/Windows release test builds pass. Runner now has explicit per-variant
+  --rom-data switches for verification/timing/profile; package includes help.
+- Reference94b81c5 plus only the verified EUR source fix has no new resource
+  routing/layout. Both variants built from the same isolated source path and
+  flags. Initial copy2 preserved old mtimes and Cargo reused reference for the
+  candidate (equal hashes/0.20s); caught before any measurements. Candidate-only
+  rebuild after mtimes refreshed gives distinct hashes/help. Help helper first
+  omitted stderr; capture corrected without a rebuild. Keep original logs.
+- Five alternating native pairs, CPU15 with sampled sibling14 and no concurrent
+  builds, pass every frame/OAM, loaded/final full state and dispatch. Worldmap240
+  median2.153946->2.175660ms (+1.0081%); battle/menu/enemy3530 median5.833322
+  ->5.819583ms (-0.2355%). All preselected mean/p95/p99 limits pass. Neutral
+  local headless result, not a speedup/realtime/native Windows claim.
+- New full-state/audio checks independently pass240/3530/8476frames on Linux and
+  Windows/Wine using each platform's existing TinyCC ELF object. Every full
+  guest state, central/wide pixels, OAM, dispatch and mixed/PSG/both FIFO/HLE
+  sample matches its legacy-read instance; HLE compared by bits with nonempty
+  streams after identical post-load observer setup. True-old-binary timing
+  comparison above is separate. Actual EUR copied source read at5400, mask3;
+  all guest RAM/clock/RNG states match through the boot transition. No DMA/PC
+  attribution or USA initializer trace inferred. Source/fixture hashes retained.
+- Seven first/cached helper observations: Linux median32.415695/21.018705ms,
+  maxima34.267605/21.626677ms; Wine median109.222100/91.891400ms,
+  maxima194.175200/183.130300ms. Both predefined median gates pass; cached Wine
+  max exceeds100ms and remains recorded. Separate source I/O/decode/preparation/
+  activation, every observation and whole-process wall retained. Owned432B;
+  independent Linux seven-pair peak RSS deltas672KiB median/752KiB maxima pass.
+  Generation1146logical/12288allocated bytes; managed root1164/32768bytes
+  including selection/lock/ancestors. Fresh roots contain no old/orphan
+  generations; previous datasets were not deleted. Wine Z uses host storage;
+  no native Windows RSS/frame-time/filesystem claim.
+- All handles39962/36367/92198/14156/11701/82904/14855/70162 terminal; repaired
+  build validation also terminal. Wine background D-Bus diagnostics occur but
+  both affected tests actually pass; no production workaround. Root production
+  bytes/canonical hashes preserved (only new cfg(test) module registration);
+  no export, agent commit/push or AndroidPort update. Existing04 work retained.
+  Evidence ignored target/rom-data-validation/: reference-build.json/pre-repair
+  logs, distinct help/hashes, native-{worldmap,enemy-menu}/summaries/logs,
+  host-load samples, native/windows-scene-tests.json and full-state-audio logs,
+  startup-{native,windows}/startup.toml, startup-results.json,
+  windows-startup-results.json, RSS raw logs, package/benchmark test logs,
+  source hashes and helper scripts. These are terminal results, not a rerun queue.
+- No remaining deliverable/live process for this bounded scene/cost unit.
+  **Next open unit: ROMDATA-05-OBJ-GUI**, Fast/pause/resume and realtime audio
+  with decoded resources using protected existing fixtures/candidates. Select
+  it with a new checkpoint before mutation, rather than rerunning these closed
+  timing/scene/matrix/lifecycle checks. USA initializer, actual updated archive
+  GUI/privacy gates and native Windows remain distinct before normal enablement.
+  Other catalogs/families and mods remain in the full active goal; the goal is
+  not complete and no unrelated performance queue is selected.
 
 ### Previous planning outcome (retained)
 

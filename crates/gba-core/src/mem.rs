@@ -189,6 +189,8 @@ pub struct MemMap {
     pub oam: Vec<u8>,
     #[serde(skip)]
     pub rom: Vec<u8>,
+    #[serde(skip)]
+    pub(crate) rom_resources: Option<std::sync::Arc<crate::rom_data::RuntimeResources>>,
     /// Verified, per-cartridge terrain edge policy; never modifies guest memory.
     pub(crate) ffta_bg_edge: crate::ppu::FftaBgEdge,
     pub ffta_sprites: crate::ffta_sprites::SpriteState,
@@ -368,6 +370,7 @@ impl MemMap {
             vram: vec![0; 0x1_8000],
             oam: vec![0; 0x400],
             rom,
+            rom_resources: None,
             sram: vec![0xFF; 0x1_0000],
             clock: 0,
             reg_ie: 0,
@@ -1460,6 +1463,11 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx < self.rom.len() {
+                    if Self::obj_resource_page(idx) {
+                        if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<1>(idx, &self.rom)) {
+                            return bytes[0];
+                        }
+                    }
                     self.rom[idx]
                 } else {
                     Self::rom_open_bus(addr)
@@ -1581,6 +1589,11 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 2 <= self.rom.len() {
+                    if Self::obj_resource_page(idx) {
+                        if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<2>(idx, &self.rom)) {
+                            return u16::from_le_bytes(bytes);
+                        }
+                    }
                     u16::from_le_bytes([self.rom[idx], self.rom[idx + 1]])
                 } else {
                     self.rd16_bytes(addr)
@@ -1652,6 +1665,11 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 4 <= self.rom.len() {
+                    if Self::obj_resource_page(idx) {
+                        if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<4>(idx, &self.rom)) {
+                            return u32::from_le_bytes(bytes);
+                        }
+                    }
                     u32::from_le_bytes(self.rom[idx..idx + 4].try_into().unwrap())
                 } else {
                     self.rd32_halves(addr)

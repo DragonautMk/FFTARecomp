@@ -101,7 +101,8 @@ CLI `rom-data extract|verify`, manifest e controlli di provenienza.
 Le prime quattro voci sono completate per questa famiglia (senza puntatori o
 compressione); parser delle altre famiglie rimangono da implementare.
 Test Linux e Windows/Wine passano anche con le due ROM locali. Dettagli e
-limiti in [risorse decodificate](../rom_data.md). Il runtime non è collegato.
+limiti in [risorse decodificate](../rom_data.md). Il consumo diretto della prima
+famiglia è ora collegato nel percorso opt-in04.
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -133,20 +134,20 @@ lock OS, riuso/verifica e recupero. Le voci sopra si riferiscono alla famiglia
 Test Linux e Windows/Wine, compresi arresti forzati e due avvii GUI prima/dopo
 lo spostamento portable, passano. Esaurimento spazio simulato; power-loss fisico
 e Windows nativo non verificati. Dettagli in [risorse decodificate](../rom_data.md).
-L'abilitazione normale attende consumo diretto ed equivalenza ROMDATA-04/05.
+Il consumo diretto è ora collegato in04; l'abilitazione normale attende i gate05.
 
 ## ROMDATA-04 — Uso diretto dei dati estratti nel runtime
 
 **Dipendenze:** ROMDATA-01/02/03. **Cuore dell'obiettivo principale.**
 
-- [ ] Introdurre un accesso alle risorse tramite ID e strutture tipizzate,
+- [x] Introdurre un accesso alle risorse tramite ID e strutture tipizzate,
   con caricamento/precaricamento dai file decodificati. Definire budget di memoria,
   durata dei dati e invalidazione; evitare I/O nei callback audio e nei percorsi
   per pixel o istruzione.
 - [ ] Per ogni famiglia seguire tutti i consumatori: codice nativo tradotto,
   interprete, letture CPU/DMA e percorsi host come rendering e audio. Individuare
   dove il gioco richiede byte grezzi, decomprime, copia o interpreta le risorse.
-- [ ] Collegare la prima famiglia al caricatore e sostituire il consumo della
+- [x] Collegare la prima famiglia al caricatore e sostituire il consumo della
   corrispondente risorsa ROM con quello dei dati estratti. Se occorre trasferire
   dati in RAM/VRAM guest, preservarli con layout, registri ed effetti osservabili
   corretti; non applicare lookup generici a ogni lettura del bus.
@@ -154,10 +155,10 @@ L'abilitazione normale attende consumo diretto ed equivalenza ROMDATA-04/05.
   ordine degli eventi. Dimostrare come si conserva il tempo guest se una
   decompressione viene anticipata all'estrazione: saltarla senza contabilizzarne
   gli effetti non è una sostituzione equivalente.
-- [ ] Distinguere identità della ROM base, dataset e codice compilato. Rivedere
+- [x] Distinguere identità della ROM base, dataset e codice compilato. Rivedere
   costanti incorporate, hook e cache native: nessuna libreria deve riutilizzare
   dati o ipotesi incompatibili con il dataset effettivamente caricato.
-- [ ] Aggiungere diagnostica di provenienza e contatori di uso/fallback per
+- [x] Aggiungere diagnostica di provenienza e contatori di uso/fallback per
   famiglia. Nei test delle risorse migrate rendere rilevabile un accesso al
   vecchio percorso; verificare anche che file mancanti non vengano ignorati
   silenziosamente a favore della ROM.
@@ -169,6 +170,22 @@ L'abilitazione normale attende consumo diretto ed equivalenza ROMDATA-04/05.
 verificata. **Chiusura complessiva:** tutte le famiglie di dati previste dalla
 matrice sono migrate e verificate; le esclusioni motivate sono dichiarate.
 Un solo esempio funzionante è una consegna parziale, non il completamento.
+
+**ROMDATA-04-OBJ-CONSUMPTION completato per implementazione e prove iniziali:**
+la prima famiglia viene letta dai file in `play/frames/runc --rom-data`;
+proiezioni fisse per CPU/DMA/API native, letture host tipizzate, RAM modificata
+preservata, contatori e risorse non serializzate mantenute in Load/Undo/backup.
+Budget misurato432B; nessuna istruzione o decompressione saltata. Corretto anche
+il lettore host EUR, verificando la sorgente ROM contro le istruzioni originali.
+L'estrattore2 registra l'ulteriore alias EUR e mantiene le vecchie generazioni.
+Dettagli e prove in [consumo runtime](../rom_data_runtime.md).
+Le voci spuntate coprono l'infrastruttura e la prima famiglia, non le altre.
+La matrice di routine originali copre48casi EUR/USA con letture guest effettive;
+il confronto nativo600frame prova uso host e parità di stati/immagini/audio,
+senza attribuire letture guest non eseguite in quella schermata iniziale.
+La nuova tranche05 verifica scene/transizione EUR e costi locali descritti sotto;
+il trace dell'inizializzatore USA e gli altri gate rimangono distinti. Le altre
+famiglie restano aperte.
 
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
@@ -196,6 +213,24 @@ Un solo esempio funzionante è una consegna parziale, non il completamento.
 **Consegna principale:** estrazione automatica, riuso all'avvio e consumo diretto
 verificati per la matrice dichiarata, equivalenza senza mod, costi misurati e
 dipendenze residue documentate. Le fasi mod seguenti non bloccano questa consegna.
+
+**ROMDATA-05-OBJ-SCENES-COSTS completato nel perimetro locale dichiarato:**
+[protocollo e risultati](ROM_DATA_VALIDATION.md),
+[record](../changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json).
+Confronti Linux e Windows/Wine su mappa240, battaglia/menu3530 e avvio fino alla
+battaglia8476frame: ogni stato completo, immagine/OAM, conteggio e flusso audio
+coincide; lettura effettiva dell'alias EUR al frame5400. Compatibilità base degli
+stati e dei save preservata, senza nuova versione. Cinque coppie Linux contro il
+legacy corretto passano i limiti fissati prima della misura: +1,0081%/-0,2355%
+di costo medio; risultato neutro. Sette primi avvii/riusi: mediane32,416/21,019ms
+Linux e109,222/91,891ms Wine; massimo riuso Wine183,130ms conservato, con gate
+sulla mediana. RSS Linux e spazio disco rispettano i budget. Test sintetico
+archivi tar/zip esclude dati privati e include le nuove istruzioni.
+
+ROMDATA-05 resta parziale: GUI Fast/pausa e audio realtime, trace USA,
+verifica Windows nativo e archivi reali aggiornati restano gate distinti prima
+dell'abilitazione normale. Le voci generali non chiudono altre famiglie della
+matrice. Prossima sottofase: **ROMDATA-05-OBJ-GUI**, riusando i risultati già chiusi.
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
@@ -246,5 +281,6 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-04, consumo diretto della prima famiglia;
-poi equivalenza/abilitazione ROMDATA-05. Gli altri cataloghi restano aperti.
+**Prossima azione:** ROMDATA-05-OBJ-GUI, Fast/pausa e audio realtime nel
+percorso risorse; abilitazione normale soltanto con tutti i gate soddisfatti.
+Gli altri cataloghi, le migrazioni e le fasi mod restano nell'obiettivo completo.

@@ -182,6 +182,33 @@ class BenchmarkTests(unittest.TestCase):
                             '--library', str(exe), '--out', str(out), '--demo', '--frames', '3', '--warmup', '1'])
             self.assertIn('"status": "failed"', (out / 'summary.json').read_text())
 
+    def test_decoded_mode_tracks_variant_with_same_binary_in_all_phases(self):
+        for option, selected in [('--baseline-rom-data', 'baseline'), ('--candidate-rom-data', 'candidate')]:
+            with self.subTest(option=option), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                exe = root / 'recomp'; exe.write_bytes(b'\x7fELF')
+                calls = []
+
+                def run(command, *, env, stdout, **kwargs):
+                    label = Path(stdout.name).stem
+                    calls.append((label, '--rom-data' in command))
+                    stdout.write(self.log(env['FFTA_PATCH_VERIFY_FRAMES'] == '1'))
+                    if env['FFTA_BENCH_FRAME_TIMES'] == '1':
+                        stdout.write('\nFFTA_FRAME_TIMES samples=2 omitted=0 p50_ms=2 p95_ms=2 '
+                                     'p99_ms=2 max_ms=2 over_budget=0 over_double_budget=0\n')
+
+                with patch.object(bench.platform, 'system', return_value='Linux'), \
+                        patch.object(bench.subprocess, 'run', side_effect=run):
+                    summary = bench.main(['--baseline', str(exe), '--candidate', str(exe),
+                                          '--rom', str(exe), '--library', str(exe),
+                                          '--out', str(root / 'output'), '--demo', '--frames', '3',
+                                          '--warmup', '1', '--runs', '2', '--profile', option])
+                self.assertEqual(len(calls), 8)
+                for label, enabled in calls:
+                    self.assertEqual(enabled, label.startswith(selected + '-'))
+                self.assertEqual(summary['decoded_resources'],
+                                 {name: name == selected for name in ('baseline', 'candidate')})
+
 
 if __name__ == '__main__':
     unittest.main()

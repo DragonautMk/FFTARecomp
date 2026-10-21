@@ -167,6 +167,7 @@ impl Backups {
         let bytes = self.verified(matches[0], expected)?;
         let bios = machine.bus.real_bios.then_some(machine.bus.bios.as_slice());
         let mut fresh = super::make_machine(machine.bus.rom.clone(), bios);
+        fresh.bus.set_rom_resources(machine.bus.rom_resources().cloned())?;
         fresh.load_state(boot)?;
         fresh.bus.load_save_data(&bytes);
         atomic_write(&self.source, &bytes, true)?;

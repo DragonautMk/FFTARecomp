@@ -122,7 +122,7 @@ fn main() -> ExitCode {
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
     ("rom-data", "recomp rom-data <extract|verify> <rom> <dataset-directory> | prepare <rom> [resources-root]", &[],
-     "Extract, verify or prepare source-authenticated decoded OBJ dimensions for exact FFTA EUR/USA images. Managed preparation reuses or repairs versioned application data. Direct runtime consumption is not connected yet."),
+     "Extract, verify or prepare source-authenticated decoded OBJ dimensions for exact FFTA EUR/USA images. Managed preparation reuses or repairs versioned application data. Use --rom-data with play/frames/runc to consume verified base data; the source ROM is still required."),
     ("controllers", "recomp controllers [--poll]", &["--poll    sample each DirectInput controller"], "List detected gilrs and Windows DirectInput controllers without loading a ROM."),
     ("build", "recomp build <rom> [--ram] [--bios file] [--labels file] [--gamedb file]", &[
         "--ram    profile a short interpreter run first, translating the RAM-resident \
@@ -138,7 +138,7 @@ image's sha256) instead of label files; mutually exclusive with --labels",
 Emits C11 in bounded chunks and compiles them with cc. Label files (<rom>.labels \
 or the recorder's accumulator) contribute extra entry-point seeds automatically."),
     ("play", "recomp play <rom> [--interp] [--stats] [--status] [--record-labels] [--bios file] [--no-bios] [--benchmark config.toml]", &[
-        "--rom-data        opt-in preparation/reuse of decoded game data before boot (developer validation; direct runtime consumption is pending)",
+        "--rom-data        opt-in verified decoded game data (normal enablement awaits equivalence/cost gates)",
         "--benchmark FILE   developer-only bounded GUI replay (TOML config; no cartridge writes)",
         "--interp           force the interpreter (skip/ignore native translation)",
         "--stats            print performance readouts (frame time, native vs fallback)",
@@ -153,6 +153,7 @@ setup installs it); BIOS HLE otherwise. First launch translates the image into t
 per-user cache (one-time, progress printed); later launches load it instantly. Reads \
 input.cfg/av.cfg from the shared config directory."),
     ("runc", "recomp runc <rom> [--frames N] [--out img.ppm] [--input file] [--record-labels] [--bios file]", &[
+        "--rom-data         prepare and consume source-verified decoded base game data",
         "--frames N         frames to run (default 600)",
         "--out PATH         write the final frame as a PPM",
         "--input FILE       replay a recorded input script (see play's RECOMP_RECORD_INPUT)",
@@ -178,6 +179,7 @@ frame hashes, print MATCH or MISMATCH (exit code follows)."),
         "--bios FILE      execute a real 16 KB BIOS image (boot from the reset vector; no HLE)",
     ], "Headless interpreter run; the conformance-suite driver (a pass parks with r12=0)."),
     ("frames", "recomp frames <rom> [--frames N] [--out img.ppm] [--keys MASK] [--demo] [--input file] [--sav file] [--bios file]", &[
+        "--rom-data         prepare and consume source-verified decoded base game data",
         "--frames N      frames to run (default 600)",
         "--out PATH      write the final frame as a PPM",
         "--keys MASK     hold a KEYINPUT mask for the whole run (hex)",
@@ -538,6 +540,7 @@ fn cmd_run(args: &[String]) -> Result<(), String> {
 fn cmd_frames(args: &[String]) -> Result<(), String> {
     configure_headless_widescreen();
     let mut rom_path = None;
+    let mut use_rom_data = false;
     let mut frames = 60u64;
     let mut out: Option<String> = None;
     let mut keys = 0x3FFu16; // active-low: nothing pressed
@@ -549,6 +552,7 @@ fn cmd_frames(args: &[String]) -> Result<(), String> {
     let mut it = args.iter();
     while let Some(arg) = it.next() {
         match arg.as_str() {
+            "--rom-data" => use_rom_data = true,
             "--frames" => {
                 frames = it
                     .next()
@@ -574,6 +578,7 @@ fn cmd_frames(args: &[String]) -> Result<(), String> {
     let rom = std::fs::read(&rom_path).map_err(|e| format!("{rom_path}: {e}"))?;
 
     let mut m = make_machine(rom, bios.as_deref());
+    if use_rom_data { rom_data::prepare_and_attach(&mut m, false)?; }
     m.bus.keys = keys;
     if let Some(p) = &sav {
         let data = std::fs::read(p).map_err(|e| format!("{p}: {e}"))?;
@@ -837,6 +842,7 @@ fn cmd_frames(args: &[String]) -> Result<(), String> {
         std::fs::write(&path, ppm).map_err(|e| format!("{path}: {e}"))?;
         println!("wrote {path}");
     }
+    rom_data::report_usage(&m);
     Ok(())
 }
 
@@ -3115,6 +3121,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         std::env::var("FFTA_BENCH_PPU").as_deref() == Ok("1"),
     );
     let mut rom_path = None;
+    let mut use_rom_data = false;
     let mut frames = 600u64;
     let mut out: Option<String> = None;
     let mut input: Option<InputScript> = None;
@@ -3124,6 +3131,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     let mut it = args.iter();
     while let Some(arg) = it.next() {
         match arg.as_str() {
+            "--rom-data" => use_rom_data = true,
             "--frames" => {
                 frames = it
                     .next()
@@ -3181,6 +3189,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
     }
 
     let mut m = make_machine(rom, bios.as_deref());
+    if use_rom_data { rom_data::prepare_and_attach(&mut m, false)?; }
     if let Some(path) = sav {
         let data = std::fs::read(&path).map_err(|e| format!("{path}: {e}"))?;
         println!(
@@ -3415,6 +3424,7 @@ fn cmd_runc(args: &[String]) -> Result<(), String> {
         record_labels(m.bus.rom.len(), &rom_sha256(&m.bus.rom))?;
     }
     dump_frame(&m, out)?;
+    rom_data::report_usage(&m);
     Ok(())
 }
 

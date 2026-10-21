@@ -1114,7 +1114,8 @@ fn status_line(s: &str) {
 /// (halt ordering vs following instructions — scanline-effect timing).
 // Regional EUR sprite guards require rebuilding translations made by older engines.
 // Event-budget entry/continuation guards require regenerating native blocks.
-const TRANSLATION_REV: u32 = 7;
+// Rev 8 carries a cycle allowance across native chain groups.
+const TRANSLATION_REV: u32 = 8;
 
 // Keep the owning context alive for every translated function pointer.
 #[allow(dead_code)] // These fields retain native allocations until emulation stops.
@@ -1190,10 +1191,10 @@ fn ensure_native(
     // BOTH the build and the cache key, so a gamedb build and a file build
     // never shadow each other and grown coverage retranslates.
     let from_gamedb = gamedb.filter(|db| db.function_count(&sha).map(|n| n > 0).unwrap_or(false));
-    let lbl = match from_gamedb {
+    let lbl = translation_labels(&sha, match from_gamedb {
         Some(db) => db.labels(&sha, rom.len())?,
         None => labels::load_all(rom_path, &sha, rom.len()),
-    };
+    });
     let lsuffix = if lbl.is_empty() {
         String::new()
     } else {
@@ -2105,6 +2106,13 @@ fn cmd_build(args: &[String]) -> Result<(), String> {
     r
 }
 
+/// Use identical hint unions for cache identity and compilation. Existing
+/// file/database entries and metadata remain intact; growth changes the digest.
+fn translation_labels(sha: &str, mut source: labels::Labels) -> labels::Labels {
+    source.rom.extend(gba_core::ffta_rom::native_rom_entries(sha).iter().copied());
+    source
+}
+
 /// The build pipeline behind `cmd_build`, parameterized on the output
 /// path so the play runtime can target its own translation cache.
 /// Intermediates land next to `lib_path` as `<stem>.<i>.{c,o}`.
@@ -2284,7 +2292,7 @@ fn build_dylib(
     let sha = rom_sha256(&rom);
     let mut seeds = seeds;
     let mut iwram = iwram;
-    let lbl = label_source.labels(&sha, rom.len())?;
+    let lbl = translation_labels(&sha, label_source.labels(&sha, rom.len())?);
     if !lbl.is_empty() {
         let mut set: std::collections::BTreeSet<u32> = seeds.iter().copied().collect();
         let before = set.len();
@@ -3727,6 +3735,34 @@ impl FftaEdgeCapture {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn translation_hints_preserve_sources_and_change_cache_identity_once() {
+        let mut source = labels::Labels::default();
+        source.rom.insert(0x0800_0101);
+        source.iwram.insert(0x0300_0001);
+        source.names.insert(0x0800_0101, "existing".into());
+        source.ends.insert(0x0800_0101, 0x0800_0108);
+        source.reserved.push("ewram 02000000 a".into());
+        source.skipped = 2;
+        let unknown = translation_labels(&"0".repeat(64), source);
+        assert_eq!(unknown.rom.len(), 1);
+        let before = unknown.digest(None);
+        let merged = translation_labels(gba_core::ffta_rom::EUROPE_SHA256, unknown);
+        assert_ne!(merged.digest(None), before);
+        assert!(merged.rom.contains(&0x0800_0101));
+        assert_eq!(merged.iwram.into_iter().collect::<Vec<_>>(), [0x0300_0001]);
+        assert_eq!(merged.names[&0x0800_0101], "existing");
+        assert_eq!(merged.ends[&0x0800_0101], 0x0800_0108);
+        assert_eq!(merged.reserved, ["ewram 02000000 a"]);
+        assert_eq!(merged.skipped, 2);
+        // Rebuild a whole label value after the checks above consumed iwram.
+        let mut again = labels::Labels::default();
+        again.rom = merged.rom;
+        let digest = again.digest(None);
+        assert_eq!(translation_labels(gba_core::ffta_rom::EUROPE_SHA256, again).digest(None), digest);
+        assert!(translation_labels(gba_core::ffta_rom::SHA256, labels::Labels::default()).rom.is_empty());
+    }
 
     #[test]
     fn headless_state_rejects_conflicting_save_and_output_before_running() {

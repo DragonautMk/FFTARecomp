@@ -1137,3 +1137,46 @@ native outputs were updated only after these gates, prior versions preserved.
 No source/schema/ABI change beyond the event-order correction is implied. Native Linux
 GUI with an old slot passes load/zoom/Undo/reload/close on Xvfb/Vulkan; images
 were inspected. Wine is compatibility evidence, not native Windows timing.
+
+## Native event-boundary candidate under acceptance
+
+PERF-07-NATIVE-FRAME-BOUNDARY decoded the existing frame212 snapshots: IRQ was
+pending/unmasked while native code continued to its loop back-edge. Original
+synthetic code reproduced8late cycles and changed IRQ-stack bytes. A conservative
+entry guard fixed the divergence; full3530-frame state and continuous audio
+checks passed on both ROM coverages, as did native/Wine synthetic regressions.
+The direct-query reference is preserved under ignored
+`target/desktop-perf/native-frame-boundary/hardened/`. Five rotating triplets
+measured medians5.976894ms legacy,6.242606ms direct guard,6.056551ms extra coverage.
+Those results motivated a measured allowance refinement, not a repeat for context.
+
+The current allowance candidate reserves each block's conservative cycle sum
+from a local counter and refreshes it only when insufficient. Its invariant is
+that remaining allowance never exceeds cycles to the next hardware event.
+Stores/shells invalidate that counter and recheck before continuing because
+DMA, halt or IRQ changes can invalidate the entry bound. Near an event it uses
+one interpreter instruction, retaining exact frame/IRQ boundaries. The counter
+is local to a native invocation and requires no machine-state serialization.
+
+The scheduling query is a reserved zero-length EVENT_GUARD_TAG operation with
+no address input. It returns available cycles, with EVENT_YIELD in the high bit
+for immediate dispatch. Positive-length operations remain content hashes;
+a retained failing test caught the earlier prototype ambiguity before release.
+RtApi layout and save schema stay unchanged; cache revision8 regenerates old
+code. Prior unshipped revision7 artifacts are historical reference only.
+
+Final allowance native181core/66runtime/3recompiler suites and explicit11-case
+TinyCC frame/IRQ/DMA tests pass, including actual native batching, fewer
+scheduling queries than loop iterations, read-only query and content-hash
+separation. Matching Windows GNU/Wine suites pass. Full state matches at every
+3530frame on both coverages, retaining queues and draining them continuously;
+7,746,586mixed/PSG/HLE samples per stream and931,920events perFIFO agree. HLE
+floats are compared by bits. Actual CLI images, full state and dispatch counts
+match the direct-query reference, and legacy raw frame/OAM images match too.
+
+Ignored `native-frame-boundary/allowance/` contains frozen sources, matched
+libraries, tests, pair/CLI manifests and the active five rotating timing groups
+(legacy/direct/allowance/extra,CPU15,120frame warmup,3530frames,strict expected
+state/count checks per variant). Source/performance acceptance, GUI/export and
+any automatic ROM hint expansion remain pending. Canonical native binaries and
+dist packages still contain the delivered timer/audio correction.

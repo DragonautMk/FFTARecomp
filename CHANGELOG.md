@@ -72,6 +72,7 @@ Type: changed. Platforms: Project agent workflow.
 - project_memory.py render, check and check --base HEAD passed; git diff whitespace check passed with core.whitespace=cr-at-eol.
 - On request reconciliation, verified the already implemented guidance without rewriting skills or repeating runtime validation; corrected the handoff latest-request checkpoint to keep pending performance work separate.
 - Revalidated all three skills with quick_validate.py after adding immediate terminal closure; reconciled the stale selection against the existing rejected-composition record without running builds, replays or benchmarks.
+- Rechecked the existing three skill entrypoints on the latest workflow-only request: all quick validators pass. Restored a completed workflow checkpoint above the pending performance queue; inspected the terminal integration log without rerunning it. Changelog rendering and whitespace checks pass. Both memory checks identify the pre-existing unfinished crates/gba-core/src/ffta_rom.rs implementation as lacking its own change record; this workflow change does not claim coverage of it.
 
 **Limitations**
 
@@ -134,6 +135,36 @@ Type: added. Platforms: Linux desktop, Windows GNU under Wine.
 Documentation: [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md), [fps_overlay.md](docs/fps_overlay.md).
 
 [Change record](docs/changes/2026-10-21-profile-realtime-audio-callbacks.json)
+
+## 2026-10-21 — Guard native execution at frame and IRQ event boundaries
+
+Type: fixed. Platforms: Native Linux candidate, Windows GNU / Wine validation.
+
+**Changes**
+
+- Implement a candidate scheduling allowance at every compiled block entry, including chained edges. Native code reserves conservative cycle sums and reuses the remaining allowance, refreshing it when insufficient; near events it executes one interpreter instruction or yields for dispatch.
+- Invalidate and recheck the allowance after stores and interpreter shells that can trigger DMA, unmask IRQ or halt. Preserve native batching away from events and immutable RAM-content guards.
+- Use a reserved zero-length query with available-cycle and yield-bit results, disjoint from positive-length RAM hashes. Keep RtApi layout and machine-state schema unchanged; cache revision8 regenerates old code. Acceptance/delivery remain pending real-state, cost and lifecycle gates.
+
+**Validation**
+
+- Decoded the existing frame-212 snapshots: IRQ is pending and unmasked in both; the baseline immediately enters its handler while native code had executed 22 more cycles. An original synthetic Thumb loop reproduces 8 late cycles and differing IRQ-stack bytes without game data.
+- Direct-query native core181/runtime66/recompiler3 suites and explicit11-case TinyCC regression passed, along with Windows GNU/Wine checks; these are preserved reference results. The allowance refinement separately passes native core181/recompiler3 and focused11-case tests, including readonly queries, RAM-content separation, actual native batching and amortized query counts.
+- A prototype protocol-contract test exposed tag-only dispatch incorrectly accepting a positive-length RAM check near an event. The retained failing log is followed by a passing regression using the final zero-length operation encoding; no prototype archive was published.
+- The hardened direct-query reference pair passed full state at every3530frame with retained and continuously drained queues;7746586mixed/PSG/HLE samples per stream and931920events perFIFO agreed. Allowance validation is a separate changed input and does not inherit those passes.
+- Actual hardened direct-query CLI equality, legacy image equality and input hashes passed. New allowance replay/CLI checks are in progress and will require exact agreement with that reference; no performance is inferred from verification.
+- Completed direct-query five rotating triplets: legacy5.976894ms, guarded6.242606ms, extra6.056551ms. Correctness is proven but query overhead motivates allowance refinement; these historical measurements are not final allowance timings.
+- Allowance core181, recompiler3 and explicit11-case TinyCC tests pass, including native fast-path execution and fewer scheduling queries than loop iterations. An initial partial edit failed its regression and was corrected before further validation; source preimages and negative output remain local.
+- Final allowance pair7045 and actual CLI27840 pass: complete state equal at every3530frame, retained and continuous queues, HLE sample bits checked, final state and all dispatch counts equal to the direct-query reference. Windows/Wine allowance checks29624 pass; no competing workload during eventual timings.
+
+**Limitations**
+
+- Five rotating legacy/direct/allowance/extra cost groups are in progress; source acceptance, GUI/export and automatic ROM hints remain pending. No native Windows hardware or original rare-stall resolution is claimed.
+- Canonical native binaries and portable dist archives remain the previously delivered timer/audio correction. Further GUI/lifecycle/export checks are required before replacing them.
+
+Documentation: [2026-10-21-order-timer-audio-events.json](docs/changes/2026-10-21-order-timer-audio-events.json), [PERFORMANCE_WORKFLOW.md](docs/development/PERFORMANCE_WORKFLOW.md), [PERFORMANCE_TODO.md](docs/development/PERFORMANCE_TODO.md).
+
+[Change record](docs/changes/2026-10-21-preserve-native-event-boundaries.json)
 
 ## 2026-10-21 — Service timer and audio events chronologically across native tick batches
 

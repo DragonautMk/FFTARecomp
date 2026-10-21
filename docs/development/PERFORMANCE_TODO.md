@@ -554,6 +554,18 @@ fra cui zoom elevato: non ripetere la baseline ordinaria per coprirli.
   Nuovi seed ancora esclusi: dopo la correzione la prima divergenza è CPU/clock
   al frame212; non basta risolvere l'audio per ampliare la traduzione.
   [Correzione e limiti](../changes/2026-10-21-order-timer-audio-events.json).
+  **PERF-07-NATIVE-FRAME-BOUNDARY — candidato verificato per correttezza.**
+  Il codice nativo proseguiva fino al back-edge con IRQ già pendente: riprodotto
+  anche senza ROM e con byte diversi nello stack IRQ. Guard di budget a ogni
+  ingresso e dopo store/shell eliminano il problema, mantenendo batch nativi
+  lontano dagli eventi e la separazione dai controlli del contenuto RAM. Cache
+  traduzioni7, stesso schema savestate/ABI. Nativi181test core/66runtime e
+  regressione TinyCC11casi passano; anche Windows/Wine. Entrambe le coperture
+  ROM ora coincidono in tutto lo stato a ogni3530frame, incluse code continue
+  con7,7M campioni per mixer/PSG/HLE e931920eventi perFIFO. CLI reale e immagini
+  precedenti verificati. Costo/GUI/export ancora da accettare; triplette temporali
+  in corso. Nessuna espansione automatica dei seed o nuovo portable pubblicato.
+  [Candidato e prove](../changes/2026-10-21-preserve-native-event-boundaries.json).
   Estendere la traduzione solo per codice la cui validità è garantita; RAM
   modificabile e overlay richiedono controlli e invalidazione.
   **Completato quando:** il replay AI impiega meno tempo host oltre il rumore

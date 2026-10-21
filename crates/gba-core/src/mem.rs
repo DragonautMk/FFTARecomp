@@ -492,10 +492,10 @@ impl MemMap {
         self.ime && self.irq_line()
     }
 
-    /// Native blocks may batch cycles only when no scheduled event can occur.
-    /// The conservative comparison also handles a deferred event already due.
-    pub(crate) fn event_within(&self, cycles: u32) -> bool {
-        self.next_event.saturating_sub(self.clock) <= u64::from(cycles)
+    /// Native scheduling allowance, derived without advancing guest time.
+    /// A deferred event already due grants no cycles.
+    pub(crate) fn cycles_until_event(&self) -> u64 {
+        self.next_event.saturating_sub(self.clock)
     }
 
     /// Advance the master clock and process any due events, generating

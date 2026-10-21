@@ -114,10 +114,12 @@ impl Ctx<'_> {
     /// A store/shell can advance time through DMA, enable an IRQ or halt.
     /// Recheck the remaining budget before executing more native instructions.
     fn guard_continuation(&mut self, next: u32) {
+        self.out.push_str("    fuel = 0u;\n");
         if self.remaining_cycles != 0 {
             let _ = writeln!(self.out,
-                "    if (a->guard(m, 0x{:08x}u, {}u, 0x{:016x}ull)) {{ c[15] = 0x{:08x}u; return 0x{next:08x}u; }}",
-                next & !1, self.remaining_cycles, gba_core::capi::EVENT_GUARD_TAG, next & !1);
+                "    fuel = a->guard(m, 0u, 0u, 0x{:016x}ull); if ((fuel & 0x{:08x}u) || fuel <= {}u) {{ c[15] = 0x{:08x}u; return 0x{next:08x}u; }} fuel -= {}u;",
+                gba_core::capi::EVENT_GUARD_TAG, gba_core::capi::EVENT_YIELD,
+                self.remaining_cycles, next & !1, self.remaining_cycles);
         }
     }
 
@@ -545,7 +547,7 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
     } else {
         let _ = writeln!(
             out,
-            "uint32_t b_{:08x}_{}(const RtApi* a, void* m) {{\n    uint32_t* c = (uint32_t*)m;\n    uint32_t pc; (void)pc;",
+            "uint32_t b_{:08x}_{}(const RtApi* a, void* m) {{\n    uint32_t* c = (uint32_t*)m;\n    uint32_t pc; (void)pc;\n    uint32_t fuel = 0u;",
             b.addr,
             if b.thumb { "t" } else { "a" }
         );
@@ -556,11 +558,13 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
         let cost = u32::try_from(gba_core::machine_instr_cost(region, &b.instrs[i])).unwrap();
         cycle_budget[i] = cycle_budget[i + 1].checked_add(cost).unwrap();
     }
-    // No state-changing instruction may cross an event while executing a batch.
+    // Reserve a conservative budget. Chained blocks reuse the remaining
+    // allowance; an exhausted allowance is refreshed against the actual clock.
     // Near an event, one interpreter step retains exact frame/IRQ boundaries.
     let _ = writeln!(out,
-        "    {{ uint32_t event = a->guard(m, 0x{:08x}u, {}u, 0x{:016x}ull); if (event) {{ c[15] = 0x{:08x}u; return event == 2u ? 0x{:08x}u : a->interp_one(m); }} }}",
-        b.addr, cycle_budget[0], gba_core::capi::EVENT_GUARD_TAG, b.addr, b.key());
+        "    if (fuel <= {}u) {{ fuel = a->guard(m, 0u, 0u, 0x{:016x}ull); if (fuel & 0x{:08x}u) {{ c[15] = 0x{:08x}u; return 0x{:08x}u; }} if (fuel <= {}u) {{ c[15] = 0x{:08x}u; return a->interp_one(m); }} }} fuel -= {}u;",
+        cycle_budget[0], gba_core::capi::EVENT_GUARD_TAG, gba_core::capi::EVENT_YIELD,
+        b.addr, b.key(), cycle_budget[0], b.addr, cycle_budget[0]);
 
     // RAM-resident blocks were translated from a profiling snapshot;
     // guard the whole block's content (one FNV-1a hash call) so swapped
@@ -854,7 +858,7 @@ fn emit_group(out: &mut String, blocks: &[Block], members: &[usize], view: &crat
     let gid = blocks[members[0]].key();
     let _ = writeln!(
         out,
-        "static uint32_t g_{gid:08x}(const RtApi* a, void* m, uint32_t entry) {{\n    uint32_t* c = (uint32_t*)m;\n    uint32_t pc; (void)pc;\n    switch (entry) {{"
+        "static uint32_t g_{gid:08x}(const RtApi* a, void* m, uint32_t entry) {{\n    uint32_t* c = (uint32_t*)m;\n    uint32_t pc; (void)pc;\n    uint32_t fuel = 0u;\n    switch (entry) {{"
     );
     for (n, &i) in members.iter().enumerate() {
         let _ = writeln!(out, "    case {n}u: goto {};", label(blocks[i].key()));
@@ -1033,6 +1037,15 @@ mod ffta_logging_tests {
 #[cfg(test)]
 mod native_event_tests {
     use gba_core::{Bus, Machine};
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
+    static QUERIES: AtomicUsize = AtomicUsize::new(0);
+    extern "C" fn counted_guard(m: *mut core::ffi::c_void, addr: u32, len: u32, tag: u64) -> u32 {
+        if len == 0 && tag == gba_core::capi::EVENT_GUARD_TAG {
+            QUERIES.fetch_add(1, Ordering::Relaxed);
+        }
+        (gba_core::capi::RT_API.guard)(m, addr, len, tag)
+    }
 
     #[test]
     #[ignore = "requires FFTA_TCC_LIBRARY pointing to the desktop TinyCC adapter"]
@@ -1076,6 +1089,11 @@ mod native_event_tests {
         .unwrap();
         let code = crate::tcc_memory::NativeCode::load(&path).unwrap();
         let blocks = code.blocks().unwrap();
+        let api = gba_core::capi::RtApi {
+            guard: counted_guard,
+            ..gba_core::capi::RT_API
+        };
+
         let fixture = |pc, offset| {
             let mut m = Machine::new(rom.clone());
             m.cpu.cpsr = if pc & 1 != 0 { 0x3f } else { 0x1f };
@@ -1098,10 +1116,13 @@ mod native_event_tests {
         for offset in [1, 2, 3, 4, 8, 16, 32, 64, 128] {
             let mut reference = fixture(0x08000101, offset);
             let mut native = fixture(0x08000101, offset);
+            let mut reference_steps = 0;
             while !reference.bus.frame_ready {
                 reference.step();
+                reference_steps += 1;
             }
             let mut calls = 0;
+            QUERIES.store(0, Ordering::Relaxed);
             while !native.bus.frame_ready {
                 calls += 1;
                 assert!(calls < 1000);
@@ -1111,13 +1132,20 @@ mod native_event_tests {
                 {
                     native.step();
                 } else if let Some(b) = blocks.iter().find(|b| b.key == key) {
-                    (b.func)(
-                        &gba_core::capi::RT_API,
-                        &mut native as *mut _ as *mut std::ffi::c_void,
-                    );
+                    (b.func)(&api, &mut native as *mut _ as *mut std::ffi::c_void);
                 } else {
                     native.step();
                 }
+            }
+            if offset == 128 {
+                assert!(
+                    calls < reference_steps,
+                    "the safe native batching path must run"
+                );
+                assert!(
+                    QUERIES.load(Ordering::Relaxed) < reference_steps / 4,
+                    "chained blocks must amortize scheduling queries"
+                );
             }
             assert_eq!(
                 reference.save_state().unwrap(),
@@ -1155,10 +1183,7 @@ mod native_event_tests {
             reference.step();
             assert!(reference.bus.frame_ready);
             let b = blocks.iter().find(|b| b.key == pc).unwrap();
-            (b.func)(
-                &gba_core::capi::RT_API,
-                &mut native as *mut _ as *mut std::ffi::c_void,
-            );
+            (b.func)(&api, &mut native as *mut _ as *mut std::ffi::c_void);
             assert_eq!(
                 reference.save_state().unwrap(),
                 native.save_state().unwrap(),

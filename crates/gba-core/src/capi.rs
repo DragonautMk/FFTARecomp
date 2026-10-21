@@ -14,11 +14,11 @@
 use crate::exec;
 use crate::machine::Machine;
 
-/// Tagged guard operation for precise native block scheduling. `len` is the
-/// conservative cycle budget, `addr` the entry PC. Returns 0 to run natively,
-/// 1 to execute one interpreter instruction, or 2 to yield without executing.
-/// This extends the guard protocol without changing RtApi's layout.
-pub const EVENT_GUARD_TAG: u64 = 0x4E41_5449_5645_4556;
+/// Zero-length scheduling query (addr is unused). The low bits report cycles
+/// available before the next hardware event; EVENT_YIELD requests immediate
+/// dispatch without executing an instruction. Positive lengths remain hashes.
+pub const EVENT_GUARD_TAG: u64 = 0x4E41_5446_5545_4C31;
+pub const EVENT_YIELD: u32 = 1 << 31;
 
 /// Function table handed to generated code.
 ///
@@ -97,11 +97,11 @@ fn native_write_hint(m: &mut Machine, addr: u32) {
 }
 
 extern "C" fn rt_guard(m: *mut core::ffi::c_void, addr: u32, len: u32, expect: u64) -> u32 {
-    if expect == EVENT_GUARD_TAG {
+    if len == 0 && expect == EVENT_GUARD_TAG {
         if rt_chain_gate(m) != 0 {
-            return 2;
+            return EVENT_YIELD;
         }
-        return mach!(m).bus.event_within(len) as u32;
+        return mach!(m).bus.cycles_until_event().min(u64::from(EVENT_YIELD - 1)) as u32;
     }
     if len == 0 && expect == crate::ffta_rom::HOOK_TAG {
         mach!(m).ffta_observe_native_producer(addr);
@@ -179,27 +179,38 @@ mod event_guard_tests {
     use super::*;
 
     #[test]
+    fn event_tag_does_not_bypass_positive_length_content_guards() {
+        let mut machine = Machine::new(vec![]);
+        machine.bus.tick(1005); // The next event is within a four-cycle budget.
+        let ptr = &mut machine as *mut Machine as *mut core::ffi::c_void;
+        // Four zero bytes do not hash to EVENT_GUARD_TAG. A RAM content check
+        // must reject them even when its expected hash equals an operation tag.
+        assert_eq!(rt_guard(ptr, 0x0300_0000, 4, EVENT_GUARD_TAG), 0);
+    }
+
+    #[test]
     fn event_guard_is_read_only_and_distinguishes_deadlines_from_yields() {
-        fn check(machine: &mut Machine, cycles: u32, expected: u32) {
+        fn check(machine: &mut Machine, expected: u32) {
             let before = machine.save_state().unwrap();
             let ptr = machine as *mut Machine as *mut core::ffi::c_void;
-            assert_eq!(rt_guard(ptr, 0x0800_0100, cycles, EVENT_GUARD_TAG), expected);
+            assert_eq!(rt_guard(ptr, 0, 0, EVENT_GUARD_TAG), expected);
             assert_eq!(machine.save_state().unwrap(), before);
         }
         let mut machine = Machine::new(vec![]);
-        check(&mut machine, 1005, 0);
-        check(&mut machine, 1006, 1);
+        check(&mut machine, 1006);
+        machine.bus.tick(1005);
+        check(&mut machine, 1);
         machine.bus.frame_ready = true;
-        check(&mut machine, 0, 2);
+        check(&mut machine, EVENT_YIELD);
         machine.bus.frame_ready = false;
         machine.bus.halted = true;
-        check(&mut machine, 0, 2);
+        check(&mut machine, EVENT_YIELD);
         machine.bus.halted = false;
         machine.bus.reg_ie = 1;
         machine.bus.reg_if = 1;
         machine.bus.ime = true;
-        check(&mut machine, 0, 2);
+        check(&mut machine, EVENT_YIELD);
         machine.cpu.cpsr |= crate::cpu::FLAG_I;
-        check(&mut machine, 0, 0);
+        check(&mut machine, 1);
     }
 }

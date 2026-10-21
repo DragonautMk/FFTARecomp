@@ -4,9 +4,23 @@ Updated: 2026-10-21. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
-## Selection checkpoint and next criterion
+## Current request checkpoint
 
-- Latest request: continue executing the performance TODO. This turn made progress:
+- Latest request: prevent repeating resolved tasks after context compaction.
+- Selected ID: **WORKFLOW-RESUME-CHECKPOINT — complete / verified**.
+- Existing implementation: AGENTS and all three local skills require reading
+  this handoff, reconciling current intent, checking terminal evidence and
+  recording a concrete reason before reopening completed/rejected work.
+- Validation: all three skill validators pass. Existing integration test log
+  ends successfully (runtime67 passed/4ignored); no build or benchmark restarted.
+- Missing deliverable: none for this workflow request. No next execution action.
+- Evidence: [workflow record](../changes/2026-10-21-require-resume-selection-checkpoint.json).
+- The performance work below remains partial and is retained as a future queue;
+  it is not the current instruction for this workflow-only request.
+
+## Pending performance context (not selected by the current request)
+
+- Previous performance request: continue executing the performance TODO. Prior progress:
   **PERF-07-TIMER-AUDIO-ORDER — complete/retained/delivered**; see evidence below.
 - The18-ROM-seed trial remains rejected. Corrected event ordering makes its first
   211frames equal, but CPU/clock differ at212 and final IWRAM/HLE differ. No
@@ -19,21 +33,42 @@ An open parent never reopens completed children or rejected experiments.
   runtime66/4ignored, recomp-core3/4ignored and explicit11-case TinyCC regression
   pass. Isolated runtime18081, guarded pair32781 and pair helper66188 terminal/
   passed; checked the interrupted helper handle, no process restarted.
-- Missing acceptance: real3530-frame full-state/audio coverage equivalence,
-  measured cost, Windows and lifecycle/export gates. Prototype is unaccepted;
-  canonical native/dist still contain the delivered timer/audio correction.
-- Next action: run the already-built guarded library pair with retained queues
-  and continuously drained audio, comparing every frame's full state. New input
-  (event-aware emission) justifies this distinct test; old seed trial remains
-  rejected. No baseline, census, label recording or completed build recreation.
-- Evidence under `target/desktop-perf/native-frame-boundary/`: snapshot continuation,
-  legacy and guarded synthetic results, source-before/current hashes, preserved
-  files, tests, runtime-build.json, pair-build.json and compiled pair helper.
-- Pair55636 live: already-built guarded translations, retained and continuous
-  audio cases,240s/process. Cross-test build in progress; its current handle is
-  recorded by the tool result. Do not restart either without checking status.
-  Preserve accepted archives
-  until all gates pass; don't infer success from a prior partial observation.
+- Final hardened correctness is proven:181core/66runtime/3recompiler tests,
+  explicit11-case TinyCC frame/IRQ/DMA regression and matching Windows/Wine
+  suites. Pair22246 and CLI47161 terminal/passed: all3530states match at every
+  frame, retained and continuous queues; full mixed/PSG/HLE/FIFO streams equal.
+  Actual CLI matches all frame/OAM and final state; legacy images also equal.
+- Prototype-v1 evidence remains closed and separate. Hardened protocol uses
+  len0/budget-in-addr after the positive-length content-guard regression exposed
+  an ambiguity; all final sources/libraries are under `native-frame-boundary/hardened/`.
+- Direct-query correctness and timing stages are complete, unshipped. Triplets
+ 55899:legacy5.976894ms/guarded6.242606ms/extra6.056551ms; reference sources/binaries
+ are preserved under `native-frame-boundary/hardened/`.
+- Selected phase: **PERF-07-NATIVE-EVENT-ALLOWANCE — in progress**. Carry a
+ conservative allowance across chained blocks, refresh when insufficient and
+ invalidate/recheck after stores/shells. Query/yield-bit protocol uses cache8,
+ no state or RtApi layout change. New artifacts under `allowance/`.
+- Allowance correctness is complete:181core/66runtime/3recompiler tests,
+  explicit11-case native/TinyCC and Windows/Wine suites. Pair7045/CLI27840 are
+  terminal/passed: every3530-frame full state, complete audio (HLE compared by
+  bits), images and dispatch counts match the direct-query reference. Old
+  legacy images match too. Sources/binaries/protected inputs remain frozen.
+- Allowance timing78865 terminal/passed: medians legacy5.850195/direct5.997167/
+  allowance5.972798/extra5.797168ms. Hints win all five comparisons vs allowance
+  (-2.9405% median); overall-vs-legacy gain is small (-0.9064%), not a broad
+  speedup claim. Worldmap22807 passes240frame/full-state equality. Separate
+  tails86913 complete: no over-budget samples, not repeatable tail-gain proof.
+- Selected phase: **PERF-07-EXACT-ROM-HINTS — integration in progress**. Add the
+  already-proven18 immutable entries only for the exact Europe hash, using one
+  union helper in cache identity and compilation. Preserve user/database labels,
+  keep USA/unknown images unchanged, and make hint growth change the digest.
+- Next: run metadata/cache tests, build a new isolated runtime and prove default
+  translation equals the validated explicit-hint library; then final replay,
+  GUI and export gates. New integration artifacts under `integrated/`.
+  Source preimages retained; earlier allowance/hardened/reference results remain
+  closed evidence. Canonical native/dist still contain timer/audio correction.
+- Evidence:[record](../changes/2026-10-21-preserve-native-event-boundaries.json).
+  No process live before starting integration validation.
 
 ## Latest completed unit and current exports
 

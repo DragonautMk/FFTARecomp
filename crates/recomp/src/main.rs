@@ -10,6 +10,7 @@ use std::process::ExitCode;
 use recomp_core::{analyze, build_library, labels, Compiler, FileLabels, LabelSource};
 
 mod ff_audio;
+mod fast_audio_rate;
 mod audio_profile;
 mod profile_window;
 mod fps;
@@ -1317,6 +1318,9 @@ struct AudioStreams {
     /// Hard mute (reserved for fast-forward); the callback slews to it.
     muted: bool,
     playback_speed: f64,
+    /// Guest PCM pairs produced in the current Fast timeline, measured against
+    /// the device sample clock by the callback (no host timestamp required).
+    fast_produced: u64,
     normal_audio: Option<ff_audio::NormalAudio>,
     /// Producer invalidation also resets callback-owned DSP history. Accessed
     /// only under the existing stream mutex; not part of guest/save state.
@@ -1357,6 +1361,7 @@ impl AudioStreams {
         self.hle.clear();
         self.fifo.iter_mut().for_each(std::collections::VecDeque::clear);
         self.normal_audio = None;
+        self.fast_produced = 0;
         self.epoch = self.epoch.wrapping_add(1);
     }
 }
@@ -1542,16 +1547,19 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
     };
     let vol_k = (1.0 / (0.020 * rate)) as f32;
     let mut epoch = streams.lock().unwrap().epoch;
+    let mut fast_clock = fast_audio_rate::Clock::new(src, rate);
     move |out: &mut [T]| {
         let begin = OBSERVE.then(std::time::Instant::now);
         let mut st = streams.lock().unwrap();
         let acquired = begin.map(|_| std::time::Instant::now());
         let observation = OBSERVE.then(|| (st.holds, st.mixed.len() / 2));
         let mut source_reads = [audio_profile::SourceReads::default(); 4];
-        let playback_speed = st.playback_speed.max(1.0);
+        let requested_speed = st.playback_speed.max(1.0);
         let normal_audio = st.normal_audio.is_some();
+        let fast_audio = requested_speed > 1. && !normal_audio;
         if epoch != st.epoch {
             epoch = st.epoch;
+            fast_clock.reset();
             eng.psg.reset();
             eng.hle.reset();
             eng.fifo.iter_mut().for_each(FifoInterp::reset);
@@ -1567,12 +1575,26 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
         }
         // Liveness signal for the play loop's device watchdog.
         st.consumed += (out.len() / channels.max(1)) as u64;
+        let fast_plan = fast_audio.then(|| fast_clock.begin(
+            st.fast_produced, st.mixed.len() / 2, out.len() / channels.max(1), requested_speed));
+        let waiting = fast_plan.is_some_and(|plan| !plan.ready);
+        if waiting {
+            // Explicit, observable re-priming; never repeat old source samples.
+            // Keep the history reset while there is no new audible timeline.
+            eng.psg.reset(); eng.hle.reset();
+            eng.fifo.iter_mut().for_each(FifoInterp::reset);
+            eng.dc.iter_mut().for_each(DcBlock::reset);
+            faithful_dc.iter_mut().for_each(DcBlock::reset);
+            eng.xfade = 0.; frac = 0.; last = (0, 0); vol_cur = 0.;
+            out.fill(T::EQUILIBRIUM);
+        } else {
         for frame in out.chunks_mut(channels) {
+            let playback_speed = if fast_audio { fast_clock.next() } else { requested_speed };
             // Enhanced output (always computed so the ring stays
             // drained and the path is warm for a live switch).
             let (el, er) = {
                 let e = &mut eng;
-                let (pl, pr) = e.psg.next_observed::<OBSERVE>(&mut st.psg, playback_speed, &mut source_reads[0]);
+                let (pl, pr) = e.psg.next_clocked::<OBSERVE>(&mut st.psg, playback_speed, &mut source_reads[0], !fast_audio);
                 let mut l = pl;
                 let mut r = pr;
                 {
@@ -1582,11 +1604,11 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                     // ish crossfade moves between them, so an
                     // HLE engage or pause is never an audible
                     // seam (both render the same music).
-                    let a = e.fifo[0].next_with_speed_observed::<OBSERVE>(&mut st.fifo[0], playback_speed, &mut source_reads[2])
+                    let a = e.fifo[0].next_with_clock::<OBSERVE>(&mut st.fifo[0], playback_speed, &mut source_reads[2], !fast_audio)
                         * if st.vol_half[0] { 0.5 } else { 1.0 };
-                    let b = e.fifo[1].next_with_speed_observed::<OBSERVE>(&mut st.fifo[1], playback_speed, &mut source_reads[3])
+                    let b = e.fifo[1].next_with_clock::<OBSERVE>(&mut st.fifo[1], playback_speed, &mut source_reads[3], !fast_audio)
                         * if st.vol_half[1] { 0.5 } else { 1.0 };
-                    let (hl, hr) = e.hle.next_observed::<OBSERVE>(&mut st.hle, playback_speed, &mut source_reads[1]);
+                    let (hl, hr) = e.hle.next_clocked::<OBSERVE>(&mut st.hle, playback_speed, &mut source_reads[1], !fast_audio);
                     let hr = hr * if st.vol_half[0] { 0.5 } else { 1.0 };
                     let hl = hl * if st.vol_half[1] { 0.5 } else { 1.0 };
                     let target = if st.hle_on { 1.0 } else { 0.0 };
@@ -1637,7 +1659,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                 // into a burst-drop buzz at the cap.
                 let pairs = (st.mixed.len() / 2) as f64;
                 let target_pairs = RING_TARGET as f64 * playback_speed;
-                let err = if normal_audio { 0.0 } else { (pairs - target_pairs) / target_pairs };
+                let err = if normal_audio || fast_audio { 0.0 } else { (pairs - target_pairs) / target_pairs };
                 frac += step * playback_speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
                 while frac >= 1.0 {
                     frac -= 1.0;
@@ -1692,6 +1714,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                 [] => {}
             }
         }
+        }
         if let (Some(begin), Some(acquired), Some((holds, mixed))) = (begin, acquired, observation) {
             let end = std::time::Instant::now();
             let holds = st.holds.saturating_sub(holds);
@@ -1703,6 +1726,9 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                 enhanced_target && !st.hle_on && st.route[1] != 0,
             ];
             if let Some(profile) = st.profile.as_mut() {
+                if let Some(plan) = fast_plan {
+                    profile.fast_audio(plan, out.len() / channels.max(1), mixed);
+                }
                 profile.callback([begin, acquired, end], out.len() / channels.max(1), holds, mixed);
                 profile.sources(source_reads, configured_target);
             }
@@ -1806,6 +1832,9 @@ impl DcBlock {
 struct SincResampler {
     table: Vec<f32>,
     fast_tables: [Vec<f32>; 3],
+    /// 1..8.25 in 1/8 steps. Built once with the stream, never in the callback.
+    /// Adjacent conservative cutoffs blend continuously at fractional speeds.
+    adaptive_tables: Vec<Vec<f32>>,
     /// Last SINC_TAPS source samples per side, oldest first.
     hist: [[f32; SINC_TAPS]; 2],
     ratio: f64,
@@ -1825,6 +1854,10 @@ impl SincResampler {
             table: build_sinc_table(0.45 * (out_hz / src_hz).min(1.0)),
             fast_tables: [2.0, 4.0, 8.0]
                 .map(|speed| build_sinc_table(0.45 * (out_hz / (src_hz * speed)).min(1.0))),
+            adaptive_tables: (0..=58).map(|i| {
+                let speed = 1. + i as f64 / 8.;
+                build_sinc_table(0.45 * (out_hz / (src_hz * speed)).min(1.0))
+            }).collect(),
             hist: [[0.0; SINC_TAPS]; 2],
             ratio: src_hz / out_hz,
             frac: 0.0,
@@ -1845,17 +1878,25 @@ impl SincResampler {
         self.next_observed::<false>(q, speed, &mut audio_profile::SourceReads::default())
     }
 
+    #[cfg(test)]
     fn next_observed<const OBSERVE: bool>(
         &mut self,
         q: &mut std::collections::VecDeque<f32>,
         speed: f64,
         reads: &mut audio_profile::SourceReads,
     ) -> (f32, f32) {
+        self.next_clocked::<OBSERVE>(q, speed, reads, true)
+    }
+
+    fn next_clocked<const OBSERVE: bool>(
+        &mut self, q: &mut std::collections::VecDeque<f32>, speed: f64,
+        reads: &mut audio_profile::SourceReads, steer: bool,
+    ) -> (f32, f32) {
         // Steer consumption toward the target fill; an underrun repeats
         // the newest pair (a one-sample ZOH the DC blocker smooths).
         let pairs = (q.len() / 2) as f64;
         let target = RING_TARGET as f64 * speed;
-        let err = (pairs - target) / target;
+        let err = if steer { (pairs - target) / target } else { 0. };
         self.frac += self.ratio * speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
         while self.frac >= 1.0 {
             self.frac -= 1.0;
@@ -1879,6 +1920,23 @@ impl SincResampler {
             _ => &self.table,
         };
         let row = &table[(self.frac * SINC_PHASES as f64) as usize * SINC_TAPS..][..SINC_TAPS];
+        if !steer {
+            let position = (speed.clamp(1., 8.25) - 1.) * 8.;
+            let index = position.floor() as usize;
+            // Both filters are at or below the current output Nyquist. Using
+            // floor(speed) alone admitted aliasing at fractional Fast speeds.
+            let first = &self.adaptive_tables[(index + 1).min(58)];
+            let second = &self.adaptive_tables[(index + 2).min(58)];
+            let offset = (self.frac * SINC_PHASES as f64) as usize * SINC_TAPS;
+            let weight = position.fract() as f32;
+            let mut output = [0.; 2];
+            for k in 0..SINC_TAPS {
+                let coefficient = first[offset + k] + (second[offset + k] - first[offset + k]) * weight;
+                output[0] += coefficient * self.hist[0][k];
+                output[1] += coefficient * self.hist[1][k];
+            }
+            return (output[0], output[1]);
+        }
         (
             row.iter()
                 .zip(self.hist[0].iter())
@@ -1933,15 +1991,23 @@ impl FifoInterp {
         self.period = 512.0;
     }
 
+    #[cfg(test)]
     fn next_with_speed_observed<const OBSERVE: bool>(
         &mut self,
         q: &mut std::collections::VecDeque<(i8, u32)>,
         speed: f64,
         reads: &mut audio_profile::SourceReads,
     ) -> f32 {
+        self.next_with_clock::<OBSERVE>(q, speed, reads, true)
+    }
+
+    fn next_with_clock<const OBSERVE: bool>(
+        &mut self, q: &mut std::collections::VecDeque<(i8, u32)>, speed: f64,
+        reads: &mut audio_profile::SourceReads, steer: bool,
+    ) -> f32 {
         let base = self.out_step;
         self.out_step = base * speed;
-        let sample = self.next_observed::<OBSERVE>(q, reads);
+        let sample = self.next_clocked::<OBSERVE>(q, reads, steer);
         self.out_step = base;
         sample
     }
@@ -1962,13 +2028,21 @@ impl FifoInterp {
     fn next(&mut self, q: &mut std::collections::VecDeque<(i8, u32)>) -> f32 {
         self.next_observed::<false>(q, &mut audio_profile::SourceReads::default())
     }
+    #[cfg(test)]
     fn next_observed<const OBSERVE: bool>(
         &mut self, q: &mut std::collections::VecDeque<(i8, u32)>,
         reads: &mut audio_profile::SourceReads,
     ) -> f32 {
+        self.next_clocked::<OBSERVE>(q, reads, true)
+    }
+
+    fn next_clocked<const OBSERVE: bool>(
+        &mut self, q: &mut std::collections::VecDeque<(i8, u32)>,
+        reads: &mut audio_profile::SourceReads, steer: bool,
+    ) -> f32 {
         // Steer toward ~62 ms queued at the channel's current rate.
         let target = ((1u64 << 24) as f64 / self.period / 16.0).max(64.0);
-        let err = (q.len() as f64 - target) / target;
+        let err = if steer { (q.len() as f64 - target) / target } else { 0. };
         let stepc = self.out_step * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
 
         self.t_next -= stepc;
@@ -4098,6 +4172,11 @@ mod tests {
                         }
                         _ => unreachable!(),
                     }
+                    if source != "mixed" && source != "normal" {
+                        // Production always supplies the faithful grid too;
+                        // it is the authoritative Fast clock even in Enhanced.
+                        st.mixed.extend(vec![0; 32_768]);
+                    }
                 }
                 let mut callback = output_callback::<f32>(48_000., 2, streams.clone());
                 let mut output = [0.; 1024];
@@ -4169,6 +4248,54 @@ mod tests {
                     assert_eq!((&a.mixed, &a.psg, &a.hle, &a.fifo), (&b.mixed, &b.psg, &b.hle, &b.fifo));
                 }
             }
+        }
+    }
+
+    #[test]
+    fn fast_audio_follows_actual_production_instead_of_requested_speed() {
+        use std::sync::{Arc, Mutex};
+        for enhanced in [false, true] {
+            let streams = Arc::new(Mutex::new(AudioStreams {
+                playback_speed: 4., enhanced_on: enhanced, hle_on: true,
+                route: [3, 3], ..Default::default()
+            }));
+            let mut callback = output_callback::<f32>(48_000., 2, streams.clone());
+            let mut out = [0.; 1024];
+            let mut produced = 0.;
+            let mut fed = 0;
+            let mut holds = 0;
+            let mut audible = 0;
+            for tick in 0..800 {
+                // 2x real production, in guest-frame-sized batches, while 4x
+                // is selected. This is the measured CPU-limited Fast case.
+                produced += 65_536. * 2. * 512. / 48_000.;
+                let pairs = ((produced as usize - fed) / 1097) * 1097;
+                fed += pairs;
+                {
+                    let mut st = streams.lock().unwrap();
+                    st.fast_produced += pairs as u64;
+                    for i in 0..pairs {
+                        let s = if (fed + i) % 64 < 32 { 4000 } else { -4000 };
+                        st.mixed.extend([s, s]);
+                        st.psg.extend([s as f32 / 32768.; 2]);
+                        st.hle.extend([s as f32 / 32768.; 2]);
+                        if i % 2 == 0 {
+                            st.fifo[0].push_back(((s / 128) as i8, 512));
+                            st.fifo[1].push_back(((s / 128) as i8, 512));
+                        }
+                    }
+                }
+                callback(&mut out);
+                if tick == 400 { holds = streams.lock().unwrap().holds; }
+                if tick > 400 {
+                    audible += usize::from(out.iter().any(|s| s.abs() > 0.001));
+                    assert!(streams.lock().unwrap().mixed.len() < 65_536,
+                        "audio backlog grows instead of following the guest");
+                }
+            }
+            let st = streams.lock().unwrap();
+            assert_eq!(st.holds - holds, 0, "sustained Fast source starvation");
+            assert_eq!(audible, 399, "zero holds must not hide silent output");
         }
     }
 
@@ -4270,7 +4397,11 @@ mod tests {
                     let mut y = observed.lock().unwrap();
                     assert_eq!((&x.mixed, &x.psg, &x.hle, &x.fifo), (&y.mixed, &y.psg, &y.hle, &y.fifo));
                     assert_eq!((x.holds, x.drops, x.clipped, x.consumed), (y.holds, y.drops, y.clipped, y.consumed));
-                    assert!(x.holds > 0, "starvation was not exercised");
+                    if round == 4 {
+                        assert_eq!(x.holds, 0, "Fast primes with silence instead of stale holds");
+                    } else {
+                        assert!(x.holds > 0, "starvation was not exercised");
+                    }
                     // Legacy alarm windows must not affect diagnostic totals.
                     x.holds = 0;
                     y.holds = 0;
@@ -4335,6 +4466,34 @@ mod tests {
         assert_eq!(input.keys_at(9), 0x3ff);
         assert_eq!(input.keys_at(10), 0x37f);
         assert_eq!(input.keys_at(11), 0x3ff);
+    }
+
+    #[test]
+    fn fractional_fast_sinc_filters_do_not_select_the_unaccelerated_cutoff() {
+        use std::collections::VecDeque;
+        for rate in [44_100., 48_000.] {
+            for speed in [1.75, 3.3, 5.75, 7.9] {
+                let rms = |frequency: f64| {
+                    let mut resampler = SincResampler::new(65_536., rate);
+                    let mut queue = VecDeque::new();
+                    for i in 0..100_000 {
+                        let sample = (i as f64 * frequency * std::f64::consts::TAU / 65_536.).sin() as f32 * 0.5;
+                        queue.extend([sample; 2]);
+                    }
+                    let mut squares = 0.;
+                    for i in 0..6000 {
+                        let (s, _) = resampler.next_clocked::<false>(&mut queue, speed,
+                            &mut crate::audio_profile::SourceReads::default(), false);
+                        if i >= 1000 { squares += (s as f64).powi(2); }
+                    }
+                    (squares / 5000.).sqrt()
+                };
+                let audible = rms(500.);
+                let alias = rms(rate / (2. * speed) * 1.5);
+                assert!(audible > 0.30, "passband {rate}/{speed}: {audible}");
+                assert!(alias < 0.10, "alias {rate}/{speed}: {alias}");
+            }
+        }
     }
 
     #[test]

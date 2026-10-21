@@ -1,7 +1,8 @@
 # Desktop Fast audio
 
-Fast Forward has three audio choices: `fast` consumes at the selected 2x/4x/8x
-multiplier, `silent` discards guest audio, and `normal` plays the accelerated
+Fast Forward has three audio choices: `fast` follows actual guest audio
+production up to the selected 2x/4x/8x multiplier, `silent` discards guest audio,
+and `normal` plays the accelerated
 guest's faithful PCM at 1x from a temporary file. The latter can fall behind
 the video; it is not pitch-preserving time stretch. Its backlog limit remains
 an open item in [BUG-03](development/todo_bug_fix.md).
@@ -24,8 +25,8 @@ mutex. At its next callback, the consumer resets the faithful DAC/fractional
 position, PSG/HLE sinc histories, FIFO impulses/integrator/event position, DC
 filters and crossfade state. It reuses filter tables and storage, and ramps new
 audio in through the existing approximately 20 ms volume slew. No allocation,
-I/O, logging, extra lock or clock is added to the callback reset. With no
-invalidation, the DSP and queue-consumption policy are unchanged.
+I/O, logging, extra lock or clock is added to the callback reset. Ordinary 1x
+playback retains its existing DSP and queue steering.
 
 This removes stale **application-side** audio. Samples already submitted to the
 device/backend remain subject to its buffering; the host epoch cannot retract
@@ -72,9 +73,87 @@ backlog in the reproduced case. It does not establish the user's hardware
 behavior or a measured audio-to-video latency. Logs, inputs and captures are
 local under ignored `target/fast-audio-reset/`.
 
-The reported case is **Fast audio at 4x**. Clearing stale history alone does not
-establish that a prolonged audio/video synchronization issue is resolved. The
-callback still consumes at the requested multiplier even if guest production
-cannot keep up. Sustained source starvation, device latency, audible transition
-quality and native Windows hardware need separate measurements. Normal's
-unbounded file and blocking read path remain unchanged in this fix.
+## Following actual production in Fast
+
+`fast_audio_rate::Clock` fixes that second verified cause. The frontend counts
+produced faithful PCM pairs while Fast audio is active; the callback compares
+their progress with output device frames. It needs no new wall-clock calls,
+locks, I/O or callback allocation. The normal-play path does not count production.
+
+Production is smoothed over approximately 200 ms. Queue feedback restores a
+60 ms reserve after each complete device callback, with approximately 250 ms
+correction time. One common speed slews per output sample over approximately
+100 ms, and drives faithful PCM, PSG, HLE and both FIFO consumers. Their
+independent queue steering is disabled only in Fast, so sources do not chase
+different clocks. Effective speed is bounded to 0.05x through the requested
+multiplier plus the existing 2% clock tolerance (at most 8.16x). It can follow
+less than 1x production when the machine is heavily loaded. Guest execution,
+frame pacing, timers and the generated translation remain independent.
+
+Before starting, the consumer accumulates the reserve and one callback's source
+demand. A discontinuity that exhausts this budget re-primes with explicit
+silence and clears the old signal history instead of repeating stale source
+samples. New output uses the existing volume ramp. This is recovery from
+missing production, not a promise of continuous sound through an arbitrary
+host stall. Normal and Silent retain their separate policies.
+
+Fractional speeds use continuously blended conservative sinc cutoffs rather
+than casting the speed to an integer and potentially choosing the 1x filter.
+Tables for 1x through 8.25x in eighth steps are prepared when the stream is
+created; both chosen cutoffs stay below the current output Nyquist. The two
+grid resamplers add approximately 1.4 MiB of coefficient storage per stream;
+the callback does no filter construction. FIFO timing uses the same effective
+speed and retains its existing band-limited impulse renderer.
+
+With `FFTA_PROFILE=1`, `FFTA_FAST_AUDIO` reports ready and waiting output frames,
+rebuffer events, effective/production rates and maximum estimated queue delay.
+It shares the existing guest-frame capture gate and context separation. A
+zero underrun count must be assessed alongside waiting frames: priming silence
+is explicitly visible and cannot be counted as successful source playback.
+
+## Effective-rate verification
+
+The ROM-free callback regression first fails on the old nominal4x consumer
+with 536641 steady-state faithful holds while production runs at2x. The fixed
+callback produces audible synthetic samples throughout the measured steady
+interval with zero holds for Faithful and Enhanced. Clock tests cover72
+combinations of 44.1/48/96 kHz,256/2048-frame buffers, requested2x/4x/8x and
+actual0.5x/1x/1.75x/full speed: no steady waiting, no depleted queue, less than
+200 ms estimated backlog and less than5% final speed error. Another test covers
+4x->1x->3x->stopped->2x, reset and empty callbacks. Fractional-rate sine tests
+check the passband and attenuated above-Nyquist tones. A real callback test
+also verifies that a forced rebuffer emits silence and records waiting frames.
+
+Final native runtime tests pass74cases (4optional ignored), with the final
+empty-buffer clock refinement also checked by the2targeted clock tests.
+Windows GNU builds without warnings and passes75runtime tests under Wine
+(4optional ignored). Native and Windows production builds succeed; prior
+canonical binaries were restored by hash and portable exports were not replaced.
+
+The actual Linux CPAL44.1kHz/native-translation/Xvfb idle-battle check selects
+Fast4x and measures guest frames9400:11400 after startup. Faithful357callbacks
+and Enhanced359callbacks have zero faithful holds, PSG/HLE empty reads, producer
+drops, over-period callbacks, waiting frames or rebuffer events. Mean effective
+speed2.2032/2.1906 matches measured production2.2030/2.1906; maximum estimated
+source-queue delay is107.3/108.0ms. All measured device frames are ready output,
+so this result is not obtained by replacing starvation with silence. Slot bytes
+are unchanged, normal1x returns to about59.7INT/EXT, and window closes are clean.
+Enhanced's pause/resume keeps Fast active. A short dedicated Faithful
+pause/Return-resume check confirms130.0INT/32.5EXT after resume, then59.7/59.7
+after disabling Fast; it resolves an ambiguous1x capture from the first sequence.
+Its imported helper failed an obsolete launcher assertion only after asserting
+the runtime's clean exit; the completed captures/slot result were retained.
+Tests run at volume zero: source consumption/lifecycle is verified, audibility
+and physical speaker latency are not inferred. Local evidence is under ignored
+`target/fast-audio-rate/`.
+
+An earlier run overlapping Windows compilation is retained as variable-load
+evidence, not a steady-play pass:0source holds/empty PSG-HLE reads, but3rebuffers
+and13171waiting frames as production ranges roughly0.52x..2.25x. This makes
+the recovery limit visible. Only the failed steady-load criterion was repeated
+after compilation ended; existing baseline and passing suites were reused.
+
+These checks establish the consumption correction. Native Windows hardware,
+audible transition quality and recognizable audio/video event latency remain
+separate validation. Normal's unbounded temporary file and blocking read path
+remain open in BUG-03; this change does not implement pitch-preserving stretch.

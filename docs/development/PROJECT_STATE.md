@@ -69,10 +69,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   retaining filter tables and ramping new output through the volume slew.
   Pause discards pending output while preserving the Fast latch; device loss
   also discards Normal's temporary backlog. Load/Undo retains stream recreation.
-  Native/Wine synthetic residual/fresh-history regressions pass. This does not
-  retract backend-buffered audio or solve nominal4x consumption when the guest
-  runs slower. Normal backlog limits and hardware/steady-state synchronization
-  remain open. See [Fast audio](../fast_forward_audio.md).
+  Fast consumption now follows produced PCM pairs against device sample-clock
+  progress with a common smoothed clock for faithful/PSG/HLE/FIFO, a60ms reserve
+  after each callback and fractional sinc cutoff tables. Normal1x retains its
+  DSP; explicit waiting/rebuffer telemetry prevents silence hiding starvation.
+  Native74/Wine75runtime tests and72clock cases pass. Actual local4x CPU-limited
+  battle gates pass357/359Faithful/Enhanced callbacks with no source holds,
+  PSG/HLE empties, waiting/rebuffers or drops; consumption tracks~2.2x production
+  and max estimated source queue stays~108ms. Under changing compilation load,
+  recovery can still require silence; this is reported, not continuous playback
+  proof during arbitrary stalls. Backend-buffered audio cannot be retracted;
+  native Windows/hardware/event latency, audible quality and Normal backlog
+  limits remain open. See [Fast audio](../fast_forward_audio.md).
 
 - The observed battle laws table and its HELP window use the existing centered
   Notice layer, including the selector/continuation sprites, independently of

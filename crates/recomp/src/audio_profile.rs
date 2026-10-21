@@ -76,6 +76,20 @@ struct Series {
     min_mixed_pairs: usize,
     max_mixed_pairs: usize,
     sources: [SourceTotals; 4],
+    fast: FastTotals,
+}
+
+#[derive(Default)]
+struct FastTotals {
+    callbacks: u64,
+    ready_frames: u64,
+    waiting_frames: u64,
+    rebuffers: u64,
+    min_speed: f64,
+    max_speed: f64,
+    speed_sum: f64,
+    estimate_sum: f64,
+    max_queue_ms: f64,
 }
 
 pub(crate) struct Profile {
@@ -144,6 +158,7 @@ impl Profile {
                 min_mixed_pairs: usize::MAX,
                 max_mixed_pairs: 0,
                 sources: [SourceTotals::default(); 4],
+                fast: FastTotals::default(),
             }),
             previous: None,
             callback_builds: 0,
@@ -204,6 +219,25 @@ impl Profile {
         }
     }
 
+    pub fn fast_audio(&mut self, plan: crate::fast_audio_rate::Plan, frames: usize, queued: usize) {
+        if !self.capturing() { return; }
+        let s = &mut self.series[self.context as usize].fast;
+        s.callbacks += 1;
+        s.rebuffers += u64::from(plan.rebuffered);
+        if !plan.ready {
+            s.waiting_frames += frames as u64;
+            return;
+        }
+        if s.ready_frames == 0 { s.min_speed = plan.speed; }
+        s.ready_frames += frames as u64;
+        s.min_speed = s.min_speed.min(plan.speed);
+        s.max_speed = s.max_speed.max(plan.speed);
+        s.speed_sum += plan.speed * frames as f64;
+        s.estimate_sum += plan.estimate * frames as f64;
+        s.max_queue_ms = s.max_queue_ms.max(
+            queued as f64 * 1000. / (gba_core::mem::AUDIO_RATE_HZ as f64 * plan.estimate));
+    }
+
     pub fn callback(
         &mut self,
         clocks: [Instant; 3],
@@ -256,6 +290,15 @@ impl Profile {
         for context in CONTEXTS {
             let s = &self.series[context as usize];
             let name = context.name();
+            let f = &s.fast;
+            if f.callbacks != 0 {
+                println!(
+                    "FFTA_FAST_AUDIO context={name} callbacks={} ready_frames={} waiting_frames={} rebuffers={} speed_min={:.6} speed_max={:.6} speed_mean={:.6} production_mean={:.6} max_queue_ms={:.6}",
+                    f.callbacks, f.ready_frames, f.waiting_frames, f.rebuffers,
+                    f.min_speed, f.max_speed, f.speed_sum / f.ready_frames.max(1) as f64,
+                    f.estimate_sum / f.ready_frames.max(1) as f64, f.max_queue_ms
+                );
+            }
             for (source, total) in ["psg", "hle", "fifo_a", "fifo_b"]
                 .into_iter()
                 .zip(s.sources)
@@ -320,6 +363,32 @@ fn report_metric(context: &str, phase: &str, mut values: Vec<Duration>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn fast_repriming_is_silent_and_observed_as_waiting_output() {
+        use std::sync::{Arc, Mutex};
+        let mut profile = Profile::new();
+        profile.set_context(Context::FastForward);
+        let streams = Arc::new(Mutex::new(crate::AudioStreams {
+            playback_speed: 4., fast_produced: 8192,
+            profile: Some(profile), ..Default::default()
+        }));
+        let mut callback = crate::output_callback::<f32>(48_000., 2, streams.clone());
+        let mut output = [0.; 1024];
+        {
+            let mut st = streams.lock().unwrap();
+            st.mixed.extend((0..16_384).map(|i| if i % 64 < 32 { 4000 } else { -4000 }));
+        }
+        callback(&mut output);
+        assert!(output.iter().any(|s| s.abs() > 0.001));
+        streams.lock().unwrap().mixed.clear();
+        callback(&mut output);
+        assert!(output.iter().all(|&s| s == 0.), "stall repeats old samples");
+        let st = streams.lock().unwrap();
+        let stats = &st.profile.as_ref().unwrap().series[Context::FastForward as usize];
+        assert_eq!((stats.fast.ready_frames, stats.fast.waiting_frames, stats.fast.rebuffers), (512, 512, 1));
+        assert_eq!((stats.frames, stats.holds), (1024, 0));
+    }
 
     #[test]
     fn actual_callback_labels_configured_targets_without_claiming_audibility() {

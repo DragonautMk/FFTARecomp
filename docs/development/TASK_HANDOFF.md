@@ -6,6 +6,42 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Latest request: fix the second verified Fast audio cause, nominal4x consumption
+  exceeding actual guest production. **BUG-03-EFFECTIVE-RATE — complete / retained.**
+- Common host production/device-frame clock now drives faithful/PSG/HLE/FIFO;
+ 200ms estimate,250ms queue correction,60ms reserve,100ms slew and0.05x..request+2%
+  limits. Fractional sinc cutoff bank is built once per stream. Priming/rebuffer
+  silence is explicit and counted;1x/Normal/Silent/guest timing stay separate.
+  Previous transition-reset and warning-cleanup outcomes remain retained.
+- Evidence: [record](../changes/2026-10-21-follow-effective-fast-audio-production.json),
+  [feature details](../fast_forward_audio.md). Baseline regression536641steady
+  holds; corrected callback has zero holds and live synthetic output. Clock72case
+  matrix, rate/stall/reset, spectral and rebuffer telemetry tests pass. Native
+ 74runtime/4ignored plus final2clock checks; Windows/Wine75runtime/4ignored pass.
+  Native/Windows production builds pass without warnings, canonical binaries
+  restored by hashes. Source mtime refreshed for correct next Cargo regeneration.
+- Actual Linux CPAL44.1kHz/native/Xvfb Fast4x steady9400:11400gate:357Faithful/
+ 359Enhanced callbacks, no holds/PSG-HLE empties/waiting/rebuffer/drops/over-period;
+  mean consumption2.2032/2.1906 tracks production2.2030/2.1906, max estimated source
+  queue107.3/108.0ms. Slot bytes unchanged, Vulkan/no fallback, captures inspected,
+  clean closes. Volume0: no audible-quality or hardware latency claim.
+- Earlier compilation-overlap GUI remains variable-load evidence:3rebuffers,
+ 13171waiting frames,0source holds/empties, speed0.519..2.245/maxqueue177.0ms.
+  Only the failed steady criterion repeated after builds. Faithful ambiguous1x
+  post-pause image resolved by short Return-resume check:130.0/32.5Fast then
+ 59.7/59.7normal. Helper failed obsolete launcher assertion after verified exit0;
+  completed evidence retained; do not repeat those runs or the old baseline.
+- No missing deliverable/live process for the selected cause. Local artifacts:
+  `target/fast-audio-rate/` (sources/preimages, validated-sources.json, old/candidate
+  hashes, native/Wine logs, GUI results/captures and first negative run under
+  gui-under-build-load). Build/test/GUI handles51951/72493/97293/98575/10060/85875/
+ 43855/56671/2008/14367/43406 are terminal. No commit/push/export update.
+- BUG-03 parent remains partial for Normal backlog bounds, audible/event/device
+  and native Windows validation. Next runtime work can select those remaining
+  criteria, then BUG-02-FPS, when consistent with the latest request. Do not
+  reopen the completed consumption fix merely because the parent is unchecked.
+
+Previous completed build-warning request:
 - Latest request: resume the assessment/fix of supplied Docker build warnings.
 - **BUILD-01-WARNING-CLEANUP — complete.** Scope test/platform helpers to their
   callers, remove the unused FIFO wrapper and unused Linux Gilrs binding, retain
@@ -28,11 +64,10 @@ An open parent never reopens completed children or rejected experiments.
   wine-results.json, build/test logs and scripts, first-pass warning evidence.
   Handles72956/69213/5375/57934/80220/9896/34509 are terminal. Final memory and
   CRLF-aware whitespace checks pass. No commit, push or package update.
-- The previous audio/performance work below remains pending. The next runtime
-  criterion is BUG-03-EFFECTIVE-RATE only when selected by the latest request;
-  do not reopen completed transition-reset checks for these build warnings.
+- This warning-only unit did not resume audio/performance work. Its former next
+  selection is superseded by the completed audio-consumption result above.
 
-Previous audio request and its remaining queue:
+Previous audio-transition request and retained baseline evidence:
 - Latest request: continue resolving the desktop TODO. User clarified the audio
   report as **Fast audio at4x**, suspecting stale queued output.
 - Selected **BUG-03-TRANSITION-RESET — complete / retained**. Queues already
@@ -52,17 +87,13 @@ Previous audio request and its remaining queue:
   Old launcher helper assertion failed only after Faithful exited0; result was
   retained, helper fixed, only previously unrun Enhanced executed. Initial ALSA
   sysroot and Wine sandbox setup failures are documented, not runtime failures.
-- **BUG-03-FAST-AUDIO remains partial.** Sustained nominal4x consumption exceeds
-  local guest production: captures INT121.7/128.2 and EXT30.4/32.1;497/499Fast
+- Historical diagnosis: sustained nominal4x consumption exceeded local guest
+  production: captures INT121.7/128.2 and EXT30.4/32.1;497/499Fast
   callbacks all hold, ~47%PSG/HLE requests empty, zero producer drops/over-period
   callbacks. Enhanced configured targets are affected too. Normal-playing
   intervals207/205callbacks have zero holds. This is separate from stale history
   and does not establish the user's hardware latency or an audio-event offset.
-- Next open unit: **BUG-03-EFFECTIVE-RATE** — design and verify smoothed consumption
-  against actual production/queue level when requested4x cannot be sustained,
-  with explicit limits and suitable resampler cutoff; do not alter guest timing.
-  Reuse this measured case and existing diagnostics. Normal backlog bound,
-  native Windows audio and wider2x/8x/event coverage remain open; then BUG-02-FPS.
+  It motivated the completed correction above; do not select it as pending work.
 - No process live. Local artifacts: `target/fast-audio-reset/` (regression/build/
   native/Wine logs, candidate and restored-binary hashes, isolated GUI inputs,
   captures, `analysis.json`). Test/build handles24498/45705/6631/23587/24241/

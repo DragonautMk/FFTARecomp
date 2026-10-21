@@ -106,8 +106,9 @@ o alterare la definizione dei contatori. L'uguaglianza numerica non è un requis
 
 ## BUG-03-FAST-AUDIO — Audio fuori sincrono in modalità Fast
 
-**Stato:** caso segnalato precisato (Fast audio, 4×); reset delle transizioni
-corretto, diagnosi della sincronizzazione prolungata ancora aperta.
+**Stato:** caso segnalato precisato (Fast audio, 4×); reset delle transizioni e
+consumo sulla produzione effettiva implementati. Copertura hardware/eventi e
+limite del backlog Normal restano aperti.
 **Priorità:** P1. **Complessità:** medio-alta. Collegato a PERF-09/10.
 
 **Evidenza e analisi.** `AvConfig` e il menu Fast forward espongono già
@@ -116,9 +117,10 @@ modalità, ma lasciava attive le memorie dei filtri e l'ultimo campione nel
 callback. La regressione sintetica conferma l'uscita residua a code vuote.
 Il nuovo epoch host invalida anche questi stati; pausa e perdita del device
 scartano inoltre il backlog Normal. Vedi [comportamento e prove](../fast_forward_audio.md).
-`fast` imposta tuttora `playback_speed` al moltiplicatore selezionato.
-Il callback in [main.rs](../../crates/recomp/src/main.rs) lo usa per consumare
-audio, mentre il frontend esegue un gruppo di frame per presentazione.
+`fast` conserva il moltiplicatore selezionato come limite richiesto. Il callback
+in [main.rs](../../crates/recomp/src/main.rs) ora ne adatta il consumo alla
+produzione misurata dal clock del device e alla riserva in coda; il frontend
+continua a eseguire il gruppo di frame indipendentemente dall'audio.
 
 `normal` usa invece [NormalAudio](../../crates/recomp/src/ff_audio.rs): riproduce
 a 1× il PCM prodotto dal gioco accelerato, conservandolo in un file temporaneo.
@@ -133,11 +135,18 @@ del produttore e circa 47% delle richieste PSG/HLE vuote. Il consumo nominale
 supera quindi la produzione; a 1× gli intervalli playing non hanno holds.
 Hold/release, toggle e pausa/ripresa sono stati eseguiti con catture ispezionate.
 Volume zero e scena inattiva non provano la qualità sonora né il ritardo di un
-evento sul dispositivo dell'utente. Il reset non chiude questa seconda causa.
+evento sul dispositivo dell'utente. Il solo reset non chiudeva questa seconda
+causa: è stata quindi aggiunta la correzione del consumo descritta sotto.
 
-**Soluzione proposta.** Per `fast`, mantenere l'audio vicino alla posizione
-corrente del guest con coda e latenza limitate, correggendo transizioni e
-controllo del consumo solo sulla base delle misure. Per `normal`, rendere
+**Soluzione implementata per Fast.** `fast_audio_rate::Clock` stima la produzione
+su circa200ms, corregge la riserva con risposta250ms e varia un consumo comune
+ai cinque percorsi su circa100ms. Riserva obiettivo60ms oltre al buffer del
+callback, intervallo0,05×..moltiplicatore+2%; a 1× resta il vecchio controllo.
+Il filtro sinc usa cutoff frazionari continui; priming/riempimenti emettono
+silenzio esplicito, contato da `FFTA_FAST_AUDIO`, senza ripetere campioni vecchi.
+Nessun nuovo lock, I/O, allocazione o clock host nel callback.
+
+**Proposta ancora aperta per Normal.** Rendere
 esplicito «audio 1× ritardato» e definire un limite al backlog. Un'eventuale
 modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
 è una scelta ulteriore, non una proprietà della coda 1×.
@@ -149,10 +158,16 @@ modalità accelerata che preservi il pitch richiederebbe time-stretch dedicato:
 - [ ] Riutilizzare i profili audio/cadenza esistenti: correlare frame guest,
   consumo, riempimento, holds/drops e tempo dei callback; tenere distinti
   priming, pausa e Fast. Non usare un benchmark senza callback come prova sonora.
-- [ ] Se `fast` va in starvation quando la velocità richiesta non è raggiunta,
-  progettare un controllo smussato su produzione effettiva e livello della
-  coda, con limiti espliciti; evitare variazioni brusche del pitch e modifiche
-  al tempo guest per inseguire l'audio.
+- [x] **BUG-03-EFFECTIVE-RATE:** correggere il consumo nominale quando la
+  velocità richiesta non è raggiunta: clock comune smussato, riserva, cutoff
+  frazionario e priming osservabile. Regressione callback4×/produzione2×,
+  matrice72casi a2×/4×/8×, cambi di produzione/arresto/ripresa e filtraggio.
+  Nessuna modifica al tempo guest o alla serializzazione.
+- [x] Verificare il caso4× con callback Linux reali e finestra guest9400:11400:
+  Faithful357/Enhanced359callback, zero holds/PSG-HLE empty/drops/riempimenti
+  e zero silenzio di priming. Consumo medio2,2032/2,1906× segue produzione
+ 2,2030/2,1906×; coda stimata massima107,3/108,0ms. Volume zero e scena
+  inattiva: non è una misura di latenza sonora su Windows nativo.
 - [ ] Stabilire per `normal` un budget in secondi/byte e il comportamento al
   limite, per esempio salto controllato verso l'audio recente con breve fade;
   aggiornare nome/descrizione e rimuovere il backlog quando non serve.

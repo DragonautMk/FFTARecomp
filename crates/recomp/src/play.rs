@@ -2099,6 +2099,9 @@ impl PlayApp {
         let mut st = self.streams.lock().unwrap();
         if let Some(profile) = st.profile.as_mut() { profile.publish_frame(bus.frames); }
         let drops_before = st.profile.as_ref().map(|_| st.drops);
+        if st.playback_speed > 1. {
+            st.fast_produced = st.fast_produced.wrapping_add((bus.audio_buf.len() / 2) as u64);
+        }
         let audio_capacity = 65536 * st.playback_speed.max(1.0) as usize;
         st.route = [(cnt_h >> 8 & 3) as u8, (cnt_h >> 12 & 3) as u8];
         st.vol_half = [cnt_h & 4 == 0, cnt_h & 8 == 0];

@@ -4806,10 +4806,12 @@ dependencies = [
  "objc2-quartz-core 0.3.2",
  "pollster",
  "raw-window-handle",
+ "softbuffer",
  "wayland-backend",
  "wayland-client",
  "wayland-protocols",
  "wgpu 26.0.1",
+ "winit",
 ]
 
 [[package]]

@@ -19,6 +19,17 @@ criterion, explicit user request or verified failure that requires it, following
 before restarting an interrupted observation. A new implementation still needs
 the checks affected by that implementation.
 
+A summary mentioning an unfinished build is not a new build instruction.
+Reconcile it with the latest user request and actual output before acting; a
+workflow-only request does not require rebuilding unchanged applications.
+
+Before mutating files or starting expensive work after resumption, record the
+selection checkpoint in TASK_HANDOFF as defined by MEMORY_WORKFLOW. Check the
+selected ID's existing outcome; completed/rejected work requires a recorded
+reopening reason. Validate an already implemented request instead of doing it
+again. Check linked terminal results before trusting an old next-action line;
+close a completed/rejected selection before choosing another unit.
+
 - Native build: `cargo build --locked --release -p recomp -p ffta-play`.
 - Cross build: select `--target x86_64-pc-windows-gnu` and a compatible linker.
 - Compile affected Windows tests, then run their executables on Windows or

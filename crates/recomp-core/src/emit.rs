@@ -100,6 +100,7 @@ struct Ctx<'a> {
     thumb: bool,
     /// Cycles accumulated since the last tick flush.
     cycles: u64,
+    remaining_cycles: u32,
 }
 
 impl Ctx<'_> {
@@ -107,6 +108,16 @@ impl Ctx<'_> {
         if self.cycles > 0 {
             let _ = writeln!(self.out, "    a->tick(m, {}u);", self.cycles);
             self.cycles = 0;
+        }
+    }
+
+    /// A store/shell can advance time through DMA, enable an IRQ or halt.
+    /// Recheck the remaining budget before executing more native instructions.
+    fn guard_continuation(&mut self, next: u32) {
+        if self.remaining_cycles != 0 {
+            let _ = writeln!(self.out,
+                "    if (a->guard(m, 0x{:08x}u, {}u, 0x{:016x}ull)) {{ c[15] = 0x{:08x}u; return 0x{next:08x}u; }}",
+                next & !1, self.remaining_cycles, gba_core::capi::EVENT_GUARD_TAG, next & !1);
         }
     }
 
@@ -132,6 +143,7 @@ fn emit_shell(cx: &mut Ctx, instr: &Instr, expect: u32, last: bool) {
             cx.out,
             "    pc = a->interp_one(m); if (pc != 0x{expect:08x}u) return pc;"
         );
+        cx.guard_continuation(expect);
     }
 }
 
@@ -477,14 +489,11 @@ fn label(key: u32) -> String {
 
 /// Emit a static control transfer to `key` (caller has already set
 /// c[15] and any link register): a direct goto when the target belongs
-/// to the same chain group — gated on back-edges so native loops still
-/// return for IRQ delivery and frame pacing — else a dispatcher return.
-fn transfer(out: &mut String, chain: Option<&ChainCtx>, src_addr: u32, key: u32, ind: &str) {
+/// to the same chain group, whose entries all check event budgets, else a
+/// dispatcher return. Entry guards also cover forward edges and loop back-edges.
+fn transfer(out: &mut String, chain: Option<&ChainCtx>, _src_addr: u32, key: u32, ind: &str) {
     if let Some(ch) = chain {
         if ch.members.contains(&key) {
-            if key & !1 <= src_addr {
-                let _ = writeln!(out, "{ind}if (a->chain_gate(m)) return 0x{key:08x}u;");
-            }
             let _ = writeln!(out, "{ind}goto {};", label(key));
             return;
         }
@@ -542,6 +551,17 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
         );
     }
 
+    let mut cycle_budget = vec![0u32; b.instrs.len() + 1];
+    for i in (0..b.instrs.len()).rev() {
+        let cost = u32::try_from(gba_core::machine_instr_cost(region, &b.instrs[i])).unwrap();
+        cycle_budget[i] = cycle_budget[i + 1].checked_add(cost).unwrap();
+    }
+    // No state-changing instruction may cross an event while executing a batch.
+    // Near an event, one interpreter step retains exact frame/IRQ boundaries.
+    let _ = writeln!(out,
+        "    {{ uint32_t event = a->guard(m, 0x{:08x}u, {}u, 0x{:016x}ull); if (event) {{ c[15] = 0x{:08x}u; return event == 2u ? 0x{:08x}u : a->interp_one(m); }} }}",
+        b.addr, cycle_budget[0], gba_core::capi::EVENT_GUARD_TAG, b.addr, b.key());
+
     // RAM-resident blocks were translated from a profiling snapshot;
     // guard the whole block's content (one FNV-1a hash call) so swapped
     // or overwritten code falls back to the interpreter instead of
@@ -584,10 +604,12 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
         out,
         thumb: b.thumb,
         cycles: 0,
+        remaining_cycles: 0,
     };
     let mut i = 0;
     while i < b.instrs.len() {
         let instr = &b.instrs[i];
+        cx.remaining_cycles = cycle_budget[i + 1];
         if gba_core::ffta_log::enabled()
             && ((0x080014c8..0x080016c8).contains(&instr.addr)
                 || (0x080016d4..0x08001882).contains(&instr.addr)
@@ -733,6 +755,10 @@ fn emit_block(out: &mut String, b: &Block, view: &crate::analyze::View, chain: O
                     return;
                 }
             }
+        }
+        if matches!(instr.op, Op::Mem { load: false, .. } | Op::BlockMem { load: false, .. }) {
+            cx.flush_ticks();
+            cx.guard_continuation(expect);
         }
         i += 1;
     }
@@ -1000,6 +1026,144 @@ mod ffta_logging_tests {
             assert_eq!(observed.bus.iwram, reference.bus.iwram);
             assert_eq!(observed.bus.oam, reference.bus.oam);
             println!("FFTA_NATIVE verified_ROM_entry=INTERPRETER cpu=IDENTICAL memory=IDENTICAL cycles=IDENTICAL");
+        }
+    }
+}
+
+#[cfg(test)]
+mod native_event_tests {
+    use gba_core::{Bus, Machine};
+
+    #[test]
+    #[ignore = "requires FFTA_TCC_LIBRARY pointing to the desktop TinyCC adapter"]
+    fn native_blocks_preserve_frame_irq_and_dma_boundaries() {
+        let base = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../target/native-event-validation");
+        std::fs::create_dir_all(&base).unwrap();
+        let mut rom = vec![0u8; 0x1a0];
+        rom[..4].copy_from_slice(&0xE12FFF10u32.to_le_bytes());
+        for (start, ops) in [
+            (0x100, vec![0x7821u16, 0x3401, 0x3801, 0xD1FB, 0x4770]),
+            (0x140, vec![0x8008, 0x2207, 0x4770]),
+        ] {
+            for (i, op) in ops.into_iter().enumerate() {
+                rom[start + i * 2..start + i * 2 + 2].copy_from_slice(&op.to_le_bytes());
+            }
+        }
+        for (i, op) in [0xE1010092u32, 0xE3A03007, 0xE12FFF1E]
+            .into_iter()
+            .enumerate()
+        {
+            rom[0x180 + i * 4..0x184 + i * 4].copy_from_slice(&op.to_le_bytes());
+        }
+        let view = crate::analyze::View {
+            rom: &rom,
+            ewram: None,
+            iwram: None,
+            bios: None,
+        };
+        let path = base.join("guarded-synthetic.so");
+        let cc = crate::Compiler::detect();
+        assert!(matches!(cc.backend, crate::Backend::MemoryTcc(_)));
+        crate::build_library(
+            &view,
+            &[0x08000101, 0x08000141, 0x08000180],
+            &cc,
+            &path,
+            0,
+            &mut |_, _| {},
+        )
+        .unwrap();
+        let code = crate::tcc_memory::NativeCode::load(&path).unwrap();
+        let blocks = code.blocks().unwrap();
+        let fixture = |pc, offset| {
+            let mut m = Machine::new(rom.clone());
+            m.cpu.cpsr = if pc & 1 != 0 { 0x3f } else { 0x1f };
+            m.cpu.regs[0] = 1000;
+            m.cpu.regs[4] = 0x02000000;
+            m.cpu.regs[15] = pc & !1;
+            for i in 0..64 {
+                m.bus.ewram[i] = i as u8 + 1;
+            }
+            m.bus.write32(0x03000000, 0xE12FFF1E);
+            m.bus.write32(0x03007FFC, 0x03000000);
+            m.bus.write16(0x04000004, 8);
+            m.bus.write16(0x04000200, 1);
+            m.bus.write16(0x04000208, 1);
+            m.bus
+                .tick(gba_core::mem::CYCLES_PER_SCANLINE * 160 - offset);
+            assert!(!m.bus.frame_ready);
+            m
+        };
+        for offset in [1, 2, 3, 4, 8, 16, 32, 64, 128] {
+            let mut reference = fixture(0x08000101, offset);
+            let mut native = fixture(0x08000101, offset);
+            while !reference.bus.frame_ready {
+                reference.step();
+            }
+            let mut calls = 0;
+            while !native.bus.frame_ready {
+                calls += 1;
+                assert!(calls < 1000);
+                let key = native.cpu.regs[15] | native.cpu.thumb() as u32;
+                if native.bus.halted
+                    || (native.bus.irq_pending() && !native.cpu.flag(gba_core::cpu::FLAG_I))
+                {
+                    native.step();
+                } else if let Some(b) = blocks.iter().find(|b| b.key == key) {
+                    (b.func)(
+                        &gba_core::capi::RT_API,
+                        &mut native as *mut _ as *mut std::ffi::c_void,
+                    );
+                } else {
+                    native.step();
+                }
+            }
+            assert_eq!(
+                reference.save_state().unwrap(),
+                native.save_state().unwrap(),
+                "frame offset {offset}"
+            );
+            reference.step();
+            native.step();
+            assert_eq!(reference.cpu.mode(), gba_core::Mode::Irq);
+            assert_eq!(
+                reference.save_state().unwrap(),
+                native.save_state().unwrap(),
+                "IRQ offset {offset}"
+            );
+        }
+        for (name, pc) in [
+            ("inline-store-dma", 0x08000141),
+            ("shell-swap-dma", 0x08000180),
+        ] {
+            let setup = || {
+                let mut m = fixture(pc, 64);
+                m.cpu.regs[1] = if pc & 1 != 0 { 0x040000DE } else { 0x040000DC };
+                m.cpu.regs[0] = 0x8400;
+                m.cpu.regs[2] = 0x8400012C;
+                for i in 0..300u32 {
+                    m.bus.write32(0x02001000 + i * 4, i);
+                }
+                m.bus.write32(0x040000D4, 0x02001000);
+                m.bus.write32(0x040000D8, 0x03001000);
+                m.bus.write16(0x040000DC, 300);
+                m
+            };
+            let mut reference = setup();
+            let mut native = setup();
+            reference.step();
+            assert!(reference.bus.frame_ready);
+            let b = blocks.iter().find(|b| b.key == pc).unwrap();
+            (b.func)(
+                &gba_core::capi::RT_API,
+                &mut native as *mut _ as *mut std::ffi::c_void,
+            );
+            assert_eq!(
+                reference.save_state().unwrap(),
+                native.save_state().unwrap(),
+                "{name}"
+            );
         }
     }
 }

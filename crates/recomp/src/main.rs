@@ -10,7 +10,10 @@ use std::process::ExitCode;
 use recomp_core::{analyze, build_library, labels, Compiler, FileLabels, LabelSource};
 
 mod ff_audio;
+mod audio_profile;
+mod profile_window;
 mod fps;
+mod ui_pixels;
 mod perf;
 mod packfile;
 mod play;
@@ -128,7 +131,8 @@ image's sha256) instead of label files; mutually exclusive with --labels",
     ], "Translate a ROM image to a native shared library at out/<stem>.<dylib|so|dll> (host platform). \
 Emits C11 in bounded chunks and compiles them with cc. Label files (<rom>.labels \
 or the recorder's accumulator) contribute extra entry-point seeds automatically."),
-    ("play", "recomp play <rom> [--interp] [--stats] [--status] [--record-labels] [--bios file] [--no-bios]", &[
+    ("play", "recomp play <rom> [--interp] [--stats] [--status] [--record-labels] [--bios file] [--no-bios] [--benchmark config.toml]", &[
+        "--benchmark FILE   developer-only bounded GUI replay (TOML config; no cartridge writes)",
         "--interp           force the interpreter (skip/ignore native translation)",
         "--stats            print performance readouts (frame time, native vs fallback)",
         "--status           emit machine-readable lifecycle lines on stdout (used by the launcher)",
@@ -1109,7 +1113,8 @@ fn status_line(s: &str) {
 /// FIFO/DMA timing fixes (profiled state shifts); 4 = SWI ends blocks
 /// (halt ordering vs following instructions — scanline-effect timing).
 // Regional EUR sprite guards require rebuilding translations made by older engines.
-const TRANSLATION_REV: u32 = 6;
+// Event-budget entry/continuation guards require regenerating native blocks.
+const TRANSLATION_REV: u32 = 7;
 
 // Keep the owning context alive for every translated function pointer.
 #[allow(dead_code)] // These fields retain native allocations until emulation stops.
@@ -1296,6 +1301,7 @@ fn load_native(lib_path: &Path) -> Result<(NativeLibrary, BlockTable), String> {
 /// per-channel taps live. `mixed` and `psg` are interleaved stereo.
 #[derive(Default)]
 struct AudioStreams {
+    profile: Option<audio_profile::Profile>,
     mixed: std::collections::VecDeque<i16>,
     psg: std::collections::VecDeque<f32>,
     fifo: [std::collections::VecDeque<(i8, u32)>; 2],
@@ -1435,8 +1441,51 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
     streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
 ) -> Result<cpal::Stream, String> {
     use cpal::traits::DeviceTrait;
-    let rate = cfg.sample_rate().0 as f64;
-    let channels = cfg.channels() as usize;
+    let mut output = output_callback::<T>(cfg.sample_rate().0 as f64, cfg.channels() as usize, streams.clone());
+    device
+        .build_output_stream(
+            &cfg.config(),
+            move |out: &mut [T], _| output(out),
+            move |e| {
+                eprintln!("audio error: {e}");
+                let mut st = streams.lock().unwrap();
+                st.dead = true;
+                if let Some(profile) = st.profile.as_mut() {
+                    profile.device_errors += 1;
+                }
+            },
+            None,
+        )
+        .map_err(|e| e.to_string())
+}
+
+/// The actual device renderer, also callable without a device for parity and
+/// starvation checks. Diagnostics only observe; DSP and queue policy are shared.
+fn output_callback<T: cpal::SizedSample + cpal::FromSample<f32>>(
+    rate: f64,
+    channels: usize,
+    streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
+) -> impl FnMut(&mut [T]) + Send + 'static {
+    // Select once per stream; no diagnostic branches/counters in default
+    // resampler loops and no boxed callback or per-buffer allocation.
+    enum Callback<A, B> { Plain(A), Observed(B) }
+    let profiling = streams.lock().unwrap().profile.is_some();
+    let mut callback = if profiling {
+        Callback::Observed(output_callback_impl::<T, true>(rate, channels, streams))
+    } else {
+        Callback::Plain(output_callback_impl::<T, false>(rate, channels, streams))
+    };
+    move |out: &mut [T]| match &mut callback {
+        Callback::Plain(callback) => callback(out),
+        Callback::Observed(callback) => callback(out),
+    }
+}
+
+fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSERVE: bool>(
+    rate: f64,
+    channels: usize,
+    streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
+) -> impl FnMut(&mut [T]) + Send + 'static {
     let src = gba_core::mem::AUDIO_RATE_HZ as f64;
 
     // Both paths run every callback; the menu crossfades between them.
@@ -1451,10 +1500,12 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
     // Faithful↔enhanced crossfade: start matched to the loaded setting so
     // there's no fade at launch, then slew (~40 ms) whenever the menu
     // flips `enhanced_on`.
-    let mut mode_x: f32 = if streams.lock().unwrap().enhanced_on {
-        1.0
-    } else {
-        0.0
+    let mut mode_x = {
+        let mut st = streams.lock().unwrap();
+        if OBSERVE {
+            if let Some(profile) = st.profile.as_mut() { profile.attach(rate as u32, channels); }
+        }
+        if st.enhanced_on { 1.0f32 } else { 0.0 }
     };
     let mode_k = (1.0 / (0.040 * rate)) as f32;
     let step = src / rate;
@@ -1464,7 +1515,6 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
     // the speaker. Model it on the faithful path too, or PSG duty
     // offsets thump on every note edge.
     let mut faithful_dc = [DcBlock::new(rate), DcBlock::new(rate)];
-    let err_streams = streams.clone();
     // Master volume, slewed (~20 ms) so menu changes and mutes never click.
     let mut vol_cur: f32 = {
         let st = streams.lock().unwrap();
@@ -1475,148 +1525,157 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
         }
     };
     let vol_k = (1.0 / (0.020 * rate)) as f32;
-    device
-        .build_output_stream(
-            &cfg.config(),
-            move |out: &mut [T], _| {
-                let mut st = streams.lock().unwrap();
-                let playback_speed = st.playback_speed.max(1.0);
-                let normal_audio = st.normal_audio.is_some();
-                // Liveness signal for the play loop's device watchdog.
-                st.consumed += (out.len() / channels.max(1)) as u64;
-                for frame in out.chunks_mut(channels) {
-                    // Enhanced output (always computed so the ring stays
-                    // drained and the path is warm for a live switch).
-                    let (el, er) = {
-                        let e = &mut eng;
-                        let (pl, pr) = e.psg.next_with_speed(&mut st.psg, playback_speed);
-                        let mut l = pl;
-                        let mut r = pr;
-                        {
-                            // BOTH Direct Sound paths stay warm — the
-                            // per-channel interpolators and the MP2K
-                            // shadow stream — and a short equal-power-
-                            // ish crossfade moves between them, so an
-                            // HLE engage or pause is never an audible
-                            // seam (both render the same music).
-                            let a = e.fifo[0].next_with_speed(&mut st.fifo[0], playback_speed)
-                                * if st.vol_half[0] { 0.5 } else { 1.0 };
-                            let b = e.fifo[1].next_with_speed(&mut st.fifo[1], playback_speed)
-                                * if st.vol_half[1] { 0.5 } else { 1.0 };
-                            let (hl, hr) = e.hle.next_with_speed(&mut st.hle, playback_speed);
-                            let hr = hr * if st.vol_half[0] { 0.5 } else { 1.0 };
-                            let hl = hl * if st.vol_half[1] { 0.5 } else { 1.0 };
-                            let target = if st.hle_on { 1.0 } else { 0.0 };
-                            e.xfade += (target - e.xfade) * e.xfade_k;
-                            let xf = e.xfade;
-                            let mut fl = 0.0;
-                            let mut fr = 0.0;
-                            if st.route[0] & 2 != 0 {
-                                fl += a;
-                            }
-                            if st.route[0] & 1 != 0 {
-                                fr += a;
-                            }
-                            if st.route[1] & 2 != 0 {
-                                fl += b;
-                            }
-                            if st.route[1] & 1 != 0 {
-                                fr += b;
-                            }
-                            let mut gl = 0.0;
-                            let mut gr = 0.0;
-                            if st.route[0] & 2 != 0 || st.route[1] & 2 != 0 {
-                                gl = hl;
-                            }
-                            if st.route[0] & 1 != 0 || st.route[1] & 1 != 0 {
-                                gr = hr;
-                            }
-                            l += fl * (1.0 - xf) + gl * xf;
-                            r += fr * (1.0 - xf) + gr * xf;
-                            // Stage 2: where the hardware would hard-clip
-                            // the over-rail sum, saturate it softly
-                            // instead — before the DC block, matching the
-                            // hardware order (rail precedes the output
-                            // coupling). Below the rail this is exact
-                            // identity, so unclipped material is
-                            // bit-identical to the pre-Stage-2 path.
-                            if l.abs() > RAIL || r.abs() > RAIL {
-                                st.clipped += 1;
-                            }
-                        }
-                        (e.dc[0].next(soft_clip(l)), e.dc[1].next(soft_clip(r)))
-                    };
-                    // Faithful output (also always computed, also drained).
-                    let (fl, fr) = {
-                        // The emulated DAC runs on the 59.73 Hz frame
-                        // grid while the window paces 60 — steer the
-                        // faithful path too, or the ring overflows
-                        // into a burst-drop buzz at the cap.
-                        let pairs = (st.mixed.len() / 2) as f64;
-                        let target_pairs = RING_TARGET as f64 * playback_speed;
-                        let err = if normal_audio { 0.0 } else { (pairs - target_pairs) / target_pairs };
-                        frac += step * playback_speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
-                        while frac >= 1.0 {
-                            frac -= 1.0;
-                            let queued = st.normal_audio.as_mut().map(|queue| queue.next_pair());
-                            match queued {
-                                Some(Ok(Some(pair))) => last = pair,
-                                Some(Ok(None)) => st.holds += 1,
-                                Some(Err(error)) => {
-                                    eprintln!("audio: normal-speed backlog read failed ({error}); muting fast-forward audio");
-                                    st.normal_audio = None;
-                                    st.muted = true;
-                                }
-                                None => match (st.mixed.pop_front(), st.mixed.pop_front()) {
-                                    (Some(l), Some(r)) => last = (l, r),
-                                    _ => st.holds += 1,
-                                },
-                            }
-                        }
-                        (
-                            faithful_dc[0].next(last.0 as f32 / 32768.0),
-                            faithful_dc[1].next(last.1 as f32 / 32768.0),
-                        )
-                    };
-                    // Crossfade between the two finished paths. Both are
-                    // level-matched (shared OUT_GAIN below), so a linear
-                    // blend across the ~40 ms slew is seam-free — the
-                    // music is the same, only the rendering differs.
-                    let target = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
-                    mode_x += (target - mode_x) * mode_k;
-                    let l = fl + (el - fl) * mode_x;
-                    let r = fr + (er - fr) * mode_x;
-                    // Calibrate the hardware rail (±0x200 units = ±0.5
-                    // here) toward device full scale. Both paths share
-                    // the gain so the A/V toggle stays level-matched;
-                    // it leaves ~2 dB above the rail for the enhanced
-                    // path's soft knee. The clamp is a safety net for
-                    // DC-block overshoot — faithful content was already
-                    // rail-clipped at the mix (the canon hard clip).
-                    let vol_target = if st.muted { 0.0 } else { 1.0 - st.vol_cut };
-                    vol_cur += (vol_target - vol_cur) * vol_k;
-                    let l = (l * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
-                    let r = (r * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
-                    match frame {
-                        [m] => *m = T::from_sample((l + r) * 0.5),
-                        [fl, fr, rest @ ..] => {
-                            *fl = T::from_sample(l);
-                            *fr = T::from_sample(r);
-                            for ch in rest {
-                                *ch = T::from_sample((l + r) * 0.5);
-                            }
-                        }
-                        [] => {}
+    move |out: &mut [T]| {
+        let begin = OBSERVE.then(std::time::Instant::now);
+        let mut st = streams.lock().unwrap();
+        let acquired = begin.map(|_| std::time::Instant::now());
+        let observation = OBSERVE.then(|| (st.holds, st.mixed.len() / 2));
+        let mut source_reads = [audio_profile::SourceReads::default(); 4];
+        let playback_speed = st.playback_speed.max(1.0);
+        let normal_audio = st.normal_audio.is_some();
+        // Liveness signal for the play loop's device watchdog.
+        st.consumed += (out.len() / channels.max(1)) as u64;
+        for frame in out.chunks_mut(channels) {
+            // Enhanced output (always computed so the ring stays
+            // drained and the path is warm for a live switch).
+            let (el, er) = {
+                let e = &mut eng;
+                let (pl, pr) = e.psg.next_observed::<OBSERVE>(&mut st.psg, playback_speed, &mut source_reads[0]);
+                let mut l = pl;
+                let mut r = pr;
+                {
+                    // BOTH Direct Sound paths stay warm — the
+                    // per-channel interpolators and the MP2K
+                    // shadow stream — and a short equal-power-
+                    // ish crossfade moves between them, so an
+                    // HLE engage or pause is never an audible
+                    // seam (both render the same music).
+                    let a = e.fifo[0].next_with_speed_observed::<OBSERVE>(&mut st.fifo[0], playback_speed, &mut source_reads[2])
+                        * if st.vol_half[0] { 0.5 } else { 1.0 };
+                    let b = e.fifo[1].next_with_speed_observed::<OBSERVE>(&mut st.fifo[1], playback_speed, &mut source_reads[3])
+                        * if st.vol_half[1] { 0.5 } else { 1.0 };
+                    let (hl, hr) = e.hle.next_observed::<OBSERVE>(&mut st.hle, playback_speed, &mut source_reads[1]);
+                    let hr = hr * if st.vol_half[0] { 0.5 } else { 1.0 };
+                    let hl = hl * if st.vol_half[1] { 0.5 } else { 1.0 };
+                    let target = if st.hle_on { 1.0 } else { 0.0 };
+                    e.xfade += (target - e.xfade) * e.xfade_k;
+                    let xf = e.xfade;
+                    let mut fl = 0.0;
+                    let mut fr = 0.0;
+                    if st.route[0] & 2 != 0 {
+                        fl += a;
+                    }
+                    if st.route[0] & 1 != 0 {
+                        fr += a;
+                    }
+                    if st.route[1] & 2 != 0 {
+                        fl += b;
+                    }
+                    if st.route[1] & 1 != 0 {
+                        fr += b;
+                    }
+                    let mut gl = 0.0;
+                    let mut gr = 0.0;
+                    if st.route[0] & 2 != 0 || st.route[1] & 2 != 0 {
+                        gl = hl;
+                    }
+                    if st.route[0] & 1 != 0 || st.route[1] & 1 != 0 {
+                        gr = hr;
+                    }
+                    l += fl * (1.0 - xf) + gl * xf;
+                    r += fr * (1.0 - xf) + gr * xf;
+                    // Stage 2: where the hardware would hard-clip
+                    // the over-rail sum, saturate it softly
+                    // instead — before the DC block, matching the
+                    // hardware order (rail precedes the output
+                    // coupling). Below the rail this is exact
+                    // identity, so unclipped material is
+                    // bit-identical to the pre-Stage-2 path.
+                    if l.abs() > RAIL || r.abs() > RAIL {
+                        st.clipped += 1;
                     }
                 }
-            },
-            move |e| {
-                eprintln!("audio error: {e}");
-                err_streams.lock().unwrap().dead = true;
-            },
-            None,
-        )
-        .map_err(|e| e.to_string())
+                (e.dc[0].next(soft_clip(l)), e.dc[1].next(soft_clip(r)))
+            };
+            // Faithful output (also always computed, also drained).
+            let (fl, fr) = {
+                // The emulated DAC runs on the 59.73 Hz frame
+                // grid while the window paces 60 — steer the
+                // faithful path too, or the ring overflows
+                // into a burst-drop buzz at the cap.
+                let pairs = (st.mixed.len() / 2) as f64;
+                let target_pairs = RING_TARGET as f64 * playback_speed;
+                let err = if normal_audio { 0.0 } else { (pairs - target_pairs) / target_pairs };
+                frac += step * playback_speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
+                while frac >= 1.0 {
+                    frac -= 1.0;
+                    let queued = st.normal_audio.as_mut().map(|queue| queue.next_pair());
+                    match queued {
+                        Some(Ok(Some(pair))) => last = pair,
+                        Some(Ok(None)) => st.holds += 1,
+                        Some(Err(error)) => {
+                            eprintln!("audio: normal-speed backlog read failed ({error}); muting fast-forward audio");
+                            st.normal_audio = None;
+                            st.muted = true;
+                        }
+                        None => match (st.mixed.pop_front(), st.mixed.pop_front()) {
+                            (Some(l), Some(r)) => last = (l, r),
+                            _ => st.holds += 1,
+                        },
+                    }
+                }
+                (
+                    faithful_dc[0].next(last.0 as f32 / 32768.0),
+                    faithful_dc[1].next(last.1 as f32 / 32768.0),
+                )
+            };
+            // Crossfade between the two finished paths. Both are
+            // level-matched (shared OUT_GAIN below), so a linear
+            // blend across the ~40 ms slew is seam-free — the
+            // music is the same, only the rendering differs.
+            let target = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
+            mode_x += (target - mode_x) * mode_k;
+            let l = fl + (el - fl) * mode_x;
+            let r = fr + (er - fr) * mode_x;
+            // Calibrate the hardware rail (±0x200 units = ±0.5
+            // here) toward device full scale. Both paths share
+            // the gain so the A/V toggle stays level-matched;
+            // it leaves ~2 dB above the rail for the enhanced
+            // path's soft knee. The clamp is a safety net for
+            // DC-block overshoot — faithful content was already
+            // rail-clipped at the mix (the canon hard clip).
+            let vol_target = if st.muted { 0.0 } else { 1.0 - st.vol_cut };
+            vol_cur += (vol_target - vol_cur) * vol_k;
+            let l = (l * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
+            let r = (r * OUT_GAIN * vol_cur).clamp(-1.0, 1.0);
+            match frame {
+                [m] => *m = T::from_sample((l + r) * 0.5),
+                [fl, fr, rest @ ..] => {
+                    *fl = T::from_sample(l);
+                    *fr = T::from_sample(r);
+                    for ch in rest {
+                        *ch = T::from_sample((l + r) * 0.5);
+                    }
+                }
+                [] => {}
+            }
+        }
+        if let (Some(begin), Some(acquired), Some((holds, mixed))) = (begin, acquired, observation) {
+            let end = std::time::Instant::now();
+            let holds = st.holds.saturating_sub(holds);
+            let enhanced_target = st.enhanced_on && !normal_audio;
+            let configured_target = [
+                enhanced_target,
+                enhanced_target && st.hle_on && st.route.iter().any(|&route| route != 0),
+                enhanced_target && !st.hle_on && st.route[0] != 0,
+                enhanced_target && !st.hle_on && st.route[1] != 0,
+            ];
+            if let Some(profile) = st.profile.as_mut() {
+                profile.callback([begin, acquired, end], out.len() / channels.max(1), holds, mixed);
+                profile.sources(source_reads, configured_target);
+            }
+        }
+    }
 }
 
 const SINC_TAPS: usize = 24;
@@ -1739,6 +1798,15 @@ impl SincResampler {
         q: &mut std::collections::VecDeque<f32>,
         speed: f64,
     ) -> (f32, f32) {
+        self.next_observed::<false>(q, speed, &mut audio_profile::SourceReads::default())
+    }
+
+    fn next_observed<const OBSERVE: bool>(
+        &mut self,
+        q: &mut std::collections::VecDeque<f32>,
+        speed: f64,
+        reads: &mut audio_profile::SourceReads,
+    ) -> (f32, f32) {
         // Steer consumption toward the target fill; an underrun repeats
         // the newest pair (a one-sample ZOH the DC blocker smooths).
         let pairs = (q.len() / 2) as f64;
@@ -1747,9 +1815,13 @@ impl SincResampler {
         self.frac += self.ratio * speed * (1.0 + 0.02 * err.clamp(-1.0, 1.0));
         while self.frac >= 1.0 {
             self.frac -= 1.0;
+            if OBSERVE { reads.requests += 1; }
             let (l, r) = match (q.pop_front(), q.pop_front()) {
                 (Some(l), Some(r)) => (l, r),
-                _ => (self.hist[0][SINC_TAPS - 1], self.hist[1][SINC_TAPS - 1]),
+                _ => {
+                    if OBSERVE { reads.empty += 1; }
+                    (self.hist[0][SINC_TAPS - 1], self.hist[1][SINC_TAPS - 1])
+                }
             };
             for (h, s) in self.hist.iter_mut().zip([l, r]) {
                 h.copy_within(1.., 0);
@@ -1813,9 +1885,17 @@ impl FifoInterp {
         q: &mut std::collections::VecDeque<(i8, u32)>,
         speed: f64,
     ) -> f32 {
+        self.next_with_speed_observed::<false>(q, speed, &mut audio_profile::SourceReads::default())
+    }
+    fn next_with_speed_observed<const OBSERVE: bool>(
+        &mut self,
+        q: &mut std::collections::VecDeque<(i8, u32)>,
+        speed: f64,
+        reads: &mut audio_profile::SourceReads,
+    ) -> f32 {
         let base = self.out_step;
         self.out_step = base * speed;
-        let sample = self.next(q);
+        let sample = self.next_observed::<OBSERVE>(q, reads);
         self.out_step = base;
         sample
     }
@@ -1833,6 +1913,12 @@ impl FifoInterp {
     }
 
     fn next(&mut self, q: &mut std::collections::VecDeque<(i8, u32)>) -> f32 {
+        self.next_observed::<false>(q, &mut audio_profile::SourceReads::default())
+    }
+    fn next_observed<const OBSERVE: bool>(
+        &mut self, q: &mut std::collections::VecDeque<(i8, u32)>,
+        reads: &mut audio_profile::SourceReads,
+    ) -> f32 {
         // Steer toward ~62 ms queued at the channel's current rate.
         let target = ((1u64 << 24) as f64 / self.period / 16.0).max(64.0);
         let err = (q.len() as f64 - target) / target;
@@ -1843,12 +1929,16 @@ impl FifoInterp {
             // The event fires inside this output sample, at fraction phi
             // of the sample period.
             let phi = (1.0 + self.t_next / stepc).clamp(0.0, 1.0);
+            if OBSERVE { reads.requests += 1; }
             let new_level = match q.pop_front() {
                 Some((s, p)) => {
                     self.period = (p as f64).max(1.0);
                     s as f32 * (64.0 / 32768.0)
                 }
-                None => self.level, // DAC holds on underrun
+                None => {
+                    if OBSERVE { reads.empty += 1; }
+                    self.level // DAC holds; an inactive warm channel can be empty.
+                }
             };
             let delta = new_level - self.level;
             self.level = new_level;
@@ -3910,6 +4000,123 @@ mod tests {
         for speed in [2, 4, 8] {
             let fast = consumed(speed as f64);
             assert!(fast.abs_diff(normal * speed) <= speed);
+        }
+    }
+
+    #[test]
+    fn observed_source_reads_count_partial_pairs_and_dac_holds_without_changing_dsp() {
+        use std::collections::VecDeque;
+        use crate::audio_profile::SourceReads;
+        for speed in [1., 2., 8.] {
+            let mut plain = SincResampler::new(65_536., 48_000.);
+            let mut observed = SincResampler::new(65_536., 48_000.);
+            let mut a = VecDeque::from([0.25, -0.5, 0.75]);
+            let mut b = a.clone(); let mut reads = SourceReads::default();
+            let mut off = SourceReads::default();
+            for _ in 0..100 {
+                assert_eq!(plain.next_observed::<false>(&mut a, speed, &mut off),
+                    observed.next_observed::<true>(&mut b, speed, &mut reads));
+            }
+            assert_eq!(a, b); assert!(a.is_empty());
+            assert!(reads.requests > 100);
+            assert_eq!(reads.empty, reads.requests - 1); // one full pair, one partial pair
+            assert_eq!(off, SourceReads::default());
+            assert_eq!((plain.frac, plain.hist), (observed.frac, observed.hist));
+            let mut plain = FifoInterp::new(48_000.);
+            let mut observed = FifoInterp::new(48_000.);
+            let mut a = VecDeque::from([(12, 512), (-7, 512)]); let mut b = a.clone();
+            let mut reads = SourceReads::default(); let mut off = SourceReads::default();
+            for _ in 0..100 {
+                assert_eq!(plain.next_with_speed_observed::<false>(&mut a, speed, &mut off),
+                    observed.next_with_speed_observed::<true>(&mut b, speed, &mut reads));
+            }
+            assert_eq!(a, b); assert!(a.is_empty());
+            assert_eq!(reads.empty, reads.requests - 2); // both real DAC events, then holds
+            assert_eq!(off, SourceReads::default());
+            assert_eq!((plain.pos, plain.y, plain.level, plain.t_next, plain.period, plain.out_step, plain.fut),
+                (observed.pos, observed.y, observed.level, observed.t_next, observed.period, observed.out_step, observed.fut));
+        }
+    }
+
+    #[test]
+    fn callback_profile_preserves_samples_queues_and_legacy_counters() {
+        use std::sync::{Arc, Mutex};
+        fn check<T: cpal::SizedSample + cpal::FromSample<f32> + PartialEq + std::fmt::Debug>() {
+            for (rate, channels) in [(44_100., 1), (48_000., 2), (48_000., 6)] {
+                let plain = Arc::new(Mutex::new(AudioStreams::default()));
+                let observed = Arc::new(Mutex::new(AudioStreams {
+                    profile: Some(crate::audio_profile::Profile::new()),
+                    ..Default::default()
+                }));
+                let mut a = output_callback::<T>(rate, channels, plain.clone());
+                let mut b = output_callback::<T>(rate, channels, observed.clone());
+                for round in 0..8 {
+                    for streams in [&plain, &observed] {
+                        let mut st = streams.lock().unwrap();
+                        st.enhanced_on = round % 2 == 0;
+                        st.hle_on = round % 3 == 0;
+                        st.playback_speed = if round == 4 { 4. } else { 1. };
+                        st.vol_cut = 0.25;
+                        st.muted = round == 5;
+                        st.route = [3, 3];
+                        st.vol_half = [true, false];
+                        // Alternate short input and starvation; leave DSP state
+                        // alive across the transitions, as a real stream does.
+                        if round % 2 == 0 {
+                            st.mixed.extend((0..256).map(|i| (i * 93 - 12_000) as i16));
+                            st.psg.extend((0..256).map(|i| (i as f32 - 128.) / 256.));
+                            st.hle.extend((0..256).map(|i| (128. - i as f32) / 256.));
+                            for q in &mut st.fifo {
+                                q.extend((0..64).map(|i| ((i * 3 - 96) as i8, 512)));
+                            }
+                        }
+                        if let Some(p) = st.profile.as_mut() {
+                            p.set_context(crate::audio_profile::Context::of(round == 2, round != 0, round == 4));
+                        }
+                    }
+                    let mut out_a = vec![T::EQUILIBRIUM; 512 * channels];
+                    let mut out_b = out_a.clone();
+                    a(&mut out_a);
+                    b(&mut out_b);
+                    assert_eq!(out_a, out_b);
+                    let mut x = plain.lock().unwrap();
+                    let mut y = observed.lock().unwrap();
+                    assert_eq!((&x.mixed, &x.psg, &x.hle, &x.fifo), (&y.mixed, &y.psg, &y.hle, &y.fifo));
+                    assert_eq!((x.holds, x.drops, x.clipped, x.consumed), (y.holds, y.drops, y.clipped, y.consumed));
+                    assert!(x.holds > 0, "starvation was not exercised");
+                    // Legacy alarm windows must not affect diagnostic totals.
+                    x.holds = 0;
+                    y.holds = 0;
+                }
+            }
+        }
+        check::<f32>();
+        check::<i16>();
+        check::<u16>();
+    }
+
+    #[test]
+    #[ignore = "optional local callback profiling overhead measurement"]
+    fn callback_profile_overhead() {
+        use std::sync::{Arc, Mutex};
+        for pair in 0..5 {
+            for enabled in if pair % 2 == 0 { [false, true] } else { [true, false] } {
+                let streams = Arc::new(Mutex::new(AudioStreams {
+                    profile: enabled.then(crate::audio_profile::Profile::new),
+                    ..Default::default()
+                }));
+                let mut output = output_callback::<f32>(48_000., 2, streams.clone());
+                let mut samples = [0.; 1024];
+                for _ in 0..100 { output(&mut samples); }
+                let begin = std::time::Instant::now();
+                for _ in 0..1200 { output(&mut samples); }
+                let elapsed = begin.elapsed();
+                assert!(samples.iter().all(|v| *v == 0.));
+                let st = streams.lock().unwrap();
+                assert_eq!(st.consumed, 1300 * 512);
+                assert!(st.holds > 0);
+                eprintln!("FFTA_AUDIO_OBSERVER_OVERHEAD pair={pair} enabled={enabled} callbacks=1200 ns_per_callback={:.3}", elapsed.as_nanos() as f64 / 1200.);
+            }
         }
     }
 

@@ -16,6 +16,17 @@ Select a remaining criterion with a concrete deliverable, and apply the
 repeat/reopen rules in `docs/development/MEMORY_WORKFLOW.md`. Preserve rejected
 experiments as decisions until new evidence justifies reopening them.
 
+Resolve the latest user request before following an older next-action queue.
+For a workflow-only request, update the workflow and preserve pending runtime
+work; do not resume that runtime work merely because a summary lists it next.
+
+Before mutating files or starting expensive work after resumption, record the
+selection checkpoint in TASK_HANDOFF as defined by MEMORY_WORKFLOW. Check the
+selected ID's existing outcome; completed/rejected work requires a recorded
+reopening reason. Validate an already implemented request instead of doing it
+again. Check linked terminal results before trusting an old next-action line;
+close a completed/rejected selection before choosing another unit.
+
 Choose the narrowest relevant area:
 - `crates/recomp/src/play.rs`: desktop event loop, pacing and presentation.
 - `crates/menu/`: menu navigation, capture state and drawing.

@@ -13,6 +13,14 @@ criteria in broad TODO items. An unchecked parent does not reopen its children.
 Check the linked evidence with cheap reads; do not rerun builds, benchmarks or
 fixture creation merely to reconstruct context. Follow the repeat/reopen rules
 in [the memory workflow](docs/development/MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
+Reconcile the latest user request before following an older queue or compacted
+summary. A workflow-only request does not require resuming unrelated runtime work.
+Before the first mutation or expensive command after resumption, record a
+selection checkpoint in the handoff: latest request, task ID, existing outcome,
+missing deliverable and next action. Completed/rejected work requires a concrete
+reopening reason. Validate already implemented requests rather than redo them.
+Check linked terminal results before trusting an old next-action line. Close a
+completed/rejected selection immediately, before choosing the next unit.
 Update the handoff before ending a work unit or a known context handoff.
 
 ## Local skills

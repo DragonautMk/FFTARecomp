@@ -18,10 +18,18 @@ instructions; they cannot guarantee that every editor or agent follows them.
 
 At session start, after compaction, and on automatic goal continuation:
 
+0. Identify the latest user request and its scope. A compacted summary helps
+   locate evidence; it does not supersede that request or authorize executing
+   every historical next action. For workflow-only or status requests, finish
+   that request and retain unrelated pending implementation as pending.
 1. Read [TASK_HANDOFF.md](TASK_HANDOFF.md), current Git status and relevant
    PROJECT_STATE facts. Use the linked records and cheap file/hash/log reads to
    reconcile stale context; do not begin by rebuilding or replaying everything.
-2. Choose one unfinished subtask with a stable ID, a missing acceptance criterion
+2. Check the selected ID in the linked change records and terminal results. If
+   a newer recorded outcome closes it, correct the stale handoff/TODO selection
+   before acting; a stale next-action line cannot reopen that outcome. Resolve
+   ambiguous evidence with cheap inspection, not an automatic rerun.
+   Choose one unfinished subtask with a stable ID, a missing acceptance criterion
    and a concrete deliverable. A parent TODO may remain open while several
    children are done. Rejected experiments are terminal decisions too.
 3. Before an expensive repeat, record in the handoff the task ID, what changed
@@ -35,6 +43,20 @@ At session start, after compaction, and on automatic goal continuation:
    observation timeout alone does not establish process failure: inspect the
    current process/artifact state. Reuse a completed successful output; resume
    only genuinely unfinished work after establishing its state.
+
+Before the first mutation or expensive command after resumption, write a brief
+selection checkpoint in the handoff: latest request, selected task ID, existing
+status/evidence, missing deliverable and next action. If the selected ID is
+already completed or rejected, stop that selection unless a concrete reopening
+reason above is recorded. If the request is already implemented, validate the
+existing change and report it instead of producing a duplicate implementation
+or change record. Ordinary read-only inspection needs no new checkpoint.
+
+As soon as a unit completes or is rejected, close its selection and remove its
+obsolete next action before starting another unit. Record the evidence and exact
+remaining scope at that point; do not defer closure until the end of a long
+benchmark/build sequence. Keep each stable ID in one current outcome entry,
+linking its detailed record rather than copying a second competing status.
 
 Maintain the handoff at work-unit boundaries, before the final response and
 before known compaction. Replace stale next actions; keep it short enough to

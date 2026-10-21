@@ -1,6 +1,5 @@
 //! Wall-clock rates: completed guest frames and successful host presentations.
 use std::sync::OnceLock;
-use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
 
 pub struct Meter {
@@ -67,8 +66,7 @@ impl Meter {
     fn render(&mut self, rates: Option<(f64, f64)>) {
         menu::fps::render(&mut self.pixels, &self.mode, rates);
         // Distinct meters must not reuse a token if a layer outlives its source.
-        static NEXT_REVISION: AtomicU64 = AtomicU64::new(1);
-        self.pixels_revision = NEXT_REVISION.fetch_add(1, Ordering::Relaxed);
+        self.pixels_revision = screen::ui_layer::fresh_pixels_revision();
     }
 
     pub fn frame(&self, window: (u32, u32), dpi: f64) -> Option<screen::ui_layer::Frame<'_>> {

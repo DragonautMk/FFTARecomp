@@ -64,6 +64,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Desktop behavior
 
+- Native UI capture skips per-pixel sorting/blending when no admitted UI BG or
+  portrait can reach the texture, retaining a default destination write to clear
+  stale pixels. Real UI keeps the full blend/world-target path. No persistent
+  cache or state/translation ABI change. Native/Wine174 core checks and full
+  replay/zoom6 equivalence pass; five pairs reduce headless work4.20% and complete
+  native unpaced GUI work2.67% relative to panel-row classification. Worldmap and
+  default GUI load/Undo/reload/close pass. Current local Docker exports include
+  that stage:336Windows/Wine and337Linux tests passed (15optional ignored each),
+  archive/privacy/DLL/GLIBC2.35 and actual cold-cache Linux portable GUI verified.
+  Previous archives are preserved. This is not original rare-stall or native
+  Windows performance evidence.
+
 - Release desktop audio/presentation resources in `PlayApp::exiting`, before
   `EventLoop::run_app` consumes/drops the display connection. Release surfaces
   and their contexts before the window, including error exits. Holding them
@@ -86,20 +98,151 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   26.04 x86_64 host; broad older-distro/Steam Deck compatibility is unverified.
   Existing installed behavior needs no marker;
   migration is an explicit copy, never a silent move of personal data.
+- Developer `play --benchmark <config.toml>` restores a bounded snapshot/input
+  replay with a scene label and warm-up exclusion. It reuses guest/UI/temporal/
+  GPU presentation functions while disabling physical input, FPS HUD, audio
+  callbacks and pacing, and skips cartridge discovery/backup/autosave/exit
+  writes. Verify images/OAM and full state separately from timing. This is an
+  unpaced GUI work benchmark; realtime input/audio/compositor performance and
+  older-binary default-path overhead need distinct evidence. See the
+  [measurement workflow](PERFORMANCE_WORKFLOW.md).
+- With `FFTA_PROFILE=1`, normal-play audio callbacks have bounded wall-time
+  observation under the existing mutex and phase-separated faithful holds/
+  producer drops. No new callback lock, logs or allocation; clock reads stay
+  off by default. Capture survives legacy counter resets and reports after
+  stream teardown. The unpaced GUI benchmark does not run the callback.
+  Optional `FFTA_AUDIO_PROFILE_FRAMES=START:END` now selects one traversal of
+  producer-published guest frames. Load/Undo inside capture interrupts it;
+  default-off and callback-free benchmarks ignore the window. Native/Wine
+  boundary/restore/audio parity and actual archive GUI checks pass. Idle battle
+  window measurements show sub-microsecond mutex p99, with no faithful holds or
+  drops; lifecycle transitions can still produce holds. Enhanced source demand
+  telemetry is now available as raw PSG/HLE/FIFO requests/empty reads plus
+  configured-target totals under the same gate. Warm/unrouted consumers are
+  separate, with no per-request counters in the default const specialization.
+  Output/queue/interpolator parity tests pass, including Windows/Wine. Idle
+  battle captures show no empty source reads; lifecycle transitions can still
+  produce holds/empty reads. Current Docker exports pass341Wine/342Linux tests
+  (15optional ignored each), archive compatibility/privacy and actual Linux
+  cold-cache lifecycle/default-off/benchmark checks. Configured target is not
+  audibility or live crossfade weight; CPAL0.16.0 ALSA can recover XRUNs without
+  app errors. Independent local PipeWire observation now matches PID/client/
+  stream/link/sink and verifies stable serials/sample cadence: no ERR increments
+  in measured idle/pause/resume intervals, but sink baseline already1 and graph
+  errors are not dedicated hardware XRUNs. No audio-policy change is justified
+  by these idle-scene results; Windows/hardware/slow-scene attribution remains
+  open. See the workflow.
+- Successful host presentation intervals are available in normal play under
+  `FFTA_PROFILE=1`, optionally scoped by `FFTA_PRESENT_PROFILE_FRAMES=START:END`.
+  They reuse the FPS timestamp; no new clock/allocation off or benchmark capture.
+  Lifecycle/configuration/backend boundaries create anchors; surface skips stay
+  in success-to-success gaps. The pure range helper is shared with audio without
+  changing its behavior. Native/Wine tests, local clock/audio/requested-VSync
+  matrix, silent fallback and actual portable lifecycle/off/benchmark checks pass.
+  Clock is already Linux/Windows default; local means~16.74ms versus audio batch
+  cadence~42.67ms. This is host API cadence, not scanout or native Windows/physical
+  high-Hz proof. Current Docker exports pass344Wine/345Linux tests (15optional
+  ignored each), archive compatibility/privacy and cold-cache Linux GUI gates.
+- GPU render-pass profiling is opt-in via `FFTA_PROFILE=1` plus
+  `FFTA_GPU_TIMESTAMPS=1`. Request only supported timestamp queries, retry device
+  creation without optional features if needed, and use three reusable readbacks
+  with nonblocking polling and a 18000-submission cap. Results are asynchronous
+  gameplay-pass durations, separate from CPU queue/acquire/present and scanout.
+  Paused frames do not submit queries; shutdown reports pending results without
+  waiting. Mapping/poll failures stop diagnostics, not normal rendering. See
+  [measurement workflow](PERFORMANCE_WORKFLOW.md). Default rendering requests
+  no timestamp features or resources.
 - Surface acquisition timeouts skip a host presentation while retaining the GPU.
   Lost/Outdated reconfigure and retry once per call; three failed recovery calls
   trigger software fallback. Successful acquisition resets the budget; memory
   exhaustion/unknown errors fall back immediately. Zero-sized surfaces skip
   acquisition, and skipped frames do not increment FPS EXT. Event-loop pacing
   remains responsible for retries; no tight retry loop or per-frame error log.
+  Pending Queue writes are tracked across UI updates and flushed once on skips
+  with transfer-only submissions. This prevents unsubmitted staging growth while
+  retaining revision caches; these submits do not count as EXT or GPU pass samples.
+  Zero-sized frontend windows avoid GPU/UI preparation and software surfaces;
+  benchmarks still fail on skipped presentations. A no-ROM lifecycle diagnostic
+  lives in `crates/recomp/examples/presenter_skip_uploads.rs`. Its actual
+  llvmpipe run completed 1200 batches/492 MB logical transfers with stable RSS
+  between batches 600 and 1200, then resumed normal rendering. Current exports
+  pass 333 Windows/Wine and 334 Linux tests (14 optional ignored each), archive
+  compatibility/privacy checks and cold-cache Linux portable GUI load/Undo/
+  reload/close. Observed X11 minimize/restore is covered separately below;
+  Wayland/native Windows, monitor/device-loss cases remain open.
+- `crates/recomp/examples/presenter_window_lifecycle.rs` exercises real WM
+  minimize/restore, resize and VSync without ROM data. It uses the event loop,
+  bounded phase deadlines and observed minimized state, then releases Presenter
+  before window. Native X11 Openbox/llvmpipe passes three cycles, as does the
+  unchanged Linux portable in battle. The example also passes under Wine10/
+  Vulkan after disabling only Wine's failing D3D12 DLLs in an isolated prefix.
+  Native X11 minimized sizes stayed nonzero (27 Presented); Wine exposed zero
+  sizes (18 Presented/9 Skipped). Do not equate minimized state with zero size
+  or assume every hidden window skips acquire. EXT still counts successful host
+  presentations, not visible scanout. Pinned winit cannot observe/restore
+  minimized state on Wayland; this diagnostic fails on unsupported state rather
+  than treating it as a pass. Native Windows/Wayland minimize, monitor changes
+  and runtime device loss are not covered by these results.
+  The separate `--monitors` mode now covers two distinct virtual CRTC outputs
+  and observed A/B/A/B/A transitions, monitor-relative resize and VSync checks.
+  Xorg/dummy 1280x720/1280x960 with Openbox/llvmpipe Vulkan passes20 presentations
+  on native Linux and Windows/Wine; independent positions confirm the moves.
+  The unchanged Linux portable passes the same moves in battle plus Undo/reload/
+  close, inspected captures and canonical hash checks. Xvfb RandR monitor areas
+  alone do not establish this: pinned winit enumerates CRTC outputs. The dummy
+  keyboard needs explicit evdev US setup for synthetic menu input. Physical
+  screens, GPU/DPI/color transitions, hotplug and Wayland remain separate work.
+- Presenter owns its Device and retains the first uncaptured GPU error or
+  device-loss callback in Arc/OnceLock. A confirmed destruction regression could
+  panic when new UI/framebuffer textures were created; callbacks now return the
+  failure to the existing software fallback. Further UI/VSync work is rejected
+  on that presenter. Local configuration scopes stay recoverable and do not
+  poison this latch; normal checks do no allocation, GPU poll/wait or callback
+  logging. The private ignored `device_loss_tests.rs` covers actual destroy with
+  plain/cached/new UI/resize and software presentation. Native and Wine/Vulkan
+  pass, including scope isolation and stable first-error behavior. It does not
+  prove all spontaneous/asynchronous hardware-fault cases.
+  Updated Docker exports pass333 Windows/Wine and334 Linux tests (15 optional
+  ignored each), with this regression also explicitly run on native/Wine Vulkan.
+  Archive source/doc/privacy/DLL/GLIBC checks and actual cold-cache Linux portable
+  load/Undo/reload/close pass without unexpected fallback. Normal physical Radeon/
+  Wayland replay preserves3530frame hashes, state/counts and clean close.
+- Surface configuration is guarded separately from acquisition recovery.
+  `configure_surface` in `crates/screen/src/present.rs` captures native wgpu
+  validation/internal/out-of-memory errors with balanced device error scopes.
+  Startup/resize/VSync/recovery failures return to existing software fallback;
+  the VSync setter returns a Result and its menu caller discards a failed GPU
+  presenter. Scope inspection uses the pinned native backend's ready futures,
+  without a new GPU poll/readback wait. Normal unchanged frames skip it.
+- A native UI output-comparison cache was rejected after five GUI A/B pairs.
+  It cut logical upload bytes about 74% but added preparation work and showed no
+  useful whole-cycle gain (+0.131109% median work time). Source/native binary
+  were restored exactly, and existing FPS/LUT caching is retained. Do not
+  reactivate that double-buffer comparison design for context recovery. A
+  follow-up must eliminate packing work or have distinct measured evidence;
+  see the [evaluation workflow](PERFORMANCE_WORKFLOW.md#rejected-native-ui-output-comparison-cache).
+- Native UI packing now caches complete source/backing inputs and resolved
+  mode/length/anchor parameters using safe exact field words. Identical inputs
+  skip pure packing and GPU texture transfer; changes conservatively repack.
+  Clear/load/Undo invalidates host snapshots/revisions, and FPS/native producers
+  share process-unique tokens. World/background pixels, LUT and layout remain
+  dynamic. The five-pair native unpaced replay improves median mean host work
+  1.41%; this does not establish an AI-turn or native Windows speedup.
+- Native UI worlds share a texture/upload only for the same immutable slice
+  extent and dimensions within one presentation. Every unique world uploads
+  again on the next call; changed source groups split handles before writes.
+  Stats/FPS sources remain independent, layout/LUT/UI state stays per layer,
+  and dimension changes rebind the world without discarding valid UI/LUT data.
+  Five native unpaced pairs show 40.37% lower scheduled UI payload and 0.39%
+  lower median mean work; no AI/native Windows speedup is established.
 - The row-endpoint panel-bound scan is a test-only experiment. It preserves
   the full scan's results and reduces synthetic panel cost, but production
   integration was withheld after slower 3000-frame introductory A/B replays.
   Keep the current full scan until representative end-to-end benefit is shown;
   see the optional diagnostic in the performance measurement workflow.
 - GPU UI layers retain LUT contents and skip identical uploads; FPS pixels use
-  process-unique render revisions. Unversioned game UI/world data still updates
-  normally. Resource recreation clears caches, and color comparison handles
+  process-unique render revisions. Native UI uses complete packing-input keys;
+  unversioned UI and world data still update normally. Resource recreation clears caches, and color comparison handles
   in-place changes. FIFO audio taps drain without discarding producer capacity;
   `FFTA_FRAME_PACING` is resolved at startup. See [FPS notes](../fps_overlay.md)
   and the performance TODO for remaining optimization work.
@@ -119,6 +262,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   states. Portability requires matching game edition/region and a tool/device
   that accepts that save format; no new conversion feature was implemented.
 
+- Restored paused displays use the authoritative native 240×160 framebuffer
+  centered with cleared margins. The wide scratch buffer has no serialized
+  stride and cannot be interpreted with the current frontend zoom. Separate
+  UI caches stay hidden until the next completed guest frame rebuilds them;
+  preview generation does not advance the machine or change its snapshot format.
 - [Save states](../save_states.md): pause menu > Save states, nine controller-
   operated slots with embedded previews and in-menu overwrite/error feedback.
   Storage: `SaveStates/<ROM SHA-256>/slot-1.ffstate` through `slot-9.ffstate`,
@@ -153,15 +301,44 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   frame-time capture and opt-in interactive CPU phase profiling, including
   separate CPU-side presenter setup/upload/acquire/encode/submit/present times. See the
   [measurement workflow](PERFORMANCE_WORKFLOW.md). These tools do not establish
-  an AI-turn speedup or GPU execution timings. The frontend fails before advancing
+  an AI-turn speedup; CPU submit timers alone do not measure GPU execution.
+  Optional render-pass queries now provide a separate GPU series. The frontend fails before advancing
   temporal history on an exhausted frame guard; stats display separate native
   block/fallback-step counts rather than their mixed-unit percentage.
-  Remaining P0 work includes the identified slow-turn replay, detailed PPU
-  internals and actual GPU execution timing. Start with a reproducible enemy-turn replay and
-  stage/p95/p99 measurements, then bounded surface recovery and redundant
-  upload/allocation reduction. GPU LUT/temporal processing is conditional on
+  Detailed PPU attribution and an observed enemy-activation replay are complete;
+  reuse them through TASK_HANDOFF. Remaining P0 work includes the originally
+  reported slow-turn scene, controlled realtime GUI overhead and broader
+  hardware/native Windows coverage. Frame-window gating, raw enhanced source
+  counters, local PipeWire ERR observation and presentation cadence are already
+  implemented. They do not alone establish audible underruns or every hardware
+  XRUN. The bounded
+  unpaced replay mode now provides controlled work-overhead comparisons. Preserve completed recovery
+  and allocation/upload substeps rather than restarting them. GPU LUT/temporal processing is conditional on
   measured cost; preserve per-guest-frame history and the CPU reference path.
   Guest AI/GPU or full-PPU rewrites are not the first-line approach.
+- The observed enemy replay has a dispatch census distinct from introductory
+  observer validation. Missing entries/guest cycles do not isolate host time.
+  A pre-panel-cache native perf sample placed 31.52% of leaf samples in
+  capture_dialogue_part and guided panel-membership caching below. Preserve
+  direct lookup/interpreter hooks without specific evidence; do not reopen
+  completed window caches or rejected selectors from this historical sample.
+  Profiling binaries/logs are isolated; see the performance workflow.
+- Extra immutable ROM seeds can preserve every image while changing audio state.
+  The recorded18-seed coverage trial is rejected: first full-state difference
+  at relative38/guest8514 affects mixed audio and HLE verification, with equal
+  CPU/clock; the diagnostic reproduces both original final hashes. A ROM-free
+  timer fixture also exposes mixed-output dependence on tick batch size. Event
+  chronology now has a core correction with single-cycle/DMA/skip regressions:
+  scheduled events are serviced before finishing a tick batch, and DMA steals
+  extend CPU work without video reentry. Native/Wine179core and66native runtime
+  checks pass;3530old frame/OAM/counts and native load/Undo/reload/close pass.
+  Corrected extra-seed coverage still diverges in CPU/clock at212 and remains
+  rejected. Timing/export gates for the core correction are tracked in the
+  handoff; retain strict per-build full-state/audio checks. No schema/ABI change.
+  Five pairs measure+0.066607ms (+1.157%) mean-work cost for correctness, not a
+  speedup. Current Docker exports pass349Windows/Wine and350Linux tests,15optional
+  ignored each; archive/compatibility and actual Linux cold-cache GUI/replay
+  gates pass. Prior archives preserved; canonical native builds also updated.
 - CPU PPU timing uses scoped thread-local capture outside machine/save state.
   `FFTA_PROFILE=1` includes scanline/zoom/core-remainder rows on desktop;
   `--ppu-profile` enables separate headless diagnostic runs after warm-up.
@@ -173,6 +350,19 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   WIN1, then OBJ window and outside; horizontal/vertical wrapping is unchanged.
   Values are reread on each call, so DMA/scanline changes and load/Undo need no
   persistent cache invalidation. No serialized guest state or ABI changes.
+- Native panel area/banner rules are snapshotted per capture call and lazily
+  evaluated once per eligible pixel across BG candidates. Missing bounds remain
+  unevaluated under overriding banners or absent BGs. The uncached test policy
+  and full state comparisons preserve clipping/blending/sort semantics. Native/
+  Wine173core tests pass;3530frame/state parity includes zoom6. Five pairs show
+  2.69% less core work and2.26% less complete unpaced GUI work on native Linux;
+  worldmap/default GUI checks pass. No guest/cache ABI or Windows-speed claim.
+  Final Docker335Wine/336Linux tests,15optionalignored, archive compatibility/
+  privacy and cold-cache actual Linux portable GUI pass. Local dist is updated;
+  prior archives preserved. Subsequent world-only pixel work is also retained
+  and verified (see Desktop behavior); it is not a next candidate to repeat.
+  PERF-03 correctness controls and PERF-08 CPU PPU reductions meet their TODO
+  criteria. Remaining host cost or an open parent does not reopen closed trials.
 - Native BG2/BG3 UI planes are prepared once per hardware scanline and borrowed
   by primary/extra and normal/backing extraction. Backing text filtering uses
   a private copy; Stats' zero mask uses transparent planes. Scratch lifetime
@@ -226,6 +416,26 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 - Local `target/` and `dist/` files are ignored build artifacts, not portable
   prerequisites. Discover installed toolchains and rebuild when absent. Never
   include ROMs, saves, recordings or test controller DLLs in release archives.
+
+## Native UI coordinate policy
+
+Native UI GPU draws now use cached RG32Uint axis maps computed with the existing
+CPU pixel-centre/floor/clip/clamp formulas. This avoids backend-dependent float
+reassociation selecting adjacent texels at fractional world boundaries. Keys
+include exact layout/clip/view bits, world dimensions and the device limit;
+resource recreation invalidates maps. Conservative source bounds use the exact
+transparent-pixel predicate and integer-map-derived scissors. Invisible layers
+still claim shared world sources. No guest timing, snapshot or zoom/FOV change.
+
+The explicit Radeon tests match CPU for fractional crops and 32 persistent-resource
+zoom/resize/DPI states. The original table-only prototype regressed 4.17% and
+was rejected; bounded rasterization plus the maps improves the five-pair native
+unpaced replay median mean by 5.53%. World-map correctness, native GUI
+load/Undo/reload/close and physical Radeon Wayland replay pass. Final exports pass 332 Windows/Wine and 333 Linux tests (14 optional ignored
+each), archive privacy/integrity and PE/GLIBC compatibility checks. The actual
+Linux archive passes cold-cache GUI load/Undo/reload/resume/close with inspected
+captures. Evidence is tracked in the [record](../changes/2026-10-21-align-native-ui-sampling.json).
+This is not an AI-turn or native Windows performance claim.
 
 ## Maintaining this knowledge
 

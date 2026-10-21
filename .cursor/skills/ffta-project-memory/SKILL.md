@@ -14,6 +14,24 @@ For resumption, read `docs/development/TASK_HANDOFF.md` first and follow
 handoff as the work queue, PROJECT_STATE as durable facts and change records as
 evidence. Do not rerun completed validation to rebuild conversational memory.
 
+Before resuming execution, reconcile the latest user request with the handoff
+and current files. A compacted summary is a locator, not authority to restart
+its queued work. If the current request only changes workflow or asks for
+status, finish that request without executing an unrelated queued code change.
+Keep any existing partial implementation recorded as partial.
+
+Before the first mutation or expensive command after resumption, record the
+selection checkpoint defined in MEMORY_WORKFLOW: latest request, selected ID,
+existing status/evidence, missing deliverable and next action. A completed or
+rejected ID needs a concrete reopening reason; otherwise choose unfinished
+work within the request. If this request is already implemented, validate and
+report the existing result instead of duplicating its code or change record.
+
+When a unit reaches a terminal outcome, immediately close its handoff selection
+and remove its stale next action before choosing further work. Cross-check the
+selected ID against its linked outcome record; correct a stale queue instead of
+rerunning work that the newer evidence already closes.
+
 After a meaningful change:
 1. Update the affected feature doc with behavior, configuration and validation.
 2. Record what changed, why, platforms, actual validation and known limits in

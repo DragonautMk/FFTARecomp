@@ -105,6 +105,10 @@ to incompatible machine layouts or execution semantics require incrementing
 changes need a new slot magic/version. This UI/storage change does not alter the
 guest/native ABI or require a translation-cache revision bump.
 
+The timer/audio event-order correction keeps the existing state schema. Old
+version1 slots were verified through load, Undo and reload; subsequent audio
+uses the corrected scheduler and need not match an older executable's output.
+
 ## Cartridge saves and restored state
 
 Normal `.sav` files also have [two automatic startup backups](save_backups.md),
@@ -127,7 +131,14 @@ offset are restored; a live clock still follows host time.
 ROM/BIOS bytes, native code, OS resources, diagnostic logs and pending mouse
 requests are not stored. Loading cancels pointer requests and resets decode
 caches, audio queues/resamplers, FPS sampling and temporal display history.
-Window/settings/bindings/zoom remain session settings. Loading while input
+Window/settings/bindings/zoom remain session settings. While paused after a
+load or Undo load, the restored native 240×160 image is centered with black
+margins. The saved wide scratch image may have a different stride from the
+current zoom, so it is not used as a preview. The first completed game frame
+rebuilds the extended view and separate UI layers; preview generation does not
+advance or modify the restored machine.
+
+Loading while input
 recording is active is refused inside the menu, since its linear recording
 format cannot represent a rewind.
 

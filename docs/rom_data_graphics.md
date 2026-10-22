@@ -5,9 +5,9 @@ graphics. They provide bounded offline LZ77, packet and descriptor decoders,
 with verified source ranges and original-instruction consumer checks.
 Descriptor metadata, base palettes and alternate palettes now belong to the
 managed dataset and are directly consumed. Descriptor-linked packet catalogs
-are also verified below, with typed ordered programs available offline. Their
-managed e8file is verified for EUR/Wine. Actual packet runtime integration and
-other linked graphics/programs remain open.
+are also verified below, with typed ordered programs in the managed e8file.
+Their actual source/body reads now consume those files for EUR/Wine. New
+Linux/USA consumer checks and other linked graphics/programs remain open.
 The [inventory](development/ROM_DATA_INVENTORY.md) and
 [full TODO](development/ROM_DATA_TODO.md) retain the remaining catalog,
 semantic decoding, extraction and runtime integration work.
@@ -966,6 +966,77 @@ Actual packet consumption is the next04unit. No Linux/USA execution, broad
 suite, old codec/original/scene replay, performance/space campaign, AndroidPort,
 agent commit or push was performed. Prior02was observed committed externally
 as ec5f9cb; its work is preserved.
+
+## Direct European packet consumption
+
+ROMDATA-04-BG-PACKET-CONSUMPTION now wires the previously retained packet
+source-layout tracing/model into the authenticated runtime owner. All352typed
+programs and486links remain immutable for the session. For each source, the
+shared bounded packet parser identifies value/dictionary positions; typed
+ordered u16/u32writes reconstruct those positions, preserving original marker
+bits, indices, packet ordering, wrapper/parent metadata and padding. The shared
+LZ77parser maps original literal positions to this projected body. Construction
+requires every projected body to equal its authenticated source representation.
+No raw ROM byte supplies a migrated packet value after activation.
+
+CPU/DMA/native API and guest-BIOS bus reads serve the exact source view: raw
+values and LZ literals use typed words, controls/matches retain file metadata.
+EUR fixed source pages cover76c..895; no catalog search reaches unrelated ROM
+pages. Palette and packet spans interleave: a crossing read overlays packet
+bytes on the prior palette result, retaining both file-backed families and
+unmapped neighbor bytes. The existing LZ77HLE obtains an Arc-owned typed body
+and calls its usual ordered destination writer. Dynamic paired fill at02007f5e,
+descriptor inheritance, packet processing flags and continuation stay in the
+original guest code. RAM/unregistered sources follow their original path.
+
+No instruction or cycle is skipped, no filesystem access enters gameplay, and
+resources are not serialized. File loss after activation does not invalidate
+the owner or an outstanding body read; failed reactivation is transactional.
+Dataset schema/extractor/decoder remain1/8/7, with no changes to native/cache/
+profile/save identity or ordinary startup. EUR reports `runtime=decoded` and
+usage separates source reads, typed bus values, HLE calls/body bytes and typed
+HLE bytes. USA remains authenticated and explicitly verified-only until its
+consumer validation; no regional offset extrapolation was enabled.
+
+Validation uses reduced Wine-only tests as requested:
+
+- One synthetic core case covers typed pairs/marker words and halfwords,
+  raw/LZsources, last EUR page895, widths/mirrors/edges including adjacent
+  palette/packet bytes, real-BIOS bus mode, both LZ77SWIs with EWRAM/VRAM writes,
+  DMA, complete-state/clock parity and Arc-owned reads after detachment.
+- Nine selected EUR original-loader calls cover all three roles, raw/LZwrappers,
+  parented programs, both paired index widths and two live fill values. A bounded
+  trace compiles only the actually visited original instructions. All352packet
+  source spans are poisoned in the decoded interpreter/native machines; complete
+  states/clock, destinations/guards/SP and completed paired cursors match legacy.
+  176838original instructions and884native dispatches produce18typed bytes
+  through compiled loads and10506typed HLE bytes across11calls. This is a focused
+  new consumer check, not a rerun of the old486call catalog oracle.
+- One temporary-copy lifecycle test makes copied files unavailable by renaming
+  only its temporary directory; the original dataset is read-only. Failed
+  reactivation, slots/Undo, backup clean boot and restart retain identity/owner/
+  counters. An outstanding body read also survives detachment.
+- ROMDATA-05-BG-PACKET-SCENE passes one397frame EUR LCD B Cyril-pub BG62transition
+  using the retained slot5/input/native cache/e8dataset. Every full state, image,
+  OAM, dispatch and mixed/PSG/FIFO/HLE sample matches. It consumes4720body bytes/
+  2640typed bytes in3HLEcalls and12wrapper reads. Its raw typed bus count is0;
+  the compiled component probe establishes that separate source path.
+
+Two actual Windows CLI calls from unrelated cwd also match the legacy/decoded
+397frame image hash and dispatch counts, using the old native cache. The
+decoded run reuses the prepared e8generation without writes and reports positive
+packet HLE consumption. No new extraction or old preparation matrix is run.
+
+Windows test/production builds are warning-free. All original dataset/ROM/
+slot/input/cache/loader and canonical executable hashes remain protected.
+Evidence:target/rom-data-bg-packet-consumption/windows-results.json,
+windows-europe/result.json, windows-scene-results.json, windows-cli-summary.json, build logs/candidates
+and protected hashes. New Linux/USA and other scene/GUI/archive/native-Windows
+checks remain pending. Actual BIOS execution is distinct from the bus-mode
+check. There was no benchmark, profile, startup/RSS measurement, space tuning,
+re-extraction, full default suite, agent commit/push or AndroidPort change.
+Field00graphics, transfer/variant programs, other catalogs/languages and the
+remaining text/audio/gameplay/mod phases stay open.
 
 ## Reproduction and remaining work
 

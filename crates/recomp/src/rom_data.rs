@@ -34,6 +34,8 @@ mod bg_packet_data_tests;
 #[cfg(test)]
 mod bg_packet_managed_tests;
 #[cfg(test)]
+mod bg_packet_runtime_tests;
+#[cfg(test)]
 mod bg_palette_tests;
 #[cfg(test)]
 mod bg_runtime_tests;
@@ -271,7 +273,8 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     );
     eprintln!("ROM_DATA runtime=decoded resource={BG_BASE_PALETTES_ID} source={} dataset={} file={} records={} resident_bytes={palette_resident}", resources.source_sha256(), resources.dataset_sha256(), resources.palette_file_sha256().unwrap(), dataset.palettes.entries.len());
     eprintln!("ROM_DATA runtime=decoded resource={BG_ALTERNATE_PALETTES_ID} source={} dataset={} file={} catalogs=2 keys=157", resources.source_sha256(), resources.dataset_sha256(), resources.alternate_palette_file_sha256().unwrap());
-    eprintln!("ROM_DATA runtime=verified-only resource={BG_PACKET_PROGRAMS_ID} source={} dataset={} file={} programs={}",
+    let packet_mode = if resources.packet_file_sha256().is_some() { "decoded" } else { "verified-only" };
+    eprintln!("ROM_DATA runtime={packet_mode} resource={BG_PACKET_PROGRAMS_ID} source={} dataset={} file={} programs={}",
         resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[4].sha256,
         dataset.packet_programs.paired.programs.len() + dataset.packet_programs.halfwords.programs.len() + dataset.packet_programs.auxiliary.programs.len());
     Ok(())
@@ -297,6 +300,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(alternate) = resources.alternate_palette_stats() {
             eprintln!("ROM_DATA_USE resource={BG_ALTERNATE_PALETTES_ID} dataset={} bus_reads={} source_bytes={} table_bytes={} decoded_literal_bytes={}", resources.dataset_sha256(), alternate.bus_reads, alternate.source_bytes, alternate.table_bytes, alternate.decoded_literal_bytes);
+        }
+        if let Some(packet) = resources.packet_stats() {
+            eprintln!("ROM_DATA_USE resource={BG_PACKET_PROGRAMS_ID} dataset={} bus_reads={} source_bytes={} typed_value_bytes={} lz77_calls={} decoded_body_bytes={} typed_hle_bytes={}", resources.dataset_sha256(), packet.bus_reads, packet.source_bytes, packet.typed_value_bytes, packet.lz77_calls, packet.decoded_body_bytes, packet.typed_hle_bytes);
         }
     }
 }

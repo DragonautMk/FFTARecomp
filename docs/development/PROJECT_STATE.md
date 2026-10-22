@@ -157,7 +157,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   seven actual Windows CLI operations pass create/verify/reuse/repair/move,
   transactional activation and old-cache dispatch. Canonical/protected inputs
   unchanged, builds warning-free; Linux/USA new checks pending. Runtime packet
-  status stays verified-only until04binds actual reads. Field00and
+  reads now consume the immutable typed e8model for EUR: original control bytes,
+  typed raw/LZliterals and decoded HLEbodies, with merged palette/packet edges
+  and the verified895page. USA stays authenticated/verified-only. Three reduced
+  Wine checks pass, including nine original/native calls with all352old source
+  spans poisoned, full-state/clock parity and compiled typed use, plus
+  Load/Undo/backup/restart with unavailable temporary file copies. One397frame
+  EUR LCD B pub transition matches every state/image/dispatch/audio stream and
+  consumes2640typed packet bytes. Dataset/native/save/cache ABI unchanged; no
+  performance/space work. New Linux/USA/GUI/archive checks pending. Field00and
   transfer/variant programs, broader regional/gameplay/catalog/language coverage,
   global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,

@@ -3,9 +3,10 @@
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
 and load `graphics.obj-dimensions`, `graphics.bg-descriptors` and
 `graphics.bg-base-palettes` and `graphics.bg-alternate-palettes` from the selected
-ROM's decoded dataset. The sixth e8-d7file, `graphics.bg-packet-programs`, is
-also source-authenticated but currently reports `runtime=verified-only`; actual
-packet source/body reads remain the next migration unit.
+ROM's decoded dataset. The sixth e8-d7file, `graphics.bg-packet-programs`, now
+also serves EUR packet source/body reads from immutable typed values and exact
+control metadata. EUR reports `runtime=decoded`; USA stays authenticated and
+`runtime=verified-only` pending its consumer validation.
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
@@ -33,7 +34,7 @@ That alias expansion retained schema/decoder1 and selected `v1/e2-d1`,
 preserving `e1-d1`, because the OBJ format was unchanged.
 The managed metadata extension introduced `v1/e3-d2`; `v1/e6-d5` added exact
 palette source views beside readable banks. Current `v1/e8-d7` also contains
-alternate palettes and verified-only packet programs, retaining earlier
+alternate palettes and EUR-consumed packet programs, retaining earlier
 revisions including preparation-only palette e5and e7.
 Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
 The borrowed complete-file view authenticates all resources before changing
@@ -42,7 +43,7 @@ OBJ, descriptors and base palettes remain in the immutable session and report
 `runtime=decoded`; alternate palettes also have direct consumption below. BG metadata and palette CPU/DMA/native reads consume
 file-derived projections, with independent counters. The palette LZ77 HLE
 consumes decoded bank bytes; raw CpuSet keeps its original bus-read loop.
-The alternate palette path is described below. Packet reads and other linked
+The alternate palette and packet paths are described below. Other linked
 payloads still remain ROM until their direct-consumption units.
 
 `RuntimeResources` in `gba-core::rom_data` owns immutable typed entries and
@@ -292,14 +293,36 @@ with positive typed link/literal reads. See the [scene protocol and limits](deve
 Global FFpreconditions, broader regional/gameplay/catalog/language coverage,
 archives and native Windows remain separate. No performance measurements were selected.
 
-## Packet dataset activation boundary
+## Packet dataset activation and EUR consumption
 
 The e8-d7six-file set now includes typed ordered packet programs in preparation,
 source verification and complete dataset identity. Packet activation failures
 preserve the current owner/guest state; a source-equal file annotation changes
 the complete identity, leaving prior family identities and guest snapshots
-unchanged. The new family is explicitly verified-only until04binds actual
-reads. [Managed packet checks](rom_data_graphics.md#managed-packet-program-datasets)
+unchanged. [Managed packet checks](rom_data_graphics.md#managed-packet-program-datasets)
 pass with four focused Wine cases and seven actual Windows CLI operations;
 old cache dispatch is positive in a single cold activation frame. This is no
-packet-use proof. New Linux/USA checks remain pending under the user's policy.
+packet-use proof. Subsequent04now binds actual EUR reads: the owner retains
+typed ordered writes, source/body control metadata and shared decoder-derived
+literal maps. Raw packet values and LZ literals are reconstructed from typed
+words; existing LZ77HLE writes the predecoded typed body through its normal
+destination writer. CPU/DMA/native/guest-BIOS bus reads retain exact original
+bytes. The fixed EUR asset pages include895, and reads crossing adjacent
+palette/packet spans combine both file-derived views.
+
+No guest packet instruction, dynamic initial fill, inheritance, continuation,
+write or cycle is bypassed. Mutable RAM and unregistered sources retain their
+original paths. Host resources/owned reads survive Load/Undo/backup/restart and
+unavailable source files without entering snapshots. Schema/extractor/decoder
+remain1/8/7; native/save/profile/cache identities remain source-equal.
+
+Three focused Wine checks pass: a synthetic boundary/SWI/DMA/owner test, nine
+EUR original/native calls with every packet source span poisoned, and a
+temporary-copy lifecycle test. The nine calls match complete states/clock,
+destinations, guards and stack, with18compiled typed bytes and10506typed HLE
+bytes. One397frame LCD B Cyril-pub transition matches every full state, image,
+OAM, dispatch and mixed/PSG/FIFO/HLE sample, consuming2640typed packet bytes
+through three HLE calls. Its raw typed bus count is0; the component probe
+provides that distinct evidence. See [the full contract](rom_data_graphics.md#direct-european-packet-consumption).
+New Linux/USA, broader scenes, GUI/archive and native Windows checks remain
+pending. No performance/space campaign or normal-enablement claim is made.

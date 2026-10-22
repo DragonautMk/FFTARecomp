@@ -165,9 +165,9 @@ The managed set contains `graphics.obj-dimensions`, `graphics.bg-descriptors`
 `graphics.bg-base-palettes`, `graphics.bg-alternate-palettes` and
 `graphics.bg-packet-programs`. IDs remain semantic: OBJ index `shape * 4 + size`,
 BG record index within the authenticated162-record block; source offsets are
-provenance, not resource IDs. The existing four families have direct consumption;
-packet programs are currently verified-only. Whole-set activation authenticates
-every file. Other linked payloads/programs and packet reads remain ROM.
+provenance, not resource IDs. All five families have direct EUR consumption;
+USA packets stay verified-only pending consumer validation. Whole-set activation
+authenticates every file. Other linked payloads/programs remain ROM.
 
 - `manifest.toml`: schema revision, extractor revision, decoder revision,
   exact source ROM SHA-256/size and regional profile; a coverage list naming
@@ -200,7 +200,9 @@ every file. Other linked payloads/programs and packet reads remain ROM.
   parent graph, exact encoded and post-wrapper body metadata plus ordered writes.
  352source ranges depend on BG metadata. Every field/file hash is authenticated,
   with source-equal e8publication/repair/retention verified for EUR/Wine. Current
-  packet runtime status is verified-only; actual consumption is the next04unit.
+  EUR runtime consumption now retains typed values for source literals and
+  predecoded HLE body writes, preserving original dynamic fill and guest timing.
+  USA stays verified-only. [Contract](../rom_data_graphics.md#direct-european-packet-consumption).
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
@@ -263,8 +265,8 @@ Four Linux/Wine original-loader cases each pass486wrapper invocations with
 complete destination/guards/SP checks. The core's new referenced_extent bounds
 raw dictionary reads separately from stream termination. See the [complete
 catalog contract](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
-The sixth managed e8file now authenticates these programs for EUR/Wine;
-actual runtime packet reads remain pending. Field00and transfer/variant
+The sixth managed e8file authenticates these programs and now serves their
+actual runtime source/body reads for EUR/Wine. Field00and transfer/variant
 programs remain separate unknowns.
 
 ### Typed packet resource model: EUR priority
@@ -275,6 +277,27 @@ metadata. Source authentication rejects coherent base edits. Linux/Wine EUR
 checks reuse all retained original bodies; readable JSON is byte-identical.
 The new model is verified for EUR only; USA remains pending by user instruction.
 See the [typed contract](../rom_data_graphics.md#typed-descriptor-packet-programs).
-The file is now published/verified in the e8-d7managed dataset; actual packet
-runtime consumption remains the next unit. Reduced Wine-only checks pass;
-new Linux/USA checks remain pending. See the [managed contract](../rom_data_graphics.md#managed-packet-program-datasets).
+The file is published/verified in the e8-d7managed dataset and consumed by the
+EUR CPU/DMA/native/HLE paths. Three focused Wine checks and one397frame actual
+native transition pass with positive typed consumption and complete-state parity.
+New Linux/USA checks remain pending. See the [consumer contract](../rom_data_graphics.md#direct-european-packet-consumption).
+
+### Main graphics field00: partial EUR static inspection
+
+The retained162descriptor links name50source starts:23have tag20,27have tag22;
+all27tag22sources have another20header immediately after the outer header.
+These starts/header counts do not establish consumed ranges or decoded tile
+semantics. Do not identify these streams as BIOS Huffman from the leading20.
+The normal producer at0801b2cc reads field00at0801b310..324 but branches for
+12/02/10and a copy case; it alone does not prove how20/22are prepared.
+The separate palette-copy indirect pointer atROM370eb4 selects IWRAM03005ee9;
+08145c14is only the bxr3trampoline. It is not an independently located main
+graphics decoder.
+
+ROMDATA-01-BG-MAIN-GRAPHICS remains partial: locate the staged compressed
+producer/callers, establish exact extents/aliases and destinations/tile layout,
+then perform a reduced original EUR/Wine proof before implementing its typed
+resource integration. Static evidence is retained under
+target/rom-data-bg-main-graphics/static-summary.json and bounded disassembly
+files. No new runtime test/build, extraction or migration is claimed for this
+family; new Linux/USA verification remains pending.

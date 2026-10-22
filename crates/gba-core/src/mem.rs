@@ -1425,6 +1425,10 @@ impl Bus for MemMap {
         self.rom_resources.as_ref()?.decoded_palette(source)
     }
 
+    fn decoded_packet_body(&self, source: u32) -> Option<crate::rom_data::PacketRead> {
+        self.rom_resources.as_ref()?.decoded_packet_body(source)
+    }
+
     fn read8(&mut self, addr: u32) -> u8 {
         match addr >> 24 {
             0x00 => {

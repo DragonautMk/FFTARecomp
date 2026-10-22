@@ -1,15 +1,18 @@
-//! Immutable, authenticated base data. Only the verified OBJ/BG metadata ranges
-//! are projected onto guest reads; no instruction, timing or DMA is skipped.
+//! Immutable, authenticated base data. Verified OBJ metadata and BG resource
+//! ranges are projected onto guest reads; no instruction, timing or DMA is skipped.
 use super::*;
 mod background;
 mod palettes;
 mod alternate_palettes;
+mod packets;
 use background::BackgroundResources;
 pub use background::BackgroundStats;
 use palettes::PaletteResources;
 pub use palettes::{PaletteRead, PaletteStats};
 use alternate_palettes::AlternatePaletteResources;
 pub use alternate_palettes::AlternatePaletteStats;
+use packets::PacketResources;
+pub use packets::{PacketRead, PacketStats};
 use std::sync::{
     atomic::{AtomicU64, Ordering},
     Arc,
@@ -41,6 +44,7 @@ pub struct RuntimeResources {
     background: Option<Box<BackgroundResources>>,
     palettes: Option<Box<PaletteResources>>,
     alternate_palettes: Option<Box<AlternatePaletteResources>>,
+    packet_programs: Option<Box<PacketResources>>,
 }
 
 impl RuntimeResources {
@@ -93,6 +97,15 @@ impl RuntimeResources {
                 manifest.resources[3].sha256.clone(),
             )?));
         }
+        // USA stays authenticated but verified-only until its consumer checks.
+        if source.version() == Version::Europe {
+            if let Some((decoded, _)) = files.packet_programs {
+                resources.packet_programs = Some(Box::new(PacketResources::new(
+                    decoded.clone(), &source.packet_programs.as_ref().unwrap().sources,
+                    manifest.resources[4].sha256.clone(),
+                )?));
+            }
+        }
         Ok(Arc::new(resources))
     }
 
@@ -120,6 +133,7 @@ impl RuntimeResources {
             background: None,
             palettes: None,
             alternate_palettes: None,
+            packet_programs: None,
         }
     }
 
@@ -152,6 +166,7 @@ impl RuntimeResources {
     pub fn resident_bytes(&self) -> usize {
         self.obj_resident_bytes() + self.background_resident_bytes() + self.palette_resident_bytes()
             + self.alternate_palette_resident_bytes()
+            + self.packet_resident_bytes()
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -184,6 +199,15 @@ impl RuntimeResources {
     pub fn alternate_palette_stats(&self) -> Option<AlternatePaletteStats> {
         self.alternate_palettes.as_ref().map(|palettes| palettes.stats())
     }
+    pub fn packet_resident_bytes(&self) -> usize {
+        self.packet_programs.as_ref().map_or(0, |packets| packets.resident_bytes())
+    }
+    pub fn packet_file_sha256(&self) -> Option<&str> {
+        self.packet_programs.as_ref().map(|packets| packets.file_sha256())
+    }
+    pub fn packet_stats(&self) -> Option<PacketStats> {
+        self.packet_programs.as_ref().map(|packets| packets.stats())
+    }
 
     pub fn stats(&self) -> ResourceStats {
         ResourceStats {
@@ -213,17 +237,18 @@ impl RuntimeResources {
     /// keep adjacent opaque ROM bytes without reading a migrated byte there.
     pub(crate) fn guest_read<const N: usize>(&self, index: usize, rom: &[u8]) -> Option<[u8; N]> {
         let Some(base) = self.source_offset(index, N) else {
-            if let Some(bytes) = self
+            let prior = self
                 .background
                 .as_ref()
                 .and_then(|background| background.guest_read(index, rom))
-            {
-                return Some(bytes);
-            }
-            if let Some(bytes) = self.palettes.as_ref().and_then(|palettes| palettes.guest_read(index, rom)) {
-                return Some(bytes);
-            }
-            return self.alternate_palettes.as_ref()?.guest_read(index, rom);
+                .or_else(|| self.palettes.as_ref().and_then(|palettes| palettes.guest_read(index, rom)))
+                .or_else(|| self.alternate_palettes.as_ref().and_then(|palettes| palettes.guest_read(index, rom)));
+            // Packet and base-palette spans interleave in the same asset pages.
+            // Overlay each mapped packet byte onto the prior-family result.
+            return match &self.packet_programs {
+                Some(packets) => packets.guest_read(index, rom, prior),
+                None => prior,
+            };
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -342,6 +367,7 @@ impl crate::MemMap {
             | 0x569..=0x56c | 0x766..=0x769)
             || PaletteResources::source_page(index)
             || AlternatePaletteResources::source_page(index)
+            || PacketResources::source_page(index)
     }
 }
 

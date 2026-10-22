@@ -9,9 +9,10 @@ HLE reads decoded banks; CPU/DMA/native and guest BIOS reads use an exact
 file-derived source view. Alternate palettes are source-verified during
 activation and directly serve the original custom decoder: literal source
 bytes come from typed banks, while headers/tokens retain authenticated metadata.
-No guest decompression instruction or write is skipped. Packet programs are
-currently authenticated as `runtime=verified-only`; their actual source reads
-remain in ROM until the next consumption unit.
+No guest decompression instruction or write is skipped. EUR packet programs now
+serve source literals from typed words and existing LZ77HLE body writes from
+the immutable decoded model, reporting `runtime=decoded`. USA remains
+`runtime=verified-only` until its consumer checks.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
 code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
 See [runtime consumption](rom_data_runtime.md) for sources, identity, counters,
@@ -229,9 +230,15 @@ CLI operations pass: extract/verify/prepare, no-write reuse, corruption repair,
 root move and a single native activation frame with the prior TinyCC cache.
 The e7generation and protected ROM/canonical/cache/loader/typed02files remain
 unchanged. This cold frame proves activation/cache compatibility, not packet
-consumption. The runtime explicitly reports `verified-only` for this family.
+consumption. At that managed boundary the runtime reported `verified-only`.
 
 [Managed contract/results](rom_data_graphics.md#managed-packet-program-datasets).
-Actual packet source/body use is the next04unit. New Linux/USA checks are
-pending; no broad suite, old producer/scene replay or performance campaign was
-selected. Full ROM_DATA_TODO, other content families and mod phases remain open.
+Actual EUR packet source/body use is now connected in04with source-equal e8
+files, preserving guest timing, dynamic fill and native/save compatibility.
+Three focused Wine checks pass, including nine original/native calls with all
+old packet spans poisoned and Load/Undo/backup/restart. One actual397frame
+pub transition matches every state/image/audio stream and consumes2640typed
+packet bytes. [Consumer contract/results](rom_data_graphics.md#direct-european-packet-consumption).
+New Linux/USA checks are pending; no broad suite, old complete producer/scene
+matrix or performance campaign was selected. Full ROM_DATA_TODO, other content
+families and mod phases remain open.

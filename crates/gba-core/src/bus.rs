@@ -37,6 +37,8 @@ pub trait Bus {
     /// Verified immutable palette output for the existing BIOS LZ77 HLE.
     /// The owned read permits ordered bus writes without a live bus borrow.
     fn decoded_base_palette(&self, _source: u32) -> Option<crate::rom_data::PaletteRead> { None }
+    /// Authenticated EUR packet body for the existing LZ77 HLE path.
+    fn decoded_packet_body(&self, _source: u32) -> Option<crate::rom_data::PacketRead> { None }
 
     /// SWI 0x02 Halt: sleep until any enabled interrupt is latched.
     fn hle_halt(&mut self) {}

@@ -253,6 +253,12 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         let (relative, absolute, id) = first_alternate_read.expect("an actual alternate scene");
         eprintln!("ROM_DATA_ALTERNATE_SCENE mode={mode} frames={frames} first_relative={relative} first_absolute={absolute} background_id={id} bus_reads={} source_bytes={} table_bytes={} decoded_literal_bytes={}", alternate.bus_reads, alternate.source_bytes, alternate.table_bytes, alternate.decoded_literal_bytes);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PACKET").is_some() {
+        let packet = decoded.bus.rom_resources().unwrap().packet_stats().expect("decoded EUR packets");
+        assert!(packet.typed_value_bytes + packet.typed_hle_bytes > 0,
+            "this scene must consume decoded packet values");
+        eprintln!("ROM_DATA_PACKET_SCENE frames={frames} bus_reads={} source_bytes={} typed_value_bytes={} lz77_calls={} decoded_body_bytes={} typed_hle_bytes={}", packet.bus_reads, packet.source_bytes, packet.typed_value_bytes, packet.lz77_calls, packet.decoded_body_bytes, packet.typed_hle_bytes);
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

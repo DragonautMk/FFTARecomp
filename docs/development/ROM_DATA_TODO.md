@@ -249,7 +249,8 @@ runtime. Il sesto file gestito è concluso sotto; rimane il consumo04. [Contratt
 1/8/7con generazioni e7conservate. Guardie input64MiBper file packet/set,
 parse/verifica dell'intero dataset prima di pubblicazione/attivazione. Quattro
 casi mirati Wine e sette comandi Windows reali passano; canonici/originali
-protetti. Stato runtime esplicito verified-only: il consumo04resta aperto.
+protetti. Stato runtime verified-only al termine della pubblicazione; il
+consumoEUR04è ora concluso sotto.
 Nuovi controlli Linux/USA da fare, nessuna campagna performance o suite ampia.
 [Contratto e prove](../rom_data_graphics.md#managed-packet-program-datasets).
 
@@ -373,6 +374,26 @@ letterali tramiteAPI nativa. Load/Undo/backup/riavvio conservano owner/contatori
 anche con file eliminati. Restano scene alternate reali, precondizioniFF,
 GUI/archivi e Windows nativo; nessuna misura prestazionale.
 [Contratto e prove](../rom_data_graphics.md#direct-alternate-palette-consumption).
+
+**ROMDATA-04-BG-PACKET-CONSUMPTION completato per EUR/Wine ridotto:**
+352programmi tipizzati conservati nell'owner immutabile; valori raw/letterali
+LZ77dai word decodificati, body tipizzato per HLE, controlli originali esatti.
+Letture CPU/DMA/API native e paginaEUR895collegate; letture miste palette/packet
+composte correttamente. Inizializzazione dinamica, padri, scritture e clock guest
+conservati; schema1/8/7e identità save/native invariati. Tre test Wine mirati
+passano: sintetico letture/SWI/DMA/owner, nove chiamate originali/nativeEUR con
+intervalli ROM packet alterati e stato completo uguale, Load/Undo/backup/riavvio
+con copia temporanea dei file resa indisponibile.18byte tipizzati letti dalle
+istruzioni native e10506byte HLE. USA resta verified-only; nuovi controlli
+Linux/USA da fare, nessun benchmark o suite ampia.
+[Contratto e prove](../rom_data_graphics.md#direct-european-packet-consumption).
+
+**ROMDATA-05-BG-PACKET-SCENE completato per una transizione EUR/Wine:**
+slot5LCD B/input397frame già conservati, entrata pubCyrilBG62. Ogni stato
+completo/clock, immagine/OAM/dispatch e campione audio coincide; tre chiamate HLE
+consumano4720byte body/2640byte tipizzati. Le12letture wrapper non contengono
+valori raw: la prova nativa04copre quel percorso separatamente. Altre scene,
+GUI/archivi, nuovi controlli Linux/USA e Windows nativo restano aperti.
 
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
 
@@ -532,12 +553,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-04-BG-PACKET-CONSUMPTION, collegare i programmi
-packet già autenticati e8ai percorsi reali di lettura, mantenendo scritture,
-clock, inizializzazione dinamica e metadati originali. Modello02e pubblicazione
-EUR/Wine sono conclusi: riutilizzare file e8e prove conservate. Test ridotti
-solo Wine/EUR; Linux e USA da fare. Le letture04dei
-descrittori/palette base e alternative, chiamanti/modalità e scene/GUI EUR
-sono già concluse: non ripeterle seguendo la vecchia coda. Restano precondizioniFFglobali,
-altri cataloghi/lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione
-normale soltanto con i gate richiesti; misure prestazionali rinviate dall'utente.
+**Prossima azione:** ROMDATA-01-BG-MAIN-GRAPHICS, censire tutti i link del campo00
+EUR e il contratto dei produttori originali con letture statiche limitate.
+Packet02/03/04e la scena/CLI397frame dichiarati sono conclusi; riutilizzare
+filee8e prove conservate senza ripeterli. Test ridotti solo Wine/EUR; Linux
+e USA da fare. Restano precondizioniFFglobali, transfer/variant, altri cataloghi/
+lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione normale soltanto
+con i gate richiesti; misure prestazionali rinviate dall'utente.

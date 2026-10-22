@@ -54,6 +54,35 @@ Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data.md](
 
 [Change record](docs/changes/2026-10-22-decode-european-background-packet-programs.json)
 
+## 2026-10-22 — Consume European background packet values and bodies from authenticated files
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Wire the committed packet source-layout model into immutable RuntimeResources for EUR; raw and LZ literal source reads use typed values, exact controls remain file-backed, and existing LZ77 HLE writes typed decoded bodies.
+- Merge adjacent palette and packet read views, include the verified EUR 895 page, retain Arc-owned body reads across Load/Undo/backup/restart, and report packet provenance separately; USA remains authenticated and verified-only.
+- Keep schema/extractor/decoder 1/8/7 and source-equal native/profile/save/cache identity, original dynamic paired fill, inheritance, ordered writes and guest cycles.
+
+**Validation**
+
+- Windows release test and production builds pass without warnings; three focused Wine cases pass for synthetic bus/SWI/DMA boundaries, nine EUR original/interpreter/native calls and temporary-copy lifecycle behavior.
+- Nine original-loader calls with all 352 old packet source ranges poisoned match complete machine states and clocks, destinations/guards/SP, with 18 compiled typed bytes and 10506 typed HLE bytes over 11 calls; bounded original tracing covers 176838 instructions and 884 native dispatches.
+- One retained EUR LCD B Cyril-pub transition passes per-frame full-state/image/OAM/dispatch/mixed-PSG-FIFO-HLE audio parity for 397 frames, consuming 2640 typed packet bytes through three HLE calls; its raw typed bus count is zero and covered separately by the component proof.
+- Original ROM, e8 dataset, retained captures, slots, input, native cache/loader and canonical executables remain hash-preserved; production candidate is retained under ignored target/.
+- Two actual Windows CLI calls from unrelated cwd reuse the prior native cache and existing e8 generation without writes: the retained 397-frame legacy/decoded transition has identical image hash and dispatch counts, positive packet HLE use, and unchanged protected files/canonical executable.
+- Bounded static EUR/Wine disassembly begins the next field00 inventory only: 162 links name 50 source starts, but staged tag20/22 semantics and exact extents remain unverified; no new runtime test or migrated graphics claim.
+
+**Limitations**
+
+- New Linux and USA verification remain pending by user instruction; USA packet activation remains verified-only. No native Windows result.
+- Only the declared reduced EUR/Wine component/lifecycle/scene scope is verified; actual BIOS execution, wider scenes/GUI/archives, other graphics catalogs/languages and text/audio/gameplay/mod phases remain open.
+- No performance, profile, startup/RSS or space-budget campaign; no broad default suite, old 486-call catalog rerun, new extraction, commit, push or AndroidPort changes.
+
+Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-background-packet-programs.json)
+
 ## 2026-10-21 — Verify original USA copied-resource initialization from clean boot
 
 Type: changed. Platforms: Linux, Windows-GNU-Wine.

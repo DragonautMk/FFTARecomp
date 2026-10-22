@@ -253,6 +253,10 @@ fn lz77_uncomp<B: Bus>(cpu: &mut Cpu, bus: &mut B) {
         write_out(bus, dst, palette.bytes());
         return;
     }
+    if let Some(packet) = bus.decoded_packet_body(src) {
+        write_out(bus, dst, packet.bytes());
+        return;
+    }
     let size = (bus.read32(src) >> 8) as usize;
     src += 4;
 

@@ -6,31 +6,67 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- Selection checkpoint — **FEAT-RESTART-ROM / BUG-01-LAWS-DEPLOYMENT /
-  REPO-BRANCH-DECOMP**: latest visible user requests are already implemented.
-  Read-only reconciliation confirms optimizations b43f943 has exact parent
-  124de1fa2955e41170609082dc492826768ad9e9; decomp91f26ca retains the original
-  2193457 history and integration ed495fe. Menu, laws and dialogue source files
-  match b43f943 exactly. Existing Wine integration results and slot3 GUI evidence
-  pass; do not rebuild/replay completed checks. No missing deliverable or code
-  reopening reason for this bounded request. Only update this handoff and report.
-- **ROMDATA-04-BG-PACKET-CONSUMPTION — inherited partial, not validated.**
-  Goal API currently reports the broader ROM-data goal blocked; this bounded
-  request does not resume that queue. Preserve modified bg_packets.rs/lz77.rs
-  source-layout tracing and untracked runtime/packets.rs. The runtime file exists
-  in full but is not declared/wired; no new build or runtime test has run.
-  Missing RuntimeResources ownership/overlay, Bus/MemMap/HLE hooks, EUR895page,
-  frontend reporting and focused typed-source/native/lifecycle proof. Existing
-  palette/packet spans interleave, so crossing reads need merged overlays.
-  Reuse the authenticated e8-d7dataset/native cache if this unit is resumed;
-  EUR/reduced Wine-only, Linux/USA pending, no performance/space work or old
-  full486-call/boot/scene reruns. Managed03is now committed at91f26ca, not dirty.
-- Reconciliation checks: metadata-only project memory and CRLF-aware whitespace
-  pass. Full working-tree memory check reports the three inherited partial04
-  implementation files lack a new/updated record; this is not a clean full-tree
-  validation claim. No code/ref/fixture mutation, build, GUI or test was selected
-  during this reconciliation. Preserve the incomplete unit rather than assigning
-  it the completed restart/laws record or claiming it has passed validation.
+- **ROMDATA-04-BG-PACKET-CONSUMPTION — complete for reduced EUR/Wine scope.**
+  Latest user explicitly resumes ROM_DATA_TODO: no space/performance campaign,
+  EUR priority, reduced Wine-only checks; new Linux/USA checks pending.
+  The69b06ca partial is now wired: retained immutable typed values, merged
+  palette/packet views, CPU/DMA/native reads and existing LZ77HLE body writes,
+  EUR895page and family diagnostics. Dataset e8-d7/save/native ABI unchanged;
+  USA packet activation stays verified-only. Three focused Wine checks pass:
+  synthetic widths/mirrors/edges/real-BIOS bus mode/SWIs/DMA/owned borrow;
+  nine original/native EUR calls (176838original instructions,884native
+  dispatches) match complete states/clock/destinations/guards with all352old
+  packet source spans poisoned,18compiled typed bytes/10506typed HLE bytes;
+  copied-file unavailability, transactional failed activation, slots/Undo/
+  backup/restart retain the owner. Warning-free Windows test build.
+  Evidence:target/rom-data-bg-packet-consumption/windows-results.json,
+  windows-europe/result.json and three logs. Original dataset/ROM/canonicals/
+  cache/loader hashes preserved. No broad suite, old486call/boot replay or
+  Linux/USA/performance run. Wine socket required escalation; auto-review's
+  initial deletion concern was removed by renaming only a temporary copy.
+- **ROMDATA-05-BG-PACKET-SCENE — complete for one declared EUR/Wine scene.**
+  One retained LCD B slot5/pub.input397frame transition into Cyril pub BG62
+  passes native legacy/decoded equality at every full state/image/OAM/dispatch/
+  audio stream, with positive packet use:3HLEcalls/4720bodyB/2640typedB and
+  12wrapper reads. Raw typed bus bytes are0in this compressed scene; the04
+  original/native probe separately proves18compiled typed bytes. No false
+  zero-use claim. Existing e8files/old native cache/slot/input/ROM hashes unchanged.
+  Evidence:target/rom-data-bg-packet-consumption/windows-scene-results.json and
+  windows-lcd-b-packet-full-state-audio.log. No other scene/GUI/archive or
+  native Windows claim. New Linux/USA remain pending; no performance campaign.
+- **ROMDATA-05-BG-PACKET-CLI — complete for EUR/Wine.** Warning-free Windows
+  production candidate; canonical executable restored. Two actual commands from
+  unrelated cwd reuse the prior native cache and retained397frame transition;
+  final image hash/dispatch counts match, e8reuse performs no writes and packet
+  HLE use is positive. All protected originals/canonicals unchanged. The first
+  legacy process succeeded; its log parser expected relative rather than
+  absolute frame, corrected without rerunning that process. All jobs terminal.
+  Evidence:target/rom-data-bg-packet-consumption/windows-cli-summary.json,
+  verification-summary.json, candidate/build/logs and source/protected hashes.
+  [Record](../changes/2026-10-22-consume-european-background-packet-programs.json).
+  Final full working-tree project-memory, CRLF-aware whitespace and protected/
+  implementation source-hash checks pass. No temporary tracked helper or live job.
+- **ROMDATA-01-BG-MAIN-GRAPHICS — partial static inspection, no runtime claim.**
+  Latest request remains full ROM_DATA_TODO: EUR/reduced Wine-only, no performance/
+  space campaign. Packet04/declared05units above are closed; do not reopen them.
+  Retained descriptors resolve162links/50starts (23tag20/27tag22); all27tag22
+  have a nested20header. These counts were already partly inventoried;
+  do not present them as a complete newly decoded catalog. Static Wine disassembly
+  locates normal producer0801b2cc and source-field reads0801b310..324.
+  It branches for12/02/10and a copy case, so its use alone does not establish
+  compressed20/22semantics. Indirect palette-copy pointer atROM370eb4 selects
+  IWRAM03005ee9;08145c14is only bxr3, not the codec. No completed packet/oracle/
+  fixture/boot/scene repeated and no new runtime build/test selected here.
+  Evidence:target/rom-data-bg-main-graphics/static-summary.json and seven bounded
+  original disassembly files. Missing: actual staged20/22producer, exact stream
+  extents/aliases, destination/tile layout and minimal original EUR/Wine proof.
+  Next: inspect the compressed graphics stage before/alongside0801b2cc; follow
+  actual callers/root references rather than treating headers as BIOS Huffman
+  or assuming the copy branch decodes them. Then define the bounded parser/model.
+  USA/Linux stay pending. All disassembler jobs terminal; no live process.
+- Historical restart/laws/branch reconciliation is complete; its earlier
+  workflow-only request no longer selects this session. Original integration
+  and history remain preserved. Current clean starting HEAD was69b06ca.
 
 - **ROMDATA-02-BG-PACKET-MANAGED — complete for EUR/Wine scope.** Latest
   user policy remains EUR/reduced Wine-only tests; Linux/USA pending, no cost/
@@ -38,8 +74,8 @@ An open parent never reopens completed children or rejected experiments.
   JSON and352provenance ranges/dependency.64MiBpacket/whole-set input guards,
   strict typed/source verification, full-file dataset identity, atomic verified
   publication/reuse/repair/retention. Existing e7and prior four decoded files
-  unchanged; packet JSON matches02exactly. Runtime log explicitly verified-only;
-  original packet reads are not migrated yet. Native/save/cache ABI unchanged.
+  unchanged; packet JSON matches02exactly. At that managed boundary the runtime
+  was explicitly verified-only; subsequent EUR04consumption is closed above. Native/save/cache ABI unchanged.
 - Four focused Wine checks pass: core base authentication, synthetic six-file
   publish/reuse/move, new packet partial-write/missing repair, retained EUR e7/
   create/reuse/repair/move/coherent-edit/identity/transactional activation case.
@@ -53,19 +89,13 @@ An open parent never reopens completed children or rejected experiments.
   target/rom-data-bg-packet-managed/verification-summary.json, windows-results,
   windows-europe/result, windows-cli-summary/logs/candidates and protected hashes.
   Existing helper copy lists/counts/revision expectations updated for six files;
-  their broader Linux/USA/optional replays remain unrun. Head ec5f9cbcontains
-  prior02committed externally; new managed edits preserved uncommitted.
+  their broader Linux/USA/optional replays remain unrun. Managed work was
+  subsequently observed committed externally at91f26ca; partial04at69b06ca.
   [Record](../changes/2026-10-22-prepare-european-background-packet-programs.json).
   Final memory/CRLF-aware whitespace/source-hash checks pass. No live process
   or temporary tracked helper remains; original and prior unit evidence retained.
-- **Next open unit: ROMDATA-04-BG-PACKET-CONSUMPTION**, EUR/Wine only.
-  Use the existing authenticated e8packet program file/352ranges and retained
-  original body/program oracles. Bind immutable decoded packet/body values into
-  actual CPU/DMA/native/HLE source paths with provenance, preserving original
-  writes, processing flags, cycles and dynamic paired initialization. Preparation
-  alone is not completion. Reuse existing e8directories and candidate/cache;
-  choose reduced focused Wine gates, no new Linux/USA or old full oracle rerun
-  solely for context. Fresh checkpoint before new mutation/expensive work.
+- The managed-unit former04next action is closed above; follow the current
+  field00catalog selection.
 
 - Latest validation steering: **EUR only, reduced Wine-only tests**; new Linux
   checks must be listed as pending. Existing Linux/USA results remain historical
@@ -172,21 +202,13 @@ An open parent never reopens completed children or rejected experiments.
   {native,windows}-pub-gui/result.json/log/captures. Scene and GUI units closed;
   do not repeat them from an old next-action line.
 
-- Remaining queue: full ROM_DATA_TODO is still active. Prior codec/managed/
-  consumption/caller-mode/declared scene/GUI children are complete; global
-  FFpreconditions, other graphic catalogs/programs/languages, text/audio/gameplay
-  data, archive acceptance and mod phases remain. Native Windows unavailable,
-  no new request needed; performance/space work stays deferred. Next select one
-  unfinished exact regional graphics payload/consumer contract from the
-  inventory using a bounded static read; the packet catalog selected above is
-  now closed and the EUR typed02model/managed publication are complete. Actual
-  packet consumption04is next. Write a fresh checkpoint before
-  mutation/expensive work. Reuse retained catalogs/buffers/state artifacts.
-  Current branch decompec5f9cb contains prior externally committed02work;
-  optimizations b43f943/main124de1f unchanged. New EUR managed e8work remains
-  uncommitted; no agent push/archive made.
-  Final project-memory and CRLF-aware whitespace checks pass; newest scene
-  source hash verified. No temporary tracked helper or live process remains.
+- Remaining queue: full ROM_DATA_TODO is active. Packet catalog/model/managed/
+  EUR consumer/declared scene/CLI units are closed above. Follow the current
+  field00selection; global FFpreconditions, transfer/variant programs, other
+  catalogs/languages, text/audio/gameplay, archives and mod phases remain open.
+  Native Windows unavailable; new Linux/USA checks pending. No performance/
+  space work. Starting branch decomp69b06ca includes the previous committed
+  packet partial; new04/05work is uncommitted. No agent push/archive made.
 
 - **FEAT-RESTART-ROM / BUG-01-LAWS-DEPLOYMENT — implementation and local
   validation complete; integrated locally into decomp.** Latest

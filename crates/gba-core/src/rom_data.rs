@@ -4,7 +4,7 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{AlternatePaletteStats, BackgroundStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources};
+pub use runtime::{AlternatePaletteStats, BackgroundStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_packet_data;

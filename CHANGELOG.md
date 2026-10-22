@@ -280,6 +280,32 @@ Documentation: [README.md](scripts/README.md), [TASK_HANDOFF.md](docs/developmen
 
 [Change record](docs/changes/2026-10-22-fix-script-child-shell-path.json)
 
+## 2026-10-22 — Fix Linux Docker export blocked by a stale input-limit test and retain builder errors
+
+Type: fixed. Platforms: Linux, Docker, Project tooling.
+
+**Changes**
+
+- Correct the six-file fixture's obsolete aggregate-size rejection expectation after the total input guard was raised for text catalogs. Verify the actual boundary and one byte beyond without allocating a complete-size dataset; production guards remain unchanged.
+- Save Linux Docker build stdout/stderr in unique target/build-logs/linux-*.log files and print their paths. Preserve nonzero status and wait for Enter on interactive failure so file-manager terminals retain the error; automation exits without waiting.
+
+**Validation**
+
+- Read the existing failed Docker build log instead of repeating the failure: compilation and archive creation succeeded, then only per_family_input_bounds_and_complete_set_limit failed on an unexpected successful verification.
+- Three focused Bash/mock-Docker tests pass: success with spaces and unrelated cwd, failed stdout/stderr retention and exact exit17without blocking automation, and a real pseudo-terminal that stays open until Enter. Bash syntax passes.
+- One actual corrected Linux Docker build/export succeeds with 461 tests passed and 67 optional cases ignored, including the formerly failing test. Session44780is terminal; evidence is retained in target/linux-builder-interruption/result.json and the timestamped builder log.
+- Exported archive hash matches BUILD-INFO.txt; 45 archive members, executable modes, required TinyCC library, empty portable directories and absence of private files verified. Compiled input hashes remain unchanged. Initial archive probes had incorrect directory/name assumptions; corrected to the existing packager contract without another build.
+
+**Limitations**
+
+- ShellCheck is unavailable on the host; syntax and behavioral checks were run instead.
+- This is Linux builder/export verification, not a new gameplay, GUI, native Windows, USA or AndroidPort campaign. Private font/keyboard original-reader acceptance and the broader ROM-data goal remain paused/pending.
+- No performance/space measurement, private ROM/container input, commit or push was performed.
+
+Documentation: [docker.md](docs/docker.md), [README.md](scripts/README.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-fix-linux-builder-limit-test-and-retain-errors.json)
+
 ## 2026-10-22 — Extract ROM data from Linux and Windows with dependencies inside Docker
 
 Type: added. Platforms: Linux/Docker, Windows/Docker tooling.

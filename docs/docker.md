@@ -73,6 +73,13 @@ BuildKit manages Cargo registry/git and target caches. Only the final archive
 and build information are exported, using Docker's
 [local artifact exporter](https://docs.docker.com/build/building/export/).
 
+The Bash Linux builder prints the path of a new log under
+`target/build-logs/linux-*.log` on every invocation and saves both normal output
+and errors there. When a build fails in an interactive terminal, it waits for
+Enter before exiting, so a terminal opened by a file manager keeps the error
+visible. Noninteractive runs return the original failure code without waiting;
+failed builds do not report a successful export.
+
 ## Extract decoded ROM data
 
 Extraction has dedicated entry points that require only Docker on the host:
@@ -243,6 +250,23 @@ The first expanded-suite run passed 307 tests on Linux (164 core, 26 input/confi
 The ignored panel-bound microbenchmark is a developer diagnostic, not a CI timing
 assertion. GPU readback and local-ROM tests need explicit external fixtures and
 remain separate checks; container success does not establish native GPU behavior.
+
+### Linux export interruption and retained errors
+
+The 2026-10-22 retained failing build completed compilation and archive creation,
+then stopped at `per_family_input_bounds_and_complete_set_limit`. That older
+six-file fixture now fits the current aggregate input guard, so its rejection
+expectation was stale. The test now accepts it and checks the actual aggregate
+boundary and one byte beyond without allocating a full-size dataset. Production
+input guards and release test gates are unchanged.
+
+One corrected Linux Docker export passes 461 tests with 67 optional cases ignored,
+including the previously failing case. The portable archive and matching
+`BUILD-INFO.txt` are exported successfully. Three focused wrapper checks cover
+output/log preservation, failure status, paths with spaces/unrelated working
+directory, and an interactive terminal that waits for Enter on failure.
+This verifies the builder; no new gameplay/GUI or USA validation is claimed.
+See the [change record](changes/2026-10-22-fix-linux-builder-limit-test-and-retain-errors.json).
 
 ### Windows container validation
 

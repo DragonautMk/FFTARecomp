@@ -40,6 +40,9 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Docker extraction defaults to the EUR filename under root `rom/`; no ROM
   argument is required. Custom relative ROM arguments also resolve from the
   repository root, while absolute overrides remain available.
+  The Linux Docker build wrapper saves every run's stdout/stderr under
+  target/build-logs/ and waits for Enter on interactive failure, retaining
+  the original exit status for noninteractive automation.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,

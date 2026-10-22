@@ -51,3 +51,7 @@ always start at the repository root, even when launched from another directory.
 Scripts resolve their repository from their own location. Explicit output
 paths remain relative to the calling directory. See
 [Docker workflows](../docs/docker.md) and [extraction options](../docs/rom_data.md).
+
+The Linux Docker builder saves each run's output and errors under
+`target/build-logs/linux-*.log`. On failure it waits for Enter in an interactive
+terminal; noninteractive automation receives the original exit code immediately.

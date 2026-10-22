@@ -1128,7 +1128,14 @@ mod tests {
         manifest.resources[4].sha256 = gba_core::ffta_rom::digest(&packets);
         fs::write(path.join(BG_PACKET_PROGRAMS_FILE), &packets).unwrap();
         fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
-        assert!(verify(&path, &source).unwrap_err().contains("total size"));
+        // The older six-file fixture now fits inside the complete-set limit.
+        verify(&path, &source).unwrap();
+        // Exercise the actual aggregate boundary without allocating that much
+        // JSON. Each individual file still fits its own input guard.
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES)
+            .unwrap_err()
+            .contains("total size"));
         for (name, limit) in [
             (MANIFEST_FILE, MAX_MANIFEST_FILE_BYTES),
             (OBJ_DIMENSIONS_FILE, MAX_FILE_BYTES),

@@ -6,6 +6,35 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **TOOLS-LINUX-BUILDER-INTERRUPTION — complete (2026-10-22).** Latest user
+  reports that the Linux builder stops and the terminal closes before its error
+  can be read. Existing path/default-ROM units stay closed; HEAD a03ed92 was
+  clean before this unit. Retained Docker build afa35uimz91azh7xnmq6d34y0 proves
+  compilation/archive creation succeed, then only the old six-file aggregate
+  limit test fails: that fixture now fits the 512 MiB guard. Corrected expectation
+  and allocation-free exact-boundary/one-byte-over checks preserve all production
+  bounds. Linux build wrapper now retains stdout/stderr in unique ignored logs,
+  preserves failures and waits for Enter only in interactive terminals.
+  Three focused mock checks pass, including paths with spaces/unrelated cwd,
+  noninteractive exit 17 and a real pseudo-terminal that remains open until Enter.
+  Bash syntax passes; ShellCheck unavailable on host. One actual corrected Docker
+  Linux build/export passes 461 tests, 67 optional tests ignored, including the
+  formerly failing case. Export:dist/docker-linux/FFTARecomp-linux-portable.tar.gz,
+  SHA84de382637f8b7509477c816779441ef155bd93ca822a878979a898760a30bc9.
+  BUILD-INFOhash/45archive members/executable modes/empty portable directories/
+  no private files and unchanged compiled inputs verified. Initial archive
+  probes assumed the wrong runtime filename/rejected empty directories; corrected
+  to the existing packager contract, without another build or archive change.
+  Evidence:target/linux-builder-interruption/{original-build-details.log,
+  original-build-details.json,corrected-build-inputs.json,result.json}and
+  target/build-logs/linux-20261022-124548-rrRwya.log. Session44780terminal/pass;
+  no live unit process or remaining implementation action. Explicit Linux
+  builder repair authorized this build's existing gates; no gameplay/GUI/USA/
+  performance campaign, private ROM use, commit or push. Paused ROM-data work
+  remains paused, including its pending private font/keyboard oracle.
+  [Record](../changes/2026-10-22-fix-linux-builder-limit-test-and-retain-errors.json).
+  Final project-memory coverage and CRLF-aware whitespace checks pass.
+
 - **TOOLS-EXTRACT-DEFAULT-ROM — complete (2026-10-22).** Latest request wants
   a built-in project-relative ROM path with overrides, then resumes this unit.
   Both Docker wrappers now accept no ROM argument and use

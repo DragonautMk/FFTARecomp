@@ -6,6 +6,33 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **PERF-ROMDATA-E12-LINUX-SAMPLE — complete (2026-10-22).** Latest explicit
+  user request authorizes this measurement despite the earlier deferral; the
+  broader ROM-data implementation goal remains paused. Reused current Linux
+  Docker archive (rebuilt externally since builder closure), its bundled loader,
+  old EUR battle/menu/enemy snapshot/input/native cache and an isolated copy of
+  e12. No build, translation or recording. Same exported binary --rom-data off/on
+  compares opt-in cost, not all always-present migration costs against an older
+  binary. Five alternating 3530-frame pairs/120 warm-up/16:9/zoom 0/CPU 15 pass.
+  Medians 5.950458/5.959263 ms = +0.147972% option cost, about 168 headless frames/s.
+  Samples overlap; paired changes range -0.4504..+1.2898%, a neutral local result.
+  Every framebuffer/OAM frame, initial/final full serialized state and dispatch
+  counts match. Native 28740177/fallback 63558305. Actual consumption includes
+ 16988 OBJ bus reads, 314108 typed host reads and 2167 text reads/8239 source B; other
+  BG/archive/program loading counters 0 limit this scene's coverage.
+  CPU 15 mean 99.885% busy; sibling 14 mean 0.258%/max 8%. Protected original inputs/
+  archive/loader/cache/e12files and copied generation hashes/mtimes unchanged;
+  all candidate processes reuse the dataset. Runner 73423 terminal/pass, no live
+  process or remaining deliverable for this requested sample. Evidence:
+  target/rom-data-e12-linux-performance/{inputs.json,measurement.json,
+  protected.json,host-load.json,terminal.json,result.json,comparison/summary.json}
+  and individual logs. No GUI/audio-device/startup/RSS/storage/tail-profile or
+  full audio-stream measurement; no new Wine/native Windows/USA coverage or
+  optimization. Historical gates and paused font/keyboard oracle stay closed/
+  pending at their existing scopes; no commit or push.
+  [Record](../changes/2026-10-22-measure-current-linux-rom-data-option-cost.json).
+  Project-memory coverage and CRLF-aware whitespace checks pass.
+
 - **TOOLS-LINUX-BUILDER-INTERRUPTION — complete (2026-10-22).** Latest user
   reports that the Linux builder stops and the terminal closes before its error
   can be read. Existing path/default-ROM units stay closed; HEAD a03ed92 was

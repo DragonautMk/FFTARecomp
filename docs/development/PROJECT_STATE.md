@@ -100,6 +100,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   defers performance concerns and explicitly asks to avoid measuring them;
   do not resume old benchmark/profile/startup/RSS queues. Preserve historical
   results, continue functional migration/equivalence and optimize later.
+  A later explicit request on 22 October authorizes one current Linux-export EUR
+  headless performance sample with ROM-data off/on; this scoped exception does
+  not resume the paused implementation goal or broader profiling/RSS/optimization
+  queues. See the current [validation protocol](ROM_DATA_VALIDATION.md).
   Updated regional priority is EUR; new USA verification remains pending.
   Retain completed USA evidence without reopening or extending its campaigns.
   Updated platform priority is reduced Wine-only testing; mark new Linux checks

@@ -5,11 +5,65 @@ tranche validates `graphics.obj-dimensions`; it does not close the remaining
 resource matrix or mod phases. Existing implementation/results are in
 [runtime consumption](../rom_data_runtime.md) and [TASK_HANDOFF](TASK_HANDOFF.md).
 
-**Current user steering (21 October 2026): avoid performance measurements and
-optimize later.** The time/RSS/storage thresholds and results below are retained
-historical evidence. They do not authorize new benchmark/profile/startup/RSS
-runs or regression investigations now. Functional per-frame state/audio/clock,
-file provenance, native/save/lifecycle and packaging correctness remain in scope.
+**User steering (21 October 2026): defer routine performance work and optimize
+later.** The time/RSS/storage thresholds and results below remain historical
+evidence. Functional state/audio/clock, file provenance, native/save/lifecycle
+and packaging correctness remain in scope.
+
+**Explicit request on 22 October 2026:** measure the corrected Linux release.
+This authorizes one scoped headless EUR battle/menu/enemy comparison using the
+current exported binary with `--rom-data` off/on, five alternating timing pairs
+and the retained replay. It measures the option's current cost; it does not
+measure all always-present migration overhead against a historical binary.
+The broader implementation goal and old startup/RSS/storage/optimization queues
+remain paused or deferred. The results below retain their original scope.
+
+## Current Linux release sample, 22 October 2026
+
+The current Docker Linux archive was reused without rebuilding or recording
+new game inputs. Its runtime SHA256 is
+`c06de2ce4e3ba5cb185d6daf5a99c967948398c3a7d6559152e0d811040e9686`;
+both variants run that exact executable. The archive SHA256 is
+`1618c56e2402f99b48b4b1deea0b0a3e26763d4064c613ca03aad1d9445103bc`.
+The retained EUR battle/menu/enemy replay resumes at frame 8476 for 3530 frames,
+excluding 120 warm-up frames and timing 3410 frames per run. Settings: 16:9, zoom 0,
+sprite expansion/HLE enabled, shared existing native translation and bundled
+TinyCC, CPU 15 affinity on AMD Ryzen 7 PRO 7840U, Linux 7.2.6. The source build uses
+Rust 1.94.0/Debian Bookworm. Decoded mode reuses an isolated copy of the retained
+source-authenticated e12 dataset.
+
+Five alternating release pairs, in milliseconds per frame:
+
+- ROM-data off: 5.950458, 5.883378, 6.007161, 5.945236, 5.981273.
+- ROM-data on: 5.966967, 5.959263, 5.994949, 5.955608, 5.954332.
+
+Median 5.950458 versus 5.959263 ms gives +0.147972% cost for the active option,
+equivalent to 168.05 versus 167.81 headless frames/s. Paired changes range from
+-0.4504% to +1.2898%, with overlapping sample ranges. This is a neutral local
+observation. The comparison excludes the always-present changes shared by both
+variants; it does not establish the complete migration cost against an older
+runtime or a historical regression gate.
+
+Separate verification matches framebuffer/OAM on all 3530 frames, initial and
+final complete serialized states, 28740177 native dispatches and 63558305 fallback
+steps. Final state SHA256 is
+`9857872422d8e6c45d71dd2464d79fbdb1fa35bd3a360194efca3b6f8869c768`.
+Counters prove 16988 OBJ bus reads/314108 typed host reads and 2167 text-catalog
+reads/8239 source bytes (32 pointer, 80 string, 8064 glyph, 63 metric). BG/archive/program
+loading counters are zero; this scene does not characterize those load paths.
+The SMT sibling CPU 14 averages 0.258% busy/max 8%, while CPU 15 averages 99.885% busy.
+No compilation overlaps timing. Protected originals, dataset files, native
+cache, archive and loader retain their hashes/mtimes; every candidate process
+reuses the dataset without changing its generation.
+
+These are headless emulation-work timings, excluding startup, window/GPU
+presentation and the audio device. No new full audio-stream equivalence,
+tail profile, GUI, Wine/native Windows or USA measurement is claimed. The
+existing benchmark script and private fixtures were reused; no implementation
+optimization was made. Evidence:
+`target/rom-data-e12-linux-performance/comparison/summary.json`, individual logs,
+`result.json`, input hashes and per-second host-load samples. Session 73423 is
+terminal/pass. See the [change record](../changes/2026-10-22-measure-current-linux-rom-data-option-cost.json).
 
 ## Acceptance limits fixed before comparison
 

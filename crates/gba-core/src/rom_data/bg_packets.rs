@@ -47,6 +47,28 @@ impl PlanePatches {
     }
 }
 
+/// Nonserialized source layout for reconstructing a validated packet body
+/// from typed words while retaining the original control/marker bits.
+pub(crate) struct ValueSource {
+    pub packet: usize,
+    pub value: usize,
+    pub offset: usize,
+    pub width: usize,
+    pub marker_mask: u32,
+}
+
+pub(crate) fn halfword_value_sources(input: &[u8], limits: Limits) -> Result<Vec<ValueSource>, String> {
+    let mut sources = Vec::new();
+    decode_halfwords_impl(input, None, limits, Some(&mut sources))?;
+    Ok(sources)
+}
+
+pub(crate) fn plane_value_sources(input: &[u8], limits: Limits) -> Result<Vec<ValueSource>, String> {
+    let mut sources = Vec::new();
+    decode_planes_impl(input, limits, Some(&mut sources))?;
+    Ok(sources)
+}
+
 /// Offset:u16, byte-count:u16, literal halfwords; with a dictionary, the
 /// count and indices are u8 instead. A zero next offset terminates the stream;
 /// the first offset may be zero and still carries a packet.
@@ -54,6 +76,13 @@ pub fn decode_halfwords(
     input: &[u8],
     dictionary: Option<&[u16]>,
     limits: Limits,
+) -> Result<Patches<u16>, String> {
+    decode_halfwords_impl(input, dictionary, limits, None)
+}
+
+fn decode_halfwords_impl(
+    input: &[u8], dictionary: Option<&[u16]>, limits: Limits,
+    mut sources: Option<&mut Vec<ValueSource>>,
 ) -> Result<Patches<u16>, String> {
     let mut cursor = Cursor { input, position: 0 };
     let mut offset = cursor.halfword()?;
@@ -71,12 +100,18 @@ pub fn decode_halfwords(
         };
         check_patch(offset, count, 2, packets.len(), &mut written, limits)?;
         let mut values = Vec::with_capacity(count);
-        for _ in 0..count {
+        for index in 0..count {
             values.push(if let Some(dictionary) = dictionary {
                 *dictionary
                     .get(cursor.byte()? as usize)
                     .ok_or("Halfword patch dictionary index out of bounds")?
             } else {
+                if let Some(sources) = sources.as_mut() {
+                    sources.push(ValueSource {
+                        packet: packets.len(), value: index, offset: cursor.position,
+                        width: 2, marker_mask: 0,
+                    });
+                }
                 cursor.halfword()?
             });
         }
@@ -103,6 +138,12 @@ pub fn decode_halfwords(
 /// Literal decoding describes payload syntax only. Use the guarded accessor
 /// before treating these values as calculated-plane writes.
 pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, String> {
+    decode_planes_impl(input, limits, None)
+}
+
+fn decode_planes_impl(
+    input: &[u8], limits: Limits, mut sources: Option<&mut Vec<ValueSource>>,
+) -> Result<PlanePatches, String> {
     let mut cursor = Cursor { input, position: 0 };
     let header = cursor.word()?;
     let dictionary_offset = (header & 0x8000_0000 != 0).then_some((header & 0x0fff_ffff) as usize);
@@ -127,7 +168,7 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
         };
         check_patch(offset, count, 4, packets.len(), &mut written, limits)?;
         let mut values = Vec::with_capacity(count);
-        for _ in 0..count {
+        for value_index in 0..count {
             values.push(if let Some(dictionary) = dictionary_offset {
                 let index = if header & 0x4000_0000 != 0 {
                     cursor.halfword()? as usize
@@ -138,6 +179,7 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
                     input,
                     position: dictionary + index * 2,
                 };
+                let source_offset = entry.position;
                 let low = entry.halfword()? as u32;
                 let value = if low & 0x8000 != 0 {
                     (low | (entry.halfword()? as u32) << 16) & 0x7fff_7fff
@@ -145,8 +187,21 @@ pub fn decode_planes(input: &[u8], limits: Limits) -> Result<PlanePatches, Strin
                     low | ((low + 1) << 16)
                 };
                 dictionary_end = dictionary_end.max(entry.position);
+                if let Some(sources) = sources.as_mut() {
+                    sources.push(ValueSource {
+                        packet: packets.len(), value: value_index, offset: source_offset,
+                        width: entry.position - source_offset,
+                        marker_mask: if low & 0x8000 != 0 { 0x8000_8000 } else { 0 },
+                    });
+                }
                 value
             } else {
+                if let Some(sources) = sources.as_mut() {
+                    sources.push(ValueSource {
+                        packet: packets.len(), value: value_index, offset: cursor.position,
+                        width: 4, marker_mask: 0,
+                    });
+                }
                 cursor.word()?
             });
         }

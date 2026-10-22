@@ -17,6 +17,20 @@ pub struct Block {
 /// clipped at the declared output size follow the BIOS/HLE stream contract.
 /// Invalid history references are rejected rather than synthesizing zeroes.
 pub fn decode(input: &[u8], output_budget: usize) -> Result<Block, String> {
+    decode_impl(input, output_budget, None)
+}
+
+/// Exact literal source/output positions from the same verified parser.
+/// Kept out of serialized resource formats and ordinary decode results.
+pub(crate) fn literal_sources(input: &[u8], output_budget: usize) -> Result<Vec<(usize, usize)>, String> {
+    let mut sources = Vec::new();
+    decode_impl(input, output_budget, Some(&mut sources))?;
+    Ok(sources)
+}
+
+fn decode_impl(
+    input: &[u8], output_budget: usize, mut sources: Option<&mut Vec<(usize, usize)>>,
+) -> Result<Block, String> {
     let header = input.get(..4).ok_or("Truncated LZ77 header")?;
     if header[0] != 0x10 {
         return Err("Expected GBA LZ77 type 0x10".into());
@@ -37,6 +51,9 @@ pub fn decode(input: &[u8], output_budget: usize) -> Result<Block, String> {
                 break;
             }
             if flags & (1 << bit) == 0 {
+                if let Some(sources) = sources.as_mut() {
+                    sources.push((position, bytes.len()));
+                }
                 bytes.push(take(input, &mut position)?);
             } else {
                 let first = take(input, &mut position)? as usize;

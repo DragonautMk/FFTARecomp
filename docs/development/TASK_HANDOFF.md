@@ -6,6 +6,32 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- Selection checkpoint — **FEAT-RESTART-ROM / BUG-01-LAWS-DEPLOYMENT /
+  REPO-BRANCH-DECOMP**: latest visible user requests are already implemented.
+  Read-only reconciliation confirms optimizations b43f943 has exact parent
+  124de1fa2955e41170609082dc492826768ad9e9; decomp91f26ca retains the original
+  2193457 history and integration ed495fe. Menu, laws and dialogue source files
+  match b43f943 exactly. Existing Wine integration results and slot3 GUI evidence
+  pass; do not rebuild/replay completed checks. No missing deliverable or code
+  reopening reason for this bounded request. Only update this handoff and report.
+- **ROMDATA-04-BG-PACKET-CONSUMPTION — inherited partial, not validated.**
+  Goal API currently reports the broader ROM-data goal blocked; this bounded
+  request does not resume that queue. Preserve modified bg_packets.rs/lz77.rs
+  source-layout tracing and untracked runtime/packets.rs. The runtime file exists
+  in full but is not declared/wired; no new build or runtime test has run.
+  Missing RuntimeResources ownership/overlay, Bus/MemMap/HLE hooks, EUR895page,
+  frontend reporting and focused typed-source/native/lifecycle proof. Existing
+  palette/packet spans interleave, so crossing reads need merged overlays.
+  Reuse the authenticated e8-d7dataset/native cache if this unit is resumed;
+  EUR/reduced Wine-only, Linux/USA pending, no performance/space work or old
+  full486-call/boot/scene reruns. Managed03is now committed at91f26ca, not dirty.
+- Reconciliation checks: metadata-only project memory and CRLF-aware whitespace
+  pass. Full working-tree memory check reports the three inherited partial04
+  implementation files lack a new/updated record; this is not a clean full-tree
+  validation claim. No code/ref/fixture mutation, build, GUI or test was selected
+  during this reconciliation. Preserve the incomplete unit rather than assigning
+  it the completed restart/laws record or claiming it has passed validation.
+
 - **ROMDATA-02-BG-PACKET-MANAGED — complete for EUR/Wine scope.** Latest
   user policy remains EUR/reduced Wine-only tests; Linux/USA pending, no cost/
   space work. Six fixed files under schema1/e8-d7now include readable packet

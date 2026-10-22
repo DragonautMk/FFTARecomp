@@ -164,8 +164,14 @@ remain groundwork for other linked graphics families.
  105sequences/328frames. All11prior bank records/other files stay unchanged.
   Focused Wine source/original/native/host/lifecycle and a positive400-frame
   “Engage!”ordinary scene/actual CLI pair pass. The three older empty-record
-  contracts and linked compressed OBJ graphics/palettes remain open; new
-  Linux/USA pending.
+  contracts remain open. Current e19-d18adds39custom OBJ-related word banks
+  and six five-entry selector tables (13direct/nine bank roots plus six
+  canonical indexed paths/thirty roots),45disjoint ranges/62674source B and
+  131872decoded B. Source-authenticated literals/pointers feed original
+  decoder/copy paths with live scratch transforms, partial uploads and RAM
+  tails retained. Fifteenth obj-graphics.json leaves all earlier files intact;
+  Wine source/managed/native/lifecycle and400-frame Engage parity/use pass.
+  Other graphics/palettes and new Linux/USA verification remain open.
 - **Text and fonts.** `ffta_dialogue.rs` classifies already rendered layers
   and portraits, not strings, font encodings or localized text archives.
   `ffta_mouse.rs` identifies a name-entry row-count table via independently

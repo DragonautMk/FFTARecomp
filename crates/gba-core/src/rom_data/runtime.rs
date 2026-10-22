@@ -12,6 +12,9 @@ mod text_catalogs;
 mod font_keyboard;
 mod obj_lists;
 mod obj_animations;
+mod obj_custom_graphics;
+use obj_custom_graphics::ObjGraphicsResources;
+pub use obj_custom_graphics::ObjGraphicsStats;
 use obj_animations::ObjAnimationResources;
 pub use obj_animations::ObjAnimationStats;
 use obj_lists::ObjListResources;
@@ -73,6 +76,7 @@ pub struct RuntimeResources {
     font_keyboard: Option<Box<FontKeyboardResources>>,
     obj_lists: Option<Box<ObjListResources>>,
     obj_animations: Option<Box<ObjAnimationResources>>,
+    obj_graphics: Option<Box<ObjGraphicsResources>>,
 }
 
 impl RuntimeResources {
@@ -168,6 +172,12 @@ impl RuntimeResources {
         if let Some((banks, _)) = files.obj_animations {
             resources.obj_animations = Some(Box::new(ObjAnimationResources::new(banks.clone())?));
         }
+        if let Some((graphics, _)) = files.obj_graphics {
+            resources.obj_graphics = Some(Box::new(ObjGraphicsResources::new(
+                graphics.clone(), &source.obj_graphics.as_ref().unwrap().sources,
+                manifest.resources[13].sha256.clone(),
+            )?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -203,6 +213,7 @@ impl RuntimeResources {
             font_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
         }
     }
 
@@ -243,6 +254,7 @@ impl RuntimeResources {
             + self.font_keyboard.as_ref().map_or(0, |f| f.resident_bytes())
             + self.obj_lists.as_ref().map_or(0, |l| l.resident_bytes())
             + self.obj_animations.as_ref().map_or(0, |a| a.resident_bytes())
+            + self.obj_graphics.as_ref().map_or(0, |g| g.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -313,6 +325,8 @@ impl RuntimeResources {
     pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
     pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
 
+    pub fn obj_graphics_stats(&self) -> Option<ObjGraphicsStats> { self.obj_graphics.as_ref().map(|g| g.stats()) }
+    pub fn obj_graphics_file_sha256(&self) -> Option<&str> { self.obj_graphics.as_ref().map(|g| g.file_sha256()) }
     pub fn obj_animation_stats(&self) -> Option<ObjAnimationStats> { self.obj_animations.as_ref().map(|a| a.stats()) }
 
     pub fn obj_list_stats(&self) -> Option<ObjListStats> { self.obj_lists.as_ref().map(|l| l.stats()) }
@@ -399,8 +413,12 @@ impl RuntimeResources {
                 Some(lists) => lists.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.obj_animations {
+            let prior = match &self.obj_animations {
                 Some(banks) => banks.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.obj_graphics {
+                Some(graphics) => graphics.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -544,6 +562,7 @@ impl crate::MemMap {
             || FontKeyboardResources::source_page(index)
             || ObjListResources::source_page(index)
             || ObjAnimationResources::source_page(index)
+            || ObjGraphicsResources::source_page(index)
     }
 }
 

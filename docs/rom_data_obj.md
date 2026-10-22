@@ -392,5 +392,86 @@ Evidence is under ignored `target/rom-data-obj-indirect/`:
 `windows-build.json`. New Linux/USA/native Windows verification, other ordinary
 scenes/languages, GUI/archives, three earlier empty-record caller contracts and
 other source roots remain open. The linked compressed OBJ graphics table
-`395588`/3072-byte transfer still requires its own typed resource and producer
-proof. No performance/startup/RSS/space campaign is included.
+`395588`/3072-byte transfer is subsequently migrated under e19 below. No
+performance/startup/RSS/space campaign is included.
+
+
+## Custom OBJ word banks in e19
+
+EUR schema 1/extractor 19/decoder 18 adds fixed `obj-graphics.json`, resource
+`graphics.obj-custom-banks`, format `obj-custom-banks-v1-json` with an
+OBJ-dimensions dependency. It contains 39 raw BE-size custom LZ/RLE banks and
+six ordered five-entry language selector tables. Thirteen checked direct
+source/upload references root nine banks; canonical indexed paths at
+`32852/3809c/3286e/4fcee/89f02/89f48` root thirty more through tables
+`395574/395588/39559c/397d1c/397d30/397d80`. Original decoder `080054a0` and
+CpuSet/FastSet wrappers `08145230/0814522c` independently establish this scope.
+The inventory owns 45 disjoint ranges/62674 source bytes and produces 131872
+bytes. There is no overlap with earlier managed resources.
+
+Exact little-endian u32 words retain every decoded bit and internal mixed
+subregion. They are not claimed universally pure pixels or converted to RGBA.
+The shared bounded codec preserves exact consumed source metadata, validates
+whole-token output extents and rejects invalid history, truncation, trailing
+bytes and mismatched words. Selector offsets are aligned, ordered and linked
+to existing banks. Strict JSON rejects unknown fields; source authentication
+also rejects coherent encoded/decoded edits or reordered/missing selectors.
+The 32 KiB decoded-bank and 128 KiB source guards and 16 MiB file read guard
+bound malformed input; no space optimization or acceptance budget is added.
+
+The immutable runtime maps each literal source position to a byte in decoded
+words and each selector position to its typed ROM pointer. Headers and tokens
+come from authenticated encoded metadata. Exact fixed-page bindings merge with
+previous resource owners, including the adjacent old selector at3955b0.
+CPU/DMA/native and guest-BIOS bus reads share this view. All original decoder,
+RAM writes/transforms, transfer and clock work remains. In particular source
+3b0ab8 produces1280bytes but its caller copies3072bytes: the1792-byte tail stays
+live RAM. Sources b7f874/b80140 produce7744bytes but upload only5056bytes;
+other paths transform scratch or copy an offset/subrange. Those are not baked
+into files or replaced with a full-bank upload. PPU and sprite rendering read
+live VRAM after original uploads, with no fabricated host ROM consumer.
+
+All fifteen files/fourteen resources contribute to whole-set identity and are
+source-verified before transactional attachment. Every prior decoded file is
+byte-identical, e18/older generations remain and USA stays e8-d7. New atomic
+counters (`bus_reads/source_bytes/decoded_literal_bytes/selector_bytes`) are
+session diagnostics, excluded from saved machine state and native ABI.
+
+One reduced Wine original-source test matches39original decodes,30actual
+selector chains and6sampled full/prefix/offset/live-tail CpuSet/FastSet copies
+(1471897instructions, coverage only). It verifies exact original r7 source
+cursor, returned size, output, scratch guards and whole VRAM. It does not
+claim every surrounding caller's scratch transformation was independently
+reconstructed. Two new focused Wine integration tests pass publication
+interruption/create/reuse/repair/move/e18retention, exact earlier-file equality,
+coherent edits/hash/path/source guards and transactional rejection, plus
+unavailable-copy Load/Undo/backup/restart.39decodes/30selectors/4live uploads
+through interpreter/native match full states and clocks with all45raw ranges
+altered. Compiled source/literal/selector reads are positive. All source bytes,
+edges/widths/mirrors, real-BIOS bus and CpuSet/FastSet pass. Audit found an
+initial DMA fixture used397574instead of395574; a separate corrected Wine
+check requires exactly20new typed selector bytes and full state/clock equality.
+The closed39-bank native/source campaign was not repeated for that correction.
+
+One positive400-frame ordinary EUR “Engage!” scene matches every complete
+state/clock/central-wide image/OAM/dispatch/audio sample and consumes1194source
+bytes,460decoded literal bytes and4selector bytes. It reuses the retained
+semantic mouse/physical-A input without direct RAM edits. The new resource's
+scene gate prevents old metadata use from satisfying this acceptance. Three
+actual Windows CLI processes create e19, reuse without writes and replay the
+same scene from unrelated cwd with the old native cache and identical positive
+usage. The final “Engage!” image is visually inspected. Test/production Windows
+builds are warning-free, the canonical executable is restored and protected
+ROM/snapshot/input/e18 dataset/cache/loader remain unchanged.
+
+Private evidence: `target/rom-data-obj-graphics/` contains the independent
+`custom-obj-inventory.json`, `windows-original-result.json`,
+`windows-original-europe/result.json`, `windows-managed-results.json`,
+`windows-managed-europe/{managed,native,dma}-result.json`,
+`windows-dma-results.json`, `windows-scene-result.json`, `windows-cli-summary.json`,
+`windows-engage-custom-graphics-full-state-audio.log` and Windows build logs.
+The native-result aggregate DMA flag is superseded by the explicit corrected
+DMA result. New Linux/USA/native Windows, other ordinary scenes/languages,
+remaining OBJ graphics/palettes, three earlier empty-record contracts and
+broader GUI/archive/gameplay/mod phases remain pending. No performance,
+startup/RSS or space campaign, AndroidPort change, commit or push is included.

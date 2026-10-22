@@ -1,5 +1,6 @@
 //! Source-authenticated extraction, preparation and verified dataset loading.
 use gba_core::rom_data::{
+    obj_graphics::Graphics as ObjGraphics, OBJ_CUSTOM_GRAPHICS_ID, OBJ_CUSTOM_GRAPHICS_FILE, MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES,
     obj_animations::Banks as ObjAnimationBanks, OBJ_ANIMATION_BANKS_ID, OBJ_ANIMATION_BANKS_FILE, MAX_OBJ_ANIMATION_BANKS_FILE_BYTES,
     obj_lists::Lists as ObjLists, OBJ_STATIC_LISTS_ID, OBJ_STATIC_LISTS_FILE, MAX_OBJ_STATIC_LISTS_FILE_BYTES,
     fonts::FontBank, FONT_BANK_ID, FONT_BANK_FILE, MAX_FONT_BANK_FILE_BYTES,
@@ -77,6 +78,10 @@ mod obj_zero_count_runtime_tests;
 mod obj_localized_tests;
 #[cfg(test)]
 mod obj_localized_runtime_tests;
+#[cfg(test)]
+mod obj_graphics_tests;
+#[cfg(test)]
+mod obj_graphics_runtime_tests;
 #[cfg(test)]
 mod obj_animation_runtime_tests;
 #[cfg(test)]
@@ -224,6 +229,15 @@ fn encode_short_texts(value: &ShortTexts) -> Result<Vec<u8>, String> {
     serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode short texts: {e}"))
 }
 
+fn parse_obj_graphics(bytes: &[u8]) -> Result<ObjGraphics, String> {
+    let value: ObjGraphics = serde_json::from_slice(bytes).map_err(|e| format!("Invalid OBJ custom graphics: {e}"))?;
+    value.validate()?;
+    Ok(value)
+}
+fn encode_obj_graphics(value: &ObjGraphics) -> Result<Vec<u8>, String> {
+    serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode OBJ custom graphics: {e}"))
+}
+
 fn parse_obj_animations(bytes: &[u8]) -> Result<ObjAnimationBanks, String> {
     let value: ObjAnimationBanks = serde_json::from_slice(bytes).map_err(|e| format!("Invalid OBJ animation banks: {e}"))?;
     value.validate()?; Ok(value)
@@ -302,6 +316,8 @@ struct Dataset {
     obj_list_bytes: Option<Vec<u8>>,
     obj_animations: Option<ObjAnimationBanks>,
     obj_animation_bytes: Option<Vec<u8>>,
+    obj_graphics: Option<ObjGraphics>,
+    obj_graphic_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
 }
@@ -322,6 +338,7 @@ impl Dataset {
             name_keyboard: self.name_keyboard.as_ref().zip(self.name_keyboard_bytes.as_deref()),
             obj_lists: self.obj_lists.as_ref().zip(self.obj_list_bytes.as_deref()),
             obj_animations: self.obj_animations.as_ref().zip(self.obj_animation_bytes.as_deref()),
+            obj_graphics: self.obj_graphics.as_ref().zip(self.obj_graphic_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -374,6 +391,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(|| read_bounded(&path.join(OBJ_STATIC_LISTS_FILE), MAX_OBJ_STATIC_LISTS_FILE_BYTES)).transpose()?;
     let obj_animation_bytes = manifest.coverage.iter().any(|id| id == OBJ_ANIMATION_BANKS_ID)
         .then(|| read_bounded(&path.join(OBJ_ANIMATION_BANKS_FILE), MAX_OBJ_ANIMATION_BANKS_FILE_BYTES)).transpose()?;
+    let obj_graphic_bytes = manifest.coverage.iter().any(|id| id == OBJ_CUSTOM_GRAPHICS_ID)
+        .then(|| read_bounded(&path.join(OBJ_CUSTOM_GRAPHICS_FILE), MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -389,6 +408,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         name_keyboard_bytes.as_ref().map_or(0, Vec::len),
         obj_list_bytes.as_ref().map_or(0, Vec::len),
         obj_animation_bytes.as_ref().map_or(0, Vec::len),
+        obj_graphic_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -403,6 +423,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let name_keyboard = name_keyboard_bytes.as_deref().map(parse_name_keyboard).transpose()?;
     let obj_lists = obj_list_bytes.as_deref().map(parse_obj_lists).transpose()?;
     let obj_animations = obj_animation_bytes.as_deref().map(parse_obj_animations).transpose()?;
+    let obj_graphics = obj_graphic_bytes.as_deref().map(parse_obj_graphics).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -429,6 +450,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         obj_list_bytes,
         obj_animations,
         obj_animation_bytes,
+        obj_graphics,
+        obj_graphic_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -449,6 +472,7 @@ fn check_dataset_budget(
     name_keyboard: usize,
     obj_lists: usize,
     obj_animations: usize,
+    obj_graphics: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -463,6 +487,7 @@ fn check_dataset_budget(
         || name_keyboard as u64 > MAX_NAME_KEYBOARD_FILE_BYTES
         || obj_lists as u64 > MAX_OBJ_STATIC_LISTS_FILE_BYTES
         || obj_animations as u64 > MAX_OBJ_ANIMATION_BANKS_FILE_BYTES
+        || obj_graphics as u64 > MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -480,6 +505,7 @@ fn check_dataset_budget(
         .saturating_add(name_keyboard)
         .saturating_add(obj_lists)
         .saturating_add(obj_animations)
+        .saturating_add(obj_graphics)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -520,6 +546,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         eprintln!("ROM_DATA runtime=decoded resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
             resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[5].sha256,
             graphics.graphics.len());
+    }
+    if let Some(graphics) = &dataset.obj_graphics {
+        eprintln!("ROM_DATA runtime=decoded resource={OBJ_CUSTOM_GRAPHICS_ID} file={} banks={} selector_tables={}", dataset.manifest.resources[13].sha256, graphics.banks.len(), graphics.pointer_tables.len());
     }
     if let Some(banks) = &dataset.obj_animations {
         eprintln!("ROM_DATA runtime=decoded resource={OBJ_ANIMATION_BANKS_ID} file={} banks={}", dataset.manifest.resources[12].sha256, banks.banks.len());
@@ -577,6 +606,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(graphics) = resources.graphics_stats() {
             eprintln!("ROM_DATA_USE resource={BG_MAIN_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={}",
                 resources.dataset_sha256(), graphics.bus_reads, graphics.source_bytes, graphics.decoded_literal_bytes);
+        }
+        if let Some(g) = resources.obj_graphics_stats() {
+            eprintln!("ROM_DATA_USE resource={OBJ_CUSTOM_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={} selector_bytes={}", resources.dataset_sha256(), g.bus_reads, g.source_bytes, g.decoded_literal_bytes, g.selector_bytes);
         }
         if let Some(a) = resources.obj_animation_stats() {
             eprintln!("ROM_DATA_USE resource={OBJ_ANIMATION_BANKS_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} count_bytes={} attribute_bytes={} sequence_header_bytes={} frame_list_bytes={} duration_bytes={} host_reads={} zero_count_selector_bytes={} zero_count_host_reads={} localized_selector_bytes={} localized_source_bytes={} localized_host_reads={}",
@@ -684,6 +716,7 @@ fn write_dataset(
     let name_keyboard_data = source.name_keyboard.as_ref().map(|catalog| encode_name_keyboard(&catalog.decoded)).transpose()?;
     let obj_list_data = source.obj_lists.as_ref().map(|catalog| encode_obj_lists(&catalog.decoded)).transpose()?;
     let obj_animation_data = source.obj_animations.as_ref().map(|catalog| encode_obj_animations(&catalog.decoded)).transpose()?;
+    let obj_graphic_data = source.obj_graphics.as_ref().map(|catalog| encode_obj_graphics(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -693,6 +726,7 @@ fn write_dataset(
     if let Some(bytes) = &name_keyboard_data { files.push(bytes); }
     if let Some(bytes) = &obj_list_data { files.push(bytes); }
     if let Some(bytes) = &obj_animation_data { files.push(bytes); }
+    if let Some(bytes) = &obj_graphic_data { files.push(bytes); }
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -711,6 +745,7 @@ fn write_dataset(
         name_keyboard_data.as_ref().map_or(0, Vec::len),
         obj_list_data.as_ref().map_or(0, Vec::len),
         obj_animation_data.as_ref().map_or(0, Vec::len),
+        obj_graphic_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -725,6 +760,7 @@ fn write_dataset(
     if let Some(bytes) = &name_keyboard_data { write(&path.join(NAME_KEYBOARD_FILE), bytes)?; }
     if let Some(bytes) = &obj_list_data { write(&path.join(OBJ_STATIC_LISTS_FILE), bytes)?; }
     if let Some(bytes) = &obj_animation_data { write(&path.join(OBJ_ANIMATION_BANKS_FILE), bytes)?; }
+    if let Some(bytes) = &obj_graphic_data { write(&path.join(OBJ_CUSTOM_GRAPHICS_FILE), bytes)?; }
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -962,6 +998,7 @@ mod tests {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
         }
     }
@@ -1287,8 +1324,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

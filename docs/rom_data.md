@@ -46,11 +46,17 @@ nonrepeat zero-count holds: explicit list selectors and duration-source aliases
 preserve the original count and shared typed owners. Previous ten-bank records
 and all other decoded files remain unchanged. Focused Wine source/native/host/
 lifecycle checks and a positive 240-frame Party/actual CLI pair pass.
-Current EUR `v1/e18-d17` adds five language-selected OBJ bank pairs and two
+EUR `v1/e18-d17` adds five language-selected OBJ bank pairs and two
 typed selector tables, bringing the indexed catalog to 16 pairs/317 lists/
 105 sequences/328 frames. Every prior bank record and other decoded file is
 retained. Focused Wine original/native/host/lifecycle checks and one positive
 400-frame “Engage!” full-state/audio/actual CLI pair pass.
+Current EUR `v1/e19-d18` adds fifteenth file `obj-graphics.json`, resource
+`graphics.obj-custom-banks`: 39 custom decoded word banks and six ordered
+language selector tables. All 15 files/14 resources are authenticated; every
+prior decoded file remains byte-identical. Original decompression, live scratch
+transforms, partial uploads and RAM tails keep executing with the same clock.
+See [the custom OBJ graphics contract](rom_data_obj.md#custom-obj-word-banks-in-e19).
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
@@ -165,7 +171,7 @@ The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-packet-programs.json`, plus EUR's `bg-main-graphics.json` and
 `bg-transfer-programs.json`, `short-texts.json`, `text-catalogs.json`,
 `font-bank.json`, `name-keyboard.json`, `obj-static-lists.json` and
-`obj-animation-banks.json`.
+`obj-animation-banks.json` and `obj-graphics.json`.
 OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
@@ -176,7 +182,7 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor15/decoder14(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
+Extractor19/decoder18(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
@@ -184,7 +190,8 @@ OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `bg-alternate-palettes-v1-json`, `bg-packet-programs-v1-json` and EUR
 `bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`,
 `text-catalogs-v1-json`, `font-bank-v1-json`, `name-keyboard-v1-json` and
-`obj-static-lists-v1-json` and `obj-animation-banks-v1-json`.
+`obj-static-lists-v1-json`, `obj-animation-banks-v1-json` and
+`obj-custom-banks-v1-json`.
 Transfer programs preserve42frame-control programs/34shared tile banks and97links;
 all162variant pointers are absent in this declared catalog.
 Short texts preserve five107-entry language selector tables, exact compact/
@@ -236,10 +243,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e18-d17`
+selected generation's relative name. Current revisions are EUR `v1/e19-d18`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same fourteen EUR/six USA files as offline extraction. Source identity is rehashed from
+same fifteen EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.

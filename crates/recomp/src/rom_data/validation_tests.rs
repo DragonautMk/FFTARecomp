@@ -320,6 +320,12 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(a.localized_selector_bytes>0 && a.localized_source_bytes>0 && a.localized_host_reads>0,
             "ordinary scene must use the new language-selected OBJ tables, bank and host lists");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBJ_GRAPHICS").is_some() {
+        let g = decoded.bus.rom_resources().unwrap().obj_graphics_stats().expect("decoded EUR OBJ custom graphics");
+        eprintln!("ROM_DATA_OBJ_GRAPHICS_SCENE frames={frames} bus_reads={} source_bytes={} decoded_literal_bytes={} selector_bytes={}",g.bus_reads,g.source_bytes,g.decoded_literal_bytes,g.selector_bytes);
+        assert!(g.source_bytes > 0 && g.decoded_literal_bytes > 0 && g.selector_bytes > 0,
+            "ordinary scene must consume custom OBJ bank literals and language selectors");
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

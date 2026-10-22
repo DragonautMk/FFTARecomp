@@ -73,7 +73,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   original/native/host/authentication/lifecycle checks and a positive240-frame
   Party full-state/audio/actual CLI pair pass. Three earlier empty-sequence
   contracts, other constructor-fed roots and new Linux/USA checks remain open.
-  Current EUR e18-d17adds five language-selected OBJ/sequence pairs and two
+  EUR e18-d17adds five language-selected OBJ/sequence pairs and two
   typed pointer tables, retaining all eleven old bank records/other files/e17.
   The indexed catalog now has16pairs/317lists/105sequences/328frames/456ranges;
   original selector loads, task work and duration256/u8counter wrap are preserved
@@ -82,6 +82,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   audio/CLI pair pass. New localized counters distinguish this family. Linked
   compressed OBJ graphics/palettes and three earlier empty-sequence contracts
   remain open, along with new Linux/USA verification.
+  Current EUR e19-d18adds fifteenth file obj-graphics.json/resource
+  graphics.obj-custom-banks:39raw custom word banks/six five-entry selector
+  tables,45disjoint ranges/62674sourceB/131872decoded B. Exact typed literals
+  and pointers serve original CPU/DMA/native reads, retaining all decompression,
+  scratch transforms, partial uploads and live RAM tails; PPU reads live VRAM.
+  Previous13decoded files/e18generations stay unchanged. Reduced Wine original/
+  managed/native/lifecycle and one positive400-frame Engage full-state/audio
+  scene/actual CLI create/no-write reuse/old-cache replay pass; an audited DMA-fixture address is corrected by a narrow positive
+  typed20Bcheck. Save/native ABI unchanged; new Linux/USA remain pending.
+  Other OBJ sources/palettes, older empty contracts and wider TODO stay open.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

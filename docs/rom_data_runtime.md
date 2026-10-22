@@ -1,6 +1,21 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e18-d17` also projects two five-entry language selector tables
+Current EUR `v1/e19-d18` also serves 39 custom OBJ-related graphics banks and
+six language selector tables from `graphics.obj-custom-banks`. Exact encoded
+literal positions read typed decoded u32 words; header/token positions retain
+authenticated codec metadata. Typed pointer order reconstructs original ROM
+pointers. Original decoder instructions, scratch transforms, CpuSet/FastSet/DMA,
+partial uploads and live RAM tails remain, and the PPU consumes resulting live
+VRAM. No additional host ROM graphics decoder is introduced. Nonserialized
+`source_bytes`, `decoded_literal_bytes` and `selector_bytes` counters identify
+use of this family. Save/native identity and ABI stay source-equal; immutable
+ownership survives Load/Undo/backup/restart with files unavailable. All thirteen
+previous decoded files/e18generations are retained; USA stays e8-d7. Reduced
+Wine checks and one positive 400-frame full-state/image/audio “Engage!” scene
+pass. New Linux/USA/native Windows checks remain pending. See the
+[custom OBJ graphics contract](rom_data_obj.md#custom-obj-word-banks-in-e19).
+
+EUR `v1/e18-d17` also projects two five-entry language selector tables
 and five newly rooted OBJ/sequence bank pairs through original CPU/DMA/native
 reads. Ordered typed roots resolve to retained banks, host lists share that
 owner and original u16 duration 256/final counter-wrap behavior remains.
@@ -81,7 +96,7 @@ complete graphics extraction.
 EUR `v1/e13-d12` added `font.complete-bank`/`text.name-keyboard` as two
 fixed readable JSON files, bringing that version to12files/11resources; e14adds
 the thirteenth static OBJ file and e15the fourteenth animation file described
-above. Current e18retains that complete file set.
+above. e18retains that file set; current e19adds the fifteenth custom OBJ graphics file.
 All3175packed glyph slots and metrics, three keyboard programs/indices and
 navigation widths are immutable typed runtime sources. The original routines
 still build cell pages and render/copy data with unchanged guest work/clock.

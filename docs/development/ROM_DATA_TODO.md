@@ -476,6 +476,24 @@ immagine finale ispezionata. Nuovi Linux/USA da fare. Grafica OBJ compressa
 collegata e tre vecchi contratti di sequenze vuote restano aperti.
 [Prove](../rom_data_obj.md#language-selected-ui-banks-in-e18).
 
+**ROMDATA-01-OBJ-GRAPHICS-PAYLOADS / ROMDATA-02-OBJ-CUSTOM-GRAPHICS /
+ROMDATA-04-OBJ-CUSTOM-CONSUMPTION / ROMDATA-05-OBJ-CUSTOM-SCENE-CLI completati per il catalogo EUR/Wine dichiarato:**
+39banchi custom e sei tabelle da cinque puntatori,45intervalli/62674byte sorgente/
+131872byte decodificati; tredici riferimenti diretti e sei percorsi indicizzati
+canonici. EUR e19-d18aggiunge obj-graphics.json (15file/14risorse), conserva
+tutti i13file decodificati precedenti e le generazioni e18. Letterali/puntatori
+tipizzati alimentano il decoder/copie originali; scratch, trasformazioni,
+trasferimenti parziali e coda RAM viva restano attivi. Wine verifica39decoder/
+30selettori/6copie originali, pubblicazione/riuso/recupero/spostamento/Load/Undo/
+backup/restart e39decoder/30selettori/4copie interprete/native con sorgenti
+alterate e stati/clock uguali. Una correzione indirizzo fixture DMA è verificata
+separatamente con20byte tipizzati positivi. Una scena Engage400frame passa
+stati/immagini/OAM/dispatch/audio con1194byte sorgente/460letterali/4selettore.
+CLI Windows reale crea/riusa senza scritture/esegue da cwd estranea con cache
+nativa precedente; eseguibile canonico e sorgenti originali invariati.
+Altri payload/palette OBJ, tre contratti vuoti e Linux/USA restano aperti;
+nessuna misura prestazionale. [Contratto e prove](../rom_data_obj.md#custom-obj-word-banks-in-e19).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
 
@@ -842,9 +860,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** individuare e migrare i payload grafici OBJ, iniziando
-dalla tabella localizzata 395588 e dal trasferimento originale di 3072 byte
-a 06012480, poi ampliare radici/decoder/palette ancora irrisolti. Il catalogo
+**Prossima azione:** individuare le radici/palette OBJ ancora non migrate,
+a partire dai consumatori
+originali adiacenti ai39banchi custom conclusi. Conservare senza ripetizione
+il loro decoder/consumo/scena400frame verificati. Il catalogo
 statico esteso a 73 liste e i sedici banchi OBJ hanno concluso le proprie
 prove 01/02/04 e scena/CLI 05 dichiarate: conservarle senza ripetizione.
 La coppia a conteggio zero b4d8e8/b4f4e8 è ora migrata e verificata su Wine;

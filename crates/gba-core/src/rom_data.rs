@@ -18,12 +18,17 @@ pub mod fonts;
 pub mod name_keyboard;
 pub mod obj_lists;
 pub mod obj_animations;
+pub mod obj_graphics;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 18;
-pub const DECODER_REV: u32 = 17;
+pub const EXTRACTOR_REV: u32 = 19;
+pub const DECODER_REV: u32 = 18;
+pub const OBJ_CUSTOM_GRAPHICS_ID: &str = "graphics.obj-custom-banks";
+pub const OBJ_CUSTOM_GRAPHICS_FILE: &str = "obj-graphics.json";
+pub const OBJ_CUSTOM_GRAPHICS_FORMAT: &str = "obj-custom-banks-v1-json";
+pub const MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES: u64 = 16 * 1024 * 1024;
 pub const OBJ_ANIMATION_BANKS_ID: &str = "graphics.obj-animation-banks";
 pub const OBJ_ANIMATION_BANKS_FILE: &str = "obj-animation-banks.json";
 pub const OBJ_ANIMATION_BANKS_FORMAT: &str = "obj-animation-banks-v1-json";
@@ -188,6 +193,7 @@ pub struct Extraction {
     pub name_keyboard: Option<name_keyboard::Catalog>,
     pub obj_lists: Option<obj_lists::Catalog>,
     pub obj_animations: Option<obj_animations::Catalog>,
+    pub obj_graphics: Option<obj_graphics::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -208,6 +214,7 @@ pub struct BaseFiles<'a> {
     pub name_keyboard: Option<(&'a name_keyboard::Keyboard, &'a [u8])>,
     pub obj_lists: Option<(&'a obj_lists::Lists, &'a [u8])>,
     pub obj_animations: Option<(&'a obj_animations::Banks, &'a [u8])>,
+    pub obj_graphics: Option<(&'a obj_graphics::Graphics, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -335,6 +342,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: animations.sources.clone(),
             });
             result.obj_animations = Some(animations);
+            let graphics = obj_graphics::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(OBJ_CUSTOM_GRAPHICS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: OBJ_CUSTOM_GRAPHICS_ID.into(), path: OBJ_CUSTOM_GRAPHICS_FILE.into(), format: OBJ_CUSTOM_GRAPHICS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: graphics.sources.clone(),
+            });
+            result.obj_graphics = Some(graphics);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -385,6 +399,7 @@ impl Extraction {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -434,6 +449,7 @@ impl Extraction {
             || self.name_keyboard.is_some() && self.font_bank.is_none()
             || self.obj_lists.is_some() && self.name_keyboard.is_none()
             || self.obj_animations.is_some() && self.obj_lists.is_none()
+            || self.obj_graphics.is_some() && self.obj_animations.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -567,6 +583,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected OBJ animation resource".into()),
         }
+        match (&self.obj_graphics, files.obj_graphics) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES { return Err("OBJ custom graphics file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[13].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected OBJ custom graphics resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -650,6 +675,10 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded { return Err("Decoded OBJ animation banks differ from authenticated source".into()); }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.obj_graphics, files.obj_graphics) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded OBJ custom graphics differ from authenticated source".into()); }
+        }
         Ok(())
     }
 
@@ -665,6 +694,7 @@ impl Extraction {
             + usize::from(self.font_bank.is_some())
             + usize::from(self.obj_lists.is_some())
             + usize::from(self.obj_animations.is_some())
+            + usize::from(self.obj_graphics.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -733,6 +763,7 @@ mod tests {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
             })
             .unwrap();
@@ -753,6 +784,7 @@ mod tests {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
             })
             .is_err());
@@ -783,6 +815,7 @@ mod tests {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
                 })
                 .is_err());
@@ -802,6 +835,7 @@ mod tests {
             name_keyboard: None,
             obj_lists: None,
             obj_animations: None,
+            obj_graphics: None,
             font_bank: None,
             })
             .is_err());

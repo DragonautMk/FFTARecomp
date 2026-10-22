@@ -10,7 +10,7 @@
 # and the compiler's output is unaffected. The shipped license notice lives
 # in THIRD-PARTY.md.
 #
-# Usage:  scripts/build-tcc.sh <out-dir>      # creates <out-dir>/tcc/
+# Usage:  scripts/unix/build-tcc.sh <out-dir>      # creates <out-dir>/tcc/
 # Pin the source with TCC_REF (commit/tag); default tracks a known-good rev.
 # Cross-slice macOS builds can set TCC_CPU, TCC_CC, TCC_EXTRA_CFLAGS,
 # TCC_EXTRA_LDFLAGS, TCC_SYSINCLUDEPATHS, TCC_LIBPATHS, and TCC_CRTPREFIX;

@@ -43,7 +43,7 @@ scripts are included. Specify your actual SDK and Java paths:
 $env:JAVA_HOME = 'C:\path\to\jdk'
 $env:ANDROID_HOME = 'D:\Android\SDK'
 rustup target add aarch64-linux-android
-python scripts/build_android.py --sdk $env:ANDROID_HOME
+python scripts/android/build_android.py --sdk $env:ANDROID_HOME
 ```
 
 Output: `Installer/Android/FFTARecomp-android-arm64-preview.apk` (debug-signed,

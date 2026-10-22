@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$repo = Split-Path -Parent $PSScriptRoot
+$repo = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 Set-Location -LiteralPath $repo
 
 Write-Host 'Simulating Xbox A (Gilrs South) during gamepad remapping.'

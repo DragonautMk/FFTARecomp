@@ -82,8 +82,12 @@ remain groundwork for other linked graphics families.
   sources, optional transfer triples/variant source and tail bytes are retained.
   All field04/08/10packet links now resolve352verified source programs per region,
   with wrapper/raw/LZ77/inheritance/dictionary extents and original-loader output
-  equivalence for every162records. Main field00graphics, transfer/variant
-  programs, other catalog bounds and language completeness remain unverified;
+  equivalence for every162records. EUR main field00graphics now has50verified
+  custom-LZ sources and direct typed file consumption. EUR transfer programs
+  have42typed controls/34shared raw banks, eight-file managed publication and
+  original tick/DMA evidence and direct CPU/DMA/native source consumption. All162
+  variant pointers are absent in this declared EUR block. Other catalog bounds,
+  new USA checks and language completeness remain unverified;
   this is not a complete graphics catalog.
   [Decoder contract, exact evidence and remaining work](../rom_data_graphics.md).
   Managed descriptor extraction/preparation: implemented, v1/e6-d5; bounded
@@ -134,10 +138,39 @@ remain groundwork for other linked graphics families.
   `ffta_mouse.rs` identifies a name-entry row-count table via independently
   checked regional literals: EUR 0x3ad2fe (three pages, six bytes each), USA
   0x3a8320 (two pages). That table describes navigation widths, not character
-  codes or text resource pointers. Extractor: absent; runtime: guest text/font
-  rendering and host geometry. Encodings, terminators, control codes, language
-  root tables, glyph metrics/bitmaps and compressed bounds remain unknown.
-  EUR language selection observations do not verify all five text catalogs.
+  codes or text resource pointers. A bounded EUR short-string catalog now has
+  five independently located selector tables with107entries each:535strings,
+ 478compact/57extended,5468source bytes; only its65referenced packed4bpp glyph
+  slots/metrics are extracted. Original language/copy/font/width readers match
+  every pointer/output/guard in two reduced Wine checks (1331calls). Ninth EUR
+  managed file under1/e11-d10authenticates all670ranges; publication/reuse/
+  repair/move/transactional activation and actual CLI pass Wine. Runtime now
+  consumes typed indices/codes/glyph words/metrics through fixed CPU/DMA/native
+  pages and separate counters, preserving original rendering and guest work.
+  Five altered-source original/native chains (20calls/full states/clock equal),
+  source/SWI/DMA and unavailable-copy lifecycle pass reduced Wine. Other short
+  A broad offline model now covers all9pointer selectors/45tables/16100strings
+  and29relative selectors/145archives/17035programs from the declared reader
+  block, with128referenced glyphs and33581disjoint source ranges. Two reduced
+  Wine checks match independent inventories and original pointer boundaries/
+  archive roots/300script outputs/63new font slots. Dynamic commands retain
+  operands; the controlled oracle supplies valid one-based context1, not a
+  gameplay claim. Broad managed EUR1/e12-d11now adds a tenth file with33581
+  source ranges, complete-set authentication and atomic prepare/reuse/repair/
+  move/transactional activation plus actual CLI verified on Wine. e11/eight
+  prior decoded files and USAe8remain unchanged. Broad runtime is still
+  directly consumed via typed pointer/string/index/header/program/font fields,
+  including decoded custom-LZ literals and all8source counters. Fifteen
+  original/native chains with33581raw sources altered match90full states/clocks;
+  synthetic encoded-literal alteration and unavailable-copy lifecycle pass Wine.
+  Earlier overlapping subset is authenticated without duplicate ownership.
+  One retained397-frame pub transition matches full states/images/audio with
+  positive raw-program/font use; actual CLI reuse/old-cache parity passes Wine.
+  Broader scenes and other
+  catalogs, full font bounds,
+  control semantics/Unicode, new Linux/USA checks remain open. See the
+  [text/font contract](../rom_data_text.md); five selector IDs are verified for
+  this declared subset, not the complete localized text catalogs.
 - **Gameplay tables.** Unit structures at EWRAM 0x020223a4, stride 0x90,
   are live state, not a static unit database; see
   [character metrics](../ffta_character_metric.md). Battle/shop mouse readers
@@ -203,6 +236,14 @@ authenticates every file. Other linked payloads/programs remain ROM.
   EUR runtime consumption now retains typed values for source literals and
   predecoded HLE body writes, preserving original dynamic fill and guest timing.
   USA stays verified-only. [Contract](../rom_data_graphics.md#direct-european-packet-consumption).
+- EUR `bg-main-graphics.json`:50typed graphics resources/162links, exact encoded
+  metadata, destination offsets and full little-endian words. Fixed source views
+  serve original CPU/DMA/native readers; literal bytes come from decoded words.
+- EUR `bg-transfer-programs.json`:42controls/34shared raw tile banks/97active
+  links and162absent variants,76authenticated source ranges. Current e10-d9
+  publication validates the whole set and includes every file hash in identity;
+  this transfer family now serves typed control/tile bytes through existing
+  CPU/DMA/native readers without replacing live animation state or guest timing.
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
@@ -266,8 +307,8 @@ complete destination/guards/SP checks. The core's new referenced_extent bounds
 raw dictionary reads separately from stream termination. See the [complete
 catalog contract](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
 The sixth managed e8file authenticates these programs and now serves their
-actual runtime source/body reads for EUR/Wine. Field00and transfer/variant
-programs remain separate unknowns.
+actual runtime source/body reads for EUR/Wine. Field00and transfer programs
+have separate verified EUR contracts below; broader catalogs remain open.
 
 ### Typed packet resource model: EUR priority
 
@@ -310,5 +351,42 @@ exact live source cursors, full destination/guards/SP, and phase2/3DMA layout fo
 one20and one22source:54calls/11142126instructions. Readable JSON roundtrip and
 base authentication pass. Evidence:target/rom-data-bg-main-graphics/
 windows-europe/result.json, windows-results.json and bounded disassemblies.
-No active manifest, startup publication or file-backed runtime migration for
-this family yet. New Linux/USA verification remains pending.
+Managed EUR e9publication and direct file-backed runtime consumption are now
+complete for the declared Wine scope: retained words/metadata/literal maps,
+fixed769..895source pages, original guest instructions/clock and separate
+positive-use counters. Four poisoned-source original/native cases and owner
+lifecycle pass, followed by one397frame full-state/image/audio pub transition
+and actual CLI parity/no-write reuse. New Linux/USA verification remains pending.
+[Current consumer contract](../rom_data_graphics.md#direct-european-main-graphics-consumption).
+
+
+### EUR descriptor transfer and variant programs
+
+The five transfer slots have83/6/5/3/0active links across162descriptors:
+97links,42control sources and34shared raw tile banks. All162variant links are
+zero in this verified block; no absent pointer is dereferenced or treated as
+an invented fallback.76disjoint source ranges total968control/199296tile bytes
+and do not overlap existing e9resource ranges. Controls store u16transfer byte
+length, u8frame count plus retained byte3, and ordered u16duration/source-tile
+pairs. Source offsets are tiles of32bytes. Frame/tick/DMA progress is live RAM,
+not extracted state. Tile banks retain full little-endian u32words and exact
+maximum referenced extents across shared aliases. Independent stable IDs follow
+first descriptor/slot occurrence; typed links preserve VRAM destinations.
+
+Original creator08021f10, updater08021bd8and dispatcher08021d10confirm the
+contract in four reduced EUR/Wine animation cases, using retained slot5only for
+original IWRAM helper initialization. Two loops plus boundary match frame
+countdowns/order and complete VRAM after every DMA chunk, including34partial
+chunks with the original1024-byte limit:634calls/80766instructions. Five focused
+Wine checks pass (3core/1JSON/1private), source/JSON authentication and all97links
+match the independent static classifier. New Linux/USA checks remain pending.
+Managed transfer publication is now complete for EUR/Wine under1/e10-d9,
+with the eighth fixed JSON file and all76ranges. Four focused Wine checks and
+three actual CLI commands pass authentication/publication/reuse/repair/move/
+retention and transactional activation. Direct control/tile source consumption
+now passes reduced EUR/Wine provenance/lifecycle and declared397frame scene/CLI
+proof: all76raw spans poisoned in two original/native cases, full states/clocks
+equal after60calls,66compiled controlB/9984native-DMA tileB. The actual pub scene
+uses1203controlB/21504tileB with every state/image/audio sample equal. New Linux/
+USA and broader scene/GUI/archive checks remain pending.
+[Contract and evidence](../rom_data_graphics.md#european-background-transfer-programs).

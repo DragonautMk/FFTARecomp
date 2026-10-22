@@ -4,19 +4,24 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{AlternatePaletteStats, BackgroundStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources};
+pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_packet_data;
 pub mod bg_palettes;
 pub mod bg_alternate_palettes;
 pub mod bg_graphics;
+pub mod bg_transfers;
+pub mod text_short;
+pub mod text_catalogs;
+pub mod fonts;
+pub mod name_keyboard;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 9;
-pub const DECODER_REV: u32 = 8;
+pub const EXTRACTOR_REV: u32 = 12;
+pub const DECODER_REV: u32 = 11;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
 pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
@@ -35,14 +40,26 @@ pub const BG_MAIN_GRAPHICS_ID: &str = "graphics.bg-main-graphics";
 pub const BG_MAIN_GRAPHICS_FILE: &str = "bg-main-graphics.json";
 pub const BG_MAIN_GRAPHICS_FORMAT: &str = "bg-main-graphics-v1-json";
 pub const MAX_BG_MAIN_GRAPHICS_FILE_BYTES: u64 = 32 * 1024 * 1024;
+pub const TEXT_CATALOGS_ID: &str = "text.catalogs";
+pub const TEXT_CATALOGS_FILE: &str = "text-catalogs.json";
+pub const TEXT_CATALOGS_FORMAT: &str = "text-catalogs-v1-json";
+pub const MAX_TEXT_CATALOGS_FILE_BYTES: u64 = 512 * 1024 * 1024;
+pub const SHORT_TEXTS_ID: &str = "text.short-strings";
+pub const SHORT_TEXTS_FILE: &str = "short-texts.json";
+pub const SHORT_TEXTS_FORMAT: &str = "short-texts-v1-json";
+pub const MAX_SHORT_TEXTS_FILE_BYTES: u64 = 8 * 1024 * 1024;
+pub const BG_TRANSFER_PROGRAMS_ID: &str = "graphics.bg-transfer-programs";
+pub const BG_TRANSFER_PROGRAMS_FILE: &str = "bg-transfer-programs.json";
+pub const BG_TRANSFER_PROGRAMS_FORMAT: &str = "bg-transfer-programs-v1-json";
+pub const MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES: u64 = 32 * 1024 * 1024;
 pub const MAX_BG_PACKET_PROGRAMS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const MAX_BG_ALTERNATE_PALETTES_FILE_BYTES: u64 = 4 * 1024 * 1024;
-pub const MAX_MANIFEST_FILE_BYTES: u64 = 256 * 1024;
+pub const MAX_MANIFEST_FILE_BYTES: u64 = 16 * 1024 * 1024;
 pub const MAX_BG_BASE_PALETTES_FILE_BYTES: u64 = 1024 * 1024;
 pub const MANIFEST_FILE: &str = "manifest.toml";
 pub const MAX_FILE_BYTES: u64 = 16 * 1024;
 pub const MAX_BG_DESCRIPTORS_FILE_BYTES: u64 = 256 * 1024;
-pub const MAX_DATASET_BYTES: usize = 64 * 1024 * 1024;
+pub const MAX_DATASET_BYTES: usize = 512 * 1024 * 1024;
 pub const DIMENSIONS_SHA256: &str =
     "6ff886b23cde2726a4ceb9cba8c5569bbb4dc6a1185769547f78dfbcb7e2d991";
 
@@ -147,6 +164,9 @@ pub struct Extraction {
     pub alternate_palettes: Option<bg_alternate_palettes::Catalog>,
     pub packet_programs: Option<bg_packet_data::Catalog>,
     pub main_graphics: Option<bg_graphics::Catalog>,
+    pub transfers: Option<bg_transfers::Catalog>,
+    pub short_texts: Option<text_short::Catalog>,
+    pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
 /// Typed values borrowed from the exact captured file bytes. The frontend
@@ -160,6 +180,9 @@ pub struct BaseFiles<'a> {
     pub alternate_palettes: Option<(&'a bg_alternate_palettes::Palettes, &'a [u8])>,
     pub packet_programs: Option<(&'a bg_packet_data::Programs, &'a [u8])>,
     pub main_graphics: Option<(&'a bg_graphics::Graphics, &'a [u8])>,
+    pub transfers: Option<(&'a bg_transfers::Transfers, &'a [u8])>,
+    pub short_texts: Option<(&'a text_short::ShortTexts, &'a [u8])>,
+    pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
 impl Extraction {
@@ -233,6 +256,29 @@ impl Extraction {
                 dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: graphics.sources.clone(),
             });
             result.main_graphics = Some(graphics);
+            let transfers = bg_transfers::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(BG_TRANSFER_PROGRAMS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: BG_TRANSFER_PROGRAMS_ID.into(), path: BG_TRANSFER_PROGRAMS_FILE.into(),
+                format: BG_TRANSFER_PROGRAMS_FORMAT.into(), sha256: String::new(),
+                dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: transfers.sources.clone(),
+            });
+            result.transfers = Some(transfers);
+            let short_texts = text_short::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SHORT_TEXTS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: SHORT_TEXTS_ID.into(), path: SHORT_TEXTS_FILE.into(),
+                format: SHORT_TEXTS_FORMAT.into(), sha256: String::new(),
+                dependencies: Vec::new(), sources: short_texts.sources.clone(),
+            });
+            result.short_texts = Some(short_texts);
+            let texts = text_catalogs::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(TEXT_CATALOGS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: TEXT_CATALOGS_ID.into(), path: TEXT_CATALOGS_FILE.into(), format: TEXT_CATALOGS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![SHORT_TEXTS_ID.into()], sources: texts.sources.clone(),
+            });
+            result.text_catalogs = Some(texts);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -277,6 +323,9 @@ impl Extraction {
             alternate_palettes: None,
             packet_programs: None,
             main_graphics: None,
+            transfers: None,
+            short_texts: None,
+            text_catalogs: None,
             manifest: Manifest {
                 schema: SCHEMA,
                 extractor_revision: EXTRACTOR_REV,
@@ -318,6 +367,9 @@ impl Extraction {
             || self.alternate_palettes.is_some() && self.palettes.is_none()
             || self.packet_programs.is_some() && self.alternate_palettes.is_none()
             || self.main_graphics.is_some() && self.packet_programs.is_none()
+            || self.transfers.is_some() && self.main_graphics.is_none()
+            || self.short_texts.is_some() && self.transfers.is_none()
+            || self.text_catalogs.is_some() && self.short_texts.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -384,6 +436,37 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected main graphics resource".into()),
         }
+        match (&self.transfers, files.transfers) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES {
+                    return Err("Transfer program file exceeds size limit".into());
+                }
+                total = total.saturating_add(bytes.len());
+                expected.resources[6].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected transfer program resource".into()),
+        }
+        match (&self.short_texts, files.short_texts) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_SHORT_TEXTS_FILE_BYTES {
+                    return Err("Short-text file exceeds size limit".into());
+                }
+                total = total.saturating_add(bytes.len());
+                expected.resources[7].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected short-text resource".into()),
+        }
+        match (&self.text_catalogs, files.text_catalogs) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_TEXT_CATALOGS_FILE_BYTES { return Err("Text catalog file exceeds size limit".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[8].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected text catalog resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -435,6 +518,22 @@ impl Extraction {
                 return Err("Decoded main graphics do not reproduce the selected ROM source".into());
             }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.transfers, files.transfers) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {
+                return Err("Decoded transfer programs do not reproduce the selected ROM source".into());
+            }
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.short_texts, files.short_texts) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {
+                return Err("Decoded short texts do not reproduce the selected ROM source".into());
+            }
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.text_catalogs, files.text_catalogs) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded text catalogs do not reproduce selected ROM source".into()); }
+        }
         Ok(())
     }
 
@@ -443,6 +542,9 @@ impl Extraction {
             + usize::from(self.alternate_palettes.is_some())
             + usize::from(self.packet_programs.is_some())
             + usize::from(self.main_graphics.is_some())
+            + usize::from(self.transfers.is_some())
+            + usize::from(self.short_texts.is_some())
+            + usize::from(self.text_catalogs.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -505,6 +607,9 @@ mod tests {
                 alternate_palettes: None,
                 packet_programs: None,
                 main_graphics: None,
+                transfers: None,
+            short_texts: None,
+            text_catalogs: None,
             })
             .unwrap();
         let mut edited = extraction.dimensions.clone();
@@ -518,6 +623,9 @@ mod tests {
                 alternate_palettes: None,
                 packet_programs: None,
                 main_graphics: None,
+                transfers: None,
+            short_texts: None,
+            text_catalogs: None,
             })
             .is_err());
         for mutate in [0, 1, 2, 3, 4, 5, 6, 7] {
@@ -541,6 +649,9 @@ mod tests {
                     alternate_palettes: None,
                     packet_programs: None,
                     main_graphics: None,
+                    transfers: None,
+            short_texts: None,
+            text_catalogs: None,
                 })
                 .is_err());
         }
@@ -553,6 +664,9 @@ mod tests {
                 alternate_palettes: None,
                 packet_programs: None,
                 main_graphics: None,
+                transfers: None,
+            short_texts: None,
+            text_catalogs: None,
             })
             .is_err());
         rom[48] ^= 1;

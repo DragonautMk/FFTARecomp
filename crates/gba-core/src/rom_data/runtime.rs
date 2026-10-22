@@ -5,6 +5,10 @@ mod background;
 mod palettes;
 mod alternate_palettes;
 mod packets;
+mod graphics;
+mod transfers;
+mod texts;
+mod text_catalogs;
 use background::BackgroundResources;
 pub use background::BackgroundStats;
 use palettes::PaletteResources;
@@ -13,6 +17,14 @@ use alternate_palettes::AlternatePaletteResources;
 pub use alternate_palettes::AlternatePaletteStats;
 use packets::PacketResources;
 pub use packets::{PacketRead, PacketStats};
+use graphics::GraphicsResources;
+pub use graphics::GraphicsStats;
+use transfers::TransferResources;
+pub use transfers::TransferStats;
+use texts::TextResources;
+pub use texts::TextStats;
+use text_catalogs::TextCatalogResources;
+pub use text_catalogs::TextCatalogStats;
 use std::sync::{
     atomic::{AtomicU64, Ordering},
     Arc,
@@ -45,6 +57,10 @@ pub struct RuntimeResources {
     palettes: Option<Box<PaletteResources>>,
     alternate_palettes: Option<Box<AlternatePaletteResources>>,
     packet_programs: Option<Box<PacketResources>>,
+    main_graphics: Option<Box<GraphicsResources>>,
+    transfers: Option<Box<TransferResources>>,
+    short_texts: Option<Box<TextResources>>,
+    text_catalogs: Option<Box<TextCatalogResources>>,
 }
 
 impl RuntimeResources {
@@ -105,6 +121,30 @@ impl RuntimeResources {
                     manifest.resources[4].sha256.clone(),
                 )?));
             }
+            if let Some((decoded, _)) = files.main_graphics {
+                resources.main_graphics = Some(Box::new(GraphicsResources::new(
+                    decoded.clone(), &source.main_graphics.as_ref().unwrap().sources,
+                    manifest.resources[5].sha256.clone(),
+                )?));
+            }
+            if let Some((decoded, _)) = files.transfers {
+                resources.transfers = Some(Box::new(TransferResources::new(
+                    decoded.clone(), &source.transfers.as_ref().unwrap().sources,
+                    manifest.resources[6].sha256.clone(),
+                )?));
+            }
+        }
+        if let Some((decoded, _)) = files.short_texts.filter(|_| files.text_catalogs.is_none()) {
+            resources.short_texts = Some(Box::new(TextResources::new(
+                decoded.clone(), &source.short_texts.as_ref().unwrap().sources,
+                manifest.resources[7].sha256.clone(),
+            )?));
+        }
+        if let Some((decoded, _)) = files.text_catalogs {
+            resources.text_catalogs = Some(Box::new(TextCatalogResources::new(
+                decoded.clone(), &source.text_catalogs.as_ref().unwrap().sources,
+                manifest.resources[8].sha256.clone(),
+            )?));
         }
         Ok(Arc::new(resources))
     }
@@ -134,6 +174,10 @@ impl RuntimeResources {
             palettes: None,
             alternate_palettes: None,
             packet_programs: None,
+            main_graphics: None,
+            transfers: None,
+            short_texts: None,
+            text_catalogs: None,
         }
     }
 
@@ -167,6 +211,10 @@ impl RuntimeResources {
         self.obj_resident_bytes() + self.background_resident_bytes() + self.palette_resident_bytes()
             + self.alternate_palette_resident_bytes()
             + self.packet_resident_bytes()
+            + self.graphics_resident_bytes()
+            + self.transfer_resident_bytes()
+            + self.text_resident_bytes()
+            + self.text_catalog_resident_bytes()
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -209,6 +257,34 @@ impl RuntimeResources {
         self.packet_programs.as_ref().map(|packets| packets.stats())
     }
 
+    pub fn graphics_resident_bytes(&self) -> usize {
+        self.main_graphics.as_ref().map_or(0, |graphics| graphics.resident_bytes())
+    }
+    pub fn graphics_file_sha256(&self) -> Option<&str> {
+        self.main_graphics.as_ref().map(|graphics| graphics.file_sha256())
+    }
+    pub fn graphics_stats(&self) -> Option<GraphicsStats> {
+        self.main_graphics.as_ref().map(|graphics| graphics.stats())
+    }
+
+    pub fn transfer_resident_bytes(&self) -> usize {
+        self.transfers.as_ref().map_or(0, |t| t.resident_bytes())
+    }
+    pub fn transfer_file_sha256(&self) -> Option<&str> {
+        self.transfers.as_ref().map(|t| t.file_sha256())
+    }
+    pub fn transfer_stats(&self) -> Option<TransferStats> {
+        self.transfers.as_ref().map(|t| t.stats())
+    }
+
+    pub fn text_resident_bytes(&self) -> usize { self.short_texts.as_ref().map_or(0, |t| t.resident_bytes()) }
+    pub fn text_file_sha256(&self) -> Option<&str> { self.short_texts.as_ref().map(|t| t.file_sha256()) }
+    pub fn text_stats(&self) -> Option<TextStats> { self.short_texts.as_ref().map(|t| t.stats()) }
+
+    pub fn text_catalog_resident_bytes(&self) -> usize { self.text_catalogs.as_ref().map_or(0, |t| t.resident_bytes()) }
+    pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
+    pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
+
     pub fn stats(&self) -> ResourceStats {
         ResourceStats {
             bus_reads: self.bus_reads.load(Ordering::Relaxed),
@@ -245,8 +321,24 @@ impl RuntimeResources {
                 .or_else(|| self.alternate_palettes.as_ref().and_then(|palettes| palettes.guest_read(index, rom)));
             // Packet and base-palette spans interleave in the same asset pages.
             // Overlay each mapped packet byte onto the prior-family result.
-            return match &self.packet_programs {
+            let prior = match &self.packet_programs {
                 Some(packets) => packets.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.main_graphics {
+                Some(graphics) => graphics.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.transfers {
+                Some(transfers) => transfers.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.short_texts {
+                Some(texts) => texts.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.text_catalogs {
+                Some(texts) => texts.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -368,6 +460,10 @@ impl crate::MemMap {
             || PaletteResources::source_page(index)
             || AlternatePaletteResources::source_page(index)
             || PacketResources::source_page(index)
+            || GraphicsResources::source_page(index)
+            || TransferResources::source_page(index)
+            || TextResources::source_page(index)
+            || TextCatalogResources::source_page(index)
     }
 }
 

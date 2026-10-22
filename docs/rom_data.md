@@ -14,8 +14,19 @@ serve source literals from typed words and existing LZ77HLE body writes from
 the immutable decoded model, reporting `runtime=decoded`. USA remains
 `runtime=verified-only` until its consumer checks.
 EUR additionally prepares `graphics.bg-main-graphics` as the seventh fixed
-file under `v1/e9-d8`; it is authenticated and still `runtime=verified-only`
-until its direct consumer is connected. USA retains its six-file `v1/e8-d7`
+file introduced under `v1/e9-d8`; its retained typed words now serve custom-codec literal
+reads with `runtime=decoded`, preserving original control bytes and guest work.
+EUR `v1/e10-d9` added an eighth `graphics.bg-transfer-programs` file;
+its typed controls and tile words now serve CPU/DMA/native reads with
+`runtime=decoded`, preserving original frame countdowns/flags and partial DMA.
+EUR `v1/e11-d10` added a ninth `text.short-strings` file with535strings
+and65referenced glyph slots/widths, now directly consumed as `runtime=decoded`.
+Current EUR `v1/e12-d11` adds tenth file `text-catalogs.json`/`text.catalogs`,
+authenticating16100pointer strings,145relative archives/17035programs and128
+referenced glyphs, now directly consumed as `runtime=decoded` through original
+CPU/DMA/native readers. The earlier overlapping ninth-file subset remains
+authenticated and reports `verified-only` when the full catalog owns its reads.
+USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
 code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
@@ -32,9 +43,103 @@ recomp rom-data prepare /path/to/your-game.gba target/rom-data/managed-resources
 recomp play /path/to/your-game.gba --rom-data
 ```
 
+## Run extraction with Docker
+
+Only Docker Engine/Desktop with Buildx is needed on the host. Rust, Python and
+the native build/runtime dependencies stay inside the Linux container.
+From the repository root on Linux:
+
+```bash
+bash scripts/linux/extract_rom_data_docker.sh
+```
+
+On Windows, start Docker Desktop using **Linux containers**, then run from
+PowerShell (Windows PowerShell 5.1+ or PowerShell 7):
+
+```powershell
+.\scripts\windows\extract_rom_data_docker.ps1
+```
+
+Both scripts build the `extract` target in `Dockerfile.linux`, using the existing
+pinned Rust/Bookworm dependencies and BuildKit Cargo caches, then run the Linux
+CLI. There is no Windows cross-build or host Wine requirement for this flow.
+The default source is
+`<repository>/rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba`, so no
+ROM argument is needed. The dataset defaults to
+`<repository>/target/rom-data/<ROM filename stem>/`. To select a different ROM
+and output directory:
+
+```bash
+bash scripts/linux/extract_rom_data_docker.sh "rom/my-game.gba" "target/rom-data/my-dataset"
+```
+
+```powershell
+.\scripts\windows\extract_rom_data_docker.ps1 -RomPath "C:\Games\FFTA.gba" -OutputDir "target\rom-data\extracted-europe"
+```
+
+The scripts work from another directory too: default and custom relative ROM
+paths start at the repository root; absolute ROM paths are used directly.
+Explicit output paths remain relative to the calling directory. The build
+context and default output are relative to the script's repository. Paths with
+spaces are supported; commas and newlines in ROM/output paths are rejected
+before Docker invocation.
+Use a local Docker Engine/Desktop whose daemon can access those host paths.
+
+The ROM is excluded from the build context and mounted as a single read-only
+file only at extraction time. Only the output parent is mounted writable so the
+extractor can publish a complete dataset by atomic sibling rename. Extraction
+runs without network access; the initial image build needs dependency downloads.
+Linux containers run with the host user's UID/GID so exported files remain
+user-owned. Both scripts print the final host path and the JSON/TOML file list.
+Repeated invocations reuse the build caches and verified datasets; invalid
+existing datasets remain untouched. Outputs are private game data, kept under
+ignored `target/`. See [Docker extraction details](docker.md#extract-decoded-rom-data).
+
+## Run extraction without Docker
+
+From the repository root, with Python 3.9+ and the existing native build
+dependencies installed:
+
+```sh
+python3 scripts/extract_rom_data.py "/path/to/your-game.gba"
+```
+
+On Windows, use `py` in place of `python3`. The script runs
+`cargo run --locked --release --package recomp --bin recomp -- rom-data extract`;
+Cargo builds the current CLI as needed and reuses its build cache. The default
+output is `<repository>/target/rom-data/<ROM filename stem>/`, containing the
+readable JSON/TOML files listed below. After success, the script prints the
+absolute directory and the files actually present with a description of each.
+These are typed data files, rather than rendered background/sprite previews.
+
+To use a prebuilt CLI and select a directory explicitly:
+
+```powershell
+py scripts/extract_rom_data.py "C:\Games\FFTA.gba" --recomp "target\release\recomp.exe" --output "target\rom-data\extracted-europe"
+```
+
+For the Windows CLI on a Linux development host:
+
+```sh
+python3 scripts/extract_rom_data.py "/path/to/your-game.gba" --recomp target/x86_64-pc-windows-gnu/release/recomp.exe --wine
+```
+
+ROM, executable and explicit output paths are resolved relative to the calling
+directory, so an absolute script path also works from elsewhere. `--recomp`
+uses exactly the selected binary's extraction coverage. The script forwards CLI
+progress/errors and preserves its failure status. Extraction itself validates
+the complete dataset before publication or reuse; a repeated invocation reuses
+valid data and refuses an invalid existing directory without overwriting it.
+Choose a new `--output` directory after an incompatible format revision.
+Keep extracted game data under ignored `target/` and outside release packages.
+
+## Extracted files
+
 The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-descriptors.json`, `bg-base-palettes.json`, `bg-alternate-palettes.json` and
-`bg-packet-programs.json`, plus EUR's `bg-main-graphics.json`. OBJ dimensions store twelve indexed width/height records;
+`bg-packet-programs.json`, plus EUR's `bg-main-graphics.json` and
+`bg-transfer-programs.json`, `short-texts.json` and `text-catalogs.json`.
+OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
 remain in the ROM; alternate palette banks/links/keys now have their own
@@ -44,13 +149,19 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor9/decoder8(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
+Extractor12/decoder11(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
 OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `bg-alternate-palettes-v1-json`, `bg-packet-programs-v1-json` and EUR
-`bg-main-graphics-v1-json`. Resource identity is independent of regional file offsets.
+`bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`
+and `text-catalogs-v1-json`.
+Transfer programs preserve42frame-control programs/34shared tile banks and97links;
+all162variant pointers are absent in this declared catalog.
+Short texts preserve five107-entry language selector tables, exact compact/
+extended codes and control bytes, and only the65referenced glyph slots/metrics.
+Resource identity is independent of regional file offsets.
 There is no ROM code, image, save, absolute installation path or timestamp in
 the manifest. The generated decoded values remain private game data: keep
 outputs under ignored `target/` for this developer command, outside packages.
@@ -78,9 +189,12 @@ schema and decoded coverage. `runtime=offline` identifies these offline commands
 OBJ, BG metadata, base and alternate palette gameplay each report `runtime=decoded`, with separate
 source/file/dataset identities and usage counters. Packet programs report
 `runtime=decoded` for EUR and `verified-only` for USA; EUR main graphics report
-`verified-only`, with all source/file data authenticated before activation.
+`decoded`, with all source/file data authenticated before activation.
 This does not claim that sprite pixels, text, maps,
 gameplay tables or audio have been exported or migrated.
+The [bounded EUR short-text/font model](rom_data_text.md) now participates in
+managed preparation, complete-set authentication and direct CPU/DMA/native
+source reads. Complete text/font catalog and gameplay scene coverage remain open.
 
 ## Managed preparation and startup
 
@@ -94,10 +208,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e9-d8`
+selected generation's relative name. Current revisions are EUR `v1/e12-d11`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same seven EUR/six USA files as offline extraction. Source identity is rehashed from
+same ten EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
@@ -211,9 +325,12 @@ they are not compression targets. The historical e3cost observations remain
 recorded, without further formatting or packing work to meet their former disk
 budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-datasets).
 
-Current input guards are256KiB manifest,16KiB OBJ,256KiB descriptors,
-1MiB base palettes,4MiB alternate palettes,64MiB packet programs,32MiB EUR main
-graphics and64MiBtotal.
+Current input guards are16MiB manifest,16KiB OBJ,256KiB descriptors,
+1MiB base palettes,4MiB alternate palettes,64MiB packet programs,32MiB each for
+EUR main graphics and transfer programs,8MiB short texts,512MiB broad text catalogs
+and512MiBtotal. The manifest guard accommodates the33581additional broad
+text/font provenance ranges;
+these are malformed-input guards, not storage optimization targets.
 The manifest includes162base-palette,316alternate and352packet provenance
 ranges, plus metadata/OBJ sources. These are malformed-input guards, not storage
 targets. Standard readable packet JSON is20217427bytes; the verified EUR set

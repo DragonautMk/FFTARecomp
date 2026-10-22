@@ -117,21 +117,21 @@ after closing the game. See [backup recovery](save_backups.md) and
 ## Build
 
 For a Linux build without installing compiler/development dependencies on the
-host, run `bash scripts/build_linux_docker.sh`. It exports a separate artifact
+host, run `bash scripts/linux/build_linux_docker.sh`. It exports a separate artifact
 to `dist/docker-linux/` using Rust 1.94.0 on Debian Bookworm. See
 [Docker builds](docker.md) for caches, output and runtime requirements. The direct
 Ubuntu 26.04 archive described above remains a separate host-built artifact.
 
 On Windows with Docker Desktop in Linux-containers mode, run
-`.\scripts\build_docker.ps1` from PowerShell. It exports a standalone Windows
+`.\scripts\windows\build_docker.ps1` from PowerShell. It exports a standalone Windows
 ZIP to `dist/docker-windows/`; `-Platform linux` builds the Linux tar.gz instead.
-On Linux, `bash scripts/build_windows_docker.sh` produces the same Windows ZIP.
+On Linux, `bash scripts/linux/build_windows_docker.sh` produces the same Windows ZIP.
 See [Docker builds](docker.md) for host/container distinctions and test scope.
 
 For native Windows builds without Docker, build `recomp` and `ffta-play` in release mode, run
-`python TinyCC/build.py`, then `python scripts/package_ffta_windows.py`.
+`python TinyCC/build.py`, then `python scripts/windows/package_ffta_windows.py`.
 For a native Linux release, install Rust, a C compiler, pkg-config and ALSA/udev
-development headers, then run `bash scripts/package_ffta_linux.sh`. The output is
+development headers, then run `bash scripts/linux/package_ffta_linux.sh`. The output is
 `dist/FFTARecomp-linux-portable.tar.gz`. The shared packaging implementation is
 `scripts/package_ffta_portable.py --platform linux`; it accepts `--runtime-dir`.
 `build-all.ps1` uses the compatible Windows packaging entry point; its Windows-

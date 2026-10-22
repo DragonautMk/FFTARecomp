@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Windows producer for the bundled TinyCC fallback compiler — the counterpart
-# to scripts/build-tcc.sh (which is the macOS/Linux producer; that script is
+# to scripts/unix/build-tcc.sh (which is the macOS/Linux producer; that script is
 # left untouched). Builds a self-contained, dynamically-loadable libtcc and
 # stages it as a `tcc/` directory the recompiler resolves beside its own
 # binary (recomp_core::tcc::lib_dir), so a local "build to play" works on a
@@ -23,18 +23,18 @@
 # contained and the compiler's output is unaffected. The shipped license
 # notice lives in THIRD-PARTY.md; the full text travels as tcc/COPYING.
 #
-# Usage:  scripts/build-tcc-windows.sh <out-dir>      # creates <out-dir>/tcc/
+# Usage:  scripts/windows/build-tcc-windows.sh <out-dir>      # creates <out-dir>/tcc/
 # Pin the source with TCC_REF (commit/tag); default matches build-tcc.sh.
 set -euo pipefail
 
 OUT="${1:?usage: build-tcc-windows.sh <out-dir>}"
 TCC_REPO="${TCC_REPO:-https://github.com/TinyCC/tinycc}"
-# Same pin as scripts/build-tcc.sh so all platforms ship the same TinyCC.
+# Same pin as scripts/unix/build-tcc.sh so all platforms ship the same TinyCC.
 TCC_REF="${TCC_REF:-a338258d309c888bde96b2d1f206299231a54ddf}"
 
 case "$(uname -s)" in
   MINGW64*|MSYS*|MINGW*) : ;;
-  *) echo "build-tcc-windows.sh: run inside an MSYS2 mingw64 shell (uname is '$(uname -s)'); use scripts/build-tcc.sh on macOS/Linux" >&2; exit 2 ;;
+  *) echo "build-tcc-windows.sh: run inside an MSYS2 mingw64 shell (uname is '$(uname -s)'); use scripts/unix/build-tcc.sh on macOS/Linux" >&2; exit 2 ;;
 esac
 
 command -v gcc  >/dev/null || { echo "build-tcc-windows.sh: gcc not found — install mingw-w64-x86_64-gcc" >&2; exit 2; }

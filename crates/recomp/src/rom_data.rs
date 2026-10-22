@@ -12,6 +12,10 @@ use gba_core::rom_data::{
     BG_PACKET_PROGRAMS_ID, BG_PACKET_PROGRAMS_FILE, MAX_BG_PACKET_PROGRAMS_FILE_BYTES,
     bg_graphics::Graphics, BG_MAIN_GRAPHICS_ID, BG_MAIN_GRAPHICS_FILE,
     MAX_BG_MAIN_GRAPHICS_FILE_BYTES,
+    bg_transfers::Transfers, BG_TRANSFER_PROGRAMS_ID, BG_TRANSFER_PROGRAMS_FILE,
+    MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES,
+    text_short::ShortTexts, SHORT_TEXTS_ID, SHORT_TEXTS_FILE, MAX_SHORT_TEXTS_FILE_BYTES,
+    text_catalogs::TextCatalogs, TEXT_CATALOGS_ID, TEXT_CATALOGS_FILE, MAX_TEXT_CATALOGS_FILE_BYTES,
 };
 use std::{
     fs,
@@ -31,6 +35,28 @@ mod bg_descriptor_tests;
 mod bg_graphics_tests;
 #[cfg(test)]
 mod bg_graphics_managed_tests;
+#[cfg(test)]
+mod bg_graphics_runtime_tests;
+#[cfg(test)]
+mod bg_transfer_tests;
+#[cfg(test)]
+mod bg_transfer_managed_tests;
+#[cfg(test)]
+mod bg_transfer_runtime_tests;
+#[cfg(test)]
+mod text_short_tests;
+#[cfg(test)]
+mod text_short_managed_tests;
+#[cfg(test)]
+mod text_short_runtime_tests;
+#[cfg(test)]
+mod text_catalog_tests;
+#[cfg(test)]
+mod text_catalog_managed_tests;
+#[cfg(test)]
+mod text_catalog_runtime_tests;
+#[cfg(test)]
+mod font_keyboard_tests;
 #[cfg(test)]
 mod bg_packet_tests;
 #[cfg(test)]
@@ -150,6 +176,38 @@ fn encode_main_graphics(graphics: &Graphics) -> Result<Vec<u8>, String> {
     serde_json::to_vec_pretty(graphics).map_err(|e| format!("Cannot encode main graphics: {e}"))
 }
 
+fn parse_transfers(bytes: &[u8]) -> Result<Transfers, String> {
+    let transfers: Transfers = serde_json::from_slice(bytes)
+        .map_err(|e| format!("Invalid transfer programs: {e}"))?;
+    transfers.validate()?;
+    Ok(transfers)
+}
+
+fn encode_transfers(transfers: &Transfers) -> Result<Vec<u8>, String> {
+    transfers.validate()?;
+    serde_json::to_vec_pretty(transfers).map_err(|e| format!("Cannot encode transfer programs: {e}"))
+}
+
+fn parse_short_texts(bytes: &[u8]) -> Result<ShortTexts, String> {
+    let value: ShortTexts = serde_json::from_slice(bytes)
+        .map_err(|e| format!("Invalid short texts: {e}"))?;
+    value.validate()?;
+    Ok(value)
+}
+
+fn encode_short_texts(value: &ShortTexts) -> Result<Vec<u8>, String> {
+    value.validate()?;
+    serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode short texts: {e}"))
+}
+
+fn parse_text_catalogs(bytes: &[u8]) -> Result<TextCatalogs, String> {
+    let value: TextCatalogs = serde_json::from_slice(bytes).map_err(|e| format!("Invalid text catalogs: {e}"))?;
+    value.validate()?; Ok(value)
+}
+fn encode_text_catalogs(value: &TextCatalogs) -> Result<Vec<u8>, String> {
+    value.validate()?; serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode text catalogs: {e}"))
+}
+
 pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String> {
     let dataset = read_dataset(path)?;
     source.validate_files(dataset.files())?;
@@ -170,6 +228,12 @@ struct Dataset {
     packet_program_bytes: Vec<u8>,
     main_graphics: Option<Graphics>,
     main_graphic_bytes: Option<Vec<u8>>,
+    transfers: Option<Transfers>,
+    transfer_bytes: Option<Vec<u8>>,
+    short_texts: Option<ShortTexts>,
+    short_text_bytes: Option<Vec<u8>>,
+    text_catalogs: Option<TextCatalogs>,
+    text_catalog_bytes: Option<Vec<u8>>,
 }
 
 impl Dataset {
@@ -182,6 +246,9 @@ impl Dataset {
             alternate_palettes: Some((&self.alternate_palettes, &self.alternate_palette_bytes)),
             packet_programs: Some((&self.packet_programs, &self.packet_program_bytes)),
             main_graphics: self.main_graphics.as_ref().zip(self.main_graphic_bytes.as_deref()),
+            transfers: self.transfers.as_ref().zip(self.transfer_bytes.as_deref()),
+            short_texts: self.short_texts.as_ref().zip(self.short_text_bytes.as_deref()),
+            text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
 }
@@ -217,6 +284,14 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let main_graphic_bytes = manifest.coverage.iter().any(|id| id == BG_MAIN_GRAPHICS_ID)
         .then(|| read_bounded(&path.join(BG_MAIN_GRAPHICS_FILE), MAX_BG_MAIN_GRAPHICS_FILE_BYTES))
         .transpose()?;
+    let transfer_bytes = manifest.coverage.iter().any(|id| id == BG_TRANSFER_PROGRAMS_ID)
+        .then(|| read_bounded(&path.join(BG_TRANSFER_PROGRAMS_FILE), MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES))
+        .transpose()?;
+    let short_text_bytes = manifest.coverage.iter().any(|id| id == SHORT_TEXTS_ID)
+        .then(|| read_bounded(&path.join(SHORT_TEXTS_FILE), MAX_SHORT_TEXTS_FILE_BYTES))
+        .transpose()?;
+    let text_catalog_bytes = manifest.coverage.iter().any(|id| id == TEXT_CATALOGS_ID)
+        .then(|| read_bounded(&path.join(TEXT_CATALOGS_FILE), MAX_TEXT_CATALOGS_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -225,6 +300,9 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         alternate_palette_bytes.len(),
         packet_program_bytes.len(),
         main_graphic_bytes.as_ref().map_or(0, Vec::len),
+        transfer_bytes.as_ref().map_or(0, Vec::len),
+        short_text_bytes.as_ref().map_or(0, Vec::len),
+        text_catalog_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -232,6 +310,9 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let alternate_palettes = parse_alternate_palettes(&alternate_palette_bytes)?;
     let packet_programs = parse_packet_programs(&packet_program_bytes)?;
     let main_graphics = main_graphic_bytes.as_deref().map(parse_main_graphics).transpose()?;
+    let transfers = transfer_bytes.as_deref().map(parse_transfers).transpose()?;
+    let short_texts = short_text_bytes.as_deref().map(parse_short_texts).transpose()?;
+    let text_catalogs = text_catalog_bytes.as_deref().map(parse_text_catalogs).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -246,6 +327,12 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         packet_program_bytes,
         main_graphics,
         main_graphic_bytes,
+        transfers,
+        transfer_bytes,
+        short_texts,
+        short_text_bytes,
+        text_catalogs,
+        text_catalog_bytes,
     })
 }
 
@@ -257,6 +344,9 @@ fn check_dataset_budget(
     alternate_palettes: usize,
     packet_programs: usize,
     main_graphics: usize,
+    transfers: usize,
+    short_texts: usize,
+    text_catalogs: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -265,6 +355,9 @@ fn check_dataset_budget(
         || alternate_palettes as u64 > MAX_BG_ALTERNATE_PALETTES_FILE_BYTES
         || packet_programs as u64 > MAX_BG_PACKET_PROGRAMS_FILE_BYTES
         || main_graphics as u64 > MAX_BG_MAIN_GRAPHICS_FILE_BYTES
+        || transfers as u64 > MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES
+        || short_texts as u64 > MAX_SHORT_TEXTS_FILE_BYTES
+        || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
     }
@@ -275,6 +368,9 @@ fn check_dataset_budget(
         .saturating_add(alternate_palettes)
         .saturating_add(packet_programs)
         .saturating_add(main_graphics)
+        .saturating_add(transfers)
+        .saturating_add(short_texts)
+        .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
         return Err("Resource dataset exceeds its total size budget".into());
@@ -311,9 +407,25 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[4].sha256,
         dataset.packet_programs.paired.programs.len() + dataset.packet_programs.halfwords.programs.len() + dataset.packet_programs.auxiliary.programs.len());
     if let Some(graphics) = &dataset.main_graphics {
-        eprintln!("ROM_DATA runtime=verified-only resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
+        eprintln!("ROM_DATA runtime=decoded resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
             resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[5].sha256,
             graphics.graphics.len());
+    }
+    if let Some(texts) = &dataset.text_catalogs {
+        eprintln!("ROM_DATA runtime=decoded resource={TEXT_CATALOGS_ID} source={} dataset={} file={} pointer_catalogs={} archive_catalogs={} glyphs={}",
+            resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[8].sha256,
+            texts.pointer_catalogs.len(), texts.archive_catalogs.len(), texts.glyphs.len());
+    }
+    if let Some(texts) = &dataset.short_texts {
+        let mode = if resources.text_file_sha256().is_some() { "decoded" } else { "verified-only" };
+        eprintln!("ROM_DATA runtime={mode} resource={SHORT_TEXTS_ID} source={} dataset={} file={} languages={} strings={} glyphs={}",
+            resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[7].sha256,
+            texts.languages.len(), texts.strings.len(), texts.glyphs.len());
+    }
+    if let Some(transfers) = &dataset.transfers {
+        eprintln!("ROM_DATA runtime=decoded resource={BG_TRANSFER_PROGRAMS_ID} source={} dataset={} file={} controls={} tiles={}",
+            resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[6].sha256,
+            transfers.controls.len(), transfers.tiles.len());
     }
     Ok(())
 }
@@ -341,6 +453,22 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(packet) = resources.packet_stats() {
             eprintln!("ROM_DATA_USE resource={BG_PACKET_PROGRAMS_ID} dataset={} bus_reads={} source_bytes={} typed_value_bytes={} lz77_calls={} decoded_body_bytes={} typed_hle_bytes={}", resources.dataset_sha256(), packet.bus_reads, packet.source_bytes, packet.typed_value_bytes, packet.lz77_calls, packet.decoded_body_bytes, packet.typed_hle_bytes);
+        }
+        if let Some(graphics) = resources.graphics_stats() {
+            eprintln!("ROM_DATA_USE resource={BG_MAIN_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={}",
+                resources.dataset_sha256(), graphics.bus_reads, graphics.source_bytes, graphics.decoded_literal_bytes);
+        }
+        if let Some(t) = resources.text_catalog_stats() {
+            eprintln!("ROM_DATA_USE resource={TEXT_CATALOGS_ID} dataset={} bus_reads={} source_bytes={} pointer_table_bytes={} string_bytes={} archive_index_bytes={} header_bytes={} encoded_control_bytes={} decoded_program_bytes={} glyph_bytes={} width_bytes={}",
+                resources.dataset_sha256(),t.bus_reads,t.source_bytes,t.pointer_table_bytes,t.string_bytes,t.archive_index_bytes,t.header_bytes,t.encoded_control_bytes,t.decoded_program_bytes,t.glyph_bytes,t.width_bytes);
+        }
+        if let Some(texts) = resources.text_stats() {
+            eprintln!("ROM_DATA_USE resource={SHORT_TEXTS_ID} dataset={} bus_reads={} source_bytes={} table_bytes={} string_bytes={} glyph_bytes={} width_bytes={}",
+                resources.dataset_sha256(), texts.bus_reads, texts.source_bytes, texts.table_bytes, texts.string_bytes, texts.glyph_bytes, texts.width_bytes);
+        }
+        if let Some(transfers) = resources.transfer_stats() {
+            eprintln!("ROM_DATA_USE resource={BG_TRANSFER_PROGRAMS_ID} dataset={} bus_reads={} source_bytes={} control_bytes={} tile_bytes={}",
+                resources.dataset_sha256(), transfers.bus_reads, transfers.source_bytes, transfers.control_bytes, transfers.tile_bytes);
         }
     }
 }
@@ -412,8 +540,16 @@ fn write_dataset(
     )?;
     let main_graphic_data = source.main_graphics.as_ref()
         .map(|catalog| encode_main_graphics(&catalog.decoded)).transpose()?;
+    let transfer_data = source.transfers.as_ref()
+        .map(|catalog| encode_transfers(&catalog.decoded)).transpose()?;
+    let short_text_data = source.short_texts.as_ref()
+        .map(|catalog| encode_short_texts(&catalog.decoded)).transpose()?;
+    let text_catalog_data = source.text_catalogs.as_ref().map(|catalog| encode_text_catalogs(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
+    if let Some(bytes) = &transfer_data { files.push(bytes); }
+    if let Some(bytes) = &short_text_data { files.push(bytes); }
+    if let Some(bytes) = &text_catalog_data { files.push(bytes); }
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -425,6 +561,9 @@ fn write_dataset(
         alternate_palette_data.len(),
         packet_program_data.len(),
         main_graphic_data.as_ref().map_or(0, Vec::len),
+        transfer_data.as_ref().map_or(0, Vec::len),
+        short_text_data.as_ref().map_or(0, Vec::len),
+        text_catalog_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -432,6 +571,9 @@ fn write_dataset(
     write(&path.join(BG_ALTERNATE_PALETTES_FILE), &alternate_palette_data)?;
     write(&path.join(BG_PACKET_PROGRAMS_FILE), &packet_program_data)?;
     if let Some(bytes) = &main_graphic_data { write(&path.join(BG_MAIN_GRAPHICS_FILE), bytes)?; }
+    if let Some(bytes) = &transfer_data { write(&path.join(BG_TRANSFER_PROGRAMS_FILE), bytes)?; }
+    if let Some(bytes) = &short_text_data { write(&path.join(SHORT_TEXTS_FILE), bytes)?; }
+    if let Some(bytes) = &text_catalog_data { write(&path.join(TEXT_CATALOGS_FILE), bytes)?; }
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -663,6 +805,9 @@ mod tests {
             alternate_palettes: Some(alternate_palettes),
             packet_programs: Some(packet_programs),
             main_graphics: None,
+            transfers: None,
+            short_texts: None,
+            text_catalogs: None,
         }
     }
 

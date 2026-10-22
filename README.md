@@ -146,7 +146,7 @@ Steam Deck compatibility for this host-built archive has not been verified.
 For Linux, build with dependencies contained in Docker:
 
 ```bash
-bash scripts/build_linux_docker.sh
+bash scripts/linux/build_linux_docker.sh
 ```
 
 The portable archive and build information appear in `dist/docker-linux/`.
@@ -157,7 +157,7 @@ For Windows with dependencies inside Docker Desktop (Linux containers), run
 from PowerShell:
 
 ```powershell
-.\scripts\build_docker.ps1
+.\scripts\windows\build_docker.ps1
 ```
 
 The Windows ZIP appears in `dist/docker-windows/`. Add `-Platform linux` to
@@ -184,6 +184,27 @@ powershell -ExecutionPolicy Bypass -File .\build-all.ps1
 ```
 
 > ⏱️ The first build can take several minutes.
+
+To inspect decoded ROM data with all dependencies inside Docker, run on Linux:
+
+```bash
+bash scripts/linux/extract_rom_data_docker.sh
+```
+
+On Windows, with Docker Desktop using Linux containers:
+
+```powershell
+.\scripts\windows\extract_rom_data_docker.ps1
+```
+
+Both commands default to the EUR ROM in `rom/` at the project root and accept a
+different ROM path as an argument. They list readable JSON/TOML files under
+`target/rom-data/`. See
+[extraction options](docs/rom_data.md#run-extraction-with-docker) for output paths
+and the optional non-Docker Python script.
+
+Platform-specific helpers are grouped in [scripts/linux, windows, android and unix](scripts/README.md);
+shared tools stay directly in `scripts/`.
 
 ## 🐞 Known issues
 

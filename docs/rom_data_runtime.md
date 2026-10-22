@@ -7,10 +7,34 @@ ROM's decoded dataset. The sixth e8-d7file, `graphics.bg-packet-programs`, now
 also serves EUR packet source/body reads from immutable typed values and exact
 control metadata. EUR reports `runtime=decoded`; USA stays authenticated and
 `runtime=verified-only` pending its consumer validation.
-EUR now prepares a seventh `graphics.bg-main-graphics` JSON under `v1/e9-d8`,
+EUR prepares a seventh `graphics.bg-main-graphics` JSON, introduced in `v1/e9-d8`,
 authenticating every source and file hash into dataset identity. This family
-remains `runtime=verified-only`; it has no new direct consumer yet. USA keeps
+now reports `runtime=decoded`: custom-codec literals come from retained typed
+words, with exact original headers/tokens and unchanged guest instructions.
+USA keeps
 its existing six-file `v1/e8-d7` contract. New Linux/USA verification is pending.
+EUR `v1/e10-d9` additionally authenticated an eighth
+`graphics.bg-transfer-programs` JSON and its76source ranges. This new family
+reports `runtime=decoded`; original transfer readers now use retained typed
+controls/tile words through the same CPU/DMA/native bus paths. Original live
+frame/countdown/flags/copy cursors and every guest instruction/cycle remain.
+EUR `v1/e11-d10` added a ninth `text.short-strings` JSON with670source
+ranges. It participates in whole-set authentication/identity and reports
+`runtime=decoded`: original readers obtain table/string/glyph/metric bytes from
+retained typed indices/codes/words/widths, with separate counters. Original
+expansion/copy/render work and guest clock remain intact. See the
+[direct text/font contract](rom_data_text.md#direct-consumption).
+Current EUR `v1/e12-d11` adds the broad `text.catalogs` JSON with33581source
+ranges. It joins whole-set authentication/identity and reports `decoded`:
+typed pointers, strings, archive indices/headers/program bytes and font data
+serve original CPU/DMA/native reads. Compressed literals come from decoded
+units/padding; original controls and guest work remain intact. The overlapping
+earlier subset stays authenticated but `verified-only`, with no duplicate read
+owner/counter attribution. See the [broad direct-consumer proof](rom_data_text.md#broad-direct-consumption).
+One retained EUR/Wine397-frame pub transition now matches every state/clock,
+image/OAM/dispatch/audio with positive27decoded program/8064glyph/93metric bytes.
+One actual CLI no-write e12reuse/old cache matches the retained legacy row.
+[Declared scene/CLI scope](rom_data_text.md#ordinary-transition-and-production-cli).
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
@@ -43,6 +67,12 @@ USA remains verified-only. Earlier revisions including preparation-only
 palette e5and e7are retained.
 EUR's `v1/e9-d8` adds authenticated main graphics while retaining e8and the
 same prior decoded files. Save and native cache identities stay source-equal.
+The EUR e10generation adds transfer programs while retaining e9and
+the same prior decoded resource bytes.
+EUR e11adds the bounded short-text/font subset, retaining e10and all seven
+prior decoded files byte-for-byte. See the [text contract](rom_data_text.md).
+EUR e12adds the broad text catalogs, retaining e11and all eight earlier decoded
+files byte-for-byte.
 Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
 The borrowed complete-file view authenticates all resources before changing
 the live object and includes every resource ID/file hash in dataset identity.

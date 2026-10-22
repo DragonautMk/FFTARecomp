@@ -1,7 +1,7 @@
 param([string]$OutputDir, [switch]$BuildOnly, [switch]$InstallerOnly)
 
 $ErrorActionPreference = 'Stop'
-$repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repo = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 if (-not $OutputDir) { $OutputDir = Join-Path $repo 'Installer\Linux' }
 $target = Join-Path $repo 'target'
 $downloads = Join-Path $target 'linux-cross-downloads'

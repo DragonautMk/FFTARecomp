@@ -259,6 +259,25 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
             "this scene must consume decoded packet values");
         eprintln!("ROM_DATA_PACKET_SCENE frames={frames} bus_reads={} source_bytes={} typed_value_bytes={} lz77_calls={} decoded_body_bytes={} typed_hle_bytes={}", packet.bus_reads, packet.source_bytes, packet.typed_value_bytes, packet.lz77_calls, packet.decoded_body_bytes, packet.typed_hle_bytes);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_GRAPHICS").is_some() {
+        let graphics = decoded.bus.rom_resources().unwrap().graphics_stats().expect("decoded EUR graphics");
+        assert!(graphics.decoded_literal_bytes > 0, "this scene must consume decoded main graphics words");
+        eprintln!("ROM_DATA_GRAPHICS_SCENE frames={frames} bus_reads={} source_bytes={} decoded_literal_bytes={}",
+            graphics.bus_reads, graphics.source_bytes, graphics.decoded_literal_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TRANSFER").is_some() {
+        let transfer = decoded.bus.rom_resources().unwrap().transfer_stats().expect("decoded EUR transfers");
+        assert!(transfer.control_bytes > 0 && transfer.tile_bytes > 0, "this scene must use typed transfer controls and tile words");
+        eprintln!("ROM_DATA_TRANSFER_SCENE frames={frames} bus_reads={} source_bytes={} control_bytes={} tile_bytes={}",
+            transfer.bus_reads, transfer.source_bytes, transfer.control_bytes, transfer.tile_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TEXT_CATALOG").is_some() {
+        let t = decoded.bus.rom_resources().unwrap().text_catalog_stats().expect("decoded EUR text catalogs");
+        assert!(t.archive_index_bytes > 0 && t.decoded_program_bytes > 0 && t.glyph_bytes > 0,
+            "this scene must consume typed archive programs and font words");
+        eprintln!("ROM_DATA_TEXT_CATALOG_SCENE frames={frames} bus_reads={} source_bytes={} pointer_table_bytes={} string_bytes={} archive_index_bytes={} header_bytes={} encoded_control_bytes={} decoded_program_bytes={} glyph_bytes={} width_bytes={}",
+            t.bus_reads,t.source_bytes,t.pointer_table_bytes,t.string_bytes,t.archive_index_bytes,t.header_bytes,t.encoded_control_bytes,t.decoded_program_bytes,t.glyph_bytes,t.width_bytes);
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

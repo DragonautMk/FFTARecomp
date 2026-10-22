@@ -30,6 +30,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   followed by mod overrides and broader changes. The explicit
   [rom-data CLI](../rom_data.md) now extracts/verifies typed OBJ dimensions for
   exact EUR/USA images, with a source-authenticated manifest and bounded parsing.
+  `scripts/extract_rom_data.py` runs the existing offline extractor via Cargo or
+  a selected executable/Wine and lists readable outputs under ignored `target/`.
+  `scripts/linux/extract_rom_data_docker.sh` and
+  `scripts/windows/extract_rom_data_docker.ps1` instead build/run
+  Dockerfile.linux's shared `extract` target, requiring only Docker on either
+  host (Docker Desktop Linux containers on Windows); ROMs are mounted read-only
+  at run time and outputs remain host files, with host UID/GID on Linux.
+  Docker extraction defaults to the EUR filename under root `rom/`; no ROM
+  argument is required. Custom relative ROM arguments also resolve from the
+  repository root, while absolute overrides remain available.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
@@ -176,17 +186,95 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   under1/e9-d8, with50source ranges, full-set authentication/identity, atomic
   publication/reuse/repair/move and e8retention. Four reduced Wine checks and
   seven actual CLI operations pass; prior decoded files remain byte-identical.
-  First-frame old-cache activation is positive but resource use is0, so graphics
-  explicitly remains verified-only until consumption04. USA's six-file e8-d7
-  contract is preserved; new Linux/USA checks remain pending.
-  Transfer/variant programs, broader regional/gameplay/catalog/language coverage,
+  At that managed boundary first-frame old-cache activation used0resource bytes.
+  EUR graphics consumption now retains typed words, exact headers/controls and
+  custom-codec literal maps under fixed769..895bus pages. Three reduced Wine
+  tests pass, including four original/native calls with all50raw sources
+  poisoned and full state/clock parity (29023compiled typedB), and retained owner
+  across Load/Undo/backup/restart with temporary copied files unavailable.
+  One397frame Cyril-pub EUR transition matches every full state/image/OAM/audio
+  and consumes10334decoded graphics literalB. e9-d8/save/native ABI unchanged;
+  USA's six-file e8-d7contract is preserved, new Linux/USA checks remain pending.
+  EUR transfer/variant inventory now has97active triple links across five slots,
+ 42typed controls/34shared raw tile banks (968/199296B) and all162variant pointers
+  absent in this declared block. Bounded offline source-authenticated models
+  retain frame durations/tile offsets/aliases/words. Five reduced Wine checks
+  pass, including four original tick/animation/split-DMA cases with full VRAM
+  equality after each chunk (634calls/80766instructions); no new recording.
+  Managed transfer publication now adds an eighth fixed JSON under1/e10-d9with
+  all76source ranges and complete-set authentication/identity. Four reduced
+  Wine checks and three actual CLI prepare/reuse/old-cache activation commands
+  pass, preserving e9and six prior decoded files. Transfer runtime now retains
+  typed controls/tiles through fixed778..897CPU/DMA/native source views, with
+  separate counters and original mutable countdowns/flags/copy progress/clock.
+  Three reduced Wine checks pass: source widths/edges/last page/SWI/DMA/load,
+  two poisoned-source original/native forward/reverse cases (60calls/66compiled
+  controlB/9984native-DMA tileB) and unavailable-copy Load/Undo/backup/restart.
+  One397frame EUR pub transition matches every state/image/OAM/dispatch/audio,
+  uses1203controlB/21504tileB; one actual CLI with no-write e10reuse/old cache
+  matches the valid retained legacy row. e10-d9/save/native ABI unchanged.
+  USA retains six-file e8-d7;
+  new Linux/USA checks pending. Broader regional/gameplay/catalog/language coverage,
   global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity; cost measurements are deferred by the user.
+  EUR text/font inventory now independently locates original08016648's five
+ 107-entry short-string tables. Bounded offline typed model retains535sources
+  (478compact/57extended), exact controls and65referenced packed4bpp glyphs/
+  widths; full provenance670ranges. Two reduced Wine checks match every original
+  pointer/expanded string/guard, all65glyph slots and variable/fixed metrics
+  (1331calls/89446instructions). See [text/font contract](../rom_data_text.md).
+  Managed EUR1/e11-d10now adds ninth short-texts.json/eight resources, all670
+  provenance ranges and whole-set identity; retains e10/seven decoded files and
+  USAe8-d7. Three reduced Wine checks cover publication/reuse/atomic failure/
+  repair/move/source/guard/transactional activation; actual CLI prepare/no-write
+  reuse/one-frame old-cache activation passes at that managed-only boundary.
+  Text runtime now retains typed indices/codes/glyph words/metrics through fixed
+  EUR source pages, separate counters and unchanged original work/clock. Three
+  reduced Wine checks pass: synthetic widths/mirrors/edges/SWI/DMA/load, five
+  original/native reader chains with all670raw sources altered (20calls/full
+  states/clock equal;20table/124string/636glyph/6metric compiled API bytes), and
+  unavailable-copy Load/Undo/backup/restart ownership. Fixed mode skips metrics
+  exactly as original. No schema/save/native ABI change. Manifest guard is1MiB.
+  Other catalogs,
+  full font/control/Unicode contracts and new Linux/USA verification remain open.
+  The broad EUR offline text model now covers all nine pointer selectors
+  (16100strings/45tables) and29relative selectors (145archives/17035programs)
+  in the declared reader block; all33581source ranges disjoint,128glyphs.
+  Headers, compact/extended commands/operands, exact custom-LZ representations
+  and decoded trailing bytes remain explicit; dynamic context stays guest RAM.
+  Two reduced Wine checks match independent full static inventories plus
+ 80new pointer boundaries/145roots/300archive outputs/63new font slots
+  (968calls/867138instructions). Oracle explicitly supplies one-based active
+  text context1via original nullable fallback, not ordinary gameplay coverage.
+  Managed EUR1/e12-d11now adds tenth text-catalogs.json/nine resources with all
+ 33581source ranges and whole-set authentication/identity; e11/eight earlier
+  decoded files retained, USAe8unchanged. Three reduced Wine checks cover
+  deterministic publication/reuse, atomic-write failure/repair and actual EUR
+  guards/identity/corruption/move/transactional activation. Actual CLI prepare/
+  no-write reuse/old-native-cache one-frame activation passes at managed-only
+  boundary. Broad runtime now serves typed pointers/strings/relative indices/
+  headers/program units/font through fixed EUR pages; compressed literals come
+  from decoded units/padding. Three reduced Wine checks pass: synthetic source/
+  encoded-literal alteration/edges/SWI/DMA/load, fifteen original/native chains
+  with all33581raw sources altered (90calls/full states/clock equal, positive
+  compiled use in all8kinds), unavailable-copy Load/Undo/backup/restart.
+  Explicit nullable context1fixture, no ordinary scene claim. Earlier overlapping
+  subset stays authenticated/verified-only, no duplicate read owner. Manifest
+  guard16MiB/catalog+dataset512MiBaccept readable data, not packing targets.
+  New Linux/USA pending, no performance/space campaign.
+  Full text catalog now also passes one retained EUR/Wine397-frame LCD B/pub
+  transition with every state/clock/image/OAM/dispatch/audio equal and positive
+ 52pointer/185string/2index/4header/27decoded-program/8064glyph/93metric bytes.
+  This is a raw-program scene; compressed use has separate native04proof.
+  Warning-free production candidate/canonical restored; one new decoded actual
+  CLI with no-write e12reuse/old cache matches the valid retained legacy row
+  without repeating legacy. Broader scenes/GUI/archives/full font/readers and
+  new Linux/USA/nativeWindows remain open. No new recording or performance work.
 
 ## Container builds
 
-- `Dockerfile.linux` and `scripts/build_linux_docker.sh` build Linux amd64 using
+- `Dockerfile.linux` and `scripts/linux/build_linux_docker.sh` build Linux amd64 using
   Rust 1.94.0 / Debian Bookworm with ALSA/udev development dependencies inside
   the container. BuildKit caches Cargo/target separately from the host checkout.
   The scratch export stage writes only the portable tar.gz and BUILD-INFO.txt
@@ -206,9 +294,9 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 - `Dockerfile.windows` cross-compiles Windows GNU x86_64 with MinGW from the
   pinned Linux Rust base, builds TinyCC with distinct native/target compilers,
   and runs input/config, menu and runtime tests under container Wine.
-  `scripts/build_docker.ps1` is the Windows-host entry point: default Windows,
+  `scripts/windows/build_docker.ps1` is the Windows-host entry point: default Windows,
   `-Platform linux` for Linux. Docker Desktop must use Linux containers.
-  `scripts/build_windows_docker.sh` offers the Windows target from Bash.
+  `scripts/linux/build_windows_docker.sh` offers the Windows target from Bash.
   Export is `dist/docker-windows/`; it contains no game or personal data.
   Resource build scripts branch on Cargo's target OS rather than build-host cfg.
   The Windows builder reuses the pinned Rust image and copies its toolchain
@@ -300,9 +388,9 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   No AppData ROM/settings/save-pointer fallback in this mode. The wrapper copies
   a first-launch selected ROM to `ffta.gba`. Explicit environment path overrides
   still apply. Move the entire folder while closed; paths are resolved afresh.
-  `scripts/package_ffta_windows.py` and Windows `build-all.ps1` create a portable
+  `scripts/windows/package_ffta_windows.py` and Windows `build-all.ps1` create a portable
   ZIP by explicit file selection. Native Linux uses
-  `scripts/package_ffta_linux.sh` and the shared
+  `scripts/linux/package_ffta_linux.sh` and the shared
   `scripts/package_ffta_portable.py --platform linux` for a tar.gz with executable
   modes preserved and `tcc/libtcc.so`. The current archive targets the Ubuntu
   26.04 x86_64 host; broad older-distro/Steam Deck compatibility is unverified.
@@ -660,6 +748,12 @@ captures. Evidence is tracked in the [record](../changes/2026-10-21-align-native
 This is not an AI-turn or native Windows performance claim.
 
 ## Maintaining this knowledge
+
+Platform-specific root-workspace scripts are grouped under `scripts/linux/`,
+`scripts/windows/`, `scripts/android/` and `scripts/unix/`; shared tools remain
+directly under `scripts/`, with tests under `scripts/tests/`. See the
+[script directory guide](../../scripts/README.md). AndroidPort keeps its separate
+script tree.
 
 Follow [the memory workflow](MEMORY_WORKFLOW.md) and the local skills routed
 from [AGENTS.md](../../AGENTS.md). Update this page when facts or decisions

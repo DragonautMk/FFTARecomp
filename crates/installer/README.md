@@ -26,7 +26,7 @@ Wayland and GTK development libraries. On Ubuntu:
 
 ```sh
 sudo apt-get install clang pkg-config libasound2-dev libudev-dev libx11-dev libxkbcommon-dev libwayland-dev libgtk-3-dev
-bash scripts/package_ffta_linux.sh
+bash scripts/linux/package_ffta_linux.sh
 ```
 
 Run this from the repository root. The archive is
@@ -66,8 +66,8 @@ the built-in fallback remain available. After installation, add the installed
 FFTARecomp game executable to Steam. This variant is a fullscreen installer,
 not a persistent single-file launcher.
 
-`build-all.ps1` and `scripts/package_ffta_linux.sh` produce both Linux packages.
-On Windows, `scripts/build-linux-windows.ps1 -InstallerOnly` refreshes just the
+`build-all.ps1` and `scripts/linux/package_ffta_linux.sh` produce both Linux packages.
+On Windows, `scripts/windows/build-linux-windows.ps1 -InstallerOnly` refreshes just the
 installer binaries and archives, retaining an already prepared Linux payload.
 Without that flag it rebuilds the game and TinyCC as before.
 

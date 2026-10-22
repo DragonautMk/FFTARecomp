@@ -19,8 +19,10 @@
 !Licenses/
 !Licenses/**
 !scripts/
-!scripts/package_ffta_linux.sh
+!scripts/linux/
+!scripts/linux/package_ffta_linux.sh
 !scripts/package_ffta_portable.py
+!scripts/extract_rom_data.py
 !docs/
 !docs/portable.md
 !docs/docker.md

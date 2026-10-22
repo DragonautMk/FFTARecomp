@@ -6,6 +6,439 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **TOOLS-EXTRACT-DEFAULT-ROM — complete (2026-10-22).** Latest request wants
+  a built-in project-relative ROM path with overrides, then resumes this unit.
+  Both Docker wrappers now accept no ROM argument and use
+  rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba from the repo root.
+  Custom relative ROM paths also use the root; absolute paths and Bash first
+  argument/PowerShell -RomPath remain available. Explicit output paths keep
+  caller-relative semantics. README/script/Docker/extraction docs updated.
+  Seven Bash mock-Docker tests, syntax/help and five PowerShell7.4path cases
+  pass. Three successful PowerShell logs were reused after resumption; two
+  missing-ROM checks completed with wrapping-tolerant assertions after the
+  original harness stopped on error-message formatting. No game data or rebuild
+  involved, no unrelated runtime queue resumed. Evidence:
+  target/extraction-default-rom/{retained-success-results.json,
+  powershell-results.json,missing-default-verified.log,missing-custom-verified.log}.
+  All jobs terminal; final full-tree memory and scoped-whitespace checks pass.
+  Native Windows remains pending. No commit/push or remaining implementation
+  action for this unit.
+  [Record](../changes/2026-10-22-default-extraction-rom-to-project-root.json).
+
+- **TOOLS-SCRIPT-PATH-AUDIT — path checks/fix complete (2026-10-22).** User
+  asks to recheck moved scripts, then clarifies they invoke from a Linux terminal
+  and seem not to execute; exact command/output has not been supplied. Existing
+  moved root/import/active-reference evidence is retained, not repeated.
+  Real scripts/linux/extract_rom_data_docker.sh from /tmp builds/runs successfully
+  with EUR, creating8current e10files at target/rom-data/path-check-europe.
+  Linux extraction paths required no further edit; provide the new folder path,
+  explicit ROM argument and explain verified reuse if output already exists.
+  A separate actual shell-path issue was reproduced in build-all.ps1 under
+  PowerShell7: hardcoded $PSHOME/powershell.exe is absent. It now launches the
+  relocated Linux helper with the current process executable. The same full
+  script fixture fails before and passes after, using mocked compiler/Python
+  commands and child helper from unrelated cwd. Native Windows remains untested.
+  Evidence:target/script-path-audit/{relocated-extract.log,
+  relocated-extract-result.json,build-all-before.log,build-all-after.log,
+  build-all-result.json}. Jobs20481and fixture tests terminal/pass.
+  Full project-memory and CRLF-aware scoped-whitespace checks pass. No claim
+  that an unknown user-specific Linux failure is reproduced; if it persists,
+  obtain the exact terminal command/output before another code change.
+  No old runtime/catalog/performance/USA work was resumed, no commit/push.
+  [Record](../changes/2026-10-22-fix-script-child-shell-path.json).
+
+- **ROMDATA-04-BG-TRANSFER-CONSUMPTION — complete for reduced EUR/Wine.**
+  Latest full TODO request remains EUR/reduced Wine-only, no performance/space
+  campaign. Existing dirty recorded graphics/transfer/script work preserved.
+  Immutable typed controls/tiles now serve fixed778..897source pages, merged
+  prior-family edge reads and independent control/tile counters. Original live
+  countdowns/flags/cursors/partial DMA/clock and e10-d9/save/native ABI unchanged.
+  Three focused Wine checks pass after warning-free Windows test build:
+  synthetic widths/mirrors/graphics/palette edges/last897page/real-BIOS bus mode/
+  SWI/DMA/load; two original/interpreter/native animation cases with all76raw
+  sources poisoned match full states/clock/VRAM after each of60calls; owner
+  persists through temporary file unavailability, failed activation, Load/Undo/
+  backup/restart. Forward/reverse17ticks and512/1024live limits included.
+  Compiled control66B/native-initiated DMA tiles9984B; original7567instructions/
+  native234dispatches. Evidence:target/rom-data-bg-transfer-consumption/
+  windows-results.json, windows-europe/result.json and three logs. All unit jobs
+  terminal/pass; protected originals/canonical/e10/cache/slot preserved.
+  Existing original catalog/two-loop/graphics/packet acceptance not repeated.
+  New Linux/USA checks remain pending.
+- **ROMDATA-05-BG-TRANSFER-SCENE — complete for one EUR/Wine transition.**
+  Retained slot5LCD B/pub.input397frames/e10/old cache match every full state/
+  clock/image/OAM/dispatch/audio, with positive typed transfer control+tile use.
+ 6579reads/22707sourceB =1203controlB+21504tileB; Cyril-pub62. Both raw reads
+  and native-initiated DMA consume the retained file model.
+  Evidence:target/rom-data-bg-transfer-consumption/windows-scene-results.json
+  and windows-lcd-b-transfer-full-state-audio.log. Protected originals unchanged;
+  no old graphics/packet catalog acceptance or new recording. Linux/USA pending.
+- **ROMDATA-05-BG-TRANSFER-CLI — complete for EUR/Wine.** Warning-free Windows
+  production candidate/canonical restored. One new actual decoded CLI397frame
+  process from unrelated cwd reuses e10without writes and old native cache,
+  matches the retained legacy final image/dispatch row with positive1203control/
+ 21504tileB. Legacy reference was not repeated: same protected slot/input/cache/
+  loader/ROM and unchanged legacy behavior/ABI; the new scene pair separately
+  proves every-frame state/audio parity. All unit jobs terminal/pass.
+  Evidence:target/rom-data-bg-transfer-consumption/windows-cli-summary.json,
+  build/logs/candidate and source/protected hashes. Main BG declared catalogs
+  are now directly consumed; full ROM_DATA_TODO remains open for other catalogs/
+  languages, text/fonts, OBJ lists/animations, maps/gameplay/audio, GUI/archives,
+  mod phases and nativeWindows. New Linux/USA pending, no performance/space work.
+  [Record](../changes/2026-10-22-consume-european-background-transfer-programs.json).
+  Final full working-tree memory/CRLF-aware whitespace and source/protected-hash
+  checks pass. All unit processes terminal; no temporary tracked helper.
+- **ROMDATA-01-TEXT-SHORT-STRINGS / ROMDATA-02-TEXT-SHORT-DATA — complete
+  for the declared EUR offline catalog.** Original08016648selects five107-entry
+  pointer tables;535distinct sources (478compact/57extended),5468sourceB.
+  Original08019d98compact marker01expands byte-1toBE8000codes; extended glyphs
+  consume two bytes (low zero allowed), other control/operand bytes stay exact.
+  Bounded typed model retains all pointers/codes/encodings and only65referenced
+  packed4bpp128Bfont slots/widths (4954dc/4f885c),670provenance ranges. No
+  guessed Unicode/language labels/complete font extent. Two final reduced Wine
+  checks pass after warning-free build: synthetic encoding/length/truncation/
+  overflow guards, strict deterministic JSON/source/authentication/coherent-edit
+  rejection and all535original selector/copy outputs/guards plus65glyphs and
+  width-only readers in variable/fixed modes; unknown-language fallback passes.
+ 1331calls/89446instructions are coverage counts, no performance measurement.
+  Initial pre-pointer-guard build/log/result evidence retained separately; final
+  results include the added malformed-standalone-pointer guard. Retained slot5
+  only initializes original IWRAM memcpy callback, no new recording/replay.
+  Evidence:target/rom-data-text-fonts/{static-short-catalog.json,windows-results.json,
+  windows-europe/result.json,source-hashes.json,protected.json}, bounded static
+  disassemblies and typedshort-texts.json. All unit jobs terminal/pass; originals/
+  slot/cache/loader/canonical preserved. Managed e10/startup/runtime unchanged.
+  New Linux/USA/nativeWindows pending, other catalogs/full font/control/Unicode
+  remain open. [Record](../changes/2026-10-22-decode-european-short-texts-and-referenced-font.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-02-TEXT-SHORT-MANAGED — complete for EUR/Wine.** Ninth fixed
+  short-texts.json/text.short-strings/short-texts-v1-jsonunder1/e11-d10,670source
+  ranges; whole-set source/hash/identity authentication before activation.
+  Manifest malformed-input guard raised to1MiBfor added provenance, no packing.
+  e10/seven prior decoded files retained unchanged; USA remains six-filee8-d7.
+  Three reduced Wine checks pass after warning-free Windows test build:
+  deterministic9-file publication/reuse, partial-write failure/missing repair,
+  actual EUR coherent-edit/path/coverage/provenance/dependency/truncation/size
+  rejection with transactional failed activation; corruption repair/move pass.
+  Managed text JSON matches closed offline02SHAa422d06951e78d1ac10ce7be3ece0a84a17a1308d91f6b47ba0ff6fb10b054fa.
+  Warning-free Windows production candidate/canonical restored; three actual
+  CLI processes from unrelated cwd create/no-write-reuse/one-frame old-cache
+  activation pass. Text runtime=verified-only, not direct consumption.
+  Evidence:target/rom-data-text-short-managed/{windows-results.json,
+  windows-europe/result.json,windows-cli-summary.json,source-hashes.json,
+  protected.json}, logs and candidate. All jobs terminal/pass; original ROM/
+  slot/cache/loader/canonical/e10preserved. No original text/font/BG or scene
+  oracle repeated, no performance/space work. Linux/USA/nativeWindows pending;
+  direct04/scene-lifecycle05and full catalog/font/control/Unicode remain open.
+  [Record](../changes/2026-10-22-prepare-european-short-texts-and-referenced-font.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-04-TEXT-SHORT-CONSUMPTION — complete for declared EUR/Wine.**
+  Immutable ninth-file typed indices/codes/control bytes/glyph words/metrics now
+  serve fixed EUR CPU/DMA/native pages and separate counters. Exact original
+  expansion/copy/render work/clock and e11-d10/save/native ABI unchanged.
+  Three reduced Wine checks pass after warning-free Windows test build:
+  synthetic widths/mirrors/edges/prior-byte/SWI/DMA/BIOS-bus-mode/load; five
+  original/native chains with all670raw source ranges altered after activation,
+ 20calls/complete states/clocks equal; unavailable-copy failed attachment and
+  Load/Undo/backup/restart ownership. Compiled typed API bytes20table/124string/
+ 636glyph/6variable metrics; fixed mode correctly bypasses metrics. Traced1984
+  original instructions/920native dispatches are coverage counts, not timings.
+  The first native expectation wrongly required fixed-width metric use; only
+  the expectation changed, failed evidence retained, only native test repeated,
+  followed by previously unrun lifecycle. Old synthetic/catalog/managed/scene
+  acceptance not repeated. All unit jobs terminal/pass, last35858.
+  Evidence:target/rom-data-text-short-consumption/{windows-core-text.log,
+  windows-results.json,windows-europe/result.json,verification-summary.json,
+  source-hashes.json,protected.json}and logs; originals/slot/cache/loader/
+  canonical preserved. Ordinary gameplay/production-CLI consumption05, actual
+  BIOS execution, broad catalogs/full font/control/Unicode remain open.
+  Linux/USA/nativeWindows pending; no performance/space work or new recording.
+  [Record](../changes/2026-10-22-consume-european-short-texts-and-referenced-font.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-01-TEXT-REMAINING-CATALOGS / ROMDATA-02-TEXT-CATALOG-DATA —
+  complete for declared EUR offline reader block.**9pointer selectors/45tables/
+ 16100strings (10735compact/5365extended,229314sourceB);29relative selectors/
+ 145archives/17035programs (6138rawextended/8898compressedextended/1999compact,
+ 1766190sourceB),33581disjoint provenance ranges/128referenced glyphs. Headers,
+  u16indices/FFFFsentinels, typed command operands, exact customLZstreams and
+  decoded trailing bytes retained; dynamic context stays guest RAM, no Unicode
+  or full-script inference. Two reduced Wine checks pass after warning-free
+  build: codec/command/padding/truncation guards and exactEUR full independent
+  inventory/source/strict deterministic JSON/coherent-edit/index validation.
+  Original80new pointer boundaries/copies,145roots,300archive output+guard
+  cases/all21command forms and63newfont slots/widths match;968calls/867138
+  instructions are coverage counts only. Closed107-entry oracle not repeated.
+  Initial compile warning fixed before tests. Initial original failure traced
+  to absent active unit/mission context0underflowFFFFat08013dd2; final fixture
+  explicitly uses original nullable fallback index1for both source/rebuilt
+  scripts. This is controlled reader coverage, not an ordinary scene or full
+  state/clock proof; no decoder/model/bound relaxation. Failed logs retained,
+  only failed original oracle repeated; passed codec remains closed.
+  Evidence:target/rom-data-text-catalogs/{reader-roots.json,pointer-catalogs.json,
+  archives.json,windows-core-archive-codec.log,windows-results.json,
+  windows-europe/result.json,source-hashes.json,protected.json}, disassemblies
+  and typedtext-catalogs.json(SHAd43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f).
+  All jobs terminal/pass, last22626; originals/slot/cache/loader/canonical
+  preserved. Broad managed/runtime/scenes remain open; e11still consumes its
+  earlier subset. Linux/USA/nativeWindows pending, no performance/space work.
+  [Record](../changes/2026-10-22-decode-european-pointer-and-relative-text-catalogs.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-02-TEXT-CATALOG-MANAGED — complete for EUR/Wine.** Tenth fixed
+  text-catalogs.json/text.catalogs/v1JSONunder1/e12-d11,33581source ranges and
+  complete typed source authentication/whole-set identity. e11/eight prior
+  decoded files retained unchanged, USA six-filee8-d7preserved. New broad data
+  verified-only; existing short-text/BG direct consumers remain active.
+  Three reduced Wine checks pass after warning-free Windows test builds:
+  deterministic10-file publication/reuse, atomic-write/missing repair, actual
+  EUR coherent-edit/metadata/path/coverage/provenance/dependency/truncation/size
+  rejection, identity/corruption repair/move/transactional activation.
+  Initial128MiBguard refused146489381BreadableJSONbefore publication; widened
+  catalog+total guards512MiB, manifest16MiBwithout packing, failed evidence
+  retained. Only failed real-EUR check repeated; passed synthetic/catalog
+  oracles stay closed. ManagedJSONmatches closed typed02SHAd43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f.
+  Warning-free Windows production/canonical restored; actual CLI prepare/
+  no-write reuse/one-frame old-native-cache activation from unrelated cwd pass,
+  runtime=verified-only. All jobs terminal/pass,77980failed prior guard retained,
+  final87602managed/49063build/6747CLIpass. Originals/slot/cache/loader/e11/
+  canonicals preserved. Evidence:target/rom-data-text-catalog-managed/
+  {windows-tenth-publication.log,windows-atomic-write-repair.log,
+  windows-results.json,windows-europe/result.json,windows-cli-summary.json,
+  source-hashes.json,protected.json}, logs/candidate. No old archive/scene rerun,
+  new recording, performance/space work. Broad04/ordinary05and complete reader/
+  font/Unicode coverage remain open; Linux/USA/nativeWindows pending.
+  [Record](../changes/2026-10-22-prepare-european-pointer-and-relative-text-catalogs.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-04-TEXT-CATALOG-CONSUMPTION — complete for declared EUR/Wine.**
+  Full tenth-file owner serves fixed EUR pages with typed pointer/string/
+  relative-index/header/program/font fields and8source counters. CustomLZ
+  literals map to decoded units/terminator/padding; control bytes remain exact.
+  Guest dynamic context/expansion/decode/copy/render/instructions/clock and
+  e12-d11/save/native ABI unchanged. Earlier overlapping subset authenticated
+  verified-only without duplicate owner/counters. Three reduced Wine checks
+  pass after warning-free build: synthetic widths/mirrors/edges/prior bytes/
+  glyph486/last font page/BIOS-bus-mode/SWI/DMA/load with raw source AND retained
+  encoded literals altered;15original/native chains across5languages/3forms
+  with all33581raw spans altered and90full states/clocks equal; unavailable-copy
+  failed activation/Load/Undo/backup/restart ownership. Compiled source bytes
+ 60pointer/81string/30index/30header/396encoded-control/434decoded-program/
+ 1892glyph/18metric.30840instructions/3093dispatches are coverage counts only.
+  Controlled original nullable-context1fixture retained, not an ordinary scene.
+  All jobs terminal/pass,96279; originals/slot/e12/cache/loader/canonical intact.
+  Evidence:target/rom-data-text-catalog-consumption/{windows-results.json,
+  windows-europe/result.json,source-hashes.json,dataset-hashes.json,protected.json}
+  and three logs. No closed archive/scene/CLI oracle repeated, new recording,
+  performance/space work. Ordinary scene/actual CLI05, actual BIOS/full reader/
+  font/Unicode remain open; Linux/USA/nativeWindows pending.
+  [Record](../changes/2026-10-22-consume-european-pointer-and-relative-text-catalogs.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- **ROMDATA-05-TEXT-CATALOG-SCENE-CLI — complete for declared EUR/Wine.**
+  One ordinary retained397-frame slot5LCD B/pub.input/e12/old-cache pair entering
+  Cyril pub/BG62matches every full state/clock/image/OAM/dispatch/audio. New
+  text source use2328reads/8427B:52pointer/185string/2index/4header/27decoded-
+  program/8064glyph/93metric. Encoded-control0means raw program scene; native04
+  separately covers compressed source use. Warning-free Windows test/production
+  builds, canonical restored; production candidate7ce9fb2bd1cb02501001e0f482bbcc8ca4eede92486d3015a5c100bab75513db.
+  One new actual decoded CLI from unrelated cwd reuses e12without writes and old
+  cache, equal positive text use and retained legacy final hash/dispatch row;
+  no legacy repeat (same protected inputs/legacy behavior/ABI). All jobs terminal/
+  pass:3648scene,43707build,26657CLI. Source/protected/e12/slot/input/cache/
+  loader/canonicals unchanged. Evidence:target/rom-data-text-catalog-consumption/
+  {windows-scene-results.json,windows-lcd-b-text-catalog-full-state-audio.log,
+  windows-cli-summary.json,windows-build.json,scene-source-hashes.json}and logs.
+  No new recording, performance/space work, old archive/routine/catalog repeat.
+  Broader scenes/languages/compressed ordinary scenes/GUI/archives/actual BIOS/
+  full reader/font/Unicode and other families/mod phases stay open; Linux/USA/
+  nativeWindows pending. Full ROM_DATA_TODO remains active.
+  [Record](../changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json).
+  Full working-tree memory and CRLF-aware whitespace checks pass at closure.
+- Selection checkpoint (2026-10-22): **ROMDATA-01-TEXT-AUXILIARY-ROOTS**
+  under unchanged full EUR/reduced Wine-only/no performance-or-space request.
+  Closed broad01/02/04and declared05above are retained, no repeat needed.
+  Missing: literal-root text archives/readers outside the declared29root block
+  and name keyboard source/copy layout. Known original0812f08cpasses4f95c4to
+ 08013f8c; task304/308pointers and original keyboard selector0812f15cneed their
+  producer contract. Next: reuse retained disassemblies, inventory exact
+  original08013f8ccallers and keyboard root extents; no build/test/new recording,
+  broader scene, Linux/USA or performance campaign selected for static discovery.
+  Static discovery terminal:16direct08013f8ccallers; generic/dispatch callers
+  retain runtime pointers, and both name-menu callers use literal4f95c4. New
+  keyboard archive offsets8/134/252/FFFF, three rawextended header60programs
+ 125/117/129B, commands6e/73/63; exact end4f9741before first main archive4f9744.
+  Original0812e900fills60BEcode cells/page from those programs, selectors
+ 0812f15cusepage120/row20/column2. Navigation widths3ad2feare3x6bytes. Keyboard
+  references160glyphs,37new vs full e12; last3174fills final128Bbefore4f885c,
+  authenticating font-bank end (3175slots from4954dc plus3175metric bytes).
+  Evidence:target/rom-data-text-auxiliary/{static-entrypoints.json,
+  keyboard-archive.json}, bounded caller/producer/tail disassemblies;45783and
+ 19605terminal/pass. No new runtime build/scene.
+  Select **ROMDATA-02-FONT-KEYBOARD-DATA**: missing bounded complete font bank,
+  three typed keyboard programs/row-widths/derived60-cell pages and source
+  authentication, then one reduced Wine original copy/cell/selector proof.
+  Next: reuse existing Program/Glyph formats; leave managed/direct extensions
+  separate and do not reopen broad text/scene units.
+  Pause checkpoint (2026-10-22): goal manager reports `paused`; only document
+  the partial unit and run the required memory/whitespace checks before stopping.
+  Added offline `fonts.rs` (3175 packed slots/metrics) and `name_keyboard.rs`
+  (three programs, row widths and derived cells), plus focused optional original
+  reader coverage in `font_keyboard_tests.rs`. Windows release test compilation
+  completed successfully, session71615terminal/pass; executable locators are in
+  target/rom-data-font-keyboard/windows-tests.json. No Wine test in this unit
+  has run: run-tests.py and static-inventory.json are prepared, with no result
+  claim. On explicit resume, first inspect retained build/results and then run
+  only these two pending reduced Wine checks; do not rebuild unchanged sources.
+  Offline source/original acceptance, managed publication/direct consumption
+  and ordinary name-entry scene coverage remain open. No live unit process.
+  New Linux/USA/nativeWindows pending; no performance or space measurement.
+  [Partial record](../changes/2026-10-22-model-european-complete-font-and-name-keyboard.json).
+  Required full-tree project-memory and CRLF-aware whitespace checks pass.
+
+- **TOOLS-SCRIPTS-PLATFORM-LAYOUT — complete (2026-10-22).** Latest user asks
+  for platform folders after Docker extraction. Moved14scripts/helpers into
+  scripts/{linux,windows,android,unix}; shared tools/tests stay at scripts/ and
+  scripts/tests/. Corrected root/import resolution, adjacent Windows linker,
+  root Android build watcher, Docker COPY/allowlist, CI/build-all, skill links
+  and active docs. scripts/README.md documents host/target distinctions.
+  Five relocated Bash extraction tests pass; Linux build/package mocks from
+  unrelated cwd resolve the right root. PowerShell7.4/mock checks pass for
+  extraction explicit/default paths, both build targets and remap cwd; all5
+  affected PowerShell scripts parse. Shell/Python syntax, moved Python help/
+  imports, Android root/watcher, active-reference scan, CRLF-aware whitespace
+  and Docker static check pass. No rebuild, game replay, extraction or APK run.
+  Isolated and final full working-tree memory coverage pass; concurrent managed
+  transfer work now has its separate record. Evidence:
+  target/script-platform-layout/{moves.json,
+  linux-mock-results.json,powershell-results.json,reference-checks.json,
+  docker-build-check.log,isolated-memory-check.json}. All jobs terminal;
+  no remaining layout implementation action. AndroidPort remains separate;
+  native Windows/full release/Android builds were not rerun. No commit/push.
+  [Record](../changes/2026-10-22-organize-scripts-by-platform.json).
+
+- **ROMDATA-TOOLS-EXTRACT-DOCKER — complete (2026-10-22).** Latest user asks
+  for Linux/Windows scripts with dependencies in Docker. Added Bash/PowerShell
+  scripts/linux/extract_rom_data_docker.sh and its windows/PowerShell sibling,
+  shared Dockerfile.linux extract
+  target and a narrow Python-wrapper context allowance. Both hosts run the
+  native Linux CLI with only Docker installed; Windows uses Linux containers.
+  ROM input is mounted read-only at run time, output parent enables atomic
+  publication, Linux forwards UID/GID and extraction has no network. Release
+  build/export test gates remain intact; packaging was not rerun.
+  Actual image build/EUR create and container reuse pass:7files equal retained
+  Wine outputs, unchanged reuse hashes/mtimes, correct ownership, protected ROM
+  hash preserved and no game data in the unmounted image. Five Bash mock-Docker
+  tests, bash -n and ShellCheck pass. Six PowerShell7.4/mock-Docker checks pass
+  in its Linux container; native Windows5.1/Desktop remain pending. Latest user
+  request explicitly authorizes Linux container extraction, not old gameplay/
+  USA/performance queues. Concurrent transfer Rust work is preserved separately.
+  Evidence:target/rom-data-extraction-docker/{linux-extract.log,linux-reuse.log,
+  results.json,powershell-results.json,created-files.json,build-source-hashes.json}.
+  Host output:target/rom-data/docker-europe/. Both Docker jobs81276/92014are
+  terminal/pass; final full-tree memory/scoped-whitespace checks pass. No
+  remaining implementation action, commit or push.
+  [Record](../changes/2026-10-22-extract-rom-data-with-docker.json).
+
+- **ROMDATA-TOOLS-EXTRACT-SCRIPT — complete (2026-10-22).** Latest user asks
+  for a direct extraction script to inspect the work. Added
+  scripts/extract_rom_data.py: explicit ROM, Cargo locked release by default,
+  optional prebuilt CLI/Wine/output, caller-relative paths, status forwarding
+  and actual JSON/TOML file list/descriptions. Default output remains ignored
+  target/rom-data/<ROM stem>; README/rom-data docs include commands.
+  Five focused Python tests pass. Two actual EUR/Wine invocations from unrelated
+  cwd create/reuse7files at target/rom-data/extracted-europe; all reuse hashes/
+  mtimes and protected ROM/executable hashes match. Initial sandbox Wine socket
+  failure is retained; authorized retry passes. Evidence:
+  target/rom-data-extraction-script/{results.json,created-files.json,
+  protected-before.json,extract.log,extract-wine.log,reuse-wine.log}.
+  No runtime rebuild/integration/scene, new Linux/USA/native Windows campaign,
+  performance/space work, commit or push. Concurrent graphics work is separate;
+  no older runtime queue was resumed by this request. All script jobs terminal;
+  final project-memory/whitespace checks pass; no remaining script acceptance
+  criterion or live job.
+  [Record](../changes/2026-10-22-add-rom-data-extraction-script.json).
+
+- **ROMDATA-04-BG-GRAPHICS-CONSUMPTION — complete for reduced EUR/Wine.**
+  Latest full TODO request remains EUR/reduced Wine-only, no performance/space
+  campaign. Prior offline/managed work committed externally at2820852; consumer
+  adds retained immutable words/metadata and literal maps for fixed769..895pages,
+  merged edge reads and separate usage diagnostics. Every guest instruction,
+  scratch write, DMA and clock stays original; e9-d8/save/native ABI unchanged.
+  Three focused Wine tests pass after warning-free Windows test build: synthetic
+  first/last pages, widths/mirrors/edges/real-BIOS bus mode/SWI/DMA and encoded
+  literal poisoning; four original/native calls with all50raw sources poisoned
+  match full states/clock/destinations/guards/SP; Load/Undo/backup/restart retain
+  the owner after temporary copied files become unavailable. Compiled typed
+  reads29023bytes; original788393instructions/native3414dispatches. No old50
+  catalog oracle repeated. Evidence:target/rom-data-bg-graphics-consumption/
+  windows-results.json, windows-europe/result.json and three logs. All terminal;
+  protected originals/canonical/e8/e9/cache/loader unchanged. Linux/USA pending.
+- **ROMDATA-05-BG-GRAPHICS-SCENE — complete for one EUR/Wine transition.**
+  Existing e9files/native cache/slot5/input397frames now match every full state/
+  clock/image/OAM/dispatch/mixed-PSG-FIFO-HLE audio with positive new graphics
+  use:14815reads/16209sourceB/10334decoded literalB, Cyril pub BG62/LCD B. Prior
+  packet/alternate use remains positive. Evidence:target/rom-data-bg-graphics-
+  consumption/windows-scene-results.json and full-state-audio log; originals
+  hash-preserved. No old catalog/boot/other scene repeated. Linux/USA pending.
+- **ROMDATA-05-BG-GRAPHICS-CLI — complete for EUR/Wine.** Warning-free Windows
+  production candidate/canonical restored; two actual CLI397frame processes
+  from unrelated cwd reuse e9and old native cache without writes, equal final
+  image hash/dispatch counts and10334positive graphics literalB. Protected
+  ROM/e8/e9/cache/slot/input/canonicals unchanged. All jobs terminal.
+  Evidence:target/rom-data-bg-graphics-consumption/windows-cli-summary.json,
+  build/logs/candidate and source/protected hashes. Full TODO remains active;
+  next new unit is descriptor-linked transfer/variant inventory. New Linux/USA,
+  GUI/archive/nativeWindows checks remain pending; no performance/space work.
+  [Record](../changes/2026-10-22-consume-european-main-background-graphics.json).
+  Source/protected hashes and CRLF-aware whitespace pass; full current working-
+  tree project-memory coverage now passes, including separate concurrent script
+  records. Preserve those script changes; no runtime attribution is made to them.
+- **ROMDATA-01-BG-TRANSFER-VARIANT / ROMDATA-02-BG-TRANSFER-DATA — complete
+  for the declared EUR offline catalog.**97active links across five triple
+  slots (83/6/5/3/0),42controls/34shared raw tile banks;968control/199296tileB.
+  All162variant pointers are absent in this block; no invented variant decoder.
+  Typed frames preserve u16durations/32-byte source-tile offsets, transfer size,
+  header byte3, complete u32tile words, destinations and independent canonical
+  aliases. All76extents reproduce ROM hashes and avoid known e9family overlaps;
+  JSON roundtrips/source-authenticates and coherent edits are refused.
+  Five reduced Wine checks pass after warning-free Windows build:3core,1JSON,
+ 1private EUR case with independent retained classifier and four original
+  animations. Creator08021f10/tick08021bd8/DMA08021d10match countdowns/frame order,
+  full VRAM/guards after every chunk and two loops (634calls/80766instructions,
+  34split chunks). Retained slot5only initializes original IWRAM helpers; no new
+  recording/boot/graphics oracle. New Linux/USA pending; no performance/space work.
+  Evidence:target/rom-data-bg-transfer-variant/{static-inventory.json,candidate-
+  layout.json,windows-results.json,windows-europe/result.json}, logs/disassemblies.
+  All jobs terminal; source/ROM/e8/e9/slot/cache/canonicals preserved. Main graphics
+  consumer/declared scene/CLI above remain closed. This offline boundary did not
+  change the manifest; managed02is now closed below. Follow its04queue for typed
+  control/tile-source projection and original/native provenance/lifecycle proof.
+  Preserve concurrent extraction/Docker wrapper work and separate records.
+  [Record](../changes/2026-10-22-decode-european-background-transfer-programs.json).
+- **ROMDATA-02-BG-TRANSFER-MANAGED — complete for EUR/Wine.** Eighth fixed
+  file bg-transfer-programs.json under1/e10-d9with all76source ranges/dependency,
+  full-set authentication/identity and atomic publication/reuse/repair/move.
+  USA retains six-file e8-d7contract; old e9generations and six prior decoded
+  files remain unchanged. Four focused Wine tests pass: core authentication,
+  eighth-file deterministic publication/reuse, partial-write/missing repair and
+  actual EUR managed/retention/coherent-edit/fixed-path/coverage/dependency/file
+  guards with transactional failed activation. JSON matches typed02exactly.
+  Three actual Windows CLI processes from unrelated cwd pass prepare/no-write
+  reuse/old-cache first-frame activation (290native blocks), with0new transfer
+  use; this is verified-only, not consumption proof. Windows test/production
+  builds warning-free/canonical restored; all jobs terminal. Protected ROM/
+  e8/e9/slot/cache/loader unchanged. Evidence:target/rom-data-bg-transfer-managed/
+  {windows-results.json,windows-europe/result.json,windows-cli-summary.json},
+  source/protected hashes, logs and candidate. Linux/USA pending; no performance/
+  space work or old animation/graphics/scene rerun.
+  Consumer04and declared scene/CLI05are now closed above, with fixed source
+  pages through897(the last bank ends897ad4), preserved original frame countdowns/
+  loop flags/live limits/partial DMA and guest/save/native identity. Do not repeat
+  this closed managed unit or the prior catalog/graphics/packet acceptance.
+  Adapt current optional e8/e9copy lists only as affected tests are selected.
+  Full TODO and other families/mod phases remain active. Preserve concurrent
+  script organization work and its separate records.
+  [Record](../changes/2026-10-22-prepare-european-background-transfer-programs.json).
+  Current full working-tree memory and CRLF-aware whitespace checks pass;
+  source/protected hashes verified. No live unit build/test/CLI process.
+
 - **WORKFLOW-MEMORY-CI-37 — complete locally (2026-10-22).** Latest request
   is the failed project-memory screenshot; unrelated field00graphics work below
   was not selected by this repair. Run39737053773/job119685097064 confirms
@@ -55,16 +488,14 @@ An open parent never reopens completed children or rejected experiments.
   Windows CLI processes all pass from unrelated cwd, including explicit
   no-write reuse and first-frame activation with290old-cache native blocks.
   That frame has0resource-use counts; it proves activation only. Runtime main
-  graphics remains explicitly verified-only. CLI postprocessor expected native=
+  graphics was explicitly verified-only at that boundary;04is now closed above.
+  CLI postprocessor expected native=
   instead of native_blocks:; corrected from the completed log without reruns.
   Windows test/production builds warning-free, canonical restored; protected
   originals/e8/cache/loader unchanged. All jobs terminal. Evidence:
   target/rom-data-bg-graphics-managed/{windows-results.json,windows-europe/
   result.json,windows-cli-summary.json}, build/logs/candidate and prior evidence.
-  Next: **ROMDATA-04-BG-GRAPHICS-CONSUMPTION**, retain the immutable typed model,
-  serve custom-codec literal source bytes from decoded words, preserve original
-  headers/tokens/instructions/clock and prove EUR interpreter/native/poisoned-ROM
-  use plus owner lifecycle. Adapt affected private current-EUR dataset copy lists
+  Consumer04and declared05scene/CLI are closed above. Adapt affected private current-EUR dataset copy lists
   and old hardcoded e8expectations as those checks are selected; their retained
   historical e8results are closed, not rerun. Reuse retained scene397frame/input
   only for the new graphics-use criterion after integration. Linux/USA pending;

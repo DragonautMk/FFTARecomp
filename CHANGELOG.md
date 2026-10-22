@@ -3,6 +3,32 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-22 — Validate European text catalog consumption in the retained pub transition and production CLI
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add an optional ordinary-scene acceptance assertion requiring actual typed archive-index/program/font use and reporting all eight text source-kind counters through the existing full-state/audio comparison.
+- Validate the broad e12 direct consumer in one retained EUR LCD B Cyril-pub BG62 transition and one new actual decoded CLI command, preserving all existing fixtures and canonical executables.
+
+**Validation**
+
+- Warning-free Windows release test build; one 397-frame legacy/decoded Wine pair matches every serialized state/clock, central/wide framebuffer, OAM/native dispatch and mixed/PSG/FIFO/HLE audio stream using retained slot5/pub.input/e12/old cache.
+- Positive use is 2328 reads/8427 source bytes: 52 pointer-table,185 string,2 archive-index,4 header,27 decoded-program,8064 glyph and93 metric bytes. Encoded-control use is zero in this raw-program scene; compressed use is separately proven by the closed native04 oracle.
+- Warning-free Windows production candidate SHA 7ce9fb2bd1cb02501001e0f482bbcc8ca4eede92486d3015a5c100bab75513db, canonical restored. One new actual decoded CLI from unrelated cwd reuses e12 without writes and old native cache, with matching positive text use and identical retained legacy final image/dispatch row. Legacy is not repeated because protected inputs and legacy guest behavior/ABI remain unchanged.
+- Protected ROM/e12/slot/input/cache/loader/canonical and current source hashes, full working-tree project-memory coverage and CRLF-aware whitespace checks pass. All unit jobs terminal.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; no native Windows or AndroidPort claim.
+- Only the declared reduced ordinary scene/CLI scope is closed. Broader scenes/languages, compressed ordinary scenes, GUI/archives, actual BIOS, full reader/font/Unicode coverage, other data families and mod phases remain open.
+- No new recording, performance/profile/startup/RSS/space measurement, broad replay or repeated closed routine/catalog/legacy acceptance.
+
+Documentation: [rom_data_text.md](docs/rom_data_text.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json)
+
 ## 2026-10-22 — Repair packet source-tracing change coverage and update CI checkout
 
 Type: fixed. Platforms: Project tooling, GitHub Actions.
@@ -31,6 +57,61 @@ Type: fixed. Platforms: Project tooling, GitHub Actions.
 Documentation: [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [2026-10-22-consume-european-background-packet-programs.json](docs/changes/2026-10-22-consume-european-background-packet-programs.json).
 
 [Change record](docs/changes/2026-10-22-repair-packet-tracing-memory-coverage.json)
+
+## 2026-10-22 — Publish and authenticate European short texts as a ninth managed resource file
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add fixed short-texts.json/text.short-strings/short-texts-v1-json with 670 provenance ranges to EUR schema1/extractor11/decoder10, retaining e10 and all seven prior decoded files; keep USA six-file e8-d7 unchanged.
+- Authenticate exact typed strings, pointer indices, glyph words and widths as part of the complete manifest and dataset identity before activation. Keep new text/font gameplay verified-only until direct consumption is implemented.
+- Extend bounded reading, strict JSON, atomic preparation/publication/reuse/repair/relocation and diagnostics to the ninth file; raise the malformed-manifest input guard to 1 MiB for the added provenance. Add extraction-wrapper file descriptions without space optimization.
+
+**Validation**
+
+- Warning-free Windows release test and production builds, canonical executable restored; three reduced Wine checks pass for deterministic nine-file publication/reuse, interrupted-resource write isolation/missing repair and actual EUR source-authenticated complete-set preparation/activation.
+- Actual EUR guard cases reject coherent metric edits, forged paths/coverage/provenance/dependencies, truncated JSON and oversized files while preserving machine state and existing owner. Whitespace-only JSON changes alter whole-set identity; missing/corrupt repairs and folder move reuse pass.
+- Managed text JSON SHA a422d06951e78d1ac10ce7be3ece0a84a17a1308d91f6b47ba0ff6fb10b054fa matches closed offline output. Actual Windows CLI prepare, no-write reuse and one-frame old-native-cache activation from unrelated cwd pass with runtime=verified-only.
+- Original ROM/slot/cache/loader/canonical and retained e10 files are preserved. Current source hashes, project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; no native Windows or AndroidPort claim.
+- Short-text/font data is authenticated and prepared but not yet consumed at gameplay source reads. Direct CPU/DMA/native provenance, lifecycle/scene acceptance, broader catalogs/full font/control semantics/Unicode remain open.
+- No performance/startup/RSS/space measurement, compression, broad suite, new recording or repeat of closed original text/font/BG/scene acceptance.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_text.md](docs/rom_data_text.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-prepare-european-short-texts-and-referenced-font.json)
+
+## 2026-10-22 — Publish European pointer and relative text catalogs as a tenth managed resource file
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add fixed text-catalogs.json/text.catalogs/text-catalogs-v1-json under EUR schema1/extractor12/decoder11, authenticating all 33581 ranges and the complete typed catalog as part of whole-set identity; keep dependency on short-texts and existing consumers unchanged.
+- Retain e11 and all eight prior decoded resource files unchanged, preserve USA six-file e8-d7 and original guest/native/save identity. New broad text data is prepared/verified-only pending direct consumption.
+- Extend atomic publication/reuse/repair/relocation, strict fixed-file loading, source authentication and diagnostics to the tenth file. Raise malformed-input guards to 16 MiB manifest/512 MiB catalog and total, preserving readable JSON without compression/space tuning; document extraction file description.
+
+**Validation**
+
+- Warning-free Windows release test and production builds; canonical executable restored. Three reduced Wine checks pass: tenth-file deterministic publication/no-write reuse, partial-write failure/missing repair and exact EUR whole-set authentication/identity/repair/move/transactional activation.
+- Actual EUR guard cases reject coherent metric edits, forged metadata/path/coverage/provenance/dependency, truncated JSON and oversized files while preserving state/existing owner; whitespace-only JSON changes affect dataset identity. All prior decoded bytes/e11 files stay intact.
+- Typed managed JSON SHA d43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f matches the closed offline model. Real Windows CLI prepare, no-write reuse and one-frame old-native-cache activation from unrelated cwd pass; broad text runtime=verified-only.
+- Initial 128 MiB guard refused the readable 146489381-byte file before publication; widened guards without changing/packing the model and retained failed evidence. Only the failed real-EUR managed check was repeated, keeping passed synthetic/original archive oracles closed.
+- Protected original ROM/slot/cache/loader/canonical/e11, current source hashes, project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; no native Windows or AndroidPort claim.
+- Broad catalog direct CPU/DMA/native consumption, lifecycle and ordinary gameplay scenes remain open. The earlier short-text consumer remains active; complete text/font coverage, Unicode/control semantics and other families/mod phases are not inferred.
+- No performance/startup/RSS/space measurement, compression, broad suite, new recording or repetition of closed original catalog/scene acceptance.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_text.md](docs/rom_data_text.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-prepare-european-pointer-and-relative-text-catalogs.json)
 
 ## 2026-10-22 — Prepare authenticated European main background graphics as a seventh resource file
 
@@ -61,6 +142,35 @@ Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_d
 
 [Change record](docs/changes/2026-10-22-prepare-european-main-background-graphics.json)
 
+## 2026-10-22 — Prepare European background transfer controls and shared tile banks
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Publish bg-transfer-programs.json as the eighth fixed EUR file under schema 1/extractor 10/decoder 9, retaining all 76 source ranges, descriptor dependency and complete source/file authentication.
+- Extend atomic managed publication, no-write reuse, partial/missing/corrupt repair, relocation and dataset identity to transfer programs; retain old e9 generations and all six previous decoded files. Preserve USA's six-file e8-d7 contract.
+- Authenticate the new file before runtime owner replacement and report this family as verified-only until direct typed transfer reads are implemented; no original animation/DMA, save or native cache ABI changes.
+
+**Validation**
+
+- Warning-free Windows release test and production builds; four focused Wine checks pass: core authentication, eighth-file deterministic publication/reuse, partial-write/missing repair and actual EUR full-set authentication/repair/retention/relocation/identity.
+- Actual EUR test rejects coherent changed tile words with recomputed manifest hashes, missing coverage/dependency, forged paths/provenance, truncated and oversized files without changing state or the live Arc; semantic-neutral formatting changes contribute to dataset identity.
+- Published transfer JSON is byte-identical to the completed offline typed02 output; all six previous decoded files and retained e9 generations remain unchanged.
+- Three actual Windows CLI processes from unrelated cwd pass prepare, explicit no-write reuse and no-write startup activation with the existing native cache (290 native blocks). The first frame proves activation only, with zero new transfer use.
+- Original ROM/slot/e8/e9/cache/loader and canonical executable hashes remain preserved; full current working-tree project-memory and CRLF-aware whitespace checks pass, with separate concurrent script organization records preserved.
+
+**Limitations**
+
+- Transfer data remain verified-only at runtime. Direct control/tile consumption, original/native poisoned-source provenance, owner lifecycle and actual source-use scene/GUI/archive checks remain open.
+- New Linux and USA checks remain pending by user instruction. No native Windows or AndroidPort claim; USA preserves its previous contract without new regional verification.
+- Historical optional current-EUR helpers with e8/e9 copy/revision assumptions need adaptation when selected; completed old results and producer/scene campaigns are not reopened.
+- No performance/profile/startup/RSS measurement, space optimization, broad suite or prior animation/graphics replay.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-prepare-european-background-transfer-programs.json)
+
 ## 2026-10-22 — Publish authenticated European packet programs in the managed dataset
 
 Type: added. Platforms: Windows GNU/Wine.
@@ -86,6 +196,203 @@ Type: added. Platforms: Windows GNU/Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-22-prepare-european-background-packet-programs.json)
+
+## 2026-10-22 — Group platform-specific scripts and update their callers
+
+Type: changed. Platforms: Project tooling, Linux, Windows, Android, Unix.
+
+**Changes**
+
+- Move fourteen platform-specific scripts/helpers into scripts/linux, scripts/windows, scripts/android and scripts/unix; keep genuinely cross-platform tools and tests at their existing shared locations.
+- Keep Bash Docker entry points together by Linux host, PowerShell/MSYS2 and Windows packaging/cross-build helpers under windows, Android-target helpers under android and the Linux/macOS TinyCC builder under unix.
+- Correct repository-root and shared-module import resolution after moving entry points; retain the Windows-to-Linux linker beside its PowerShell builder and update the root Android build watcher to the relocated APK script.
+- Update Docker COPY/context rules, Linux packaging CI, build-all.ps1, local skill links and active documentation; add scripts/README.md as a directory guide while retaining historical change-record paths.
+- Preserve prior uncommitted extraction/Docker/runtime work and the separate AndroidPort tree; extraction semantics, output defaults and dependency isolation remain unchanged.
+
+**Validation**
+
+- All five existing Docker-extraction Bash tests pass from the relocated entry point, including caller-relative paths with spaces and repository-context/default-output checks.
+- Mocked Linux/Windows Docker-build commands and native Linux packaging launched from an unrelated directory resolve the correct repository, Dockerfile and shared packager; shell syntax checks pass for all six moved shell scripts.
+- PowerShell 7.4 container checks pass for relocated extraction with explicit/default output, both portable-build targets and gamepad-test working directory; all four moved PowerShell scripts plus root build-all.ps1 parse successfully.
+- Moved Python scripts compile, Windows-packager/Android-builder/camera --help commands pass, and the Windows packager imports its shared module from unrelated cwd; Android root and watcher paths resolve correctly.
+- Docker Buildx static check of the updated export target passes without warnings; no Cargo build, package generation, original-game replay or extraction is repeated.
+- Active-reference scan finds no obsolete moved-script paths outside preserved historical records/AndroidPort references; all fourteen original locations are absent and their new files exist. CRLF-aware scoped whitespace checks pass.
+- Isolated and final full working-tree project-memory coverage pass. Earlier unrecorded concurrent managed-transfer files gained their own separate record; they were not modified or covered by this layout unit.
+
+**Limitations**
+
+- Native Windows PowerShell 5.1/Docker Desktop, full release/Android APK builds and TinyCC rebuilds were not rerun for this path-only organization; retained behavioral evidence remains separate.
+- Old platform-specific script paths are replaced by the new folders; active repository callers are updated, while historical change descriptions retain their original paths.
+- Concurrent transfer/variant runtime work is outside this reorganization and retains its separate coverage; no AndroidPort change, commit or push was performed.
+
+Documentation: [README.md](scripts/README.md), [README.md](README.md), [docker.md](docs/docker.md), [rom_data.md](docs/rom_data.md), [portable.md](docs/portable.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-organize-scripts-by-platform.json)
+
+## 2026-10-22 — Add partial offline European complete-font and name-keyboard models
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Inventory direct original text-decoder callers and the separate EUR name-entry archive, its cell producer/selector and navigation row widths.
+- Add exact-EUR source-authenticated offline models for 3175 packed font slots/metrics and three name-keyboard programs with relative indices, row widths and derived selectable cells.
+- Prepare focused synthetic and optional private original-reader coverage without changing managed e12 publication or direct runtime consumers. This unit remains partial while the goal is paused.
+
+**Validation**
+
+- Bounded static caller/producer evidence retained under target/rom-data-text-auxiliary; keyboard glyph3174 ends at the original width root.
+- Windows release test binaries compiled successfully with the existing warning gate; compilation session71615 is terminal. Artifact locators are retained in target/rom-data-font-keyboard/windows-tests.json.
+- No Wine test for this new unit has run. The prepared runner and independent static inventory are retained for explicit resumption.
+
+**Limitations**
+
+- Offline source/original equivalence is pending; compiled test code does not establish a passing oracle.
+- Managed publication, direct consumption, lifecycle and ordinary name-entry scene coverage remain open. No Unicode mapping or complete script semantics are claimed.
+- New Linux and USA checks remain pending by user instruction, as does native Windows verification. No performance/space measurements, new recording, AndroidPort change, commit or push.
+
+Documentation: [rom_data_text.md](docs/rom_data_text.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-model-european-complete-font-and-name-keyboard.json)
+
+## 2026-10-22 — Resolve the current PowerShell executable when launching child build scripts
+
+Type: fixed. Platforms: Project tooling, Windows/PowerShell.
+
+**Changes**
+
+- Make build-all.ps1 launch the relocated scripts/windows/build-linux-windows.ps1 helper with the executable of the current PowerShell process instead of assuming $PSHOME/powershell.exe.
+- Retain the already-correct relocated script paths, repository-root resolution and source/ROM/output mount behavior; document the PowerShell child-shell selection in the script directory guide.
+
+**Validation**
+
+- Reproduce the old build-all.ps1 failure under PowerShell 7.4: the hardcoded powershell.exe path is missing and the child helper is never reached. The same full script fixture with mocked compiler/Python commands succeeds after the fix and reaches the relocated child from unrelated cwd.
+- Run the real relocated Bash Docker extraction script from /tmp using EUR and a fresh ignored output: image build and extraction succeed, listing all eight current e10 dataset files under target/rom-data/path-check-europe.
+- Inspect prior completed active-reference/root/import and PowerShell/Docker path-check evidence rather than repeating those unchanged mock suites; current active script references use the platform folders.
+- Full working-tree project-memory coverage and CRLF-aware scoped whitespace checks pass.
+
+**Limitations**
+
+- PowerShell validation runs in its Linux container with build dependencies and the Linux child helper mocked; native Windows PowerShell 5.1/7 and a full Windows release build remain unverified.
+- This is a targeted path audit and shell-launch correction, not a new runtime/catalog, scene, USA, performance, AndroidPort or packaging campaign; no commit or push was performed.
+
+Documentation: [README.md](scripts/README.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-fix-script-child-shell-path.json)
+
+## 2026-10-22 — Extract ROM data from Linux and Windows with dependencies inside Docker
+
+Type: added. Platforms: Linux/Docker, Windows/Docker tooling.
+
+**Changes**
+
+- Add Bash and PowerShell extraction entry points that build/load the shared linux/amd64 extract image and invoke the existing source-authenticated CLI; only Docker with Buildx is needed on either host, with Linux containers selected in Docker Desktop on Windows.
+- Factor Dockerfile.linux into a shared source/dependency stage, a targeted CLI extract stage and the existing tested portable build/export stages; reuse the pinned Rust/Bookworm base and native Cargo caches without running packaging during extraction.
+- Allow the Python extraction wrapper in the Docker context while retaining private-data exclusions; mount the chosen ROM read-only only at run time and the output parent writable for atomic dataset publication, with network disabled during extraction.
+- Resolve caller-relative ROM/output paths, preserve paths with spaces, reject CSV-unsafe mount paths, forward failures and report the host output location; Linux forwards its user/group IDs so generated files stay user-owned.
+- Document both Docker entry points as the primary extraction flow while retaining the optional Python/Cargo/prebuilt-executable workflow.
+
+**Validation**
+
+- The Bash entry point completes an actual Docker image build and EUR extraction, producing seven readable files under ignored target/rom-data/docker-europe; the release CLI build is warning-free.
+- A second extraction in the same image reports verified reuse with identical file hashes/mtimes and host UID/GID; all seven files match the retained Windows/Wine extraction byte-for-byte and the source ROM hash is unchanged.
+- The unmounted extraction image contains no source ROM, workspace ROM directory or personal Data directory; no game file was supplied as a Docker build input.
+- Five focused Bash mock-Docker tests pass for paths/spaces/default output, atomic parent mounting, build/run failures and malformed paths; bash -n and containerized ShellCheck pass.
+- Six PowerShell 7.4 mock-Docker cases pass inside its existing Linux container: explicit spaced paths, default output, build failure, run failure, missing ROM and comma rejection. The container does not receive a Docker socket.
+- Final full working-tree project-memory coverage and scoped whitespace checks pass; concurrent Rust work retains its own separate records.
+
+**Limitations**
+
+- Native Windows PowerShell 5.1/Docker Desktop execution remains unverified; PowerShell tests run on Linux with a simulated Docker command. ARM hosts require Docker's amd64 emulation.
+- The latest user request explicitly selects Linux container CLI extraction; no new Linux gameplay/scene, USA, native Windows runtime, performance, package or AndroidPort campaign is included.
+- The existing release packaging test gates are preserved by the Dockerfile refactor and were not rerun; validation applies to the targeted extraction image and source snapshot recorded under ignored target/.
+- Concurrent transfer/variant Rust implementation remains separate work and is not covered by this Docker-tooling record; no commit or push was performed.
+
+Documentation: [README.md](README.md), [docker.md](docs/docker.md), [rom_data.md](docs/rom_data.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-extract-rom-data-with-docker.json)
+
+## 2026-10-22 — Default Docker extraction to the project-relative European ROM
+
+Type: changed. Platforms: Linux/Bash, Windows/PowerShell tooling.
+
+**Changes**
+
+- Make the ROM argument optional in both Docker extraction entry points, defaulting to rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba beneath the repository root rather than requiring a placeholder path.
+- Resolve default and custom relative ROM paths from the repository root independently of the calling directory; preserve absolute overrides, Bash positional ROM arguments and PowerShell -RomPath.
+- Retain existing output defaults and caller-relative explicit output paths, read-only input mounting, Docker dependency isolation and extraction validation; missing ROM errors show the resolved location and how to override it.
+- Update README and extraction guides with commands requiring no ROM argument and explain custom ROM path semantics.
+
+**Validation**
+
+- All seven focused Bash mock-Docker tests pass, covering no-argument project defaults from unrelated cwd, custom root-relative paths with spaces, absolute overrides, default output, absent default ROM, invalid mounts and build/run errors; bash -n and --help pass.
+- Five PowerShell 7.4 path cases pass using synthetic fixtures and mock Docker in its existing Linux container: no arguments, root-relative override, absolute override, missing default and missing custom ROM. Valid cases use the expected read-only source mount and invalid cases invoke no Docker command.
+- After resumption, retain the three completed PowerShell success logs instead of repeating them; finish the two missing-ROM checks with assertions tolerant of terminal error wrapping, which had interrupted the original harness before writing its summary.
+- Final full working-tree project-memory coverage and CRLF-aware scoped whitespace checks pass.
+
+**Limitations**
+
+- Native Windows PowerShell 5.1/Docker Desktop execution remains unverified; PowerShell path handling is checked under PowerShell 7.4 on Linux with simulated Docker commands.
+- No new container compilation or game-data extraction is needed for these host argument changes; earlier real relocated Docker extraction evidence remains separate. No runtime/catalog, AndroidPort, performance, package, commit or push change is included.
+
+Documentation: [README.md](README.md), [README.md](scripts/README.md), [docker.md](docs/docker.md), [rom_data.md](docs/rom_data.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-default-extraction-rom-to-project-root.json)
+
+## 2026-10-22 — Decode one European five-selector short-text catalog and its referenced font slots
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add bounded source-authenticated EUR short-text catalog selected by original 08016648: five 107-entry pointer tables, 535 strings, source encodings, exact game glyph IDs and uninterpreted command/operand bytes.
+- Retain 65 referenced packed 4bpp glyph slots and metrics with all 670 source ranges; reconstruct original compact/extended bytes and expanded strings without guessing Unicode, language labels or complete font extent.
+- Keep managed e10 publication, startup/runtime and guest/save/native identity unchanged; this unit is offline inventory/decoding only.
+
+**Validation**
+
+- Warning-free Windows release test build; two reduced Wine checks pass for codec/truncation/length/marker/pointer-overflow guards and exact-EUR source/JSON/strict-field/coherent-edit validation.
+- All 535 original language lookups and string copies match pointers, complete expanded output and guards; all 65 original glyph slots/width-only reads match variable/fixed-width modes, plus unknown-language fallback. Total 1331 calls/89446 guest instructions, not timing measurements.
+- Independent retained static classifier agrees on every source/table/glyph; 478 compact and 57 extended strings total 5468 source bytes, glyphs 8320 and widths 65 bytes. Protected original ROM/slot/cache/loader/canonical executable hashes remain unchanged.
+- Project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks are pending by user instruction; Wine is not native Windows verification. No AndroidPort change.
+- Managed file/startup/runtime consumption, lifecycle and gameplay scene acceptance remain open. Other short-text categories, relative dialogue archives, name keyboard/full font, Unicode and complete command semantics remain unverified.
+- No performance/startup/RSS/space measurement, optimization, broad suite, new recording, old scene replay or repeated closed BG acceptance.
+
+Documentation: [rom_data_text.md](docs/rom_data_text.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-decode-european-short-texts-and-referenced-font.json)
+
+## 2026-10-22 — Decode European pointer strings and relative text programs across five language selectors
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add bounded source-authenticated models for nine original EUR pointer selectors/45 tables/16100 strings and 29 relative selectors/145 archives/17035 programs from the declared original reader block.
+- Preserve exact pointer identities, relative u16 indices/FFFF sentinels, complete headers, glyph IDs, compact/extended commands and operands, custom-LZ streams and decoded trailing bytes. Dynamic substitutions stay commands with runtime context deferred.
+- Retain all 33581 disjoint provenance ranges and 128 referenced packed glyph slots/metrics. This broad model is offline only; managed e11 and the existing consumed short-text subset remain unchanged.
+
+**Validation**
+
+- Warning-free Windows release test build; two reduced Wine checks pass: program encoding/operand/inline-string/padding/truncation guards and a single exact-EUR source/JSON/original-reader oracle.
+- Independent static classifiers match every pointer/index/program source extent/hash and all three encoding/compression forms. Deterministic strict JSON/source authentication and coherent metric edits/malformed index rejection pass.
+- Original readers match 80 newly covered pointer boundaries/copies, all 145 archive roots, 300 script output/guard cases covering every archive/language boundary and all 21 command forms, plus 63 newly referenced font slots/widths. Total 968 calls/867138 guest instructions are coverage counts, not timings.
+- Initial archive failure exposed absent active context in the retained pub snapshot: original index0 underflows to FFFF. The final controlled reader fixture uses original nullable-context fallback index1 for both source/rebuilt scripts; output matches and original uncompressed return adjustment is checked. Failed diagnostics retained; no decoder/model/bound relaxation, no repeated closed codec/107-entry oracle.
+- Protected ROM/slot/cache/loader/canonical hashes, current source hashes, project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; no native Windows or AndroidPort claim.
+- Broad model managed publication/startup/direct consumption/lifecycle and ordinary gameplay scenes remain open; controlled original-reader output comparison is not full-state/clock gameplay acceptance.
+- This covers the declared original reader block and referenced glyphs, not all possible text/font readers, Unicode mappings or complete game-script semantics. No performance/startup/RSS/space measurement, new recording or broad replay.
+
+Documentation: [rom_data_text.md](docs/rom_data_text.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-decode-european-pointer-and-relative-text-catalogs.json)
 
 ## 2026-10-22 — Decode European main background graphics with exact staged producer output
 
@@ -114,6 +421,35 @@ Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVE
 
 [Change record](docs/changes/2026-10-22-decode-european-main-background-graphics.json)
 
+## 2026-10-22 — Decode European background transfer animations and shared tile banks
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Classify all 97 active transfer triples in the verified EUR descriptor block as 42 control programs and 34 shared raw tile banks, with independent stable IDs and exact provenance for 76 disjoint ranges.
+- Add bounded offline typed controls with ordered u16 durations/source-tile offsets, retained header byte3, transfer sizes, full u32 tile words, aliases and VRAM destinations; reconstruct/authenticate exact sources without flattening live animation state.
+- Verify that all 162 variant pointers in this declared catalog are absent and reject unsupported nonzero variants instead of inventing their semantics. No active dataset revision or runtime consumer changes.
+
+**Validation**
+
+- Warning-free Windows release test build; five reduced Wine checks pass: three transfer core, one strict JSON/roundtrip and one private EUR catalog/original animation contract case.
+- All 76 source reconstructions/hashes and 97 links match the exact EUR ROM and independent retained static classifier; 968 control and 199296 raw tile bytes have no internal or current e9-family overlap. Coherent changed tile words fail source authentication.
+- Four original animation cases for descriptor/slot 19/0, 4/1, 58/0 and 63/1 cover 4/8/12-frame programs and a 2432-byte copy split at the original 1024-byte limit. Two loops plus a boundary match countdowns/frame order and complete VRAM/guards after every DMA chunk: 634 calls, 80766 instructions and 34 partial chunks.
+- The retained slot5 snapshot supplies initialized original IWRAM helper code; no new recording, boot, prior catalog/graphics/scene replay or production build is run. Original ROM/slot/e8/e9/cache/loader/canonical hashes remain unchanged.
+- Final implementation/source-protection, project-memory and whitespace checks pass.
+
+**Limitations**
+
+- Offline catalog/model only: managed publication, file-backed control/tile consumption, original/native poisoned-source provenance, owner lifecycle and actual scene/GUI/archive checks remain open.
+- New Linux and USA validation remain pending by user instruction. No native Windows or AndroidPort claim; absent variants are proven only in the declared 162-record EUR block.
+- Original animation proof covers four representative programs and default forward looping/live transfer limit, not all 42 original animations or every reverse/nonloop flag combination.
+- No performance/profile/startup/RSS measurements, space optimization or broad suite.
+
+Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-decode-european-background-transfer-programs.json)
+
 ## 2026-10-22 — Represent European background packet programs as authenticated typed data
 
 Type: added. Platforms: Linux, Windows GNU/Wine.
@@ -138,6 +474,118 @@ Type: added. Platforms: Linux, Windows GNU/Wine.
 Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-22-decode-european-background-packet-programs.json)
+
+## 2026-10-22 — Consume European short-text indices, codes, glyph words and metrics through original readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Retain the authenticated ninth-file typed short-text/font model in the immutable runtime owner and serve exact table/string/glyph/metric source bytes through fixed EUR CPU/DMA/native source pages.
+- Reconstruct bytes from stable string IDs, compact/extended codes, control bytes, full packed glyph words and metrics with small unit-position maps; retain separate use counters and crossing-read prior-family bytes.
+- Preserve original selection, expansion, font copying and rendering work, instructions, cycles and guest/native/save identity. e11-d10 managed formats remain unchanged.
+
+**Validation**
+
+- Warning-free Windows release test builds; three reduced Wine checks pass: synthetic widths/mirrors/edge/prior-byte/BIOS-bus-mode/SWI/DMA/load behavior, five original/interpreter/native reader chains and unavailable-copy lifecycle.
+- With all 670 raw source spans altered after activation, 20 reader calls across five selectors and compact/extended/fixed/variable modes match complete serialized states and clocks after every call. Native read APIs consume 20 table, 124 string, 636 glyph and 6 variable-metric bytes; fixed mode correctly skips metric reads. Coverage is 1984 original instructions and 920 native dispatches, not performance data.
+- Temporary copied files become unavailable: failed activation preserves state/owner; Load/Undo, backup recovery and Restart retain owner/counters and all four typed source kinds. Protected original ROM/slot/cache/loader/canonical executables remain unchanged.
+- Initial native test incorrectly required metric use in fixed-width mode despite matching states; corrected only that expectation, retained evidence, repeated only the affected native test and ran the previously unrun lifecycle check. Closed synthetic/offline catalog/managed oracles were not repeated.
+- Current source/protected hashes, project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; Wine is not native Windows validation and BIOS bus mode does not prove actual BIOS execution. No AndroidPort change.
+- Ordinary gameplay text scenes, actual production CLI consumption, broader localized catalogs/full font/control semantics/Unicode and mod phases remain open.
+- No new recording, production CLI/scene rerun, benchmark/profile/startup/RSS measurement, space optimization or broad suite.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_text.md](docs/rom_data_text.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-short-texts-and-referenced-font.json)
+
+## 2026-10-22 — Consume European pointer strings, relative text programs and fonts through original CPU and native readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Retain the authenticated full tenth-file text model with fixed EUR source pages and typed pointer/string/archive-index/header/program/glyph/metric reads; preserve crossing-read prior bytes and eight separate source-kind counters.
+- Map custom-LZ literal bytes to typed decoded program units, terminator and padding while retaining exact original header/token controls. Keep all dynamic substitution, original expansion/copy/render/decode work, instructions and guest clocks.
+- Avoid duplicate overlapping read ownership: e12 full catalogs own their ranges while the earlier short-text subset remains authenticated/verified-only. Preserve e12-d11 file formats, snapshot/source/native ABI and cache identity.
+
+**Validation**
+
+- Warning-free Windows release test build; three reduced Wine checks pass: synthetic source widths/mirrors/edges/prior-byte merging, compact/extended/zero-operand/compressed literal paths, glyph486/last font page, BIOS bus mode/SWI/DMA/load; original/interpreter/native provenance; unavailable-copy lifecycle.
+- With all 33581 raw source ranges altered after attachment, 15 chains across five language IDs and three encoding/compression forms match complete serialized states and clocks after every 90 calls. Compiled read APIs consume 60 pointer-table, 81 string, 30 archive-index, 30 header, 396 encoded-control, 434 decoded-program, 1892 glyph and 18 metric bytes. Coverage is 30840 original instructions/3093 native dispatches, not timings.
+- The synthetic check also alters duplicate retained encoded literal bytes, proving decoded glyph/command/terminator/padding provenance. Fixed-width metrics and explicit valid nullable text context1 preserve the original reader contract. The closed 300-case offline oracle is not repeated.
+- Failed activation with only temporary copied files unavailable preserves machine/owner; Load/Undo, backup recovery and Restart retain the same model/counters and typed reads after raw source alteration. Original ROM/slot/e12dataset/cache/loader/canonical hashes remain intact.
+- Current source/protected/dataset hashes, project-memory coverage and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA checks remain pending by user instruction; no native Windows or AndroidPort claim. BIOS bus mode does not prove actual BIOS-code execution.
+- Ordinary gameplay and actual production-CLI consumption for the broad catalogs, complete reader/font/Unicode coverage, other families and mod phases remain open. Controlled reader chains are not ordinary scene acceptance.
+- No new recording, production CLI/scene repetition, broad suite, performance/profile/startup/RSS/space measurement or packing work.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_text.md](docs/rom_data_text.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-pointer-and-relative-text-catalogs.json)
+
+## 2026-10-22 — Consume European main background graphics words through original guest readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Retain the authenticated e9 main-graphics model in immutable RuntimeResources; serve custom-codec literals from little-endian typed words and headers/offsets/tokens from exact file metadata.
+- Cover fixed EUR 769..895 source pages and merge crossing graphics reads with prior resource families through existing CPU/DMA/native APIs; report separate main-graphics source and decoded-literal use.
+- Preserve every original decoder instruction, scratch write, DMA, guest cycle and e9-d8/save/native/cache identity; retain the owner across Load/Undo/backup/restart without file I/O during gameplay.
+
+**Validation**
+
+- Warning-free Windows release test and production builds; three reduced Wine tests pass: synthetic reads/edges/mirrors/first-last pages/real-BIOS bus mode/SWI/DMA with raw and duplicated encoded literals poisoned, four original/native EUR calls and temporary-copy owner lifecycle.
+- Four calls for descriptors 0/19/38/161 with all 50 raw graphic source spans poisoned match complete interpreter/native states and clocks, output/guards/SP. Original tracing covers 788393 instructions and 3414 native dispatches, with 29023 typed literal bytes specifically consumed by compiled loads.
+- One retained 397-frame EUR LCD B Cyril-pub transition matches every full state/clock, image/OAM/dispatch and mixed/PSG/FIFO/HLE audio sample; 14815 graphics reads consume 16209 source bytes including 10334 typed literal bytes.
+- Two actual Windows CLI processes from unrelated cwd reuse the existing e9 generation without writes and old native cache, matching final image hash and dispatch counts with 10334 typed graphics literal bytes. No old catalog/managed replay or new extraction.
+- All original ROM/e8/e9/slot/input/native cache/loader and canonical executable hashes are preserved; final source-hash, project-memory and whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA verification remain pending by user instruction; USA's existing six-file e8-d7 contract is preserved. No native Windows or AndroidPort claim.
+- Only the declared reduced component/lifecycle/scene/CLI scope is verified; actual BIOS execution, broader scenes/languages/catalogs, GUI/archives, transfer/variant programs and text/audio/gameplay/mod phases remain open.
+- No performance/profile/startup/RSS measurement, space optimization or broad default test suite. Historical optional current-EUR helpers with e8 copy assumptions need adaptation when selected.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-main-background-graphics.json)
+
+## 2026-10-22 — Consume European background transfer controls and tile words through original readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Retain the authenticated e10 transfer model in immutable RuntimeResources and reconstruct original source reads directly from typed control/frame fields and full little-endian tile words.
+- Cover fixed EUR 778..897 source pages, merge crossing reads with prior graphics/palette/packet views and report separate control/tile byte use through existing CPU/DMA/native APIs.
+- Preserve original live animation countdowns, loop/reverse flags, transfer limits, partial copy progress, instructions and guest clock; keep schema 1/10/9 and source-equal save/native/cache identity, including owner retention through Load/Undo/backup/restart.
+
+**Validation**
+
+- Warning-free Windows release test and production builds; three reduced Wine checks pass for synthetic width/mirror/edge/last-page/real-BIOS bus mode/SWI/DMA/load behavior, two original/interpreter/native provenance cases and temporary-copy lifecycle.
+- Forward/reverse 17-tick cases with live 512/1024-byte transfer limits and all 76 raw source ranges poisoned match complete states/clocks/VRAM after every 60 calls. Original tracing covers 7567 instructions and 234 native dispatches: 66 typed control bytes come from compiled loads and 9984 tile bytes from DMA initiated by native writes.
+- One retained 397-frame EUR LCD B Cyril-pub BG62 transition matches every full state/clock, image/OAM/dispatch and mixed/PSG/FIFO/HLE audio sample, with 6579 transfer reads consuming 1203 control and 21504 typed tile bytes.
+- One new decoded Windows CLI command from unrelated cwd reuses e10 without writes and the prior native cache, with positive transfer use and the same final image/dispatch row as the retained valid legacy reference. The legacy command is not repeated; protected inputs and legacy guest behavior/ABI are unchanged.
+- Original ROM/e8/e9/e10/slot/input/native cache/loader and canonical executable hashes remain preserved; source hashes, full working-tree project-memory and CRLF-aware whitespace checks pass.
+
+**Limitations**
+
+- New Linux and USA validation remain pending by user instruction; USA's existing six-file e8 contract is preserved. No native Windows or AndroidPort claim.
+- Only the declared reduced component/lifecycle/scene/CLI scope is verified. Actual BIOS execution is separate from the bus-mode check; broader scenes/languages/catalogs, GUI/archives, text/fonts, OBJ lists/animation, maps/gameplay/audio and mod phases remain open.
+- No performance/profile/startup/RSS measurement, space optimization, broad suite, re-extraction or repetition of closed catalog/two-loop/graphics/packet acceptance.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-background-transfer-programs.json)
 
 ## 2026-10-22 — Consume European background packet values and bodies from authenticated files
 
@@ -167,6 +615,34 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-22-consume-european-background-packet-programs.json)
+
+## 2026-10-22 — Run readable ROM data extraction with one project script
+
+Type: added. Platforms: Project tooling, Windows/Wine.
+
+**Changes**
+
+- Add scripts/extract_rom_data.py to run the existing source-authenticated rom-data extract command for an explicit ROM, defaulting to Cargo's locked release build and an ignored target/rom-data/<ROM filename stem> output directory.
+- Support an explicit output directory, a prebuilt recomp executable and optional Wine; resolve caller-relative paths before invoking the CLI from the repository root without shell command interpolation.
+- Forward extraction progress and failure status, then list the actual readable JSON/TOML files with descriptions and an absolute output location for editor inspection.
+- Document Python requirements, Windows/Cargo/prebuilt/Wine usage, verified reuse and refusal to overwrite an invalid dataset; preserve the existing extractor, authentication and regional coverage.
+
+**Validation**
+
+- Five focused Python tests pass for default Cargo routing and output summary, Wine/prebuilt/caller-relative paths containing spaces, failure status propagation, missing inputs/tools and success without a manifest; script --help also passes.
+- Two actual script invocations from an unrelated working directory pass with the retained EUR Windows executable under Wine: extraction creates seven readable files including bg-main-graphics.json, then reuse preserves every file hash and mtime.
+- The original EUR ROM and retained executable hashes remain unchanged; outputs and execution evidence stay under ignored target/. The first sandboxed Wine attempt could not create its local socket; the authorized unsandboxed retry and reuse both succeeded.
+- Final project-memory coverage and whitespace checks pass; this record covers only the new wrapper and its Python tests.
+
+**Limitations**
+
+- Outputs are typed JSON/TOML resources already supported by the selected CLI, not rendered graphic previews or complete ROM extraction.
+- No new native Windows, Linux runtime or USA extraction check was run. Default Cargo command construction is tested without rebuilding the runtime; actual extraction uses the existing Windows executable through Wine.
+- No guest/runtime integration, AndroidPort, performance measurement, package, commit or push change is part of this script unit; concurrent graphics-consumption changes remain separately recorded.
+
+Documentation: [README.md](README.md), [rom_data.md](docs/rom_data.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-add-rom-data-extraction-script.json)
 
 ## 2026-10-21 — Verify original USA copied-resource initialization from clean boot
 

@@ -1139,9 +1139,10 @@ ROM/e8dataset/cache/loader/canonical executables are hash-preserved.
 
 Evidence stays ignored under `target/rom-data-bg-main-graphics/`: bounded
 original disassemblies, Windows build and four logs, windows-results.json,
-windows-europe/result.json, typed JSON and captured output buffers. This is an
-offline model/original-output proof, with no new active manifest revision,
-startup publication, native consumer, scene replay or packaged runtime claim.
+windows-europe/result.json, typed JSON and captured output buffers. At this
+offline boundary no active manifest revision, startup publication or consumer
+was added. Subsequent managed publication and consumption are described below;
+packaging stays open.
 New Linux/USA checks remain pending. No benchmark/profile/startup/RSS campaign.
 
 ## Managed European main graphics
@@ -1161,8 +1162,8 @@ must validate before atomic publication or runtime owner replacement. Every
 resource/file hash enters dataset identity; coherent edited base words fail
 source authentication even with a recomputed manifest hash. File absence,
 truncation, oversized input, removed coverage, forged provenance and path edits
-fail before changing the live machine. Main graphics are logged explicitly as
-`runtime=verified-only` until the next direct-consumption unit.
+fail before changing the live machine. At this managed boundary main graphics
+were logged as `runtime=verified-only`; direct consumption is now described below.
 
 Four reduced Windows/Wine tests pass: core base authentication, synthetic
 seventh-file deterministic publication/reuse, partial graphics write/missing-file
@@ -1183,3 +1184,194 @@ Evidence: ignored `target/rom-data-bg-graphics-managed/`, windows-results.json,
 windows-europe/result.json, windows-cli-summary.json, logs/candidate and hashes.
 New Linux/USA checks, direct graphics consumption/native provenance, owner
 lifecycle, scenes/GUI/archives remain open. No benchmark/profile/RSS or space work.
+
+## Direct European main graphics consumption
+
+The managed e9-d8main-graphics model is now retained in the immutable runtime
+owner and reports `runtime=decoded`. During authentication, the shared custom
+codec supplies exact literal source/output positions; each literal byte is then
+read from the corresponding little-endian typed word. Header/offset/token bytes
+come from exact file metadata. CPU, DMA and native RtApi paths share these views
+on fixed EUR769..895pages, including earlier graphics pages absent from the
+packet/palette dispatch. Mapped graphics bytes overlay prior family results so
+crossing reads preserve adjacent descriptor/palette/packet bytes. There is no
+new per-read allocation/I/O, skipped decompression instruction, scratch write,
+DMA or guest cycle. Schema1/9/8and native/save/ROM identities are unchanged.
+
+`GraphicsStats` reports independent `bus_reads`, `source_bytes` and
+`decoded_literal_bytes`; only the last proves typed word use. Retained encoded
+literal payloads are not the runtime data source. Three focused Wine tests pass:
+
+- Synthetic both-wrapper reads cover first769/76a/76bpages and895,8/16/32-bit
+  widths/mirrors, descriptor and palette edges, real-BIOS bus mode, native API,
+  CpuSet/DMA and owner/load preservation. Raw ROM spans and retained encoded
+  literal metadata are both poisoned, so returning duplicate metadata fails.
+- Four original staged calls (IDs0/19/38/161) cover both tags, maximum output
+  and last source. All50old source spans are poisoned after authentication.
+  Original/interpreter/native complete states and clocks, destinations/guards/SP
+  match.788393original instructions/3414native dispatches consume29023typed
+  bytes specifically through compiled loads (29226decoded literalB overall).
+  This is a new reduced consumer proof; the closed50-source oracle is not rerun.
+- Temporary copied files become unavailable, while failed reactivation,
+  Slots Load/Undo, backup clean boot and Restart ROM retain the same owner and
+  counters. Source reads remain file-backed after those operations.
+
+One397frame EUR LCD B transition into Cyril pub BG62reuses the existing slot5,
+input/native cache/e9dataset. Every full state/clock, central/wide image, OAM,
+dispatch and mixed/PSG/FIFO/HLE sample matches legacy. Main graphics records
+14815reads/16209source bytes/10334decoded literal bytes. Other resource families
+remain positive where expected. This closes only the declared scene criterion;
+new Linux/USA, other scenes/languages, GUI/archives and native Windows remain.
+Evidence:ignored `target/rom-data-bg-graphics-consumption/`, Windows build logs,
+windows-results.json, windows-europe/result.json, windows-scene-results.json and
+the retained scene log. No performance/profile/startup/RSS or space campaign.
+
+Two actual Windows CLI processes from unrelated cwd also pass the legacy/decoded
+397frame transition with identical final image hash/native/fallback counts.
+Decoded startup reuses e9without writes, uses the old TinyCC cache, and reports
+the same10334typed graphics literal bytes. The production candidate is retained
+under ignored target/; the canonical executable is restored by hash. Actual CLI
+and component/scene evidence cover different criteria; no new extraction or
+old managed/original catalog campaign was repeated.
+
+## European background transfer programs
+
+`bg_transfers::Catalog` now decodes the declared EUR descriptor block's five
+transfer slots:97active links (83base/6/5/3/0extra),42controls and34shared raw tile
+banks. Independent control/bank IDs follow first descriptor/slot occurrence,
+retaining every alias and VRAM destination. All162optional variant pointers
+are null in this block. Nonzero variant programs remain unsupported; no decoder
+or fallback is invented for absent data. Other catalogs/USA remain unverified.
+
+Each control begins with u16transfer length in bytes, u8frame count and a retained
+unclassified byte3, followed by ordered little-endian u16duration/source-tile
+pairs. The original updater reads only the low count byte. Tile offsets are
+multiplied by32; zero duration preserves the original u16countdown wrap behavior.
+Declared base durations are6/8/10/12/16ticks and counts4/8/12. Exact raw tile bank
+extents are the maximum offset+transfer size over all referencing controls;
+shared banks and overlapping frame windows stay shared, with complete u32words
+and high bits. There is no image flattening or palette conversion.
+
+The76control/bank extents are disjoint from each other and current e9families,
+with968control bytes and199296tile bytes. Bounded typed validation checks frame
+counts, tile-sized transfers, VRAM bounds/alignment, canonical IDs, exact shared
+extents, missing/unreferenced resources, source overflow/overlap and unsupported
+variant links. Source reconstruction and strict JSON retain every byte, order
+and alias; coherent changed tile words still fail exact EUR source authentication.
+The readable JSON SHA256is
+`051e0eee7412a24e1b0ce51a79736e4d8488f26593254e2cee907aa53eea71e8`.
+
+Original creator08021f10allocates an active RAM object, initializes frameFFand
+a1tick countdown, retains the control/destination/bank pointers, and reads the
+manager's live transfer limit. Updater08021bd8advances/counts frames; dispatcher
+08021d10copies type0data through DMA32, preserving partial progress until the
+configured size is complete. Mutable frame, countdown, loop/reverse flags and
+copy cursors remain live guest state. The offline model does not preadvance or
+replace these operations.
+
+Five reduced Windows GNU/Wine checks pass after a warning-free test build:
+3core cases,1strict JSON case and1private EUR catalog/original-contract case.
+All76source reconstructions/hashes,97link locations/aliases and162absent variants
+match the exact ROM and independent retained static classifier. Four original
+cases (descriptor/slot19/0,4/1,58/0,63/1) cover4/8/12frames, base/extra controls,
+shared banks and a2432-byte transfer split by the original1024-byte limit.
+Two full loops plus the boundary match every original countdown/frame and full
+VRAM after each chunk, including guards and unchanged ticks:634calls,
+80766instructions,34partial chunks. An existing slot5snapshot initializes the
+original IWRAM helper code; no boot, recording or earlier graphics oracle is
+repeated. It is not an actual-scene or native consumer proof for this family.
+
+Evidence stays ignored under `target/rom-data-bg-transfer-variant/`: bounded
+producer/update disassemblies, static-inventory.json/candidate-layout.json,
+Windows build/three logs, windows-results.json and windows-europe/result.json/
+bg-transfer-programs.json. Original ROM/slot/e8/e9/native cache/loader/canonical
+hashes are preserved. This offline boundary added no manifest revision or
+runtime projection; managed publication is described below. New Linux/USA checks, transfer native provenance and
+lifecycle/scene/GUI/archive integration remain pending. No performance/space work.
+
+## Managed European transfer programs
+
+The eighth fixed EUR file is now `bg-transfer-programs.json`, ID
+`graphics.bg-transfer-programs`, format `bg-transfer-programs-v1-json`, under
+schema1/extractor10/decoder9. Its readable JSON is byte-identical to the offline
+model above; the manifest includes all76control/tile source ranges and the
+descriptor dependency. All six previous decoded files and old e9generations
+remain intact. USA retains the existing six-file1/8/7contract; its new validation
+is pending.
+
+Extract/verify, prepare and opt-in startup read this fixed filename through
+bounded strict JSON (32MiBinput guard, existing64MiBwhole-set guard). Complete
+source/file authentication precedes publication and runtime owner replacement.
+The new file's hash participates in dataset identity, including semantic-neutral
+formatting changes, while coherent edited tile values fail base authentication.
+Removed coverage/dependencies, forged paths/provenance, malformed/missing/oversize
+files fail transactionally. The family is explicitly `runtime=verified-only`;
+no transfer reader is redirected yet and mutable animation/DMA state is unchanged.
+
+Four reduced Windows GNU/Wine tests pass after warning-free test and production
+builds: core base authentication, synthetic eighth-file deterministic publication/
+reuse, partial-write/missing repair, and actual EUR full-set authentication/
+retention/identity/repair/relocation/failed activation. The actual case preserves
+e9and all previous decoded bytes and verifies equality with the retained typed02
+file. Three actual Windows CLI processes from unrelated cwd pass prepare,
+no-write reuse and startup reuse/activation with the existing TinyCC cache
+(290native blocks). The first frame has0new transfer use and is activation/cache
+evidence only. The canonical executable is restored and protected ROM/slot/e8/
+e9/cache/loader hashes remain unchanged.
+
+Evidence:ignored `target/rom-data-bg-transfer-managed/`, Windows build and four
+test logs, windows-results.json, windows-europe/result.json, windows-cli-summary.json,
+source/protected hashes and candidate. New Linux/USA tests, direct typed source
+consumption/native provenance, lifecycle and actual transfer-use scenes remain
+pending. Earlier original-animation/graphics/scene campaigns were not rerun;
+there is no performance/profile/startup/RSS or space optimization work.
+
+## Direct European transfer consumption
+
+The authenticated e10-d9transfer model is now retained in the immutable runtime
+owner. Exact source views reconstruct controls directly from typed transfer
+sizes/frame counts/header byte3/duration/tile-offset fields, and raw bank bytes
+from little-endian u32words. Fixed EUR778..897pages include the last bank ending
+897ad4. Mapped bytes overlay prior family results, preserving reads crossing
+graphics/palette/control/tile boundaries. Source lookups allocate/read no files;
+there is no cached raw-control substitute, skipped original instruction/DMA or
+advance of mutable frame/countdown/loop flags/copy progress. Those remain live
+RAM driven by the original creator, updater and dispatcher. Schema1/10/9and
+ROM/save/native/cache identity are unchanged; USA's existing e8contract remains.
+
+`TransferStats` separates bus/source/control/tile bytes. Three reduced Windows
+GNU/Wine tests pass after a warning-free test build:
+
+- Synthetic all-width/mirror/unaligned/boundary reads cover graphics and palette
+  neighbors and the last897page, with migrated raw ROM spans poisoned. Native
+  API, real-BIOS bus mode, CpuSet, DMA and Load/owner preservation match legacy.
+- Two original animation cases (58/0forward,63/1reverse;17ticks each) use live
+ 512/1024-byte limits. Every76old control/tile source span is poisoned after
+  activation. Original/interpreter/native complete states and clocks match after
+  every60calls, including full VRAM/guards and original IWRAM helper execution.
+  Original tracing covers7567instructions/234native dispatches. Compiled source
+  loads consume66typed control bytes; DMA initiated by native writes consumes
+ 9984typed tile bytes. These DMA bytes are distinguished from direct compiled
+  loads, and this new provenance check does not repeat the closed two-loop
+  catalog oracle.
+- Only temporary copied files become unavailable. Failed reactivation leaves
+  state/Arc untouched; Slots Load/Undo, backup clean boot and Restart ROM retain
+  the same owner and counters. Typed control/tile reads still work after those
+  operations with the old raw ROM ranges poisoned.
+
+The retained EUR LCD B397frame Cyril-pub62transition now passes every full state/
+clock, image/OAM/dispatch and mixed/PSG/FIFO/HLE sample with positive transfer use:
+6579reads/22707source bytes,1203controls and21504tiles. One new actual decoded
+Windows CLI process from unrelated cwd reuses e10without writes and the existing
+native cache, matching the retained valid legacy final image/dispatch row and
+the same positive counters. The legacy process was not repeated: its protected
+ROM/slot/input/cache/loader and legacy guest behavior/ABI are unchanged; the new
+scene pair independently proves complete frame/state/audio parity.
+
+The production candidate is warning-free and retained under ignored target/;
+canonical runtime, original ROM/e8/e9/e10files/slot/input/native cache/loader
+hashes are preserved. Evidence: `target/rom-data-bg-transfer-consumption/`,
+windows-results.json, windows-europe/result.json, windows-scene-results.json,
+windows-cli-summary.json, build/logs/candidate and source/protected hashes.
+New Linux/USA, broader scenes/GUI/archives and native Windows remain pending.
+No performance/profile/startup/RSS or space optimization campaign was run.

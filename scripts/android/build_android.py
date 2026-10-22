@@ -13,7 +13,7 @@ import subprocess
 import urllib.request
 import zipfile
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 REV = '43c7708b85681a2fd4451c8a541af4494a8919b2'
 ARCHIVE_SHA256 = 'f660447b16d6e0efe27ba8a9122aa45ee950f84b574eeb8dd1e86bc8ad34c0ea'
 

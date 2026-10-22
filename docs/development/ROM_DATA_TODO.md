@@ -150,7 +150,53 @@ coincidono con l'originale su Wine; i due trasferimenti DMA sono verificati per
 un caso20e uno22. Nuovi controlli Linux/USA da fare.
 [Contratto](../rom_data_graphics.md#european-main-background-graphics).
 
+**ROMDATA-01-BG-TRANSFER-VARIANT completato per il catalogo EUR dichiarato:**
+97triple attive nei cinque slot (83/6/5/3/0),42controlli e34banchi tile grezzi
+condivisi,76intervalli disgiunti. Tutti i162puntatori variant sono nulli in
+questo blocco; nessun programma variant inventato. Produttori originali EUR
+confermano durata, ordine dei frame e DMA con limite dinamico; Linux/USA da fare.
+[Contratto](../rom_data_graphics.md#european-background-transfer-programs).
+
 ## ROMDATA-02 — Estrattori e decoder
+
+**ROMDATA-01-TEXT-REMAINING-CATALOGS / ROMDATA-02-TEXT-CATALOG-DATA completati
+per il blocco lettori EUR dichiarato:**9cataloghi a puntatori/45tabelle/16100
+stringhe,29selettori relativi/145archivi/17035programmi. Flag, comandi/operandi,
+LZ/RLE custom esatto, padding decodificato e128glifi referenziati conservati;
+33581intervalli disgiunti. Due test Wine mirati passano, inclusi inventari
+indipendenti completi e80bordi puntatori/145radici/300uscite script/63nuovi
+glifi originali (968chiamate). Contesto dinamico valido esplicito nell'oracolo;
+nessuna prova scena dedotta. Collegamento gestito/runtime esteso ancora aperto,
+e11conserva il sottoinsieme precedente. Linux/USA da fare.
+[Contratto e limiti](../rom_data_text.md#broad-pointer-catalogs-and-relative-text-archives).
+
+**ROMDATA-02-TEXT-CATALOG-MANAGED completato per EUR/Wine:** decimo file fisso
+text-catalogs.json, revisione1/12/11,33581intervalli e autenticazione/identità
+dell'insieme. Pubblicazione/riuso, errore atomico/riparazione, controlli reali
+EUR su dati/modifiche coerenti/metadata/percorsi/dipendenze/limiti, move e
+attivazione fallita transazionale passano in tre controlli Wine ridotti. CLI
+reale prepare/riuso senza scritture/attivazione di un frame con cache vecchia
+passano. e11e otto file precedenti invariati, USA resta e8. Consumo esteso04
+verified-only e lifecycle/scene05ancora aperti; Linux/USA da fare.
+
+**ROMDATA-01-TEXT-SHORT-STRINGS / ROMDATA-02-TEXT-SHORT-DATA completati
+per il catalogo EUR dichiarato:** cinque tabelle originali da107voci,
+535stringhe distinte (478compatte/57estese),5468byte sorgente. Modello tipizzato
+con codici glifo/byte controllo esatti e soli65glifi packed4bpp/metriche usati;
+670intervalli con provenienza/hash. Due test Wine mirati passano: codec/guardie
+e tutte le routine originali di selezione/copia/glifi/larghezze,1331chiamate/
+89446istruzioni. JSON rigoroso e modifiche coerenti rifiutate. Pubblicazione
+gestita/startup/consumo runtime restano aperti, schema e10invariato. Altri
+cataloghi, font completo/Unicode/comandi, Linux/USA da fare.
+[Contratto e prove](../rom_data_text.md).
+
+**ROMDATA-02-TEXT-SHORT-MANAGED completato per EUR/Wine:** nono file fisso
+short-texts.json, revisione1/11/10e670intervalli con provenienza. Autenticazione
+dell'insieme completo/identità, pubblicazione atomica, riuso/riparazione/move e
+attivazione fallita transazionale passano in tre test Wine mirati. CLI reale:
+prepare/riuso senza scritture/attivazione di un frame con cache nativa conservata
+passano. e10e sette file dati precedenti invariati; USA resta e8. Il nuovo
+catalogo è verified-only; consumo04e scene/lifecycle05aperti, Linux/USA da fare.
 
 **Dipendenze:** ROMDATA-01. Procedere per famiglie senza dichiarare finito il
 resto del catalogo quando funziona il primo prototipo.
@@ -276,12 +322,33 @@ consumo restano da collegare. Linux/USA da fare, nessuna misura prestazionale.
 sei file/e8-d7senza nuove verifiche. Pubblicazione atomica, riuso senza scritture,
 riparazione, identità completa e generazioni e8precedenti conservate. Quattro
 test Wine mirati e sette veri comandi Windows CLI passano, inclusa attivazione
-con cache nativa precedente. Runtime della nuova grafica ancora verified-only;
-nessuna prova d'uso dedotta dal primo frame. Consumo04successivo. Linux/USA da
+con cache nativa precedente. Runtime della nuova grafica verified-only a quel
+confine; nessuna prova d'uso dedotta dal primo frame. Consumo04completato sotto. Linux/USA da
 fare, nessun benchmark o riduzione di spazio.
 [Contratto e prove](../rom_data_graphics.md#managed-european-main-graphics).
 
+**ROMDATA-02-BG-TRANSFER-DATA completato offline per EUR/Wine:** controlli
+con duratau16/offset tile32byte, dimensione trasferimento e byte3conservato;
+tile come wordu32completi, alias/ID indipendenti e destinazioni tipizzate.
+Cinque controlli mirati Wine passano (3core/1JSON/1oracolo privato): quattro
+animazioni originali, due cicli completi, VRAM/guardie dopo ogni copia e34chunk
+DMA parziali;634chiamate/80766istruzioni. Provenienza completa, roundtrip e
+modifiche coerenti rifiutate. Nessun nuovo manifest o consumer a quel confine:
+file gestito completato sotto, consumo04successivo. Linux/USA da fare, nessuna misura prestazionale.
+[Contratto e prove](../rom_data_graphics.md#european-background-transfer-programs).
+
+**ROMDATA-02-BG-TRANSFER-MANAGED completato per EUR/Wine:** ottavo file fisso
+`bg-transfer-programs.json`, revisione1/10/9,76intervalli autenticati e identità
+completa dell'insieme. Quattro test Wine mirati e tre veri comandi CLI Windows
+passano preparazione/riuso/riparazione/rilocazione/attivazione transazionale e
+cache nativa precedente. Generazioni e9e sei file decodificati precedenti
+conservati; USA resta con sei filee8-d7. Runtime transfer verified-only a quel
+confine, nessuna prova d'uso dedotta dal primo frame; consumo04concluso sotto.
+Linux/USA da fare, nessun benchmark.
+[Contratto e prove](../rom_data_graphics.md#managed-european-transfer-programs).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
+
 
 **Dipendenze:** ROMDATA-02 per la prima famiglia.
 
@@ -422,7 +489,63 @@ consumano4720byte body/2640byte tipizzati. Le12letture wrapper non contengono
 valori raw: la prova nativa04copre quel percorso separatamente. Altre scene,
 GUI/archivi, nuovi controlli Linux/USA e Windows nativo restano aperti.
 
+**ROMDATA-04-BG-GRAPHICS-CONSUMPTION completato per EUR/Wine ridotto:**
+word immutabili del settimo filee9e mappe dei letterali del codec originale;
+letture CPU/DMA/API native, header/controlli esatti e pagineEUR769..895.
+Nessuna istruzione/scrittura/ciclo guest saltato. Tre test Wine mirati passano:
+sintetico con sorgenti/letterali duplicati alterati, quattro chiamate originali/
+native con tutte50sorgenti ROM alterate e stato completo/clock uguale, owner
+conservato in Load/Undo/backup/riavvio con sole copie temporanee indisponibili.
+29023byte tipizzati letti dalle istruzioni native. Schema1/9/8e identità
+save/native invariati. Linux/USA da fare, nessuna misura prestazionale.
+[Contratto e prove](../rom_data_graphics.md#direct-european-main-graphics-consumption).
+
+**ROMDATA-05-BG-GRAPHICS-SCENE completato per una transizione EUR/Wine:**
+stessoslot5LCD B/input397frame conservati, ingresso pubCyrilBG62. Ogni stato
+completo/clock, immagine/OAM/dispatch e campione audio coincide;14815letture
+grafica/16209byte sorgente/10334byte letterali decodificati. Altre scene/GUI/
+archivi, nuovi controlli Linux/USA e Windows nativo restano aperti.
+
+**ROMDATA-04-BG-TRANSFER-CONSUMPTION completato per EUR/Wine ridotto:**
+controlli/tile del filee10conservati come strutture immutabili; letture CPU/DMA/
+native tipizzate nelle pagine778..897e contatori separati. Countdown/flag/
+progresso DMA/clock guest invariati. Tre test Wine mirati passano, inclusi due
+casi originali/native con tutte76sorgenti ROM alterate, stato completo uguale
+dopo60chiamate,66byte controlli compilati e9984byte tile tramite DMA nativo.
+Load/Undo/backup/riavvio mantengono l'owner con copie temporanee indisponibili.
+Schema1/10/9e identità save/native invariati. Linux/USA da fare.
+[Contratto e prove](../rom_data_graphics.md#direct-european-transfer-consumption).
+
+**ROMDATA-05-BG-TRANSFER-SCENE/CLI completati per EUR/Wine dichiarato:**
+transizione LCD B397frame/pubCyrilBG62con ogni stato/clock/immagine/OAM/dispatch/
+audio uguale,1203byte controlli/21504tile effettivi. Un nuovo CLI decoded riusa
+e10senza scritture e la cache nativa, stesso risultato del riferimento legacy
+conservato senza ripeterlo. Altre scene/GUI/archivi, Linux/USA e Windows nativo
+restano aperti; nessuna misura prestazionale.
+
 ## ROMDATA-05 — Equivalenza, salvataggi e prestazioni
+
+**ROMDATA-04-TEXT-CATALOG-CONSUMPTION completato per EUR/Wine dichiarato:**
+modello completo dal decimo file, letture tipizzate CPU/DMA/native per puntatori,
+stringhe, indici relativi, header, programmi, glifi/metriche; letterali LZ/RLE
+da unità decodificate, controlli originali esatti. Tre controlli Wine passano:
+sintetico con sorgenti/letterali duplicati alterati,15catene originali/native
+con33581intervalli ROM alterati e90stati/clock uguali, Load/Undo/backup/riavvio
+con copie dei file indisponibili. Uso compilato positivo negli8tipi; contesto
+dinamico valido esplicito, nessuna scena ordinaria dedotta. Sottoinsieme vecchio
+autenticato senza doppio owner/contatori. e12-d11/save/native ABI invariati.
+Scene/CLI05, altre radici/font/Unicode, Linux/USA da fare.
+[Prove](../rom_data_text.md#broad-direct-consumption).
+
+**ROMDATA-04-TEXT-SHORT-CONSUMPTION completato per EUR/Wine dichiarato:**
+owner immutabile con indici/codici/glifi/metriche dal nono file, pagine sorgente
+fisse e contatori distinti. Tre controlli Wine passano: sintetico larghezze/
+mirror/bordi/SWI/DMA/Load, cinque catene originali/native con tutti670intervalli
+ROM alterati e20chiamate/stati/clock uguali, Load/Undo/backup/riavvio con copie
+temporanee dei file indisponibili. API native leggono20byte tabelle/124stringhe/
+636glifi/6metriche tipizzati; modalità fissa salta le metriche come l'originale.
+e11-d10/save/native ABI invariati. Scene gameplay ordinarie, altri cataloghi/font/
+Unicode/comandi, Linux/USA da fare. [Prove](../rom_data_text.md#direct-consumption).
 
 **Dipendenze:** ogni integrazione ROMDATA-04, prima di abilitarla normalmente.
 
@@ -533,6 +656,16 @@ nativo. [Prove](ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-accept
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
+**ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
+una coppia ordinaria397frame LCD B/ingresso pubCyrilBG62riusa slot/input/cache.
+Ogni stato/clock/immagine/OAM/dispatch/audio coincide, con52byte puntatori/
+185stringhe/2indici/4header/27programma decodificato/8064glifi/93metriche letti
+dai file. È un programma grezzo: uso compresso provato separatamente nel04.
+Un solo nuovo CLI decoded riusa e12senza scritture e la cache vecchia, stesso
+risultato del riferimento legacy conservato senza ripeterlo. Binario Windows
+senza warning/canonico ripristinato; altri gate/GUI/archivi/Linux/USAaperti.
+[Prove e limiti](../rom_data_text.md#ordinary-transition-and-production-cli).
+
 **Dipendenze:** completare la consegna principale ROMDATA-01…05.
 
 - [ ] Definire una directory `mods/` nello storage applicativo e un manifest
@@ -580,11 +713,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-04-BG-GRAPHICS-CONSUMPTION, conservare il modello
-EUR campo00 gestito e collegarne i word decodificati alle letture del codec
-originale, preservando istruzioni/clock, con prova d'uso EUR/Wine mirata.
-Packet02/03/04e la scena/CLI397frame dichiarati sono conclusi; riutilizzare
-filee8e prove conservate senza ripeterli. Test ridotti solo Wine/EUR; Linux
-e USA da fare. Restano precondizioniFFglobali, transfer/variant, altri cataloghi/
-lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione normale soltanto
-con i gate richiesti; misure prestazionali rinviate dall'utente.
+**Prossima azione:** inventario delle ulteriori radici testi/font EUR fuori
+ dal blocco migrato, iniziando dal produttore tastiera nome già individuato;
+poi le altre famiglie ancora in ROM. Il catalogo esteso01/02/04e la scena/CLI05
+ dichiarati sono conclusi: riutilizzare le prove senza ripeterle. Test ridotti
+ solo Wine/EUR; nuovi controlli Linux e USA da fare. Restano altri cataloghi,
+font completo/Unicode, precondizioniFFglobali, audio/gameplay, archivi e fasi
+mod. Misure prestazionali e ottimizzazioni di spazio rinviate dall'utente.

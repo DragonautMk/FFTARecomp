@@ -408,6 +408,12 @@ mod tests {
         let temp = tempfile::tempdir().unwrap();
         let make_source = || if name == BG_MAIN_GRAPHICS_FILE {
             super::super::bg_graphics_managed_tests::fixture()
+        } else if name == BG_TRANSFER_PROGRAMS_FILE {
+            super::super::bg_transfer_managed_tests::fixture()
+        } else if name == TEXT_CATALOGS_FILE {
+            super::super::text_catalog_managed_tests::fixture()
+        } else if name == SHORT_TEXTS_FILE {
+            super::super::text_short_managed_tests::fixture()
         } else { fixture() };
         let mut source = make_source();
         let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
@@ -464,6 +470,21 @@ mod tests {
     #[test]
     fn graphics_partial_write_and_missing_repair_keep_prior_generation() {
         check_partial_resource_write_and_repair(BG_MAIN_GRAPHICS_FILE, 5);
+    }
+
+    #[test]
+    fn transfer_partial_write_and_missing_repair_keep_prior_generation() {
+        check_partial_resource_write_and_repair(BG_TRANSFER_PROGRAMS_FILE, 6);
+    }
+
+    #[test]
+    fn short_text_partial_write_and_missing_repair_keep_prior_generation() {
+        check_partial_resource_write_and_repair(SHORT_TEXTS_FILE, 7);
+    }
+
+    #[test]
+    fn text_catalog_partial_write_and_missing_repair_keep_prior_generation() {
+        check_partial_resource_write_and_repair(TEXT_CATALOGS_FILE, 8);
     }
 
     #[test]

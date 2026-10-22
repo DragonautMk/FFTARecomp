@@ -6,7 +6,7 @@ Install and start [Docker Desktop](https://docs.docker.com/desktop/setup/install
 using **Linux containers**. From the checkout in PowerShell:
 
 ```powershell
-.\scripts\build_docker.ps1
+.\scripts\windows\build_docker.ps1
 ```
 
 The default produces the Windows x86_64 portable ZIP and `BUILD-INFO.txt` in
@@ -18,15 +18,15 @@ installation is needed. The builder is a Linux container that cross-compiles
 The same entry point can build Linux from Windows:
 
 ```powershell
-.\scripts\build_docker.ps1 -Platform linux
-.\scripts\build_docker.ps1 -Platform windows -OutputDir 'D:\FFTA builds'
+.\scripts\windows\build_docker.ps1 -Platform linux
+.\scripts\windows\build_docker.ps1 -Platform windows -OutputDir 'D:\FFTA builds'
 ```
 
 The script targets Windows PowerShell 5.1+ and PowerShell 7. If local policy
 blocks the script, run it in a single process with:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_docker.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows\build_docker.ps1
 ```
 
 This does not change the user's persistent execution policy. Both platforms
@@ -39,13 +39,13 @@ paths containing spaces are passed as individual native-command arguments.
 From the repository root:
 
 ```bash
-bash scripts/build_linux_docker.sh
+bash scripts/linux/build_linux_docker.sh
 ```
 
 To build the Windows package from a Linux host instead:
 
 ```bash
-bash scripts/build_windows_docker.sh
+bash scripts/linux/build_windows_docker.sh
 ```
 
 The host only needs a working Docker Engine/Desktop with Buildx. Rust, GCC,
@@ -62,7 +62,7 @@ Output:
 To choose a different export directory, pass it as the sole argument:
 
 ```bash
-bash scripts/build_linux_docker.sh /tmp/ffta-release
+bash scripts/linux/build_linux_docker.sh /tmp/ffta-release
 ```
 
 Buildx output paths must not contain commas or newlines. The script can be
@@ -72,6 +72,55 @@ bind-mounted checkout or creates root-owned source/target files on the host.
 BuildKit manages Cargo registry/git and target caches. Only the final archive
 and build information are exported, using Docker's
 [local artifact exporter](https://docs.docker.com/build/building/export/).
+
+## Extract decoded ROM data
+
+Extraction has dedicated entry points that require only Docker on the host:
+
+```bash
+bash scripts/linux/extract_rom_data_docker.sh
+```
+
+```powershell
+.\scripts\windows\extract_rom_data_docker.ps1
+```
+
+The ROM argument is optional; both scripts default to
+`rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba` relative to the
+repository root. Override it with a first ROM argument on Bash or `-RomPath` on
+PowerShell. Custom relative ROM paths also start at the repository root;
+absolute ROM paths are accepted. The output argument is optional; the default is
+`<repository>/target/rom-data/<ROM filename stem>/`. Windows uses Docker
+Desktop's Linux containers. Both hosts build the same `linux/amd64` `extract`
+target from `Dockerfile.linux` into the local `ffta-rom-data-extractor:local`
+image, then invoke the source-authenticated offline extractor. Rust, Python and
+ALSA/udev build/runtime dependencies remain in that image; there is no host
+toolchain, Wine or desktop GUI requirement. The targeted build compiles only
+the CLI and does not run portable packaging or its broad test suites. The
+existing `build`/`export` release targets retain their test gates.
+
+BuildKit reuses the existing native Cargo caches. The selected ROM never enters
+the build context or image; it is bind-mounted as one read-only file at runtime.
+The writable mount is the output parent, allowing complete dataset publication
+by atomic sibling rename. Linux forwards the caller's UID/GID to avoid root-owned
+outputs. Extraction runs with `--network none` and the container is removed
+after exit; the build still needs network access for uncached dependencies.
+No checkout or Docker socket is mounted into the extraction container.
+
+Both scripts resolve their own build context, accept paths with spaces and
+print the host dataset directory. Explicit output paths are relative to the
+calling directory; ROM/output paths containing commas or newlines are
+rejected because Docker mount arguments use CSV. These bind mounts require a
+local daemon with access to the host paths (including Docker Desktop file
+sharing). Existing valid datasets are verified/reused; corrupt or incompatible
+datasets are preserved and reported as errors. Choose a fresh output directory
+to regenerate them. See [decoded files and coverage](rom_data.md).
+
+The extraction target was built and run on Linux for EUR: seven files match the
+retained Wine extraction byte-for-byte, reuse changes no hashes/mtimes, and
+outputs belong to the host user. Five Bash argument/error tests pass. Six
+PowerShell 7.4 cases with a simulated Docker command run inside its Linux
+container; native Windows PowerShell 5.1/Docker Desktop remain unverified.
 
 ## Environment and compatibility
 

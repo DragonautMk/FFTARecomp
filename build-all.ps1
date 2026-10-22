@@ -29,12 +29,13 @@ Write-Host '==> [2/5] Preparing Windows portable runtime...' -ForegroundColor Cy
 Write-Host '==> [3/5] Building and packaging TinyCC with the portable runtime...' -ForegroundColor Cyan
 & python (Join-Path $PSScriptRoot 'TinyCC\build.py')
 if ($LASTEXITCODE -ne 0) { throw 'TinyCC Windows build failed' }
-& python (Join-Path $PSScriptRoot 'scripts\package_ffta_windows.py')
+& python (Join-Path $PSScriptRoot 'scripts\windows\package_ffta_windows.py')
 if ($LASTEXITCODE -ne 0) { throw 'Windows portable packaging failed' }
 
 Write-Host '==> [4/5] Building Linux x86_64 and Steam Deck installers...' -ForegroundColor Cyan
 # Keep the Linux cross-compilation environment out of the Android build.
-& (Join-Path $PSHOME 'powershell.exe') -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'scripts\build-linux-windows.ps1') -OutputDir (Join-Path $PSScriptRoot 'Installer\Linux')
+$childPowerShell = (Get-Process -Id $PID).Path
+& $childPowerShell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'scripts\windows\build-linux-windows.ps1') -OutputDir (Join-Path $PSScriptRoot 'Installer\Linux')
 if ($LASTEXITCODE -ne 0) { throw 'Linux installer build failed' }
 if (-not $SkipAndroid) {
     Write-Host '==> [5/5] Building Android ARM64 APK (external SDK/NDK and JDK required)...' -ForegroundColor Cyan

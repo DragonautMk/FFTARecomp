@@ -8,13 +8,15 @@ pub struct Limits {
     pub packets: usize,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Patch<T> {
     pub byte_offset: u16,
     pub values: Vec<T>,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Patches<T> {
     /// Preserve packet order, including repeated writes to the same cell.
     pub packets: Vec<Patch<T>>,
@@ -23,7 +25,8 @@ pub struct Patches<T> {
     pub consumed: usize,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PlanePatches {
     pub header: u32,
     pub dictionary_offset: Option<usize>,

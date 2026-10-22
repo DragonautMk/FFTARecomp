@@ -87,6 +87,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   defers performance concerns and explicitly asks to avoid measuring them;
   do not resume old benchmark/profile/startup/RSS queues. Preserve historical
   results, continue functional migration/equivalence and optimize later.
+  Updated regional priority is EUR; new USA verification remains pending.
+  Retain completed USA evidence without reopening or extending its campaigns.
+  Updated platform priority is reduced Wine-only testing; mark new Linux checks
+  pending and retain the Linux evidence already completed before this steering.
   Current whole-process JSON RSS is not inferred from the parser prototype. Remaining BG GUI/archive,
   associated payload/program formats, other catalogs and language coverage.
 
@@ -144,7 +148,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   read extents. All source/body/alias/parent hashes agree EUR/USA. Four original
   component loader cases on Linux/Wine match every162×3complete target buffer,
   guards and SP. Dynamic paired fill and ordered patches remain explicit;
-  typed packet files/managed startup/runtime consumption are next. Field00and
+  Typed packet files now retain352programs/486links, ordered writes and exact
+  source/body metadata with strict graph/source validation. Eight core packet
+  tests, JSON guards and full retained EUR body checks pass on Linux/Wine;
+  standard readable JSON is identical. New USA validation is pending by user
+  instruction. Managed publication/startup/runtime reads remain next. Field00and
   transfer/variant programs, broader regional/gameplay/catalog/language coverage,
   global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,

@@ -1,10 +1,53 @@
 # Task handoff
 
-Updated: 2026-10-21. Latest user instructions take precedence. Follow
+Updated: 2026-10-22. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
+
+- Latest validation steering: **EUR only, reduced Wine-only tests**; new Linux
+  checks must be listed as pending. Existing Linux/USA results remain historical
+  evidence, not a reason to repeat or expand those campaigns. This update arrived
+  after the typed02tests below had already passed on both targets. No additional
+  Linux runtime test/build campaign is selected. Functional migration remains
+  full scope; performance/space work is still deferred.
+
+- **ROMDATA-02-BG-PACKET-DATA — complete for the verified EUR catalog;
+  USA verification pending by updated user instruction.** Previous goal turn
+  is progress; prior units are now observed committed/pushed externally at
+  decomp5375e8f, preserved. New bounded offline model stores352unique typed
+  programs,486stable descriptor links, ordered full-width writes, parent graph,
+  exact source representation and post-wrapper body/control/dictionary metadata.
+  Validates aliases/first-occurrence IDs, cycles, bounds, overlaps and encoding/
+  body/write agreement; verify_source rejects coherent base edits against ROM.
+  Parentless paired fill stays live, not a serialized constant/flattened image.
+- Eight affected core packet checks(5new/3existing), one default JSON guard and
+  one retained-EUR-capture test pass on each Linux/Wine target; builds warning-free.
+  All352body/source extents/hashes/parents/486links match retained original
+  EUR evidence, without repeating486-call oracles or boot/scene work. Readable
+  JSON20217427B, SHA79e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc
+  is byte-identical across targets;185272decoded values,398227sourceB/
+ 523794bodyB. Coherent content edit rejected by source authentication; unknown
+  fields/kinds and inconsistent values refused. Protected originals/canonicals
+  unchanged; all processes terminal/pass. Evidence
+  target/rom-data-bg-packet-data/verification-summary.json, native/windows logs,
+  tests/build metadata and {native,windows}-europe/bg-packet-programs.json.
+  No production build, schema/revision, runtime consumer, archive or performance/
+  space change. Current model edits remain uncommitted.
+  [Record](../changes/2026-10-22-decode-european-background-packet-programs.json).
+  Final memory/whitespace/source-hash checks pass. New tests after this boundary
+  must be reduced Wine-only; new Linux/USA verification remains pending.
+- **Next open unit: ROMDATA-02-BG-PACKET-MANAGED**, EUR validation only.
+  Add the sixth fixed readable packet file to extract/verify/prepare and whole-set
+  source authentication under a new extractor/decoder revision, retaining e7.
+  Existing typed EUR files and old e7datasets are reusable inputs; guard the
+  new file as malformed input, do not compress/tune it for space. Cover create/
+  reuse/repair/move, full-file identity, coherent edits and failed transactional
+  activation using reduced Wine-only tests; Linux checks pending for this new
+  integration. Actual runtime packet reads remain subsequent04.
+  No new USA campaign; preserve completed historical USA results as history.
+  Fresh checkpoint required before new mutation/expensive work.
 
 - **ROMDATA-01-BG-PACKET-CATALOG — complete for descriptor04/08/10 of
   the verified162-record block.** Previous turn is progress, preserved; this
@@ -28,16 +71,10 @@ An open parent never reopens completed children or rejected experiments.
   [Change record](../changes/2026-10-21-classify-background-packet-catalogs.json).
   Final memory/CRLF-aware whitespace and new source-hash checks pass; no live
   process or temporary tracked helper remains. Prior dirty units are preserved.
-- Next unfinished unit **ROMDATA-02-BG-PACKET-DATA**: typed ordered programs
-  for these352sources and486record links, source-authenticated parent graph,
-  exact encoded/control metadata and decoded writes. Reuse above original
-  outputs and existing core LZ77/packet decoders; do not rerun the closed486-call
-  oracles merely to rebuild context. Keep inherited initialization and packet
-  order; a flattened image loses this contract. Managed extraction/startup and
-  actual runtime consumption follow under new revisions, not part of the closed
-  inventory. Field00graphics, transfer/variant programs, languages/other catalogs,
-  global paletteFFconditions/archive/nativeWindows and other resource/mod
-  phases remain; write a fresh selection checkpoint before new execution.
+- The former02typed-packet next action is closed above for EUR. Follow the
+  current managed-unit queue; no closed original-loader oracle is reopened.
+  Field00graphics, transfer/variant programs, languages/other catalogs, global
+  paletteFFconditions/archive/nativeWindows and other resource/mod phases remain.
 
 - **ROMDATA-01-BG-ALTERNATE-CALLER-CONTRACT — bounded inventory/mode
   semantics complete; global FFpreconditions explicitly open.** Four direct
@@ -88,10 +125,12 @@ An open parent never reopens completed children or rejected experiments.
   no new request needed; performance/space work stays deferred. Next select one
   unfinished exact regional graphics payload/consumer contract from the
   inventory using a bounded static read; the packet catalog selected above is
-  now closed and its typed02model is next. Write a fresh checkpoint before
+  now closed and the EUR typed02model is also complete. Managed publication is
+  next. Write a fresh checkpoint before
   mutation/expensive work. Reuse retained catalogs/buffers/state artifacts.
-  Current branch decomp ed495fe; optimizations b43f943/main124de1f unchanged.
-  Dirty ROM-data code/docs are preserved uncommitted; no push/archive made.
+  Current branch decomp5375e8f contains prior externally committed work;
+  optimizations b43f943/main124de1f unchanged. New EUR model work remains
+  uncommitted; no agent push/archive made.
   Final project-memory and CRLF-aware whitespace checks pass; newest scene
   source hash verified. No temporary tracked helper or live process remains.
 

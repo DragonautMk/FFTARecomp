@@ -207,3 +207,14 @@ measurement or space-reduction work; optimization comes later. Prior benchmark/
 RSS limits and results are historical, and no performance campaign should be
 resumed from an older next-action line. Guest clock/state/audio correctness,
 source provenance and save/native compatibility checks remain required.
+
+## Next packet family: offline EUR model
+
+The descriptor-linked paired/halfword/auxiliary packet programs now have a
+[typed offline model](rom_data_graphics.md#typed-descriptor-packet-programs),
+validated against all retained EUR bodies on Linux/Wine. It preserves parent
+initialization, aliases and ordered writes rather than only a rendered image.
+The active e7-d6dataset and commands still contain the existing five files;
+the new packet file is not yet published or read by gameplay. Managed
+integration and actual runtime consumption follow. New USA verification is
+left pending under the user's current EUR priority.

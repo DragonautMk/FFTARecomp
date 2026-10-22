@@ -7,6 +7,7 @@ mod runtime;
 pub use runtime::{AlternatePaletteStats, BackgroundStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources};
 pub mod bg_descriptors;
 pub mod bg_packets;
+pub mod bg_packet_data;
 pub mod bg_palettes;
 pub mod bg_alternate_palettes;
 pub mod lz77;

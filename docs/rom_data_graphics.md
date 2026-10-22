@@ -5,8 +5,8 @@ graphics. They provide bounded offline LZ77, packet and descriptor decoders,
 with verified source ranges and original-instruction consumer checks.
 Descriptor metadata, base palettes and alternate palettes now belong to the
 managed dataset and are directly consumed. Descriptor-linked packet catalogs
-are also verified below; their typed managed files/runtime integration and
-other linked graphics/programs remain open.
+are also verified below, with typed ordered programs available offline. Their
+managed files/runtime integration and other linked graphics/programs remain open.
 The [inventory](development/ROM_DATA_INVENTORY.md) and
 [full TODO](development/ROM_DATA_TODO.md) retain the remaining catalog,
 semantic decoding, extraction and runtime integration work.
@@ -851,6 +851,65 @@ regional disassembly, four original-loader result/body directories and logs.
 Typed source-authenticated program files, managed publication and actual
 runtime consumption are the next distinct02/03/04work; source files alone
 will not complete that migration.
+
+## Typed descriptor packet programs
+
+ROMDATA-02-BG-PACKET-DATA implements the bounded offline model in
+`gba_core::rom_data::bg_packet_data`. Current user steering prioritizes EUR;
+new USA validation remains pending. The prior original-loader USA evidence is
+retained as history and is not rerun or extended by this unit.
+
+`Programs` has paired, halfword and auxiliary families. Each family retains
+all descriptor-to-program links and a unique program list in first-descriptor
+occurrence order. Program IDs are stable semantic indices; root-relative
+sources remain provenance. A program carries its optional parent descriptor,
+exact consumed wrapper/encoded source, exact post-wrapper body, and typed
+ordered writes. Paired writes preserve header, dictionary offset, packet-stream
+consumption and referenced dictionary extent. Literal u16and decoded u32pairs
+retain original values/order; encoded body metadata preserves index/marker and
+control bytes separately. LZ77declared body padding stays present; source
+alignment padding does not. No recompression or flattened image is used.
+
+Parentless programs still mean the original role's initialization: the paired
+live blank word, zero for the other two families. `ordered_programs` returns
+ancestors before the child, leaving that live initialization separate. Validation
+checks count/ID bounds, canonical alias IDs, unreferenced programs, cycles,
+family agreement, source overlaps/overflow/descriptor-region overlap and every
+encoding/body/parent/write relationship. Per-source and post-wrapper bodies
+are bounded at64KiB, ordered writes at64KiB and packets at4096. These are
+malformed-input guards, not storage targets. The generic family bound is512
+records; the authenticated base factory supplies the verified162record block.
+Unsupported wrapper tags and the unverified literal paired destination remain
+refused. Serde rejects unknown fields and write kinds.
+
+`Catalog::from_rom` authenticates the existing descriptor profile and supplies
+352unique provenance ranges. `Programs::verify_source` also compares the entire
+typed model with that exact source, so structurally coherent edited data cannot
+be accepted as the immutable base merely by recomputing a file hash. The active
+schema/extractor/decoder remain1/7/6: this module does not yet publish a sixth
+managed file, activate it or change gameplay reads/save/native identities.
+
+Linux and Windows GNU/Wine builds are warning-free. On each target,8affected
+core packet checks(5new plus3existing), one default JSON roundtrip/unknown-field/
+value guard and one private EUR retained-capture case pass. Every352source
+extent/hash/body/parent and486descriptor link matches the retained original
+EUR catalog, without rerunning the486-call oracle or any boot/scene. The typed
+set contains185272decoded values,398227source bytes and523794body bytes.
+Standard readable JSON is20217427bytes, byte-identical across targets with
+SHA25679e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc.
+A coherent literal edit passes structural validation but fails source
+verification; an edited ROM is also rejected. Original ROM/canonical hashes
+remain unchanged and all processes are terminal/pass. The user subsequently
+limits new checks to reduced Wine-only EUR testing; later Linux validation is
+pending, without retracting the results completed above.
+
+Evidence:target/rom-data-bg-packet-data/verification-summary.json, native/
+Windows build/test logs and {native,windows}-europe/bg-packet-programs.json.
+Generated resources remain private/ignored. No old oracle/scene, performance/
+space campaign, production rebuild, archive, AndroidPort, agent commit or push.
+Managed extract/verify/prepare, actual runtime consumption and subsequent
+functional acceptance remain separate work. New USA/native Windows checks,
+field00graphics, transfer/variant programs and other families remain open.
 
 ## Reproduction and remaining work
 

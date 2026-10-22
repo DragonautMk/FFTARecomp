@@ -259,3 +259,15 @@ raw dictionary reads separately from stream termination. See the [complete
 catalog contract](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
 No new managed file or runtime consumer exists for these packet resources yet;
 field00and transfer/variant programs remain separate unknowns.
+
+### Typed packet resource model: EUR priority
+
+The bounded offline packet model now retains352unique programs and486descriptor
+aliases, ordered u16/u32writes, original parent graph and exact encoded/body
+metadata. Source authentication rejects coherent base edits. Linux/Wine EUR
+checks reuse all retained original bodies; readable JSON is byte-identical.
+The new model is verified for EUR only; USA remains pending by user instruction.
+See the [typed contract](../rom_data_graphics.md#typed-descriptor-packet-programs).
+This file is not yet in the managed dataset or consumed by normal gameplay;
+current managed revision stays e7-d6. Managed publication and runtime reads are
+next, not implied by offline serialization.

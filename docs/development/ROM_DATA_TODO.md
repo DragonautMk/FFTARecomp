@@ -16,6 +16,12 @@ Priorità utente aggiornata: per ora **non misurare le regressioni di performanc
 l'ottimizzazione verrà dopo. Non avviare benchmark, profili o campagne di avvio/
 RSS, né comprimere o ritoccare formati per rispettare vecchi budget di spazio.
 Le misure già raccolte restano storiche; non bloccano il lavoro funzionale.
+Priorità regionale aggiornata: **concentrarsi sulla versione europea**;
+le nuove verifiche USA restano aperte. Conservare le prove USA già concluse
+come evidenza storica, senza ripeterle durante questa fase EUR.
+Priorità piattaforma aggiornata: **ridurre i test ed eseguirli solo su Wine**;
+segnare i nuovi controlli Linux come da fare. Le verifiche Linux già concluse
+restano storiche, senza ripeterle per le nuove integrazioni.
 Restano necessarie le prove di equivalenza, incluso il clock guest, l'uso reale
 dei file e la compatibilità di native/save/Load.
 
@@ -229,6 +235,15 @@ veri CLI per target, inclusi EUR/USA, recupero e rilocazione. Nessuna misura
 prestazionale o riduzione di spazio. L'attivazione degli alternativi è ancora
 `verified-only`al termine di questa unità; il consumo04è completato sotto.
 [Prove e limiti](../rom_data_graphics.md#managed-alternate-palette-datasets).
+
+**ROMDATA-02-BG-PACKET-DATA completato per EUR; verifica USA rinviata:**
+modello offline con352programmi unici/486link, scritture ordinate tipizzate,
+padri/alias e metadati originali wrapper/body. Limiti, cicli, ID, sovrapposizioni,
+incoerenze e modifiche base coerenti sono controllati. Otto test core, un test
+JSON e un caso EUR con tutti i buffer conservati passano su Linux/Wine; JSON
+leggibile identico. Nessun nuovo replay originale, schema attivo o consumer
+runtime. Il prossimo passo è il sesto file gestito sotto nuova revisione,
+poi il consumo04. [Contratto e prove](../rom_data_graphics.md#typed-descriptor-packet-programs).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -509,9 +524,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-02-BG-PACKET-DATA, modello tipizzato autenticato dei
-352programmi/486riferimenti verificati, mantenendo ordine, padri e inizializzazione.
-Riutilizzare i buffer originali del catalogo01appena concluso. Le letture04dei
+**Prossima azione:** ROMDATA-02-BG-PACKET-MANAGED, integrare il sesto file
+leggibile nei percorsi extract/verify/prepare e nell'autenticazione del dataset,
+con nuova revisione e mantenimento e7. Il modello02EUR è concluso: riutilizzare
+file tipizzati e dataset e7esistenti. Nessuna nuova verifica USA in questa fase; nuovi test solo Wine, Linux da fare. Le letture04dei
 descrittori/palette base e alternative, chiamanti/modalità e scene/GUI EUR
 sono già concluse: non ripeterle seguendo la vecchia coda. Restano precondizioniFFglobali,
 altri cataloghi/lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione

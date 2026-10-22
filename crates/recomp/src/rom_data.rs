@@ -28,6 +28,8 @@ mod bg_packet_tests;
 #[cfg(test)]
 mod bg_packet_catalog_tests;
 #[cfg(test)]
+mod bg_packet_data_tests;
+#[cfg(test)]
 mod bg_palette_tests;
 #[cfg(test)]
 mod bg_runtime_tests;

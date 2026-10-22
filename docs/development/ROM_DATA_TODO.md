@@ -494,6 +494,21 @@ nativa precedente; eseguibile canonico e sorgenti originali invariati.
 Altri payload/palette OBJ, tre contratti vuoti e Linux/USA restano aperti;
 nessuna misura prestazionale. [Contratto e prove](../rom_data_obj.md#custom-obj-word-banks-in-e19).
 
+**ROMDATA-01-OBJ-PALETTE-SOURCES / ROMDATA-02-UI-RAW-PALETTE-MANAGED /
+ROMDATA-04-UI-RAW-PALETTE-CONSUMPTION / ROMDATA-05-UI-RAW-PALETTE-SCENE-CLI
+completati per il catalogo EUR/Wine dichiarato:**21banchi/23riferimenti diretti,
+derivati o Color Mode,1328u16/2656byte senza sovrapposizioni, per entrambe le
+metà BG/OBJ del buffer palette. EUR e20-d19aggiunge ui-palettes.json,
+16file/15risorse; tutti i14file decodificati precedenti/e19restano invariati.
+Wine verifica l’inizializzatore originale176byte,27copie/10casi Color Mode,
+JSON/fonti/bit15, pubblicazione/riuso/recupero/spostamento/Load/Undo/backup/
+restart e parità completa interprete/native con tutte le21fonti alterate e
+3528byte compilati positivi. Bus/DMA160byte e pubblicazione di cambi RAM vivi
+passano. Avvio ordinario240frame/CLI reale coincide per stati/clock/immagini/
+OAM/dispatch/audio con33letture/130byte palette. Altre fonti indirette e
+Linux/USA/Windows nativo restano aperti; nessuna misura prestazionale.
+[Contratto e prove](../rom_data_ui_palettes.md).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
 
@@ -860,9 +875,11 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** individuare le radici/palette OBJ ancora non migrate,
-a partire dai consumatori
-originali adiacenti ai39banchi custom conclusi. Conservare senza ripetizione
+**Prossima azione:** ampliare le sorgenti grafiche custom ancora non migrate,
+a partire dai chiamanti adiacenti con lunghezza copia derivata dal valore di
+ritorno del decoder (omessi dal precedente filtro a conteggio costante).
+Il catalogo raw UI di21palette è ora concluso per il perimetro dichiarato;
+altre fonti indirette restano aperte. Conservare senza ripetizione
 il loro decoder/consumo/scena400frame verificati. Il catalogo
 statico esteso a 73 liste e i sedici banchi OBJ hanno concluso le proprie
 prove 01/02/04 e scena/CLI 05 dichiarate: conservarle senza ripetizione.

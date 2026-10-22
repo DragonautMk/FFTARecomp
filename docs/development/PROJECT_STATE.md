@@ -82,7 +82,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   audio/CLI pair pass. New localized counters distinguish this family. Linked
   compressed OBJ graphics/palettes and three earlier empty-sequence contracts
   remain open, along with new Linux/USA verification.
-  Current EUR e19-d18adds fifteenth file obj-graphics.json/resource
+  EUR e19-d18adds fifteenth file obj-graphics.json/resource
   graphics.obj-custom-banks:39raw custom word banks/six five-entry selector
   tables,45disjoint ranges/62674sourceB/131872decoded B. Exact typed literals
   and pointers serve original CPU/DMA/native reads, retaining all decompression,
@@ -91,7 +91,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   managed/native/lifecycle and one positive400-frame Engage full-state/audio
   scene/actual CLI create/no-write reuse/old-cache replay pass; an audited DMA-fixture address is corrected by a narrow positive
   typed20Bcheck. Save/native ABI unchanged; new Linux/USA remain pending.
-  Other OBJ sources/palettes, older empty contracts and wider TODO stay open.
+  Current EUR e20-d19adds sixteenth ui-palettes.json/resource
+  graphics.ui-raw-palettes:21raw BG/OBJ UI shadow banks/23direct-derived-branch
+  references/2656B/1328full-u16colors. Original176Bcode initializer and two live
+  Color-Mode selectors, memcpy/fades/publication and palette RAM stay active.
+  Typed CPU/DMA/native sources preserve save/native ABI and all14earlier decoded
+  files/e19generations. Reduced Wine original/native/lifecycle and one positive
+ 240-frame boot full-state/image/audio/actual CLI pair pass; new Linux/USA
+  remain pending. Other indirect palette/OBJ sources, older empty contracts
+  and the wider TODO stay open.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

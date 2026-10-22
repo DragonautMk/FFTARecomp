@@ -172,6 +172,15 @@ remain groundwork for other linked graphics families.
   tails retained. Fifteenth obj-graphics.json leaves all earlier files intact;
   Wine source/managed/native/lifecycle and400-frame Engage parity/use pass.
   Other graphics/palettes and new Linux/USA verification remain open.
+- **Raw UI palettes.** EUR e20-d19adds21source-authenticated raw banks/
+ 1328full-u16words/2656B/23direct-derived-Color-Mode references for both BG/OBJ
+  palette-shadow halves. Original dispatcher145c14→copiedIWRAM03005ee8is
+  independently initialized from176ROM bytes; actual selectors/copy paths,
+  native poisoned-source/full-state/clock/bus/DMA and immutable lifecycle pass
+  Wine, followed by a positive240-frame ordinary boot/CLI pair. This distinct
+  sixteenth file leaves all14earlier decoded files unchanged. Original live
+  fades/palette publication remain; indirect sources and new Linux/USA checks
+  stay open. [Contract](../rom_data_ui_palettes.md).
 - **Text and fonts.** `ffta_dialogue.rs` classifies already rendered layers
   and portraits, not strings, font encodings or localized text archives.
   `ffta_mouse.rs` identifies a name-entry row-count table via independently

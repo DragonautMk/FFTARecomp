@@ -475,3 +475,9 @@ DMA result. New Linux/USA/native Windows, other ordinary scenes/languages,
 remaining OBJ graphics/palettes, three earlier empty-record contracts and
 broader GUI/archive/gameplay/mod phases remain pending. No performance,
 startup/RSS or space campaign, AndroidPort change, commit or push is included.
+
+
+Raw palette colors used by original OBJ/BG UI shadow copies are subsequently
+migrated in [EUR e20raw UI palettes](rom_data_ui_palettes.md):21banks,
+23direct/derived/Color-Mode references and2656source bytes, preserving every
+original copy/fade/publication step. This does not claim all game OBJ palettes.

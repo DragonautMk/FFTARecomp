@@ -326,6 +326,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(g.source_bytes > 0 && g.decoded_literal_bytes > 0 && g.selector_bytes > 0,
             "ordinary scene must consume custom OBJ bank literals and language selectors");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_PALETTES").is_some() {
+        let p = decoded.bus.rom_resources().unwrap().ui_palette_stats().expect("decoded EUR raw UI palettes");
+        eprintln!("ROM_DATA_UI_PALETTE_SCENE frames={frames} bus_reads={} source_bytes={}",p.bus_reads,p.source_bytes);
+        assert!(p.source_bytes > 0,"ordinary scene must read new file-derived UI palette colors");
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

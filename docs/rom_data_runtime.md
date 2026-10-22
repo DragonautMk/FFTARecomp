@@ -1,6 +1,16 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e19-d18` also serves 39 custom OBJ-related graphics banks and
+Current EUR `v1/e20-d19` additionally serves21raw UI palette banks/1328u16words
+through `graphics.ui-raw-palettes`. Both BG/OBJ shadow halves, original Color-Mode
+selectors, copied IWRAM memcpy instructions, live fades and palette publication
+remain active; the PPU reads dynamic palette RAM. Exact typed-word ROM views
+serve CPU/DMA/native/guest-BIOS bus reads with nonserialized family/per-bank
+coverage. All14earlier decoded files/e19generations and save/native ABI stay
+unchanged. Reduced Wine source/native/lifecycle and one positive240-frame
+boot full-state/image/audio/actual CLI pair pass. New Linux/USA/native Windows
+remain pending. See [raw UI palettes](rom_data_ui_palettes.md).
+
+EUR `v1/e19-d18` also serves 39 custom OBJ-related graphics banks and
 six language selector tables from `graphics.obj-custom-banks`. Exact encoded
 literal positions read typed decoded u32 words; header/token positions retain
 authenticated codec metadata. Typed pointer order reconstructs original ROM
@@ -96,7 +106,7 @@ complete graphics extraction.
 EUR `v1/e13-d12` added `font.complete-bank`/`text.name-keyboard` as two
 fixed readable JSON files, bringing that version to12files/11resources; e14adds
 the thirteenth static OBJ file and e15the fourteenth animation file described
-above. e18retains that file set; current e19adds the fifteenth custom OBJ graphics file.
+above. e18retains that set; e19adds custom OBJ graphics and current e20adds raw UI palettes.
 All3175packed glyph slots and metrics, three keyboard programs/indices and
 navigation widths are immutable typed runtime sources. The original routines
 still build cell pages and render/copy data with unchanged guest work/clock.

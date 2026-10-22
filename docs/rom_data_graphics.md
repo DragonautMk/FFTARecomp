@@ -1375,3 +1375,14 @@ windows-results.json, windows-europe/result.json, windows-scene-results.json,
 windows-cli-summary.json, build/logs/candidate and source/protected hashes.
 New Linux/USA, broader scenes/GUI/archives and native Windows remain pending.
 No performance/profile/startup/RSS or space optimization campaign was run.
+
+
+## Other raw UI palette sources
+
+[EUR e20raw UI palettes](rom_data_ui_palettes.md) add a separate21-bank source
+catalog for both BG/OBJ UI shadows, with2656raw source bytes,23direct/derived/
+Color-Mode references and exact u16storage. They do not change the162-descriptor
+base/alternate palette catalogs above. Original copied memcpy, live palette
+transforms and publication remain; reduced Wine original/native/lifecycle and
+one positive240-frame boot full-state/audio/actual CLI check pass. Other
+indirect sources and new Linux/USA verification remain pending.

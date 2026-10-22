@@ -6,7 +6,8 @@ with verified source ranges and original-instruction consumer checks.
 Descriptor metadata, base palettes and alternate palettes now belong to the
 managed dataset and are directly consumed. Descriptor-linked packet catalogs
 are also verified below, with typed ordered programs available offline. Their
-managed files/runtime integration and other linked graphics/programs remain open.
+managed e8file is verified for EUR/Wine. Actual packet runtime integration and
+other linked graphics/programs remain open.
 The [inventory](development/ROM_DATA_INVENTORY.md) and
 [full TODO](development/ROM_DATA_TODO.md) retain the remaining catalog,
 semantic decoding, extraction and runtime integration work.
@@ -848,9 +849,9 @@ campaign, managed revision, archive, AndroidPort change, agent commit or push.
 Evidence:target/rom-data-bg-packet-catalog/verification-summary.json,
 headers/classified/range-comparison/cross-target-comparison JSON, bounded
 regional disassembly, four original-loader result/body directories and logs.
-Typed source-authenticated program files, managed publication and actual
-runtime consumption are the next distinct02/03/04work; source files alone
-will not complete that migration.
+Typed source-authenticated programs and managed publication are now complete
+for EUR as documented below; actual packet runtime consumption remains04work.
+Source files alone will not complete that migration.
 
 ## Typed descriptor packet programs
 
@@ -885,9 +886,9 @@ refused. Serde rejects unknown fields and write kinds.
 `Catalog::from_rom` authenticates the existing descriptor profile and supplies
 352unique provenance ranges. `Programs::verify_source` also compares the entire
 typed model with that exact source, so structurally coherent edited data cannot
-be accepted as the immutable base merely by recomputing a file hash. The active
-schema/extractor/decoder remain1/7/6: this module does not yet publish a sixth
-managed file, activate it or change gameplay reads/save/native identities.
+be accepted as the immutable base merely by recomputing a file hash. At this closed02boundary, schema/extractor/decoder stayed1/7/6and no sixth
+managed file or runtime consumer was added. The managed e8integration below
+now publishes it; actual packet reads remain04work.
 
 Linux and Windows GNU/Wine builds are warning-free. On each target,8affected
 core packet checks(5new plus3existing), one default JSON roundtrip/unknown-field/
@@ -910,6 +911,61 @@ space campaign, production rebuild, archive, AndroidPort, agent commit or push.
 Managed extract/verify/prepare, actual runtime consumption and subsequent
 functional acceptance remain separate work. New USA/native Windows checks,
 field00graphics, transfer/variant programs and other families remain open.
+
+## Managed packet program datasets
+
+ROMDATA-02-BG-PACKET-MANAGED publishes `bg-packet-programs.json` as the sixth
+fixed file, resource `graphics.bg-packet-programs`, format
+`bg-packet-programs-v1-json`. Schema stays1, extractor/decoder advance to8/7,
+using `v1/e8-d7` and retaining e7and all earlier generations. The new manifest
+entry pins352source ranges/hashes and a BG-descriptor dependency. The packet
+file exactly matches the typed02JSON; the other four decoded resource files
+match e7byte-for-byte. The EUR six-file set is22405770bytes, including a
+137179Bmanifest and20217427Bpacket JSON. Standard readable output is retained.
+
+The fixed reader applies64MiBpacket and complete-set malformed-input guards;
+existing manifest/OBJ/BG/base/alternate caps remain256KiB/16KiB/256KiB/1MiB/4MiB.
+It parses directly into the typed program model, validates graph/encoding/body/
+ordered writes, then checks the whole manifest/files against the selected exact
+ROM. Rehashed coherent base edits and manifest path edits remain invalid.
+All five resource IDs/file hashes contribute to dataset identity. Missing or
+invalid new activation leaves the current owner and guest snapshot untouched;
+a whitespace-only source-equal file changes dataset identity without changing
+individual prior-family identities or guest state. No mod semantics are added.
+
+All six files are synced, read back and authenticated before publication and
+selection. Valid reuse performs no writes; corrupt/missing packet data publish
+a fresh generation while retaining the old broken one. Failed partial packet
+writes keep the previous selected generation. Relative selections survive a
+root move; old e7selection/files remain untouched. Startup retains its existing
+pre-save/pre-native ordering. This unit authenticates the packet data but does
+not bind its reads yet: `ROM_DATA runtime=verified-only resource=graphics.bg-packet-programs`
+makes that boundary explicit. Original packet reads, writes, cycles and dynamic
+initialization remain unchanged. Native/save/cache ABI stays compatible.
+
+Validation follows the updated reduced EUR/Wine-only policy:
+
+- Four focused Wine checks pass: base-file authentication, synthetic six-file
+  publication/reuse/move, packet partial-write/missing repair, and one actual
+  EUR retained-data case covering e7retention, strict source edits, file/total
+  guards, complete identity and transactional activation.
+- The warning-free production Windows executable passes seven actual commands
+  from unrelated cwd: extract, verify, prepare, no-write reuse, corruption repair,
+  moved-root reuse and one cold native activation frame with the old TinyCC cache.
+  This frame proves activation/cache compatibility only, not packet source use.
+- Windows test/production builds are warning-free; canonical executable and
+  protected ROM/e7/typed02/cache/loader hashes are unchanged. All processes
+  are terminal/pass. Existing helper copy lists/counts/revisions were updated
+  for six files without rerunning their broad optional historical matrices.
+
+Evidence:target/rom-data-bg-packet-managed/verification-summary.json,
+validated-test-sources.json, windows-results.json/windows-europe/result.json,
+windows-cli-summary.json and seven command logs, candidates/build metadata and
+protected hashes. Linux/USA/new GUI/archive/native Windows remain pending.
+Actual packet consumption is the next04unit. No Linux/USA execution, broad
+suite, old codec/original/scene replay, performance/space campaign, AndroidPort,
+agent commit or push was performed. Prior02was observed committed externally
+as ec5f9cb; its work is preserved.
 
 ## Reproduction and remaining work
 

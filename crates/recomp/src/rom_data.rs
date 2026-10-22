@@ -8,6 +8,8 @@ use gba_core::rom_data::{
     bg_alternate_palettes::Palettes as AlternatePalettes,
     BG_ALTERNATE_PALETTES_FILE, BG_ALTERNATE_PALETTES_ID,
     MAX_BG_ALTERNATE_PALETTES_FILE_BYTES,
+    bg_packet_data::Programs as PacketPrograms,
+    BG_PACKET_PROGRAMS_ID, BG_PACKET_PROGRAMS_FILE, MAX_BG_PACKET_PROGRAMS_FILE_BYTES,
 };
 use std::{
     fs,
@@ -29,6 +31,8 @@ mod bg_packet_tests;
 mod bg_packet_catalog_tests;
 #[cfg(test)]
 mod bg_packet_data_tests;
+#[cfg(test)]
+mod bg_packet_managed_tests;
 #[cfg(test)]
 mod bg_palette_tests;
 #[cfg(test)]
@@ -114,6 +118,18 @@ fn encode_alternate_palettes(palettes: &AlternatePalettes) -> Result<Vec<u8>, St
     serde_json::to_vec_pretty(palettes).map_err(|e| format!("Cannot encode alternate palettes: {e}"))
 }
 
+fn parse_packet_programs(bytes: &[u8]) -> Result<PacketPrograms, String> {
+    let programs: PacketPrograms = serde_json::from_slice(bytes)
+        .map_err(|e| format!("Invalid packet programs: {e}"))?;
+    programs.validate()?;
+    Ok(programs)
+}
+
+fn encode_packet_programs(programs: &PacketPrograms) -> Result<Vec<u8>, String> {
+    programs.validate()?;
+    serde_json::to_vec_pretty(programs).map_err(|e| format!("Cannot encode packet programs: {e}"))
+}
+
 pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String> {
     let dataset = read_dataset(path)?;
     source.validate_files(dataset.files())?;
@@ -130,6 +146,8 @@ struct Dataset {
     palette_bytes: Vec<u8>,
     alternate_palettes: AlternatePalettes,
     alternate_palette_bytes: Vec<u8>,
+    packet_programs: PacketPrograms,
+    packet_program_bytes: Vec<u8>,
 }
 
 impl Dataset {
@@ -140,6 +158,7 @@ impl Dataset {
             background: Some((&self.background, &self.bg_bytes)),
             palettes: Some((&self.palettes, &self.palette_bytes)),
             alternate_palettes: Some((&self.alternate_palettes, &self.alternate_palette_bytes)),
+            packet_programs: Some((&self.packet_programs, &self.packet_program_bytes)),
         }
     }
 }
@@ -167,17 +186,22 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let alternate_palette_bytes = read_bounded(
         &path.join(BG_ALTERNATE_PALETTES_FILE), MAX_BG_ALTERNATE_PALETTES_FILE_BYTES,
     )?;
+    let packet_program_bytes = read_bounded(
+        &path.join(BG_PACKET_PROGRAMS_FILE), MAX_BG_PACKET_PROGRAMS_FILE_BYTES,
+    )?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
         bg_bytes.len(),
         palette_bytes.len(),
         alternate_palette_bytes.len(),
+        packet_program_bytes.len(),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
     let palettes = parse_palettes(&palette_bytes)?;
     let alternate_palettes = parse_alternate_palettes(&alternate_palette_bytes)?;
+    let packet_programs = parse_packet_programs(&packet_program_bytes)?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -188,6 +212,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         palette_bytes,
         alternate_palettes,
         alternate_palette_bytes,
+        packet_programs,
+        packet_program_bytes,
     })
 }
 
@@ -197,12 +223,14 @@ fn check_dataset_budget(
     bg: usize,
     palettes: usize,
     alternate_palettes: usize,
+    packet_programs: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
         || bg as u64 > MAX_BG_DESCRIPTORS_FILE_BYTES
         || palettes as u64 > MAX_BG_BASE_PALETTES_FILE_BYTES
         || alternate_palettes as u64 > MAX_BG_ALTERNATE_PALETTES_FILE_BYTES
+        || packet_programs as u64 > MAX_BG_PACKET_PROGRAMS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
     }
@@ -211,6 +239,7 @@ fn check_dataset_budget(
         .saturating_add(bg)
         .saturating_add(palettes)
         .saturating_add(alternate_palettes)
+        .saturating_add(packet_programs)
         > MAX_DATASET_BYTES
     {
         return Err("Resource dataset exceeds its total size budget".into());
@@ -242,6 +271,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     );
     eprintln!("ROM_DATA runtime=decoded resource={BG_BASE_PALETTES_ID} source={} dataset={} file={} records={} resident_bytes={palette_resident}", resources.source_sha256(), resources.dataset_sha256(), resources.palette_file_sha256().unwrap(), dataset.palettes.entries.len());
     eprintln!("ROM_DATA runtime=decoded resource={BG_ALTERNATE_PALETTES_ID} source={} dataset={} file={} catalogs=2 keys=157", resources.source_sha256(), resources.dataset_sha256(), resources.alternate_palette_file_sha256().unwrap());
+    eprintln!("ROM_DATA runtime=verified-only resource={BG_PACKET_PROGRAMS_ID} source={} dataset={} file={} programs={}",
+        resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[4].sha256,
+        dataset.packet_programs.paired.programs.len() + dataset.packet_programs.halfwords.programs.len() + dataset.packet_programs.auxiliary.programs.len());
     Ok(())
 }
 
@@ -331,7 +363,10 @@ fn write_dataset(
     let alternate_palette_data = encode_alternate_palettes(
         &source.alternate_palettes.as_ref().ok_or("Missing alternate palette extraction")?.decoded,
     )?;
-    source.set_file_hashes(&[data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data])?;
+    let packet_program_data = encode_packet_programs(
+        &source.packet_programs.as_ref().ok_or("Missing packet program extraction")?.decoded,
+    )?;
+    source.set_file_hashes(&[data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data])?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
     check_dataset_budget(
@@ -340,11 +375,13 @@ fn write_dataset(
         bg_data.len(),
         palette_data.len(),
         alternate_palette_data.len(),
+        packet_program_data.len(),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
     write(&path.join(BG_BASE_PALETTES_FILE), &palette_data)?;
     write(&path.join(BG_ALTERNATE_PALETTES_FILE), &alternate_palette_data)?;
+    write(&path.join(BG_PACKET_PROGRAMS_FILE), &packet_program_data)?;
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -383,7 +420,7 @@ pub fn cmd(args: &[String]) -> Result<(), String> {
         verify(path, &source)?;
         "verified"
     };
-    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=5 runtime=offline",
+    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=6 runtime=offline",
         source.manifest.profile, source.manifest.source_rom_sha256, source.manifest.schema,
         source.manifest.coverage.join(","));
     Ok(())
@@ -477,6 +514,33 @@ mod tests {
                 catalogs: std::array::from_fn(|group| vec![bg_alternate_palettes::Palette::decode(&[0,0,1,0,if group==0 {1}else{2},253]).unwrap().0;157]),
             },
         };
+        let packet_family = |role, relative, body: &[u8]| {
+            let source = [vec![1, 255, 255, 255], body.to_vec()].concat();
+            bg_packet_data::Family {
+                descriptor_programs: vec![0; bg_descriptors::BASE_RECORDS],
+                programs: vec![bg_packet_data::Program::decode(&source, role, relative).unwrap().0],
+            }
+        };
+        let mut paired_body = vec![16, 0, 0, 128, 0, 0, 1, 0, 0, 0];
+        paired_body.resize(16, 0);
+        paired_body.extend_from_slice(&[7, 0]);
+        let halfword_body = [0, 0, 2, 0, 0x23, 0x81, 0, 0];
+        let packet_decoded = bg_packet_data::Programs {
+            paired: packet_family(bg_packet_data::Role::Paired, 0x4100, &paired_body),
+            halfwords: packet_family(bg_packet_data::Role::Halfwords, 0x4200, &halfword_body),
+            auxiliary: packet_family(bg_packet_data::Role::Auxiliary, 0x4400, &halfword_body),
+        };
+        let packet_sources: Vec<_> = bg_packet_data::Role::ALL.into_iter().map(|role| {
+            let program = &packet_decoded.family(role).programs[0];
+            SourceRange {
+                offset: 0x100 + program.relative_source,
+                length: program.encoded_source.len() as u32,
+                sha256: gba_core::ffta_rom::digest(&program.encoded_source),
+                role: format!("bg-packet-program/{}/0", role.name()),
+            }
+        }).collect();
+        let packet_ranges = packet_sources.clone();
+        let packet_programs = bg_packet_data::Catalog { decoded: packet_decoded, sources: packet_sources };
         Extraction {
             manifest: Manifest {
                 schema: SCHEMA,
@@ -490,6 +554,7 @@ mod tests {
                     BG_DESCRIPTORS_ID.into(),
                     BG_BASE_PALETTES_ID.into(),
                     BG_ALTERNATE_PALETTES_ID.into(),
+                    BG_PACKET_PROGRAMS_ID.into(),
                 ],
                 resources: vec![
                     Resource {
@@ -532,6 +597,11 @@ mod tests {
                         format: BG_ALTERNATE_PALETTES_FORMAT.into(), sha256: String::new(),
                         dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: alternate_ranges,
                     },
+                    Resource {
+                        id: BG_PACKET_PROGRAMS_ID.into(), path: BG_PACKET_PROGRAMS_FILE.into(),
+                        format: BG_PACKET_PROGRAMS_FORMAT.into(), sha256: String::new(),
+                        dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: packet_ranges,
+                    },
                 ],
             },
             dimensions,
@@ -541,6 +611,7 @@ mod tests {
                 sources: palette_sources,
             }),
             alternate_palettes: Some(alternate_palettes),
+            packet_programs: Some(packet_programs),
         }
     }
 
@@ -561,6 +632,7 @@ mod tests {
             BG_DESCRIPTORS_FILE,
             BG_BASE_PALETTES_FILE,
             BG_ALTERNATE_PALETTES_FILE,
+            BG_PACKET_PROGRAMS_FILE,
         ] {
             assert_eq!(
                 fs::read(a.join(name)).unwrap(),
@@ -824,6 +896,7 @@ mod tests {
             BG_DESCRIPTORS_FILE,
             BG_BASE_PALETTES_FILE,
             BG_ALTERNATE_PALETTES_FILE,
+            BG_PACKET_PROGRAMS_FILE,
         ];
         let original: Vec<_> = names
             .iter()
@@ -855,6 +928,10 @@ mod tests {
         manifest.resources[3].sha256 = gba_core::ffta_rom::digest(&alternates);
         fs::write(path.join(BG_ALTERNATE_PALETTES_FILE), &alternates).unwrap();
         fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
+        let packets = padded(original[5].clone(), MAX_BG_PACKET_PROGRAMS_FILE_BYTES as usize);
+        manifest.resources[4].sha256 = gba_core::ffta_rom::digest(&packets);
+        fs::write(path.join(BG_PACKET_PROGRAMS_FILE), &packets).unwrap();
+        fs::write(path.join(MANIFEST_FILE), toml::to_string_pretty(&manifest).unwrap()).unwrap();
         assert!(verify(&path, &source).unwrap_err().contains("total size"));
         for (name, limit) in [
             (MANIFEST_FILE, MAX_MANIFEST_FILE_BYTES),
@@ -862,6 +939,7 @@ mod tests {
             (BG_DESCRIPTORS_FILE, MAX_BG_DESCRIPTORS_FILE_BYTES),
             (BG_BASE_PALETTES_FILE, MAX_BG_BASE_PALETTES_FILE_BYTES),
             (BG_ALTERNATE_PALETTES_FILE, MAX_BG_ALTERNATE_PALETTES_FILE_BYTES),
+            (BG_PACKET_PROGRAMS_FILE, MAX_BG_PACKET_PROGRAMS_FILE_BYTES),
         ] {
             for (name, bytes) in names.iter().zip(&original) {
                 fs::write(path.join(name), bytes).unwrap();

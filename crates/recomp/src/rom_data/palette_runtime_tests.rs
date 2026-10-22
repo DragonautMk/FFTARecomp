@@ -184,6 +184,7 @@ fn lifecycle(machine: &mut Machine, dataset: &Path, root: &Path, boot: &[u8], ca
         BG_DESCRIPTORS_FILE,
         BG_BASE_PALETTES_FILE,
         BG_ALTERNATE_PALETTES_FILE,
+        BG_PACKET_PROGRAMS_FILE,
     ];
     for name in names {
         fs::copy(dataset.join(name), local.join(name)).unwrap();

@@ -162,11 +162,12 @@ remain groundwork for other linked graphics families.
 ## Version 1 base dataset contract
 
 The managed set contains `graphics.obj-dimensions`, `graphics.bg-descriptors`
-`graphics.bg-base-palettes` and `graphics.bg-alternate-palettes`. IDs remain semantic: OBJ index `shape * 4 + size`,
+`graphics.bg-base-palettes`, `graphics.bg-alternate-palettes` and
+`graphics.bg-packet-programs`. IDs remain semantic: OBJ index `shape * 4 + size`,
 BG record index within the authenticated162-record block; source offsets are
-provenance, not resource IDs. All four resources have direct consumption through their verified readers;
-whole-set activation authenticates every file.
-other linked payloads/programs remain ROM.
+provenance, not resource IDs. The existing four families have direct consumption;
+packet programs are currently verified-only. Whole-set activation authenticates
+every file. Other linked payloads/programs and packet reads remain ROM.
 
 - `manifest.toml`: schema revision, extractor revision, decoder revision,
   exact source ROM SHA-256/size and regional profile; a coverage list naming
@@ -181,7 +182,7 @@ other linked payloads/programs remain ROM.
   roundtrip, validated relative links/transfer triples and retained tail bytes.
   It does not contain linked graphics/program payloads. Its source range is
   independently authenticated for each profile; file hashes cannot authorize
-  edited base semantics. All four resource files contribute to complete dataset identity.
+  edited base semantics. All five resource files contribute to complete dataset identity.
 - `bg-base-palettes.json`: all162record-indexed base palettes as fullu16banks,
   with source aliases preserved in162manifest ranges and a dependency on BG
   descriptor IDs. Known source codecs raw0/LZ7710are bounded and exact extents
@@ -195,6 +196,11 @@ other linked payloads/programs remain ROM.
   retain their own manifest ranges/hashes and a dependency on descriptors.
   All fields and file hashes are authenticated; current activation verifies this
   family and its guest source reads now consume decoded literal bank bytes.
+- `bg-packet-programs.json`:352unique typed programs/486descriptor links,
+  parent graph, exact encoded and post-wrapper body metadata plus ordered writes.
+ 352source ranges depend on BG metadata. Every field/file hash is authenticated,
+  with source-equal e8publication/repair/retention verified for EUR/Wine. Current
+  packet runtime status is verified-only; actual consumption is the next04unit.
 - Schema and decoder identity are separate from source identity and compiled
   code identity. For a base dataset, matching its own declared hashes is
   insufficient: verify the expected source ranges and reconstructed source
@@ -202,16 +208,16 @@ other linked payloads/programs remain ROM.
   layer; do not silently accept them as base data.
 - Keep fixed names and bounded input:256KiB manifest (including162base and316alternate
   provenance entries),16KiB OBJ,256KiB BG descriptors,1MiB base palettes,
- 4MiBalternate palettes and5MiBtotal. These guard malformed input, not extracted-data space targets.
+ 4MiBalternate palettes,64MiBpacket programs and64MiBtotal. These guard malformed input, not extracted-data space targets.
   Reject unsupported schema/decoder revisions, duplicate/missing resources,
   bad hashes, unknown fields, truncated/out-of-range data and path escapes.
   Publication must validate all files before making a directory visible.
-- Automatic path: portable `Data/resources/<rom-sha256>/v1/e7-d6/`;
+- Automatic path: portable `Data/resources/<rom-sha256>/v1/e8-d7/`;
   installed uses local application data `FFTARecomp/resources`. Immutable
-  `generation-*` directories contain five files; an atomic relative `current`
+  `generation-*` directories contain six files; an atomic relative `current`
   file selects one verified generation. Revisions have separate paths and an OS
   lock coordinates writers. `rom-data prepare` and opt-in `play --rom-data`
-  implement reuse/recovery, retaining e1/e2/e3/e4/e5/e6 generations; direct OBJ, BG
+  implement reuse/recovery, retaining e1/e2/e3/e4/e5/e6/e7 generations; direct OBJ, BG
   metadata and base-palette consumption is opt-in. Other linked payloads/programs
   remain ROM.
   Normal enablement awaits05.
@@ -257,8 +263,9 @@ Four Linux/Wine original-loader cases each pass486wrapper invocations with
 complete destination/guards/SP checks. The core's new referenced_extent bounds
 raw dictionary reads separately from stream termination. See the [complete
 catalog contract](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
-No new managed file or runtime consumer exists for these packet resources yet;
-field00and transfer/variant programs remain separate unknowns.
+The sixth managed e8file now authenticates these programs for EUR/Wine;
+actual runtime packet reads remain pending. Field00and transfer/variant
+programs remain separate unknowns.
 
 ### Typed packet resource model: EUR priority
 
@@ -268,6 +275,6 @@ metadata. Source authentication rejects coherent base edits. Linux/Wine EUR
 checks reuse all retained original bodies; readable JSON is byte-identical.
 The new model is verified for EUR only; USA remains pending by user instruction.
 See the [typed contract](../rom_data_graphics.md#typed-descriptor-packet-programs).
-This file is not yet in the managed dataset or consumed by normal gameplay;
-current managed revision stays e7-d6. Managed publication and runtime reads are
-next, not implied by offline serialization.
+The file is now published/verified in the e8-d7managed dataset; actual packet
+runtime consumption remains the next unit. Reduced Wine-only checks pass;
+new Linux/USA checks remain pending. See the [managed contract](../rom_data_graphics.md#managed-packet-program-datasets).

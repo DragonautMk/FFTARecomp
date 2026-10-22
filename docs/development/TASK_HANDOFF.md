@@ -6,6 +6,41 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **ROMDATA-02-BG-PACKET-MANAGED — complete for EUR/Wine scope.** Latest
+  user policy remains EUR/reduced Wine-only tests; Linux/USA pending, no cost/
+  space work. Six fixed files under schema1/e8-d7now include readable packet
+  JSON and352provenance ranges/dependency.64MiBpacket/whole-set input guards,
+  strict typed/source verification, full-file dataset identity, atomic verified
+  publication/reuse/repair/retention. Existing e7and prior four decoded files
+  unchanged; packet JSON matches02exactly. Runtime log explicitly verified-only;
+  original packet reads are not migrated yet. Native/save/cache ABI unchanged.
+- Four focused Wine checks pass: core base authentication, synthetic six-file
+  publish/reuse/move, new packet partial-write/missing repair, retained EUR e7/
+  create/reuse/repair/move/coherent-edit/identity/transactional activation case.
+  Seven actual Windows CLI operations pass from unrelated cwd: extract, verify,
+  prepare, no-write reuse, retained-corrupt-generation repair, moved-root reuse
+  and one-frame native activation with old TinyCC cache. The cold frame is only
+  activation/cache evidence, not packet-use proof. Windows builds warning-free,
+  canonical executable restored; protected ROM/e7/typed02/cache/loader unchanged.
+  All processes40856/82397/99275/76521terminal/pass. No Linux/USA or broad default/
+  old codec/original/scene replay. Source hashes verified. Evidence
+  target/rom-data-bg-packet-managed/verification-summary.json, windows-results,
+  windows-europe/result, windows-cli-summary/logs/candidates and protected hashes.
+  Existing helper copy lists/counts/revision expectations updated for six files;
+  their broader Linux/USA/optional replays remain unrun. Head ec5f9cbcontains
+  prior02committed externally; new managed edits preserved uncommitted.
+  [Record](../changes/2026-10-22-prepare-european-background-packet-programs.json).
+  Final memory/CRLF-aware whitespace/source-hash checks pass. No live process
+  or temporary tracked helper remains; original and prior unit evidence retained.
+- **Next open unit: ROMDATA-04-BG-PACKET-CONSUMPTION**, EUR/Wine only.
+  Use the existing authenticated e8packet program file/352ranges and retained
+  original body/program oracles. Bind immutable decoded packet/body values into
+  actual CPU/DMA/native/HLE source paths with provenance, preserving original
+  writes, processing flags, cycles and dynamic paired initialization. Preparation
+  alone is not completion. Reuse existing e8directories and candidate/cache;
+  choose reduced focused Wine gates, no new Linux/USA or old full oracle rerun
+  solely for context. Fresh checkpoint before new mutation/expensive work.
+
 - Latest validation steering: **EUR only, reduced Wine-only tests**; new Linux
   checks must be listed as pending. Existing Linux/USA results remain historical
   evidence, not a reason to repeat or expand those campaigns. This update arrived
@@ -38,16 +73,9 @@ An open parent never reopens completed children or rejected experiments.
   [Record](../changes/2026-10-22-decode-european-background-packet-programs.json).
   Final memory/whitespace/source-hash checks pass. New tests after this boundary
   must be reduced Wine-only; new Linux/USA verification remains pending.
-- **Next open unit: ROMDATA-02-BG-PACKET-MANAGED**, EUR validation only.
-  Add the sixth fixed readable packet file to extract/verify/prepare and whole-set
-  source authentication under a new extractor/decoder revision, retaining e7.
-  Existing typed EUR files and old e7datasets are reusable inputs; guard the
-  new file as malformed input, do not compress/tune it for space. Cover create/
-  reuse/repair/move, full-file identity, coherent edits and failed transactional
-  activation using reduced Wine-only tests; Linux checks pending for this new
-  integration. Actual runtime packet reads remain subsequent04.
-  No new USA campaign; preserve completed historical USA results as history.
-  Fresh checkpoint required before new mutation/expensive work.
+- The former managed-unit queue is closed above for EUR/Wine. Follow the04
+  consumption queue; do not reopen the typed02or managed publication work merely
+  to reconstruct context. Linux/USA remain pending under the latest policy.
 
 - **ROMDATA-01-BG-PACKET-CATALOG — complete for descriptor04/08/10 of
   the verified162-record block.** Previous turn is progress, preserved; this
@@ -125,11 +153,11 @@ An open parent never reopens completed children or rejected experiments.
   no new request needed; performance/space work stays deferred. Next select one
   unfinished exact regional graphics payload/consumer contract from the
   inventory using a bounded static read; the packet catalog selected above is
-  now closed and the EUR typed02model is also complete. Managed publication is
-  next. Write a fresh checkpoint before
+  now closed and the EUR typed02model/managed publication are complete. Actual
+  packet consumption04is next. Write a fresh checkpoint before
   mutation/expensive work. Reuse retained catalogs/buffers/state artifacts.
-  Current branch decomp5375e8f contains prior externally committed work;
-  optimizations b43f943/main124de1f unchanged. New EUR model work remains
+  Current branch decompec5f9cb contains prior externally committed02work;
+  optimizations b43f943/main124de1f unchanged. New EUR managed e8work remains
   uncommitted; no agent push/archive made.
   Final project-memory and CRLF-aware whitespace checks pass; newest scene
   source hash verified. No temporary tracked helper or live process remains.

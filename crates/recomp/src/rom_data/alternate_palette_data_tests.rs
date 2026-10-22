@@ -15,6 +15,7 @@ fn alternate_files_authenticate_whole_set_and_retain_previous_generations() {
         BG_DESCRIPTORS_FILE,
         BG_BASE_PALETTES_FILE,
         BG_ALTERNATE_PALETTES_FILE,
+        BG_PACKET_PROGRAMS_FILE,
     ];
     for (env, profile) in [
         ("FFTA_TEST_ROM_USA", "usa"),
@@ -25,7 +26,7 @@ fn alternate_files_authenticate_whole_set_and_retain_previous_generations() {
         let base = root.join(profile);
         let offline = base.join("offline");
         extract(&offline, &mut source).unwrap();
-        assert_eq!(fs::read_dir(&offline).unwrap().count(), 5);
+        assert_eq!(fs::read_dir(&offline).unwrap().count(), 6);
         let originals: Vec<_> = names
             .iter()
             .map(|name| fs::read(offline.join(name)).unwrap())
@@ -38,7 +39,7 @@ fn alternate_files_authenticate_whole_set_and_retain_previous_generations() {
         assert_eq!(encode_alternate_palettes(&parsed).unwrap(), originals[4]);
         assert_eq!(source.manifest.resources[3].sources.len(), 316);
         assert_eq!(
-            source.manifest.coverage.last().unwrap(),
+            &source.manifest.coverage[3],
             BG_ALTERNATE_PALETTES_ID
         );
         let mut machine = crate::make_machine(rom, None);
@@ -142,7 +143,7 @@ fn alternate_files_authenticate_whole_set_and_retain_previous_generations() {
         assert!(verify(&retained, &source).is_err());
         let first = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(first.action, "created");
-        assert!(first.directory.parent().unwrap().ends_with("v1/e7-d6"));
+        assert!(first.directory.parent().unwrap().ends_with("v1/e8-d7"));
         let reused = preparation::prepare(&managed, &mut source, &mut |_| Ok(())).unwrap();
         assert_eq!(reused.action, "reused");
         assert_eq!(reused.directory, first.directory);
@@ -192,7 +193,7 @@ fn alternate_files_authenticate_whole_set_and_retain_previous_generations() {
             .unwrap(),
             b"generation-retained\n"
         );
-        reports.push(serde_json::json!({"profile":profile,"files":5,"sources":316,"alternate_sha256":gba_core::ffta_rom::digest(&originals[4]),"e6_retained":true,"create_reuse_repair_move":true,"transactional_activation":true,"whole_set_identity":true,"alternate_runtime_consumption":false}));
+        reports.push(serde_json::json!({"profile":profile,"files":6,"sources":316,"alternate_sha256":gba_core::ffta_rom::digest(&originals[4]),"e6_retained":true,"create_reuse_repair_move":true,"transactional_activation":true,"whole_set_identity":true,"alternate_runtime_consumption":false}));
     }
     assert_eq!(
         reports[0]["alternate_sha256"],

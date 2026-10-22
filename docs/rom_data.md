@@ -1,14 +1,17 @@
 # Decoded ROM resources
 
 The desktop developer CLI extracts, verifies and prepares OBJ dimensions, BG
-descriptors, base palettes and `graphics.bg-alternate-palettes` from an exact supported
-FFTA EUR or USA ROM. `play --rom-data` directly consumes OBJ dimensions and
+descriptors, base/alternate palettes and `graphics.bg-packet-programs` from an
+exact supported source profile. New packet integration is verified for EUR on
+Wine; Linux/USA checks remain pending under the current user priority. `play --rom-data` directly consumes OBJ dimensions and
 the authenticated BG descriptor metadata and base-palette banks. Palette BIOS
 HLE reads decoded banks; CPU/DMA/native and guest BIOS reads use an exact
 file-derived source view. Alternate palettes are source-verified during
 activation and directly serve the original custom decoder: literal source
 bytes come from typed banks, while headers/tokens retain authenticated metadata.
-No guest decompression instruction or write is skipped.
+No guest decompression instruction or write is skipped. Packet programs are
+currently authenticated as `runtime=verified-only`; their actual source reads
+remain in ROM until the next consumption unit.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
 code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
 See [runtime consumption](rom_data_runtime.md) for sources, identity, counters,
@@ -25,19 +28,23 @@ recomp play /path/to/your-game.gba --rom-data
 ```
 
 The output directory contains `manifest.toml`, `obj-dimensions.toml`,
-`bg-descriptors.json`, `bg-base-palettes.json` and `bg-alternate-palettes.json`. OBJ dimensions store twelve indexed width/height records;
+`bg-descriptors.json`, `bg-base-palettes.json`, `bg-alternate-palettes.json` and
+`bg-packet-programs.json`. OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
 remain in the ROM; alternate palette banks/links/keys now have their own
-verified decoded file. The manifest records
+verified decoded file. Packet programs preserve352unique programs/486descriptor
+links, parent initialization, ordered typed writes and exact source/body metadata.
+The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor7/decoder6 stores all162base palettes as readable JSON banks of16full
+Extractor8/decoder7 stores all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
-reads. Source aliases and bit15are preserved. Earlier e6/e5/e4/e3/e2/e1datasets
+reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
-OBJv1, `bg-descriptors-json-v2` `bg-base-palettes-v2-json` and `bg-alternate-palettes-v1-json`. Resource identity is independent of regional file offsets.
+OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
+`bg-alternate-palettes-v1-json` and `bg-packet-programs-v1-json`. Resource identity is independent of regional file offsets.
 There is no ROM code, image, save, absolute installation path or timestamp in
 the manifest. The generated decoded values remain private game data: keep
 outputs under ignored `target/` for this developer command, outside packages.
@@ -51,8 +58,9 @@ regenerate it. This explicit `extract` command preserves its original behavior;
 managed preparation below adds automatic recovery. No mod or save directory is
 selected by the offline commands.
 
-Manifest/OBJ use strict typed TOML, descriptors/palettes strict typed JSON;
-all reject unknown fields and apply the five-file bounds listed below. The reader uses fixed
+Manifest/OBJ use strict typed TOML; descriptors, palettes and packet programs
+use strict typed JSON. All reject unknown fields and apply the six-file bounds
+listed below. The reader uses fixed
 relative file names, rejects symlink files and
 directories, and validates the complete manifest against the selected source.
 Edited dimensions or descriptors remain invalid even if their file hashes are
@@ -62,7 +70,9 @@ will need a separate loader and compatibility identity.
 The commands print `ROM_DATA action=created|reused|verified|repaired`, source/profile,
 schema and decoded coverage. `runtime=offline` identifies these offline commands;
 OBJ, BG metadata, base and alternate palette gameplay each report `runtime=decoded`, with separate
-source/file/dataset identities and usage counters. Neither claims that sprite pixels, text, maps,
+source/file/dataset identities and usage counters. Packet programs report
+`runtime=verified-only`, with all source/file data authenticated before activation.
+This does not claim that sprite pixels, text, maps,
 gameplay tables or audio have been exported or migrated.
 
 ## Managed preparation and startup
@@ -77,14 +87,14 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. The current revision is `v1/e7-d6`;
+selected generation's relative name. The current revision is `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same five files as offline extraction. Source identity is rehashed from
+same six files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
 
-The preparer validates `current` and all five selected files before reuse. Valid
+The preparer validates `current` and all six selected files before reuse. Valid
 reuse does not invoke the extractor or writer. Corrupt/missing data are
 reported and regenerated under a process-owned filesystem lock, with a second
 validation after lock acquisition so concurrent launches publish once.
@@ -193,12 +203,13 @@ they are not compression targets. The historical e3cost observations remain
 recorded, without further formatting or packing work to meet their former disk
 budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-datasets).
 
-Current five-file input guards are256KiB manifest,16KiB OBJ,256KiB descriptors,
-1MiB base palettes,4MiB alternate palettes and5MiB total. The larger manifest
-bound covers162base-palette ranges plus316alternate table/stream ranges.
-These are malformed-input guards, not storage targets. Standard alternate JSON
-is1387839bytes; complete sets are2128729USA/2128735EURbytes, with ordinary
-readable formatting. Old generations are retained; no compression/space tuning.
+Current six-file input guards are256KiB manifest,16KiB OBJ,256KiB descriptors,
+1MiB base palettes,4MiB alternate palettes,64MiB packet programs and64MiBtotal.
+The manifest includes162base-palette,316alternate and352packet provenance
+ranges, plus metadata/OBJ sources. These are malformed-input guards, not storage
+targets. Standard readable packet JSON is20217427bytes; the verified EUR set
+is22405770bytes. The existing four decoded files remain byte-identical to e7;
+old generations are retained. No compression/space tuning is performed.
 [Alternate codec](rom_data_graphics.md#typed-alternate-palette-codec) and
 [managed checks](rom_data_graphics.md#managed-alternate-palette-datasets).
 
@@ -208,13 +219,19 @@ RSS limits and results are historical, and no performance campaign should be
 resumed from an older next-action line. Guest clock/state/audio correctness,
 source provenance and save/native compatibility checks remain required.
 
-## Next packet family: offline EUR model
+## Managed packet programs: EUR/Wine
 
-The descriptor-linked paired/halfword/auxiliary packet programs now have a
-[typed offline model](rom_data_graphics.md#typed-descriptor-packet-programs),
-validated against all retained EUR bodies on Linux/Wine. It preserves parent
-initialization, aliases and ordered writes rather than only a rendered image.
-The active e7-d6dataset and commands still contain the existing five files;
-the new packet file is not yet published or read by gameplay. Managed
-integration and actual runtime consumption follow. New USA verification is
-left pending under the user's current EUR priority.
+The [typed packet model](rom_data_graphics.md#typed-descriptor-packet-programs)
+is now the sixth fixed managed file in `v1/e8-d7`. Manifest coverage, all352
+source ranges, BG dependency and complete file identity are authenticated before
+publication and activation. Four focused Wine checks and seven actual Windows
+CLI operations pass: extract/verify/prepare, no-write reuse, corruption repair,
+root move and a single native activation frame with the prior TinyCC cache.
+The e7generation and protected ROM/canonical/cache/loader/typed02files remain
+unchanged. This cold frame proves activation/cache compatibility, not packet
+consumption. The runtime explicitly reports `verified-only` for this family.
+
+[Managed contract/results](rom_data_graphics.md#managed-packet-program-datasets).
+Actual packet source/body use is the next04unit. New Linux/USA checks are
+pending; no broad suite, old producer/scene replay or performance campaign was
+selected. Full ROM_DATA_TODO, other content families and mod phases remain open.

@@ -242,8 +242,16 @@ padri/alias e metadati originali wrapper/body. Limiti, cicli, ID, sovrapposizion
 incoerenze e modifiche base coerenti sono controllati. Otto test core, un test
 JSON e un caso EUR con tutti i buffer conservati passano su Linux/Wine; JSON
 leggibile identico. Nessun nuovo replay originale, schema attivo o consumer
-runtime. Il prossimo passo è il sesto file gestito sotto nuova revisione,
-poi il consumo04. [Contratto e prove](../rom_data_graphics.md#typed-descriptor-packet-programs).
+runtime. Il sesto file gestito è concluso sotto; rimane il consumo04. [Contratto e prove](../rom_data_graphics.md#typed-descriptor-packet-programs).
+
+**ROMDATA-02-BG-PACKET-MANAGED completato per EUR/Wine:** sesto file fisso
+`bg-packet-programs.json`, manifest con352intervalli e dipendenza BG, revisione
+1/8/7con generazioni e7conservate. Guardie input64MiBper file packet/set,
+parse/verifica dell'intero dataset prima di pubblicazione/attivazione. Quattro
+casi mirati Wine e sette comandi Windows reali passano; canonici/originali
+protetti. Stato runtime esplicito verified-only: il consumo04resta aperto.
+Nuovi controlli Linux/USA da fare, nessuna campagna performance o suite ampia.
+[Contratto e prove](../rom_data_graphics.md#managed-packet-program-datasets).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -524,10 +532,11 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-02-BG-PACKET-MANAGED, integrare il sesto file
-leggibile nei percorsi extract/verify/prepare e nell'autenticazione del dataset,
-con nuova revisione e mantenimento e7. Il modello02EUR è concluso: riutilizzare
-file tipizzati e dataset e7esistenti. Nessuna nuova verifica USA in questa fase; nuovi test solo Wine, Linux da fare. Le letture04dei
+**Prossima azione:** ROMDATA-04-BG-PACKET-CONSUMPTION, collegare i programmi
+packet già autenticati e8ai percorsi reali di lettura, mantenendo scritture,
+clock, inizializzazione dinamica e metadati originali. Modello02e pubblicazione
+EUR/Wine sono conclusi: riutilizzare file e8e prove conservate. Test ridotti
+solo Wine/EUR; Linux e USA da fare. Le letture04dei
 descrittori/palette base e alternative, chiamanti/modalità e scene/GUI EUR
 sono già concluse: non ripeterle seguendo la vecchia coda. Restano precondizioniFFglobali,
 altri cataloghi/lingue, testi/audio/gameplay, archivi e fasi mod. Abilitazione

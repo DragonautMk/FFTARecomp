@@ -61,7 +61,7 @@ extern "C" fn interp(machine: *mut std::ffi::c_void) -> u32 {
 }
 
 #[test]
-#[ignore = "requires exact ROM, e7 dataset and FFTA_STATE_TEST_ALT_PALETTE_NATIVE from the completed original/native probe"]
+#[ignore = "requires exact ROM, current dataset and FFTA_STATE_TEST_ALT_PALETTE_NATIVE from the completed original/native probe"]
 fn native_api_reads_decoded_literal_banks_using_existing_component() {
     let rom = fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").unwrap()).unwrap();
     let catalog = Catalog::from_rom(&rom).unwrap();
@@ -123,7 +123,7 @@ fn native_api_reads_decoded_literal_banks_using_existing_component() {
 }
 
 #[test]
-#[ignore = "requires exact ROM and existing e7 FFTA_STATE_TEST_DATASET"]
+#[ignore = "requires exact ROM and existing current FFTA_STATE_TEST_DATASET"]
 fn loaded_alternates_survive_deleted_files_slots_undo_backup_and_restart() {
     let temporary = tempfile::tempdir().unwrap();
     let dataset = temporary.path().join("dataset");
@@ -135,6 +135,7 @@ fn loaded_alternates_survive_deleted_files_slots_undo_backup_and_restart() {
         BG_DESCRIPTORS_FILE,
         BG_BASE_PALETTES_FILE,
         BG_ALTERNATE_PALETTES_FILE,
+        BG_PACKET_PROGRAMS_FILE,
     ] {
         fs::copy(original.join(name), dataset.join(name)).unwrap();
     }
@@ -235,7 +236,7 @@ fn equal(left: &Machine, right: &Machine) {
 }
 
 #[test]
-#[ignore = "requires exact ROM, existing e7 dataset, TinyCC and absent FFTA_STATE_TEST_ALT_PALETTE_RUNTIME_ROOT"]
+#[ignore = "requires exact ROM, existing current dataset, TinyCC and absent FFTA_STATE_TEST_ALT_PALETTE_RUNTIME_ROOT"]
 fn original_and_native_alternate_producers_read_decoded_banks_with_legacy_states() {
     let root = PathBuf::from(std::env::var_os("FFTA_STATE_TEST_ALT_PALETTE_RUNTIME_ROOT").unwrap());
     assert!(!root.exists(), "preserve previous runtime observations");

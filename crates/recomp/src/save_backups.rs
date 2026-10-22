@@ -294,7 +294,7 @@ mod tests {
         let dataset = dir.path().join("resources");
         std::fs::create_dir(&dataset).unwrap();
         let source = std::path::PathBuf::from(std::env::var_os("FFTA_STATE_TEST_DATASET").unwrap());
-        for name in ["manifest.toml", "obj-dimensions.toml", "bg-descriptors.json", "bg-base-palettes.json", "bg-alternate-palettes.json"] {
+        for name in ["manifest.toml", "obj-dimensions.toml", "bg-descriptors.json", "bg-base-palettes.json", "bg-alternate-palettes.json", "bg-packet-programs.json"] {
             std::fs::copy(source.join(name), dataset.join(name)).unwrap();
         }
         let rom = std::fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").unwrap()).unwrap();

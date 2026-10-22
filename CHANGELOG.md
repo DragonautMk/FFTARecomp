@@ -3,6 +3,32 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-22 — Publish authenticated European packet programs in the managed dataset
+
+Type: added. Platforms: Windows GNU/Wine.
+
+**Changes**
+
+- Add graphics.bg-packet-programs as the sixth fixed readable file, with352source ranges, BG dependency and exact typed/source authentication. Advance schema/extractor/decoder to1/8/7, retaining e7and prior generations. Apply64MiBpacket/complete-set malformed-input guards; preserve the other file formats and standard readable JSON.
+- Integrate packet parsing/serialization into extract/verify/prepare, complete dataset hashing and transactional activation. Report packet runtime=verified-only while actual packet source reads remain the next04unit. Keep existing source/native/save/cache identities and the pre-save/pre-native startup ordering.
+- Update synthetic fixtures, helper copy lists/file counts/revision expectations for six files. Factor partial-resource failure checks and add one packet case; keep broad optional historical replays unexecuted under the reduced Wine-only policy.
+
+**Validation**
+
+- Windows test and production builds warning-free. Four focused Wine checks pass: core base authentication; synthetic six-file publication/reuse/move; packet partial-write/missing repair; and one retained EUR e7/typed02 case covering create/reuse/corrupt-or-missing repair/move, coherent base edits, manifest/file guards, complete identity and transactional activation.
+- Seven actual Windows CLI operations pass from unrelated cwd: extract, verify, prepare, no-write reuse, repair retaining the broken generation, moved-root reuse and one native activation frame using the prior TinyCC ELF cache. Positive native dispatch proves activation/cache compatibility only; the packet family remains verified-only with no source-use claim.
+- EUR set has6files/5resources,22405770bytes. Packet JSON20217427B exactly matches typed02, SHA25679e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc; the four prior decoded files equal e7. Manifest137179Bincludes352new provenance ranges. Existing e7generation/selection and protected ROM/canonical/typed02/cache/loader hashes remain unchanged.
+- All processes terminal/pass; source hashes and ignored evidence retained under target/rom-data-bg-packet-managed. Windows canonical executable restored after candidate build; only mainmtime refreshed for correct future Cargo regeneration.
+
+**Limitations**
+
+- New Linux and USA verification remain pending by explicit user instruction; no Linux build/runtime test, broad default suite, old codec/original/scene replay, performance/space campaign, AndroidPort, archive, agent commit or push. Prior02commit ec5f9cb was observed externally and preserved.
+- Actual packet consumption/provenance and full guest clock/state/audio/native/lifecycle acceptance remain the next04/05units. Native Windows, new GUI/archive acceptance, other content families and full ROM_DATA_TODO remain open.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-prepare-european-background-packet-programs.json)
+
 ## 2026-10-22 — Represent European background packet programs as authenticated typed data
 
 Type: added. Platforms: Linux, Windows GNU/Wine.

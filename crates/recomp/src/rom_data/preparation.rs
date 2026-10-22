@@ -282,14 +282,15 @@ pub fn prepare_startup(rom: &[u8], status: bool) -> Result<Prepared, String> {
     let root = storage_root()?;
     let prepared = prepare(&root, &mut source, &mut console_progress(status))?;
     eprintln!(
-        "resources: {} {} from {} ({} dimensions, {} background descriptors, {} base palettes, {} alternate palettes verified)",
+        "resources: {} {} from {} ({} dimensions, {} background descriptors, {} base palettes, {} alternate palettes, {} packet programs verified)",
         prepared.action,
         source.manifest.coverage.join(","),
         prepared.directory.display(),
         prepared.dimensions.entries.len(),
         source.background.as_ref().map_or(0, |bg| bg.entries.len()),
         source.palettes.as_ref().map_or(0, |catalog| catalog.decoded.entries.len()),
-        source.alternate_palettes.as_ref().map_or(0, |catalog| catalog.sources.len())
+        source.alternate_palettes.as_ref().map_or(0, |catalog| catalog.sources.len()),
+        source.packet_programs.as_ref().map_or(0, |catalog| catalog.sources.len())
     );
     Ok(prepared)
 }
@@ -403,49 +404,58 @@ mod tests {
         assert!(!first.directory.join(BG_DESCRIPTORS_FILE).exists());
     }
 
+    fn check_partial_resource_write_and_repair(name: &str, index: usize) {
+        let temp = tempfile::tempdir().unwrap();
+        let mut source = fixture();
+        let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        let revision = revision_directory(temp.path(), &source).unwrap();
+        let pointer = fs::read(revision.join(ACTIVE)).unwrap();
+        let resource = fs::read(first.directory.join(name)).unwrap();
+        let mut updated = fixture();
+        updated.manifest.resources[index].format = "synthetic-updated-resource".into();
+        let error = prepare_with_writer(
+            temp.path(),
+            &mut updated,
+            &mut |_| Ok(()),
+            &mut |path, bytes| {
+                if path.file_name().unwrap() == name {
+                    fs::write(path, b"partial-resource").unwrap();
+                    return Err("simulated resource storage failure".into());
+                }
+                write_synced(path, bytes)
+            },
+        )
+        .err()
+        .unwrap();
+        assert!(error.contains("resource storage failure"));
+        assert_eq!(fs::read(revision.join(ACTIVE)).unwrap(), pointer);
+        assert_eq!(
+            fs::read(first.directory.join(name)).unwrap(),
+            resource
+        );
+        verify(&first.directory, &source).unwrap();
+        fs::remove_file(first.directory.join(name)).unwrap();
+        let repaired = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
+        assert_eq!(repaired.action, "repaired");
+        assert_ne!(repaired.directory, first.directory);
+        assert!(!first.directory.join(name).exists());
+        assert_eq!(
+            fs::read(repaired.directory.join(name)).unwrap(),
+            resource
+        );
+        verify(&repaired.directory, &source).unwrap();
+    }
+
     #[test]
     fn palette_partial_write_and_missing_repair_keep_prior_generation() {
         for (name, index) in [(BG_BASE_PALETTES_FILE, 2), (BG_ALTERNATE_PALETTES_FILE, 3)] {
-            let temp = tempfile::tempdir().unwrap();
-            let mut source = fixture();
-            let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
-            let revision = revision_directory(temp.path(), &source).unwrap();
-            let pointer = fs::read(revision.join(ACTIVE)).unwrap();
-            let palette = fs::read(first.directory.join(name)).unwrap();
-            let mut updated = fixture();
-            updated.manifest.resources[index].format = "synthetic-updated-palette".into();
-            let error = prepare_with_writer(
-                temp.path(),
-                &mut updated,
-                &mut |_| Ok(()),
-                &mut |path, bytes| {
-                    if path.file_name().unwrap() == name {
-                        fs::write(path, b"partial-palette").unwrap();
-                        return Err("simulated palette storage failure".into());
-                    }
-                    write_synced(path, bytes)
-                },
-            )
-            .err()
-            .unwrap();
-            assert!(error.contains("palette storage failure"));
-            assert_eq!(fs::read(revision.join(ACTIVE)).unwrap(), pointer);
-            assert_eq!(
-                fs::read(first.directory.join(name)).unwrap(),
-                palette
-            );
-            verify(&first.directory, &source).unwrap();
-            fs::remove_file(first.directory.join(name)).unwrap();
-            let repaired = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
-            assert_eq!(repaired.action, "repaired");
-            assert_ne!(repaired.directory, first.directory);
-            assert!(!first.directory.join(name).exists());
-            assert_eq!(
-                fs::read(repaired.directory.join(name)).unwrap(),
-                palette
-            );
-            verify(&repaired.directory, &source).unwrap();
+            check_partial_resource_write_and_repair(name, index);
         }
+    }
+
+    #[test]
+    fn packet_partial_write_and_missing_repair_keep_prior_generation() {
+        check_partial_resource_write_and_repair(BG_PACKET_PROGRAMS_FILE, 4);
     }
 
     #[test]

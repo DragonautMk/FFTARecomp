@@ -2,7 +2,10 @@
 
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
 and load `graphics.obj-dimensions`, `graphics.bg-descriptors` and
-`graphics.bg-base-palettes` from the selected ROM's decoded dataset.
+`graphics.bg-base-palettes` and `graphics.bg-alternate-palettes` from the selected
+ROM's decoded dataset. The sixth e8-d7file, `graphics.bg-packet-programs`, is
+also source-authenticated but currently reports `runtime=verified-only`; actual
+packet source/body reads remain the next migration unit.
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
@@ -28,21 +31,23 @@ execution/provenance coverage, described below; the EUR replay observes alias
 reads without attributing them to an initializer PC.
 That alias expansion retained schema/decoder1 and selected `v1/e2-d1`,
 preserving `e1-d1`, because the OBJ format was unchanged.
-The managed metadata extension introduced `v1/e3-d2`. Current `v1/e6-d5`
-adds exact palette source views beside readable banks and retains all earlier
-revisions, including preparation-only palette e5.
+The managed metadata extension introduced `v1/e3-d2`; `v1/e6-d5` added exact
+palette source views beside readable banks. Current `v1/e8-d7` also contains
+alternate palettes and verified-only packet programs, retaining earlier
+revisions including preparation-only palette e5and e7.
 Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
 The borrowed complete-file view authenticates all resources before changing
 the live object and includes every resource ID/file hash in dataset identity.
-All three resources remain in the immutable session and report
-`runtime=decoded`. BG metadata and palette CPU/DMA/native reads consume
+OBJ, descriptors and base palettes remain in the immutable session and report
+`runtime=decoded`; alternate palettes also have direct consumption below. BG metadata and palette CPU/DMA/native reads consume
 file-derived projections, with independent counters. The palette LZ77 HLE
 consumes decoded bank bytes; raw CpuSet keeps its original bus-read loop.
-Alternate palette programs and other linked payloads remain ROM.
+The alternate palette path is described below. Packet reads and other linked
+payloads still remain ROM until their direct-consumption units.
 
 `RuntimeResources` in `gba-core::rom_data` owns immutable typed entries and
-little-endian source projections:48bytes for OBJ,14256bytes for BG. Current
-owned memory is448bytes shared/OBJ including Arc counters and identity strings,
+little-endian source projections:48bytes for OBJ,14256bytes for BG. At the
+historical three-family boundary, owned memory was448bytes shared/OBJ including Arc counters and identity strings,
 plus28672bytes for BG and94713bytes for palette models, decoded byte views,
 source bindings and file identity:123833bytes total on both tested64-bit targets. Enforced bounds were declared
 before testing:shared/OBJ<=1KiB and extraBG<=64KiB. Historical OBJ-only
@@ -286,3 +291,15 @@ image/OAM/dispatch and audio stream. Actual GUIs present both modes and close0
 with positive typed link/literal reads. See the [scene protocol and limits](development/ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
 Global FFpreconditions, broader regional/gameplay/catalog/language coverage,
 archives and native Windows remain separate. No performance measurements were selected.
+
+## Packet dataset activation boundary
+
+The e8-d7six-file set now includes typed ordered packet programs in preparation,
+source verification and complete dataset identity. Packet activation failures
+preserve the current owner/guest state; a source-equal file annotation changes
+the complete identity, leaving prior family identities and guest snapshots
+unchanged. The new family is explicitly verified-only until04binds actual
+reads. [Managed packet checks](rom_data_graphics.md#managed-packet-program-datasets)
+pass with four focused Wine cases and seven actual Windows CLI operations;
+old cache dispatch is positive in a single cold activation frame. This is no
+packet-use proof. New Linux/USA checks remain pending under the user's policy.

@@ -66,7 +66,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   typed model now verifies the contiguous162-record/14256-byte descriptor block,
   exact source/TOML roundtrip and original selectors for every record on Linux/
   Wine. Links, transfer triples, optional variant pointer and opaque tail bytes
-  are distinguished. Managed v1/e6-d5 extracts/verifies/prepares OBJ, BG metadata and base
+  are distinguished. Initial managed v1/e6-d5 extracted/verified/prepared OBJ, BG metadata and base
   palette banks with exact consumed source metadata:64KiB manifest/16KiB OBJ/
   256KiB descriptors/1MiB palettes/1280KiB total input guards, atomic four-file publication/reuse/repair and prior-version retention. Activation
   authenticates all files and hashes every ID/file into dataset identity;
@@ -152,7 +152,12 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   source/body metadata with strict graph/source validation. Eight core packet
   tests, JSON guards and full retained EUR body checks pass on Linux/Wine;
   standard readable JSON is identical. New USA validation is pending by user
-  instruction. Managed publication/startup/runtime reads remain next. Field00and
+  instruction. Managed e8-d7now publishes the sixth packet JSON, authenticates
+  all352source ranges/file identity and retains e7. Four focused Wine cases plus
+  seven actual Windows CLI operations pass create/verify/reuse/repair/move,
+  transactional activation and old-cache dispatch. Canonical/protected inputs
+  unchanged, builds warning-free; Linux/USA new checks pending. Runtime packet
+  status stays verified-only until04binds actual reads. Field00and
   transfer/variant programs, broader regional/gameplay/catalog/language coverage,
   global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,

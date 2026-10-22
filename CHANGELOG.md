@@ -611,6 +611,38 @@ Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_d
 
 [Change record](docs/changes/2026-10-22-consume-european-main-background-graphics.json)
 
+## 2026-10-22 — Prepare and consume the European complete font and name keyboard
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Complete the pending offline acceptance of the bounded EUR 3175-slot packed font/metrics and three-page name keyboard, reusing retained compiled tests.
+- Publish font-bank.json and name-keyboard.json under EUR schema1/extractor13/decoder12 with seven additional provenance ranges, fixed file paths, whole-set authentication/identity and prior e12 retention; USA stays e8-d7.
+- Consume packed glyph words, metrics, keyboard indices/headers/program units and navigation widths from immutable typed resources through existing CPU/DMA/native reads, retaining original page construction/rendering instructions and guest clock.
+- Let the complete bank own overlapping earlier font reads; route host mouse navigation widths through the same owner while live selectable codes/selection remain RAM and legacy fallback remains available.
+- Report per-kind usage and host row-width reads, correct CLI resource-file counts and describe the added readable extraction files. No save/native ABI change.
+
+**Validation**
+
+- Two pending Wine checks pass using retained Windows release test binaries: source/JSON/shape guards and 3047 new original glyph copies, three page outputs and 180 selectors; 3230 calls/628218 instructions are coverage counts only.
+- Three focused EUR Wine integration checks pass: twelve-file publication, injected write interruption, reuse/repair/move/e12 retention, coherent-edit/path/metadata/input-guard rejection, complete-set identity and transactional failed activation; five poisoned-source original/native calls with equal complete states/clocks and positive compiled typed glyph/metric/index/program use; unavailable-copy Load/Undo/backup/restart.
+- One affected retained 397-frame EUR Wine pub transition matches all complete states/clocks, central/wide images, OAM, dispatch and audio streams, consuming 8064 glyph and 93 metric bytes from the complete bank.
+- Three actual Windows CLI operations through Wine prepare/reuse/replay from unrelated cwd, with no-write e13 reuse and old native cache; final image/dispatch row matches the valid retained legacy reference without repeating legacy.
+- Two focused Wine host mouse checks pass: all three pages/180 cells and target bounds with raw row widths zeroed and owner-removed negative probe, plus existing no-dataset mouse behavior.
+- Warning-free Windows GNU release test/production compilation; original ROM, retained slots/input/native cache/loader/canonical Windows runtime and prior resource files preserved. Python extraction-helper syntax checked.
+- Final host-row-aware Windows production rebuild is warning-free; one actual Wine CLI verify reports all 12 files, with no dataset writes or protected-input changes. Final source hashes recorded; project-memory coverage and whitespace checks pass.
+
+**Limitations**
+
+- Full ROM_DATA_TODO is still open for other catalogs/dynamic text roots, OBJ lists/animations, maps, gameplay, audio, GUI/archives and later mod phases.
+- The ordinary pub scene consumes no name-keyboard bytes. Original producer/native proofs and controlled mouse fixtures do not establish ordinary name-entry gameplay/GUI coverage or Unicode/control semantics.
+- New Linux/USA and native Windows checks remain pending by user instruction. No performance/startup/RSS/space campaign, new recording, AndroidPort changes, commit or push.
+
+Documentation: [rom_data_text.md](docs/rom_data_text.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json)
+
 ## 2026-10-22 — Consume European background transfer controls and tile words through original readers
 
 Type: added. Platforms: Windows, Wine.

@@ -345,29 +345,71 @@ actual BIOS execution, broader catalogs/font/control/Unicode and new Linux/USA/
 native Windows checks remain open. No new recording, production CLI/scene rerun,
 performance measurement, packing or AndroidPort change.
 
-## Complete font and name keyboard: partial offline implementation
+## Complete European font and name keyboard
 
-The auxiliary caller inventory identifies a separate EUR name-entry archive at
-`4f95c4`, used by original `0812e900` to construct three 120-byte pages of
-big-endian selectable codes. Each page has six rows and ten storage columns;
-the eighteen navigation row widths are at `3ad2fe`. The new `name_keyboard`
-model retains relative indices, three raw extended programs, row widths and
-derived cells, including the original space command and zero unused cells.
+The auxiliary caller inventory identifies16direct callers of the original
+archive reader and a separate EUR name-entry archive at `4f95c4`. Original
+`0812e900` constructs three120-byte pages of big-endian selectable codes;
+`0812f15c` selects by page, row and column. Each page has six rows and ten storage
+columns; the18navigation row widths are at `3ad2fe`. The typed keyboard retains
+relative indices, three raw extended programs, exact commands, navigation
+widths and derived cells, including the space command and unused zero cells.
+Runtime pointers in generic/dispatch callers remain outside this static catalog.
 
-The archive references glyph3174, whose 128-byte source slot ends exactly at
-the width root `4f885c`. The new `fonts` model therefore bounds the packed bank
-at3175slots from `4954dc`, retaining all32little-endian words and the width byte
-per slot. It does not infer Unicode or classify the bytes after those metrics.
-Both models require the exact EUR source and retain source-range hashes.
+The keyboard references glyph3174, whose128-byte slot ends exactly at the width
+root `4f885c`. The complete packed font bank therefore contains3175slots from
+`4954dc`, retaining all32little-endian words and the width byte per slot. No
+Unicode mapping or classification of bytes after those3175metrics is inferred.
+Two reduced Wine checks now pass using the retained Windows test build: strict
+source/JSON/shape guards and the3047new original glyph copies, all three page
+outputs and180selectors. The original3230calls/628218instructions are coverage
+counts, not performance measurements. Earlier128glyph oracles were not repeated.
 
-This implementation is partial: the Windows release test binaries compile,
-but the prepared reduced Wine checks have not run because the goal is paused.
-The pending original-reader check covers only newly added font slots, keyboard
-cell production and all selectors, reusing the retained initialized snapshot.
-Source/original acceptance is unclaimed. Managed publication, direct runtime
-consumption and ordinary name-entry scenes remain open; current e12 data and
-runtime consumers are unchanged. New Linux/USA/native Windows checks remain
-pending. No performance or space measurements were taken.
+EUR `v1/e13-d12` adds fixed `font-bank.json` (`font.complete-bank`) and
+`name-keyboard.json` (`text.name-keyboard`), bringing the dataset to12files/
+11resources. The manifest authenticates two font and five keyboard provenance
+ranges, resource dependencies and all file hashes. Source-equal edited base
+semantics remain required even when a file hash is recomputed. Font JSON has
+a16MiB input guard and keyboard JSON a1MiB guard; these reject malformed inputs
+and are not space optimization targets. Previous e12generations and all nine
+decoded files remain unchanged. USA keeps its six-file e8-d7contract.
 
-Evidence locators: `target/rom-data-text-auxiliary/static-entrypoints.json`,
-`keyboard-archive.json`, and `target/rom-data-font-keyboard/windows-tests.json`.
+Both files are retained as immutable typed values for CPU/DMA/native source
+reads. Font bytes come from packed words and metrics; keyboard bytes come from
+indices, headers and typed program units. The original guest still builds its
+cell pages, copies/renders glyphs and advances every instruction and cycle.
+The complete bank takes over earlier overlapping font reads; the earlier text
+files remain authenticated. Independent counters report glyph, metric, index,
+program and navigation-width use, with separate host row-width reads. Host mouse
+navigation uses the same immutable row widths while selection and cell codes
+remain mutable guest RAM. Save-state/native-cache ABI and source identity stay
+unchanged; no file I/O occurs during these reads.
+
+Three reduced Wine checks pass for managed publication and runtime integration:
+complete publication/reuse/repair/move/e12retention, interrupted writes, source/
+metadata/path/coherent-edit guards, full-set identity and transactional failed
+activation; five original/interpreter/native calls with all seven old raw
+ranges altered and complete states/clocks equal, plus source widths/edges/
+mirrors/native API; Load/Undo/backup/restart with temporary copied files made
+unavailable. Compiled reads consume124glyph/2metric/6index/387program bytes;
+row widths have separate bus coverage. The guest is never skipped or replaced.
+
+One ordinary397-frame EUR/Wine Cyril-pub transition matches every full state,
+clock, central/wide image, OAM, dispatch and audio stream with8064glyph/93metric
+bytes from the new complete bank. It consumes no keyboard program; original
+keyboard producer coverage above is separate. Three actual Windows CLI runs
+prepare/reuse/replay from unrelated cwd, reuse e13without writes and the old
+native cache, and match the retained legacy final row. No new recording or old
+catalog/scene campaign was repeated.
+
+Evidence: `target/rom-data-font-keyboard/{windows-results.json,windows-europe/result.json}`
+and `target/rom-data-font-keyboard-managed/{windows-results.json,windows-europe/managed-result.json,windows-europe/native/result.json,windows-europe/lifecycle-result.json,windows-scene-results.json,windows-cli-summary.json}`.
+Ordinary name-entry scene/GUI/archive coverage, other text roots/control semantics/
+Unicode and new Linux/USA/native Windows checks remain pending.
+
+Two additional focused Wine mouse checks pass: all three pages/180cells and
+target bounds match with the old row-width source zeroed; removing the owner
+makes that negative fixture fail as expected. The existing no-dataset mouse
+check also passes. This is a controlled scene fixture, not ordinary name entry.
+No performance, startup/RSS or space measurements were taken; AndroidPort is
+unchanged.

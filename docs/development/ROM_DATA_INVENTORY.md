@@ -166,9 +166,15 @@ remain groundwork for other linked graphics families.
   Earlier overlapping subset is authenticated without duplicate ownership.
   One retained397-frame pub transition matches full states/images/audio with
   positive raw-program/font use; actual CLI reuse/old-cache parity passes Wine.
-  Broader scenes and other
-  catalogs, full font bounds,
-  control semantics/Unicode, new Linux/USA checks remain open. See the
+  The auxiliary archive at4f95c4now provides three typed name-keyboard programs,
+  18navigation widths and180derived cells. Its last referenced glyph3174ends
+  exactly at4f885c, bounding the complete3175-slot packed font/metric bank.
+  Both files join managed EUR1/e13-d12and direct CPU/DMA/native typed consumption;
+  the complete bank takes over earlier overlapping font sources. Source/original,
+  managed provenance/repair/move, native altered-source/full-state/clock,
+  lifecycle and one397-frame ordinary font transition/actual CLI pass on Wine.
+  Keyboard ordinary scenes, other catalogs/control semantics/Unicode and new
+  Linux/USA checks remain open. See the
   [text/font contract](../rom_data_text.md); five selector IDs are verified for
   this declared subset, not the complete localized text catalogs.
 - **Gameplay tables.** Unit structures at EWRAM 0x020223a4, stride 0x90,

@@ -196,6 +196,8 @@ fn european_packet_dataset_publishes_authenticates_and_retains_e7() {
         MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES as usize,
         MAX_SHORT_TEXTS_FILE_BYTES as usize,
         MAX_TEXT_CATALOGS_FILE_BYTES as usize,
+        0,
+        0,
     )
     .is_err());
     let active_relative = repaired

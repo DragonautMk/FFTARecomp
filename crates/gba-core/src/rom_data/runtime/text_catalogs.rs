@@ -52,6 +52,15 @@ pub(super) struct TextCatalogResources {
     counts: [AtomicU64; 8],
 }
 impl TextCatalogResources {
+    pub(super) fn without_font(mut self) -> Self {
+        // The complete bank takes over these overlapping sources. Earlier
+        // subset files remain source authenticated before this owner is built.
+        self.bindings.retain(|b| !matches!(b.kind, Kind::Glyph(_) | Kind::Width(_)));
+        self.texts.glyphs.clear();
+        let last = self.bindings.last().unwrap();
+        self.end = last.offset + last.length;
+        self
+    }
     pub(super) fn source_page(index: usize) -> bool {
         matches!(index>>12,0x495..=0x498|0x49a..=0x49e|0x4a4|0x4f8..=0x6b3|0x71e..=0x766)
     }

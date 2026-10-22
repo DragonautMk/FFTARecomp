@@ -21,11 +21,16 @@ its typed controls and tile words now serve CPU/DMA/native reads with
 `runtime=decoded`, preserving original frame countdowns/flags and partial DMA.
 EUR `v1/e11-d10` added a ninth `text.short-strings` file with535strings
 and65referenced glyph slots/widths, now directly consumed as `runtime=decoded`.
-Current EUR `v1/e12-d11` adds tenth file `text-catalogs.json`/`text.catalogs`,
+EUR `v1/e12-d11` added tenth file `text-catalogs.json`/`text.catalogs`,
 authenticating16100pointer strings,145relative archives/17035programs and128
 referenced glyphs, now directly consumed as `runtime=decoded` through original
 CPU/DMA/native readers. The earlier overlapping ninth-file subset remains
 authenticated and reports `verified-only` when the full catalog owns its reads.
+Current EUR `v1/e13-d12` additionally prepares and consumes `font-bank.json`
+(`font.complete-bank`,3175packed glyph slots/metrics) and `name-keyboard.json`
+(`text.name-keyboard`,three original programs, navigation widths and cells).
+All12files/11resources are source authenticated before activation. The complete
+bank owns overlapping earlier font reads; original guest work/clock remain.
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
@@ -138,7 +143,8 @@ Keep extracted game data under ignored `target/` and outside release packages.
 The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-descriptors.json`, `bg-base-palettes.json`, `bg-alternate-palettes.json` and
 `bg-packet-programs.json`, plus EUR's `bg-main-graphics.json` and
-`bg-transfer-programs.json`, `short-texts.json` and `text-catalogs.json`.
+`bg-transfer-programs.json`, `short-texts.json`, `text-catalogs.json`,
+`font-bank.json` and `name-keyboard.json`.
 OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
@@ -149,14 +155,14 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor12/decoder11(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
+Extractor13/decoder12(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
 OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `bg-alternate-palettes-v1-json`, `bg-packet-programs-v1-json` and EUR
-`bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`
-and `text-catalogs-v1-json`.
+`bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`,
+`text-catalogs-v1-json`, `font-bank-v1-json` and `name-keyboard-v1-json`.
 Transfer programs preserve42frame-control programs/34shared tile banks and97links;
 all162variant pointers are absent in this declared catalog.
 Short texts preserve five107-entry language selector tables, exact compact/
@@ -208,10 +214,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e12-d11`
+selected generation's relative name. Current revisions are EUR `v1/e13-d12`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same ten EUR/six USA files as offline extraction. Source identity is rehashed from
+same twelve EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
@@ -328,7 +334,7 @@ budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-da
 Current input guards are16MiB manifest,16KiB OBJ,256KiB descriptors,
 1MiB base palettes,4MiB alternate palettes,64MiB packet programs,32MiB each for
 EUR main graphics and transfer programs,8MiB short texts,512MiB broad text catalogs
-and512MiBtotal. The manifest guard accommodates the33581additional broad
+16MiB complete font,1MiB name keyboard and512MiBtotal. The manifest guard accommodates the33581additional broad
 text/font provenance ranges;
 these are malformed-input guards, not storage optimization targets.
 The manifest includes162base-palette,316alternate and352packet provenance

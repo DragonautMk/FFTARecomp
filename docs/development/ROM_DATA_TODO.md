@@ -1,6 +1,6 @@
 # TODO — Estrazione ROM, dati decodificati e mod
 
-Richiesta aggiornata il 21 ottobre 2026. **FEAT-04-ROM-DATA** è in esecuzione;
+Richiesta aggiornata il 22 ottobre 2026. **FEAT-04-ROM-DATA** è in esecuzione;
 inventario e contratto iniziale sono definiti. Le migrazioni runtime restano aperte.
 Ambito: workspace desktop, Windows come piattaforma principale di verifica;
 Linux come controllo aggiuntivo. `AndroidPort/` richiede lavoro separato.
@@ -156,6 +156,15 @@ condivisi,76intervalli disgiunti. Tutti i162puntatori variant sono nulli in
 questo blocco; nessun programma variant inventato. Produttori originali EUR
 confermano durata, ordine dei frame e DMA con limite dinamico; Linux/USA da fare.
 [Contratto](../rom_data_graphics.md#european-background-transfer-programs).
+
+**ROMDATA-01-TEXT-AUXILIARY-ROOTS / ROMDATA-02-FONT-KEYBOARD-DATA completati
+per EUR/Wine dichiarato:** inventario16chiamanti diretti e archivio tastiera
+nome separato, tre programmi/18larghezze righe/180celle. L'ultimo glifo3174
+verifica il termine del banco completo3175glifi/metriche. Due controlli Wine
+mirati passano: JSON/sorgente/guardie e3047nuovi glifi originali, tre pagine/
+180selettori (3230chiamate); nessuna ripetizione dei128glifi già chiusi.
+Unicode/altri puntatori dinamici e nuovi controlli Linux/USA da fare.
+[Contratto](../rom_data_text.md#complete-european-font-and-name-keyboard).
 
 ## ROMDATA-02 — Estrattori e decoder
 
@@ -346,6 +355,24 @@ conservati; USA resta con sei filee8-d7. Runtime transfer verified-only a quel
 confine, nessuna prova d'uso dedotta dal primo frame; consumo04concluso sotto.
 Linux/USA da fare, nessun benchmark.
 [Contratto e prove](../rom_data_graphics.md#managed-european-transfer-programs).
+
+**ROMDATA-02-FONT-KEYBOARD-MANAGED / ROMDATA-04-FONT-KEYBOARD-CONSUMPTION
+completati per EUR/Wine dichiarato:** due nuovi file fissi font-bank.json e
+name-keyboard.json, dataset1/13/12da12file/11risorse; e12e precedenti file
+conservati, USA resta e8-d7. Autenticazione delle sette provenienze e dell'intero
+insieme; owner tipizzato immutabile per glifi/metriche/indici/programmi/righe.
+Tre controlli Wine mirati passano pubblicazione/errore atomico/riuso/riparazione/
+spostamento, rifiuto modifiche e attivazione transazionale; cinque chiamate
+originali/native con tutte sette sorgenti alterate e stati/clock uguali;
+Load/Undo/backup/riavvio con copie temporanee indisponibili. Nessun cambio ABI
+save/native o istruzione guest saltata. Linux/USA da fare.
+
+**ROMDATA-05-FONT-KEYBOARD-SCENE-CLI completato per una transizione EUR/Wine:**
+397frame pubCyril con stati/clock/immagini/OAM/dispatch/audio uguali e8064byte
+glifi/93metriche dal banco completo. CLI reale prepara/riusa e13senza scritture
+e vecchia cache, stesso risultato legacy conservato. La scena non usa la
+tastiera: scena nome ordinaria/GUI/archivi restano da fare. Nessuna misura
+prestazionale o ottimizzazione spazio. [Prove](../rom_data_text.md#complete-european-font-and-name-keyboard).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -560,7 +587,7 @@ Unicode/comandi, Linux/USA da fare. [Prove](../rom_data_text.md#direct-consumpti
   equivalente deve preservare gli stati esistenti quando possibile. Se cambiano
   layout o semantica, versionare e rifiutare combinazioni incompatibili prima di
   modificare la macchina o scrivere il salvataggio.
-- [ ] Misurare separatamente estrazione iniziale, avvio con dataset pronto,
+- [ ] **Rinviato dall’utente:** misurare separatamente estrazione iniziale, avvio con dataset pronto,
   spazio su disco, RAM e tempi di frame/caricamento/audio rispetto al percorso
   attuale in memoria. Fissare i limiti di regressione prima del confronto.
   Registrare anche un risultato neutro o peggiore: l'estrazione non prova velocità.
@@ -569,8 +596,8 @@ Unicode/comandi, Linux/USA da fare. [Prove](../rom_data_text.md#direct-consumpti
   save personali o codice generato nei repository e nei pacchetti distribuiti.
 
 **Consegna principale:** estrazione automatica, riuso all'avvio e consumo diretto
-verificati per la matrice dichiarata, equivalenza senza mod, costi misurati e
-dipendenze residue documentate. Le fasi mod seguenti non bloccano questa consegna.
+verificati per la matrice dichiarata, equivalenza senza mod e dipendenze residue
+documentate. Le misure dei costi sono rinviate e non bloccano il lavoro funzionale. Le fasi mod seguenti non bloccano questa consegna.
 
 **ROMDATA-05-OBJ-SCENES-COSTS completato nel perimetro locale dichiarato:**
 [protocollo e risultati](ROM_DATA_VALIDATION.md),
@@ -713,10 +740,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** inventario delle ulteriori radici testi/font EUR fuori
- dal blocco migrato, iniziando dal produttore tastiera nome già individuato;
-poi le altre famiglie ancora in ROM. Il catalogo esteso01/02/04e la scena/CLI05
- dichiarati sono conclusi: riutilizzare le prove senza ripeterle. Test ridotti
- solo Wine/EUR; nuovi controlli Linux e USA da fare. Restano altri cataloghi,
-font completo/Unicode, precondizioniFFglobali, audio/gameplay, archivi e fasi
-mod. Misure prestazionali e ottimizzazioni di spazio rinviate dall'utente.
+**Prossima azione:** ulteriori cataloghi EUR ancora in ROM, iniziando da
+liste OBJ/sprite e animazioni; radici testuali dinamiche e scena tastiera nome
+ordinaria restano gate separati. Font completo/tastiera01/02/04e transizione
+font/CLI05sono conclusi nel perimetro dichiarato: riutilizzare le prove.
+Test ridotti solo Wine/EUR; nuovi controlli Linux e USA da fare. Restano mappe,
+font Unicode/semantica controlli, precondizioniFFglobali, audio/gameplay,
+GUI/archivi e fasi mod. Nessuna misura prestazionale o lavoro sui limiti spazio.

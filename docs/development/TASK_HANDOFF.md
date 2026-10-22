@@ -6,9 +6,69 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+Latest request (2026-10-22): execute ROM_DATA_TODO, focus EUR, reduced Wine-only
+checks, new Linux/USA verification pending, no performance measurements or
+space optimization. Earlier functional pause is superseded for this work.
+
+- **ROMDATA-02-FONT-KEYBOARD-DATA — complete for declared EUR/Wine.** Retained
+  offline model/build reused; both pending Wine checks pass. Strict JSON/source/
+  shape guards,3047new original font copies, three keyboard pages and180selectors
+  match (3230calls/628218instructions, coverage only). Initial sandbox prevented
+  wineserver startup; negative log retained, socket-enabled rerun passes without
+  rebuilding unchanged sources. Evidence:target/rom-data-font-keyboard/
+  {windows-results.json,windows-europe/result.json}; protected inputs unchanged.
+- **ROMDATA-02-FONT-KEYBOARD-MANAGED /
+  ROMDATA-04-FONT-KEYBOARD-CONSUMPTION — complete for declared EUR/Wine.**
+  EUR1/e13-d12adds two fixed font/keyboard JSON files,12files/11resources with
+  seven additional provenance ranges and whole-set identity. Previous e12and
+  decoded file bytes retained, USA remains e8-d7. Immutable typed CPU/DMA/native
+  views preserve original page construction/copy/render work and all cycles;
+  complete bank owns earlier overlapping font reads. Three reduced Wine checks
+  pass publication/injected-write failure/reuse/repair/move/source and coherent-
+  edit rejection/transactional attachment, five original/native calls with all
+  seven raw ranges altered and full state/clock equality, widths/edges/mirrors/
+  native API and unavailable-copy Load/Undo/backup/restart. Positive compiled
+ 124glyph/2metric/6index/387program B; row widths separately bus-tested.
+  Source/save/native ABI unchanged. Initial test array-size compile error fixed
+  before execution; failed build evidence retained. Evidence:
+  target/rom-data-font-keyboard-managed/{windows-results.json,
+  windows-europe/managed-result.json,windows-europe/native/result.json,
+  windows-europe/lifecycle-result.json};67903terminal/pass.
+- **ROMDATA-05-FONT-KEYBOARD-SCENE-CLI — complete for declared EUR/Wine.**
+  One affected397-frame retained pub pair matches every state/clock/central-wide
+  image/OAM/dispatch/audio, positive8064glyph/93metric B. Three actual Windows
+  CLI processes prepare/reuse/replay from unrelated cwd, no-write e13reuse/old
+  native cache and retained legacy final row match. Ordinary pub scene uses
+ 0keyboard bytes; original/native producer proof is separate. Evidence:
+  target/rom-data-font-keyboard-managed/{windows-scene-results.json,
+  windows-cli-summary.json};85533/51410/11014terminal/pass. Protected inputs
+  unchanged; no old catalog oracle/new recording/performance/space work.
+- **ROMDATA-04-NAME-KEYBOARD-HOST-ROWS — complete for EUR/Wine.** Inspection
+  found ffta_mouse's direct18-byte ROM row-width read outside the CPU proofs;
+  this concrete uncovered path justified new implementation/checks, not repeats
+  of closed scene/native/managed tests. Host navigation now uses retained typed
+  row widths, live selection/cells remain guest RAM and legacy fallback remains.
+  Two focused Wine checks pass: all three pages/180cells/target bounds with raw
+  widths zeroed and owner-removed negative probe, existing no-dataset mouse
+  behavior. Evidence:target/rom-data-font-keyboard-managed/
+  {windows-host-rows-results.json,windows-europe/host-rows-result.json};
+ 97386terminal/pass. Final Windows production rebuild70404and actual CLI
+  verify35451pass warning-free;12files verified from unrelated cwd with no
+  dataset writes or protected changes. Final candidate SHA8e8201e2ffd44fc674e2e7368b7c81000517a5a58ea9f486664379d64ab1de66;
+  canonical restored. Final-source hashes recorded. All unit jobs terminal,
+  no remaining action for these closed units. No gameplay campaign repeated
+  for the host-only change. Final project-memory and whitespace checks pass.
+
+New Linux/USA/native Windows, ordinary name-entry scene/GUI/archive gates remain
+pending. Full ROM_DATA_TODO remains open for other text roots, OBJ lists/animation,
+maps, gameplay, audio and later mod phases. Next new content unit: inventory EUR
+static OBJ descriptor-list roots and their original producers; preserve all
+closed font/text/BG acceptance. No new expensive validation selected yet.
+[Current record](../changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json).
+
 - **PERF-ROMDATA-E12-LINUX-SAMPLE — complete (2026-10-22).** Latest explicit
   user request authorizes this measurement despite the earlier deferral; the
-  broader ROM-data implementation goal remains paused. Reused current Linux
+  broader ROM-data implementation goal remained paused at that sample. Reused current Linux
   Docker archive (rebuilt externally since builder closure), its bundled loader,
   old EUR battle/menu/enemy snapshot/input/native cache and an isolated copy of
   e12. No build, translation or recording. Same exported binary --rom-data off/on
@@ -28,8 +88,8 @@ An open parent never reopens completed children or rejected experiments.
   protected.json,host-load.json,terminal.json,result.json,comparison/summary.json}
   and individual logs. No GUI/audio-device/startup/RSS/storage/tail-profile or
   full audio-stream measurement; no new Wine/native Windows/USA coverage or
-  optimization. Historical gates and paused font/keyboard oracle stay closed/
-  pending at their existing scopes; no commit or push.
+  optimization. Historical gates retain their recorded scopes; the later font/
+  keyboard resumption is recorded above. No commit or push.
   [Record](../changes/2026-10-22-measure-current-linux-rom-data-option-cost.json).
   Project-memory coverage and CRLF-aware whitespace checks pass.
 
@@ -307,46 +367,20 @@ An open parent never reopens completed children or rejected experiments.
   nativeWindows pending. Full ROM_DATA_TODO remains active.
   [Record](../changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json).
   Full working-tree memory and CRLF-aware whitespace checks pass at closure.
-- Selection checkpoint (2026-10-22): **ROMDATA-01-TEXT-AUXILIARY-ROOTS**
-  under unchanged full EUR/reduced Wine-only/no performance-or-space request.
-  Closed broad01/02/04and declared05above are retained, no repeat needed.
-  Missing: literal-root text archives/readers outside the declared29root block
-  and name keyboard source/copy layout. Known original0812f08cpasses4f95c4to
- 08013f8c; task304/308pointers and original keyboard selector0812f15cneed their
-  producer contract. Next: reuse retained disassemblies, inventory exact
-  original08013f8ccallers and keyboard root extents; no build/test/new recording,
-  broader scene, Linux/USA or performance campaign selected for static discovery.
-  Static discovery terminal:16direct08013f8ccallers; generic/dispatch callers
-  retain runtime pointers, and both name-menu callers use literal4f95c4. New
-  keyboard archive offsets8/134/252/FFFF, three rawextended header60programs
- 125/117/129B, commands6e/73/63; exact end4f9741before first main archive4f9744.
-  Original0812e900fills60BEcode cells/page from those programs, selectors
- 0812f15cusepage120/row20/column2. Navigation widths3ad2feare3x6bytes. Keyboard
-  references160glyphs,37new vs full e12; last3174fills final128Bbefore4f885c,
-  authenticating font-bank end (3175slots from4954dc plus3175metric bytes).
-  Evidence:target/rom-data-text-auxiliary/{static-entrypoints.json,
-  keyboard-archive.json}, bounded caller/producer/tail disassemblies;45783and
- 19605terminal/pass. No new runtime build/scene.
-  Select **ROMDATA-02-FONT-KEYBOARD-DATA**: missing bounded complete font bank,
-  three typed keyboard programs/row-widths/derived60-cell pages and source
-  authentication, then one reduced Wine original copy/cell/selector proof.
-  Next: reuse existing Program/Glyph formats; leave managed/direct extensions
-  separate and do not reopen broad text/scene units.
-  Pause checkpoint (2026-10-22): goal manager reports `paused`; only document
-  the partial unit and run the required memory/whitespace checks before stopping.
-  Added offline `fonts.rs` (3175 packed slots/metrics) and `name_keyboard.rs`
-  (three programs, row widths and derived cells), plus focused optional original
-  reader coverage in `font_keyboard_tests.rs`. Windows release test compilation
-  completed successfully, session71615terminal/pass; executable locators are in
-  target/rom-data-font-keyboard/windows-tests.json. No Wine test in this unit
-  has run: run-tests.py and static-inventory.json are prepared, with no result
-  claim. On explicit resume, first inspect retained build/results and then run
-  only these two pending reduced Wine checks; do not rebuild unchanged sources.
-  Offline source/original acceptance, managed publication/direct consumption
-  and ordinary name-entry scene coverage remain open. No live unit process.
-  New Linux/USA/nativeWindows pending; no performance or space measurement.
-  [Partial record](../changes/2026-10-22-model-european-complete-font-and-name-keyboard.json).
-  Required full-tree project-memory and CRLF-aware whitespace checks pass.
+- **ROMDATA-01-TEXT-AUXILIARY-ROOTS — static discovery complete.** Sixteen
+  direct08013f8ccallers inventoried; generic/dispatch callers keep runtime
+  pointers, both name-menu callers use literal4f95c4. Keyboard offsets
+ 8/134/252/FFFF, three rawextended header60programs125/117/129B with commands
+ 6e/73/63; exact end4f9741before main archive4f9744. Original0812e900constructs
+ 60BEcode cells/page,0812f15cselects page120/row20/column2,3ad2fecontains3x6
+  navigation widths. Keyboard references160glyphs/37newvs e12; last3174bounds
+  the3175-slot font at4f885c. Evidence:target/rom-data-text-auxiliary/
+  {static-entrypoints.json,keyboard-archive.json};45783/19605terminal/pass.
+  The initially paused offline implementation is historical in its
+  [partial record](../changes/2026-10-22-model-european-complete-font-and-name-keyboard.json);
+  its pending Wine/managed/direct work is now closed at the current checkpoint.
+  Ordinary name-entry scene, dynamic pointer roots/Unicode and new Linux/USA
+  verification remain pending; do not reopen completed catalog/scene units.
 
 - **TOOLS-SCRIPTS-PLATFORM-LAYOUT — complete (2026-10-22).** Latest user asks
   for platform folders after Docker extraction. Moved14scripts/helpers into

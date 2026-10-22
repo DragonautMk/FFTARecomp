@@ -279,6 +279,19 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   without repeating legacy. Broader scenes/GUI/archives/full font/readers and
   new Linux/USA/nativeWindows remain open. No new recording or performance work.
 
+  EUR now prepares and directly consumes the complete3175-slot packed font/
+  metrics and three name-keyboard programs/indices/navigation widths under
+ 1/e13-d12(12files/11resources, seven additional provenance ranges). Earlier e12
+  files remain retained and unchanged, USA stays e8-d7. The complete font owner
+  replaces overlapping subset reads; original keyboard page construction,
+  rendering work and guest clock/save/native ABI remain unchanged. Reduced Wine
+  source/original/managed/native altered-source/full-state/lifecycle checks and
+  one397-frame ordinary pub transition/actual CLI pass. Keyboard ordinary scene,
+  other catalogs/control semantics/Unicode, GUI/archives and new Linux/USA/
+  nativeWindows verification remain pending. The latest request resumes EUR
+  functional TODO work with reduced Wine tests and again excludes all new
+  performance/space campaigns; the earlier Linux sample is closed history.
+
 ## Container builds
 
 - `Dockerfile.linux` and `scripts/linux/build_linux_docker.sh` build Linux amd64 using

@@ -24,7 +24,7 @@ ranges. It participates in whole-set authentication/identity and reports
 retained typed indices/codes/words/widths, with separate counters. Original
 expansion/copy/render work and guest clock remain intact. See the
 [direct text/font contract](rom_data_text.md#direct-consumption).
-Current EUR `v1/e12-d11` adds the broad `text.catalogs` JSON with33581source
+EUR `v1/e12-d11` added the broad `text.catalogs` JSON with33581source
 ranges. It joins whole-set authentication/identity and reports `decoded`:
 typed pointers, strings, archive indices/headers/program bytes and font data
 serve original CPU/DMA/native reads. Compressed literals come from decoded
@@ -40,6 +40,19 @@ Windows gates.
 Other resource families and mod support remain open in the
 [full TODO](development/ROM_DATA_TODO.md). These bounded metadata migrations do not provide ROM-free execution or
 complete graphics extraction.
+
+Current EUR `v1/e13-d12` adds `font.complete-bank`/`text.name-keyboard` as two
+fixed readable JSON files, bringing the complete set to12files/11resources.
+All3175packed glyph slots and metrics, three keyboard programs/indices and
+navigation widths are immutable typed runtime sources. The original routines
+still build cell pages and render/copy data with unchanged guest work/clock.
+The complete bank owns overlapping earlier text-font reads. Host mouse row
+widths use the same typed owner; live selection and selectable codes stay RAM.
+Prior e12files remain retained, USA stays e8-d7, and save/native identities and
+ABI remain source-equal. Reduced Wine source/authentication/native/lifecycle
+checks and one397-frame ordinary transition/actual CLI pass; ordinary keyboard
+scene, new Linux/USA and native Windows coverage remain pending.
+See the [complete font/keyboard contract](rom_data_text.md#complete-european-font-and-name-keyboard).
 
 ## Sources and typed readers
 

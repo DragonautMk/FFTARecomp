@@ -20,6 +20,8 @@ DESCRIPTIONS = {
     'bg-transfer-programs.json': 'European background transfer controls and shared tile banks',
     'short-texts.json': 'European short strings, game glyph codes, font slots and widths',
     'text-catalogs.json': 'European pointer strings, relative text archives and referenced font slots',
+    'font-bank.json': 'European complete packed font bank and glyph widths',
+    'name-keyboard.json': 'European name-entry programs, navigation widths and selectable cells',
 }
 
 

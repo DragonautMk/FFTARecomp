@@ -1,5 +1,7 @@
 //! Source-authenticated extraction, preparation and verified dataset loading.
 use gba_core::rom_data::{
+    fonts::FontBank, FONT_BANK_ID, FONT_BANK_FILE, MAX_FONT_BANK_FILE_BYTES,
+    name_keyboard::Keyboard, NAME_KEYBOARD_ID, NAME_KEYBOARD_FILE, MAX_NAME_KEYBOARD_FILE_BYTES,
     bg_descriptors::Descriptors, bg_palettes::Palettes, BaseFiles, Extraction, Manifest,
     ObjDimensions, BG_BASE_PALETTES_FILE, BG_BASE_PALETTES_ID, BG_DESCRIPTORS_FILE,
     BG_DESCRIPTORS_ID, MANIFEST_FILE, MAX_BG_BASE_PALETTES_FILE_BYTES,
@@ -57,6 +59,8 @@ mod text_catalog_managed_tests;
 mod text_catalog_runtime_tests;
 #[cfg(test)]
 mod font_keyboard_tests;
+#[cfg(test)]
+mod font_keyboard_runtime_tests;
 #[cfg(test)]
 mod bg_packet_tests;
 #[cfg(test)]
@@ -200,6 +204,26 @@ fn encode_short_texts(value: &ShortTexts) -> Result<Vec<u8>, String> {
     serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode short texts: {e}"))
 }
 
+fn parse_font_bank(bytes: &[u8]) -> Result<FontBank, String> {
+    let value: FontBank = serde_json::from_slice(bytes).map_err(|e| format!("Invalid font-bank: {e}"))?;
+    value.validate()?;
+    Ok(value)
+}
+fn encode_font_bank(value: &FontBank) -> Result<Vec<u8>, String> {
+    value.validate()?;
+    serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode font-bank: {e}"))
+}
+
+fn parse_name_keyboard(bytes: &[u8]) -> Result<Keyboard, String> {
+    let value: Keyboard = serde_json::from_slice(bytes).map_err(|e| format!("Invalid name-keyboard: {e}"))?;
+    value.validate()?;
+    Ok(value)
+}
+fn encode_name_keyboard(value: &Keyboard) -> Result<Vec<u8>, String> {
+    value.validate()?;
+    serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode name-keyboard: {e}"))
+}
+
 fn parse_text_catalogs(bytes: &[u8]) -> Result<TextCatalogs, String> {
     let value: TextCatalogs = serde_json::from_slice(bytes).map_err(|e| format!("Invalid text catalogs: {e}"))?;
     value.validate()?; Ok(value)
@@ -232,6 +256,10 @@ struct Dataset {
     transfer_bytes: Option<Vec<u8>>,
     short_texts: Option<ShortTexts>,
     short_text_bytes: Option<Vec<u8>>,
+    font_bank: Option<FontBank>,
+    font_bank_bytes: Option<Vec<u8>>,
+    name_keyboard: Option<Keyboard>,
+    name_keyboard_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
 }
@@ -248,6 +276,8 @@ impl Dataset {
             main_graphics: self.main_graphics.as_ref().zip(self.main_graphic_bytes.as_deref()),
             transfers: self.transfers.as_ref().zip(self.transfer_bytes.as_deref()),
             short_texts: self.short_texts.as_ref().zip(self.short_text_bytes.as_deref()),
+            font_bank: self.font_bank.as_ref().zip(self.font_bank_bytes.as_deref()),
+            name_keyboard: self.name_keyboard.as_ref().zip(self.name_keyboard_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -292,6 +322,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .transpose()?;
     let text_catalog_bytes = manifest.coverage.iter().any(|id| id == TEXT_CATALOGS_ID)
         .then(|| read_bounded(&path.join(TEXT_CATALOGS_FILE), MAX_TEXT_CATALOGS_FILE_BYTES)).transpose()?;
+    let font_bank_bytes = manifest.coverage.iter().any(|id| id == FONT_BANK_ID)
+        .then(|| read_bounded(&path.join(FONT_BANK_FILE), MAX_FONT_BANK_FILE_BYTES)).transpose()?;
+    let name_keyboard_bytes = manifest.coverage.iter().any(|id| id == NAME_KEYBOARD_ID)
+        .then(|| read_bounded(&path.join(NAME_KEYBOARD_FILE), MAX_NAME_KEYBOARD_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -303,6 +337,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         transfer_bytes.as_ref().map_or(0, Vec::len),
         short_text_bytes.as_ref().map_or(0, Vec::len),
         text_catalog_bytes.as_ref().map_or(0, Vec::len),
+        font_bank_bytes.as_ref().map_or(0, Vec::len),
+        name_keyboard_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -313,6 +349,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let transfers = transfer_bytes.as_deref().map(parse_transfers).transpose()?;
     let short_texts = short_text_bytes.as_deref().map(parse_short_texts).transpose()?;
     let text_catalogs = text_catalog_bytes.as_deref().map(parse_text_catalogs).transpose()?;
+    let font_bank = font_bank_bytes.as_deref().map(parse_font_bank).transpose()?;
+    let name_keyboard = name_keyboard_bytes.as_deref().map(parse_name_keyboard).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -331,6 +369,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         transfer_bytes,
         short_texts,
         short_text_bytes,
+        font_bank,
+        font_bank_bytes,
+        name_keyboard,
+        name_keyboard_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -347,6 +389,8 @@ fn check_dataset_budget(
     transfers: usize,
     short_texts: usize,
     text_catalogs: usize,
+    font_bank: usize,
+    name_keyboard: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -357,6 +401,8 @@ fn check_dataset_budget(
         || main_graphics as u64 > MAX_BG_MAIN_GRAPHICS_FILE_BYTES
         || transfers as u64 > MAX_BG_TRANSFER_PROGRAMS_FILE_BYTES
         || short_texts as u64 > MAX_SHORT_TEXTS_FILE_BYTES
+        || font_bank as u64 > MAX_FONT_BANK_FILE_BYTES
+        || name_keyboard as u64 > MAX_NAME_KEYBOARD_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -370,6 +416,8 @@ fn check_dataset_budget(
         .saturating_add(main_graphics)
         .saturating_add(transfers)
         .saturating_add(short_texts)
+        .saturating_add(font_bank)
+        .saturating_add(name_keyboard)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -410,6 +458,10 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         eprintln!("ROM_DATA runtime=decoded resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
             resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[5].sha256,
             graphics.graphics.len());
+    }
+    if let (Some(font), Some(keyboard)) = (&dataset.font_bank, &dataset.name_keyboard) {
+        eprintln!("ROM_DATA runtime=decoded resource={FONT_BANK_ID} file={} glyphs={}", dataset.manifest.resources[9].sha256, font.glyphs.len());
+        eprintln!("ROM_DATA runtime=decoded resource={NAME_KEYBOARD_ID} file={} pages={}", dataset.manifest.resources[10].sha256, keyboard.programs.len());
     }
     if let Some(texts) = &dataset.text_catalogs {
         eprintln!("ROM_DATA runtime=decoded resource={TEXT_CATALOGS_ID} source={} dataset={} file={} pointer_catalogs={} archive_catalogs={} glyphs={}",
@@ -457,6 +509,10 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(graphics) = resources.graphics_stats() {
             eprintln!("ROM_DATA_USE resource={BG_MAIN_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={}",
                 resources.dataset_sha256(), graphics.bus_reads, graphics.source_bytes, graphics.decoded_literal_bytes);
+        }
+        if let Some(f) = resources.font_keyboard_stats() {
+            eprintln!("ROM_DATA_USE resource={FONT_BANK_ID} dataset={} bus_reads={} glyph_bytes={} width_bytes={}", resources.dataset_sha256(), f.bus_reads, f.glyph_bytes, f.width_bytes);
+            eprintln!("ROM_DATA_USE resource={NAME_KEYBOARD_ID} dataset={} index_bytes={} program_bytes={} row_width_bytes={} host_row_width_reads={}", resources.dataset_sha256(), f.keyboard_index_bytes, f.keyboard_program_bytes, f.keyboard_row_width_bytes, f.host_row_width_reads);
         }
         if let Some(t) = resources.text_catalog_stats() {
             eprintln!("ROM_DATA_USE resource={TEXT_CATALOGS_ID} dataset={} bus_reads={} source_bytes={} pointer_table_bytes={} string_bytes={} archive_index_bytes={} header_bytes={} encoded_control_bytes={} decoded_program_bytes={} glyph_bytes={} width_bytes={}",
@@ -545,11 +601,15 @@ fn write_dataset(
     let short_text_data = source.short_texts.as_ref()
         .map(|catalog| encode_short_texts(&catalog.decoded)).transpose()?;
     let text_catalog_data = source.text_catalogs.as_ref().map(|catalog| encode_text_catalogs(&catalog.decoded)).transpose()?;
+    let font_bank_data = source.font_bank.as_ref().map(|catalog| encode_font_bank(&catalog.decoded)).transpose()?;
+    let name_keyboard_data = source.name_keyboard.as_ref().map(|catalog| encode_name_keyboard(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
     if let Some(bytes) = &short_text_data { files.push(bytes); }
     if let Some(bytes) = &text_catalog_data { files.push(bytes); }
+    if let Some(bytes) = &font_bank_data { files.push(bytes); }
+    if let Some(bytes) = &name_keyboard_data { files.push(bytes); }
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -564,6 +624,8 @@ fn write_dataset(
         transfer_data.as_ref().map_or(0, Vec::len),
         short_text_data.as_ref().map_or(0, Vec::len),
         text_catalog_data.as_ref().map_or(0, Vec::len),
+        font_bank_data.as_ref().map_or(0, Vec::len),
+        name_keyboard_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -574,6 +636,8 @@ fn write_dataset(
     if let Some(bytes) = &transfer_data { write(&path.join(BG_TRANSFER_PROGRAMS_FILE), bytes)?; }
     if let Some(bytes) = &short_text_data { write(&path.join(SHORT_TEXTS_FILE), bytes)?; }
     if let Some(bytes) = &text_catalog_data { write(&path.join(TEXT_CATALOGS_FILE), bytes)?; }
+    if let Some(bytes) = &font_bank_data { write(&path.join(FONT_BANK_FILE), bytes)?; }
+    if let Some(bytes) = &name_keyboard_data { write(&path.join(NAME_KEYBOARD_FILE), bytes)?; }
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -612,9 +676,9 @@ pub fn cmd(args: &[String]) -> Result<(), String> {
         verify(path, &source)?;
         "verified"
     };
-    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files=6 runtime=offline",
+    println!("ROM_DATA action={action} profile={} source={} schema={} decoded={} files={} runtime=offline",
         source.manifest.profile, source.manifest.source_rom_sha256, source.manifest.schema,
-        source.manifest.coverage.join(","));
+        source.manifest.coverage.join(","), source.manifest.resources.len() + 1);
     Ok(())
 }
 
@@ -808,6 +872,8 @@ mod tests {
             transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
         }
     }
 
@@ -1132,8 +1198,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

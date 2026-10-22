@@ -4,7 +4,7 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats};
+pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats, FontKeyboardStats};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_packet_data;
@@ -20,8 +20,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 12;
-pub const DECODER_REV: u32 = 11;
+pub const EXTRACTOR_REV: u32 = 13;
+pub const DECODER_REV: u32 = 12;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
 pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
@@ -40,6 +40,14 @@ pub const BG_MAIN_GRAPHICS_ID: &str = "graphics.bg-main-graphics";
 pub const BG_MAIN_GRAPHICS_FILE: &str = "bg-main-graphics.json";
 pub const BG_MAIN_GRAPHICS_FORMAT: &str = "bg-main-graphics-v1-json";
 pub const MAX_BG_MAIN_GRAPHICS_FILE_BYTES: u64 = 32 * 1024 * 1024;
+pub const FONT_BANK_ID: &str = "font.complete-bank";
+pub const FONT_BANK_FILE: &str = "font-bank.json";
+pub const FONT_BANK_FORMAT: &str = "font-bank-v1-json";
+pub const MAX_FONT_BANK_FILE_BYTES: u64 = 16 * 1024 * 1024;
+pub const NAME_KEYBOARD_ID: &str = "text.name-keyboard";
+pub const NAME_KEYBOARD_FILE: &str = "name-keyboard.json";
+pub const NAME_KEYBOARD_FORMAT: &str = "name-keyboard-v1-json";
+pub const MAX_NAME_KEYBOARD_FILE_BYTES: u64 = 1 * 1024 * 1024;
 pub const TEXT_CATALOGS_ID: &str = "text.catalogs";
 pub const TEXT_CATALOGS_FILE: &str = "text-catalogs.json";
 pub const TEXT_CATALOGS_FORMAT: &str = "text-catalogs-v1-json";
@@ -166,6 +174,8 @@ pub struct Extraction {
     pub main_graphics: Option<bg_graphics::Catalog>,
     pub transfers: Option<bg_transfers::Catalog>,
     pub short_texts: Option<text_short::Catalog>,
+    pub font_bank: Option<fonts::Catalog>,
+    pub name_keyboard: Option<name_keyboard::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -182,6 +192,8 @@ pub struct BaseFiles<'a> {
     pub main_graphics: Option<(&'a bg_graphics::Graphics, &'a [u8])>,
     pub transfers: Option<(&'a bg_transfers::Transfers, &'a [u8])>,
     pub short_texts: Option<(&'a text_short::ShortTexts, &'a [u8])>,
+    pub font_bank: Option<(&'a fonts::FontBank, &'a [u8])>,
+    pub name_keyboard: Option<(&'a name_keyboard::Keyboard, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -279,6 +291,22 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![SHORT_TEXTS_ID.into()], sources: texts.sources.clone(),
             });
             result.text_catalogs = Some(texts);
+            let font_bank = fonts::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(FONT_BANK_ID.into());
+            result.manifest.resources.push(Resource {
+                id: FONT_BANK_ID.into(), path: FONT_BANK_FILE.into(), format: FONT_BANK_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![TEXT_CATALOGS_ID.into()],
+                sources: font_bank.sources.clone(),
+            });
+            result.font_bank = Some(font_bank);
+            let name_keyboard = name_keyboard::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(NAME_KEYBOARD_ID.into());
+            result.manifest.resources.push(Resource {
+                id: NAME_KEYBOARD_ID.into(), path: NAME_KEYBOARD_FILE.into(), format: NAME_KEYBOARD_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![FONT_BANK_ID.into()],
+                sources: name_keyboard.sources.clone(),
+            });
+            result.name_keyboard = Some(name_keyboard);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -326,6 +354,8 @@ impl Extraction {
             transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
                 extractor_revision: EXTRACTOR_REV,
@@ -370,6 +400,8 @@ impl Extraction {
             || self.transfers.is_some() && self.main_graphics.is_none()
             || self.short_texts.is_some() && self.transfers.is_none()
             || self.text_catalogs.is_some() && self.short_texts.is_none()
+            || self.font_bank.is_some() && self.text_catalogs.is_none()
+            || self.name_keyboard.is_some() && self.font_bank.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -467,6 +499,24 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected text catalog resource".into()),
         }
+        match (&self.font_bank, files.font_bank) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_FONT_BANK_FILE_BYTES { return Err("font-bank file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[9].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected font-bank resource".into()),
+        }
+        match (&self.name_keyboard, files.name_keyboard) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_NAME_KEYBOARD_FILE_BYTES { return Err("name-keyboard file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[10].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected name-keyboard resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -534,6 +584,14 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded { return Err("Decoded text catalogs do not reproduce selected ROM source".into()); }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.font_bank, files.font_bank) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded font-bank differs from authenticated source".into()); }
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.name_keyboard, files.name_keyboard) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded name-keyboard differs from authenticated source".into()); }
+        }
         Ok(())
     }
 
@@ -545,6 +603,8 @@ impl Extraction {
             + usize::from(self.transfers.is_some())
             + usize::from(self.short_texts.is_some())
             + usize::from(self.text_catalogs.is_some())
+            + usize::from(self.name_keyboard.is_some())
+            + usize::from(self.font_bank.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -610,6 +670,8 @@ mod tests {
                 transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
             })
             .unwrap();
         let mut edited = extraction.dimensions.clone();
@@ -626,6 +688,8 @@ mod tests {
                 transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
             })
             .is_err());
         for mutate in [0, 1, 2, 3, 4, 5, 6, 7] {
@@ -652,6 +716,8 @@ mod tests {
                     transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
                 })
                 .is_err());
         }
@@ -667,6 +733,8 @@ mod tests {
                 transfers: None,
             short_texts: None,
             text_catalogs: None,
+            name_keyboard: None,
+            font_bank: None,
             })
             .is_err());
         rom[48] ^= 1;

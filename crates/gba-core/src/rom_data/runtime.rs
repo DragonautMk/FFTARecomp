@@ -9,6 +9,9 @@ mod graphics;
 mod transfers;
 mod texts;
 mod text_catalogs;
+mod font_keyboard;
+use font_keyboard::FontKeyboardResources;
+pub use font_keyboard::FontKeyboardStats;
 use background::BackgroundResources;
 pub use background::BackgroundStats;
 use palettes::PaletteResources;
@@ -61,6 +64,7 @@ pub struct RuntimeResources {
     transfers: Option<Box<TransferResources>>,
     short_texts: Option<Box<TextResources>>,
     text_catalogs: Option<Box<TextCatalogResources>>,
+    font_keyboard: Option<Box<FontKeyboardResources>>,
 }
 
 impl RuntimeResources {
@@ -146,6 +150,10 @@ impl RuntimeResources {
                 manifest.resources[8].sha256.clone(),
             )?));
         }
+        if let (Some((font, _)), Some((keyboard, _))) = (files.font_bank, files.name_keyboard) {
+            resources.font_keyboard = Some(Box::new(FontKeyboardResources::new(font.clone(), keyboard.clone())?));
+            resources.text_catalogs = resources.text_catalogs.take().map(|t| Box::new(t.without_font()));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -178,6 +186,7 @@ impl RuntimeResources {
             transfers: None,
             short_texts: None,
             text_catalogs: None,
+            font_keyboard: None,
         }
     }
 
@@ -215,6 +224,7 @@ impl RuntimeResources {
             + self.transfer_resident_bytes()
             + self.text_resident_bytes()
             + self.text_catalog_resident_bytes()
+            + self.font_keyboard.as_ref().map_or(0, |f| f.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -285,6 +295,13 @@ impl RuntimeResources {
     pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
     pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
 
+    pub fn font_keyboard_stats(&self) -> Option<FontKeyboardStats> { self.font_keyboard.as_ref().map(|f| f.stats()) }
+
+    pub(crate) fn name_keyboard_row_widths(&self, root: usize, page: usize) -> Option<&[u8]> {
+        if root != super::name_keyboard::ROW_WIDTH_ROOT as usize { return None; }
+        self.font_keyboard.as_ref()?.row_widths(page)
+    }
+
     pub fn stats(&self) -> ResourceStats {
         ResourceStats {
             bus_reads: self.bus_reads.load(Ordering::Relaxed),
@@ -337,8 +354,12 @@ impl RuntimeResources {
                 Some(texts) => texts.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.text_catalogs {
+            let prior = match &self.text_catalogs {
                 Some(texts) => texts.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.font_keyboard {
+                Some(f) => f.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -413,6 +434,14 @@ impl RuntimeResources {
 }
 
 impl crate::MemMap {
+    pub(crate) fn name_keyboard_row_widths(&self, root: usize, page: usize) -> Option<&[u8]> {
+        if let Some(rows) = self.rom_resources.as_ref()
+            .and_then(|resources| resources.name_keyboard_row_widths(root, page)) {
+            return Some(rows);
+        }
+        let start = root.checked_add(page.checked_mul(6)?)?;
+        self.rom.get(start..start.checked_add(6)?)
+    }
     /// Transactional source binding. Base resources preserve the original image
     /// identity and guest bytes, so snapshots/native translations remain keyed
     /// to the original ROM. Modified resources require a different future API.
@@ -464,6 +493,7 @@ impl crate::MemMap {
             || TransferResources::source_page(index)
             || TextResources::source_page(index)
             || TextCatalogResources::source_page(index)
+            || FontKeyboardResources::source_page(index)
     }
 }
 

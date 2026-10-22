@@ -10,6 +10,8 @@ use gba_core::rom_data::{
     MAX_BG_ALTERNATE_PALETTES_FILE_BYTES,
     bg_packet_data::Programs as PacketPrograms,
     BG_PACKET_PROGRAMS_ID, BG_PACKET_PROGRAMS_FILE, MAX_BG_PACKET_PROGRAMS_FILE_BYTES,
+    bg_graphics::Graphics, BG_MAIN_GRAPHICS_ID, BG_MAIN_GRAPHICS_FILE,
+    MAX_BG_MAIN_GRAPHICS_FILE_BYTES,
 };
 use std::{
     fs,
@@ -25,6 +27,10 @@ mod alternate_palette_data_tests;
 mod alternate_palette_runtime_tests;
 #[cfg(test)]
 mod bg_descriptor_tests;
+#[cfg(test)]
+mod bg_graphics_tests;
+#[cfg(test)]
+mod bg_graphics_managed_tests;
 #[cfg(test)]
 mod bg_packet_tests;
 #[cfg(test)]
@@ -132,6 +138,18 @@ fn encode_packet_programs(programs: &PacketPrograms) -> Result<Vec<u8>, String> 
     serde_json::to_vec_pretty(programs).map_err(|e| format!("Cannot encode packet programs: {e}"))
 }
 
+fn parse_main_graphics(bytes: &[u8]) -> Result<Graphics, String> {
+    let graphics: Graphics = serde_json::from_slice(bytes)
+        .map_err(|e| format!("Invalid main graphics: {e}"))?;
+    graphics.validate()?;
+    Ok(graphics)
+}
+
+fn encode_main_graphics(graphics: &Graphics) -> Result<Vec<u8>, String> {
+    graphics.validate()?;
+    serde_json::to_vec_pretty(graphics).map_err(|e| format!("Cannot encode main graphics: {e}"))
+}
+
 pub fn verify(path: &Path, source: &Extraction) -> Result<ObjDimensions, String> {
     let dataset = read_dataset(path)?;
     source.validate_files(dataset.files())?;
@@ -150,6 +168,8 @@ struct Dataset {
     alternate_palette_bytes: Vec<u8>,
     packet_programs: PacketPrograms,
     packet_program_bytes: Vec<u8>,
+    main_graphics: Option<Graphics>,
+    main_graphic_bytes: Option<Vec<u8>>,
 }
 
 impl Dataset {
@@ -161,6 +181,7 @@ impl Dataset {
             palettes: Some((&self.palettes, &self.palette_bytes)),
             alternate_palettes: Some((&self.alternate_palettes, &self.alternate_palette_bytes)),
             packet_programs: Some((&self.packet_programs, &self.packet_program_bytes)),
+            main_graphics: self.main_graphics.as_ref().zip(self.main_graphic_bytes.as_deref()),
         }
     }
 }
@@ -191,6 +212,11 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let packet_program_bytes = read_bounded(
         &path.join(BG_PACKET_PROGRAMS_FILE), MAX_BG_PACKET_PROGRAMS_FILE_BYTES,
     )?;
+    // Presence selects only a fixed filename, never a manifest-provided path.
+    // Authentication below rejects missing/unexpected resources against ROM.
+    let main_graphic_bytes = manifest.coverage.iter().any(|id| id == BG_MAIN_GRAPHICS_ID)
+        .then(|| read_bounded(&path.join(BG_MAIN_GRAPHICS_FILE), MAX_BG_MAIN_GRAPHICS_FILE_BYTES))
+        .transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -198,12 +224,14 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         palette_bytes.len(),
         alternate_palette_bytes.len(),
         packet_program_bytes.len(),
+        main_graphic_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
     let palettes = parse_palettes(&palette_bytes)?;
     let alternate_palettes = parse_alternate_palettes(&alternate_palette_bytes)?;
     let packet_programs = parse_packet_programs(&packet_program_bytes)?;
+    let main_graphics = main_graphic_bytes.as_deref().map(parse_main_graphics).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -216,6 +244,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         alternate_palette_bytes,
         packet_programs,
         packet_program_bytes,
+        main_graphics,
+        main_graphic_bytes,
     })
 }
 
@@ -226,6 +256,7 @@ fn check_dataset_budget(
     palettes: usize,
     alternate_palettes: usize,
     packet_programs: usize,
+    main_graphics: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -233,6 +264,7 @@ fn check_dataset_budget(
         || palettes as u64 > MAX_BG_BASE_PALETTES_FILE_BYTES
         || alternate_palettes as u64 > MAX_BG_ALTERNATE_PALETTES_FILE_BYTES
         || packet_programs as u64 > MAX_BG_PACKET_PROGRAMS_FILE_BYTES
+        || main_graphics as u64 > MAX_BG_MAIN_GRAPHICS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
     }
@@ -242,6 +274,7 @@ fn check_dataset_budget(
         .saturating_add(palettes)
         .saturating_add(alternate_palettes)
         .saturating_add(packet_programs)
+        .saturating_add(main_graphics)
         > MAX_DATASET_BYTES
     {
         return Err("Resource dataset exceeds its total size budget".into());
@@ -277,6 +310,11 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     eprintln!("ROM_DATA runtime={packet_mode} resource={BG_PACKET_PROGRAMS_ID} source={} dataset={} file={} programs={}",
         resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[4].sha256,
         dataset.packet_programs.paired.programs.len() + dataset.packet_programs.halfwords.programs.len() + dataset.packet_programs.auxiliary.programs.len());
+    if let Some(graphics) = &dataset.main_graphics {
+        eprintln!("ROM_DATA runtime=verified-only resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
+            resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[5].sha256,
+            graphics.graphics.len());
+    }
     Ok(())
 }
 
@@ -372,7 +410,11 @@ fn write_dataset(
     let packet_program_data = encode_packet_programs(
         &source.packet_programs.as_ref().ok_or("Missing packet program extraction")?.decoded,
     )?;
-    source.set_file_hashes(&[data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data])?;
+    let main_graphic_data = source.main_graphics.as_ref()
+        .map(|catalog| encode_main_graphics(&catalog.decoded)).transpose()?;
+    let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
+    if let Some(bytes) = &main_graphic_data { files.push(bytes); }
+    source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
     check_dataset_budget(
@@ -382,12 +424,14 @@ fn write_dataset(
         palette_data.len(),
         alternate_palette_data.len(),
         packet_program_data.len(),
+        main_graphic_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
     write(&path.join(BG_BASE_PALETTES_FILE), &palette_data)?;
     write(&path.join(BG_ALTERNATE_PALETTES_FILE), &alternate_palette_data)?;
     write(&path.join(BG_PACKET_PROGRAMS_FILE), &packet_program_data)?;
+    if let Some(bytes) = &main_graphic_data { write(&path.join(BG_MAIN_GRAPHICS_FILE), bytes)?; }
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -618,6 +662,7 @@ mod tests {
             }),
             alternate_palettes: Some(alternate_palettes),
             packet_programs: Some(packet_programs),
+            main_graphics: None,
         }
     }
 

@@ -3,6 +3,64 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-22 — Repair packet source-tracing change coverage and update CI checkout
+
+Type: fixed. Platforms: Project tooling, GitHub Actions.
+
+**Changes**
+
+- Supply the missing change coverage for commit 69b06ca: bounded halfword/plane parsers expose typed value and dictionary source positions while preserving marker bits; the shared LZ77 parser exposes literal source/output positions without changing serialized resources.
+- Document the associated packet source projection retained in runtime/packets.rs, whose later European consumer integration and Wine validation are recorded separately; this repair changes no Rust code.
+- Pin project-memory checkout to actions/checkout v7.0.1 (3d3c42e5aac5ba805825da76410c181273ba90b1), whose action manifest selects Node 24, retaining full history and existing coverage enforcement.
+- Explain why a later green push does not prove coverage of an earlier failed push, and require checking the repaired combined range without rerunning the unchanged historical commit.
+
+**Validation**
+
+- Read GitHub Actions run 39737053773/job 119685097064: all five tooling tests passed; documentation coverage failed for bg_packets.rs, lz77.rs and runtime/packets.rs against 91f26ca. The Node 20 annotation was a separate warning.
+- Reproduced that exact three-file failure in an isolated checkout of 69b06ca; checking committed HEAD 22ddb72 against 91f26ca reproduced the remaining bg_packets.rs/lz77.rs omissions. The later push run 39743562541 was already successful.
+- Verified the checkout release SHA and Node 24 action manifest against the official actions/checkout repository.
+- All five project-memory tooling tests pass. An isolated committed-HEAD checkout with only the CI repair passes default coverage, --base 69b06ca and --base 91f26ca, plus git diff --check and bash -n on the unchanged workflow shell block.
+- Working-tree metadata validation passes. The initial full working-tree check reported the concurrent graphics/custom-codec implementation as uncovered; the final full check passes after that unit supplied its own separate record. Those files were not added to this repair's coverage.
+
+**Limitations**
+
+- Local changes are not committed or pushed; no new hosted workflow run has executed the updated checkout pin, and the historical failed run remains unchanged.
+- Concurrent field00 graphics/custom-codec implementation is preserved and excluded from isolated CI-repair validation; its runtime evidence and change coverage belong to its separate graphics record.
+- No runtime build, game replay, Linux/USA runtime verification, performance measurement, packaging or AndroidPort change was performed.
+
+Documentation: [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [2026-10-22-consume-european-background-packet-programs.json](docs/changes/2026-10-22-consume-european-background-packet-programs.json).
+
+[Change record](docs/changes/2026-10-22-repair-packet-tracing-memory-coverage.json)
+
+## 2026-10-22 — Prepare authenticated European main background graphics as a seventh resource file
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Publish the verified EUR field00 model as the seventh fixed bg-main-graphics.json file, schema 1/extractor 9/decoder 8, with all 50 source ranges, descriptor dependency and complete file/dataset authentication.
+- Integrate strict bounded parsing, atomic preparation/publication, no-write reuse, missing/corrupt repair, relocation and prior e8 generation retention; preserve USA's existing six-file e8-d7 contract.
+- Authenticate the new file before runtime owner replacement and include every hash in dataset identity; report the new family as verified-only until direct consumption. Preserve native/save/cache identity and prior decoded file bytes.
+
+**Validation**
+
+- Warning-free Windows release test and production builds; four focused Wine cases pass for core authentication, seventh-file determinism/publication/reuse, partial-write/missing repair and actual EUR managed full-set behavior.
+- Actual EUR managed case passes create/reuse/missing+corrupt repair/move/e8 retention, coherent same-extent edit refusal, transactional failed activation, full-set identity, fixed-path/coverage/provenance/file-size guards and exact reuse of the prior typed JSON.
+- Seven actual Windows CLI processes from unrelated cwd pass extract, verify, prepare, no-write reuse, repair, moved-root reuse and one-frame activation with the existing native cache (290 native blocks). The cold frame reads zero resources and is activation evidence only.
+- The CLI postprocessor expected native= instead of native_blocks:; all seven processes had succeeded. The corrected result uses the retained activation log without rerunning any command.
+- Original ROM, e8 dataset, old native cache/loader and canonical executable hashes are preserved; final project-memory and whitespace/source/protected-input checks pass.
+
+**Limitations**
+
+- Main graphics remain verified-only at runtime. Direct decoded word consumption, poisoned-ROM interpreter/native provenance, owner lifecycle and new scene/GUI/archive checks remain open.
+- New Linux and USA verification remain pending by user instruction; USA's previous contract is preserved without a new verification claim. No native Windows or AndroidPort claim.
+- Historical ignored current-EUR helpers still use e8 copy/revision assumptions and need adaptation when their affected consumer/lifecycle units are selected; completed historical results are retained without reruns.
+- No broad suite, repeated 50-source original decoder oracle, performance/profile/startup/RSS measurement or space optimization campaign.
+
+Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-prepare-european-main-background-graphics.json)
+
 ## 2026-10-22 — Publish authenticated European packet programs in the managed dataset
 
 Type: added. Platforms: Windows GNU/Wine.
@@ -28,6 +86,33 @@ Type: added. Platforms: Windows GNU/Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-22-prepare-european-background-packet-programs.json)
+
+## 2026-10-22 — Decode European main background graphics with exact staged producer output
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Classify all 162 European descriptor field00 links as 50 disjoint custom LZ/RLE sources: 23 tag20 and 27 tag22 with nested20 and destination byte offsets.
+- Add bounded typed offline graphics words, exact source metadata, stable alias IDs and source authentication; share the original token parser with alternate palettes while preserving their independent 256/4096-byte guards.
+- Preserve guest little-endian words and destination prefixes; no guest instruction, DMA, timing, native/save identity or active dataset revision changes.
+
+**Validation**
+
+- Warning-free Windows release test build; nine reduced Wine checks pass: three graphics core, four affected alternate palette, one JSON and one private EUR catalog oracle.
+- All 50 original staged decoder outputs, live source cursors, complete buffer guards and restored SP match; two representative tag20/tag22 phase2/3 DMA source/destination/control layouts pass, over 54 original calls and 11142126 instructions.
+- Exact source extents total 621923 bytes and decoded outputs 835232 bytes; deterministic readable JSON roundtrip and coherent same-extent base-edit rejection pass.
+- Original ROM, retained e8 files, TinyCC cache/loader and canonical executable hashes are preserved; final project-memory and whitespace checks pass.
+
+**Limitations**
+
+- This is an offline EUR model and original-output proof; active managed extraction/preparation, file-backed runtime consumption and native/scene equivalence remain open.
+- New Linux and USA checks are pending by user instruction. No native Windows, broader catalogs/languages, transfer/variant program, GUI/archive or AndroidPort claim.
+- No performance, profile, startup/RSS or space optimization campaign; no repeated packet catalog/scene/CLI oracle or broad suite.
+
+Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-decode-european-main-background-graphics.json)
 
 ## 2026-10-22 — Represent European background packet programs as authenticated typed data
 

@@ -282,22 +282,33 @@ EUR CPU/DMA/native/HLE paths. Three focused Wine checks and one397frame actual
 native transition pass with positive typed consumption and complete-state parity.
 New Linux/USA checks remain pending. See the [consumer contract](../rom_data_graphics.md#direct-european-packet-consumption).
 
-### Main graphics field00: partial EUR static inspection
+### Main graphics field00: verified EUR offline catalog
 
-The retained162descriptor links name50source starts:23have tag20,27have tag22;
-all27tag22sources have another20header immediately after the outer header.
-These starts/header counts do not establish consumed ranges or decoded tile
-semantics. Do not identify these streams as BIOS Huffman from the leading20.
+The162descriptor links name50disjoint sources:23tag20,27tag22; exact consumed
+sizes total621923bytes and decoded outputs835232bytes. Staged producer0801b688
+phase1selects custom BE-size LZ/RLE080054a0, the same original decoder used by
+alternate palettes. These are not BIOS Huffman streams. Tag20's upper24bits
+declare output bytes; tag22's upper24bits are a byte destination offset followed
+by a nested20header and the same custom stream. Inner/outer sizes agree.
+All outputs/offsets are whole32-byte tiles and fit the original0x4fe0-byte
+graphics destination. Phase1writes the compact output to EWRAM020091a0;
+phases2/3queue DMA32 transfers of each half to target+offset(+half for phase3).
+Tag22does not supply or replace the live destination prefix.
 The normal producer at0801b2cc reads field00at0801b310..324 but branches for
 12/02/10and a copy case; it alone does not prove how20/22are prepared.
 The separate palette-copy indirect pointer atROM370eb4 selects IWRAM03005ee9;
 08145c14is only the bxr3trampoline. It is not an independently located main
 graphics decoder.
 
-ROMDATA-01-BG-MAIN-GRAPHICS remains partial: locate the staged compressed
-producer/callers, establish exact extents/aliases and destinations/tile layout,
-then perform a reduced original EUR/Wine proof before implementing its typed
-resource integration. Static evidence is retained under
-target/rom-data-bg-main-graphics/static-summary.json and bounded disassembly
-files. No new runtime test/build, extraction or migration is claimed for this
-family; new Linux/USA verification remains pending.
+ROMDATA-01-BG-MAIN-GRAPHICS / ROMDATA-02-BG-GRAPHICS-DATA are complete for
+this declared EUR catalog. The bounded typed model retains little-endian words,
+offsets, exact compressed metadata and all alias links; canonical IDs follow
+first descriptor occurrence. Validation rejects truncations, invalid references,
+overruns, overlap, wrong IDs, size mismatch and coherent source edits.
+Nine focused Wine checks pass, including50original staged decoded outputs with
+exact live source cursors, full destination/guards/SP, and phase2/3DMA layout for
+one20and one22source:54calls/11142126instructions. Readable JSON roundtrip and
+base authentication pass. Evidence:target/rom-data-bg-main-graphics/
+windows-europe/result.json, windows-results.json and bounded disassemblies.
+No active manifest, startup publication or file-backed runtime migration for
+this family yet. New Linux/USA verification remains pending.

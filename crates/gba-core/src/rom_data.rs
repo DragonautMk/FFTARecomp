@@ -10,11 +10,13 @@ pub mod bg_packets;
 pub mod bg_packet_data;
 pub mod bg_palettes;
 pub mod bg_alternate_palettes;
+pub mod bg_graphics;
+mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 8;
-pub const DECODER_REV: u32 = 7;
+pub const EXTRACTOR_REV: u32 = 9;
+pub const DECODER_REV: u32 = 8;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
 pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
@@ -29,6 +31,10 @@ pub const BG_ALTERNATE_PALETTES_FORMAT: &str = "bg-alternate-palettes-v1-json";
 pub const BG_PACKET_PROGRAMS_ID: &str = "graphics.bg-packet-programs";
 pub const BG_PACKET_PROGRAMS_FILE: &str = "bg-packet-programs.json";
 pub const BG_PACKET_PROGRAMS_FORMAT: &str = "bg-packet-programs-v1-json";
+pub const BG_MAIN_GRAPHICS_ID: &str = "graphics.bg-main-graphics";
+pub const BG_MAIN_GRAPHICS_FILE: &str = "bg-main-graphics.json";
+pub const BG_MAIN_GRAPHICS_FORMAT: &str = "bg-main-graphics-v1-json";
+pub const MAX_BG_MAIN_GRAPHICS_FILE_BYTES: u64 = 32 * 1024 * 1024;
 pub const MAX_BG_PACKET_PROGRAMS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const MAX_BG_ALTERNATE_PALETTES_FILE_BYTES: u64 = 4 * 1024 * 1024;
 pub const MAX_MANIFEST_FILE_BYTES: u64 = 256 * 1024;
@@ -140,6 +146,7 @@ pub struct Extraction {
     pub palettes: Option<bg_palettes::Catalog>,
     pub alternate_palettes: Option<bg_alternate_palettes::Catalog>,
     pub packet_programs: Option<bg_packet_data::Catalog>,
+    pub main_graphics: Option<bg_graphics::Catalog>,
 }
 
 /// Typed values borrowed from the exact captured file bytes. The frontend
@@ -152,6 +159,7 @@ pub struct BaseFiles<'a> {
     pub palettes: Option<(&'a bg_palettes::Palettes, &'a [u8])>,
     pub alternate_palettes: Option<(&'a bg_alternate_palettes::Palettes, &'a [u8])>,
     pub packet_programs: Option<(&'a bg_packet_data::Programs, &'a [u8])>,
+    pub main_graphics: Option<(&'a bg_graphics::Graphics, &'a [u8])>,
 }
 
 impl Extraction {
@@ -214,6 +222,21 @@ impl Extraction {
             sources: packet_programs.sources.clone(),
         });
         result.packet_programs = Some(packet_programs);
+        // User priority is EUR. Preserve USA's existing dataset contract until
+        // its graphics catalog and new managed path are independently verified.
+        if profile == "europe" {
+            let graphics = bg_graphics::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(BG_MAIN_GRAPHICS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: BG_MAIN_GRAPHICS_ID.into(), path: BG_MAIN_GRAPHICS_FILE.into(),
+                format: BG_MAIN_GRAPHICS_FORMAT.into(), sha256: String::new(),
+                dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: graphics.sources.clone(),
+            });
+            result.main_graphics = Some(graphics);
+        } else {
+            result.manifest.extractor_revision = 8;
+            result.manifest.decoder_revision = 7;
+        }
         Ok(result)
     }
 
@@ -253,6 +276,7 @@ impl Extraction {
             palettes: None,
             alternate_palettes: None,
             packet_programs: None,
+            main_graphics: None,
             manifest: Manifest {
                 schema: SCHEMA,
                 extractor_revision: EXTRACTOR_REV,
@@ -293,6 +317,7 @@ impl Extraction {
         if self.palettes.is_some() && self.background.is_none()
             || self.alternate_palettes.is_some() && self.palettes.is_none()
             || self.packet_programs.is_some() && self.alternate_palettes.is_none()
+            || self.main_graphics.is_some() && self.packet_programs.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -348,6 +373,17 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected packet program resource".into()),
         }
+        match (&self.main_graphics, files.main_graphics) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_BG_MAIN_GRAPHICS_FILE_BYTES {
+                    return Err("Main graphics file exceeds size limit".into());
+                }
+                total = total.saturating_add(bytes.len());
+                expected.resources[5].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected main graphics resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -393,6 +429,12 @@ impl Extraction {
                 return Err("Decoded packet programs do not reproduce the selected ROM source".into());
             }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.main_graphics, files.main_graphics) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {
+                return Err("Decoded main graphics do not reproduce the selected ROM source".into());
+            }
+        }
         Ok(())
     }
 
@@ -400,6 +442,7 @@ impl Extraction {
         1 + usize::from(self.background.is_some()) + usize::from(self.palettes.is_some())
             + usize::from(self.alternate_palettes.is_some())
             + usize::from(self.packet_programs.is_some())
+            + usize::from(self.main_graphics.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -461,6 +504,7 @@ mod tests {
                 palettes: None,
                 alternate_palettes: None,
                 packet_programs: None,
+                main_graphics: None,
             })
             .unwrap();
         let mut edited = extraction.dimensions.clone();
@@ -473,6 +517,7 @@ mod tests {
                 palettes: None,
                 alternate_palettes: None,
                 packet_programs: None,
+                main_graphics: None,
             })
             .is_err());
         for mutate in [0, 1, 2, 3, 4, 5, 6, 7] {
@@ -495,6 +540,7 @@ mod tests {
                     palettes: None,
                     alternate_palettes: None,
                     packet_programs: None,
+                    main_graphics: None,
                 })
                 .is_err());
         }
@@ -506,6 +552,7 @@ mod tests {
                 palettes: None,
                 alternate_palettes: None,
                 packet_programs: None,
+                main_graphics: None,
             })
             .is_err());
         rom[48] ^= 1;

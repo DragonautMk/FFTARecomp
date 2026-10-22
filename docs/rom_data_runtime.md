@@ -7,6 +7,10 @@ ROM's decoded dataset. The sixth e8-d7file, `graphics.bg-packet-programs`, now
 also serves EUR packet source/body reads from immutable typed values and exact
 control metadata. EUR reports `runtime=decoded`; USA stays authenticated and
 `runtime=verified-only` pending its consumer validation.
+EUR now prepares a seventh `graphics.bg-main-graphics` JSON under `v1/e9-d8`,
+authenticating every source and file hash into dataset identity. This family
+remains `runtime=verified-only`; it has no new direct consumer yet. USA keeps
+its existing six-file `v1/e8-d7` contract. New Linux/USA verification is pending.
 Normal enablement awaits the remaining ROMDATA-05 regional and native
 Windows gates.
 Other resource families and mod support remain open in the
@@ -33,9 +37,12 @@ reads without attributing them to an initializer PC.
 That alias expansion retained schema/decoder1 and selected `v1/e2-d1`,
 preserving `e1-d1`, because the OBJ format was unchanged.
 The managed metadata extension introduced `v1/e3-d2`; `v1/e6-d5` added exact
-palette source views beside readable banks. Current `v1/e8-d7` also contains
-alternate palettes and EUR-consumed packet programs, retaining earlier
-revisions including preparation-only palette e5and e7.
+palette source views beside readable banks. The `v1/e8-d7` generation also
+contains alternate palettes and packet programs; EUR consumes packets while
+USA remains verified-only. Earlier revisions including preparation-only
+palette e5and e7are retained.
+EUR's `v1/e9-d8` adds authenticated main graphics while retaining e8and the
+same prior decoded files. Save and native cache identities stay source-equal.
 Manifest/OBJ stay TOML; BG metadata and base palettes use readable JSON.
 The borrowed complete-file view authenticates all resources before changing
 the live object and includes every resource ID/file hash in dataset identity.

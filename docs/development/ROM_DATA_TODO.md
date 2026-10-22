@@ -142,6 +142,14 @@ espone anche l'estensione letta dei dizionari. Modello tipizzato/file gestito e
 consumo effettivo restano02/03/04; campo00e programmi transfer/variant separati.
 [Contratto](../rom_data_graphics.md#complete-descriptor-packet-catalogs).
 
+**ROMDATA-01-BG-MAIN-GRAPHICS completato per il catalogo EUR dichiarato:**
+162link/50sorgenti disgiunte,23tag20e27tag22,621923byte sorgente e835232uscita.
+Produttore a stadi0801b688e codec custom LZ/RLE080054a0verificati; tag22conserva
+offset di destinazione e header20annidato. Tutte le50uscite/cursori/guardie/SP
+coincidono con l'originale su Wine; i due trasferimenti DMA sono verificati per
+un caso20e uno22. Nuovi controlli Linux/USA da fare.
+[Contratto](../rom_data_graphics.md#european-main-background-graphics).
+
 ## ROMDATA-02 — Estrattori e decoder
 
 **Dipendenze:** ROMDATA-01. Procedere per famiglie senza dichiarare finito il
@@ -253,6 +261,25 @@ protetti. Stato runtime verified-only al termine della pubblicazione; il
 consumoEUR04è ora concluso sotto.
 Nuovi controlli Linux/USA da fare, nessuna campagna performance o suite ampia.
 [Contratto e prove](../rom_data_graphics.md#managed-packet-program-datasets).
+
+**ROMDATA-02-BG-GRAPHICS-DATA completato per EUR/Wine:** modello tipizzato
+offline con word little-endian completi, offset, sorgente esatta, alias e ID
+canonici; parser limitato con autenticazione della ROM. Codec condiviso con
+palette alternative mantenendo le loro guardie256/4096byte. Nove test Wine
+mirati passano, inclusi JSON leggibile/roundtrip e54chiamate originali a stadi.
+Nessuna nuova revisione manifest o migrazione runtime; estrazione gestita e
+consumo restano da collegare. Linux/USA da fare, nessuna misura prestazionale.
+[Contratto e prove](../rom_data_graphics.md#european-main-background-graphics).
+
+**ROMDATA-02-BG-GRAPHICS-MANAGED completato per EUR/Wine:** settimo file fisso
+`bg-main-graphics.json`, revisione1/9/8e50intervalli autenticati; USA conserva
+sei file/e8-d7senza nuove verifiche. Pubblicazione atomica, riuso senza scritture,
+riparazione, identità completa e generazioni e8precedenti conservate. Quattro
+test Wine mirati e sette veri comandi Windows CLI passano, inclusa attivazione
+con cache nativa precedente. Runtime della nuova grafica ancora verified-only;
+nessuna prova d'uso dedotta dal primo frame. Consumo04successivo. Linux/USA da
+fare, nessun benchmark o riduzione di spazio.
+[Contratto e prove](../rom_data_graphics.md#managed-european-main-graphics).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -553,8 +580,9 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ROMDATA-01-BG-MAIN-GRAPHICS, censire tutti i link del campo00
-EUR e il contratto dei produttori originali con letture statiche limitate.
+**Prossima azione:** ROMDATA-04-BG-GRAPHICS-CONSUMPTION, conservare il modello
+EUR campo00 gestito e collegarne i word decodificati alle letture del codec
+originale, preservando istruzioni/clock, con prova d'uso EUR/Wine mirata.
 Packet02/03/04e la scena/CLI397frame dichiarati sono conclusi; riutilizzare
 filee8e prove conservate senza ripeterli. Test ridotti solo Wine/EUR; Linux
 e USA da fare. Restano precondizioniFFglobali, transfer/variant, altri cataloghi/

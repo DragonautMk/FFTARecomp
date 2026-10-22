@@ -136,9 +136,10 @@ validating a snapshot without Git history; it does not check change coverage.
 The [CI workflow](../../.github/workflows/project-memory.yml) runs tests and
 checks PR changes against their base commit, or push changes against the
 previous commit. An initial push without an available base validates metadata
-only. CI does not write files or publish changes. Enable the workflow as a
-required status check in repository settings if merges must be blocked by it;
-this work does not change remote branch protections.
+only. Checkout is pinned to v7.0.1 (Node 24) with full history so both comparison
+bases remain available. CI does not write files or publish changes. Enable the
+workflow as a required status check in repository settings if merges must be
+blocked by it; this work does not change remote branch protections.
 
 Covered areas are `crates/`, `AndroidPort/`, `scripts/`, `TinyCC/`, `android/`,
 `assets/`, `Installer/`, `tools/`, `.github/workflows/`, `.cursor/skills/`, plus root AGENTS.md and Cargo
@@ -149,5 +150,11 @@ humans and agents must still assess whether descriptions and evidence are true.
 
 If coverage fails, add the missing paths to an accurate record of that change
 (or create one), render and check again. Do not list unrelated paths to silence
-it. If a reference moved, update the record's reference or restore the document.
+it. Include source-tracing helpers and partial implementations even when runtime
+wiring will follow in another commit. After a missing record is discovered in
+an earlier push, validate the repair against the commit before that push as
+well as HEAD; a green later push only checks its own range and can leave earlier
+paths undocumented. Rerunning the old failed commit uses its original files;
+the corrected record must be included in a new commit to change the result.
+If a reference moved, update the record's reference or restore the document.
 Never store game data, save contents, secrets or machine-specific absolute paths.

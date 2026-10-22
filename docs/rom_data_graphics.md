@@ -794,7 +794,7 @@ are embedded in tracked sources; public fixtures use original synthetic data.
 
 ROMDATA-01-BG-PACKET-CATALOG extends the earlier observed three-body contract
 to every field04/08/10 link in the authenticated162-record descriptor block.
-This does not decode field00graphics or the transfer/variant programs. Each
+This packet family does not decode field00graphics or the transfer/variant programs. Each
 exact region has352distinct, nonoverlapping source ranges:122paired-plane,
 117halfword-plane and113auxiliary programs. Total consumed source bytes398227,
 post-wrapper bodies523794; aliases, source/body hashes and parent references
@@ -1091,3 +1091,95 @@ states, caches, loader and canonical binaries remain hash-protected. No
 production rebuild, old base/producer replay, performance measurement, public
 archive or default-enablement claim follows. Five global FFpreconditions,
 other regional/gameplay/language/catalog coverage and native Windows remain.
+
+## European main background graphics
+
+`bg_graphics::Catalog` now covers the162field00links in the authenticated EUR
+prefix:50disjoint sources,23tag20and27tag22. IDs follow first descriptor
+occurrence; the complete link map retains aliases. The catalog consumes
+621923source bytes and yields835232decoded bytes, excluding alignment/next assets.
+The normal0801b2cccopy path alone did not establish this contract: staged
+producer0801b688phase1selects original080054a0, the same custom BE-size LZ/RLE
+routine used for alternate palettes. It is not BIOS Huffman.
+
+Tag20's upper24bits declare output bytes and are followed by the custom stream.
+Tag22's upper24bits specify a destination byte offset, followed by a nested20
+header and that same stream. The inner BE length must equal the20length.
+Every declared output and destination offset is a multiple of32and the complete
+extent fits0x4fe0bytes, the original0x13f8-word graphics target. Typed data retain
+full little-endian words, destination offset and exact consumed encoded bytes.
+No palette/RGBA conversion, recompression, flattened prefix or live RAM content
+is substituted. Bounds on compressed input/output protect malformed parsing;
+they are not extracted-data size budgets.
+
+The original phase1writes the compact decoded buffer atEWRAM020091a0. Phases2/3
+queue DMA32 transfers of its first/second halves to the selected graphics target
+plus the byte offset. Each DMA has length output_bytes/8words (half the buffer).
+A22resource therefore preserves the existing destination prefix; it does not
+contain that prefix. Transfer/variant programs and other catalogs remain separate.
+
+The shared `custom_lz` parser keeps the previously verified token semantics,
+exact consumption and literal-span mapping. The alternate-palette wrapper still
+limits outputs to256bytes and input to4096bytes. New graphics decoding rejects
+truncation, mismatched sizes/tags, misaligned/oversized output/offsets, references
+before history, token overruns and excessive nonproducing controls. Typed models
+also reject overlap, unused/noncanonical IDs and encoded/decoded disagreement;
+`verify_source` rejects coherent base edits against the exact EUR image. USA is
+explicitly unsupported for this new catalog until independently verified.
+
+Reduced validation is Windows GNU/Wine only:3graphics core checks,4affected
+alternate-palette checks,1JSON guard/roundtrip and1private catalog oracle pass;
+the release test build is warning-free. All50original staged outputs match the
+complete offline buffers, exact live source cursors, suffix/prefix guards and
+restoredSP. Two representative20/22cases also verify the phase2/3DMA queue source,
+destination and control words:54calls/11142126original instructions in total.
+The readable JSON roundtrip is deterministic (SHA256
+`8dd0bb6f09bd293b3c5ff68ea3990d5c4b09f978ccaada5346980efd090fc00c`). Existing
+ROM/e8dataset/cache/loader/canonical executables are hash-preserved.
+
+Evidence stays ignored under `target/rom-data-bg-main-graphics/`: bounded
+original disassemblies, Windows build and four logs, windows-results.json,
+windows-europe/result.json, typed JSON and captured output buffers. This is an
+offline model/original-output proof, with no new active manifest revision,
+startup publication, native consumer, scene replay or packaged runtime claim.
+New Linux/USA checks remain pending. No benchmark/profile/startup/RSS campaign.
+
+## Managed European main graphics
+
+The seventh EUR fixed file is now `bg-main-graphics.json`, coverage ID
+`graphics.bg-main-graphics`, format `bg-main-graphics-v1-json`, schema1/
+extractor9/decoder8. It is byte-identical to the completed offline graphics
+model above. The manifest retains all50exact source ranges and the descriptor
+dependency. USA explicitly preserves its existing six-file1/8/7contract;
+its new graphics catalog and validation remain pending.
+
+Offline extract/verify, managed prepare and opt-in startup use the same fixed
+filename, strict typed JSON and complete source validation. The graphics file
+has a32MiBmalformed-input guard; the existing64MiBwhole-set guard also applies.
+These are parser protections, with no extracted-data size tuning. Every file
+must validate before atomic publication or runtime owner replacement. Every
+resource/file hash enters dataset identity; coherent edited base words fail
+source authentication even with a recomputed manifest hash. File absence,
+truncation, oversized input, removed coverage, forged provenance and path edits
+fail before changing the live machine. Main graphics are logged explicitly as
+`runtime=verified-only` until the next direct-consumption unit.
+
+Four reduced Windows/Wine tests pass: core base authentication, synthetic
+seventh-file deterministic publication/reuse, partial graphics write/missing-file
+repair preserving the prior generation, and an actual EUR full-set case. The
+last covers e8retention, create/no-write reuse, missing/corrupt repair, relocation,
+identity, coherent edits, fixed paths, file guards and failed activation with
+unchanged state/Arc. All five prior decoded files stay byte-identical.
+
+Seven actual Windows CLI processes from unrelated cwd pass extract, verify,
+prepare, explicit no-write reuse, corruption repair, moved-root reuse and
+one-frame activation with the existing TinyCC cache (290native blocks). This
+frame reads0resource bytes and is only activation/cache compatibility evidence.
+The CLI parser initially expected `native=` instead of the actual
+`native_blocks:` field; it was corrected from the completed log without
+rerunning a process. Windows test and production builds are warning-free;
+canonical executable, original ROM/e8files/cache/loader hashes are preserved.
+Evidence: ignored `target/rom-data-bg-graphics-managed/`, windows-results.json,
+windows-europe/result.json, windows-cli-summary.json, logs/candidate and hashes.
+New Linux/USA checks, direct graphics consumption/native provenance, owner
+lifecycle, scenes/GUI/archives remain open. No benchmark/profile/RSS or space work.

@@ -406,12 +406,15 @@ mod tests {
 
     fn check_partial_resource_write_and_repair(name: &str, index: usize) {
         let temp = tempfile::tempdir().unwrap();
-        let mut source = fixture();
+        let make_source = || if name == BG_MAIN_GRAPHICS_FILE {
+            super::super::bg_graphics_managed_tests::fixture()
+        } else { fixture() };
+        let mut source = make_source();
         let first = prepare(temp.path(), &mut source, &mut |_| Ok(())).unwrap();
         let revision = revision_directory(temp.path(), &source).unwrap();
         let pointer = fs::read(revision.join(ACTIVE)).unwrap();
         let resource = fs::read(first.directory.join(name)).unwrap();
-        let mut updated = fixture();
+        let mut updated = make_source();
         updated.manifest.resources[index].format = "synthetic-updated-resource".into();
         let error = prepare_with_writer(
             temp.path(),
@@ -456,6 +459,11 @@ mod tests {
     #[test]
     fn packet_partial_write_and_missing_repair_keep_prior_generation() {
         check_partial_resource_write_and_repair(BG_PACKET_PROGRAMS_FILE, 4);
+    }
+
+    #[test]
+    fn graphics_partial_write_and_missing_repair_keep_prior_generation() {
+        check_partial_resource_write_and_repair(BG_MAIN_GRAPHICS_FILE, 5);
     }
 
     #[test]

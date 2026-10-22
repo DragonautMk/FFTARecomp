@@ -6,6 +6,76 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **WORKFLOW-MEMORY-CI-37 — complete locally (2026-10-22).** Latest request
+  is the failed project-memory screenshot; unrelated field00graphics work below
+  was not selected by this repair. Run39737053773/job119685097064 confirms
+  missing records for bg_packets.rs/lz77.rs/runtime/packets.rs at69b06ca;
+  Node20is a separate checkout warning. The later22ddb72push is green but
+  its combined range still omits the first two paths. Added an accurate repair
+  record and regenerated changelog; checkout now pins official v7.0.1/Node24.
+  Five tooling tests pass; isolated HEAD+repair default and69b06ca/91f26ca
+  base checks pass, as do whitespace/shell syntax and working-tree metadata.
+  Final full working-tree coverage passes after the concurrent graphics unit
+  supplied its own separate record. No unrelated coverage was added. No Rust file was
+  edited by this repair. No commit/push/new hosted run/runtime build or replay.
+  [Record](../changes/2026-10-22-repair-packet-tracing-memory-coverage.json).
+  Local evidence:target/project-memory-ci-37/{baseline-results.json,
+  repaired-results.json,tooling-tests.log}; all jobs terminal. No remaining
+  CI-repair implementation action; hosted verification awaits a future push.
+
+- **ROMDATA-01-BG-MAIN-GRAPHICS / ROMDATA-02-BG-GRAPHICS-DATA — complete
+  for the declared EUR/Wine catalog.** Latest full TODO request remains EUR,
+  reduced Wine-only checks, no performance/space campaign. Field00 has162links/
+  50disjoint sources:23tag20,27tag22;621923encoded/835232decoded bytes.
+  Staged producer0801b688 uses original custom LZ/RLE080054a0, shared with
+  alternate palettes. Tag22 retains a byte destination offset plus nested20;
+  output is little-endian words, whole32-byte tiles, bounded by0x4fe0destination.
+  Bounded typed model retains exact source, aliases/first-occurrence IDs and
+  destination, authenticates against EUR ROM and rejects coherent base edits.
+  Nine reduced Wine tests pass:3new core,4shared-palette,1JSON,1private original
+  staged oracle. All50full outputs/cursors/guards/SP match; two representative
+  phase2/3DMA layouts pass (54original calls/11142126instructions total).
+  Readable JSON roundtrips exactly; no active manifest/runtime consumer yet.
+  Evidence:target/rom-data-bg-main-graphics/windows-results.json,
+  windows-europe/result.json, build/logs/disassemblies. Protected originals/
+  canonicals/e8files/cache unchanged; all jobs terminal. New Linux/USA pending.
+  Managed EUR publication is completed below; consumption/scene proof remains.
+  Do not rerun the completed50-source oracle to reconstruct context.
+  [Record](../changes/2026-10-22-decode-european-main-background-graphics.json).
+
+- **ROMDATA-02-BG-GRAPHICS-MANAGED — complete for EUR/Wine.** Seventh fixed
+  file bg-main-graphics.json under schema1/e9-d8;50source ranges and descriptor
+  dependency, full-set validation/identity before publication/activation. USA
+  explicitly retains its existing six-file e8-d7contract, new checks pending.
+  Old e8generations retained. Four focused Wine tests pass: core auth, seventh
+  file determinism/publication/reuse, graphics partial-write/missing repair,
+  actual EUR create/reuse/missing+corrupt repair/move/coherent-edit/transactional
+  activation/identity/fixed-path/file guards. New JSON is byte-identical to the
+  completed offline02output; five prior decoded files unchanged. Seven actual
+  Windows CLI processes all pass from unrelated cwd, including explicit
+  no-write reuse and first-frame activation with290old-cache native blocks.
+  That frame has0resource-use counts; it proves activation only. Runtime main
+  graphics remains explicitly verified-only. CLI postprocessor expected native=
+  instead of native_blocks:; corrected from the completed log without reruns.
+  Windows test/production builds warning-free, canonical restored; protected
+  originals/e8/cache/loader unchanged. All jobs terminal. Evidence:
+  target/rom-data-bg-graphics-managed/{windows-results.json,windows-europe/
+  result.json,windows-cli-summary.json}, build/logs/candidate and prior evidence.
+  Next: **ROMDATA-04-BG-GRAPHICS-CONSUMPTION**, retain the immutable typed model,
+  serve custom-codec literal source bytes from decoded words, preserve original
+  headers/tokens/instructions/clock and prove EUR interpreter/native/poisoned-ROM
+  use plus owner lifecycle. Adapt affected private current-EUR dataset copy lists
+  and old hardcoded e8expectations as those checks are selected; their retained
+  historical e8results are closed, not rerun. Reuse retained scene397frame/input
+  only for the new graphics-use criterion after integration. Linux/USA pending;
+  no performance/space campaign, full TODO remains active.
+  EUR source pages start at769(before the current76cpacket/palette dispatch),
+  so include the first graphics pages when wiring fixed bus/native reads.
+  [Record](../changes/2026-10-22-prepare-european-main-background-graphics.json).
+  Final project-memory/whitespace/source/protected-input checks pass; no live
+  process or temporary tracked helper. Concurrent CI-workflow edits are separate
+  user/session work and remain preserved.
+
 - **ROMDATA-04-BG-PACKET-CONSUMPTION — complete for reduced EUR/Wine scope.**
   Latest user explicitly resumes ROM_DATA_TODO: no space/performance campaign,
   EUR priority, reduced Wine-only checks; new Linux/USA checks pending.
@@ -46,24 +116,6 @@ An open parent never reopens completed children or rejected experiments.
   [Record](../changes/2026-10-22-consume-european-background-packet-programs.json).
   Final full working-tree project-memory, CRLF-aware whitespace and protected/
   implementation source-hash checks pass. No temporary tracked helper or live job.
-- **ROMDATA-01-BG-MAIN-GRAPHICS — partial static inspection, no runtime claim.**
-  Latest request remains full ROM_DATA_TODO: EUR/reduced Wine-only, no performance/
-  space campaign. Packet04/declared05units above are closed; do not reopen them.
-  Retained descriptors resolve162links/50starts (23tag20/27tag22); all27tag22
-  have a nested20header. These counts were already partly inventoried;
-  do not present them as a complete newly decoded catalog. Static Wine disassembly
-  locates normal producer0801b2cc and source-field reads0801b310..324.
-  It branches for12/02/10and a copy case, so its use alone does not establish
-  compressed20/22semantics. Indirect palette-copy pointer atROM370eb4 selects
-  IWRAM03005ee9;08145c14is only bxr3, not the codec. No completed packet/oracle/
-  fixture/boot/scene repeated and no new runtime build/test selected here.
-  Evidence:target/rom-data-bg-main-graphics/static-summary.json and seven bounded
-  original disassembly files. Missing: actual staged20/22producer, exact stream
-  extents/aliases, destination/tile layout and minimal original EUR/Wine proof.
-  Next: inspect the compressed graphics stage before/alongside0801b2cc; follow
-  actual callers/root references rather than treating headers as BIOS Huffman
-  or assuming the copy branch decodes them. Then define the bounded parser/model.
-  USA/Linux stay pending. All disassembler jobs terminal; no live process.
 - Historical restart/laws/branch reconciliation is complete; its earlier
   workflow-only request no longer selects this session. Original integration
   and history remain preserved. Current clean starting HEAD was69b06ca.

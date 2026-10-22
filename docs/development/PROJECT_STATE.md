@@ -165,8 +165,21 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Load/Undo/backup/restart with unavailable temporary file copies. One397frame
   EUR LCD B pub transition matches every state/image/dispatch/audio stream and
   consumes2640typed packet bytes. Dataset/native/save/cache ABI unchanged; no
-  performance/space work. New Linux/USA/GUI/archive checks pending. Field00and
-  transfer/variant programs, broader regional/gameplay/catalog/language coverage,
+  performance/space work. New Linux/USA/GUI/archive checks pending. EUR field00
+  now has a bounded typed offline catalog:162links/50disjoint sources,
+ 23tag20/27tag22,621923encoded/835232decoded bytes. The staged producer0801b688
+  uses the alternate palettes' custom LZ/RLE080054a0; shared parsing preserves
+  independent palette guards. All50full outputs/cursors/guards/SP and two
+  representative phase2/3DMA layouts match the original on Wine (54calls).
+  Nine focused Wine checks pass including JSON/source-authentication guards.
+  Managed EUR extraction/preparation now adds the seventh fixed graphics JSON
+  under1/e9-d8, with50source ranges, full-set authentication/identity, atomic
+  publication/reuse/repair/move and e8retention. Four reduced Wine checks and
+  seven actual CLI operations pass; prior decoded files remain byte-identical.
+  First-frame old-cache activation is positive but resource use is0, so graphics
+  explicitly remains verified-only until consumption04. USA's six-file e8-d7
+  contract is preserved; new Linux/USA checks remain pending.
+  Transfer/variant programs, broader regional/gameplay/catalog/language coverage,
   global FFpreconditions, archives and nativeWindows stay open.
   Exporting files alone is not completion; preserve guest behavior,
   native-cache/profile/save identity; cost measurements are deferred by the user.

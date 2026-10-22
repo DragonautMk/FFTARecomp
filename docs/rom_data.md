@@ -13,6 +13,10 @@ No guest decompression instruction or write is skipped. EUR packet programs now
 serve source literals from typed words and existing LZ77HLE body writes from
 the immutable decoded model, reporting `runtime=decoded`. USA remains
 `runtime=verified-only` until its consumer checks.
+EUR additionally prepares `graphics.bg-main-graphics` as the seventh fixed
+file under `v1/e9-d8`; it is authenticated and still `runtime=verified-only`
+until its direct consumer is connected. USA retains its six-file `v1/e8-d7`
+contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
 code and other data; ordinary startup waits for the remaining ROMDATA-05 gates.
 See [runtime consumption](rom_data_runtime.md) for sources, identity, counters,
@@ -30,7 +34,7 @@ recomp play /path/to/your-game.gba --rom-data
 
 The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-descriptors.json`, `bg-base-palettes.json`, `bg-alternate-palettes.json` and
-`bg-packet-programs.json`. OBJ dimensions store twelve indexed width/height records;
+`bg-packet-programs.json`, plus EUR's `bg-main-graphics.json`. OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
 remain in the ROM; alternate palette banks/links/keys now have their own
@@ -40,12 +44,13 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor8/decoder7 stores all162base palettes as readable JSON banks of16full
+Extractor9/decoder8(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
 OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
-`bg-alternate-palettes-v1-json` and `bg-packet-programs-v1-json`. Resource identity is independent of regional file offsets.
+`bg-alternate-palettes-v1-json`, `bg-packet-programs-v1-json` and EUR
+`bg-main-graphics-v1-json`. Resource identity is independent of regional file offsets.
 There is no ROM code, image, save, absolute installation path or timestamp in
 the manifest. The generated decoded values remain private game data: keep
 outputs under ignored `target/` for this developer command, outside packages.
@@ -60,7 +65,7 @@ managed preparation below adds automatic recovery. No mod or save directory is
 selected by the offline commands.
 
 Manifest/OBJ use strict typed TOML; descriptors, palettes and packet programs
-use strict typed JSON. All reject unknown fields and apply the six-file bounds
+use strict typed JSON, as do EUR main graphics. All reject unknown fields and apply the per-family bounds
 listed below. The reader uses fixed
 relative file names, rejects symlink files and
 directories, and validates the complete manifest against the selected source.
@@ -72,7 +77,8 @@ The commands print `ROM_DATA action=created|reused|verified|repaired`, source/pr
 schema and decoded coverage. `runtime=offline` identifies these offline commands;
 OBJ, BG metadata, base and alternate palette gameplay each report `runtime=decoded`, with separate
 source/file/dataset identities and usage counters. Packet programs report
-`runtime=verified-only`, with all source/file data authenticated before activation.
+`runtime=decoded` for EUR and `verified-only` for USA; EUR main graphics report
+`verified-only`, with all source/file data authenticated before activation.
 This does not claim that sprite pixels, text, maps,
 gameplay tables or audio have been exported or migrated.
 
@@ -88,14 +94,15 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. The current revision is `v1/e8-d7`;
+selected generation's relative name. Current revisions are EUR `v1/e9-d8`
+and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same six files as offline extraction. Source identity is rehashed from
+same seven EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
 
-The preparer validates `current` and all six selected files before reuse. Valid
+The preparer validates `current` and every selected file before reuse. Valid
 reuse does not invoke the extractor or writer. Corrupt/missing data are
 reported and regenerated under a process-owned filesystem lock, with a second
 validation after lock acquisition so concurrent launches publish once.
@@ -204,8 +211,9 @@ they are not compression targets. The historical e3cost observations remain
 recorded, without further formatting or packing work to meet their former disk
 budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-datasets).
 
-Current six-file input guards are256KiB manifest,16KiB OBJ,256KiB descriptors,
-1MiB base palettes,4MiB alternate palettes,64MiB packet programs and64MiBtotal.
+Current input guards are256KiB manifest,16KiB OBJ,256KiB descriptors,
+1MiB base palettes,4MiB alternate palettes,64MiB packet programs,32MiB EUR main
+graphics and64MiBtotal.
 The manifest includes162base-palette,316alternate and352packet provenance
 ranges, plus metadata/OBJ sources. These are malformed-input guards, not storage
 targets. Standard readable packet JSON is20217427bytes; the verified EUR set

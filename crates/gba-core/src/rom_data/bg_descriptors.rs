@@ -23,7 +23,7 @@ pub struct TransferLink {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Descriptor {
-    /// The first producer's format is still unclassified.
+    /// Main graphics wrapper; EUR tag20/22 is decoded separately in bg_graphics.
     pub graphics_source: u32,
     pub paired_planes_source: u32,
     pub halfword_planes_source: u32,

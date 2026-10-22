@@ -11,6 +11,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 DESCRIPTIONS = {
     'manifest.toml': 'source identity, resource coverage and hashes',
+    'obj-animation-banks.json': 'European indexed sprite lists, animation frames and durations',
+    'obj-static-lists.json': 'European static sprite lists with coordinates, attributes, tiles and palette indices',
     'obj-dimensions.toml': 'sprite dimensions',
     'bg-descriptors.json': 'background descriptors and source links',
     'bg-base-palettes.json': 'base background palette banks',

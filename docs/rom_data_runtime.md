@@ -1,5 +1,42 @@
 # Direct decoded resource consumption
 
+Current EUR `v1/e18-d17` also projects two five-entry language selector tables
+and five newly rooted OBJ/sequence bank pairs through original CPU/DMA/native
+reads. Ordered typed roots resolve to retained banks, host lists share that
+owner and original u16 duration 256/final counter-wrap behavior remains.
+Separate localized table/bank/host counters gate positive ordinary consumption.
+Source/native/host/lifecycle checks and one 400-frame “Engage!” full-state/audio/
+actual CLI pair pass on Wine; earlier eleven bank records and every other
+decoded file/e17generation remain unchanged. See [the language bank contract](rom_data_obj.md#language-selected-ui-banks-in-e18).
+
+EUR `v1/e17-d16` additionally consumes an eleventh OBJ bank with five
+proved zero-count holds. Original counts stay zero; typed selectors and duration
+references preserve the original nonrepeat task behavior, with shared header/
+index owners and no overlapping source spans. New selector/host counters gate
+this bank separately. Reduced Wine source/native/host/lifecycle checks and a
+positive 240-frame Party full-state/audio/actual CLI pair pass. The previous ten
+bank records and all other decoded files/e16generations remain unchanged.
+See [the zero-count hold contract](rom_data_obj.md#zero-count-hold-bank-in-e17).
+
+EUR `v1/e16-d15` extends the static OBJ catalog to 73 lists/173 objects
+from 123 authenticated direct references, retaining e15 and all previous typed
+records. Per-source nonserialized guest/host flags identify new-list use in
+usage reports and scene gates. The seven-list extension passes focused Wine
+source/native/host/lifecycle checks and a positive 240-frame language-screen
+full-state/audio/actual CLI pair. New Linux/USA verification remains pending.
+See [the extension contract](rom_data_obj.md#additional-direct-lists-in-e16).
+
+EUR `v1/e15-d14` also retains indexed OBJ animation banks: relative
+indices, list fields, sequence counts, frame IDs and duration words feed original
+CPU/DMA/native and host paths. Live task counters and all original guest work
+remain. Source/native/lifecycle acceptance and one positive160-frame ordinary menu
+transition/actual CLI pass on reduced Wine. See [the indexed bank contract](rom_data_obj.md#indexed-ui-animation-banks).
+
+EUR `v1/e14-d13` extends the same immutable owner to directly rooted static OBJ
+lists. Typed counts and decoded coordinate/attribute fields serve original
+CPU/DMA/native reads and host draw/visibility/battle readers. Dynamic RAM lists
+remain live. See [static OBJ contract and verification](rom_data_obj.md).
+
 `play`, `frames` and `runc` accept developer opt-in `--rom-data`. They prepare
 and load `graphics.obj-dimensions`, `graphics.bg-descriptors` and
 `graphics.bg-base-palettes` and `graphics.bg-alternate-palettes` from the selected
@@ -41,8 +78,10 @@ Other resource families and mod support remain open in the
 [full TODO](development/ROM_DATA_TODO.md). These bounded metadata migrations do not provide ROM-free execution or
 complete graphics extraction.
 
-Current EUR `v1/e13-d12` adds `font.complete-bank`/`text.name-keyboard` as two
-fixed readable JSON files, bringing the complete set to12files/11resources.
+EUR `v1/e13-d12` added `font.complete-bank`/`text.name-keyboard` as two
+fixed readable JSON files, bringing that version to12files/11resources; e14adds
+the thirteenth static OBJ file and e15the fourteenth animation file described
+above. Current e18retains that complete file set.
 All3175packed glyph slots and metrics, three keyboard programs/indices and
 navigation widths are immutable typed runtime sources. The original routines
 still build cell pages and render/copy data with unchanged guest work/clock.

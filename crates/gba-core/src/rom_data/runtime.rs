@@ -10,6 +10,12 @@ mod transfers;
 mod texts;
 mod text_catalogs;
 mod font_keyboard;
+mod obj_lists;
+mod obj_animations;
+use obj_animations::ObjAnimationResources;
+pub use obj_animations::ObjAnimationStats;
+use obj_lists::ObjListResources;
+pub use obj_lists::ObjListStats;
 use font_keyboard::FontKeyboardResources;
 pub use font_keyboard::FontKeyboardStats;
 use background::BackgroundResources;
@@ -65,6 +71,8 @@ pub struct RuntimeResources {
     short_texts: Option<Box<TextResources>>,
     text_catalogs: Option<Box<TextCatalogResources>>,
     font_keyboard: Option<Box<FontKeyboardResources>>,
+    obj_lists: Option<Box<ObjListResources>>,
+    obj_animations: Option<Box<ObjAnimationResources>>,
 }
 
 impl RuntimeResources {
@@ -154,6 +162,12 @@ impl RuntimeResources {
             resources.font_keyboard = Some(Box::new(FontKeyboardResources::new(font.clone(), keyboard.clone())?));
             resources.text_catalogs = resources.text_catalogs.take().map(|t| Box::new(t.without_font()));
         }
+        if let Some((lists, _)) = files.obj_lists {
+            resources.obj_lists = Some(Box::new(ObjListResources::new(lists.clone())?));
+        }
+        if let Some((banks, _)) = files.obj_animations {
+            resources.obj_animations = Some(Box::new(ObjAnimationResources::new(banks.clone())?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -187,6 +201,8 @@ impl RuntimeResources {
             short_texts: None,
             text_catalogs: None,
             font_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
         }
     }
 
@@ -225,6 +241,8 @@ impl RuntimeResources {
             + self.text_resident_bytes()
             + self.text_catalog_resident_bytes()
             + self.font_keyboard.as_ref().map_or(0, |f| f.resident_bytes())
+            + self.obj_lists.as_ref().map_or(0, |l| l.resident_bytes())
+            + self.obj_animations.as_ref().map_or(0, |a| a.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -295,6 +313,21 @@ impl RuntimeResources {
     pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
     pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
 
+    pub fn obj_animation_stats(&self) -> Option<ObjAnimationStats> { self.obj_animations.as_ref().map(|a| a.stats()) }
+
+    pub fn obj_list_stats(&self) -> Option<ObjListStats> { self.obj_lists.as_ref().map(|l| l.stats()) }
+
+    /// Cumulative source coverage (guest bus, host descriptor), outside snapshots.
+    pub fn obj_list_source_used(&self, offset: u32) -> Option<(bool, bool)> { self.obj_lists.as_ref()?.source_used(offset) }
+
+    pub fn obj_list_used_sources(&self) -> Vec<(u32, bool, bool)> { self.obj_lists.as_ref().map_or_else(Vec::new, |l| l.used_sources()) }
+
+    pub(crate) fn obj_list(&self, address: u32) -> Option<&super::obj_lists::List> {
+        if !matches!(address >> 24, 8 | 9) { return None; }
+        self.obj_lists.as_ref().and_then(|l| l.host_list(address & 0x1ffffff))
+            .or_else(|| self.obj_animations.as_ref()?.host_list(address & 0x1ffffff))
+    }
+
     pub fn font_keyboard_stats(&self) -> Option<FontKeyboardStats> { self.font_keyboard.as_ref().map(|f| f.stats()) }
 
     pub(crate) fn name_keyboard_row_widths(&self, root: usize, page: usize) -> Option<&[u8]> {
@@ -358,8 +391,16 @@ impl RuntimeResources {
                 Some(texts) => texts.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.font_keyboard {
+            let prior = match &self.font_keyboard {
                 Some(f) => f.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.obj_lists {
+                Some(lists) => lists.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.obj_animations {
+                Some(banks) => banks.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -419,6 +460,13 @@ impl RuntimeResources {
         };
         let size = &self.dimensions.entries[offset / 4];
         Some((size.width, size.height))
+    }
+
+    #[cfg(test)]
+    pub(crate) fn synthetic_obj_lists(rom: &[u8], dimensions: ObjDimensions, lists: super::obj_lists::Lists) -> Arc<Self> {
+        let mut resources = Self::new(ffta_rom::digest(rom), "synthetic-lists".into(), "obj".into(), Version::Europe, dimensions);
+        resources.obj_lists = Some(Box::new(ObjListResources::new(lists).unwrap()));
+        Arc::new(resources)
     }
 
     #[cfg(test)]
@@ -494,6 +542,8 @@ impl crate::MemMap {
             || TextResources::source_page(index)
             || TextCatalogResources::source_page(index)
             || FontKeyboardResources::source_page(index)
+            || ObjListResources::source_page(index)
+            || ObjAnimationResources::source_page(index)
     }
 }
 

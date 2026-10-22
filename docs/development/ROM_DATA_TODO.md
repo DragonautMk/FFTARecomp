@@ -166,6 +166,14 @@ mirati passano: JSON/sorgente/guardie e3047nuovi glifi originali, tre pagine/
 Unicode/altri puntatori dinamici e nuovi controlli Linux/USA da fare.
 [Contratto](../rom_data_text.md#complete-european-font-and-name-keyboard).
 
+**ROMDATA-01-OBJ-STATIC-LISTS / ROMDATA-02-OBJ-STATIC-DATA completati per EUR/Wine
+dichiarato:**107riferimenti letterali diretti individuano66liste disgiunte,
+160oggetti/1092byte sorgente. Coordinate firmate e tutti i campi attributi
+conservati. Due controlli Wine mirati passano: campi/confini/JSON e1056chiamate
+alle due routine originali con clipping/flip/wrap/capacità/ritorno anticipato,
+interi buffer OAM/matrici/guardie uguali. Altre radici indirette, animazioni e
+grafica OBJ restano aperte; Linux/USA da fare. [Contratto](../rom_data_obj.md).
+
 ## ROMDATA-02 — Estrattori e decoder
 
 **ROMDATA-01-TEXT-REMAINING-CATALOGS / ROMDATA-02-TEXT-CATALOG-DATA completati
@@ -373,6 +381,100 @@ glifi/93metriche dal banco completo. CLI reale prepara/riusa e13senza scritture
 e vecchia cache, stesso risultato legacy conservato. La scena non usa la
 tastiera: scena nome ordinaria/GUI/archivi restano da fare. Nessuna misura
 prestazionale o ottimizzazione spazio. [Prove](../rom_data_text.md#complete-european-font-and-name-keyboard).
+
+**ROMDATA-02-OBJ-STATIC-MANAGED / ROMDATA-04-OBJ-STATIC-CONSUMPTION completati
+per EUR/Wine dichiarato:** file fisso obj-static-lists.json,1/14/13con13file/
+12risorse e66provenienze; e13e file precedenti conservati, USA resta e8-d7.
+Tre controlli Wine mirati passano pubblicazione/riuso/riparazione/spostamento,
+rifiuto modifiche e attivazione transazionale, otto chiamate originali/native
+con tutte66sorgenti alterate e stati/clock uguali, bordi/mirror/SWI/DMA,
+otto casi host draw/pubblicazione e Load/Undo/backup/riavvio. Nessun cambio ABI
+o istruzione guest saltata. Un controllo aggiuntivo Wine passa792casi host draw/visibilità/battaglia e
+modifiche vive di liste RAM/ROM fuori catalogo; nuovi Linux/USA da fare.
+
+**ROMDATA-05-OBJ-STATIC-SCENE-CLI completato per una transizione EUR/Wine:**
+397frame pub con ogni stato/clock/immagine/OAM/dispatch/audio uguale e5470byte
+OBJ tipizzati/958letture host. Tre processi CLI reali da cwd estranea preparano/
+riusano senza scritture e riproducono con cache vecchia, risultato legacy
+conservato uguale. Nessuna misura prestazionale/spazio. GUI/archivi più ampi e
+altri cataloghi OBJ restano aperti. [Prove](../rom_data_obj.md#verification).
+
+**ROMDATA-01-OBJ-UI-ANIMATION-ROOTS / ROMDATA-02-OBJ-UI-ANIMATION-DATA completati
+per EUR/Wine dichiarato:**30coppie letterali individuano10banchi OBJ/sequenze,
+167liste/284oggetti/95sequenze/184frame e282intervalli. Indici relativi, campi
+OBJ e durateu16conservati; contatori restano RAM. Due controlli Wine passano
+JSON/sorgente/guardie,115costruttori originali e2292tick originali con task,
+loop/ultimo frame, OAM/matrici/guardie uguali. Tre sequenze vuote conservate,
+precondizioni di schedulazione ancora ignote. Le sette ulteriori liste dirette
+sono ora migrate sotto e16; altri chiamanti indiretti restano aperti. Linux/USA da fare.
+
+**ROMDATA-02-OBJ-ANIMATION-MANAGED / ROMDATA-04-OBJ-ANIMATION-CONSUMPTION
+completati per EUR/Wine dichiarato:** obj-animation-banks.json,1/15/14con14file/
+13risorse e282provenienze; e14e tutti i file precedenti conservati. Tre prove
+Wine mirate passano autenticazione/pubblicazione/riuso/riparazione/spostamento,
+49chiamate costruttori/body originali/native con sorgenti alterate e stati/clock
+uguali, tutti sei tipi letti da codice compilato, bordi/mirror/SWI/DMA, dieci
+banchi host e Load/Undo/backup/riavvio senza file. ABI e lavoro guest invariati.
+La breve scena battaglia240frame coincide interamente ma usa0byte di questi
+banchi: il gate positivo la rifiuta. Una scena mappa+Start160frame ora passa
+ogni stato/clock/immagine/OAM/dispatch/audio con36513byte tipizzati/3200letture
+host; tre CLI reali preparano/riusano senza scritture e riproducono con cache
+vecchia. Menu finale ispezionato. Linux/USA da fare. [Contratto e prove](../rom_data_obj.md#indexed-ui-animation-banks).
+
+**ROMDATA-02-OBJ-EXTRA-DIRECT-LISTS / ROMDATA-04-OBJ-EXTRA-CONSUMPTION /
+ROMDATA-05-OBJ-EXTRA-SCENE-CLI completati per EUR/Wine dichiarato:** sedici
+riferimenti aggiuntivi/sette nuove liste portano il catalogo statico a 123
+riferimenti, 73 liste, 173 oggetti e 1184 byte sorgente. e16-d15 conserva e15,
+tutti i 66 record precedenti e gli altri file decodificati; restano 14 file/
+13 risorse. Tre controlli Wine mirati passano autenticazione/pubblicazione/
+riuso/riparazione/spostamento, 14 chiamate originali/interprete/native con le
+sette sorgenti alterate e stati/clock uguali, bordi/mirror/SWI/DMA, 14 casi host
+e Load/Undo/backup/riavvio senza file. Flag guest/host per sorgente impediscono
+che liste precedenti soddisfino il gate nuovo. Battaglia/Party/menu personaggio
+sono osservazioni a copertura negativa conservate; la selezione lingua EUR
+all'avvio usa tre nuove liste. Un solo confronto di 240 frame passa ogni stato/
+clock/immagine/OAM/dispatch/audio; CLI reale prepara/riusa senza scritture e
+riproduce con cache vecchia da cwd estranea, immagine finale ispezionata.
+Nessun test chiuso ripetuto. Altre scene/GUI/archivi, nuovi Linux/USA e radici
+switch/indirette da fare. [Prove](../rom_data_obj.md#additional-direct-lists-in-e16).
+
+**ROMDATA-01-OBJ-ZERO-COUNT-PAIR-CONTRACT / ROMDATA-02-OBJ-ZERO-COUNT-DATA /
+ROMDATA-04-OBJ-ZERO-COUNT-CONSUMPTION / ROMDATA-05-OBJ-ZERO-COUNT-SCENE-CLI
+completati per EUR/Wine nonrepeat dichiarato:** undicesimo banco b4d8e8/b4f4e8,
+una lista/due oggetti/cinque conteggi zero. Selettori espliciti e riferimenti
+alla durata conservano gli header zero e riusano proprietari tipizzati degli
+header/indici successivi. Otto intervalli nuovi/58 byte; e17-d16 conserva i
+dieci record precedenti, gli altri file ed e16, senza cambiare ABI. Un controllo
+Wine originale passa 14 costruttori/104 tick e indirizzi letti/stati task/OAM/
+matrici/guardie. Due prove Wine mirate passano autenticazione/alias/modifiche
+coerenti/pubblicazione/riuso/riparazione/spostamento/Load/Undo/backup/riavvio,
+otto confronti interprete/native con sorgenti e durata condivisa alterate e
+stati/clock uguali, bordi/mirror/SWI/DMA e host. Una scena Party di 240 frame
+passa ogni stato/clock/immagine/OAM/dispatch/audio con 288 byte selettori e
+288 letture host nuovi; CLI reale prepara/riusa senza scritture e riproduce
+con cache precedente, immagine ispezionata. Tre sequenze vuote precedenti,
+repeat1/precondizioni diverse e altre radici restano aperti. Linux/USA da fare.
+[Contratto](../rom_data_obj.md#zero-count-hold-bank-in-e17).
+
+**ROMDATA-02-OBJ-LOCALIZED-UI-BANKS / ROMDATA-04-OBJ-LOCALIZED-CONSUMPTION /
+ROMDATA-05-OBJ-LOCALIZED-SCENE-CLI completati per EUR/Wine dichiarato:** cinque
+banchi selezionati dalla lingua tramite due tabelle di puntatori; 149 liste/
+574 oggetti/144 frame e 166 intervalli/4984 byte aggiuntivi. e18-d17 conserva
+11 banchi precedenti, gli altri file e le generazioni e17. Il catalogo ha ora
+16 coppie/317 liste/105 sequenze/328 frame, sempre 14 file/13 risorse. Originali
+selezioni e durata u16 256 con contatore u8 conservati. Un controllo Wine passa
+15 selezioni/10 costruttori/1589 tick e stati task/OAM/matrici/guardie; due prove
+mirate passano autenticazione/riuso/riparazione/spostamento/Load/Undo/backup/
+riavvio, 30 confronti originali/interprete/native con 166 sorgenti alterate,
+nuovi bordi/mirror/SWI/DMA e cinque pubblicazioni host. La battaglia conservata
+e i primi tentativi direzionali mappa hanno copertura zero, conservati senza
+confronto doppio o ripetizione. La scena reale “Engage!” da mappa usa il normale
+puntamento mouse a Lutia Pass e A: 400 frame con ogni stato/clock/immagine/OAM/
+dispatch/audio uguale, 8 byte tabella/5906 byte banco/228 letture host nuovi.
+CLI reale prepara/riusa senza scritture e usa cache vecchia da cwd estranea;
+immagine finale ispezionata. Nuovi Linux/USA da fare. Grafica OBJ compressa
+collegata e tre vecchi contratti di sequenze vuote restano aperti.
+[Prove](../rom_data_obj.md#language-selected-ui-banks-in-e18).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -740,8 +842,13 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ulteriori cataloghi EUR ancora in ROM, iniziando da
-liste OBJ/sprite e animazioni; radici testuali dinamiche e scena tastiera nome
+**Prossima azione:** individuare e migrare i payload grafici OBJ, iniziando
+dalla tabella localizzata 395588 e dal trasferimento originale di 3072 byte
+a 06012480, poi ampliare radici/decoder/palette ancora irrisolti. Il catalogo
+statico esteso a 73 liste e i sedici banchi OBJ hanno concluso le proprie
+prove 01/02/04 e scena/CLI 05 dichiarate: conservarle senza ripetizione.
+La coppia a conteggio zero b4d8e8/b4f4e8 è ora migrata e verificata su Wine;
+anche i costruttori in38008/88328sono ora risolti nelle cinque coppie localizzate. Radici testuali dinamiche e scena tastiera nome
 ordinaria restano gate separati. Font completo/tastiera01/02/04e transizione
 font/CLI05sono conclusi nel perimetro dichiarato: riutilizzare le prove.
 Test ridotti solo Wine/EUR; nuovi controlli Linux e USA da fare. Restano mappe,

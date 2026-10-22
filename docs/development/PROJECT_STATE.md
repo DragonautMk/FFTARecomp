@@ -44,6 +44,44 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   target/build-logs/ and waits for Enter on interactive failure, retaining
   the original exit status for noninteractive automation.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
+  EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
+  roots reference66lists/160objects. Source-authenticated JSON fields now feed
+  original CPU/DMA/native and host descriptor readers without changing guest
+  instructions/clock or save/native ABI; all13files/12resources are verified
+  before activation. Focused Wine original/native/managed/lifecycle and one
+ 397-frame ordinary transition/actual CLI checks pass; e13and prior decoded
+  file bytes remain unchanged. Other indirect lists/animation/sprite pixels
+  are not claimed migrated, and new Linux/USA verification remains pending.
+  EUR e15-d14also adds ten indexed OBJ/animation bank pairs:167lists/95sequences/
+ 184frames with exact relative indices and duration words. Typed CPU/DMA/native/
+  host views preserve original task counters/scheduler work, save/native ABI and
+  e14file bytes. Reduced Wine original constructor/body, authentication/native/
+  lifecycle checks and one positive160-frame ordinary menu/actual CLI pair pass;
+  empty-sequence scheduling remains open. The retained short battle sample is state/audio-equal
+  but uses0new animation bytes, so it is not an ordinary-use acceptance.
+  EUR e16-d15extends the static catalog to123references/73lists/
+ 173objects/1184sourceB, retaining all original66records, e15generations and
+  every other decoded file. Seven new lists reuse the typed model/source paths;
+  per-source guest/host flags keep new-list coverage distinct. Three focused
+  Wine integration checks and one positive240-frame language-screen full-state/
+  audio/actual CLI pair pass. Remaining switch/indirect roots stay open.
+  EUR e17-d16adds an eleventh OBJ bank with five proved nonrepeat zero-count
+  holds: explicit list selectors/duration-source aliases preserve header zero
+  and reuse typed next-header/index owners without overlaps. Earlier ten-bank
+  records and all other decoded files/e16generations remain unchanged; current
+  totals168lists/286objects/100sequences/184frames/290ranges. Focused Wine
+  original/native/host/authentication/lifecycle checks and a positive240-frame
+  Party full-state/audio/actual CLI pair pass. Three earlier empty-sequence
+  contracts, other constructor-fed roots and new Linux/USA checks remain open.
+  Current EUR e18-d17adds five language-selected OBJ/sequence pairs and two
+  typed pointer tables, retaining all eleven old bank records/other files/e17.
+  The indexed catalog now has16pairs/317lists/105sequences/328frames/456ranges;
+  original selector loads, task work and duration256/u8counter wrap are preserved
+  through typed guest/native/host views. Reduced Wine original, authentication/
+  native/lifecycle checks and one positive400-frame worldmap“Engage!”full-state/
+  audio/CLI pair pass. New localized counters distinguish this family. Linked
+  compressed OBJ graphics/palettes and three earlier empty-sequence contracts
+  remain open, along with new Linux/USA verification.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

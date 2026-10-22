@@ -4,7 +4,7 @@ use crate::ffta_rom::{self, Version};
 use serde::{Deserialize, Serialize};
 
 mod runtime;
-pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats, FontKeyboardStats};
+pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats, FontKeyboardStats, ObjListStats, ObjAnimationStats};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_packet_data;
@@ -16,12 +16,22 @@ pub mod text_short;
 pub mod text_catalogs;
 pub mod fonts;
 pub mod name_keyboard;
+pub mod obj_lists;
+pub mod obj_animations;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 13;
-pub const DECODER_REV: u32 = 12;
+pub const EXTRACTOR_REV: u32 = 18;
+pub const DECODER_REV: u32 = 17;
+pub const OBJ_ANIMATION_BANKS_ID: &str = "graphics.obj-animation-banks";
+pub const OBJ_ANIMATION_BANKS_FILE: &str = "obj-animation-banks.json";
+pub const OBJ_ANIMATION_BANKS_FORMAT: &str = "obj-animation-banks-v1-json";
+pub const MAX_OBJ_ANIMATION_BANKS_FILE_BYTES: u64 = 4 * 1024 * 1024;
+pub const OBJ_STATIC_LISTS_ID: &str = "graphics.obj-static-lists";
+pub const OBJ_STATIC_LISTS_FILE: &str = "obj-static-lists.json";
+pub const OBJ_STATIC_LISTS_FORMAT: &str = "obj-static-lists-v1-json";
+pub const MAX_OBJ_STATIC_LISTS_FILE_BYTES: u64 = 4 * 1024 * 1024;
 pub const OBJ_DIMENSIONS_ID: &str = "graphics.obj-dimensions";
 pub const OBJ_DIMENSIONS_FILE: &str = "obj-dimensions.toml";
 pub const BG_DESCRIPTORS_ID: &str = "graphics.bg-descriptors";
@@ -176,6 +186,8 @@ pub struct Extraction {
     pub short_texts: Option<text_short::Catalog>,
     pub font_bank: Option<fonts::Catalog>,
     pub name_keyboard: Option<name_keyboard::Catalog>,
+    pub obj_lists: Option<obj_lists::Catalog>,
+    pub obj_animations: Option<obj_animations::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -194,6 +206,8 @@ pub struct BaseFiles<'a> {
     pub short_texts: Option<(&'a text_short::ShortTexts, &'a [u8])>,
     pub font_bank: Option<(&'a fonts::FontBank, &'a [u8])>,
     pub name_keyboard: Option<(&'a name_keyboard::Keyboard, &'a [u8])>,
+    pub obj_lists: Option<(&'a obj_lists::Lists, &'a [u8])>,
+    pub obj_animations: Option<(&'a obj_animations::Banks, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -307,6 +321,20 @@ impl Extraction {
                 sources: name_keyboard.sources.clone(),
             });
             result.name_keyboard = Some(name_keyboard);
+            let obj_lists = obj_lists::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(OBJ_STATIC_LISTS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: OBJ_STATIC_LISTS_ID.into(), path: OBJ_STATIC_LISTS_FILE.into(), format: OBJ_STATIC_LISTS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: obj_lists.sources.clone(),
+            });
+            result.obj_lists = Some(obj_lists);
+            let animations = obj_animations::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(OBJ_ANIMATION_BANKS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: OBJ_ANIMATION_BANKS_ID.into(), path: OBJ_ANIMATION_BANKS_FILE.into(), format: OBJ_ANIMATION_BANKS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: animations.sources.clone(),
+            });
+            result.obj_animations = Some(animations);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -355,6 +383,8 @@ impl Extraction {
             short_texts: None,
             text_catalogs: None,
             name_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -402,6 +432,8 @@ impl Extraction {
             || self.text_catalogs.is_some() && self.short_texts.is_none()
             || self.font_bank.is_some() && self.text_catalogs.is_none()
             || self.name_keyboard.is_some() && self.font_bank.is_none()
+            || self.obj_lists.is_some() && self.name_keyboard.is_none()
+            || self.obj_animations.is_some() && self.obj_lists.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -517,6 +549,24 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected name-keyboard resource".into()),
         }
+        match (&self.obj_lists, files.obj_lists) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_OBJ_STATIC_LISTS_FILE_BYTES { return Err("OBJ static-list file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[11].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected OBJ static-list resource".into()),
+        }
+        match (&self.obj_animations, files.obj_animations) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_OBJ_ANIMATION_BANKS_FILE_BYTES { return Err("OBJ animation file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[12].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected OBJ animation resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -592,6 +642,14 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded { return Err("Decoded name-keyboard differs from authenticated source".into()); }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.obj_lists, files.obj_lists) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded OBJ static lists differ from authenticated source".into()); }
+        }
+        if let (Some(expected), Some((decoded, _))) = (&self.obj_animations, files.obj_animations) {
+            decoded.validate()?;
+            if decoded != &expected.decoded { return Err("Decoded OBJ animation banks differ from authenticated source".into()); }
+        }
         Ok(())
     }
 
@@ -605,6 +663,8 @@ impl Extraction {
             + usize::from(self.text_catalogs.is_some())
             + usize::from(self.name_keyboard.is_some())
             + usize::from(self.font_bank.is_some())
+            + usize::from(self.obj_lists.is_some())
+            + usize::from(self.obj_animations.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -671,6 +731,8 @@ mod tests {
             short_texts: None,
             text_catalogs: None,
             name_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
             font_bank: None,
             })
             .unwrap();
@@ -689,6 +751,8 @@ mod tests {
             short_texts: None,
             text_catalogs: None,
             name_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
             font_bank: None,
             })
             .is_err());
@@ -717,6 +781,8 @@ mod tests {
             short_texts: None,
             text_catalogs: None,
             name_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
             font_bank: None,
                 })
                 .is_err());
@@ -734,6 +800,8 @@ mod tests {
             short_texts: None,
             text_catalogs: None,
             name_keyboard: None,
+            obj_lists: None,
+            obj_animations: None,
             font_bank: None,
             })
             .is_err());

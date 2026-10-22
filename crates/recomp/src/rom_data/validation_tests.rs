@@ -286,6 +286,40 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_FONT_KEYBOARD_SCENE frames={frames} bus_reads={} glyph_bytes={} width_bytes={} index_bytes={} program_bytes={} row_width_bytes={}",
             f.bus_reads,f.glyph_bytes,f.width_bytes,f.keyboard_index_bytes,f.keyboard_program_bytes,f.keyboard_row_width_bytes);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBJ_LISTS").is_some() {
+        let l = decoded.bus.rom_resources().unwrap().obj_list_stats().expect("decoded EUR static OBJ lists");
+        assert!(l.count_bytes > 0 && l.attribute_bytes > 0 && l.host_reads > 0,
+            "this scene must consume file-derived OBJ counts/attributes in guest and host paths");
+        eprintln!("ROM_DATA_OBJ_LIST_SCENE frames={frames} bus_reads={} source_bytes={} count_bytes={} attribute_bytes={} host_reads={}",
+            l.bus_reads, l.source_bytes, l.count_bytes, l.attribute_bytes, l.host_reads);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_EXTRA_OBJ_LISTS").is_some() {
+        let resources = decoded.bus.rom_resources().unwrap();
+        let touched: Vec<_> = [0x394f34,0x3950fa,0x395102,0x399628,0x3adfc4,0x3adfd2,0x3adfda].into_iter()
+            .filter(|&offset| resources.obj_list_source_used(offset) == Some((true,true))).collect();
+        eprintln!("ROM_DATA_EXTRA_OBJ_SCENE frames={frames} guest_and_host_sources={touched:x?}");
+        assert!(!touched.is_empty(), "this scene must consume a newly added OBJ list through guest and host readers");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBJ_ANIMATION").is_some() {
+        let a = decoded.bus.rom_resources().unwrap().obj_animation_stats().expect("decoded EUR OBJ animation banks");
+        eprintln!("ROM_DATA_OBJ_ANIMATION_SCENE frames={frames} bus_reads={} source_bytes={} index_bytes={} count_bytes={} attribute_bytes={} sequence_header_bytes={} frame_list_bytes={} duration_bytes={} host_reads={}",
+            a.bus_reads, a.source_bytes, a.index_bytes, a.count_bytes, a.attribute_bytes, a.sequence_header_bytes, a.frame_list_bytes, a.duration_bytes, a.host_reads);
+        assert!(a.index_bytes > 0 && a.count_bytes > 0 && a.attribute_bytes > 0 && a.frame_list_bytes > 0 && a.duration_bytes > 0 && a.host_reads > 0,
+            "this scene must consume typed OBJ animation indices/list fields/frame selectors/durations and host lists");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ZERO_COUNT_OBJ").is_some() {
+        let a = decoded.bus.rom_resources().unwrap().obj_animation_stats().unwrap();
+        eprintln!("ROM_DATA_ZERO_COUNT_SCENE frames={frames} selector_bytes={} host_reads={}",a.zero_count_selector_bytes,a.zero_count_host_reads);
+        assert!(a.zero_count_selector_bytes > 0 && a.zero_count_host_reads > 0,
+            "ordinary scene must use the newly rooted zero-count selectors in guest and host paths");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_LOCALIZED_OBJ").is_some() {
+        let a = decoded.bus.rom_resources().unwrap().obj_animation_stats().unwrap();
+        eprintln!("ROM_DATA_LOCALIZED_OBJ_SCENE frames={frames} selector_bytes={} source_bytes={} host_reads={}",
+            a.localized_selector_bytes,a.localized_source_bytes,a.localized_host_reads);
+        assert!(a.localized_selector_bytes>0 && a.localized_source_bytes>0 && a.localized_host_reads>0,
+            "ordinary scene must use the new language-selected OBJ tables, bank and host lists");
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

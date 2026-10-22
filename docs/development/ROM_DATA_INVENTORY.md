@@ -129,10 +129,43 @@ remain groundwork for other linked graphics families.
   priority/palette/flip fields and observes partial OAM DMA. Lists can live in
   ROM or RAM; animation, owner state, matrices and OAM are dynamic. Profiles
   and copied routine source ranges are independently hash gated per region in
-  `ffta_rom.rs`; these are not a catalog of all lists or frames. Extractor:
-  absent except the selected dimension unit; runtime: original producers and
-  host descriptor readers. Static list roots, frame timing, graphics extent,
-  compression and cross-resource links still need discovery.
+  `ffta_rom.rs`; these are not a catalog of all lists or frames. A bounded EUR
+  direct-literal catalog now identifies107references and66static uncompressed
+  lists/160objects/1092source bytes. Typed signed coordinates and every packed
+  attribute field reproduce both original EUR draws in1056Wine calls, including
+  whole OAM buffers/matrices/guards. Managed e14-d13preparation and typed guest/
+  native/host consumption pass focused Wine publication/source/native/lifecycle
+  checks and one397-frame ordinary scene/actual CLI pair; see [the OBJ contract](../rom_data_obj.md). Other indirect/table
+  roots, frame timing, sprite graphics/palettes and cross-resource links still
+  need discovery. A further independently located EUR UI family has ten indexed
+  OBJ/sequence bank pairs,167lists/284objects/95sequences/184frames,282consumed
+  source ranges. Relative indices and u16durations match original constructors/
+  scheduler body on Wine; e15-d14managed and typed native/host/lifecycle checks
+  pass with all raw sources altered. Three empty sequence scheduling contracts
+  remain open; one160-frame ordinary menu/actual CLI pair now proves positive
+  index/list/frame/duration and host consumption with full-state/audio parity. Conservative control-flow
+  discovery also locates sixteen additional references/seven new direct lists,
+  now migrated under e16-d15: current static totals are 123 references/73 lists/
+  173 objects/1184 source bytes. All original 66 records and other decoded files
+  remain unchanged. Three focused Wine integration checks and one positive
+  240-frame boot language-screen/actual CLI pair pass with new-list guest/host
+  coverage. Other switch/indirect callers remain unclassified. New Linux/USA
+  verification pending. EUR e17-d16now adds an independently rooted eleventh
+  pair b4d8e8/b4f4e8: one list/two objects/five zero-count holds, eight new
+  source ranges/58bytes. Explicit selectors and duration-source aliases retain
+  the original nonrepeat contract and reuse typed header/index owners. All
+  ten prior bank records remain unchanged; focused Wine original/read/native/
+  host/lifecycle checks and one positive240-frame Party/actual CLI pair pass.
+  The three earlier empty-sequence caller contracts and constructor-fed
+  sources at38008/88328are now resolved: e18-d17adds five language-selected
+  pairs from two five-entry pointer tables and one old-pair reference. New
+ 149lists/574objects/144frames/166ranges/4984Bretain original selector loads
+  and duration256/counter-wrap semantics; current16pair catalog has317lists/
+ 105sequences/328frames. All11prior bank records/other files stay unchanged.
+  Focused Wine source/original/native/host/lifecycle and a positive400-frame
+  “Engage!”ordinary scene/actual CLI pair pass. The three older empty-record
+  contracts and linked compressed OBJ graphics/palettes remain open; new
+  Linux/USA pending.
 - **Text and fonts.** `ffta_dialogue.rs` classifies already rendered layers
   and portraits, not strings, font encodings or localized text archives.
   `ffta_mouse.rs` identifies a name-entry row-count table via independently

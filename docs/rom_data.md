@@ -26,11 +26,31 @@ authenticating16100pointer strings,145relative archives/17035programs and128
 referenced glyphs, now directly consumed as `runtime=decoded` through original
 CPU/DMA/native readers. The earlier overlapping ninth-file subset remains
 authenticated and reports `verified-only` when the full catalog owns its reads.
-Current EUR `v1/e13-d12` additionally prepares and consumes `font-bank.json`
+EUR `v1/e13-d12` additionally prepares and consumes `font-bank.json`
 (`font.complete-bank`,3175packed glyph slots/metrics) and `name-keyboard.json`
 (`text.name-keyboard`,three original programs, navigation widths and cells).
-All12files/11resources are source authenticated before activation. The complete
-bank owns overlapping earlier font reads; original guest work/clock remain.
+The complete bank owns overlapping earlier font reads; original guest work/clock remain.
+EUR `v1/e14-d13` added [static OBJ lists](rom_data_obj.md): 66 directly
+rooted lists/160objects, with typed coordinates, modes, transforms, tiles,
+priorities and palette indices. Typed guest/native/host reads retain original producer work.
+EUR `v1/e15-d14` added indexed [OBJ animation banks](rom_data_obj.md#indexed-ui-animation-banks):
+ten pairs/167lists/95sequences/184frames with relative indices, OBJ fields and
+frame durations. All14files/13resources are source authenticated before activation;
+original constructors and live frame/tick work consume the retained typed owner.
+EUR `v1/e16-d15` extends the static catalog to 73 lists/173 objects
+from 123 checked references. All original 66 records and other decoded files
+are retained; the fourteen-file contract is unchanged. Focused Wine checks and
+a positive 240-frame language-screen/actual CLI pair pass.
+EUR `v1/e17-d16` adds an eleventh OBJ pair with five proved
+nonrepeat zero-count holds: explicit list selectors and duration-source aliases
+preserve the original count and shared typed owners. Previous ten-bank records
+and all other decoded files remain unchanged. Focused Wine source/native/host/
+lifecycle checks and a positive 240-frame Party/actual CLI pair pass.
+Current EUR `v1/e18-d17` adds five language-selected OBJ bank pairs and two
+typed selector tables, bringing the indexed catalog to 16 pairs/317 lists/
+105 sequences/328 frames. Every prior bank record and other decoded file is
+retained. Focused Wine original/native/host/lifecycle checks and one positive
+400-frame “Engage!” full-state/audio/actual CLI pair pass.
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
@@ -144,7 +164,8 @@ The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-descriptors.json`, `bg-base-palettes.json`, `bg-alternate-palettes.json` and
 `bg-packet-programs.json`, plus EUR's `bg-main-graphics.json` and
 `bg-transfer-programs.json`, `short-texts.json`, `text-catalogs.json`,
-`font-bank.json` and `name-keyboard.json`.
+`font-bank.json`, `name-keyboard.json`, `obj-static-lists.json` and
+`obj-animation-banks.json`.
 OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
@@ -155,14 +176,15 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor13/decoder12(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
+Extractor15/decoder14(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
 OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `bg-alternate-palettes-v1-json`, `bg-packet-programs-v1-json` and EUR
 `bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`,
-`text-catalogs-v1-json`, `font-bank-v1-json` and `name-keyboard-v1-json`.
+`text-catalogs-v1-json`, `font-bank-v1-json`, `name-keyboard-v1-json` and
+`obj-static-lists-v1-json` and `obj-animation-banks-v1-json`.
 Transfer programs preserve42frame-control programs/34shared tile banks and97links;
 all162variant pointers are absent in this declared catalog.
 Short texts preserve five107-entry language selector tables, exact compact/
@@ -214,10 +236,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e13-d12`
+selected generation's relative name. Current revisions are EUR `v1/e18-d17`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same twelve EUR/six USA files as offline extraction. Source identity is rehashed from
+same fourteen EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.
@@ -334,7 +356,7 @@ budget. [Current JSON revision and checks](rom_data_graphics.md#readable-json-da
 Current input guards are16MiB manifest,16KiB OBJ,256KiB descriptors,
 1MiB base palettes,4MiB alternate palettes,64MiB packet programs,32MiB each for
 EUR main graphics and transfer programs,8MiB short texts,512MiB broad text catalogs
-16MiB complete font,1MiB name keyboard and512MiBtotal. The manifest guard accommodates the33581additional broad
+16MiB complete font,1MiB name keyboard,4MiB each for static OBJ lists and indexed animation banks, and512MiBtotal. The manifest guard accommodates the33581additional broad
 text/font provenance ranges;
 these are malformed-input guards, not storage optimization targets.
 The manifest includes162base-palette,316alternate and352packet provenance

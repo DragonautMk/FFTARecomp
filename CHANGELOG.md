@@ -364,6 +364,34 @@ Documentation: [README.md](README.md), [docker.md](docs/docker.md), [rom_data.md
 
 [Change record](docs/changes/2026-10-22-extract-rom-data-with-docker.json)
 
+## 2026-10-22 — Extend European static OBJ catalog with seven additional lists
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Authenticate sixteen additional original EUR literal/call references, including one earlier root; seven new lists add 13 objects/92 source bytes. Current static totals are 123 references, 73 lists, 173 objects and 1184 source bytes. Other switch/indirect roots remain unclassified.
+- Publish expanded static-list JSON under EUR schema1/extractor16/decoder15, retaining e15 generations, all original 66 typed records and every other decoded file byte, including animation banks. The fourteen-file/thirteen-resource contract and USA e8-d7 remain unchanged.
+- Reuse immutable typed CPU/DMA/native/host source paths for the new lists. Add nonserialized per-source guest/host coverage and CLI usage reports so an old source cannot satisfy new-list ordinary-scene acceptance. Preserve original guest instructions/clock, live RAM/OAM and save/native ABI.
+
+**Validation**
+
+- Three focused EUR Wine checks pass publication/injected failure/create/no-write reuse/repair/move/e15 retention, exact prior-record/file equality, strict JSON/source/coherent-edit/path/coverage/dependency/revision/truncation/input guards, whole-set identity and transactional attachment.
+- Fourteen original/interpreter/native draw calls cover both producers for all seven new lists with only their raw source spans altered; complete states/clocks match with 236 compiled source bytes, 33 native dispatches and 4497 original instructions (coverage only). Fourteen host draw/publication cases, all new edges/widths/mirrors/real-BIOS bus/CpuSet/DMA and unavailable-copy Load/Undo/backup/restart pass.
+- The retained 240-frame battle and new 240-frame Party roster/320-frame character-menu locators are coverage-negative for the seven new lists; evidence retained without repeating those scenes. Callsite inspection instead identifies the EUR boot language selection.
+- One 240-frame EUR language-screen Wine differential matches every complete state/clock/central-wide image/OAM/dispatch/audio stream, 94105 native dispatches/zero fallback and positive guest/host use of the same three new sources 3adfc4/3adfd2/3adfda. The final actual CLI image is visually inspected.
+- Actual Windows CLI processes through Wine create and reuse e16 without writes, then run the positive language scene from unrelated cwd with the old native cache. Original ROM/personal states/inputs/prior datasets/cache/loader and canonical executable remain unchanged. Windows test/production builds are warning-free; old 66-list and ten-bank oracles are retained rather than repeated.
+- Final project-memory coverage and whitespace checks pass; protected inputs and canonical/candidate hashes are rechecked, source hashes retained. Every unit process is terminal; no commit or push.
+
+**Limitations**
+
+- This closes the declared seven-list EUR/Wine integration and one ordinary scene. Broader GUI/archive/gameplay coverage, remaining switch/indirect catalogs, empty-sequence scheduling contracts, sprite pixels/palettes, map/gameplay/audio and mod phases remain open in ROM_DATA_TODO. Subsequent bounded static discovery locates one further pair b4d8e8/b4f4e8 with five zero-count sequences; its original scheduled read contract remains pending and it is not migrated.
+- New Linux/USA/native Windows verification remains pending by user instruction. No performance/startup/RSS/space campaign, AndroidPort work, commit or push. Private neutral input/images/datasets/evidence remain ignored.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-extend-european-static-obj-catalog.json)
+
 ## 2026-10-22 — Default Docker extraction to the project-relative European ROM
 
 Type: changed. Platforms: Linux/Bash, Windows/PowerShell tooling.
@@ -527,6 +555,68 @@ Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data.md](
 
 [Change record](docs/changes/2026-10-22-decode-european-background-packet-programs.json)
 
+## 2026-10-22 — Consume European zero-count OBJ holds with shared duration owners
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Independently authenticate one further EUR bank pair b4d8e8/b4f4e8 from constructor calls 080332ca/080332f0. Original nonrepeat calls retain zero header count, select list zero and read durations from the next header/index word; no animation frame is invented.
+- Add optional typed zero_count_hold selectors and duration_source_offset references with exact-owner validation. Five records add one list/two objects/eight disjoint ranges/58 source bytes; the final duration reuses the already authenticated next-bank index halfword. Current totals are eleven pairs/32 references, 168 lists/286 objects/100 sequences/184 counted frames/290 ranges/4070 source bytes.
+- Prepare EUR schema1/extractor17/decoder16 with the same fourteen files/thirteen resources; retain e16 generations, all ten prior bank records and every other decoded file unchanged. USA retains e8-d7. New nonserialized guest-selector/host diagnostics and scene gates distinguish the added bank.
+- Consume held selectors through existing typed CPU/DMA/native and shared host paths with original count, index/tick work, instructions/clock and save/native ABI unchanged.
+
+**Validation**
+
+- One new focused EUR Wine original-code check passes fourteen constructors and 104 ticks in both per-object scheduler bodies, covering two actual caller parameter sets and all five zero-count sequence IDs. Read addresses, held index/elapsed reset, full task/OAM/matrices/guards match; 51974 instructions are coverage only. Old source oracles are not repeated.
+- Two reduced EUR Wine integration checks pass new selector/alias/mixed-header/missing-owner/strict JSON/coherent-edit guards and transactional activation, interrupted publication/create/reuse/repair/move/e16 retention, complete prior-record/other-file equality, and unavailable-copy Load/Undo/backup/restart ownership.
+- Eight constructor/body original/interpreter/native calls with all eight new ranges and the old aliased duration halfword altered match complete states/clocks. Compiled reads include sixty source bytes/twelve held-selector bytes; durations remain attributed to typed header/index owners. New edges/widths/mirrors/real-BIOS bus/CpuSet/DMA and host decode/publication pass.
+- One affected 240-frame EUR Wine worldmap-to-Party pair matches every complete state/clock/central-wide image/OAM/dispatch/audio stream with 288 new-selector bytes and 288 new-bank host reads. The final Party roster image is visually inspected. Three actual Windows CLI processes create/reuse without writes/run this retained input from unrelated cwd with the old native cache.
+- Windows test/production builds are warning-free and the canonical executable is restored. Original ROM/snapshots/input/cache/loader/e16 dataset remain unchanged; no closed fourteen-constructor/104-tick or ten-bank/static scene proof is repeated after integration.
+- Final project-memory coverage/whitespace and protected-input/canonical/candidate hashes pass; final implementation hashes retained. Every unit process is terminal. No commit or push.
+
+**Limitations**
+
+- The source oracle covers per-object bodies and the declared nonrepeat callers; whole scheduler tails outside the accepted ordinary Party scene and repeat1/other preconditions are unverified. Three previous zero-count records remain without proved hold/caller interpretation.
+- Other unresolved constructor-fed OBJ roots at38008/88328, sprite graphics/palettes, other text/map/gameplay/audio, broader GUI/archives and mod phases remain open in ROM_DATA_TODO.
+- New Linux/USA/native Windows verification remains pending. No performance/startup/RSS/space campaign, AndroidPort work, commit or push. Private source/data/snapshots/input/evidence remain ignored.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-zero-count-obj-bank.json)
+
+## 2026-10-22 — Prepare and consume European static OBJ descriptor lists
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Inventory 107 independently located direct EUR draw literal references to 66 static uncompressed lists, with 160 objects and 1092 source bytes; exclude indirect/table/animation/RAM roots from this declared catalog.
+- Decode strict readable typed coordinates, affine/object modes, mosaic, depth, shape/transform/size, tile, priority and palette while preserving every packed bit, original object ordering and exact source extents/hashes.
+- Publish fixed obj-static-lists.json/graphics.obj-static-lists under EUR schema1/extractor14/decoder13 with 66 provenance ranges and complete-set identity/authentication; retain e13 and all earlier decoded file bytes. USA stays e8-d7.
+- Serve typed counts/attributes through existing CPU/DMA/native source reads and host draw/visibility/battle readers; merge adjacent name-keyboard bytes and preserve live RAM/noncatalog fallbacks, original instructions/clock and save/native ABI.
+- Extend CLI/extraction descriptions, per-kind bus/host usage diagnostics and focused ordinary-scene validation; add an isolated test-only constructor for direct host-reader coverage.
+
+**Validation**
+
+- Two reduced offline EUR Wine checks pass: all packed bits/extent guards, strict deterministic JSON/source authentication, and all 66 lists against both original producers in 1056 calls/253953 instructions with clipping, reflection, signed wrap, capacity/early return, complete OAM buffers/matrix halfwords/guards. Counts are coverage only.
+- Three focused EUR Wine integration checks pass: 13-file publication/injected interruption/create/reuse/repair/move/e13 retention, coherent edits and source/path/coverage/dependency/revision/truncation/input guards, complete-set identity and transactional failed activation; eight poisoned-source original/interpreter/native calls with all 66 ranges altered, full state/clock equality and 301 compiled source bytes; all edges/widths/mirrors/real-BIOS bus/CpuSet/DMA, eight host publication cases and unavailable-copy Load/Undo/backup/restart.
+- One retained 397-frame EUR Wine pub transition matches every complete state/clock/central-wide image/OAM/dispatch/audio sample; consumes 5470 typed OBJ bytes (958 count, 4512 attribute) and 958 host list reads.
+- Three actual Windows CLI processes through Wine from unrelated cwd prepare/reuse/replay without writes on reuse, use old native cache and match the valid retained legacy final row with positive typed OBJ usage. Legacy was not repeated.
+- One supplemental focused core Wine test passes 792 host draw/visibility/battle cases over all 66 lists/three origins with raw sources altered, plus live RAM/noncatalog ROM coordinate edits and unchanged static-read counters for fallbacks.
+- Windows GNU release test/production/core-only builds are warning-free. Original ROM, retained slot/input/cache/loader/e13 data and canonical Windows executable remain unchanged. Initial sandbox startup failure, incorrect test-only EUR early-return expectation and iterator lifetime compilation failure were corrected with negative evidence retained; only affected failed checks were repeated.
+- Final project-memory coverage and whitespace checks pass; retained final source hashes and protected original inputs verified. No live unit processes remain.
+
+**Limitations**
+
+- Full ROM_DATA_TODO remains open for indexed/indirect OBJ roots, animation archives/timing, sprite graphics/palettes, other text/dynamic roots, maps/gameplay/audio, broader GUI/archives and mod phases.
+- New Linux/USA and native Windows checks remain pending by user instruction. The ordinary scene is one retained pub transition, not complete sprite/gameplay coverage.
+- No performance/startup/RSS/space campaign, new recording, AndroidPort changes, commit or push.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-static-obj-lists.json)
+
 ## 2026-10-22 — Consume European short-text indices, codes, glyph words and metrics through original readers
 
 Type: added. Platforms: Windows, Wine.
@@ -583,6 +673,38 @@ Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_d
 
 [Change record](docs/changes/2026-10-22-consume-european-pointer-and-relative-text-catalogs.json)
 
+## 2026-10-22 — Prepare and consume European indexed OBJ animation banks
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Inventory ten independently rooted EUR object/animation bank pairs from 30 constructor literal pairs: 167 lists, 284 objects, 95 sequences, 184 frames and 282 disjoint consumed source ranges. Other direct/indirect/switch roots remain explicit unfinished work.
+- Decode strict typed relative indices, exact OBJ fields, sequence headers, frame-list links and u16 duration words, preserving zero-duration and empty records, source ordering and provenance; reject malformed links, bounds, overlaps and coherent base edits.
+- Publish fixed obj-animation-banks.json/graphics.obj-animation-banks under EUR schema1/extractor15/decoder14 with fourteen files/thirteen resources and complete-set authentication/identity. Retain e14 and every previous decoded file; USA stays e8-d7.
+- Consume immutable typed indices, counts, attributes, frame IDs and durations through existing CPU/DMA/native and shared host sprite readers. Preserve live RAM task indices/ticks, original constructors/scheduler instructions and clock, OAM/matrices and save/native ABI.
+- Extend extraction descriptions and usage diagnostics; add a positive ordinary-animation scene gate. Select a new bounded synthetic Start-menu input from the retained worldmap snapshot after the retained battle sample proves zero family coverage.
+
+**Validation**
+
+- Two reduced EUR Wine offline checks pass: source/strict deterministic JSON/coherent-edit and malformed-input guards, independent catalog inventory, 115 original constructors and 2292 original per-object scheduler ticks with matching task fields, loop/final hold, complete OAM/matrix/guard results. 1123717 instructions are coverage only. Three empty sequences get source/constructor proof only.
+- Three focused EUR Wine integration checks pass fourteen-file publication/injected interruption/reuse/repair/move/e14 retention, source/path/coverage/dependency/revision/truncation/input guards, coherent-edit rejection, whole-set identity and transactional attachment; 49 original/interpreter/native constructor/body calls with all 282 raw ranges altered and equal complete states/clocks. Compiled source bytes by kind: 192 index, 93 list count, 618 attributes, 4 sequence count, 92 frame-list, 94 duration.
+- All source edges/widths/mirrors/real-BIOS bus, CpuSet/DMA, ten-bank host publication and unavailable-copy Load/Undo/backup/restart checks pass on Wine. Windows GNU test/production builds are warning-free and the canonical executable is restored.
+- The retained 240-frame battle sample matches every complete state/clock/image/OAM/dispatch/audio but consumes zero animation bytes, so its positive-use gate correctly fails; negative evidence retained and this unaffected scene is not repeated.
+- Three actual Windows CLI processes through Wine from unrelated cwd prepare/reuse/run the bounded 160-frame worldmap+Start menu input with old native cache, no dataset writes on reuse and positive use of all six source kinds plus 3200 host reads/36513 source bytes. Original ROM/snapshots/cache/loader/prior datasets/canonical remain unchanged.
+- One affected 160-frame EUR Wine worldmap+Start menu pair matches every complete state/clock/central-wide image/OAM/dispatch/audio stream with all six source kinds and 3200 host reads/36513 source bytes. The final Party-highlighted menu image is visually inspected; native/offline/zero-use battle checks are not repeated.
+- Final project-memory coverage/whitespace and protected input/source hash checks pass; all unit processes are terminal. No commit or push.
+
+**Limitations**
+
+- The ordinary scene is one bounded menu transition. Whole scene-specific scheduler tails outside that scope, broader gameplay/GUI/archives and three empty-sequence scheduling preconditions remain separate gates.
+- Full ROM_DATA_TODO remains open for other OBJ direct/indexed/indirect roots and sprite graphics/palettes, other text/dynamic roots, maps/gameplay/audio and mod phases. Conservative CFG discovery found seven additional direct lists not yet migrated.
+- New Linux/USA/native Windows verification remains pending by user instruction. No performance/startup/RSS/space campaign, AndroidPort change, commit or push. New menu input is a local synthetic fixture; original personal inputs remain unchanged.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-obj-animation-banks.json)
+
 ## 2026-10-22 — Consume European main background graphics words through original guest readers
 
 Type: added. Platforms: Windows, Wine.
@@ -610,6 +732,36 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-22-consume-european-main-background-graphics.json)
+
+## 2026-10-22 — Consume European language-selected OBJ banks and pointer tables
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Independently resolve three original EUR selector-to-constructor paths in08038008 through two five-entry language pointer tables at3955c4/3955b0, using language byte02001f6e. Resolve08088760to an already migrated pair without inventing a new payload.
+- Add five source-authenticated bank pairs with149lists/574objects/five nonempty sequences/144frames plus two typed selector tables:166new ranges/4984sourceB. Current indexed totals are16pairs/33direct references/three indexed paths,317lists/860objects/105sequences/328frames/456ranges/9054sourceB.
+- Publish EUR schema1/extractor18/decoder17 with the existing fourteen-file/thirteen-resource contract, retaining e17, all eleven prior bank records and every other decoded file. USA stays e8-d7. Reject malformed selector cardinality/alignment/bank links/overlaps and coherently rehashed language reordering or payload changes.
+- Project typed pointer tables and selected indices/list fields/frame selectors/u16durations through original CPU/DMA/native and host paths. Preserve final duration256 against the wrapping u8task counter, live language/task state, original work/clock and save/native ABI. Add nonserialized localized selector/bank/host consumption counters and scene gate.
+
+**Validation**
+
+- One reduced EUR Wine original-source check passes fifteen actual selector chains, ten constructors and1589scheduler ticks: independent inventory/strict JSON/source/shape/link guards, all new frame transitions/task fields/full OAM/matrices/clipping/final hold and counter wrap match.1657211instructions are coverage only. Initial closure-index integer inference build error is fixed before execution; failed evidence retained.
+- Two focused EUR Wine integration checks pass publication interruption/create/reuse/repair/move/e17retention, all prior-record/other-file equality, coherent selector/list/missing-table rejection and transactional attachment, and unavailable-copy Load/Undo/backup/restart. The closed original1589tick and old bank/static oracles are retained without repetition.
+- Thirty original selector/constructor/body interpreter/native calls across five language IDs and all three paths match complete states/clocks with all166new ranges altered. Compiled reads include120selector B/210bank B. New edges/widths/mirrors/real-BIOS bus/CpuSet/DMA and five bank-specific host decode/publication cases pass.
+- Actual Windows CLI through Wine creates/reuses e18without writes and runs from unrelated cwd with old native cache. The retained3530-frame battle and initial directional/hover worldmap locators use zero new-family bytes; their evidence is preserved without full differentials or repeats. Linked graphics preview identifies Engage, and existing semantic mouse movement to Lutia Pass plus physical A selects the affected ordinary scene without direct RAM fixture edits.
+- One400-frame EUR Wine Engage pair matches every complete state/clock/central-wide image/OAM/dispatch/audio stream with8table B/5906bank B/228host reads. Final Engage image inspected. Windows test/production builds are warning-free, canonical restored and original ROM/snapshots/input/e17dataset/cache/loader unchanged.
+- Final project-memory coverage/whitespace and protected-input/canonical/candidate hash checks pass; implementation hashes retained. All unit processes are terminal. No commit or push.
+
+**Limitations**
+
+- The ordinary proof is one EUR language/scene; the five language variants have original-producer/native proof, not five ordinary-scene campaigns. Broader GUI/archive/gameplay, native Windows and three older empty-record scheduling contracts remain open.
+- The linked compressed OBJ graphics table395588and3072-byte transfer still require typed payload/producer migration; other OBJ graphics/palettes, other text/map/gameplay/audio and mod phases remain open in ROM_DATA_TODO. The broad CFG inventory is still incomplete.
+- New Linux/USA verification remains pending. No performance/startup/RSS/space campaign, AndroidPort work, commit or push. Synthetic input/data/graphics preview and all private fixtures/evidence remain ignored.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-22-consume-european-language-selected-obj-banks.json)
 
 ## 2026-10-22 — Prepare and consume the European complete font and name keyboard
 

@@ -381,6 +381,27 @@ remain groundwork for other linked graphics families.
   creation/no-write reuse/oldcache/cwd pass;2200EchoGrass0globalB is negative,
   no fullpair. Positiveordinary globaluse/fullpair/highmode/newLinux/USA
   remain pending, bounded descriptor/live-mask gates guide future selection.
+  Evaluation parameters have a separate38Bsource contract:7divisor-weight
+  terms/2conditional pairs at6e79a2..6e79b4and5class1..5threshold records at
+  6e79c6..6e79da. First unsignedu8quotient/remaining6signed32/wrap/low8bonus
+  predicates/originalLCG/signedlow16%256thresholds retain original code.
+  Strict model and one Wine132actual-source/52mutated-source oracle pass,
+  including12live-score prefixes and originalRNG/class0skip.14Bscoregap/4Brow0
+  unowned; no32/24Bgap inference/foreignowner. EUR e34-d33 adds evaluation-
+  parameters.json/gameplay.evaluation-parameters,29files/28resources/all27prior
+  decoded files/e33 retained. Two focused Wine managed/native/lifecycle checks
+  pass27prefixes/raw38Baltered/fullstate-clock equality/classmask31/class0zero/
+  SWI-DMA/rawgap checks. One1840Pubmission full-state/image/audio/actualCLI
+  pair reads15scoreB; thresholdordinary remains targeted-only. Whole tails/
+  semanticlabels/newLinux/USA remain pending.
+  Next static10Bcontract roots6e79da/*10/0default and normal index0..99from
+  04B3E0..04B416,100records/1000Bthrough6e7dc2.12zeroBbeforeindependent6e7dce
+  remain unowned; candidate101rows rejected. Eightu8deltas feed original live
+  level/progress/flags through04870c; byte08feeds live itemprice discount,
+  byte09structuralunused. Unsigned/signed/u8wrap/min-price/zero behavior and
+  actual parsed Items base are distinguished; no storedforeignkey inferred.
+  Exactroundtrip/noe34overlap/roots/stride/fields pass statically. Model/source
+  oracle/managed/runtime/ordinaryuse and newLinux/USA remain pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

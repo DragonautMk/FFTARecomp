@@ -17,6 +17,7 @@ DESCRIPTIONS = {
     'linked-metadata14.json': 'European special-unit fields and packed palette selectors; live books and overrides retained',
     'linked-metadata12.json': 'European indexed packed two-bit fields; original row and mode arithmetic retained',
     'global-pair-flags.json': 'European global packed pair flags; original live mask and early exit retained',
+    'evaluation-parameters.json': 'European score coefficients and class thresholds; original live evaluation and RNG retained',
     'linked-metadata52.json': 'European packed metadata and redirects; original live alternate indices retained',
     'linked-metadata16.json': 'European sixteen-byte linked metadata; original live list and RNG retained',
     'item-links.json': 'European counted item-linked pairs; original live unit publication retained',

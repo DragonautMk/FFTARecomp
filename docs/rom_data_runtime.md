@@ -1,6 +1,18 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e33-d32` adds `global-pair-flags.json` /
+Current EUR `v1/e34-d33` adds `evaluation-parameters.json` /
+`gameplay.evaluation-parameters`:7score terms,2conditional bonuses and5class
+thresholds,38source bytes in two disjoint ranges. All29files/28resources
+authenticate together; all27earlier decoded files/e33 generations remain
+unchanged. Original live score getters, unsigned-u8/signed32/wrapping arithmetic,
+conditional predicates, RNG, clock and save/nativeABI remain active. Two focused
+Wine managed/native/lifecycle checks pass27prefixes with raw38Baltered and
+complete state/clock equality; all5threshold classes are positive. One1840Pub
+mission full-state/image/audio/actualCLI pair reads15score bytes. Threshold
+ordinary use remains targeted-only; newLinux/USA/nativeWindows remain pending.
+[Contract](rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
+
+EUR `v1/e33-d32` adds `global-pair-flags.json` /
 `gameplay.global-pair-flags`:44two-bit fields/11source bytes with no inferred
 semantic dependency or padding ownership. All28files/27resources authenticate
 together; all26earlier decoded files/e32 generations remain unchanged. Two

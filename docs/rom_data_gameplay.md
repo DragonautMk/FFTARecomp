@@ -1256,3 +1256,146 @@ e32/sourceproof/fixtures/input/cache/loader/canonical/candidates are retained.
 Three adjacent bytes, semantics/other callers/conditions, newLinux/USA/nativeWindows
 and wider graphics/text/maps/gameplay/audio/GUI/archive/mod coverage remain open.
 No performance, space or AndroidPort work is included.
+
+## Evaluation parameters source proof
+
+The original D2DB0→D2F20 literal roots 6e79a2. Its score prefix D2DB0→D2E6A
+uses seven divisor/weight pairs and two conditional bonus pairs, exactly18bytes
+through6e79b4. The first quotient uses unsigned division and u8 truncation;
+the remaining six use signed32 division by positive u8 divisors. Products and
+sum retain32-bit wrap. The two bonuses inspect separate calls to the original
+live predicate, comparing its low byte with1 and0 respectively; the first
+byte of each bonus pair remains structural and unused by these branches.
+Live unit attributes and original equipment/getter work are not cached here.
+
+The full D2D44 function returns0..5; D483A calls it before the D4840 zero gate
+and D4844 multiply-by-four threshold path. Literal D4846→D4888 supplies address
+bias6e79c2. Active classes1..5 own five4-byte records at6e79c6..6e79da: one
+threshold byte and three opaque bytes each. Class0 reads no threshold and calls
+no RNG. The14-byte score gap and4-byte row0 remain unowned. The next independent
+root6e79da (04B45C→04B49C, original*10pointer publication) corroborates separation.
+Earlier whole32/24-byte gap assumptions are rejected;38owned bytes reconstruct
+without overlap with e33. No actor/action name or foreign dependency is inferred.
+
+The strict `evaluation_parameters` model keeps fixed7/2/5arrays, IDs, order,
+offsets, all coefficient/bonus bytes and opaque tails. Its finite diagnostics
+retain original arithmetic. A zero divisor yields diagnosticNone; the original
+guest helper remains unchanged and its zero-divisor path is outside this proof.
+Threshold comparison uses signed low16 draw modulo256, then a signed comparison
+with the u8 threshold. Actual02868LCGupdates030034b0 and returns15bits, so negative
+draws are tested only in isolated original-code suffixes with injected arguments.
+
+Warning-free Windows60074 and one Wine42263 oracle pass132actual-source cases:
+12live score prefixes,49arithmetic/12bonus fragments,39RNG/class0 prefixes and
+20raw-draw suffixes.52mutated-source cases cover high divisors/weights, signed
+values, u8 truncation/wrap, conditional arguments, thresholds0/255 and opaque
+high bits. Exact source addresses, values, branches, original RNG state, register/
+stack/liveunit/context guards and strictJSON/fixedshape/ID/order/offset/source/
+coherent edits pass. Synthetic records fail authentication and are unpublished.
+24147instructions/442PCs describe coverage only; no build/Winefailure or earlier
+source/native/scene oracle repeat. All protected originals/e33/candidates/cache/
+loader/canonical/source fixtures retain hashes.
+
+Evidence: `target/rom-data-numeric-pairs/` contains the independent inventory,
+records, bounded readers/calls/division/RNG/predicate/next-root disassembly,
+windows-tests-build.*, windows-original-result.json and
+windows-original-europe/{evaluation-parameters.json,result.json}. At this
+source-only boundary EUR e33-d32/28files/27resources and USAe8-d7 are unchanged.
+Managed publication/direct CPU-DMA-native/lifecycle/positive ordinary score use
+were subsequently completed below; threshold ordinary use remains targeted-only. Whole-function tails, semantic names/other consumers, unused gaps and new
+Linux/USA/nativeWindows remain open; no performance/space/AndroidPort work.
+
+## Managed and direct evaluation parameters
+
+EUR `v1/e34-d33` adds `evaluation-parameters.json`, resource
+`gameplay.evaluation-parameters`, format `evaluation-parameters-v1-json`.
+All29files/28resources authenticate together; every27earlier decoded file and
+e33generation remains unchanged. Both source roles preserve18score and20threshold
+bytes with exact IDs/order/offsets. No semantic foreign dependency is inferred.
+The14-byte score gap/4-byte row0 stay unowned. USA retains e8-d7. Parsing limits
+bound malformed input; no extraction-space or performance target is measured.
+
+Typed bytes serve original CPU/native/SWI/DMA reads on page6e7, merging raw
+bytes at all four boundaries. Nonserialized divisor/weight/bonus/opaque/threshold
+counters and a five-class mask distinguish new use. Original live producers,
+unsigned-u8 first quotient, six signed32 divisions, wrapping score, conditional
+low8predicates, RNG/signed-low16 threshold comparison, clock and save/nativeABI
+remain active. Diagnostic scoreNone for a zero divisor supplies no guest fallback;
+that helper edge remains unclaimed, with the guest routine unchanged.
+
+Initial Windows51951compilation succeeds with an unused-model import warning,
+which the strict wrapper rejects. Pre-Wine review also replaces isolated native
+fragments whose stop addresses overlap the complete score trace with27complete
+score/shared-threshold prefixes. Corrected68404build is warning-free; the source
+132+52oracle already proves isolated arithmetic/bonus fragments and is not rerun.
+Wine32104two checks pass publication interruption/create/reuse/repair/move/e33
+retention, coherent divisor/weight/unused-bonus/opaque-threshold/source/dependency/
+path/both-role guards, transactional attachment and unavailable-copy Load/Undo/
+backup/restart. No Wine failure occurs.
+
+27original/interpreter/compiled prefixes with all38raw bytes altered match
+complete states/clocks. Compiled reads consume82divisor/84weight/12bonus/
+14threshold bytes and0opaque bytes; thresholdmask31covers all five classes.
+Class0 consumes no new bytes. All38bytes/edges/widths/mirrors/real-BIOS, four
+typed/raw word crossings, both-source CpuSet/FastSet (18/20typed bytes) and
+2typed2raw DMA checks pass. All18gap/row0bytes remain raw without new counters.
+13068instructions/342dispatches describe coverage only. Unused fields retain
+exact bytes through typed all-byte tests, not invented original field reads.
+
+Warning-free Windows87827production restores the canonical executable.
+ActualCLI7961creates and reuses e34without managed-file/hash/mtime changes,
+then uses the old native cache from an unrelated working directory. Bounded
+063768→D2D44candidate evaluation justifies the retained1840Pubmission input.
+The first sample is positive:15score reads,7divisors/7weights/1bonus,0opaque/
+threshold bytes and thresholdmask0. One Wine71943pair matches every complete
+state/clock, central-wide image, OAM, dispatch and mixed/PSG/FIFO/HLE audio
+stream with those counters. The final Pub background is inspected; separated
+panels do not independently establish selected-unit or completed-mission state.
+Threshold ordinary use remains targeted-only. No negative scene locator, new
+fixture, directRAMedit, persisted save write or old source/e28/e33acceptance repeat.
+
+Evidence: `target/rom-data-numeric-pairs/` contains windows-initial-warning-managed-
+tests-build.*, windows-managed-tests-build.*, windows-managed-results.json,
+windows-managed-europe/{managed-result.json,native-result.json}, windows-build.json,
+windows-cli-{processes,no-write,summary}.json, windows-scene-result.json,
+windows-pub-evaluation-parameters-full-state-audio.log, pub-dispatch.png,
+class-callers.json and caller-063724.txt. Protected originals/e33/sourceproof/
+fixtures/input/cache/loader/canonical/candidates remain unchanged. Whole-function
+tails, semantic labels/other consumers/unused gaps, the separate11Bglobal ordinary
+condition gate, newLinux/USA/nativeWindows and broader gameplay/maps/audio/
+GUI/archive/mod phases remain open. No performance, space or AndroidPort work.
+
+## Next ten-byte progression and price records
+
+Static discovery roots6e79da through CF68E→CF6D8,04B45C→04B49C and
+04B4B2→04B4DC. Original multiply-by-ten publishes a selected ROM row through
+0201F530; the default branch publishes row0. Normal index producer04B3E0..
+04B416reads020021b4, increments only an old value at most98 and writes a value
+at most99. This establishes100normal records/1000bytes through6e7dc2. The
+candidate101st row is rejected as ownership evidence; twelve zero bytes before
+the independent6e7dce root (0487F6→048868) remain unowned.01A5A6displays an
+adjacent progress byte and does not establish the index bound. Invalid imported
+states and out-of-range indices retain original raw access; no fallback is added.
+
+Fields00..07are eight u8 deltas. Checked original callers04B56E/580/592/5A4/
+5B6/5C8/5DA/5F0pass them through original04870c to live level/progress slots1..8
+with flag bits2..256. That routine retains live growth, u8addition/wrap, carry,
+level99cap and behavior for an already invalid old level. Specific skill names
+and global initialization preconditions remain unproved. Field08is the discount
+byte read by CF674 from the live index; byte09is structural and unused here.
+
+The price reader uses the same6e0bd0base as actual parsed Items, truncates mode
+tou8/itemtou16and gates discount on itembyte0c&8. Its live predicate can add10
+to the discount with u8wrap. Original signed32 base*(100-discount)/100,
+unsigned comparison with minimum price and final zero→1remain distinct. These
+records store no item IDs or other proven foreign keys, so no owner dependency
+is inferred merely from the consumer. Model/original-source/runtime checks for
+this1000Bfamily are next; no new code/build/Wine test has run for it yet.
+
+All1000bytes reconstruct without overlap with e34. Evidence is under
+`target/rom-data-metadata10/`: progression-rewards-inventory.json, independent
+records, discovery.json and bounded selector/field/price/live-consumer/next-root
+disassembly. Current EUR e34-d33/29files/28resources and USAe8-d7remain unchanged.
+No old proof, newLinux/USA/nativeWindows, performance/space or AndroidPort work
+is included. External HEAD26409f7commits prior e31/e32/e33work; the current
+evaluation-parameter diff is inspected and preserved without an agent commit.

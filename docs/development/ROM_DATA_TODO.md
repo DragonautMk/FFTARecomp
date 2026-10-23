@@ -923,6 +923,49 @@ prima di altri replay. Highmode/newLinux/USA/Windows nativo/3Badiacenti da fare.
 Oracoli102+10+91/e32 non ripetuti; nessuna misura performance/spazio.
 [Contratto](../rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
 
+**ROMDATA-01-GAMEPLAY-NUMERIC-PAIR-ROOTS / ROMDATA-02-GAMEPLAY-EVALUATION-PARAMETERS-SOURCE-ORACLE
+completati per EUR/Wine sorgente:**38B in due sorgenti:7coppie divisore/peso e2
+bonus condizionali a6e79a2..6e79b4;5classi soglia1..5con stride4 a6e79c6..6e79da.
+Classe0saltaRNG/lettura,14Btra sorgenti e4Brow0nonowned; ipotesi32/24B respinta.
+Modello strict7/2/5array/ID/offset/campi/opaque e un controllo Wine passano132casi
+sorgente originale (12prefissi score live, frammenti aritmetici/bonus/RNG/suffix
+con argomenti iniettati) e52sorgenti mutate. Prima divisioneunsigned/u8,6signed32,
+wrap, bonuslow8==1/==0, LCG originale/sogliacomparison signedlow16%256 preservati.
+Guardie JSON/source/ID/order/offset/callee/stack/unit/context passano; nessun
+build/Winefailure/prova precedente ripetuta.24147istruzioni/442PC solo copertura.
+Zerodivisor solo diagnosticNone/guest invariato, non eseguito qui; wholefunction
+nonclaimed. e33invariato; preparazione/consumo/lifecycle/scena/semantica e nuovi
+Linux/USA/Windows nativo da fare, nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#evaluation-parameters-source-proof).
+
+**ROMDATA-02-GAMEPLAY-EVALUATION-PARAMETERS-DATA / ROMDATA-04-GAMEPLAY-EVALUATION-PARAMETERS-CONSUMPTION /
+ROMDATA-05-GAMEPLAY-EVALUATION-PARAMETERS-SCENE-CLI completati per EUR/Wine score dichiarato:**
+e34-d33 aggiunge evaluation-parameters.json/gameplay.evaluation-parameters,
+29file/28risorse/27file precedenti ed e33conservati, USAe8-d7.38Btipizzati e
+contatori classi/campi preservano produttori live/divisioni unsigned-u8 e signed/
+wrap/bonus/RNG/clock/ABI. Due controlli Wine passano preparazione/retention/
+guardie transazionali/Load-Undo-backup-restart e27prefissi native/interprete con
+raw38Balterati/stati-clock identici; classmask31,classe0zero,opaque0compiled.
+Bus/edge/mirror/BIOS/SWI18-20typed/DMA2typed2raw/18Bgap-row0raw passano.
+Build iniziale con avviso import inutilizzato rifiutato dal wrapper; campioni
+native sovrapposti corretti prima di Wine, rebuild senza avvisi, nessun errore
+Wine. CLI crea/riusa senza scritture/vecchia cache/cwd estraneo; primo1840Pubmission
+positivo15scoreB(7divisori/7pesi/1bonus), una sola coppia completa stato/clock/
+immagini/OAM/dispatch/audio passa. Soglie ordinarie restano targeted-only,
+fonte132+52/provee28/e33 non ripetute. Wholefunction/semantica/gap/global11Bordinary/
+nuoviLinux/USA/Windows nativo da fare; nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
+
+**ROMDATA-01-GAMEPLAY-METADATA10-ROOTS completato nel perimetro statico dichiarato:**
+root6e79da/stride10/default0 e producer020021b4in04B3E0..04B416 fissano0..99,
+100record/1000Bfino6e7dc2. Candidato101respinto;12Bzero prima root6e7dcenonowned,
+01A5A6display non è prova setter. Otto u8delta sono passati al consumer04870c
+con stato live/carry/wrap/cap99/flag; byte08usato in prezzo Items con optional+10u8,
+divisione signed/minimounsigned/zero→1, byte09structuralunused. Roundtrip/noe34overlap/
+root/stride/field opcodes passano; nessun nuovo modello/build/test Wine perquesti
+1000B. Sourceoracle/preparazione/consumo/scena/nomi campi/newLinux-USA da fare.
+[Contratto](../rom_data_gameplay.md#next-ten-byte-progression-and-price-records).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
 
@@ -1289,10 +1332,11 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** censire la distinta sorgente di coppie numeriche a6e79a2,
-con lettore originale D2DB0, conservando le prove globali11B/e33 concluse.
-L'uso ordinario globale resta aperto: selezionare una nuova scena solo con
-prova concreta delle condizioni descriptorhword4/live-mask; EchoGrass negativo
-non va ripetuto senza tale evidenza. Restano altre fonti indirette grafiche/
-testuali, mappe, audio/gameplay, GUI/archivi e fasi mod. Test ridotti Wine/EUR;
-nuoviLinux/USA da fare, nessuna misura prestazionale o limite di spazio.
+**Prossima azione:** implementare il modello dei100record progression-rewards e
+un solo controllo sorgente Wine per publisher, delta/live state e prezzo con
+Items parsed. Confini, domain0..99e12Bnonowned sono stabiliti; non riaprire il
+candidato101né le provee34/1840Pubscore. Soglie RNGordinarie restano targeted-only;
+global11Bordinary richiede condizioni descriptor/live-mask concrete, niente
+EchoGrass invariato. Restano altre fonti indirette grafiche/testuali, mappe,
+audio/gameplay, GUI/archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA da fare,
+niente misure prestazionali o limiti spazio.

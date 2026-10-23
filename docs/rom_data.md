@@ -170,7 +170,7 @@ paths read zero new bytes.
 One positive 2200-frame Echo Grass confirmation full-state/image/audio/actualCLI pair passes.
 New Linux/USA/native Windows checks remain pending.
 [Contract](rom_data_gameplay.md#managed-and-direct-twelve-byte-packed-pair-banks).
-Current EUR `v1/e33-d32` adds `global-pair-flags.json` /
+EUR `v1/e33-d32` adds `global-pair-flags.json` /
 `gameplay.global-pair-flags`:44two-bit fields/11source bytes with no inferred
 semantic dependency or padding ownership. All28files/27resources authenticate
 together; all26earlier decoded files/e32 generations remain unchanged. Two
@@ -181,6 +181,17 @@ ActualCLIcreates/reuses without writes/oldcache/unrelatedcwd. EchoGrass2200is
 negative for this new source; positive ordinary global use/fullscene pair remain
 pending, along with newLinux/USA/nativeWindows checks.
 [Contract](rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
+Current EUR `v1/e34-d33` adds `evaluation-parameters.json` /
+`gameplay.evaluation-parameters`:7score terms,2conditional bonuses and5class
+thresholds,38source bytes in two disjoint ranges. All29files/28resources
+authenticate together; all27earlier decoded files/e33 generations remain
+unchanged. Original live score getters, unsigned-u8/signed32/wrapping arithmetic,
+conditional predicates, RNG, clock and save/nativeABI remain active. Two focused
+Wine managed/native/lifecycle checks pass27prefixes with raw38Baltered and
+complete state/clock equality; all5threshold classes are positive. One1840Pub
+mission full-state/image/audio/actualCLI pair reads15score bytes. Threshold
+ordinary use remains targeted-only; newLinux/USA/nativeWindows remain pending.
+[Contract](rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for

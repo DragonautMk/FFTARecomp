@@ -32,12 +32,13 @@ pub mod constructor_alternates;
 pub mod metadata14;
 pub mod metadata12;
 pub mod global_pair_flags;
+pub mod evaluation_parameters;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 33;
-pub const DECODER_REV: u32 = 32;
+pub const EXTRACTOR_REV: u32 = 34;
+pub const DECODER_REV: u32 = 33;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -74,6 +75,10 @@ pub const GLOBAL_PAIR_FLAGS_ID: &str = "gameplay.global-pair-flags";
 pub const GLOBAL_PAIR_FLAGS_FILE: &str = "global-pair-flags.json";
 pub const GLOBAL_PAIR_FLAGS_FORMAT: &str = "global-pair-flags-v1-json";
 pub const MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const EVALUATION_PARAMETERS_ID: &str = "gameplay.evaluation-parameters";
+pub const EVALUATION_PARAMETERS_FILE: &str = "evaluation-parameters.json";
+pub const EVALUATION_PARAMETERS_FORMAT: &str = "evaluation-parameters-v1-json";
+pub const MAX_EVALUATION_PARAMETERS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -272,6 +277,7 @@ pub struct Extraction {
     pub metadata14: Option<metadata14::Catalog>,
     pub metadata12: Option<metadata12::Catalog>,
     pub global_pair_flags: Option<global_pair_flags::Catalog>,
+    pub evaluation_parameters: Option<evaluation_parameters::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -306,6 +312,7 @@ pub struct BaseFiles<'a> {
     pub metadata14: Option<(&'a metadata14::Metadata14, &'a [u8])>,
     pub metadata12: Option<(&'a metadata12::Metadata12, &'a [u8])>,
     pub global_pair_flags: Option<(&'a global_pair_flags::GlobalPairFlags, &'a [u8])>,
+    pub evaluation_parameters: Option<(&'a evaluation_parameters::EvaluationParameters, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -536,6 +543,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.global_pair_flags = Some(metadata);
+            let metadata = evaluation_parameters::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(EVALUATION_PARAMETERS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: EVALUATION_PARAMETERS_ID.into(), path: EVALUATION_PARAMETERS_FILE.into(), format: EVALUATION_PARAMETERS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.evaluation_parameters = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -600,6 +614,7 @@ impl Extraction {
             metadata14: None,
             metadata12: None,
             global_pair_flags: None,
+            evaluation_parameters: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -663,6 +678,7 @@ impl Extraction {
             || self.metadata14.is_some() && self.constructor_alternates.is_none()
             || self.metadata12.is_some() && self.metadata14.is_none()
             || self.global_pair_flags.is_some() && self.metadata12.is_none()
+            || self.evaluation_parameters.is_some() && self.global_pair_flags.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -922,6 +938,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected global_pair_flags resource".into()),
         }
+        match (&self.evaluation_parameters, files.evaluation_parameters) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_EVALUATION_PARAMETERS_FILE_BYTES { return Err("EvaluationParameters file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[27].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected evaluation_parameters resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1060,6 +1085,9 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.global_pair_flags, files.global_pair_flags) {
             if decoded != &expected.decoded {return Err("Decoded global_pair_flags differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.evaluation_parameters, files.evaluation_parameters) {
+            if decoded != &expected.decoded {return Err("Decoded evaluation_parameters differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1089,6 +1117,7 @@ impl Extraction {
             + usize::from(self.metadata14.is_some())
             + usize::from(self.metadata12.is_some())
             + usize::from(self.global_pair_flags.is_some())
+            + usize::from(self.evaluation_parameters.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1171,6 +1200,7 @@ mod tests {
             metadata14: None,
             metadata12: None,
             global_pair_flags: None,
+            evaluation_parameters: None,
             font_bank: None,
             })
             .unwrap();
@@ -1205,6 +1235,7 @@ mod tests {
             metadata14: None,
             metadata12: None,
             global_pair_flags: None,
+            evaluation_parameters: None,
             font_bank: None,
             })
             .is_err());
@@ -1249,6 +1280,7 @@ mod tests {
             metadata14: None,
             metadata12: None,
             global_pair_flags: None,
+            evaluation_parameters: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1282,6 +1314,7 @@ mod tests {
             metadata14: None,
             metadata12: None,
             global_pair_flags: None,
+            evaluation_parameters: None,
             font_bank: None,
             })
             .is_err());

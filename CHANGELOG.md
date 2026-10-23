@@ -61,6 +61,29 @@ Documentation: [docker.md](docs/docker.md), [MEMORY_WORKFLOW.md](docs/developmen
 
 [Change record](docs/changes/2026-10-23-remove-obsolete-local-build-and-extraction-artifacts.json)
 
+## 2026-10-23 — Identify European ten-byte progression deltas and price discount records
+
+Type: docs. Platforms: Windows, Wine.
+
+**Changes**
+
+- Record exact100normal records/1000B6e79da..6e7dc2 from original literal/indexed/default paths and normal live index0..99producer. Reject candidate101whole rows/adjacency as ownership proof;12zero bytes before independent6e7dce stay unowned,01A5A6isdisplay notsetter evidence.
+- Distinguish eightu8deltas feeding original04870c live level/progress/flags from byte08price discount and unusedbyte09. Preserve original u8wrap/carry/cap99/invalid-oldlevel behavior and price u8mode/u16item/flag gate/optional+10wrap/signeddivision/unsignedminimum/zero->1. Parsed Items base confirmed, no storedforeignkeys/skill names inferred.
+
+**Validation**
+
+- Cheap exactEUR original roots/nextroot/stride/index-gates/field-consumer/price opcodes,1000Breconstruction/noe34overlap pass using independent ignored inventory. No new model/build/Wine runtime check, old proof repeat or performance/space measurement for this static unit.
+- Currente34-d33/29files/28resources and USAe8-d7unchanged. External HEAD26409f7prior e31/e32/e33work commit inspected; currentEvaldiff preserved without agent commit/push. Structured feature/state/inventory/TODO/handoff/changelog and memory/whitespace checks recorded.
+
+**Limitations**
+
+- Model/original publisher-delta-price oracle/managed-runtime/lifecycle/ordinaryuse remain pending. Specific skill labels/global initialization/invalid indexpreconditions and12Btail meaning unproved; original raw out-of-range access remains unchanged.
+- NewLinux/USA/nativeWindows and broader remaining TODO remain pending; no AndroidPort change or private ROM/data/fixture publication.
+
+Documentation: [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-23-inventory-european-ten-byte-progression-and-price-records.json)
+
 ## 2026-10-23 — Identify European static item record boundaries and live property modifiers
 
 Type: docs. Platforms: Windows, Wine.
@@ -316,6 +339,30 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-decode-european-fifty-two-byte-linked-metadata.json)
+
+## 2026-10-23 — Decode European score coefficients and class thresholds with original live arithmetic and RNG proof
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict EvaluationParameters/Term/Bonus/Threshold for7divisor-weight terms/2conditional pairs at6e79a2..6e79b4and5activeclass1..5threshold records at6e79c6..6e79da,38Btotal. Fixedarrays/IDs/order/sourceoffsets preserve all fields and17unused structural bytes.14Bscoregap/4Bclass0row remain unowned; no whole32/24Bgap or foreign owner inferred.
+- Finite diagnostic arithmetic retains first unsigned-u8 quotient, remaining6signed32 divisions, wrapping products/sum, low8bonus predicates and signedlow16%256threshold comparison. Original live getters/RNG/guest routines remain unchanged. Zero divisor diagnosticNone does not create a guest fallback. Managed EUR e33-d32/28files/27resources and USAe8-d7 unchanged at this source boundary.
+
+**Validation**
+
+- Independent exactEUR root/stride/zero-gate/class-range/caller/unsigned-signed division/RNG/next-source checks and38Broundtrip/noe33overlap pass. Windows60074warning-free and Wine42263single new oracle terminal/pass, no build/Winefailure.
+- 132actual-source cases:12live score prefixes/49term/12bonus fragments/39RNG-class0 prefixes/20injected raw-draw suffixes.52mutated-source high coefficient/signed/wrap/conditional/threshold0-255/opaque cases pass. Actual02868LCGstate/15bit return checked; negative draws onlyisolated suffix arguments. Exact source addresses/values/branches/strictJSON/fixedshape/ID/order/offset/coherent edits/register/stack/liveunit/context guards pass.24147instructions/442PCs coverageonly; synthetic unauthenticated/unpublished.
+- All36protected ROM/e33/candidate/cache/loader/canonical/sourcefixture hashes unchanged; old source/native/scene proofs not repeated. Structured memory/feature/state/inventory/TODO/handoff/changelog and final checks/source hashes recorded; no agent commit/push.
+
+**Limitations**
+
+- Source-only prefixes/fragments, not wholefunction behavior/ABI. Managed publication/direct CPU-DMA-native/lifecycle/positive ordinary use remain pending; semantic actor/action names/other consumers/unusedgaps and zero-divisor guest helper behavior remain unclaimed.
+- NewLinux/USA/nativeWindows and broader graphics/text/maps/gameplay/audio/GUI/archive/mod phases remain pending. No performance/startup/RSS/space campaign or AndroidPort change; private ROM/saves/inputs/generated/sourcefixtures remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-evaluation-score-and-threshold-parameters.json)
 
 ## 2026-10-23 — Decode European default constructor template with original copy and live patch proof
 
@@ -610,6 +657,33 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-fifty-two-byte-linked-metadata.json)
+
+## 2026-10-23 — Consume European evaluation coefficients and thresholds through original live score and RNG paths
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e34-d33 adds evaluation-parameters.json/gameplay.evaluation-parameters,29files/28resources/all27prior decoded files/e33 retained, USAe8-d7 unchanged. Preserve two source spans/38B/fixed7terms-2bonuses-5thresholds and all opaque bytes without unproved foreign owner/gap ownership.
+- Typed CPU/native/SWI/DMA projections and nonserialized field counters/class mask preserve original live producers/unsigned-u8 and signed32 division/wrap/bonus predicates/RNG/clock/save/nativeABI.18gap-class0 bytes remain raw; no diagnostic zero-divisor fallback enters guest code.
+
+**Validation**
+
+- Initial Windows51951compilation succeeds with one unusedimportwarning rejected by wrapper; pre-Wine review replaces overlapping isolated native stops with27complete score/shared-threshold prefixes. Corrected68404test and87827production builds warning-free/canonical restored; candidate SHA 8c88db6de17b77552b1a9c1dd4200c3c94e90f9998ccc3b61148a97351772df7. No Winefailure; source132+52 isolated proof not repeated.
+- Wine32104two checks pass publication interruption/create/reuse/repair/move/e33retention/coherent divisor/weight/unusedbonus/opaque-threshold/source/dependency/path/bothroles transactional guards and unavailable-copy Load/Undo/backup/restart.
+- 27original/interpreter/compiled prefixes with raw38B altered match fullstates/clocks. Compiled divisor82/weight84/bonus12/threshold14/opaque0B, classmask31, class0newsource0. All38B/edges/widths/mirrors/BIOS/fourmixedwords8typed/bothspansCpuSet-FastSet18-20typed/DMA2typed2raw pass; all18gap/row0B remain raw/no new counters.13068instructions/342dispatches coverageonly.
+- ActualCLI7961creates/reuses without writes/old cache/unrelatedcwd;31managed files hash/mtime guarded. Concrete063768->D2D44candidate caller justifies first retained1840Pubmission sample, positive15scoreB(divisor7/weight7/bonus1),0threshold/opaque/mask0. One Wine71943pair matches every fullstate/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio sample. Final Pubbackground inspected; selectedunit/fullmissionoutcome not independently inferred from separatedpanel image. No new fixture/RAMedit/savewrite/negative locator or olde28/e33acceptance repeat.
+- Protected ROM/e33/sourceproof/state/input/cache/loader/canonical/candidate retained; memory/whitespace/source hashes recorded at closure. No agentcommit/push, performance or space campaign.
+- HEADadvanced externallyto26409f7after this unit, committing prior e31/e32/e33content. CurrentEvaldiff inspected/preserved; no agent commit, old proofs not reopened.
+
+**Limitations**
+
+- Ordinary scope proves score fields only; all5threshold classes/RNG and opaque storage remain targeted-only. Whole-function tails/ABI, semantic actor/action names/other consumers, zero-divisor helper behavior and unused gaps remain unclaimed.
+- Separate11Bglobal positive ordinary condition gate and newLinux/USA/nativeWindows/broader graphics/text/maps/gameplay/audio/GUI/archive/mod phases remain pending. AndroidPort unchanged; private ROM/saves/inputs/sourcefixtures/generated code stay ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-evaluation-score-and-threshold-parameters.json)
 
 ## 2026-10-23 — Consume European default constructor template through managed typed bytes
 

@@ -240,6 +240,22 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   despite44oldmetadata12B. Positive ordinary global use/fullpair and highmode/
   newLinux/USA/nativeWindows remain pending; original descriptorhword4/live
   mask gates guide new scene selection. [Contract](../rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
+  EUR e34-d33 adds evaluation-parameters.json/gameplay.evaluation-parameters,
+  29files/28resources/all27prior decoded files/e33retained.7terms/2bonuses/
+  5class thresholds own38B at6e79a2..6e79b4and6e79c6..6e79da;14Bscoregap/
+  4Brow0unowned. Source132+52 and two focused Wine managed/native/lifecycle
+  checks pass27prefixes/raw38Baltered/fullstate-clock equality/all5thresholds/
+  class0no-read/SWI-DMA/rawgap boundaries. Original live producers/unsigned-u8/
+  signed32/wrap/bonuses/RNG/clock/save/nativeABI remain. One1840Pubmission
+  full-state/image/audio/actualCLI pair reads15scoreB; thresholdordinary
+  remains targeted-only. NewLinux/USA/nativeWindows/wholefunctiontails/
+  semanticlabels pending. [Contract](../rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
+  A static ten-byte progression/price contract bounds100records/1000B at
+  6e79da..6e7dc2 from normal index0..99and three literal/indexed/default paths.
+  Eightu8deltas retain original live level/progress/flag work; byte08discount
+  uses the original parsed-Items price chain. Byte09unused/12Btailunowned;
+  candidate101rows rejected. Model/source/runtime/ordinaryuse and newLinux/USA/
+  nativeWindows pending, e34unchanged. [Contract](../rom_data_gameplay.md#next-ten-byte-progression-and-price-records).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

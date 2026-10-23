@@ -711,6 +711,10 @@ pub fn pad_binding(name: &str) -> PadBinding<'_> {
 /// frontends parse through it. "auto" means "the screen model's default".
 #[derive(Clone, PartialEq, Debug)]
 pub struct AvConfig {
+    /// Debug tools: expose 99 snapshot and numbered cartridge-save slots.
+    pub debug_extended_saves: bool,
+    /// Selected portable cartridge slot; numeric so moving the bundle is safe.
+    pub debug_game_save_slot: u8,
     /// The premium audio path (final name TBD): band-limited sinc
     /// resampling, DC blocking, and buffer rate control instead of the
     /// hardware-faithful nearest-neighbor output. Off until the feature
@@ -758,6 +762,8 @@ pub struct AvConfig {
 impl Default for AvConfig {
     fn default() -> Self {
         Self {
+            debug_extended_saves: false,
+            debug_game_save_slot: 1,
             audio_enhanced: false,
             audio_volume: 1.0,
             audio_mute: false,
@@ -791,6 +797,10 @@ impl AvConfig {
             };
             let v = v.trim();
             match k.trim() {
+                "debug.extended_saves" => cfg.debug_extended_saves = v.eq_ignore_ascii_case("true"),
+                "debug.game_save_slot" => {
+                    if let Ok(slot @ 1..=99) = v.parse::<u8>() { cfg.debug_game_save_slot = slot; }
+                }
                 "audio.enhanced" => cfg.audio_enhanced = v.eq_ignore_ascii_case("true"),
                 "audio.mute" => cfg.audio_mute = v.eq_ignore_ascii_case("true"),
                 "ff.speed" => {
@@ -846,6 +856,8 @@ impl AvConfig {
     pub fn serialize(&self) -> String {
         format!(
             "# gba-recomp a/v settings\n\
+             debug.extended_saves = {}\n\
+             debug.game_save_slot = {}\n\
              audio.enhanced = {}\n\
              audio.volume = {}\n\
              audio.mute = {}\n\
@@ -865,6 +877,8 @@ impl AvConfig {
              video.aspect = {}\n\
              bubble.size = {}\n\
              bubble.length = {}\n",
+            self.debug_extended_saves,
+            self.debug_game_save_slot,
             self.audio_enhanced,
             self.audio_volume,
             self.audio_mute,
@@ -1252,6 +1266,21 @@ mod tests {
             cfg,
             "unknown keys keep defaults"
         );
+    }
+
+    #[test]
+    fn extended_saves_default_off_and_numeric_selection_roundtrips() {
+        let legacy = AvConfig::parse("audio.volume = 0.6\n");
+        assert!(!legacy.debug_extended_saves);
+        assert_eq!(legacy.debug_game_save_slot, 1);
+        let cfg = AvConfig::parse("debug.extended_saves = TRUE\ndebug.game_save_slot = 99\naudio.volume = 0.6\n");
+        assert!(cfg.debug_extended_saves);
+        assert_eq!(cfg.debug_game_save_slot,99);
+        assert_eq!(cfg.audio_volume,0.6);
+        assert_eq!(AvConfig::parse(&cfg.serialize()),cfg);
+        for invalid in ["0","100","256","-1","invalid"] {
+            assert_eq!(AvConfig::parse(&format!("debug.game_save_slot = {invalid}\n")).debug_game_save_slot,1);
+        }
     }
 
     #[test]

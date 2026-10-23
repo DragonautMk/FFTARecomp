@@ -22,6 +22,7 @@ mod play;
 mod rom_switch;
 mod rom_data;
 mod save_path;
+mod game_saves;
 mod save_state;
 mod save_backups;
 #[cfg(any(target_os = "linux", test))]
@@ -1065,7 +1066,7 @@ fn apply_av_change(
             let mut st = streams.lock().unwrap();
             st.configure_audio(av);
         }
-        menu::Changed::Overlay | menu::Changed::Fullscreen => {}
+        menu::Changed::Overlay | menu::Changed::Fullscreen | menu::Changed::Debug => {}
         menu::Changed::Gamut => {
             // Restart-required: persisted to av.cfg by the caller, applied
             // on the next launch. Live rebuild would tear down the GPU

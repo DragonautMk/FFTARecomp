@@ -1020,7 +1020,8 @@ originale/interprete/native con768rawBalterati/stato-clock identici; compiled369
 requirements/18return/9output/0unused,2successivalore0marcanobit,2fullmaskzero.
 All768B/64record/boundary/width/mirror/BIOS/twopages/SWIcrosspage32typed/DMA2typed2raw/
 12Brawgap/oldreward2newgate4coexistence passano. Fonte80+25chiusa/nonripetuta.
-CLI/scena05/receiptUI-FK/newLinux-USA-Windowsnativo dafare; nessunamisuraperformance.
+CLI/scena05completati sotto; receiptUI-FK/newLinux-USA-Windowsnativo restano,
+nessunamisuraperformance.
 [Contratto](../rom_data_gameplay.md#managed-and-direct-progression-gates).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
@@ -1341,6 +1342,23 @@ RAMedit/scritture save/prove362+68o27native ripetute; nuoviLinux-USA-Windowsnati
 wholecaller/campi semantici da fare. Nessuna misura performance/spazio.
 [Contratto](../rom_data_gameplay.md#managed-and-direct-progression-rewards).
 
+**ROMDATA-05-GAMEPLAY-PROGRESSION-GATES-SCENE-CLI completato nel perimetro EUR/Wine dichiarato:**
+produzione65421senzaavvisi/canonicalripristinato; CLI70968prepare/reuse-no-write/
+oldcache/unrelatedcwd/1framebattlecompat passano,33file hash-mtime invariati,
+zero newuse non scambiato per scena positiva. Locatorstatic174EURheaders/49payload
+rappresentativi non ha flagsidonei, nessunafalsaprovaordinary. UnicoGUIWine92614
+normalMadAlchemist10giorni/Sigmund/fee600/day9→19concheckpointUI2-3-4 nuovi
+necessari (nessunpayloadedit/savepersonale); MissionCleared/rewards/2skilllevelup
+ispezionati,209requirements/8delta/1thresholdGUI. Nuovo1000CLI29523positivo209/8;
+unicoWine57387fullpair1000stati-clock-immagini-OAM-dispatch-audio identici. E35
+row0otto deltaordinary chiusi; e36return/outputordinary targeted-only, threshold1
+GUIavviene prima slot3 quindi acceptanceprefixpaired ancora dafare. Sharedtestexe
+cambiato dal lavoroDebug parallelo: verificatoree36immutato, copiapinnata9e5e6f0c
+conquelcodicecompilatoparallelo; nessunafalsaidentitàcolvecchio19native. Provefonte/
+native/lifecycle vecchie nonripetute, nessunfullpairsuicoperturanegativa. Nuovi
+Linux/USA/Windowsnativo/receiptUI-FK restano, niente performance/spazio/Android.
+[Contratto](../rom_data_gameplay.md#ordinary-progression-gates-dispatch-completion).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
@@ -1400,13 +1418,13 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** buildCLI Windows e verificare prepare/reuse/no-write/compatibilità
-cache; per scena positiva progression-gates seguire condizione concreta
-04B5FC..04B606: flags live0201f504&0x1fe dopo otto delta, call04B60E. Trovare
-percorso gameplay normale; nessun replay Shop/Pub cieco o RAMedit. Fonte80+25/
-19native/lifecycle chiusi, e35fonte362+68/27native/600Shop chiusi, non ripetere.
-Delta ordinary e soglie RNGordinarie restano targeted-only; global11Bordinary
-richiede condizioni descriptor/live-mask concrete, niente EchoGrass invariato.
-Restano altre fonti indirette grafiche/testuali, mappe, audio/gameplay, GUI/
-archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA da fare, niente misure
-prestazionali o limiti spazio.
+**Prossima azione:** chiudere la piccola lacuna paired della soglia evaluation:
+la GUI ha letto1threshold alla firma MadAlchemist/Sigmund, prima del nuovo
+checkpointday18. Creare con normaleUI un checkpoint prima di AcceptconditionsYes,
+poi solo locatorpositivo e un breve fullpair di quella conferma (non rifare1000
+post-returnné1840Pubscore). E36fonte80+25/19native/1000completion ed e35row0delta8
+chiusi; return/outputordinarygates e global11Bcondition restano distinti.
+Poi inventariare nextroot6e80ce/16Bconsumer se non emergono altri criteri più
+concreti. Restano altre fonti indirette grafiche/testuali, mappe, audio/gameplay,
+GUI/archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA dafare, niente misure
+prestazionali/limiti spazio. Preservare lavoro paralleloDebugsalvataggi.

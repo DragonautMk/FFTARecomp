@@ -185,7 +185,7 @@ pub fn restart(machine: &mut Machine, boot: &[u8], save: &Path) -> Result<(), St
     Ok(())
 }
 
-fn prepare_boot(machine: &Machine, boot: &[u8], save: Option<&[u8]>) -> Result<Machine, String> {
+pub(super) fn prepare_boot(machine: &Machine, boot: &[u8], save: Option<&[u8]>) -> Result<Machine, String> {
     let bios = machine.bus.real_bios.then_some(machine.bus.bios.as_slice());
     let mut fresh = super::make_machine(machine.bus.rom.clone(), bios);
     fresh.bus.set_rom_resources(machine.bus.rom_resources().cloned())?;
@@ -213,7 +213,7 @@ fn read(path: &Path) -> std::io::Result<Vec<u8>> {
     }
     Ok(bytes)
 }
-fn atomic_write(path: &Path, bytes: &[u8], replace: bool) -> Result<(), String> {
+pub(super) fn atomic_write(path: &Path, bytes: &[u8], replace: bool) -> Result<(), String> {
     let parent = path
         .parent()
         .filter(|p| !p.as_os_str().is_empty())

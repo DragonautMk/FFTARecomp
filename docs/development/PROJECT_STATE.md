@@ -267,7 +267,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   publisher/ungated paths0newreads, allbytes/boundaries/mirrors/BIOS/SWI/DMA
   and old-evaluation/new-progression crossing pass. Source362+68closed;
   ActualCLI prepare/reuse/no-write/oldcache and one600Shop fullstate/image/
-  audio pair pass7discountB/record4; deltaordinary remains targeted-only.
+  audio pair pass7discountB/record4; later e36dispatch below covers8deltaB/row0.
   NewLinux/USA/nativeWindows/whole progression caller remain pending.
   [Contract](../rom_data_gameplay.md#managed-and-direct-progression-rewards).
   Next static progression-gates source owns64x12/768B6e7dce..6e80cefrom
@@ -284,8 +284,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   managed/native/lifecycle checks pass19original/interpreter/native paths
   with all768rawB altered/fullstate-clock equality, zero-valued success and
   fullmask0read preserved;bus/BIOS/SWIpagecross/DMA/gap/coexistence pass.
-  Source80+25closed, actualCLI/ordinary05/downstreamreceipt-FK/newLinux/USA/
-  nativeWindows pending. [Contract](../rom_data_gameplay.md#managed-and-direct-progression-gates).
+  Source80+25closed. ProductionCLIcreate/reuse-no-write/oldcache passes; a
+  new normal10dayMadAlchemist dispatch yields209requirements/8deltaB, one
+  1000Winefullstate-image-audio pair passes. Return/outputordinary remain
+  targeted-only; GUIthreshold1use at signing has a separate paired-prefix
+  gap. Downstreamreceipt-FK/newLinux/USA/nativeWindows pending. [Contract](../rom_data_gameplay.md#managed-and-direct-progression-gates).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit
@@ -830,11 +833,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   stride and cannot be interpreted with the current frontend zoom. Separate
   UI caches stay hidden until the next completed guest frame rebuilds them;
   preview generation does not advance the machine or change its snapshot format.
-- [Save states](../save_states.md): pause menu > Save states, nine controller-
+- [Extended saves](../extended_saves.md): Debug option defaults off and expands
+  snapshot slots from 9 to 99 without changing paths/formats or deleting hidden
+  files. Debug > Game saves selects 99 standard cartridge files: original slot 1,
+  `-slot-02.sav` through `-slot-99.sav`. Copy protects confirmed replacements;
+  switching validates/prepares boot, backs up target, flushes old source and
+  updates active path before frontend reset. Empty targets use erased memory.
+  Portable selection persists only a number; explicit FFTA_SAVE_PATH wins.
+- [Save states](../save_states.md): pause menu > Save states, nine default controller-
   operated slots with embedded previews and in-menu overwrite/error feedback.
   Storage: `SaveStates/<ROM SHA-256>/slot-1.ffstate` through `slot-9.ffstate`,
   relative to the selected cartridge save directory. A new session starts at
-  slot 1; Left/Right wraps between all nine. Legacy raw states can be copied
+  slot 1; Left/Right wraps between the nine or 99 enabled slots. Legacy raw states can be copied
   into an unused slot and loaded without an image until resaved.
   Files use `.ffstate`, carry ROM/BIOS identity and a versioned machine snapshot,
   and are separate from cartridge `.sav` files. Loading also rewinds cartridge

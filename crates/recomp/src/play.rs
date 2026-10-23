@@ -517,6 +517,7 @@ struct PlayApp {
     // Core machine + persistence.
     machine: Machine,
     sav_path: String,
+    game_saves: crate::game_saves::GameSaves,
     state_slots: crate::save_state::Slots,
     save_backups: crate::save_backups::Backups,
     boot_state: Vec<u8>,
@@ -1663,17 +1664,21 @@ impl PlayApp {
     }
 
     fn refresh_state_slots(&mut self) {
-        let slots = std::array::from_fn(|i| {
-            let info = self.state_slots.info(i as u8 + 1);
+        self.state_slots.set_extended(self.av.debug_extended_saves);
+        let slots = (1..=self.state_slots.count()).map(|slot| {
+            let info = self.state_slots.info(slot);
             menu::StateSlot {
                 occupied: info.occupied,
                 preview: info.preview,
                 status: info.status,
             }
-        });
+        }).collect();
         self.menu.set_state_slots(slots);
         self.menu.set_state_undo(self.state_slots.undo_label());
         let expected = self.machine.bus.save_data().map_or(0, |data| data.len());
+        if self.av.debug_extended_saves {
+            self.menu.set_game_saves(self.game_saves.choices(expected));
+        }
         let choices = self.save_backups.choices(expected);
         self.menu
             .set_save_backups(choices.map(|choice| menu::BackupInfo {
@@ -1713,6 +1718,50 @@ impl PlayApp {
             }
         }
         pixels
+    }
+
+    fn switch_game_save(&mut self, slot: u8) {
+        if !self.av.debug_extended_saves { return; }
+        if self.record.is_some() {
+            self.menu.game_save_result("Stop input recording before switching saves.".into());
+            self.menu_dirty = true;
+            return;
+        }
+        let message = match self.game_saves.switch(&mut self.machine, &self.boot_state, slot) {
+            Ok(path) => {
+                self.sav_path = path.to_string_lossy().into_owned();
+                self.sav_seen = self.machine.bus.save_data().map(fnv64);
+                self.save_backups = crate::save_backups::Backups::new(&path);
+                self.state_slots = crate::save_state::Slots::new(&path, &self.machine.bus.rom);
+                self.av.debug_game_save_slot = slot;
+                crate::save_path::remember(&path);
+                let persisted = self.av.save();
+                let enabled = self.icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref() == Ok("1");
+                self.game_mouse = gba_core::ffta_mouse::LanguageMouse::new(&self.machine.bus.rom, enabled);
+                self.machine.bus.ffta_battle_mouse.set_enabled(self.icfg.mouse_keyboard);
+                self.after_state_restore();
+                match persisted {
+                    Ok(()) => format!("Slot {slot:02} active. Resume, then load inside the game."),
+                    Err(e) => format!("Slot {slot:02} active; cannot remember selection: {e}"),
+                }
+            },
+            Err(e) => format!("Cannot switch save: {e}"),
+        };
+        self.refresh_state_slots();
+        self.menu.game_save_result(message);
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
+    fn copy_game_save(&mut self, slot: u8, overwrite: bool) {
+        if !self.av.debug_extended_saves { return; }
+        let message = match self.game_saves.copy_current(&self.machine, slot, overwrite) {
+            Ok(()) => format!("Copied current game save to slot {slot:02}."),
+            Err(e) => format!("Cannot copy save: {e}"),
+        };
+        self.refresh_state_slots();
+        self.menu.game_save_result(message);
+        self.menu_dirty = true;
     }
 
     fn restart_rom(&mut self) {
@@ -2733,6 +2782,8 @@ impl ApplicationHandler for PlayApp {
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),
                     menu::MenuAction::RestoreBackup(id) => self.restore_save_backup(id),
+                    menu::MenuAction::SwitchGameSave(slot) => self.switch_game_save(slot),
+                    menu::MenuAction::CopyGameSave { slot, overwrite } => self.copy_game_save(slot, overwrite),
                     menu::MenuAction::Quit => quit = true,
                     menu::MenuAction::SwitchRom => {
                         if self.choose_rom() {quit=true;break;}
@@ -2775,6 +2826,9 @@ impl ApplicationHandler for PlayApp {
                         }
                     }
                     menu::MenuAction::Changed(what) => {
+                        if what == menu::Changed::Debug {
+                            self.refresh_state_slots();
+                        }
                         if what == menu::Changed::Fullscreen {
                             self.set_fullscreen(self.av.video_fullscreen);
                         }
@@ -2800,7 +2854,7 @@ impl ApplicationHandler for PlayApp {
                         );
                         // apply_av_change may rebuild the temporal state for
                         // a 160-row frame; make it match the zoomed size.
-                        if !matches!(what, menu::Changed::Overlay | menu::Changed::Audio | menu::Changed::Fullscreen) {
+                        if !matches!(what, menu::Changed::Overlay | menu::Changed::Audio | menu::Changed::Fullscreen | menu::Changed::Debug) {
                             self.rebuild_temporal();
                         }
                         // apply_av_change rebuilds grid_params from scratch.
@@ -3413,6 +3467,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let menu_enabled = manifest.as_ref().map(|m| m.menu).unwrap_or(true);
 
     let sav_seen = machine.bus.save_data().map(fnv64);
+    let game_saves = crate::game_saves::GameSaves::new(Path::new(&sav_path));
     let state_slots = crate::save_state::Slots::new(Path::new(&sav_path), &machine.bus.rom);
     let game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&machine.bus.rom,icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref()==Ok("1"));
     if icfg.mouse_keyboard {machine.bus.ffta_battle_mouse.set_enabled(true);}
@@ -3423,6 +3478,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let mut app = PlayApp {
         machine,
         sav_path,
+        game_saves,
         state_slots,
         save_backups,
         boot_state,

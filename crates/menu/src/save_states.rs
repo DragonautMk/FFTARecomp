@@ -76,7 +76,7 @@ pub(super) fn draw(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
         width,
     );
     let slot = &menu.state_slots[menu.state_slot];
-    let label = format!("Slot {} / 9 - {}", menu.state_slot + 1, slot.status);
+    let label = format!("Slot {} / {} - {}", menu.state_slot + 1, menu.state_slots.len(), slot.status);
     c.text(
         x,
         (l.panel_y + l.pad) as f32 + 27. * scale,
@@ -148,7 +148,7 @@ pub(super) fn draw(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
             [184, 146, 65],
         );
         let label = if *row == Row::StateSlot {
-            format!("<   Slot {} / 9   >", menu.state_slot + 1)
+            format!("<   Slot {} / {}   >", menu.state_slot + 1, menu.state_slots.len())
         } else if *row == Row::UndoState {
             menu.state_undo
                 .clone()

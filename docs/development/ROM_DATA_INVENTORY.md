@@ -418,8 +418,10 @@ remain groundwork for other linked graphics families.
   guards. EUR e36-d35adds31stfile/30thresource/all29prior decoded/e35retained;
   two focused Wine managed-native-lifecycle checks pass19original/typed/native
   fullstate-clock paths/raw768Baltered/two-page typed bus/zero-success/fullmask/
-  SWI-DMA/gap/coexistence. ActualCLI/ordinaryuse/downstreamreceipt-FK/newLinux/
-  USA pending.
+  SWI-DMA/gap/coexistence. ActualCLI no-write/oldcache and one1000Wine normal
+  dispatchcompletion fullstate/image/audio pair pass209requirements/8deltaB;
+  return/outputordinary targeted-only. GUI1threshold at signing is positive
+  but its paired prefix/downstreamreceipt-FK/newLinux/USA remain pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

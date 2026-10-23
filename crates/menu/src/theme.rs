@@ -115,6 +115,10 @@ pub(super) fn draw(
         super::save_states::draw(menu, px, w, h);
         return;
     }
+    if matches!(menu.page, Page::GameSaves | Page::SwitchGameSave | Page::ReplaceGameSave) {
+        super::game_saves::draw(menu, px, w, h);
+        return;
+    }
     if matches!(menu.page, Page::SaveBackups | Page::RestoreBackup) {
         super::save_backups::draw(menu,px,w,h);
         return;
@@ -161,6 +165,7 @@ pub(super) fn draw(
     );
     if menu.page != Page::Main {
         let label = match menu.page {
+            Page::Debug => if menu.debug_message.is_empty() { "DEBUG OPTIONS" } else { &menu.debug_message },
             Page::Exit => "QUIT GAME?",
             Page::SaveStates => "SAVE STATES",
             Page::FastForward => "FAST FORWARD",

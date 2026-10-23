@@ -1,4 +1,4 @@
-# Nine desktop save-state slots
+# Desktop save-state slots
 
 For the desktop portable editions, settings are under `Data/config` and the
 cartridge save is `Data/saves/ffta.sav`, with backups and state slots beside it.
@@ -25,6 +25,11 @@ available. Success and errors appear in the same panel and need no OS dialog.
 The menu-opening combination remains configurable under Input > Open menu.
 Slots remember the selected number while this game session is running; a new
 session starts at slot 1.
+
+**Debug > Extended saves** expands the picker to **1–99**. It defaults to OFF;
+disabling it preserves all files and hides slots above 9. See
+[Extended saves](extended_saves.md) for the separate numbered cartridge-save
+picker and copy/restart behavior.
 
 ## Undo the last save or load
 
@@ -71,8 +76,8 @@ The folder is relative to the **currently selected cartridge `.sav` file**:
 The folder is created on the first save. Names never depend on the ROM filename;
 identical ROM content in the same save directory shares slots, while a different
 ROM/region has its own subfolder. Changing the cartridge save directory also
-changes where its slots are stored. There are exactly nine numbered slots per
-ROM in that folder; there is no automatic rotation or deletion of older slots.
+changes where its slots are stored. Nine numbered slots are exposed by default,
+or 99 with Extended saves; there is no automatic rotation or deletion.
 
 The screenshot captures the current visible game view, with zoom/letterboxing
 and native UI, excluding the pause menu and FPS HUD. It is stored as a 240×160
@@ -82,12 +87,12 @@ and atomic replacement. An unexpected occupied slot is protected against an
 unconfirmed write, even if it appeared after the menu read its status.
 
 Files persist across restarts. The slot picker reads only their preview prefix;
-it does not decode all nine complete machines just to show a thumbnail.
+it does not decode complete machines just to show a thumbnail.
 
 ## Existing checkpoints and compatibility
 
 Original raw `.ffstate` checkpoints remain loadable. To import one, copy it
-into the ROM's slot folder as `slot-1.ffstate` (or another unused number 1–9).
+into the ROM's slot folder as `slot-1.ffstate` (or another unused accessible slot).
 An older file displays Saved - no preview; loading works as before. Saving into
 that slot replaces it with the new preview-bearing format after confirmation.
 Existing files elsewhere are not moved or deleted automatically.

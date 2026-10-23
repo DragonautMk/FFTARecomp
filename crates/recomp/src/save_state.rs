@@ -1,4 +1,4 @@
-//! Nine per-ROM slots. Preview and machine state share one atomic file.
+//! Per-ROM slots (nine by default, 99 with Extended saves).
 use gba_core::{save_state::MAX_STATE_BYTES, Machine};
 use sha2::{Digest, Sha256};
 use std::{
@@ -8,6 +8,7 @@ use std::{
 };
 
 pub const SLOT_COUNT: u8 = 9;
+pub const EXTENDED_SLOT_COUNT: u8 = 99;
 pub const PREVIEW_W: usize = 240;
 pub const PREVIEW_H: usize = 160;
 const PREVIEW_BYTES: usize = PREVIEW_W * PREVIEW_H * 4;
@@ -18,6 +19,7 @@ const MAX_FILE_BYTES: usize = PREFIX + MAX_STATE_BYTES;
 
 pub struct Slots {
     directory: PathBuf,
+    count: u8,
     undo: Option<Undo>,
 }
 
@@ -57,13 +59,20 @@ impl Slots {
             .unwrap_or(Path::new("."));
         Self {
             directory: parent.join("SaveStates").join(sha),
+            count: SLOT_COUNT,
             undo: None,
         }
     }
 
+    pub fn set_extended(&mut self, enabled: bool) {
+        self.count = if enabled { EXTENDED_SLOT_COUNT } else { SLOT_COUNT };
+    }
+
+    pub fn count(&self) -> u8 { self.count }
+
     pub fn path(&self, slot: u8) -> Result<PathBuf, String> {
-        if !(1..=SLOT_COUNT).contains(&slot) {
-            return Err("State slot must be between 1 and 9".into());
+        if !(1..=self.count).contains(&slot) {
+            return Err(format!("State slot must be between 1 and {}", self.count));
         }
         Ok(self.directory.join(format!("slot-{slot}.ffstate")))
     }
@@ -422,6 +431,40 @@ mod tests {
             assert_eq!(slots.info(slot).preview, preview());
         }
         assert_eq!(std::fs::read_dir(&slots.directory).unwrap().count(), 9);
+    }
+
+    #[test]
+    fn extended_slots_preserve_original_paths_and_high_slot_undo_across_toggles() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut m = Machine::new(vec![0;256]);
+        let mut slots = Slots::new(&dir.path().join("ffta.sav"), &m.bus.rom);
+        let first = slots.path(1).unwrap();
+        slots.set_extended(true);
+        assert_eq!(slots.count(),99);
+        assert_eq!(slots.path(1).unwrap(),first);
+        assert!(slots.path(0).is_err());
+        assert!(slots.path(100).is_err());
+        for slot in [9,10,99] {
+            m.cpu.regs[4] = slot as u32;
+            slots.save(&m,slot,&preview(),false).unwrap();
+        }
+        let high = slots.path(99).unwrap();
+        let bytes = std::fs::read(&high).unwrap();
+        assert!(slots.save(&m,99,&preview(),false).is_err());
+        slots.set_extended(false);
+        assert!(slots.path(99).is_err());
+        assert!(slots.undo(&mut m).is_err());
+        assert_eq!(std::fs::read(&high).unwrap(),bytes);
+        assert!(slots.undo_label().unwrap().contains("99"));
+        slots.set_extended(true);
+        assert_eq!(slots.undo(&mut m).unwrap(),UndoEffect::Save(99));
+        assert!(!high.exists());
+        m.cpu.regs[4] = 55;
+        slots.load(&mut m,10).unwrap();
+        assert_eq!(m.cpu.regs[4],10);
+        assert_eq!(slots.undo(&mut m).unwrap(),UndoEffect::Load(10));
+        assert_eq!(m.cpu.regs[4],55);
+        assert_eq!(std::fs::read_dir(&slots.directory).unwrap().count(),2);
     }
 
     #[test]

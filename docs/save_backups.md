@@ -13,7 +13,9 @@ creates one copy; the next creates the second. Each subsequent launch creates
 a new complete copy before removing the oldest one. Unchanged launches can
 produce identical copies. No copy is invented when the `.sav` does not yet exist.
 
-These are separate from the nine `.ffstate` slots and their one-step undo.
+These are separate from the `.ffstate` slots and their one-step undo.
+[Extended saves](extended_saves.md) gives each numbered `.sav` its own backup
+folder, protecting an existing target before selection or confirmed replacement.
 [Restart ROM](restart_rom.md) reboots using current cartridge memory without
 rotating or restoring these startup copies.
 

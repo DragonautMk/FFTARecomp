@@ -1,0 +1,98 @@
+# Extended saves (desktop debug option)
+
+Open the pause menu, choose **Debug**, then enable **Extended saves** with
+Left/Right, or Confirm and the ON/OFF selector. The default is OFF. The choice
+is stored as `debug.extended_saves` in `av.cfg`, including portable
+`Data/config/av.cfg`.
+
+## Snapshot slots
+
+The existing **Save states** page offers slots **1–99** while enabled, and
+**1–9** otherwise. Left/Right wraps, so Left from slot 1 selects slot 99.
+Previews, overwrite confirmation and the session's single Undo work as before.
+Names remain `SaveStates/<ROM-SHA-256>/slot-1.ffstate` through
+`slot-99.ffstate`, beside the selected `.sav`.
+
+Disabling the option hides slots 10–99 without deleting or renaming them.
+The picker moves back into the 1–9 range. Undo save for a hidden slot requires
+enabling Extended saves again. State format, ROM/BIOS checks and native
+translation compatibility are unchanged. See [Save states](save_states.md).
+
+## Standard game saves
+
+With Extended saves enabled, **Debug > Game saves** selects up to 99 cartridge
+save files. Left/Right changes the selected number; Confirm on Slot advances
+one number. The page shows the filename, whether the file is saved, empty or
+unreadable, and which slot is active.
+
+Slot 1 retains the existing filename. Slots 2–99 add the suffix `-slot-NN`
+before its extension. In a portable bundle the files are:
+
+```text
+Data/saves/ffta.sav          (slot 1)
+Data/saves/ffta-slot-02.sav  (slot 2)
+...
+Data/saves/ffta-slot-99.sav  (slot 99)
+```
+
+An installed or explicitly selected `my.progress.sav` uses
+`my.progress-slot-02.sav`, etc., in the same directory. The two-digit suffix
+`-slot-02` through `-slot-99` is reserved for numbering; reopening such a file
+returns to the same family instead of appending another suffix. Existing
+unnumbered saves are not renamed, moved or converted. Files copied manually
+into these numbered paths appear on the next menu refresh.
+
+- **Copy current save** copies the cartridge memory to the selected file.
+  Save using the game's own command first: this copies ordinary saved progress,
+  not the exact current scene or unsaved play. The active slot does not change.
+  Replacing an occupied file requires explicit confirmation, initially on
+  Cancel, and first protects its old contents in its own backup folder.
+- **Use and restart** asks for confirmation, initially on Cancel, flushes the
+  current cartridge memory to its old file, and boots the game on the selected
+  file in the same window. Resume, then choose the game's normal Load command.
+  An empty slot starts with erased cartridge memory for a new game.
+
+Selection validates the destination's size and prepares a clean machine before
+changing the active save. A bad file, failed backup, bad boot state or failed
+source write leaves the current machine and active slot unchanged. An existing
+destination is backed up before loading; it is not overwritten by the old
+machine. The normal autosave and exit paths subsequently use only the active
+filename. Switching clears snapshot Undo and resets frontend input/audio/video
+history like Restart ROM; it is refused during input recording.
+
+Each numbered file has its own [two backups](save_backups.md). Snapshot slots
+remain shared per ROM and directory: loading a snapshot also restores cartridge
+memory, which may later be written to the currently active standard slot.
+
+Portable mode remembers only `debug.game_save_slot = 1..99`, so moving the
+bundle keeps the selection valid. Installed mode remembers the selected path
+through the existing shared-save preference. `FFTA_SAVE_PATH` still overrides
+startup selection. Disabling Extended saves keeps the active standard file;
+it hides the selection tools and preserves every file.
+
+The filename and size checks do not validate the game's internal checksums.
+The original game still decides whether an ordinary save is usable. This
+feature changes the desktop workspace only; AndroidPort is separate.
+
+## Validation
+
+The Windows GNU release builds of the affected tests and production CLI pass
+without compiler warnings. Wine runs pass 29 input/config tests, 39 menu tests
+and 22 targeted runtime tests (3 numbered-save, 10 snapshot, 7 backup and
+2 save-path tests); one existing optional resource-backed backup check is
+ignored. The tests cover high-slot undo/preservation, exact numbered paths,
+custom names containing dots, failed switch isolation and overwrite guards.
+Picker rendering and mouse hit geometry are checked from 240x160 to 3840x2160.
+
+Three normal Windows/Wine GUI sessions with keyboard input verify default nine
+slots, enabling Extended saves, snapshot99 save/load/Undo and overwrite cancel,
+disabling without deleting it, copying cartridge progress to slot99, safe
+switch confirmation, an empty slot's erased memory, returning to slot99,
+restart and moving the portable folder with an unrelated working directory.
+The screenshots were inspected and source ROM/save/snapshot hashes remain
+unchanged. Evidence is local under `target/extended-saves/`, including test
+logs, `windows-build.json`, GUI captures and `gui-results.json`.
+
+These GUI checks use Wine, interpreter execution and BIOS HLE, not native
+Windows hardware or a physical gamepad. New Linux runtime checks, the optional
+resource-backed check, release packaging and AndroidPort remain unverified.

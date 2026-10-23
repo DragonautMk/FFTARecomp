@@ -636,10 +636,14 @@ Type: added. Platforms: Windows, Wine.
 - Windows68535warning-free/Wine97635two focused checks terminal/pass: publication interruption/create/reuse/repair/move/e35retention/coherent requirement-return-output-unused-lastrow-reorder-source-dependency-path-role/transactional owner-state/all768B-all64bits/unavailable-copy Load-Undo-backup-restart.
 - 19original/interpreter/native complete0487c8paths with768rawB altered match fullstates/clocks; compiled369requirement/18return/9output/0unused B,2zero-value successes still mark bit,2fullmask paths0newreads. Allbytes/recordedges/widths/mirrors/real-BIOS/two pages/pagecrossing/12Brawgap/oldreward2-newgate4typed coexistence/CpuSet-FastSet32typed across page/DMA2typed2raw pass.28874instructions/158native dispatches coverageonly; source80+25/earlier e35proof not repeated.
 - Protected originals/e35dataset/sourcefixtures/cache/loader/canonical/candidate unchanged; structured memory/final hashes/checks recorded, no build-Winefailure/live runtime process/agentcommit-push.
+- Windows65421production warning-free/canonical restored; actualCLI70968create/reuse/no-write/oldcache/unrelatedcwd/one-frame existingbattle startup passes,33managed file hashes-mtimes unchanged,0newuse compatibility-only. Read-only174EURheaders/49checksum-verified representative locator (includes old targeted/rejected states) has0needed progression flags and establishes no ordinary acceptance.
+- One isolated Wine92614normal GUI follows MadAlchemist10dispatch days/Sigmund/fee600 from day9to19. New private normalUI slots2/3/4 capture accepted/pre-return/MissionCleared states because retained fixtures lacked this criterion; no ROM/RAM/snapshot edits or personal-save writes. Cleared/rewards3400gil-80AP-MythrilPick-TerreRod/two skill levelups inspected. GUIreads209requirements/8deltas/1threshold at signing; new return/output0, no receipt inferred.
+- New1000CLI29523positive209requirements/8deltas; one Wine57387full pair matches1000complete states/clocks/central-wide images/OAM/dispatch/mixed-PSG-FIFO-HLEaudio with same counts. E35all8row0delta ordinary gap closed, old600Shop/source362+68/native27/e36source80+25/native19/lifecycle proof not repeated. No fullpair on coverage-negative locators.
+- Parallel Debug-save work overwrote shared test executable: e36scene validator/source checked unchanged; current compiled artifact pinned9e5e6f0cfa4db6c9c4af846911e7012a6fef2fe29db859454709a4c351623e17includes that parallel code. Normal loader/state format used here unchanged, no false reuse of old19native binary proof. External3ea9b61and all other user source/docs/skill changes preserved; no agentcommit-push. Final memory/whitespace/protected/sourcehash guards recorded.
 
 **Limitations**
 
-- Production actual CLI and positive ordinary scene05remain pending. Ordinary04B60Erequires concrete live0201f504&0x1feafter8deltahelpers; no unrelated blindShop-Pub replay or RAMedit. Whole downstream receiptUI/FK/semantic names not claimed.
+- Ordinary scope covers209requirement bytes and8row0delta bytes; gate return/output/all64successes remain targeted-only. GUIthreshold1use is at signing before slot3; a paired acceptance prefix remains pending. Whole downstream receiptUI/FK/semantic names and other consumers not claimed. NormalGUIvolume0does not validate audible quality; nonfatal host diagnostics retained without performance interpretation.
 - NewLinux/USA/nativeWindows and widerTODO pending; no performance/startup/RSS/space measurements or AndroidPort changes. Private ROM/data/saves/inputs/generated fixtures remain ignored.
 
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
@@ -889,6 +893,34 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json)
+
+## 2026-10-23 — Add Extended saves with 99 snapshots and numbered cartridge saves
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a default-off Debug > Extended saves setting, persisted in av.cfg, expanding the existing snapshot picker/storage to 99 slots with unchanged legacy filenames, preview format, overwrite protection and session Undo. Disabling preserves all high-slot files.
+- Add Debug > Game saves with 99 numbered standard-save choices: keep the original filename as slot 1 and use -slot-02 through -slot-99 suffixes for the rest. Show file status, filename and active slot; support copying current cartridge progress with explicit replacement confirmation and per-file backups.
+- Switch cartridge files transactionally in the current window: validate target size, prepare a clean boot, protect target bytes, flush the old source and then replace the machine/active path. Empty slots use erased memory; recording blocks switching and failures preserve the live session. Reset frontend timelines and snapshot Undo after switching.
+- Persist only the portable numeric selection so bundle moves retain the selected file; keep FFTA_SAVE_PATH precedence and installed shared-save remembering. Compact main-menu spacing to keep the new Debug entry visible and document the separate snapshot/cartridge workflows.
+
+**Validation**
+
+- Offline locked release Windows GNU cross-builds of affected tests and the production recomp CLI pass without warnings; the previous canonical executable is restored by hash and target/extended-saves/recomp-extended-saves.exe is retained.
+- Wine: 29 input/config and 39 menu tests pass, including persisted default/bounds, 99-slot actions, safe confirmations and picker render/mouse geometry at 240x160 through 3840x2160.
+- Wine targeted runtime checks: 3 numbered-save, 10 snapshot, 7 backup and 2 save-path tests pass; 1 pre-existing optional resource-backed backup check is ignored. Covers high-slot Undo across toggles, source-write/boot/invalid-target failure isolation, original/dotted/relocated paths, no-clobber copies and erased empty-slot memory.
+- Three isolated normal Wine GUI sessions with keyboard input pass snapshot99 save/load/Undo/overwrite-cancel, disabling without deletion, standard99 copy/switch/cancel, empty slot2 with exact erased bytes, restart and moving a portable folder with unrelated cwd. Captures visually inspected; original ROM/save/snapshot hashes unchanged. Evidence: target/extended-saves/{gui-results.json,windows-build.json,*-tests.log,*.png}.
+
+**Limitations**
+
+- Native Windows hardware, physical controllers, new Linux runtime checks, installed-mode GUI persistence and AndroidPort are not validated; no release archive or installer was produced.
+- GUI checks use interpreter execution, BIOS HLE and Wine/Xvfb. The optional resource-backed backup check was not repeated; audio quality and performance were not assessed.
+- Standard-save validation checks file readability and size, not internal game checksums. Copies contain progress saved by the game; snapshot loading can subsequently persist its cartridge memory to the currently selected standard file.
+
+Documentation: [extended_saves.md](docs/extended_saves.md), [save_states.md](docs/save_states.md), [save_backups.md](docs/save_backups.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-add-extended-debug-save-slots.json)
 
 ## 2026-10-22 — Validate European text catalog consumption in the retained pub transition and production CLI
 

@@ -1457,7 +1457,8 @@ full pair matches every complete state/clock/central-wide image/OAM/dispatch
 and mixed/PSG/FIFO/HLE audio stream, with the same7typed discount bytes.
 Final shop background is visually inspected; the separated inventory panel
 is absent from the raw PPM, so item selection/transactions are not inferred
-from that image. Delta use remains targeted-only. No negative locator, new
+from that image. Delta use at this earlier600frame boundary is targeted-only; the later e36
+1000frame dispatch completion below proves all8delta fields of row0. No negative locator, new
 recording/RAM edit/persisted save write or old accepted proof is repeated.
 Production33726build is warning-free and canonical binary restored by hash.
 Evidence: windows-build.json, windows-cli-{processes,no-write,summary}.json,
@@ -1572,11 +1573,70 @@ are coverage only. Source80+25and earlier e35proof are closed, not repeated.
 
 Evidence: `target/rom-data-progression-gates/windows-managed-results.json`,
 `windows-managed-europe/{managed-result,native-result}.json` and
-managed-final-summary.json/managed-final-source-hashes.json. Production CLI and
-ordinary scene05remain pending. The original ordinary call04B60Eis gated by
+managed-final-summary.json/managed-final-source-hashes.json. Production and
+ordinary scene05are now verified below. The original ordinary call04B60Eis gated by
 04B5FC..04B606checking live0201f504&0x1feafter the eight delta calls; context
 pointer0201f508and selected row pointer0201f530remain original. It must be
 reached through normal gameplay, not a RAM edit or unrelated blind Shop/Pub
 replay. Source/native proof does not establish ordinary receipt/UI behavior.
 NewLinux/USA/nativeWindows/downstream receipt semantics/FK/other consumers and
 wider TODO remain pending; no performance/space or AndroidPort work included.
+
+
+## Ordinary progression gates dispatch completion
+
+Windows65421productionbuild is warning-free and restores the canonical binary
+by hash. ActualCLI70968create/reuse/no-write/unrelated-cwd and a one-frame
+old-native-cache/battle-snapshot startup pass;33managed file hashes/mtimes stay
+unchanged. That startup reads0newbytes and is compatibility-only. A read-only
+retained-snapshot locator inspects174EURheaders/49checksum-verified representative
+payloads: none has the needed newlevel flags. It includes old targeted and
+rejected-candidate states and provides no ordinary acceptance. A1840prefix
+rendering probe still lacks detached panels because snapshot DialogueState
+restores separation after runc's environment setting; no product code is changed.
+
+One isolated Wine/Xvfb/Vulkan GUI session follows normal gameplay. Mad Alchemist
+requires10dispatch days/no items/jobs/skills; Sigmund is sent for600gil on day9.
+Normal map travel through the western node/Nubswood reaches day19. An observed
+encounter on the eastern route is avoided with normal Load of the new day9slot;
+no ROM/RAM/snapshot payload is edited. New private UI slots2(day9accepted),
+3(day18pre-return),4(day19MissionCleared) support this previously missing
+criterion; the original copied slot1and all source fixtures remain unchanged.
+The inspected GUI shows Mission Cleared/unit returned,3400gil/80AP/MythrilPick/
+TerreRod and skill levels8,1,11,3,2,8,42,2→8,2,11,4,2,8,42,2. Only isolated
+storage/config/test cartridge files may change; no personal save is written.
+GUI counters read209new requirement bytes/8delta bytes/1evaluation threshold
+(class1). This does not infer newly unlocked receipts: new return/output reads0.
+
+First new1000frame CLI replay29523from day18slot3 is positive209requirements/
+8deltas. One Wine57387full pair matches every complete state/clock/central-wide
+image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio stream with identical counts. New
+record mask6155840078674362367shows observed unmarked-row tests, not all64ordinary
+rows. e35delta ordinary use is now proved for row0/all8delta fields; earlier600
+Shop/362+68source/27native proof is not repeated. e36return/output and all-record
+success coverage remain targeted-only. The threshold is read at mission signing
+before slot3, so this pair reads0thresholds; the new GUI1threshold use is distinct
+from a still-pending paired acceptance prefix. No fullpair runs on negative
+coverage and no benchmark/profiling/performance/space measurement is performed.
+
+The shared test executable was overwritten by parallel Debug-save work. Its
+e36scene validator/ROM-data implementation is checked unchanged; the current
+Windows test artifact is frozen as recomp-tests-scene.exe (9e5e6f0cfa4db6c9c4af8469
+11e7012a6fef2fe29db859454709a4c351623e17) before this new full pair. It includes
+that parallel compiled code; the normal9-slot format/loader used here is
+unchanged. The e36production candidate is46c8cb78cadb9c7e2d7d41f236135afaee39ca8e6
+05b89fc504eaec412daff1d. Source/native19proof remains on its original artifact;
+no current binary is falsely identified as that earlier proof. External3ea9b61
+commits e36source/runtime; other Debug-save source/docs/skill changes are
+inspected/preserved without agent edits or commit. Normal-play host diagnostics
+remain in GUI logs without performance interpretation; volume0is not an audible
+quality test. NewLinux/USA/nativeWindows/whole receipt UI/FK/other consumers/
+remaining TODO stay pending.
+
+Evidence under `target/rom-data-progression-gates/`: windows-build.json,
+windows-cli-{processes,no-write,summary,dispatch-original-ui,dispatch-completion}.json,
+retained-state-locator.json, windows-dispatch/{commands,result,scene-inputs}.json
+and inspected captures, dispatch-completion.input, scene-executable.json,
+windows-scene-result.json, windows-dispatch-progression-gates-full-state-audio.log,
+final-summary.json/final-protected.json/final-source-hashes.json. Private data
+and states remain ignored and excluded from commits/packages.

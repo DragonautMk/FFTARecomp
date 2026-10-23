@@ -18,9 +18,11 @@ mod controller_icons;
 mod menu_icons;
 mod theme;
 mod save_states;
+mod game_saves;
 mod save_backups;
 pub use save_backups::BackupInfo;
 pub use save_states::StateSlot;
+pub use game_saves::GameSaveSlot;
 
 use input_config::{AvConfig, Button, Device, GamepadLayout, InputConfig};
 use screen::{ResponseMode, ScreenKind};
@@ -63,12 +65,16 @@ pub enum MenuAction {
     LoadState(u8),
     UndoState,
     RestoreBackup(u64),
+    SwitchGameSave(u8),
+    CopyGameSave { slot: u8, overwrite: bool },
 }
 
 /// Which A/V surface a [`MenuAction::Changed`] touched, so the play loop
 /// rebuilds only the affected objects.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Changed {
+    /// Debug save tools; refresh slot metadata without rebuilding A/V.
+    Debug,
     /// `audio_enhanced` flipped.
     Audio,
     /// A video setting that rebuilds the color LUT / temporal / grid in
@@ -107,6 +113,10 @@ pub enum Bind {
 /// Which page of the menu is showing.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Page {
+    Debug,
+    GameSaves,
+    SwitchGameSave,
+    ReplaceGameSave,
     SaveStates,
     ReplaceState,
     SaveBackups,
@@ -128,6 +138,14 @@ enum Page {
 /// left/right/confirm. `Key(b)` starts a "press a key" capture.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Row {
+    DebugMenu,
+    ExtendedSaves,
+    GameSavesMenu,
+    GameSaveSlot,
+    UseGameSave,
+    CopyGameSave,
+    ConfirmSwitchGameSave,
+    ConfirmCopyGameSave,
     SaveStatesMenu,
     SaveBackupsMenu,
     Backup(u8),
@@ -178,7 +196,7 @@ enum Row {
     Back,
 }
 
-const MAIN_ROWS: [Row; 11] = [
+const MAIN_ROWS: [Row; 12] = [
     Row::Resume,
     Row::SaveStatesMenu,
     Row::SaveBackupsMenu,
@@ -189,6 +207,7 @@ const MAIN_ROWS: [Row; 11] = [
     Row::InputsMenu,
     Row::RestartRom,
     Row::SwitchRomMenu,
+    Row::DebugMenu,
     Row::Quit,
 ];
 
@@ -263,6 +282,10 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
+        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::Back],
+        Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
+        Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
+        Page::ReplaceGameSave => &[Row::ConfirmCopyGameSave, Row::Back],
         Page::Main => &MAIN_ROWS,
         Page::SaveStates => &[Row::StateSlot, Row::SaveState, Row::LoadState, Row::UndoState, Row::Back],
         Page::ReplaceState => &[Row::SaveStateConfirm, Row::Back],
@@ -286,6 +309,13 @@ const FF_SPEEDS: [u32; 3] = [2, 4, 8];
 impl Row {
     fn label(self) -> &'static str {
         match self {
+            Row::DebugMenu => "Debug",
+            Row::ExtendedSaves => "Extended saves",
+            Row::GameSavesMenu => "Game saves",
+            Row::GameSaveSlot => "Slot",
+            Row::UseGameSave | Row::ConfirmSwitchGameSave => "Use and restart",
+            Row::CopyGameSave => "Copy current save",
+            Row::ConfirmCopyGameSave => "Replace game save",
             Row::Menu => "Open menu",
             Row::MouseMode => "Mouse & Keyboard",
             Row::Resume => "Resume",
@@ -351,7 +381,9 @@ impl Row {
     fn is_action(self) -> bool {
         matches!(
             self,
-            Row::Backup(_) | Row::ConfirmRestoreBackup
+            Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
+                | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
+                | Row::Backup(_) | Row::ConfirmRestoreBackup
                 | Row::SaveStateConfirm
                 | Row::SaveState
                 | Row::LoadState
@@ -385,6 +417,7 @@ impl Row {
     /// The submenu this row opens, if any.
     fn opens(self) -> Option<Page> {
         match self {
+            Row::DebugMenu => Some(Page::Debug),
             Row::SaveStatesMenu => Some(Page::SaveStates),
             Row::SaveBackupsMenu => Some(Page::SaveBackups),
             Row::Quit => Some(Page::Exit),
@@ -428,7 +461,7 @@ fn layout_kind(n: usize, w: usize, h: usize, main: bool) -> Layout {
     let avail = h
         .saturating_sub(pad * 2)
         .min(if inputs { (460. * scale) as usize } else { h });
-    let line_h = ((if main { 36. } else { 44. }) * scale).round().max(12.) as usize;
+    let line_h = ((if main { 33. } else { 44. }) * scale).round().max(12.) as usize;
     let header = if main {
         0
     } else if inputs {
@@ -539,7 +572,12 @@ pub struct Menu {
     controller_layout: std::cell::Cell<GamepadLayout>,
     menu_binding: std::cell::RefCell<String>,
     state_slot: usize,
-    state_slots: [StateSlot; 9],
+    state_slots: Vec<StateSlot>,
+    game_save_slot: usize,
+    game_save_current: usize,
+    game_save_slots: Vec<GameSaveSlot>,
+    game_save_message: String,
+    debug_message: String,
     state_message: String,
     state_undo: Option<String>,
     save_backups: [BackupInfo;2],
@@ -585,7 +623,12 @@ impl Menu {
             controller_layout: std::cell::Cell::new(GamepadLayout::Xbox),
             menu_binding: std::cell::RefCell::new("Escape".into()),
             state_slot: 0,
-            state_slots: std::array::from_fn(|_| StateSlot::default()),
+            state_slots: vec![StateSlot::default(); 9],
+            game_save_slot: 0,
+            game_save_current: 0,
+            game_save_slots: Vec::new(),
+            game_save_message: String::new(),
+            debug_message: String::new(),
             state_message: String::new(),
             state_undo: None,
             save_backups: std::array::from_fn(|_| BackupInfo::default()),
@@ -609,7 +652,24 @@ impl Menu {
     }
 
     /// Slot metadata is read only while opening the menu or after an operation.
-    pub fn set_state_slots(&mut self, slots: [StateSlot; 9]) { self.state_slots = slots; }
+    pub fn set_state_slots(&mut self, slots: Vec<StateSlot>) {
+        assert!(matches!(slots.len(), 9 | 99));
+        self.state_slot = self.state_slot.min(slots.len() - 1);
+        self.state_slots = slots;
+        self.debug_message.clear();
+    }
+
+    pub fn set_game_saves(&mut self, slots: Vec<GameSaveSlot>) {
+        assert_eq!(slots.len(), 99);
+        let current = slots.iter().position(|s| s.current).unwrap_or(0);
+        if self.game_save_slots.is_empty() || current != self.game_save_current {
+            self.game_save_slot = current;
+        }
+        self.game_save_current = current;
+        self.game_save_slots = slots;
+    }
+
+    pub fn game_save_result(&mut self, message: String) { self.game_save_message = message; }
 
     pub fn state_result(&mut self, message: String) { self.state_message = message; }
     pub fn set_state_undo(&mut self, label: Option<String>) { self.state_undo = label; }
@@ -618,7 +678,9 @@ impl Menu {
     pub fn session_result(&mut self, message: String) { self.session_message = message; }
 
     fn page_layout(&self, w: usize, h: usize) -> Layout {
-        if matches!(self.page, Page::SaveStates | Page::ReplaceState) {
+        if matches!(self.page, Page::GameSaves | Page::SwitchGameSave | Page::ReplaceGameSave) {
+            game_saves::layout(rows_of(self.page).len(), w, h)
+        } else if matches!(self.page, Page::SaveStates | Page::ReplaceState) {
             save_states::layout(rows_of(self.page).len(), w, h)
         } else if matches!(self.page,Page::SaveBackups|Page::RestoreBackup) {
             save_backups::layout(self.page,rows_of(self.page).len(),w,h)
@@ -631,8 +693,14 @@ impl Menu {
     }
 
     fn change_state_slot(&mut self, forward: bool) {
-        self.state_slot = (self.state_slot + if forward { 1 } else { 8 }) % 9;
+        let count = self.state_slots.len();
+        self.state_slot = (self.state_slot + if forward { 1 } else { count - 1 }) % count;
         self.state_message.clear();
+    }
+
+    fn change_game_save_slot(&mut self, forward: bool) {
+        self.game_save_slot = (self.game_save_slot + if forward { 1 } else { 98 }) % 99;
+        self.game_save_message.clear();
     }
 
     /// The button currently waiting for a key press, if any.
@@ -654,7 +722,7 @@ impl Menu {
     fn back_to_main(&mut self) {
         self.scroll.set(0);
         self.dropdown = None;
-        if matches!(self.page,Page::ReplaceState|Page::RestoreBackup) {
+        if matches!(self.page,Page::ReplaceState|Page::RestoreBackup|Page::SwitchGameSave|Page::ReplaceGameSave) {
             self.backup_selection = None;
             if let Some(parent) = self.navigation.parents.pop() {
                 self.navigation.page = parent.page;
@@ -721,6 +789,10 @@ impl Menu {
         if self.capture.is_some() {
             return None;
         }
+        if self.page == Page::GameSaves && matches!(input, MenuInput::Left | MenuInput::Right) {
+            self.change_game_save_slot(input == MenuInput::Right);
+            return None;
+        }
         if self.page == Page::SaveStates && matches!(input, MenuInput::Left | MenuInput::Right) {
             self.change_state_slot(input == MenuInput::Right);
             return None;
@@ -771,6 +843,36 @@ impl Menu {
                 }
             }
             MenuInput::Confirm => match row {
+                Row::GameSavesMenu => {
+                    if av.debug_extended_saves && self.game_save_slots.len() == 99 {
+                        self.open(Page::GameSaves);
+                    } else { self.debug_message = "Enable Extended saves first.".into(); }
+                    None
+                },
+                Row::GameSaveSlot => { self.change_game_save_slot(true); None },
+                Row::UseGameSave | Row::CopyGameSave => {
+                    let slot = &self.game_save_slots[self.game_save_slot];
+                    if !slot.available {
+                        self.game_save_message = "This save is not available.".into();
+                    } else if row == Row::UseGameSave {
+                        if slot.current { self.game_save_message = "This game save is already active.".into(); }
+                        else { self.open(Page::SwitchGameSave); self.selected = 1; }
+                    } else if slot.occupied {
+                        self.open(Page::ReplaceGameSave);
+                        self.selected = 1;
+                    } else {
+                        return Some(MenuAction::CopyGameSave { slot: self.game_save_slot as u8 + 1, overwrite: false });
+                    }
+                    None
+                },
+                Row::ConfirmSwitchGameSave => {
+                    self.back_to_main();
+                    Some(MenuAction::SwitchGameSave(self.game_save_slot as u8 + 1))
+                },
+                Row::ConfirmCopyGameSave => {
+                    self.back_to_main();
+                    Some(MenuAction::CopyGameSave { slot: self.game_save_slot as u8 + 1, overwrite: true })
+                },
                 Row::MouseMode => self.toggle_mouse_mode(),
                 Row::Resume => Some(MenuAction::Resume),
                 Row::RestartRom => Some(MenuAction::RestartRom),
@@ -930,7 +1032,8 @@ impl Menu {
         }
         let index = i + self.first_visible(l);
         if rows[index] == Row::Back
-            && !matches!(self.page, Page::SaveStates | Page::ReplaceState | Page::SaveBackups | Page::RestoreBackup)
+            && !matches!(self.page, Page::SaveStates | Page::ReplaceState | Page::SaveBackups | Page::RestoreBackup
+                | Page::GameSaves | Page::SwitchGameSave | Page::ReplaceGameSave)
             && x < l.panel_x + l.panel_w - l.pad - l.line_h * 3 {
             return None;
         }
@@ -1131,6 +1234,10 @@ fn value_of(
     capture: Option<Bind>,
 ) -> Option<String> {
     Some(match row {
+        Row::DebugMenu => ">".into(),
+        Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
+        Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
+        Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
@@ -1216,6 +1323,7 @@ fn step_slider(value: &mut f32, forward: bool, lo: i32, hi: i32) -> bool {
 /// already at their end).
 fn setting_options(row: Row) -> Vec<String> {
     match row {
+        Row::ExtendedSaves => ["OFF", "ON"].iter().map(|s| s.to_string()).collect(),
         Row::Screen => ScreenKind::ALL
             .iter()
             .map(|s| s.name().to_uppercase())
@@ -1248,6 +1356,12 @@ fn choose_setting(row: Row, value: &str, av: &mut AvConfig) -> Option<Changed> {
 }
 fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
     match row {
+        Row::ExtendedSaves => {
+            av.debug_extended_saves = !av.debug_extended_saves;
+            Some(Changed::Debug)
+        },
+        Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+            | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
         Row::MouseMode => None,
         Row::Backup(_) | Row::ConfirmRestoreBackup | Row::StateSlot | Row::SaveStateConfirm | Row::SaveState | Row::LoadState | Row::UndoState | Row::Resume
@@ -1769,6 +1883,68 @@ mod tests {
     }
 
     #[test]
+    fn debug_toggle_gates_game_saves_and_snapshot_picker_reaches_99_then_clamps() {
+        let mut menu = Menu::new(true,true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Debug);
+        at(&mut menu,Row::GameSavesMenu);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::Debug);
+        at(&mut menu,Row::ExtendedSaves);
+        assert_eq!(menu.handle(MenuInput::Right,&mut av),Some(MenuAction::Changed(Changed::Debug)));
+        assert!(av.debug_extended_saves);
+        menu.set_state_slots(vec![StateSlot::default();99]);
+        menu.open(Page::SaveStates);
+        menu.handle(MenuInput::Left,&mut av);
+        assert_eq!(menu.state_slot,98);
+        at(&mut menu,Row::SaveState);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::SaveState{slot:99,overwrite:false}));
+        menu.state_slots[98].occupied=true;
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::ReplaceState);
+        menu.handle(MenuInput::Up,&mut av);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::SaveState{slot:99,overwrite:true}));
+        menu.set_state_slots(vec![StateSlot::default();9]);
+        assert_eq!(menu.state_slot,8);
+        menu.handle(MenuInput::Right,&mut av);
+        assert_eq!(menu.state_slot,0);
+    }
+
+    #[test]
+    fn numbered_game_save_actions_require_confirmation_and_keep_slot_identity() {
+        let mut menu=Menu::new(true,true);
+        let mut av=AvConfig{debug_extended_saves:true,..Default::default()};
+        menu.set_game_saves((1..=99).map(|slot| GameSaveSlot {
+            name:format!("ffta-slot-{slot:02}.sav"),status:"Saved".into(),
+            occupied:true,available:true,current:slot==1,
+        }).collect());
+        menu.open(Page::Debug);
+        at(&mut menu,Row::GameSavesMenu);
+        menu.handle(MenuInput::Confirm,&mut av);
+        assert_eq!(menu.page,Page::GameSaves);
+        menu.handle(MenuInput::Left,&mut av);
+        assert_eq!(menu.game_save_slot,98);
+        at(&mut menu,Row::UseGameSave);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::SwitchGameSave);
+        assert_eq!(rows_of(menu.page)[menu.selected],Row::Back);
+        menu.handle(MenuInput::Confirm,&mut av); // Repeated confirm safely cancels.
+        assert_eq!(menu.page,Page::GameSaves);
+        menu.handle(MenuInput::Confirm,&mut av);
+        menu.handle(MenuInput::Up,&mut av);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::SwitchGameSave(99)));
+        at(&mut menu,Row::CopyGameSave);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::ReplaceGameSave);
+        menu.handle(MenuInput::Up,&mut av);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::CopyGameSave{slot:99,overwrite:true}));
+        menu.game_save_slots[98].occupied=false;
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::CopyGameSave{slot:99,overwrite:false}));
+        menu.game_save_slots[98].available=false;
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+    }
+
+    #[test]
     fn undo_action_tracks_last_operation_independently_of_selected_slot() {
         let mut menu = Menu::new(true,true);
         let mut av = AvConfig::default();
@@ -2056,6 +2232,10 @@ mod tests {
         let av = AvConfig::default();
         let mut menu = Menu::new(false, false);
         for page in [
+            Page::Debug,
+            Page::GameSaves,
+            Page::SwitchGameSave,
+            Page::ReplaceGameSave,
             Page::Main,
             Page::SaveStates,
             Page::ReplaceState,

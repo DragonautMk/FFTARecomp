@@ -40,7 +40,9 @@ pub fn resolve(rom: &Path) -> Result<PathBuf, String> {
     if let Some(root) = input_config::storage::portable_root() {
         let dir = root.join("Data").join("saves");
         std::fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
-        return Ok(dir.join("ffta.sav"));
+        // Persist only the numeric choice: the complete portable folder can move.
+        let slot = input_config::AvConfig::load().debug_game_save_slot;
+        return crate::game_saves::GameSaves::new(&dir.join("ffta.sav")).path(slot);
     }
     if let Some(saved) = preference().and_then(|p| std::fs::read_to_string(p).ok()) {
         let saved = PathBuf::from(saved);

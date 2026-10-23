@@ -52,7 +52,11 @@ version for incompatible layouts or execution semantics. Never serialize host
 pointers or ROM/BIOS bytes. Test deterministic replay and failed-load isolation.
 Keep `.ffstate` files out of commits and packages. Slot persistence and preview
 headers live in `crates/recomp/src/save_state.rs`; the controller-only picker
-lives in `crates/menu/src/save_states.rs`. Preserve nine per-ROM generic paths,
+lives in `crates/menu/src/save_states.rs`. Preserve the nine default per-ROM
+generic paths and the optional 99-slot Debug > Extended saves mode; see
+`docs/extended_saves.md` and `crates/recomp/src/game_saves.rs` for numbered
+cartridge saves, transactional switch/copy and portable numeric selection.
+Keep hidden high slots intact when disabling the option. Preserve
 legacy loading, atomic preview/state writes and safe overwrite confirmation.
 Keep state-operation errors and success feedback inside the menu. The Slots
 owner keeps one session undo entry; replace it only after a successful save or

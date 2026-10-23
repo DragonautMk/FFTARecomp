@@ -827,7 +827,7 @@ impl PlayApp {
         }
     }
     fn ui_frame(&self,layout:screen::ui_layer::Layout,index:usize)->screen::ui_layer::Frame<'_> {
-        screen::ui_layer::Frame {pixels_revision:if index==0 {self.ui_pixels.revision()}else{self.panel_pixels.revision()},pixels:if index==0 {&self.ui_pixels}else{&self.panel_pixels},
+        screen::ui_layer::Frame {grid:Some(self.grid_params),pixels_revision:if index==0 {self.ui_pixels.revision()}else{self.panel_pixels.revision()},pixels:if index==0 {&self.ui_pixels}else{&self.panel_pixels},
             raw_world:if index==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
             world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),
             layout,world_view:self.view}
@@ -996,7 +996,7 @@ impl PlayApp {
             }
         }
         for (i,layout) in ui_layouts.into_iter().enumerate() {if let Some(layout)=layout {
-            let ui=screen::ui_layer::Frame {pixels_revision:None,pixels:if i==0 {&self.ui_pixels}else{&self.panel_pixels},raw_world:if i==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
+            let ui=screen::ui_layer::Frame {grid:None,pixels_revision:None,pixels:if i==0 {&self.ui_pixels}else{&self.panel_pixels},raw_world:if i==1 && self.machine.bus.ffta_dialogue.extra.kind==gba_core::ffta_dialogue::PanelKind::Stats {&self.machine.bus.ffta_dialogue.extra.background}else{&self.machine.bus.wide_framebuffer},
                 world_dims:(wide_w() as u32,wide_h() as u32),lut:self.lut.table.as_slice(),layout,world_view:self.view};
             let x0=layout.rect[0].max(layout.clip[0]).max(0.) as usize;
             let y0=layout.rect[1].max(layout.clip[1]).max(0.) as usize;

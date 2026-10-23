@@ -34,6 +34,11 @@ use crate::profile::DisplayTarget;
 mod gpu_timing;
 pub use gpu_timing::{GpuTimingCounts, GpuTimings};
 
+/// WGSL has no includes; both presentation passes use the same grid model.
+pub(crate) fn grid_shader(source: &str) -> String {
+    format!("{}\n{source}", include_str!("grid_filter.wgsl"))
+}
+
 /// Per-frame grid/scaling parameters; resolved from config + screen kind.
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct GridParams {
@@ -400,7 +405,7 @@ impl Presenter {
 
         let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
             label: Some("screen-grid"),
-            source: wgpu::ShaderSource::Wgsl(include_str!("grid.wgsl").into()),
+            source: wgpu::ShaderSource::Wgsl(grid_shader(include_str!("grid.wgsl")).into()),
         });
         let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
             label: Some("screen-pipeline"),
@@ -893,7 +898,7 @@ mod tests {
 
     #[test]
     fn grid_shader_parses_and_validates() {
-        let module = naga::front::wgsl::parse_str(include_str!("grid.wgsl"))
+        let module = naga::front::wgsl::parse_str(&super::grid_shader(include_str!("grid.wgsl")))
             .unwrap_or_else(|e| panic!("WGSL parse: {e}"));
         naga::valid::Validator::new(
             naga::valid::ValidationFlags::all(),

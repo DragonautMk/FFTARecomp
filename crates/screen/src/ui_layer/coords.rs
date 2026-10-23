@@ -149,6 +149,7 @@ mod tests {
 
     fn frame() -> Frame<'static> {
         Frame {
+            grid: None,
             pixels: &[],
             pixels_revision: None,
             raw_world: &[],

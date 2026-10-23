@@ -83,6 +83,7 @@ impl Meter {
             colors
         });
         Some(screen::ui_layer::Frame {
+            grid: None,
             pixels: &self.pixels,
             pixels_revision: Some(self.pixels_revision),
             raw_world: &[0],

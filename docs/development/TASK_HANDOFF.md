@@ -1,10 +1,30 @@
 # Task handoff
 
-Updated: 2026-10-22. Latest user instructions take precedence. Follow
+Updated: 2026-10-23. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
+
+- **VIDEO-UI-GRID — complete (2026-10-23), Windows/Wine scope.** Latest request:
+  restore the grid on the bottom-left character portrait/HUD. Cause: the
+  independent native pass applied integer mixing/LUT after the world grid and
+  intentionally bypassed that filter. Game frames now explicitly receive the
+  current Grid settings; shared grid_filter.wgsl retains the existing model,
+  phase/fade follow UI layout/Size and FPS stays flat. Grid-off coordinate maps,
+  coverage/scissors, software/pause behavior and guest/save ABI are retained.
+  Warning-free Windows screen-test and production builds pass; Wine44default
+  checks (8optional ignored), explicit grid GPU and existing off-parity GPU
+  checks pass. Two normal Wine GUI sessions pass load/resume/close, off/on and
+  max-zoom captures visually confirm portrait/both panels/FPS behavior; original
+  ROM/state/save and copied slot hashes unchanged. Initial bounded GUI harness
+  failed at601/600; retained as failed harness evidence, no parity claim or
+  unrelated harness change. Evidence:target/ui-grid-fix/{screen-*.log,
+  windows-build.json,gui-live-results.json,gui-live-{off,on,zoom6}.png,gui-off.log}.
+  Candidate:target/ui-grid-fix/recomp-ui-grid.exe; prior canonical restored.
+  [Record](../changes/2026-10-23-restore-grid-on-native-game-ui.json).
+  No remaining action in this unit. Native Windows/new Linux/Android and
+  packaging unverified; no performance work. Earlier queues remain unselected.
 
 - **ROMDATA-02-OBJ-EXTRA-DIRECT-LISTS / ROMDATA-04-OBJ-EXTRA-CONSUMPTION — complete for declared EUR/Wine.** Sixteen additional checked literal references extend the original catalog to123references/73lists/173objects/1184sourceB; seven new roots contribute13objects/92B. EUR e16-d15retains e15/all previous generations and every other decoded file, USA remains e8-d7. Model and source pages reused; per-source nonserialized guest/host coverage prevents old lists from satisfying new-use gates. Three focused Wine checks pass publication/injected failure/reuse/repair/move/e15 retention, coherent edits/provenance/hash/path guards and old66record equality; original/interpreter/native calls on all seven sources with only their raw spans altered, complete state/clock equality and positive per-source compiled/host usage; new-range edges/mirrors/SWI/DMA and unavailable-copy Load/Undo/backup/restart. Windows test build72008and runner96687terminal/pass; initial pre-coverage build57722retained, old66/animation source/scene oracles not repeated. Evidence:target/rom-data-obj-extra/{windows-managed-results.json,windows-managed-europe/{managed-result.json,native-result.json,lifecycle-result.json}}. Protected originals/canonical/e15/cache unchanged. User-owned todo2.md untouched; no performance/space work, new Linux/USA pending.
 

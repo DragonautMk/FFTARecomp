@@ -53,6 +53,7 @@ fn main() {
             lut[0] = [40, 200, 80, 255];
         }
         let frame = Frame {
+            grid: None,
             pixels: &ui,
             pixels_revision: Some(1),
             raw_world: &world,
@@ -76,6 +77,7 @@ fn main() {
     }
     // Reuse pixel revisions after skips and a changed LUT/world.
     let frame = Frame {
+        grid: None,
         pixels: &ui,
         pixels_revision: Some(1),
         raw_world: &world,

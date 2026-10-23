@@ -37,6 +37,7 @@ fn destroyed_device_returns_error_then_software_can_present() {
     let lut = vec![[80, 160, 220, 255]; 32768];
     let rgba = vec![[32, 96, 200, 255]; 240 * 160];
     let frame = Frame {
+        grid: None,
         pixels: &pixels,
         pixels_revision: Some(1),
         raw_world: &world,

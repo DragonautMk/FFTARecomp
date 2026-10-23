@@ -101,6 +101,9 @@ impl Layout {
 }
 #[derive(Clone, Copy)]
 pub struct Frame<'a> {
+    /// Physical panel grid for game UI. None keeps application overlays flat.
+    /// Software sampling retains its existing no-grid fallback.
+    pub grid: Option<super::present::GridParams>,
     pub pixels: &'a [[u8; 4]],
     /// A token never reused for different pixels in this layer's source stream.
     /// None preserves unconditional uploads for dynamic/unversioned callers.
@@ -330,7 +333,7 @@ impl Gpu {
         let coordinates = tex(device, "ui-coordinates", 1, 2, wgpu::TextureFormat::Rg32Uint);
         let params = device.create_buffer(&wgpu::BufferDescriptor {
             label: Some("ui-layout"),
-            size: 64,
+            size: 96,
             usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
             mapped_at_creation: false,
         });
@@ -376,7 +379,7 @@ impl Gpu {
         let bind = bind_group(device, &layout, &ui, &world, &lut, &params, &coordinates);
         let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
             label: Some("native-ui"),
-            source: wgpu::ShaderSource::Wgsl(include_str!("ui_layer.wgsl").into()),
+            source: wgpu::ShaderSource::Wgsl(super::present::grid_shader(include_str!("ui_layer.wgsl")).into()),
         });
         let pl = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
             label: Some("native-ui"),
@@ -483,14 +486,20 @@ impl Gpu {
             self.lut_shadow.extend_from_slice(frame.lut);
             uploaded += lut.len();
         }
-        let mut values = [0f32; 16];
+        let mut values = [0f32; 24];
         values[..4].copy_from_slice(&frame.layout.rect);
         values[4..8].copy_from_slice(&frame.layout.clip);
         values[8..12].copy_from_slice(&frame.world_view);
         values[12] = if srgb { 1. } else { 0. };
         values[13] = self.coordinate_map.origin[0] as f32;
         values[14] = self.coordinate_map.origin[1] as f32;
-        let bytes = unsafe { std::slice::from_raw_parts(values.as_ptr().cast(), 64) };
+        let grid = frame.grid.unwrap_or_else(|| super::present::GridParams::with_strength(0.));
+        values[16..].copy_from_slice(&[
+            grid.strength, grid.gain, grid.gamma, grid.tint,
+            grid.stripe_halfwidth, grid.row_halfwidth,
+            if grid.bgr { 1. } else { 0. }, grid.scale_mode as f32,
+        ]);
+        let bytes = unsafe { std::slice::from_raw_parts(values.as_ptr().cast(), 96) };
         queue.write_buffer(&self.params, 0, bytes);
         // Active means this call claimed the world source, even if no pixel
         // draws. The sharing planner must not reuse that destination for a
@@ -544,7 +553,7 @@ mod tests {
     }
     #[test]
     fn shader_validates() {
-        let module = naga::front::wgsl::parse_str(include_str!("ui_layer.wgsl")).unwrap();
+        let module = naga::front::wgsl::parse_str(&super::super::present::grid_shader(include_str!("ui_layer.wgsl"))).unwrap();
         naga::valid::Validator::new(
             naga::valid::ValidationFlags::all(),
             naga::valid::Capabilities::default(),
@@ -552,11 +561,81 @@ mod tests {
         .validate(&module)
         .unwrap();
     }
+
+    #[test]
+    #[ignore = "requires a working graphics adapter; run explicitly"]
+    fn native_grid_tracks_ui_scale_and_settings_without_filling_transparency() {
+        use crate::present::GridParams;
+        let instance = wgpu::Instance::default();
+        let adapter = pollster::block_on(instance.request_adapter(&Default::default())).unwrap();
+        eprintln!("UI_GRID_GPU adapter={}", adapter.get_info().name);
+        let (device, queue) = pollster::block_on(adapter.request_device(&Default::default())).unwrap();
+        let lut: Vec<_> = (0..32768).map(|c| std::array::from_fn(|i| {
+            if i == 3 { 255 } else { let v = (c >> (5 * i)) & 31; ((v << 3) | (v >> 2)) as u8 }
+        })).collect();
+        let mut pixels = vec![[0, 0, 0, 16]; 480 * 160];
+        for y in 40..120 { for x in 160..320 {
+            pixels[y * 480 + x] = [0xef, 0x3d, 16, 0];
+        }}
+        let world = vec![0x1234; 320 * 160];
+        let mut gpu = Gpu::new(&device, wgpu::TextureFormat::Rgba8Unorm, (320, 160));
+        for scale in [1., 1.5, 3., 3.125] {
+            let window = (960, 500);
+            let frame = Frame {
+                grid: None, pixels: &pixels, pixels_revision: Some(1),
+                raw_world: &world, world_dims: (320, 160), lut: &lut,
+                layout: Layout {
+                    rect: [480. - 240. * scale, 0., 480. * scale, 160. * scale],
+                    clip: [0., 0., window.0 as f32, window.1 as f32],
+                },
+                world_view: [0., 0., 320., 160.],
+            };
+            gpu.update(&device, &queue, &frame, false);
+            let flat = gpu_layer_pixels_at(&device, &queue, &gpu, window);
+            for mode in 0..=3 {
+                let mut grid = GridParams::with_strength(0.);
+                grid.scale_mode = mode;
+                gpu.update(&device, &queue, &Frame { grid: Some(grid), ..frame }, false);
+                assert_eq!(flat, gpu_layer_pixels_at(&device, &queue, &gpu, window));
+                grid.strength = 1.;
+                gpu.update(&device, &queue, &Frame { grid: Some(grid), ..frame }, false);
+                let full = gpu_layer_pixels_at(&device, &queue, &gpu, window);
+                if scale <= 1.5 || mode == 3 {
+                    assert_eq!(flat, full, "fade/EPX scale={scale} mode={mode}");
+                    continue;
+                }
+                assert_ne!(flat, full, "grid must be visible scale={scale} mode={mode}");
+                // Changing the world camera cannot alter an opaque portrait's
+                // grid: its phase and fade follow the independent UI layout.
+                gpu.update(&device, &queue, &Frame {
+                    grid: Some(grid), world_view: [80., 40., 160., 80.], ..frame
+                }, false);
+                assert_eq!(full, gpu_layer_pixels_at(&device, &queue, &gpu, window));
+                grid.strength = 0.5;
+                gpu.update(&device, &queue, &Frame { grid: Some(grid), ..frame }, false);
+                let half = gpu_layer_pixels_at(&device, &queue, &gpu, window);
+                for (i, ((a, b), h)) in flat.chunks_exact(4).zip(full.chunks_exact(4)).zip(half.chunks_exact(4)).enumerate() {
+                    if a[..3] == [0, 0, 0] {
+                        assert_eq!(a, b, "transparent pixel {i}");
+                        assert_eq!(a, h, "transparent pixel {i}");
+                    }
+                    for c in 0..3 {
+                        assert!((h[c] as i32 * 2 - a[c] as i32 - b[c] as i32).abs() <= 2);
+                    }
+                }
+                // Cached pixels must also respond immediately when disabled.
+                gpu.update(&device, &queue, &frame, false);
+                assert_eq!(flat, gpu_layer_pixels_at(&device, &queue, &gpu, window));
+            }
+        }
+        eprintln!("UI_GRID_GPU visible=true off_overlay_fade_epx_exact=true zoom_independent=true transparency_preserved=true");
+    }
     #[test]
     fn shared_world_key_requires_the_same_borrow_extent_and_dimensions() {
         let world = vec![7u16; 2];
         let other = vec![7u16; 2];
         let frame = Frame {
+            grid: None,
             pixels: &[], pixels_revision: None, raw_world: &world,
             world_dims: (1, 1), lut: &[],
             layout: Layout::new((320, 160), 320., true, 1., [0., 0.]),
@@ -608,6 +687,7 @@ mod tests {
                 }
                 if step == 10 { layers[0] = None; }
                 let frames = std::array::from_fn::<_, 3, _>(|i| sources[i].map(|source| Frame {
+                    grid: None,
                     pixels: &pixels[i], pixels_revision: Some(7),
                     raw_world: if source == 0 { &a } else { &b }, world_dims: dims, lut: &luts[i],
                     layout: Layout::new((320, 160), 320., i != 1, 1., [i as f32 * 4., 0.]),
@@ -616,7 +696,7 @@ mod tests {
                 let fresh = frames.iter().enumerate().filter(|(i, frame)| frame.is_some() && layers.get(*i).is_none_or(Option::is_none)).count();
                 let worlds = usize::from(sources.contains(&Some(0))) + usize::from(sources.contains(&Some(1)));
                 let active = sources.iter().flatten().count();
-                let expected = worlds * a.len() * 2 + active * 64 + fresh * (pixels[0].len() * 4 + lut.len() * 4) + if step == 0 { active * 5120 } else { fresh * 5120 };
+                let expected = worlds * a.len() * 2 + active * 96 + fresh * (pixels[0].len() * 4 + lut.len() * 4) + if step == 0 { active * 5120 } else { fresh * 5120 };
                 let uploaded = update_layers(&mut layers, &device, &queue, wgpu::TextureFormat::Rgba8Unorm, false, &frames);
                 assert_eq!(uploaded, expected, "dims={dims:?} step={step}");
                 for (i, frame) in frames.iter().enumerate() {
@@ -661,6 +741,7 @@ mod tests {
                         160 + 2 * ((vh - 160.) / 2.).ceil() as u32);
             let world: Vec<_> = (0..dims.0 * dims.1).map(|i| ((i * 13 + 123) & 32767) as u16).collect();
             let frame = Frame {
+                grid: None,
                 pixels: &pixels, pixels_revision: None, raw_world: &world,
                 world_dims: dims, lut: &lut,
                 layout: Layout::new(window, 284., true, if window.0 == 853 { 1.25 } else { 1. }, [0., 0.]),
@@ -807,6 +888,7 @@ mod tests {
             for (window, base_width) in [((720,480),240.), ((852,480),284.), ((1704,480),568.), ((853,481),284.)] {
                 for size in [0.5,1.,2.] {
                     let frame = Frame {
+                        grid: None,
                         pixels: &pixels, pixels_revision: None, raw_world: &world,
                         world_dims: (284,160), lut: &lut,
                         layout: Layout::centered_panel(window,base_width,size,bounds),
@@ -890,6 +972,7 @@ mod tests {
                     gpu = Gpu::new(&device, wgpu::TextureFormat::Rgba8Unorm, dims);
                 }
                 let frame = Frame {
+                    grid: None,
                     pixels: &local_pixels,
                     pixels_revision: match step {
                         0..=2 => Some(7),
@@ -912,7 +995,7 @@ mod tests {
                 let uploaded = gpu.update(&device, &queue, &frame, false);
                 let all = step == 0 || step == 8;
                 let expected = world.len() * 2
-                    + 64
+                    + 96
                     + if matches!(step, 0..=2 | 8) { 5120 } else { 0 }
                     + if all || matches!(step, 3..=6 | 9) {
                         local_pixels.len() * 4

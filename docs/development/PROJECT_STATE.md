@@ -813,6 +813,13 @@ resource recreation invalidates maps. Conservative source bounds use the exact
 transparent-pixel predicate and integer-map-derived scissors. Invisible layers
 still claim shared world sources. No guest timing, snapshot or zoom/FOV change.
 
+Game UI layers also receive the current Grid parameters and share
+`crates/screen/src/grid_filter.wgsl` with the world pass. Grid phase and
+small-scale fade follow the UI's own layout/Size, not world zoom; the original
+coordinate maps still define centre samples and transparent coverage. FPS
+overlays explicitly opt out. Software fallback and the pause canvas remain
+grid-free. See [dialogue layout](../dialogue_layout.md).
+
 The explicit Radeon tests match CPU for fractional crops and 32 persistent-resource
 zoom/resize/DPI states. The original table-only prototype regressed 4.17% and
 was rejected; bounded rasterization plus the maps improves the five-pair native

@@ -91,15 +91,39 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   managed/native/lifecycle and one positive400-frame Engage full-state/audio
   scene/actual CLI create/no-write reuse/old-cache replay pass; an audited DMA-fixture address is corrected by a narrow positive
   typed20Bcheck. Save/native ABI unchanged; new Linux/USA remain pending.
-  Current EUR e20-d19adds sixteenth ui-palettes.json/resource
+  EUR e20-d19adds sixteenth ui-palettes.json/resource
   graphics.ui-raw-palettes:21raw BG/OBJ UI shadow banks/23direct-derived-branch
   references/2656B/1328full-u16colors. Original176Bcode initializer and two live
   Color-Mode selectors, memcpy/fades/publication and palette RAM stay active.
   Typed CPU/DMA/native sources preserve save/native ABI and all14earlier decoded
   files/e19generations. Reduced Wine original/native/lifecycle and one positive
  240-frame boot full-state/image/audio/actual CLI pair pass; new Linux/USA
-  remain pending. Other indirect palette/OBJ sources, older empty contracts
-  and the wider TODO stay open.
+  remain pending.
+  EUR e21-d20adds seventeenth ui-graphics.json/resource
+  graphics.ui-custom-banks:nine raw custom banks(eightBG/oneOBJ)/ten original
+  literal decode/upload paths,57038encoded B/84160decoded B. Typed literals
+  preserve original r0returned-length/count work, live scratch and544Bpartial
+  BG upload; all15earlier decoded files/e20generations and save/native ABI
+  remain unchanged. Focused Wine original/native/lifecycle and a positive
+ 320-frame Clan full-state/image/audio/actual CLI pair pass; first Party→Unit
+  locator is coverage-negative and preserved. Other indirect palette/graphics
+  sources, older empty contracts and wider TODO/new Linux/USA stay open.
+  Current EUR e22-d21extends UI graphics to16banks/two language selector groups
+  and two explicit shared OBJ links,26ranges/71474sourceB/119168decodedB.
+  Seven new banks and ten asset-pointer literals add17ranges/14436B; code jump
+  tables, live language, English-vs-skip fallback and5056OBJ/2688BG split copies
+  remain original. All9oldUIrecords/15other decoded files/e21generations stay
+  unchanged, still17files/16resources. Focused Wine source/native/authentication/
+  lifecycle checks pass every new bank and both selectors with full state/clock
+  equality; save/native ABI unchanged. One positive1200-frame English intro
+  full-state/image/audio/actual CLI Wine pair passes with4selectorB/2347new-sourceB/
+ 1124new-literalB. Other ordinary languages/new Linux/USA/native Windows stay open.
+  A separate static [gameplay item inventory](../rom_data_gameplay.md) roots
+  EUR6e0bd0..6e3ad0:376records/32bytes/12032Bfrom original shop/property readers,
+  independent enumeration/following-table bounds and19field selectors. Signed
+  ROM fields and02002030live modifiers remain distinct. No gameplay extractor/
+  runtime/original execution is implemented yet; source oracle is next. Other
+  gameplay catalogs and new Linux/USA checks remain unverified.
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

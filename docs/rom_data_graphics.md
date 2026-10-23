@@ -1386,3 +1386,22 @@ base/alternate palette catalogs above. Original copied memcpy, live palette
 transforms and publication remain; reduced Wine original/native/lifecycle and
 one positive240-frame boot full-state/audio/actual CLI check pass. Other
 indirect sources and new Linux/USA verification remain pending.
+
+
+## Additional custom BG/OBJ UI graphics
+
+[EUR e21custom UI graphics](rom_data_ui_graphics.md) add nine independently
+rooted raw custom banks/eightBGsources/oneOBJsource,57038encoded B/84160decoded B.
+Ten original decode/upload paths include count computation from decoder r0,
+which the earlier constant-count OBJ filter omitted, and a544of2944byte partial
+BG upload. Typed literals/metadata preserve all original decode/scratch/count/
+copy instructions and clock. Reduced Wine source/native/lifecycle and a positive
+320-frame ordinary Clan/actual CLI pair pass; all15earlier decoded files/e20
+stay unchanged. Other callers/indirect sources and new Linux/USA remain open.
+
+
+EUR e22extends the same UI resource to16banks/two language selectors and two
+explicit shared OBJ links, keeping every old record/other decoded file intact.
+Seven new banks and ten asset-pointer literals add17ranges/14436source bytes.
+Original jump tables, language fallbacks, partial Clan and5056OBJ/2688BG split
+copies stay active. See [localized UI contract](rom_data_ui_graphics.md#localized-ui-selectors-in-e22).

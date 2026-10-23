@@ -32,6 +32,82 @@ Documentation: [dialogue_layout.md](docs/dialogue_layout.md), [PROJECT_STATE.md]
 
 [Change record](docs/changes/2026-10-23-restore-grid-on-native-game-ui.json)
 
+## 2026-10-23 — Identify European static item record boundaries and live property modifiers
+
+Type: docs. Platforms: Windows, Wine.
+
+**Changes**
+
+- Document a bounded static EUR item catalog at6e0bd0..6e3ad0:376records/32bytes/12032B, independently rooted through shop/category/property readers,1..361/362..375enumeration bounds and the following20byte table. Distinguish live EWRAM inventory from original ROM records.
+- Record nineteen original halfword/byte/signed property selectors, preserve all32bytes without inventing semantic names, and identify live02002030modifier branches/special-item bonuses/original unsigned255clamp. Set a source-oracle checkpoint while retaining all closed graphics acceptance.
+
+**Validation**
+
+- Read-only exact-EUR static checks pass selected original LDR literals/stride instructions/property code targets, independent item/enumeration/next-root extents, complete typed-field12032byte roundtrip and no overlap with e22resources. Private disassemblies/inventory under ignored target/rom-data-gameplay-items.70raw pointer-word matches remain discovery candidates. No build or new runtime test performed.
+
+**Limitations**
+
+- Static inventory only: no original execution, typed model/extractor/managed/native/ordinary gameplay migration yet. Following20byte table and item semantics/job/ability/law/AI/regional catalogs remain open. New Linux/USA/native Windows checks pending; no performance/space work or AndroidPort change.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-inventory-european-static-item-records.json)
+
+## 2026-10-23 — Consume European localized UI graphics and shared OBJ split uploads
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Extend EUR custom UI graphics from nine to sixteen raw word banks, two five-entry language selector groups and two explicit links to existing OBJ graphics owners. Seven new banks add14396encoded bytes/35008decoded bytes; ten asset-pointer literals add40bytes,17new disjoint ranges/14436bytes. Total26ranges/71474source bytes/119168decoded bytes; code jump tables remain code.
+- Authenticate both original language switches and their pointer literals, preserving live language byte02001f6e, English fallback for Clan and skipped upload outside0..4for the second group. Keep partial544byte Clan copies and exact5056OBJ/2688BG split copies, decoder/count/scratch/clock work and full raw words; shared b7f874/b80140banks remain in unchanged obj-graphics.json.
+- Publish EUR schema1/extractor22/decoder21 with the same seventeen files/sixteen resources. Preserve every nine previous UI bank record, all fifteen other decoded files and e21/older generations; USA remains e8-d7. Add explicit OBJ-graphics dependency and parsed shared-owner checks, strict selector/ordering/overlap/source validation, typed CPU/DMA/native pointer projections and distinct selector/localized-source/localized-literal counters. Save/native identity and ABI stay unchanged.
+
+**Validation**
+
+- One reduced EUR Wine original-source oracle passes independent hashes/strict JSON/source/fallback/reorder/shared-owner guards,14original selector paths(two switches with0..4/5/255), seven new decoder/upload paths and isolated BG tails for two already proved shared OBJ banks. Exact consumed cursor, decoded return size, upload controls, scratch guards and whole VRAM match; nine prior records unchanged.363055instructions record coverage only. No old decoder campaign repeated.
+- Two focused EUR Wine integration checks pass publication interruption/create/reuse/repair/move/e21retention, other-file equality, coherent payload/selector/fallback/shared alias/source/dependency/path transactional rejection and unavailable-copy Load/Undo/backup/restart. Native execution with17new spans altered matches complete states/clocks on14selector paths/seven producers/two isolated tails;48compiled selector bytes/14310localized-source bytes/6449localized literal bytes, all seven new banks positive. Full bytes/edges/widths/mirrors/real-BIOS bus/CpuSet/FastSet and4typed-selector DMA bytes pass.
+- Initial new test compile failed on duplicate module declaration, corrected before execution along with prior-file fixture length. First native and diagnostic attempts overshot selector-only fixture stops due shared chained producer blocks; separate selector-only table excludes those three stop PCs. Failed evidence preserved; only the failed native criterion repeated, with no runtime/source-oracle change. Final Windows test and production builds warning-free; canonical executable restored.
+- Actual Wine CLI creates/reuses e22without writes from unrelated cwd using existing native cache. Initial320-frame Clan replay reads only prior English payload and0new selector/localized bytes; retained as negative with no full differential. A bounded1200-frame cold boot reuses existing demo input and positively reads4selector bytes/2347new b7d9e4source bytes/1124new literal bytes. One1200-frame ordinary Wine pair matches every complete state/clock/central-wide image/OAM/dispatch and mixed/PSG/FIFO/HLE audio sample with identical new-use counters. Final intro-transition image inspected.
+- Protected original ROM/states/inputs/e21dataset/shared OBJ fixture/cache/loader/canonical remain intact. Evidence under ignored target/rom-data-ui-localized; project-memory/whitespace/protected-input/source/candidate checks recorded at closure. No agent commit or push; existing e21implementation and unrelated user UI work preserved.
+
+**Limitations**
+
+- The two selectors/seven new banks are complete for this declared scope, not the entire graphics/palette/ROM catalog. Prepared original subpaths prove bounded contracts; other indirect sources, three earlier empty-sequence contracts, maps/gameplay/audio and wider GUI/archive/mod phases remain open.
+- Ordinary positive coverage is the English intro; other ordinary language scenes remain pending, although all seven payloads and both selector fallbacks have source/native proof. New Linux/USA/native Windows verification remains pending. No performance/startup/RSS/space campaign or AndroidPort work; private assets/generated code/fixtures/previews stay ignored.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-extend-european-localized-ui-graphics.json)
+
+## 2026-10-23 — Consume European custom UI graphics with original returned-length uploads
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Independently root nine raw custom UI graphics banks through ten literal decoder/upload paths, eight BG sources and one OBJ source used twice: nine disjoint ranges/57038encoded bytes/84160decoded bytes. Extend the bounded73caller inventory only with independently proved decoder-returned size and both destination classes, preserving the earlier incomplete-scan limits.
+- Reuse the existing custom_lz/Graphic exact raw-u32word/encoded-metadata contract in a separate source-authenticated UI catalog. Check original root literals/decoder and transfer BLs, strict JSON/ordering/overlap/extent/coherent-edit guards. Retain mixed decoded subregions without inventing pixel/RGBA semantics.
+- Publish EUR schema1/extractor21/decoder20, fixed ui-graphics.json/resource graphics.ui-custom-banks, seventeen files/sixteen resources. Every fifteen previous decoded files remain byte-identical, e20/older generations retained, USA stays e8-d7.
+- Serve custom-codec literals from typed decoded words and headers/tokens from exact metadata through shared CPU/DMA/native/guest-BIOS source views. Keep original decoder-returned length, count shifts/masks, live scratch, full uploads and43bc28partial544of2944byte BG copy. PPU reads resulting live VRAM; no added host ROM consumer/HLE shortcut. Nonserialized family/per-bank counters establish ownership; save/native identity and ABI remain source-equal.
+
+**Validation**
+
+- One reduced EUR Wine original-source check passes nine independent source/output hashes, deterministic strict JSON/source/coherent-edit guards and all ten original decode/upload paths: exact r7consumed cursor/r9produced count/r0returned length, original transfer controls/destinations, scratch output/guards and whole VRAM.1368457instructions are coverage only. Initial new-source fixture incorrectly seeds143f0cincoming r5as scratch instead of the original inherited143f6cmask; failed logs retained and only this failed new-source oracle is repeated after correction. Windows source builds warning-free.
+- Two focused EUR Wine integration checks pass publication interruption/create/reuse/repair/move/e20retention, all15previous decoded-file equality, coherent words/encoded metadata/missing-bank/source/hash/path guards with transactional attachment, and unavailable-copy Load/Undo/backup/restart. All ten actual interpreter/native paths with nine raw spans altered match full states/clocks;68906compiled source bytes/39861literal bytes and all9banks positive. Full bytes/edges/widths/mirrors, real-BIOS bus/CpuSet/FastSet,32typed DMA bytes and reads crossing adjacent new banks pass.
+- Windows integration test/production builds warning-free, canonical restored. Actual CLI through Wine creates/reuses e21without writes from unrelated cwd using old native cache. First320-frame Party→Unit locator consumes0new bytes and remains negative evidence without a differential/repeat. Source43bc28preview contains CLAN MBR/stat labels; one bounded normal Start/Down/A replay opens Clan without direct RAM edits.
+- One320-frame EUR Wine Clan pair matches every complete state/clock/central-wide image/OAM/dispatch/audio sample with1579new-family reads/1642source bytes/764decoded literal bytes, all attributed to43bc28. Actual CLI has identical positive usage and final Clan status image visually inspected. Original ROM/snapshots/inputs/e20dataset/cache/loader/canonical unchanged; evidence stays under ignored target/rom-data-return-length-graphics.
+- Final project-memory coverage/whitespace/privacy/protected-input/canonical/candidate/source hash checks pass; all unit jobs terminal. No agent commit or push; baseline1e258f5and external prior e20commit9396979plus unrelated UI-grid work preserved.
+
+**Limitations**
+
+- The nine-bank literal-root catalog is complete for this declared scope, not every game BG/OBJ/custom asset. Localized/indirect selector paths near08ed28, other graphics/palette roots, three older empty-sequence contracts, maps/gameplay/audio and broader GUI/archive/mod phases remain open. Prepared incoming registers establish bounded original subpaths, not every surrounding caller.
+- One EUR ordinary Clan scene/language is claimed; all declared new-source/upload paths have original/native proof. New Linux/USA/native Windows remain pending. No performance/startup/RSS/space campaign or AndroidPort work. Private game data, generated code, state/input and debug previews remain ignored.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_obj.md](docs/rom_data_obj.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-custom-ui-graphics.json)
+
 ## 2026-10-22 — Validate European text catalog consumption in the retained pub transition and production CLI
 
 Type: added. Platforms: Windows, Wine.

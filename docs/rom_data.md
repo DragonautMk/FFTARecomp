@@ -57,13 +57,30 @@ language selector tables. All 15 files/14 resources are authenticated; every
 prior decoded file remains byte-identical. Original decompression, live scratch
 transforms, partial uploads and RAM tails keep executing with the same clock.
 See [the custom OBJ graphics contract](rom_data_obj.md#custom-obj-word-banks-in-e19).
-Current EUR `v1/e20-d19` adds sixteenth file `ui-palettes.json`, resource
+EUR `v1/e20-d19` adds sixteenth file `ui-palettes.json`, resource
 `graphics.ui-raw-palettes`:21raw UI banks/1328full-u16colors for original BG/OBJ
 shadow copies, including two Color-Mode selector paths. All16files/15resources
 are source-authenticated; all14earlier decoded files remain unchanged. Original
 copy/fade/publication work and live palette RAM remain active. Reduced Wine
 source/native/lifecycle and a positive240-frame boot/CLI pair pass. See the
 [raw UI palette contract](rom_data_ui_palettes.md).
+EUR `v1/e21-d20` adds seventeenth file `ui-graphics.json`, resource
+`graphics.ui-custom-banks`:nine custom banks/eight BG sources/one OBJ source,
+57038encoded bytes/84160decoded bytes and ten original decode/upload paths.
+Typed literals preserve original decoder-returned counts and partial/full
+copies. All17files/16resources authenticate together and all15earlier decoded
+files stay byte-identical. Reduced Wine original/native/lifecycle and one
+positive320-frame Clan full-state/image/audio/actual CLI pair pass. See the
+[custom UI graphics contract](rom_data_ui_graphics.md).
+Current EUR `v1/e22-d21` extends UI graphics to16banks/two language selectors
+and two links to existing OBJ banks,26ranges/71474source bytes/119168decoded
+bytes. The seven new banks and ten pointer literals add17ranges/14436source
+bytes. Both original fallback rules and split5056OBJ/2688BG uploads remain.
+All15other decoded files, nine old UI records and e21generations stay unchanged,
+with17files/16resources. Focused Wine source/native/lifecycle checks pass;
+new-source and selector counters distinguish actual language payload use. One positive
+1200-frame English intro full-state/image/audio/actual CLI Wine pair passes;
+other ordinary language scenes remain pending.
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
@@ -178,7 +195,8 @@ The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-packet-programs.json`, plus EUR's `bg-main-graphics.json` and
 `bg-transfer-programs.json`, `short-texts.json`, `text-catalogs.json`,
 `font-bank.json`, `name-keyboard.json`, `obj-static-lists.json` and
-`obj-animation-banks.json`, `obj-graphics.json` and `ui-palettes.json`.
+`obj-animation-banks.json`, `obj-graphics.json`, `ui-palettes.json` and
+`ui-graphics.json`.
 OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
@@ -189,7 +207,7 @@ The manifest records
 schema/extractor/decoder revisions, exact source ROM identity, regional profile,
 decoded coverage, file hash, dependency IDs and the original ranges/hashes.
 Both regional direct tables and copied aliases are verified independently.
-Extractor20/decoder19(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
+Extractor21/decoder20(EUR) and8/7(USA) store all162base palettes as readable JSON banks of16full
 u16words, plus the exact consumed source representation for compatibility
 reads. Source aliases and bit15are preserved. Earlier e7/e6/e5/e4/e3/e2/e1datasets
 remain in separate namespaces. Manifest schema stays1; current formats are
@@ -198,7 +216,8 @@ OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `bg-main-graphics-v1-json`, `bg-transfer-programs-v1-json`, `short-texts-v1-json`,
 `text-catalogs-v1-json`, `font-bank-v1-json`, `name-keyboard-v1-json` and
 `obj-static-lists-v1-json`, `obj-animation-banks-v1-json` and
-`obj-custom-banks-v1-json` and `ui-raw-palettes-v1-json`.
+`obj-custom-banks-v1-json`, `ui-raw-palettes-v1-json` and
+`ui-custom-banks-v1-json`.
 Transfer programs preserve42frame-control programs/34shared tile banks and97links;
 all162variant pointers are absent in this declared catalog.
 Short texts preserve five107-entry language selector tables, exact compact/
@@ -250,10 +269,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e20-d19`
+selected generation's relative name. Current revisions are EUR `v1/e22-d21`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same sixteen EUR/six USA files as offline extraction. Source identity is rehashed from
+same seventeen EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.

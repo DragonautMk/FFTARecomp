@@ -481,3 +481,17 @@ Raw palette colors used by original OBJ/BG UI shadow copies are subsequently
 migrated in [EUR e20raw UI palettes](rom_data_ui_palettes.md):21banks,
 23direct/derived/Color-Mode references and2656source bytes, preserving every
 original copy/fade/publication step. This does not claim all game OBJ palettes.
+
+
+[EUR e21custom UI graphics](rom_data_ui_graphics.md) subsequently owns a separate
+nine-bank catalog spanning eight BG sources and one OBJ source (b7a9d0, two
+original upload paths). This preserves the existing39-bank OBJ resource/file
+unchanged and retains original decoder-returned counts and partial/full copies.
+
+
+EUR e22extends that UI catalog with seven localized banks and two five-entry
+selector groups. Its second group references existing OBJ banks b7f874/b80140
+through explicit authenticated owner links; obj-graphics.json stays identical.
+Original5056byte OBJ and2688byte BG copies cover each7744byte decoded bank
+exactly; no duplicated owner or invented tail. Both language fallbacks and
+original work/clock remain. See [localized UI contract](rom_data_ui_graphics.md#localized-ui-selectors-in-e22).

@@ -181,6 +181,22 @@ remain groundwork for other linked graphics families.
   sixteenth file leaves all14earlier decoded files unchanged. Original live
   fades/palette publication remain; indirect sources and new Linux/USA checks
   stay open. [Contract](../rom_data_ui_palettes.md).
+- **Additional custom UI BG/OBJ graphics.** EUR e21-d20adds nine raw custom
+  banks/ten checked literal original decode/upload paths,57038source B/
+ 84160decoded B with no earlier-resource overlap. Return-length/count propagation
+  resolves callers omitted by the old constant-count OBJ filter. Eight sources
+  feed BG and oneOBJ(two paths);43bc28uploads544of2944decoded bytes. Original
+  source/native/lifecycle and one positive320-frame ordinary Clan/CLI Wine
+  pair pass. Seventeenth file ui-graphics.json retains all15earlier decoded
+  files/e20; original work/clock/VRAM remain live. Current e22-d21extends this
+  same file to16banks/two language selector groups/two shared OBJ links,
+ 26ranges/71474B/119168decodedB. Seven new banks and ten pointer literals add
+ 17ranges/14436B; original code jump tables/language/fallbacks and5056OBJ/2688BG
+  split remain. Reduced Wine original/native/lifecycle pass every new bank;
+  all9oldUIrecords/other15decoded files/e21retained. One1200-frame English intro
+  full-state/image/audio/CLI pair positively consumes4selectorB/2347new-sourceB/
+ 1124literalB. Other ordinary languages/indirect sources
+  and new Linux/USA checks remain open. [Contract](../rom_data_ui_graphics.md).
 - **Text and fonts.** `ffta_dialogue.rs` classifies already rendered layers
   and portraits, not strings, font encodings or localized text archives.
   `ffta_mouse.rs` identifies a name-entry row-count table via independently
@@ -228,9 +244,16 @@ remain groundwork for other linked graphics families.
 - **Gameplay tables.** Unit structures at EWRAM 0x020223a4, stride 0x90,
   are live state, not a static unit database; see
   [character metrics](../ffta_character_metric.md). Battle/shop mouse readers
-  validate transient tasks/inventory. Static item/job/ability/law/AI tables,
-  record layouts, references, code dependencies and regional offsets remain
-  unknown. Extractor: absent; runtime: guest logic and semantic host readers.
+  validate transient tasks/inventory. A bounded original shop/property chain now
+  roots EUR item table6e0bd0..6e3ad0:376records/32bytes/12032B,19property field
+  selectors, independent1..361/362..375enumeration bounds and following table
+  root. Raw halfword/byte/signed fields and live02002030modifier branches are
+  distinguished; all32record bytes roundtrip and no e22resource overlaps.
+  This is static discovery only: original execution/model/extractor/runtime and
+  new Linux/USA checks remain pending. The following20byte table and item
+  semantics/job/ability/law/AI catalogs still need contracts. Extractor: absent;
+  runtime: guest logic and semantic host readers.
+  [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while
   leaving original mixing/sequencing running. `MemView` resolves ROM/RAM

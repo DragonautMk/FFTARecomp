@@ -20,12 +20,17 @@ pub mod obj_lists;
 pub mod obj_animations;
 pub mod obj_graphics;
 pub mod ui_palettes;
+pub mod ui_graphics;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 20;
-pub const DECODER_REV: u32 = 19;
+pub const EXTRACTOR_REV: u32 = 22;
+pub const DECODER_REV: u32 = 21;
+pub const UI_CUSTOM_GRAPHICS_ID: &str = "graphics.ui-custom-banks";
+pub const UI_CUSTOM_GRAPHICS_FILE: &str = "ui-graphics.json";
+pub const UI_CUSTOM_GRAPHICS_FORMAT: &str = "ui-custom-banks-v1-json";
+pub const MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES: u64 = 16 * 1024 * 1024;
 pub const UI_RAW_PALETTES_ID: &str = "graphics.ui-raw-palettes";
 pub const UI_RAW_PALETTES_FILE: &str = "ui-palettes.json";
 pub const UI_RAW_PALETTES_FORMAT: &str = "ui-raw-palettes-v1-json";
@@ -200,6 +205,7 @@ pub struct Extraction {
     pub obj_animations: Option<obj_animations::Catalog>,
     pub obj_graphics: Option<obj_graphics::Catalog>,
     pub ui_palettes: Option<ui_palettes::Catalog>,
+    pub ui_graphics: Option<ui_graphics::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -222,6 +228,7 @@ pub struct BaseFiles<'a> {
     pub obj_animations: Option<(&'a obj_animations::Banks, &'a [u8])>,
     pub obj_graphics: Option<(&'a obj_graphics::Graphics, &'a [u8])>,
     pub ui_palettes: Option<(&'a ui_palettes::Palettes, &'a [u8])>,
+    pub ui_graphics: Option<(&'a ui_graphics::Graphics, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -363,6 +370,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: palettes.sources.clone(),
             });
             result.ui_palettes = Some(palettes);
+            let graphics = ui_graphics::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UI_CUSTOM_GRAPHICS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UI_CUSTOM_GRAPHICS_ID.into(), path: UI_CUSTOM_GRAPHICS_FILE.into(), format: UI_CUSTOM_GRAPHICS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into(), OBJ_CUSTOM_GRAPHICS_ID.into()], sources: graphics.sources.clone(),
+            });
+            result.ui_graphics = Some(graphics);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -415,6 +429,7 @@ impl Extraction {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -466,6 +481,7 @@ impl Extraction {
             || self.obj_animations.is_some() && self.obj_lists.is_none()
             || self.obj_graphics.is_some() && self.obj_animations.is_none()
             || self.ui_palettes.is_some() && self.obj_graphics.is_none()
+            || self.ui_graphics.is_some() && self.ui_palettes.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -617,6 +633,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected UI raw palette resource".into()),
         }
+        match (&self.ui_graphics, files.ui_graphics) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES { return Err("UI custom graphics file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[15].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected UI custom graphics resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -708,6 +733,11 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded { return Err("Decoded UI raw palettes differ from authenticated source".into()); }
         }
+        if let (Some(expected), Some((decoded, _))) = (&self.ui_graphics, files.ui_graphics) {
+            decoded.validate()?;
+            decoded.validate_shared_obj(files.obj_graphics.ok_or("Missing shared OBJ source owner")?.0)?;
+            if decoded != &expected.decoded { return Err("Decoded UI custom banks differ from authenticated source".into()); }
+        }
         Ok(())
     }
 
@@ -725,6 +755,7 @@ impl Extraction {
             + usize::from(self.obj_animations.is_some())
             + usize::from(self.obj_graphics.is_some())
             + usize::from(self.ui_palettes.is_some())
+            + usize::from(self.ui_graphics.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -795,6 +826,7 @@ mod tests {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
             font_bank: None,
             })
             .unwrap();
@@ -817,6 +849,7 @@ mod tests {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
             font_bank: None,
             })
             .is_err());
@@ -849,6 +882,7 @@ mod tests {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
             font_bank: None,
                 })
                 .is_err());
@@ -870,6 +904,7 @@ mod tests {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
             font_bank: None,
             })
             .is_err());

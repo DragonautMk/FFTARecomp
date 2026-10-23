@@ -14,6 +14,9 @@ mod obj_lists;
 mod obj_animations;
 mod obj_custom_graphics;
 mod ui_raw_palettes;
+mod ui_custom_graphics;
+use ui_custom_graphics::UiGraphicsResources;
+pub use ui_custom_graphics::UiGraphicsStats;
 use ui_raw_palettes::UiPaletteResources;
 pub use ui_raw_palettes::UiPaletteStats;
 use obj_custom_graphics::ObjGraphicsResources;
@@ -81,6 +84,7 @@ pub struct RuntimeResources {
     obj_animations: Option<Box<ObjAnimationResources>>,
     obj_graphics: Option<Box<ObjGraphicsResources>>,
     ui_palettes: Option<Box<UiPaletteResources>>,
+    ui_graphics: Option<Box<UiGraphicsResources>>,
 }
 
 impl RuntimeResources {
@@ -188,6 +192,13 @@ impl RuntimeResources {
                 manifest.resources[14].sha256.clone(),
             )?));
         }
+        if let Some((graphics, _)) = files.ui_graphics {
+            resources.ui_graphics = Some(Box::new(UiGraphicsResources::new(
+                graphics.clone(), &source.ui_graphics.as_ref().unwrap().sources,
+                files.obj_graphics.ok_or("Missing shared OBJ bank owner")?.0,
+                manifest.resources[15].sha256.clone(),
+            )?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -225,6 +236,7 @@ impl RuntimeResources {
             obj_animations: None,
             obj_graphics: None,
             ui_palettes: None,
+            ui_graphics: None,
         }
     }
 
@@ -267,6 +279,7 @@ impl RuntimeResources {
             + self.obj_animations.as_ref().map_or(0, |a| a.resident_bytes())
             + self.obj_graphics.as_ref().map_or(0, |g| g.resident_bytes())
             + self.ui_palettes.as_ref().map_or(0, |p| p.resident_bytes())
+            + self.ui_graphics.as_ref().map_or(0, |g| g.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -337,6 +350,9 @@ impl RuntimeResources {
     pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
     pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
 
+    pub fn ui_graphics_stats(&self) -> Option<UiGraphicsStats> { self.ui_graphics.as_ref().map(|g| g.stats()) }
+    pub fn ui_graphics_file_sha256(&self) -> Option<&str> { self.ui_graphics.as_ref().map(|g| g.file_sha256()) }
+    pub fn ui_graphics_used_sources(&self) -> Vec<(u32,u64)> { self.ui_graphics.as_ref().map_or_else(Vec::new, |g| g.used_sources()) }
     pub fn ui_palette_stats(&self) -> Option<UiPaletteStats> { self.ui_palettes.as_ref().map(|p| p.stats()) }
     pub fn ui_palette_file_sha256(&self) -> Option<&str> { self.ui_palettes.as_ref().map(|p| p.file_sha256()) }
     pub fn ui_palette_source_bytes(&self, offset: u32) -> Option<u64> { self.ui_palettes.as_ref()?.source_bytes(offset) }
@@ -436,8 +452,12 @@ impl RuntimeResources {
                 Some(graphics) => graphics.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.ui_palettes {
+            let prior = match &self.ui_palettes {
                 Some(palettes) => palettes.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.ui_graphics {
+                Some(graphics) => graphics.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -583,6 +603,7 @@ impl crate::MemMap {
             || ObjAnimationResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
+            || UiGraphicsResources::source_page(index)
     }
 }
 

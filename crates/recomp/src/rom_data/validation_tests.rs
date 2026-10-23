@@ -331,6 +331,17 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_UI_PALETTE_SCENE frames={frames} bus_reads={} source_bytes={}",p.bus_reads,p.source_bytes);
         assert!(p.source_bytes > 0,"ordinary scene must read new file-derived UI palette colors");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_GRAPHICS").is_some() {
+        let owner = decoded.bus.rom_resources().unwrap();
+        let g = owner.ui_graphics_stats().expect("decoded EUR custom UI graphics");
+        eprintln!("ROM_DATA_UI_GRAPHICS_SCENE frames={frames} bus_reads={} source_bytes={} decoded_literal_bytes={} sources={:x?}",g.bus_reads,g.source_bytes,g.decoded_literal_bytes,owner.ui_graphics_used_sources());
+        assert!(g.source_bytes>0 && g.decoded_literal_bytes>0,"ordinary scene must consume newly migrated custom UI literals");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_GRAPHICS_SELECTOR").is_some() {
+        let g=decoded.bus.rom_resources().unwrap().ui_graphics_stats().expect("decoded EUR localized UI graphics");
+        eprintln!("ROM_DATA_UI_GRAPHICS_SELECTOR_SCENE frames={frames} selector_bytes={} localized_source_bytes={} localized_literal_bytes={}",g.selector_bytes,g.localized_source_bytes,g.localized_literal_bytes);
+        assert!(g.selector_bytes>0,"ordinary scene must read a new file-derived UI language pointer");
+    }
     if let Ok(mask) = std::env::var("FFTA_STATE_TEST_REQUIRE_SOURCE_MASK") {
         let required: u8 = mask.parse().unwrap();
         assert_eq!(

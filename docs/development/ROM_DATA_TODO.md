@@ -174,6 +174,17 @@ alle due routine originali con clipping/flip/wrap/capacità/ritorno anticipato,
 interi buffer OAM/matrici/guardie uguali. Altre radici indirette, animazioni e
 grafica OBJ restano aperte; Linux/USA da fare. [Contratto](../rom_data_obj.md).
 
+**ROMDATA-01-GAMEPLAY-ITEM-ROOTS: inventario statico dichiarato completato,
+esecuzione originale ancora da fare.** Lettore proprietà080ce1ec/tabella6e0bd0,
+376record×32byte/12032byte fino al root indipendente6e3ad0. Chiamanti negozio/
+classificatore e enumerazione originale1..361/362..375confermano i limiti;
+19proprietà espongono halfword/byte/signed e modificatori live02002030.
+Tutti32byte per record conservati, nessuna sovrapposizione e22; semantiche non
+provate non inventate. Nessun nuovo modello/estrattore/consumo/esecuzione/build/
+test rivendicato. Prossimo criterio: catalogo tipizzato/oracolo originale Wine,
+poi gestione e consumo; tabella seguente20byte, altre famiglie e Linux/USA aperti.
+[Contratto](../rom_data_gameplay.md).
+
 ## ROMDATA-02 — Estrattori e decoder
 
 **ROMDATA-01-TEXT-REMAINING-CATALOGS / ROMDATA-02-TEXT-CATALOG-DATA completati
@@ -508,6 +519,45 @@ passano. Avvio ordinario240frame/CLI reale coincide per stati/clock/immagini/
 OAM/dispatch/audio con33letture/130byte palette. Altre fonti indirette e
 Linux/USA/Windows nativo restano aperti; nessuna misura prestazionale.
 [Contratto e prove](../rom_data_ui_palettes.md).
+
+**ROMDATA-01-RETURN-LENGTH-CUSTOM-GRAPHICS / ROMDATA-02-UI-CUSTOM-GRAPHICS /
+ROMDATA-04-UI-CUSTOM-CONSUMPTION / ROMDATA-05-UI-CUSTOM-SCENE-CLI completati
+per il catalogo EUR/Wine dichiarato:** nove banchi custom(ottoBG/unOBJ),
+dieci percorsi originali literal/decoder/upload,57038byte sorgente/84160decodificati.
+I conteggi derivati da r0e la copia parziale544/2944byte restano istruzioni
+originali. EUR e21-d20aggiunge ui-graphics.json(17file/16risorse), conserva
+tutti i15file decodificati precedenti/e20. Wine passa sorgenti/JSON/metadati,
+pubblicazione/riuso/recupero/spostamento/Load/Undo/backup/restart e tutti i dieci
+percorsi interprete/native con nove intervalli alterati e stati/clock uguali;
+68906byte compilati/39861letterali e tutti i banchi positivi. Bus/mirrors/BIOS/
+CpuSet/FastSet/DMA32byte passano. Primo locator Party→Unit320frame negativo
+conservato; scena Clan320frame positiva con1642byte sorgente/764letterali,
+stati/clock/immagini/OAM/dispatch/audio uguali e CLI reale create/no-write
+reuse/vecchia cache. Altre sorgenti/varianti indirette restano aperte, Linux/USA
+da fare, nessuna misura prestazionale. [Contratto](../rom_data_ui_graphics.md).
+
+**ROMDATA-01-UI-LANGUAGE-GRAPHICS / ROMDATA-02-UI-LOCALIZED-GRAPHICS /
+ROMDATA-04-UI-LOCALIZED-CONSUMPTION / ROMDATA-05-UI-LOCALIZED-SCENE-CLI
+completati per l'ambito EUR/Wine dichiarato:** sette banchi nuovi/due selettori
+per cinque lingue/due link a proprietari OBJ esistenti.17nuovi intervalli/
+14436byte(14396payload+40puntatori)/35008decodificati; totale16banchi/
+26intervalli/71474byte sorgente/119168decodificati. EUR e22-d21mantiene17file/
+16risorse, nove record UI/tutti15altri file decodificati/e21immutati. Lingua live,
+jump table di codice, fallback inglese vs salto e copia5056OBJ/2688BG restano
+originali. Tre controlli Wine mirati passano14percorsi selettori/sette nuovi
+produttori/due sole code BG condivise, autenticazione/proprietari/transazioni/
+pubblicazione/riuso/riparazione/spostamento/Load/Undo/backup/restart e native con
+17intervalli alterati/stati-clock uguali;48byte selettori compilati/14310nuove
+sorgenti/6449letterali/tutti7banchi positivi, bus/BIOS/SWI/DMA4byte. Corrette solo
+fixture nuove fallite: modulo duplicato e chain nativa oltre gli stop dei soli
+selettori; evidenza conservata, nessuna modifica runtime per quei problemi.
+CLI create/no-write reuse passa; Clan320frame è negativo per i nuovi dati e
+non viene confrontato di nuovo. Avvio normale1200frame con input esistente usa
+4byte selettore/2347nuova sorgente b7d9e4/1124letterali: una coppia completa
+stati/clock/immagini/OAM/dispatch/audio passa, immagine finale ispezionata.
+Altre scene linguistiche ordinarie/sorgenti indirette restano aperte, Linux/USA/
+Windows nativo da fare; nessuna misura prestazionale/spazio.
+[Contratto](../rom_data_ui_graphics.md#localized-ui-selectors-in-e22).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -875,9 +925,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ampliare le sorgenti grafiche custom ancora non migrate,
-a partire dai chiamanti adiacenti con lunghezza copia derivata dal valore di
-ritorno del decoder (omessi dal precedente filtro a conteggio costante).
+**Prossima azione:** ampliare le sorgenti grafiche indirette/localizzate ancora
+non migrate, a partire dal selettore originale del banco Clan43bc28in08ed28
+e dai chiamanti adiacenti. Il catalogo letterale con conteggi derivati da r0
+è ora concluso per il perimetro dichiarato; conservare le sue prove.
 Il catalogo raw UI di21palette è ora concluso per il perimetro dichiarato;
 altre fonti indirette restano aperte. Conservare senza ripetizione
 il loro decoder/consumo/scena400frame verificati. Il catalogo

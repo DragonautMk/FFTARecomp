@@ -1,6 +1,32 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e20-d19` additionally serves21raw UI palette banks/1328u16words
+Current EUR `v1/e22-d21` extends custom UI graphics to16banks/two language
+selectors/two explicit shared OBJ owners. Typed asset-pointer literals preserve
+live language choice, English fallback in Clan and skip-outside0..4in the
+second switch. Original5056OBJ/2688BG split uploads retain exact word data.
+Seven new banks/ten pointer literals add17disjoint ranges/14436source bytes;
+all nine previous UI bank records, every other decoded file and e21generations
+remain unchanged. New selector/localized-source/localized-literal counters
+distinguish this scope. Reduced Wine original/authentication/lifecycle/native
+checks pass all seven new payloads, both selectors and shared-owner tails;
+complete states/clocks match with new spans altered. Save/native ABI remains.
+One positive1200-frame English intro full-state/image/audio/actual CLI Wine pair
+passes with4selector bytes/2347new-source bytes/1124new literal bytes.
+New Linux/USA/native Windows checks stay pending.
+
+EUR `v1/e21-d20` also serves nine custom BG/OBJ UI graphics banks via
+`graphics.ui-custom-banks`. Exact typed u32literal positions and codec metadata
+feed original CPU/DMA/native reads; original decoded return lengths, shifts/
+masks, live scratch and full/partial uploads remain guest instructions and
+clock work. No added host ROM consumer is needed: PPU reads resulting live
+VRAM. All15earlier decoded files/e20generations stay unchanged. Family and
+per-bank counters prove all-nine native ownership and ordinary Clan source43bc28
+use; save/native ABI and unavailable-file Load/Undo/backup/restart remain.
+Reduced Wine original/native/lifecycle and one positive320-frame Clan
+full-state/image/audio/actual CLI pair pass. New Linux/USA/native Windows and
+other indirect sources remain pending. See [custom UI graphics](rom_data_ui_graphics.md).
+
+EUR `v1/e20-d19` additionally serves21raw UI palette banks/1328u16words
 through `graphics.ui-raw-palettes`. Both BG/OBJ shadow halves, original Color-Mode
 selectors, copied IWRAM memcpy instructions, live fades and palette publication
 remain active; the PPU reads dynamic palette RAM. Exact typed-word ROM views
@@ -106,7 +132,7 @@ complete graphics extraction.
 EUR `v1/e13-d12` added `font.complete-bank`/`text.name-keyboard` as two
 fixed readable JSON files, bringing that version to12files/11resources; e14adds
 the thirteenth static OBJ file and e15the fourteenth animation file described
-above. e18retains that set; e19adds custom OBJ graphics and current e20adds raw UI palettes.
+above. e18retains that set; e19adds custom OBJ graphics and e20adds raw UI palettes and e21adds custom UI graphics; current e22extends their localized selectors/payloads.
 All3175packed glyph slots and metrics, three keyboard programs/indices and
 navigation widths are immutable typed runtime sources. The original routines
 still build cell pages and render/copy data with unchanged guest work/clock.

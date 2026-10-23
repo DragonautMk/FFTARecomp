@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 DESCRIPTIONS = {
     'manifest.toml': 'source identity, resource coverage and hashes',
+    'ui-graphics.json': 'European custom UI graphics word banks for BG/OBJ uploads',
     'ui-palettes.json': 'European raw UI palette words for BG/OBJ shadows',
     'obj-graphics.json': 'European custom OBJ word banks and language selector tables',
     'obj-animation-banks.json': 'European indexed sprite lists, animation frames and durations',

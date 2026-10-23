@@ -10,6 +10,10 @@ save icon
 
 more saveslots
 
+cinema mod, every scene in order or selectable. with auto skip text
+
+text effect to simulate speach
+
 Long term:
 
 Extract data from FFTA2

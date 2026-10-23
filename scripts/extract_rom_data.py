@@ -13,6 +13,7 @@ DESCRIPTIONS = {
     'linked-metadata4.json': 'European paired selectors/values; original live qualification scans retained',
     'linked-metadata2.json': 'European stored key/value map; distinct original forward and inverse extents',
     'default-constructor-template.json': 'European default constructor template; original live patches and alternate sources retained',
+    'constructor-alternate-templates.json': 'European four alternate constructor records and parsed base pointer; live patches retained',
     'linked-metadata52.json': 'European packed metadata and redirects; original live alternate indices retained',
     'linked-metadata16.json': 'European sixteen-byte linked metadata; original live list and RNG retained',
     'item-links.json': 'European counted item-linked pairs; original live unit publication retained',

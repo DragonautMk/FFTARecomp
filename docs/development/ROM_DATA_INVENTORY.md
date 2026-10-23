@@ -335,8 +335,21 @@ remain groundwork for other linked graphics families.
   Static next contract separately roots four alternate48Brecords/192B at
   6eca78..6ecb38and pointer70cd58..70cd5c/4B,196Btotal/noe29overlap. Original
   gatedID20..23copy and five equipment-slot reads perrecord/parsed376item owners
-  checked; byte01meaning/neighboring headers unclaimed. Model/oracle/managed/
-  runtime remain pending; default271+30/native16/397proofs stay closed.
+  checked; byte01meaning/neighboring headers unclaimed. Strict typed4record/
+  pointer catalog and one Wine24real+8synthetic original-copy/live-patch oracle
+  pass source/JSON/fixedarray/order/ID/item-owner/stack/outerRAM guards. EUR e30-d29
+  adds constructor-alternate-templates.json/gameplay.constructor-alternate-templates,
+  25files/24resources/all23previous decoded files/e29retained. Two focused Wine
+  managed/lifecycle/native checks pass14paths/both raw source spans (196Btotal) altered/equal
+  fullstates-clocks, native pointer/all4recordsmask15 and5zero-new-use paths.
+  One3600Lutia deployment full-state/image/audio/actualCLI pair reads45B(4pointer,
+  41record20B/mask1); remaining records/full-copy behavior targeted-only. Closed
+  source24+8/default271+30/native16/397proofs not repeated.
+  Next static14Bcontract:93records/1302Bphysical6e6f6c..6e7482/logicalIDs2..94,
+  original addressbias6e6f50/predicate>1, independent next12Bsource6e7484and
+  unowned2Bgap. Exact reconstruction/noe30overlap/parsed field-range checks pass;
+  byte02live-job link supported, byte01semantic owner unproved. Model/source
+  oracle/managed/runtime pending. Separate6e6dbc4Broot/12Broot hypotheses recorded.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

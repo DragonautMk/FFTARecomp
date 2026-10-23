@@ -131,7 +131,7 @@ miss0/u8truncation/live caller work remain. Two focused Wine managed/native/
 lifecycle checks and one positive1840Pub mission full-state/image/audio/actualCLI
 pair pass with4value/0keyB. Inverse key use stays targeted-only; earlier negative
 locators remain recorded. [Map contract](rom_data_gameplay.md#managed-and-direct-metadata2-consumption).
-Current EUR `v1/e29-d28` adds `default-constructor-template.json`, resource
+EUR `v1/e29-d28` adds `default-constructor-template.json`, resource
 `gameplay.default-constructor-template`:one48Btemplate with original copy/live
 patch fields. All24files/23resources authenticate together; all22previous decoded
 files/e28remain unchanged. Two focused Wine managed/native/lifecycle checks pass
@@ -139,6 +139,14 @@ files/e28remain unchanged. Two focused Wine managed/native/lifecycle checks pass
 read0newB. One397Pub full-state/image/audio/actualCLI pair reads96newBacross all
 structural categories. Alternate192B/pointer/following240B remain unowned.
 [Template contract](rom_data_gameplay.md#managed-and-direct-default-constructor-template).
+Current EUR `v1/e30-d29` adds `constructor-alternate-templates.json`, resource
+`gameplay.constructor-alternate-templates`:four48Brecords plus4Btyped base pointer,
+196Btotal. All25files/24resources authenticate together with parsed Items dependency;
+all23previous decoded files/e29remain unchanged. Two focused Wine managed/native/
+lifecycle checks pass14paths/all196rawBaltered/pointer/all4recordsmask15 and five
+zero-new-use paths. One3600Lutia deployment full-state/image/audio/actualCLI pair
+reads45B(pointer4/record20fields41), mask1; other records/full-copy targeted-only.
+[Alternate contract](rom_data_gameplay.md#managed-and-direct-constructor-alternates).
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for

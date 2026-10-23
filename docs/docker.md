@@ -294,6 +294,22 @@ Desktop, Windows PowerShell 5.1 and physical controllers were not available
 for validation; do not treat Wine or the PowerShell mock as native Windows
 coverage.
 
+## Local generated files
+
+`target/` also holds local validation builds, Wine test prefixes and repeated
+extraction/lifecycle fixtures. Completed tests can leave `interrupted`,
+`offline dataset`, `moved resources` and CLI `resources` directories; those names
+alone do not mean that an extraction is still running. Check
+[the task handoff](development/TASK_HANDOFF.md) and current dataset references
+before removing obsolete copies. Keep pending validation inputs, ROMs, saves,
+recordings, current runtimes and the latest verified portable archives.
+
+Local cleanup does not change the runtime's immutable-generation retention
+policy. Logs, result summaries and tracked change records retain completed
+validation evidence after old generated copies are removed; missing local
+artifacts do not reopen completed tests. See the
+[resume/repeat workflow](development/MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
+
 ## Decoded-resource archive gate
 
 Both container context/COPY lists include docs/rom_data.md and

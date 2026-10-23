@@ -197,6 +197,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   rejected paths0newreads. One397Pub full-state/image/audio/actualCLI pair reads
   96newBacross all structural categories; source271+30closed/not repeated.
   New Linux/USA/native Windows remain pending. [Contract](../rom_data_gameplay.md#default-constructor-template-source-contract).
+  EUR e30-d29adds constructor-alternate-templates.json/resource
+  gameplay.constructor-alternate-templates,25files/24resources/all23prior decoded
+  files/e29retained. `constructor_alternates::Catalog` owns4records/192Bat6eca78..6ecb38
+  and their4Bbase pointer70cd58,196Btotal. Typed IDs/offsets/structural fields and
+  first5equipment halfwords perrecord validate against parsed376item owners.
+  One focused Wine24real+8synthetic original-copy/live-patch prefix oracle passes,
+  with allocation/live-unit tails unclaimed. Two focused Wine managed/native/
+  lifecycle checks pass14paths/196rawBaltered/equal fullstates-clocks/pointer+
+  all4recordsmask15/five zero-new-use paths. One3600Lutia deployment full-state/
+  image/audio/actualCLI pair reads45B(pointer4/record20fields41), mask1; other
+  records/full-copy behavior targeted-only. NewLinux/USA/nativeWindows pending.
+  [Contract](../rom_data_gameplay.md#typed-constructor-alternates-source-proof).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

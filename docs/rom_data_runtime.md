@@ -1,6 +1,18 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e29-d28` serves one48Bdefault constructor template from
+Current EUR `v1/e30-d29` serves four48Bconstructor records and4Bbase pointer from
+`gameplay.constructor-alternate-templates`,196Btotal. Typed pointer/header/argument/
+full-halfword/flag/tail bytes preserve original ROM/IWRAMcopy/live patches/mode/
+allocation/clock/save/native ABI. All25files/24resources authenticate together with
+actual parsed Items dependency; all23prior decoded files/e29retained. Two focused
+Wine managed/native/lifecycle checks pass14paths/all196rawBaltered/equal fullstates-
+clocks, pointer/all4recordsmask15/five zero-new-use paths and both-span bus/SWI/DMA.
+One3600Lutia deployment full-state/image/audio/actualCLI pair reads45B(pointer4/
+record20fields41), mask1; other records/full-copy targeted-only. NewLinux/USA/
+nativeWindows/neighboring headers/following240Bpending.
+[Contract](rom_data_gameplay.md#managed-and-direct-constructor-alternates).
+
+EUR `v1/e29-d28` serves one48Bdefault constructor template from
 `gameplay.default-constructor-template`. Typed header/argument/full-halfword/flag/
 tail bytes preserve original ROM/IWRAM copy/live patches/mode/alternate selection/
 allocation/clock/save/native ABI. All24files/23resources authenticate together,

@@ -853,8 +853,134 @@ Byte01values104..107remain structural, with no new semantic-owner assertion.
 Evidence:target/rom-data-constructor-alternates/{inventory-constructor-alternates.py,
 constructor-alternates-inventory.json,constructor-alternates-records-independent.json,
 template-consumer-0ccf9c.txt}. The private inventory's misplaced CD034LDRHassertion
-was corrected toCD032before output/build; static checks pass. No new model,
-source oracle, managed resource or runtime projection yet. Current EUR e29-d28/
+was corrected toCD032before output/build; static checks pass. Source model/oracle were subsequently completed below; no managed resource or
+runtime projection yet at this boundary. Current EUR e29-d28/
 24files/23resources and USAe8-d7stay unchanged. Next is the reduced source-only
 proof for these four records; closed default271+30/native16/397scene proofs
 are not reopened. New Linux/USA/native Windows remain pending; no metrics.
+
+
+## Typed constructor alternates source proof
+
+Strict `constructor_alternates::{Record,Alternates,Catalog}` preserves all four
+IDs20..23, their fixed source offsets and full byte/halfword fields, plus parsed
+base pointer70cd58. Two disjoint ranges own192record bytes and4pointer bytes.
+The first five halfwords of each record validate against actual parsed376item
+owners. Source-offset/count/order/ID/fixed-array/JSON/coherent-edit guards retain
+all196bytes. Byte01meaning and neighboring header ownership remain unclaimed.
+
+Warning-free Windows39935and one Wine61563source oracle pass24real four-ID
+copy/live-patch cases coveringu8truncation, selector0/1/2/255and flag/mode edges.
+Eight isolated synthetic records retain high bits, unused fields, valid high
+item IDs and preexisting ORflags; they fail source authentication and are never
+published. Existing original initialization executes10instructions to install
+the real IWRAMcopy helper; original constructor127DC4→127EB0keeps its scratch/
+caller frame and live incoming arguments. Outer RAM guards pass.5560instructions/
+137PCs are coverage only; allocation/live-unit tails remain unclaimed. Closed
+default271+30/native16/397scene acceptance was not repeated. All32protected
+original/e29/item-owner/candidate/cache/loader/canonical/source files stay intact;
+no build/test failure. HEAD advanced externally toe180772during this unit,
+committing prior e29content without changing this source scope; no agent commit.
+
+Evidence:target/rom-data-constructor-alternates/{windows-tests-build.{jsonl,log},
+windows-original-result.json,windows-original-europe/{constructor-alternates.json,
+result.json}}. Managed preparation, direct typed pointer/record ownership,
+lifecycle and positive ordinary scene/actualCLI were subsequently completed below; EUR e29-d28/
+24files/23resources and USAe8-d7unchanged. New Linux/USA/native Windows and the
+rest of the TODO remain pending; no performance/space campaign/AndroidPort change.
+
+
+## Managed and direct constructor alternates
+
+EUR e30-d29 adds constructor-alternate-templates.json /
+gameplay.constructor-alternate-templates, format constructor-alternate-templates-v1-json,
+with actual parsed Items dependency for all20equipment references. All25files/
+24resources authenticate before transactional activation; all23previous decoded
+files/e29generations remain unchanged. A2MiB read guard bounds malformed input,
+not an extracted-space target. Typed4Bbase pointer and192Brecord bytes project
+through pages6ec/70c, preserving ID/order/offsets and all header/argument/full-
+halfword/flag/tail fields. Per-record masks/counters are nonserialized. Original
+ROM/IWRAMcopy, pointer/index/mode selection, live patches, allocation work,
+clock/save/native ABI remain; no guest routine or fallback is replaced.
+
+Initial Windows89684build is warning-free; pre-Wine review corrects an inherited
+zero-use guard direction for the new family and adds an old-default positive
+coexistence check. Corrected Windows61725and production92748builds are warning-
+free; no compiler/runtime failure. Wine39423two focused checks pass publication
+interruption/create/reuse/repair/move/e29retention, coherent header/opaque/flags/
+tail/byte01swap/pointer/source/dependency/path/both-source-role transactional
+rejection, parsed item bounds and unavailable-copy Load/Undo/backup/restart.
+14sampled original/interpreter/native paths include real IWRAMcopy blocks and
+all196rawbytes altered during guest execution; complete states/clocks match.
+Assertions that read raw records run only after execution stops and spans are
+restored. All four records are positively typed(mask15); compiled pointer/
+header/argument/halfword/flag/tail use is36/45/27/306/18/36B. Five default or
+rejected paths read0newB; old default ownership remains positive.2151instructions/
+979dispatches are coverage only. All196bytes/edges/record boundaries/widths/
+mirrors/real-BIOS bus, both source spans in CpuSet/FastSet and DMA4B each pass.
+Raw-header/pointer and final-record/following-source words each preserve2typed
+and2rawbytes. Source24+8/default271+30/native16/397proofs stay closed.
+
+## Ordinary alternate-record use and CLI
+
+Production92748restores the canonical executable. Actual WindowsCLI52141creates/
+reuses e30without dataset writes from an unrelated cwd and uses the old native
+cache. The retained3000frame clean-boot input reaches the school courtyard but
+reads0newbytes; it is a coverage-negative locator, with no full pair or timing.
+Local text lookup for metadata52rows104/105yields Judge and106Judgemaster; this
+is scene-discovery evidence without renaming the structural file fields.
+Retained worldmap hover/A200plus A500/A900/A1300reaches a Lutia battle-map laws
+NOTICE at1700, still0newbytes; this negative locator also remains closed.
+
+Ordinary A1800/A2100/A2400/A2700and Start3000/A3300advance the NOTICE/deployment.
+Actual CLI26234and one3600frame Wine68173pair pass with45newbytes:4pointer/
+6header/3argument/28halfword/2flag/2tail, record mask1(ID20only). Every complete
+state/clock, central/wide framebuffer, OAM, dispatch and mixed/PSG/FIFO/HLEaudio
+sample matches. The final Lutia battle image is inspected. This ordinary proof
+covers the observed direct pointer/field reads; it does not claim every48B or
+the whole constructor runs in that scene. All four records/full-copy behavior
+remain targeted-only. Reused input/snapshot are justified by the new196Bfamily
+and separate positive gate; no direct RAM edit, new recording, persisted save
+write or old source/native/lifecycle acceptance repeat. No full pair is run on
+negative locators. Existing shared scene tooling supports both cleanboot and
+snapshots, so no additional fixture or oracle feature is added.
+
+Evidence:target/rom-data-constructor-alternates/{windows-managed-results.json,
+windows-managed-europe/{managed-result.json,native-result.json},
+windows-managed-tests-build.{jsonl,log},windows-managed-tests-pre-guard-review-build.*,
+windows-build.json,windows-cli-{processes,no-write,summary,engage-battle,deploy-start}.json,
+scene-class-label-locator.json,windows-scene-result.json,
+windows-deploy-constructor-alternates-full-state-audio.log,deploy-start.png}.
+Protected originals/e29/item-owner/candidates/cache/loader/canonical and CLI
+27file-set/hash/mtime guards pass. HEAD advanced externally toe180772during the
+source unit; unrelated user todo2.md additions remain untouched. New Linux/USA/
+native Windows and broader maps/gameplay/audio/GUI/archive/mod remain pending;
+no performance/space campaign or AndroidPort change.
+
+
+## Next bounded fourteen-byte records
+
+Static discovery separates physical6e6f6c..6e7482/1302Binto93fourteen-byte
+records with logical IDs2..94. Original getters use biased base6e6f50, rooted
+by CD05C→CD07Cand ten other selected literals. CBAD4routes nonnull liveunit+4>1
+to these records; IDs0/1keep their original normal job/property branch. A separate
+12Bindexed source at6e7484is independently rooted by13762E→137640; only whole
+14Brecords before it are owned, leaving two zero bytes unowned. Global caller
+upper bounds and constructorID0remain unproved; no fallback is invented.
+
+Fields preserve bytes00..03, full halfwords04/06, packed08..0a, byte0b and bytes
+0c/0d. CF144/180return halfwords4/6, CF1BCbyte11and CF1F0byte12foru8argument1or
+byte13otherwise. CF08Cretains original packed palette bank/selector lookup/copy.
+All186byte01/02values fit parsed116metadata52rows, but that range alone is not
+semantic owner proof forbyte01. Original initializer copies byte02to liveunit+7
+when descriptor override01is zero; this supports the byte02job link. All1302B
+reconstruct independently without overlap with e30resources.
+
+The earlier6e6dbcroot hypothesis was rejected: its reader uses4Bindexing,
+and6e6ee4is also separate. Supposed14Baliases6e7484/6e78d4actually have12Bstride.
+Evidence:target/rom-data-metadata14/{reader-*.txt,readers-*.txt,
+predicate-0cbab0.txt,inventory-metadata14.py,metadata14-inventory.json,
+metadata14-records-independent.json}. Model/source oracle/managed/runtime are
+next; current EUR e30-d29/25files/24resources and USAe8-d7unchanged. No new
+build/test or closed acceptance repeat; newLinux/USA/nativeWindows and other
+families remain pending, no metrics/space work.

@@ -32,6 +32,35 @@ Documentation: [dialogue_layout.md](docs/dialogue_layout.md), [PROJECT_STATE.md]
 
 [Change record](docs/changes/2026-10-23-restore-grid-on-native-game-ui.json)
 
+## 2026-10-23 — Remove obsolete local builds and extraction test outputs
+
+Type: changed. Platforms: Linux.
+
+**Changes**
+
+- Removed an obsolete debug cache, eight historical Wine prefixes and 133 completed extraction/lifecycle test directories from ignored target storage.
+- Removed 219 superseded host executable/test copies and 62 old portable archives, retaining canonical runtimes, current exports, recent datasets and pending validation trees.
+- Preserved source preimages, game caches, ROMs, saves, recordings and validation logs/results; documented how local cleanup differs from runtime generation retention.
+- Recorded the terminal cleanup outcome without resuming the earlier ROM-data or performance queue; concurrent project-memory updates were preserved.
+
+**Validation**
+
+- All 423 reviewed generated paths, comprising 19964 files, are absent; target allocation decreased from 57069301760 to approximately 21044056064 bytes, reclaiming 36.0 GB.
+- SHA-256 comparison preserved all 742 ROM/save/recording files and 528 implementation files in the initial inventory; canonical runtime/export hashes were also retained.
+- All 6190 pre-existing files in retained recent datasets, pending native-boundary trees and current export evidence retain their recorded size and modification time.
+- Deletion candidates were checked for tracked files, private game/save/input extensions and overlap with protected paths; directory symlinks were not traversed.
+- python3 scripts/project_memory.py check and git diff --check pass. Detailed local manifests and results remain under target/local-artifact-cleanup-2026-10-23/.
+
+**Limitations**
+
+- No runtime implementation, extractor generation-retention policy, Docker image/global cache or AndroidPort behavior changed; no builds or gameplay tests were run.
+- Removed historical local artifacts are unavailable without regeneration; their retained logs and tracked results remain valid and do not authorize repeating closed work.
+- Some generated data and validation binaries remain intentionally because they support current or pending work; this was a selective cleanup rather than removal of the whole target tree.
+
+Documentation: [docker.md](docs/docker.md), [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-remove-obsolete-local-build-and-extraction-artifacts.json)
+
 ## 2026-10-23 — Identify European static item record boundaries and live property modifiers
 
 Type: docs. Platforms: Windows, Wine.
@@ -239,6 +268,33 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-decode-european-default-constructor-template.json)
+
+## 2026-10-23 — Decode European constructor alternate templates and typed base pointer
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict Record/Alternates/Catalog for four EURconstructor IDs20..23and full48Bstructural fields each at6eca78..6ecb38, plus parsed base pointer70cd58. Two disjoint source ranges/196Bretain exact ID/order/offset/count and lossless byte/full-halfword representation.
+- Validate first5equipment halfwords perrecord against actual parsed376item owners. Reuse authenticated constructor selection/patch fingerprints and original copy runner without rerunning closed default-template acceptance; byte01meaning and neighboring headers remain unclaimed.
+- Add one focused new alternate-source oracle; managed EUR e29-d28/24files/23resources and USAe8-d7unchanged until separate publication/direct ownership integration.
+
+**Validation**
+
+- Independent exact-EUR literal/LDR+4/gatedu8ID20..23/48Bindex/copy, full196Breconstruction/noe29overlap and20equipment-owner bounds pass. Earlier private static helper corrected CD034LDRHassertion toCD032before output/build; retained as discovery history.
+- Warning-free Windows39935build and Wine61563single new oracle terminal/pass:24real four-IDcopy/live-patch cases cover u8truncation/selector/flag/mode edges,8isolated synthetic highbit/unused/valid-high-item/ORflag preservation cases.5560instructions/137PCs and10original helper-init instructions are coverage only.
+- Strict JSON/fixedarray/order/count/ID/extent/source/coherent-edit/parsed-item-owner checks and scratch/callerframe/incomingargs/outerRAM guards pass; synthetic records unauthenticated/unpublished. Allocation/live-unit tail after127EB0unclaimed; default271+30/native16/397scene proofs not repeated.
+- All32protected original/e29/itemowner/candidate/cache/loader/canonical/source fixture hashes unchanged; no build/test failure. HEAD advanced externally toe180772committing prior e29content, inspected/preserved without agent commit. Source memory/whitespace/current hashes checked at closure, all jobs terminal.
+
+**Limitations**
+
+- Standalone source/original-prefix proof only; managed publication/typed CPU-DMA-native pointer and record ownership/lifecycle/positive ordinary scene/actualCLI remain pending.
+- Allocation/live-unit tails, whole-function ABI, byte01semantic meaning and neighboring header/following240Bownership remain unclaimed. The four owned IDs do not define a fallback for other inputs; original guest branches remain.
+- New Linux/USA/native Windows and broader gameplay/maps/audio/GUI/archive/mod remain pending. No performance/startup/RSS/space campaign or AndroidPort change; private ROM/saves/inputs/source fixtures/generated code remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-constructor-alternate-templates.json)
 
 ## 2026-10-23 — Consume European byte-pair map through managed typed runtime ownership
 
@@ -457,6 +513,35 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_graphics.md](docs/rom_data_graphics.md), [rom_data_obj.md](docs/rom_data_obj.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-custom-ui-graphics.json)
+
+## 2026-10-23 — Consume European constructor alternate records and typed base pointer
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e30-d29adds constructor-alternate-templates.json/resource gameplay.constructor-alternate-templates with actual parsed Items dependency. All25files/24resources authenticate transactionally; all23prior decoded files/e29generations retained, USAe8-d7unchanged.
+- Project exact typed4Bpointer/192Brecord bytes across source pages6ec/70c while retaining structural fields/IDs/order/offsets. Nonserialized pointer/field counters/per-record masks gate new-family use. Preserve original ROM/IWRAMcopy/index/mode/livepatch/allocation/clock/save/nativeABI, without replacing guest routines or fallbacks.
+- Add two reduced new-family managed/lifecycle/native checks and separate positive pointer+record ordinary-scene gate in existing full-state/image/audio oracle; source24+8/default271+30/native16/397acceptance not repeated.
+
+**Validation**
+
+- Windows89684initial compile warning-free; pre-Wine review corrected inherited zero-use guard direction and added narrow old-default coexistence proof. Corrected61725test and92748production builds warning-free/canonical restored; candidate SHAeab75eea70f9756b9e2aafab6aded8333fcc4f3aa4c03d7e78ca4acb6a4678c6. No compiler/runtimefailure.
+- Wine39423two checks terminal/pass: publication interruption/create/reuse/repair/move/e29retention/all23olddecodedfiles, coherent header/opaque/flag/tail/byte01swap/pointer/source/dependency/path/bothroles transactional rejection/parseditembounds and unavailable-copy Load/Undo/backup/restart.
+- 14sampled original/interpreter/native ROM/IWRAMpaths with both raw source spans (196Btotal) altered during guest execution match complete states/clocks. All4recordsmask15/pointer positive; compiled pointer/header/argument/halfword/flag/tail36/45/27/306/18/36B. Five default/rejected paths0newB/olddefaultpositive.2151instructions/979dispatches are coverage only; all196bytes/recordedges/widths/mirrors/real-BIOS/bothspansCpuSet/FastSet/DMA4B each and two mixed2typed+2raw crossings pass.
+- ActualCLI52141creates/reuses e30without writes/oldcache/unrelatedcwd. Cleanboot3000schoolcourtyard and Lutia1700lawsNOTICE are coverage-negative preserved locators, no full pair/timing on them. Local English metadata52row104/105Judge and106Judgemaster label lookup guides ordinary battle entry; structural field names unchanged.
+- Additional normal deployment confirmations/Start give actualCLI26234and one3600Wine68173pair passing every complete state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio with45newB(pointer4/header6/argument3/halfword28/flag2/tail2), mask1/ID20only. FinalLutiaimage inspected. Ordinary scope is observed pointer/field reads, not all48B/wholeconstructor/all4records; full-copy/all4 targeted-only. No directRAMedit/new recording/persisted savewrite or old source/native/lifecycle proof repeated.
+- Protected originals/e29/itemowner/candidates/cache/loader/canonical and27CLIfile-set/hash/mtime guards pass; memory/whitespace/source hashes recorded at closure. External HEADe180772prior-work commit and unrelated usertodo2.mdadditions preserved; no agent commit/push, all jobs terminal.
+
+**Limitations**
+
+- Targeted proofs stop before allocation/live-unit tail127EB0, not whole-function ABI. Ordinary scene proves only record20/mask1/41recordBplus4pointerB; other records/full-copy remain targeted-only.
+- Byte01semantic modeling, neighboring header/following240Bownership and broader consumer/language/gameplay/maps/audio/GUI/archive/mod coverage remain pending. Original dynamic arguments/branches retained, no fallback invented for IDs outside four owned records.
+- New Linux/USA/native Windows remain pending; no performance/startup/RSS/space campaign or AndroidPort change. Private ROM/saves/inputs/source fixtures/generated native code remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json)
 
 ## 2026-10-22 — Validate European text catalog consumption in the retained pub transition and production CLI
 

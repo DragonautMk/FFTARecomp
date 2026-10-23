@@ -788,6 +788,49 @@ semantiche non provate. Modello/oracolo sorgente/preparazione/consumo/scena rest
 da fare; EUR e29-d28invariato, prove default271+30/native16/397chiuse.
 [Contratto](../rom_data_gameplay.md#next-rooted-constructor-sources).
 
+**ROMDATA-02-GAMEPLAY-CONSTRUCTOR-ALTERNATES-SOURCE-ORACLE completato per EUR/Wine:**
+modello strict4record/192B+puntatore4B/196B, ID20..23/offset/campi byte/halfword e
+cinque equipment halfword perrecord con owner376item parsed. Un controllo Wine
+passa24casi reali+8sintetici di copia/patch originali, troncamento u8, selector/
+flag/mode, highbit/unused/highitem/ORpreservati e JSON/source/array/order/ID/extent/
+stack/args/outerRAM.5560istruzioni/137PCsolo copertura; tail allocazione esclusa,
+synthetic non autenticati/non pubblicati. Default271+30/native16/397non ripetuti.
+Dataset e29-d28/24file/23risorse invariato; preparazione/consumo/lifecycle/scenaCLI
+e nuovi Linux/USA/Windows nativo da fare, nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#typed-constructor-alternates-source-proof).
+
+**ROMDATA-02-GAMEPLAY-CONSTRUCTOR-ALTERNATES-DATA / ROMDATA-04-GAMEPLAY-CONSTRUCTOR-ALTERNATES-CONSUMPTION
+completati per EUR/Wine dichiarato:**e30-d29aggiunge constructor-alternate-templates.json /
+resource gameplay.constructor-alternate-templates,25file/24risorse,23file precedenti/
+e29conservati; USAe8-d7. Owner Items parsed, puntatore4B/record192Btipizzati e mask
+perrecord conservano copia ROM/IWRAM/patch live/mode/allocazione/clock/save/native ABI.
+Due controlli Wine passano pubblicazione/transazioni/lifecycle/retention e14percorsi
+con196rawBalterati/stati-clock uguali, tutti4record mask15/puntatore compilati,
+5default/rifiutati0newB/vecchio default positivo. Tutti byte/bordi record/BIOS/mirror/
+SWI/DMA4per entrambe le sorgenti/crossing2typed+2raw passano. Build warning-free;
+guardia zero-use corretta in review prima di Wine, nessun failure. Source24+8e
+vecchie prove default271+30/native16/397chiuse.
+ROMDATA-05-GAMEPLAY-CONSTRUCTOR-ALTERNATES-SCENE-CLI completo: CLI crea/riusa senza
+scritture/vecchia cache/cwd diverso. Intro3000cortile scuola e Lutia1700NOTICE sono
+locator negativi conservati, nessuna coppia completa. Conferme/schieramento normali
+danno una coppia3600Lutia stati/clock/immagini/OAM/dispatch/audio uguali e45nuoviB:
+4pointer/6header/3argomenti/28halfword/2flag/2tail, mask1soloID20. Tutti4record e
+copia completa restano prove mirate; immagine finale ispezionata, nessun RAMedit/
+recording nuovo/salvataggio persistito/vecchio oracolo ripetuto. Nuovi Linux/USA/
+Windows nativo/header vicini/successivi240B/restoTODOaperti, nessuna misura performance/
+spazio. [Contratto](../rom_data_gameplay.md#managed-and-direct-constructor-alternates).
+
+**ROMDATA-01-GAMEPLAY-METADATA14-ROOTS completato staticamente nel catalogo dichiarato:**
+93record/1302Bfisici6e6f6c..6e7482,IDlogici2..94/base biased6e6f50. Predicate>1
+nei getter mantiene0/1sul ramo job live; root successivo indipendente6e7484usa
+stride12e lascia2Bnonowned. Getter halfword4/6,byte11/12/13 e palette packed8..10
+individuati; roundtrip/noe30overlap/186valori01/02entro116metadata52passano. Byte02
+copia al job liveconoverride0; owner semantico byte01non provato solo dal range.
+Ipotesi6e6dbc14Brespinta(reader*4), presunti alias7484/78d4respinti(stride12).
+Modello/oracolo sorgente/consumo da fare,e30invariato; nessun build/test/ripetizione
+vecchia accettazione, nuovi Linux/USA/Windows nativo da fare.
+[Contratto](../rom_data_gameplay.md#next-bounded-fourteen-byte-records).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
 

@@ -1502,11 +1502,81 @@ Exact EUR root/stride/count/field/load/store/mask/return/caller/next-root opcode
 all768Broundtrip and no-e35overlap pass statically. Private inventory initially
 compared a decoded BL ROM offset with a guest address; the address base was
 corrected before producing its successful result. The earlier047678tail locator
-is superseded by the true047670function entry. No new model/build/Wine test
-ran for this family; source oracle/managed/runtime/ordinaryuse/newLinux/USA/
-nativeWindows remain pending, current e35-d34/30files/29resources unchanged.
+is superseded by the true047670function entry. That inventory did not add a
+model/build/runtime check; the source contract is now proved below. Managed/
+runtime/ordinaryuse/newLinux/USA/nativeWindows remain pending, current
+e35-d34/30files/29resources unchanged.
 Evidence: `target/rom-data-progression-gates/{inventory.py,discovery.json,
 progression-gates-inventory.json,progression-gates-independent.json,
 consumer-0487c8.txt,result-consumer-047670.txt,next-root-0d23b0.txt,
 next-0d2420.txt,static-summary.json,static-source-hashes.json}`. No performance/
 space or AndroidPort work is included; e35source/native/600Shop checks stay closed.
+
+
+## Progression gates source contract
+
+Strict `ProgressionGates`/`Record` preserves64physical IDs/source offsets,
+byte00, halfword01, byte03and fixed eight-byte requirements without constraining
+byte00to its observed ID, minima to0..50or returned halfword to item IDs. The
+finite diagnostic `Outcome` carries matched ID separately from returned value,
+output byte and updated received mask. Original0487c8and its u64shift helper
+remain responsible for guest state; no routine or event work is replaced.
+
+Warning-free Windows75099and one Wine11775original full-function oracle pass:
+80actual-source cases select every physical row at its exact eight minima,
+fail below each dimension, exercise multiple eligible rows/physical ordering,
+bits31/32/63/fullmask/levels0-255and distinguish zero-valued row63success from
+miss.25isolated copies with unrelated high byte00/high u16receipts/output128-255/
+unsigned128minima test above/equal/below and early failures; synthetic copies
+remain unauthenticated/unpublished. All704used source bytes (eleven per row)
+are read; all64unused byte00fields are preserved by the768Broundtrip and never
+read by this original consumer. Strict JSON/fixed-array/count/ID/order/offset/
+coherent-edit/source/hash guards and complete EWRAM (only received mask/output
+changed), callee registers/SP/stack guards pass.121113instructions/132PCs are
+coverage only. No downstream receipt UI/foreign-key/semantic skill claim.
+
+Evidence: `target/rom-data-progression-gates/windows-tests-build.{jsonl,log}`,
+`windows-original-result.json`, `windows-original-europe/{progression-gates,
+result}.json`, source-final-summary.json and source-final-source-hashes.json.
+All38protected ROM/e35dataset/cache/loader/canonical/candidate/source fixtures
+remain unchanged. External HEAD4423b91committed prior e35work and this source
+implementation during compilation; its diff is inspected/preserved without an
+agent commit. New managed publication/direct reads/lifecycle/ordinaryuse and
+Linux/USA/nativeWindows remain pending; no old accepted proof is repeated.
+
+
+## Managed and direct progression gates
+
+EUR `v1/e36-d35` adds `progression-gates.json`/`gameplay.progression-gates`:
+31files/30resources, all29prior decoded files/e35generation retained; USAe8-d7
+unchanged. Strict parsed immutable records/source-role/file/manifest checks bind
+all768B, with fixed-page routing on6e7and6e8and typed requirements/return/output/
+unused fields. Physical record-mask diagnostics cover all64bits. Original live
+levels/mask/firsteligible/64bitshift/receipt caller/instructions/clock/save-native
+ABI remain unchanged;12Bpreceding gap/nextroot at6e80ceremain raw. No invented
+item/receipt foreign-key dependency or byte00-ID equality constraint is added.
+
+Warning-free Windows68535and Wine97635two reduced checks pass. Publication
+interruption/create/reuse/repair/move/e35retention, coherent requirement/return/
+output/unused/lastrow/reorder/source/dependency/path/role tampering and failed
+attach owner/state preservation pass. An unavailable-copy Load/Undo/backup/
+restart retains owned resources; all768typed bytes/all64record bits are checked.
+19original/interpreter/native full0487c8paths share the same return exit and
+match complete states/clocks with768raw bytes altered. Compiled counters read
+369requirement/18return/9output/0unused bytes;two fullmask paths read0newbytes,
+two zero-valued successes still set the physical received bit. Allbytes/record
+edges/8-16-32widths/mirrors/real-BIOS flag/bothpages/pagecrossing/12rawgap bytes
+and oldreward2/newgate4typed coexistence pass. Cross-page CpuSet/FastSet read
+32typed bytes each; DMA reads2typed+2raw.28874instructions/158native dispatches
+are coverage only. Source80+25and earlier e35proof are closed, not repeated.
+
+Evidence: `target/rom-data-progression-gates/windows-managed-results.json`,
+`windows-managed-europe/{managed-result,native-result}.json` and
+managed-final-summary.json/managed-final-source-hashes.json. Production CLI and
+ordinary scene05remain pending. The original ordinary call04B60Eis gated by
+04B5FC..04B606checking live0201f504&0x1feafter the eight delta calls; context
+pointer0201f508and selected row pointer0201f530remain original. It must be
+reached through normal gameplay, not a RAM edit or unrelated blind Shop/Pub
+replay. Source/native proof does not establish ordinary receipt/UI behavior.
+NewLinux/USA/nativeWindows/downstream receipt semantics/FK/other consumers and
+wider TODO remain pending; no performance/space or AndroidPort work included.

@@ -256,6 +256,30 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE
 
 [Change record](docs/changes/2026-10-23-decode-european-progression-reward-and-price-records.json)
 
+## 2026-10-23 — Decode European progression gates with original live minima and zero-valued success proof
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict lossless ProgressionGates/Record for64rows/768B6e7dce..6e80ce, physical IDs/sourceoffsets/unusedbyte00/structuralu16halfword01/outputbyte03/eightu8minima. Do not impose observed byte00-ID equality/minima<=50/receipt-as-item constraints. Finite diagnostic Outcome keeps matched physical ID separate from returned0/output/mask; original0487c8and u64helper own all guest work.
+- Source-only boundary leaves EUR e35-d34/30files/29resources and USAe8-d7 unchanged. Preserve12Bpreceding gap and next-table ownership; no foreign-key dependency or downstream receipt UI inferred.
+
+**Validation**
+
+- Windows75099warning-free and Wine11775single new full0487c8oracle terminal/pass:80actual-source cases cover all64rows at exacteight minima, each below-bound field/firstmultiple eligible/physical order/bits31-32-63/fullmask/live0-255/zero-valued row63success marksbit63.25isolated highunused00/u16receipt/output128-255/unsigned128threshold equal-below-above copies pass, unauthenticated/unpublished.
+- All704used source bytes observed,64unusedbyte00not read, all768Broundtrip. StrictJSON/fixedarray/count/ID/order/sourceoffset/coherent edit/authentication/completeEWRAM-onlymask-output/SP/callee/stack guards pass.121113instructions/132PCs coverageonly; no performance metric.
+- All38protected ROM/e35dataset/canonical/candidate/cache/loader/sourcefixture hashes unchanged; oldsource/native/scene proof not repeated. External4423b91committed prior e35and this partial implementation during compilation, inspected/preserved without agentcommit. Structured memory and final checks recorded.
+
+**Limitations**
+
+- Managed publication/direct CPU-DMA-native reads/lifecycle/positive ordinary use remain pending. Whole downstream receipt UI/foreign-key/semantic skill names unclaimed; structural16bit values preserve larger encoded-value branch.
+- NewLinux/USA/nativeWindows/widerTODO pending; no performance/startup/RSS/space measurements or AndroidPort changes. Private ROM/data/saves/inputs/generated fixtures remain ignored, no agent commit/push.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-progression-gates-and-receipt-records.json)
+
 ## 2026-10-23 — Decode European counted item-linked pairs with original query and publication proofs
 
 Type: added. Platforms: Windows, Wine.
@@ -597,6 +621,30 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-progression-reward-and-price-records.json)
+
+## 2026-10-23 — Consume European progression gates through authenticated typed source fields
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Advance EUR to e36-d35/31files/30resources with progression-gates.json/gameplay.progression-gates,768B/64records/one authenticated source range. Preserve all29prior decoded files/e35generation and USAe8-d7. Two-page fixed routing serves typed requirements/return/output/unused bytes with physical64record mask; original livelevel/mask/selection/u64shift/receiptcaller/instructions/clock/save-nativeABI unchanged.
+- Keep12Bpreceding gap/nextroot6e80ceraw; no receipt/item foreign-key or observed byte00-ID equality constraints. Runtime owns parsed source-authenticated records across unavailable files and state/backup/restart operations.
+
+**Validation**
+
+- Windows68535warning-free/Wine97635two focused checks terminal/pass: publication interruption/create/reuse/repair/move/e35retention/coherent requirement-return-output-unused-lastrow-reorder-source-dependency-path-role/transactional owner-state/all768B-all64bits/unavailable-copy Load-Undo-backup-restart.
+- 19original/interpreter/native complete0487c8paths with768rawB altered match fullstates/clocks; compiled369requirement/18return/9output/0unused B,2zero-value successes still mark bit,2fullmask paths0newreads. Allbytes/recordedges/widths/mirrors/real-BIOS/two pages/pagecrossing/12Brawgap/oldreward2-newgate4typed coexistence/CpuSet-FastSet32typed across page/DMA2typed2raw pass.28874instructions/158native dispatches coverageonly; source80+25/earlier e35proof not repeated.
+- Protected originals/e35dataset/sourcefixtures/cache/loader/canonical/candidate unchanged; structured memory/final hashes/checks recorded, no build-Winefailure/live runtime process/agentcommit-push.
+
+**Limitations**
+
+- Production actual CLI and positive ordinary scene05remain pending. Ordinary04B60Erequires concrete live0201f504&0x1feafter8deltahelpers; no unrelated blindShop-Pub replay or RAMedit. Whole downstream receiptUI/FK/semantic names not claimed.
+- NewLinux/USA/nativeWindows and widerTODO pending; no performance/startup/RSS/space measurements or AndroidPort changes. Private ROM/data/saves/inputs/generated fixtures remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json)
 
 ## 2026-10-23 — Consume European counted item links with original live unit publication
 

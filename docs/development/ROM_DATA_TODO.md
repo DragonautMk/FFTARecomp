@@ -995,8 +995,33 @@ byte03output,8u8minimi contro020021b6+2*k; originale masku64/ordine prima
 riga unmarked idonea/bitfisico/zero-return con bit63successo distinti dal miss.
 Tutti768Broundtrip/noe35overlap/root/field/stride/count/caller/next opcodes
 passano; ritorni attuali0..375compatibili Items, receipt/FK completo nonprovato.
-Nessun nuovo modello/build/Wine; questi restano da fare/newLinux-USA-Windowsnativo.
+Il solo inventario non aggiungeva modello/build/Wine; sourceoracle completato sotto,
+managed/runtime/newLinux-USA-Windowsnativo restano.
 [Contratto](../rom_data_gameplay.md#next-progression-gates-and-returned-receipts).
+
+**ROMDATA-02-GAMEPLAY-PROGRESSION-GATES-SOURCE-ORACLE completato per EUR/Wine:**
+modello strict64record/768Bbyte00/halfword01/byte03/8minimi, nessun vincolo
+byte00==ID/minimo<=50/receipt==item. Outcome distingue ID idoneo/valore/output/
+maschera. Build75099senza avvisi/unicoWine11775passa80casi reali+25sintetici,
+originale0487c8completo+helperu64: tutti64row/equal-below8dimensioni/unsigned128/
+bit31-32-63/ordine primo idoneo/fullmask/row63successo valore0;704Bcampi letti,
+768Broundtrip/JSON/ID-offset-order/coherentedit/SP/callee/EWRAM passano.
+38file protetti invariati, e35unchanged; managed/runtime/lifecycle/ordinaryuse/
+receiptUI-FK/newLinux-USA-Windowsnativo da fare. Nessun vecchio test ripetuto.
+[Contratto](../rom_data_gameplay.md#progression-gates-source-contract).
+
+**ROMDATA-02-GAMEPLAY-PROGRESSION-GATES-DATA / ROMDATA-04-GAMEPLAY-PROGRESSION-GATES-CONSUMPTION completati per EUR/Wine:**
+e36-d35aggiunge progression-gates.json/gameplay.progression-gates,31file/
+30risorse/all29decoded precedenti/e35retained/USAe8-d7. Windows68535senzaavvisi/
+Wine97635duecontrolli passano pubblicazione/interruzione/create-reuse-repair-move/
+retention/coherent requirement-return-output-unused-lastrow-reorder-source-
+dependency-path-role/transactionalownerstate/load-undo-backup-restart.19percorsi
+originale/interprete/native con768rawBalterati/stato-clock identici; compiled369
+requirements/18return/9output/0unused,2successivalore0marcanobit,2fullmaskzero.
+All768B/64record/boundary/width/mirror/BIOS/twopages/SWIcrosspage32typed/DMA2typed2raw/
+12Brawgap/oldreward2newgate4coexistence passano. Fonte80+25chiusa/nonripetuta.
+CLI/scena05/receiptUI-FK/newLinux-USA-Windowsnativo dafare; nessunamisuraperformance.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-progression-gates).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -1375,11 +1400,11 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** implementare modello e unico sourceoracle Wine dei64record
-progression-gates: otto minimi live, maschera u64 e primo successo, miss e
-successo-row63che restituisce0ma marca bit63. Conservare byte00unused e
-halfword01structural, niente FK o nomi per soli intervalli osservati. Inventario
-768B/extent chiuso; e35fonte362+68/managed27native/600Shop chiusi, non ripetere.
+**Prossima azione:** buildCLI Windows e verificare prepare/reuse/no-write/compatibilità
+cache; per scena positiva progression-gates seguire condizione concreta
+04B5FC..04B606: flags live0201f504&0x1fe dopo otto delta, call04B60E. Trovare
+percorso gameplay normale; nessun replay Shop/Pub cieco o RAMedit. Fonte80+25/
+19native/lifecycle chiusi, e35fonte362+68/27native/600Shop chiusi, non ripetere.
 Delta ordinary e soglie RNGordinarie restano targeted-only; global11Bordinary
 richiede condizioni descriptor/live-mask concrete, niente EchoGrass invariato.
 Restano altre fonti indirette grafiche/testuali, mappe, audio/gameplay, GUI/

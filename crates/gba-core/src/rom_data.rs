@@ -39,8 +39,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 35;
-pub const DECODER_REV: u32 = 34;
+pub const EXTRACTOR_REV: u32 = 36;
+pub const DECODER_REV: u32 = 35;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -85,6 +85,10 @@ pub const PROGRESSION_REWARDS_ID: &str = "gameplay.progression-rewards";
 pub const PROGRESSION_REWARDS_FILE: &str = "progression-rewards.json";
 pub const PROGRESSION_REWARDS_FORMAT: &str = "progression-rewards-v1-json";
 pub const MAX_PROGRESSION_REWARDS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const PROGRESSION_GATES_ID: &str = "gameplay.progression-gates";
+pub const PROGRESSION_GATES_FILE: &str = "progression-gates.json";
+pub const PROGRESSION_GATES_FORMAT: &str = "progression-gates-v1-json";
+pub const MAX_PROGRESSION_GATES_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -285,6 +289,7 @@ pub struct Extraction {
     pub global_pair_flags: Option<global_pair_flags::Catalog>,
     pub evaluation_parameters: Option<evaluation_parameters::Catalog>,
     pub progression_rewards: Option<progression_rewards::Catalog>,
+    pub progression_gates: Option<progression_gates::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -321,6 +326,7 @@ pub struct BaseFiles<'a> {
     pub global_pair_flags: Option<(&'a global_pair_flags::GlobalPairFlags, &'a [u8])>,
     pub evaluation_parameters: Option<(&'a evaluation_parameters::EvaluationParameters, &'a [u8])>,
     pub progression_rewards: Option<(&'a progression_rewards::ProgressionRewards, &'a [u8])>,
+    pub progression_gates: Option<(&'a progression_gates::ProgressionGates, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -565,6 +571,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.progression_rewards = Some(metadata);
+            let metadata = progression_gates::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PROGRESSION_GATES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: PROGRESSION_GATES_ID.into(), path: PROGRESSION_GATES_FILE.into(), format: PROGRESSION_GATES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.progression_gates = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -631,6 +644,7 @@ impl Extraction {
             global_pair_flags: None,
             evaluation_parameters: None,
             progression_rewards: None,
+            progression_gates: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -696,6 +710,7 @@ impl Extraction {
             || self.global_pair_flags.is_some() && self.metadata12.is_none()
             || self.evaluation_parameters.is_some() && self.global_pair_flags.is_none()
             || self.progression_rewards.is_some() && self.evaluation_parameters.is_none()
+            || self.progression_gates.is_some() && self.progression_rewards.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -973,6 +988,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected progression_rewards resource".into()),
         }
+        match (&self.progression_gates, files.progression_gates) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_PROGRESSION_GATES_FILE_BYTES { return Err("ProgressionGates file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[29].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected progression_gates resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1117,6 +1141,9 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.progression_rewards, files.progression_rewards) {
             if decoded != &expected.decoded {return Err("Decoded progression_rewards differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.progression_gates, files.progression_gates) {
+            if decoded != &expected.decoded {return Err("Decoded progression_gates differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1148,6 +1175,7 @@ impl Extraction {
             + usize::from(self.global_pair_flags.is_some())
             + usize::from(self.evaluation_parameters.is_some())
             + usize::from(self.progression_rewards.is_some())
+            + usize::from(self.progression_gates.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1232,6 +1260,7 @@ mod tests {
             global_pair_flags: None,
             evaluation_parameters: None,
             progression_rewards: None,
+            progression_gates: None,
             font_bank: None,
             })
             .unwrap();
@@ -1268,6 +1297,7 @@ mod tests {
             global_pair_flags: None,
             evaluation_parameters: None,
             progression_rewards: None,
+            progression_gates: None,
             font_bank: None,
             })
             .is_err());
@@ -1314,6 +1344,7 @@ mod tests {
             global_pair_flags: None,
             evaluation_parameters: None,
             progression_rewards: None,
+            progression_gates: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1349,6 +1380,7 @@ mod tests {
             global_pair_flags: None,
             evaluation_parameters: None,
             progression_rewards: None,
+            progression_gates: None,
             font_bank: None,
             })
             .is_err());

@@ -387,6 +387,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_PROGRESSION_REWARDS_SCENE frames={frames} bus_reads={} source_bytes={} delta_bytes={} discount_bytes={} opaque_bytes={} record_mask_lo={} record_mask_hi={}",i.bus_reads,i.source_bytes,i.delta_bytes,i.discount_bytes,i.opaque_bytes,i.record_mask[0],i.record_mask[1]);
         assert!(i.source_bytes>0 && i.delta_bytes+i.discount_bytes>0,"ordinary scene must consume newly migrated progression_rewards fields");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PROGRESSION_GATES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().progression_gates_stats().expect("decoded EUR progression_gates");
+        eprintln!("ROM_DATA_PROGRESSION_GATES_SCENE frames={frames} bus_reads={} source_bytes={} requirement_bytes={} return_bytes={} output_bytes={} unused_bytes={} record_mask={}",i.bus_reads,i.source_bytes,i.requirement_bytes,i.return_bytes,i.output_bytes,i.unused_bytes,i.record_mask);
+        assert!(i.source_bytes>0 && i.requirement_bytes+i.return_bytes+i.output_bytes>0,"ordinary scene must consume newly migrated progression_gates fields");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA52").is_some() {
         let i=decoded.bus.rom_resources().unwrap().metadata52_stats().expect("decoded EUR metadata52");
         eprintln!("ROM_DATA_METADATA52_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);

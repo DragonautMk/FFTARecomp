@@ -274,8 +274,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   original0487c8stride/loop, with independent next root exactly at its end.
   Byte00unused, halfword01returned/byte03output/eight live unsigned minima
   preserve physical-index u64received-bit ordering; row63returns0but still
-  marks bit63. Whole downstream receipt/FK/source model/runtime remain pending;
-  no new build/Wine run, e35unchanged. [Contract](../rom_data_gameplay.md#next-progression-gates-and-returned-receipts).
+  marks bit63. Strict source model/one Wine oracle pass80real+25synthetic
+  full0487c8cases, all64rows/eightliveunsignedminima/bit31-32-63/zero-success/
+  fullRAM/SP/callee guards;704used bytes and768Broundtrip. Whole downstream
+  receipt/FK/managed/runtime/ordinaryuse pending, e35unchanged. [Contract](../rom_data_gameplay.md#next-progression-gates-and-returned-receipts).
+  EUR e36-d35adds progression-gates.json/gameplay.progression-gates,
+  31files/30resources/all29prior decodedfiles/e35retained;768typedB/two pages/
+  requirements-return-output-unused/64physicalrecordmask. Two reduced Wine
+  managed/native/lifecycle checks pass19original/interpreter/native paths
+  with all768rawB altered/fullstate-clock equality, zero-valued success and
+  fullmask0read preserved;bus/BIOS/SWIpagecross/DMA/gap/coexistence pass.
+  Source80+25closed, actualCLI/ordinary05/downstreamreceipt-FK/newLinux/USA/
+  nativeWindows pending. [Contract](../rom_data_gameplay.md#managed-and-direct-progression-gates).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

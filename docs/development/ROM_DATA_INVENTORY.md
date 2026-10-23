@@ -412,9 +412,14 @@ remain groundwork for other linked graphics families.
   Next static progression-gates roots6e7dce/stride12/index0..63,768Bto6e80ce;
   independent next root D23E6→D24A8. Byte00unused/halfword01return/byte03output/
   eight live unsigned minima and original u64mask order preserved structurally;
-  row63zero return still marks bit63. Roundtrip/noe35overlap/opcodes pass,
-  no new model/build/test, downstream receipt/FK/source/runtime/ordinaryuse
-  and newLinux/USA remain pending.
+  row63zero return still marks bit63. Roundtrip/noe35overlap/opcodes and strict
+  source model/one Wine full0487c8oracle80real+25synthetic pass all64rows/eight
+  liveunsignedminima/maskorder/zero-success/704readbytes/fullRAM/SP/callee
+  guards. EUR e36-d35adds31stfile/30thresource/all29prior decoded/e35retained;
+  two focused Wine managed-native-lifecycle checks pass19original/typed/native
+  fullstate-clock paths/raw768Baltered/two-page typed bus/zero-success/fullmask/
+  SWI-DMA/gap/coexistence. ActualCLI/ordinaryuse/downstreamreceipt-FK/newLinux/
+  USA pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

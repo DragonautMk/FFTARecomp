@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "date": "2026-10-23",
+  "slug": "consume-european-progression-gates-and-receipt-records",
+  "title": "Consume European progression gates through authenticated typed source fields",
+  "kind": "added",
+  "platforms": [
+    "Windows",
+    "Wine"
+  ],
+  "changes": [
+    "Advance EUR to e36-d35/31files/30resources with progression-gates.json/gameplay.progression-gates,768B/64records/one authenticated source range. Preserve all29prior decoded files/e35generation and USAe8-d7. Two-page fixed routing serves typed requirements/return/output/unused bytes with physical64record mask; original livelevel/mask/selection/u64shift/receiptcaller/instructions/clock/save-nativeABI unchanged.",
+    "Keep12Bpreceding gap/nextroot6e80ceraw; no receipt/item foreign-key or observed byte00-ID equality constraints. Runtime owns parsed source-authenticated records across unavailable files and state/backup/restart operations."
+  ],
+  "validation": [
+    "Windows68535warning-free/Wine97635two focused checks terminal/pass: publication interruption/create/reuse/repair/move/e35retention/coherent requirement-return-output-unused-lastrow-reorder-source-dependency-path-role/transactional owner-state/all768B-all64bits/unavailable-copy Load-Undo-backup-restart.",
+    "19original/interpreter/native complete0487c8paths with768rawB altered match fullstates/clocks; compiled369requirement/18return/9output/0unused B,2zero-value successes still mark bit,2fullmask paths0newreads. Allbytes/recordedges/widths/mirrors/real-BIOS/two pages/pagecrossing/12Brawgap/oldreward2-newgate4typed coexistence/CpuSet-FastSet32typed across page/DMA2typed2raw pass.28874instructions/158native dispatches coverageonly; source80+25/earlier e35proof not repeated.",
+    "Protected originals/e35dataset/sourcefixtures/cache/loader/canonical/candidate unchanged; structured memory/final hashes/checks recorded, no build-Winefailure/live runtime process/agentcommit-push."
+  ],
+  "limitations": [
+    "Production actual CLI and positive ordinary scene05remain pending. Ordinary04B60Erequires concrete live0201f504&0x1feafter8deltahelpers; no unrelated blindShop-Pub replay or RAMedit. Whole downstream receiptUI/FK/semantic names not claimed.",
+    "NewLinux/USA/nativeWindows and widerTODO pending; no performance/startup/RSS/space measurements or AndroidPort changes. Private ROM/data/saves/inputs/generated fixtures remain ignored."
+  ],
+  "files": [
+    "crates/gba-core/src/rom_data.rs",
+    "crates/gba-core/src/rom_data/runtime.rs",
+    "crates/gba-core/src/rom_data/runtime/progression_gates.rs",
+    "crates/recomp/src/rom_data.rs",
+    "crates/recomp/src/rom_data/progression_gate_runtime_tests.rs",
+    "crates/recomp/src/rom_data/bg_packet_managed_tests.rs",
+    "crates/recomp/src/rom_data/validation_tests.rs",
+    "scripts/extract_rom_data.py"
+  ],
+  "references": [
+    "docs/rom_data_gameplay.md",
+    "docs/development/PROJECT_STATE.md",
+    "docs/development/ROM_DATA_INVENTORY.md",
+    "docs/development/ROM_DATA_TODO.md",
+    "docs/development/TASK_HANDOFF.md"
+  ]
+}

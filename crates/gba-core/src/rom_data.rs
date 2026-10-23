@@ -21,12 +21,47 @@ pub mod obj_animations;
 pub mod obj_graphics;
 pub mod ui_palettes;
 pub mod ui_graphics;
+pub mod items;
+pub mod item_links;
+pub mod metadata16;
+pub mod metadata52;
+pub mod metadata4;
+pub mod metadata2;
+pub mod default48;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 22;
-pub const DECODER_REV: u32 = 21;
+pub const EXTRACTOR_REV: u32 = 29;
+pub const DECODER_REV: u32 = 28;
+pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
+pub const METADATA16_FILE: &str = "linked-metadata16.json";
+pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
+pub const MAX_METADATA16_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const METADATA52_ID: &str = "gameplay.linked-metadata52";
+pub const METADATA52_FILE: &str = "linked-metadata52.json";
+pub const METADATA52_FORMAT: &str = "linked-metadata52-v1-json";
+pub const MAX_METADATA52_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const METADATA4_ID: &str = "gameplay.linked-metadata4";
+pub const METADATA4_FILE: &str = "linked-metadata4.json";
+pub const METADATA4_FORMAT: &str = "linked-metadata4-v1-json";
+pub const MAX_METADATA4_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const METADATA2_ID: &str = "gameplay.linked-metadata2";
+pub const METADATA2_FILE: &str = "linked-metadata2.json";
+pub const METADATA2_FORMAT: &str = "linked-metadata2-v1-json";
+pub const MAX_METADATA2_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const DEFAULT48_ID: &str = "gameplay.default-constructor-template";
+pub const DEFAULT48_FILE: &str = "default-constructor-template.json";
+pub const DEFAULT48_FORMAT: &str = "default-constructor-template-v1-json";
+pub const MAX_DEFAULT48_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
+pub const ITEM_LINKS_FILE: &str = "item-links.json";
+pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
+pub const MAX_ITEM_LINKS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const ITEM_RECORDS_ID: &str = "gameplay.item-records";
+pub const ITEM_RECORDS_FILE: &str = "items.json";
+pub const ITEM_RECORDS_FORMAT: &str = "item-records-v1-json";
+pub const MAX_ITEM_RECORDS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const UI_CUSTOM_GRAPHICS_ID: &str = "graphics.ui-custom-banks";
 pub const UI_CUSTOM_GRAPHICS_FILE: &str = "ui-graphics.json";
 pub const UI_CUSTOM_GRAPHICS_FORMAT: &str = "ui-custom-banks-v1-json";
@@ -206,6 +241,13 @@ pub struct Extraction {
     pub obj_graphics: Option<obj_graphics::Catalog>,
     pub ui_palettes: Option<ui_palettes::Catalog>,
     pub ui_graphics: Option<ui_graphics::Catalog>,
+    pub items: Option<items::Catalog>,
+    pub item_links: Option<item_links::Catalog>,
+    pub metadata16: Option<metadata16::Catalog>,
+    pub metadata52: Option<metadata52::Catalog>,
+    pub metadata4: Option<metadata4::Catalog>,
+    pub metadata2: Option<metadata2::Catalog>,
+    pub default48: Option<default48::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -229,6 +271,13 @@ pub struct BaseFiles<'a> {
     pub obj_graphics: Option<(&'a obj_graphics::Graphics, &'a [u8])>,
     pub ui_palettes: Option<(&'a ui_palettes::Palettes, &'a [u8])>,
     pub ui_graphics: Option<(&'a ui_graphics::Graphics, &'a [u8])>,
+    pub items: Option<(&'a items::Items, &'a [u8])>,
+    pub item_links: Option<(&'a item_links::Links, &'a [u8])>,
+    pub metadata16: Option<(&'a metadata16::Metadata16, &'a [u8])>,
+    pub metadata52: Option<(&'a metadata52::Metadata52, &'a [u8])>,
+    pub metadata4: Option<(&'a metadata4::Metadata4, &'a [u8])>,
+    pub metadata2: Option<(&'a metadata2::Metadata2, &'a [u8])>,
+    pub default48: Option<(&'a default48::Template, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -377,6 +426,58 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into(), OBJ_CUSTOM_GRAPHICS_ID.into()], sources: graphics.sources.clone(),
             });
             result.ui_graphics = Some(graphics);
+            let items = items::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(ITEM_RECORDS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: ITEM_RECORDS_ID.into(), path: ITEM_RECORDS_FILE.into(), format: ITEM_RECORDS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: items.sources.clone(),
+            });
+            result.items = Some(items);
+            let links = item_links::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(ITEM_LINKS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: ITEM_LINKS_ID.into(), path: ITEM_LINKS_FILE.into(), format: ITEM_LINKS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![ITEM_RECORDS_ID.into()], sources: links.sources.clone(),
+            });
+            result.item_links = Some(links);
+            let metadata = metadata16::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(METADATA16_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA16_ID.into(), path: METADATA16_FILE.into(), format: METADATA16_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![OBJ_DIMENSIONS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.metadata16 = Some(metadata);
+            let metadata = metadata52::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_links(&result.item_links.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(METADATA52_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA52_ID.into(), path: METADATA52_FILE.into(), format: METADATA52_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![ITEM_LINKS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.metadata52 = Some(metadata);
+            let metadata = metadata4::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_metadata52(&result.metadata52.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(METADATA4_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA4_ID.into(), path: METADATA4_FILE.into(), format: METADATA4_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.metadata4 = Some(metadata);
+            let metadata = metadata2::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_metadata52(&result.metadata52.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(METADATA2_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA2_ID.into(), path: METADATA2_FILE.into(), format: METADATA2_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.metadata2 = Some(metadata);
+            let metadata = default48::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(DEFAULT48_ID.into());
+            result.manifest.resources.push(Resource {
+                id: DEFAULT48_ID.into(), path: DEFAULT48_FILE.into(), format: DEFAULT48_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.default48 = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -430,6 +531,13 @@ impl Extraction {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -482,6 +590,13 @@ impl Extraction {
             || self.obj_graphics.is_some() && self.obj_animations.is_none()
             || self.ui_palettes.is_some() && self.obj_graphics.is_none()
             || self.ui_graphics.is_some() && self.ui_palettes.is_none()
+            || self.items.is_some() && self.ui_graphics.is_none()
+            || self.item_links.is_some() && self.items.is_none()
+            || self.metadata16.is_some() && self.item_links.is_none()
+            || self.metadata52.is_some() && self.metadata16.is_none()
+            || self.metadata4.is_some() && self.metadata52.is_none()
+            || self.metadata2.is_some() && self.metadata52.is_none()
+            || self.default48.is_some() && self.metadata2.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -642,6 +757,69 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected UI custom graphics resource".into()),
         }
+        match (&self.items, files.items) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_ITEM_RECORDS_FILE_BYTES { return Err("Item file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[16].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected item resource".into()),
+        }
+        match (&self.item_links, files.item_links) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_ITEM_LINKS_FILE_BYTES { return Err("Item-link file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[17].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected item-link resource".into()),
+        }
+        match (&self.metadata16, files.metadata16) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA16_FILE_BYTES { return Err("Metadata16 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[18].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata16 resource".into()),
+        }
+        match (&self.metadata52, files.metadata52) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA52_FILE_BYTES { return Err("Metadata52 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[19].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata52 resource".into()),
+        }
+        match (&self.metadata4, files.metadata4) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA4_FILE_BYTES { return Err("Metadata4 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[20].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata4 resource".into()),
+        }
+        match (&self.metadata2, files.metadata2) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA2_FILE_BYTES { return Err("Metadata2 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[21].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata2 resource".into()),
+        }
+        match (&self.default48, files.default48) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_DEFAULT48_FILE_BYTES { return Err("Default48 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[22].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected default48 resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -738,6 +916,34 @@ impl Extraction {
             decoded.validate_shared_obj(files.obj_graphics.ok_or("Missing shared OBJ source owner")?.0)?;
             if decoded != &expected.decoded { return Err("Decoded UI custom banks differ from authenticated source".into()); }
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.items, files.items) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded items differ from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.item_links, files.item_links) {
+            decoded.validate_items(files.items.ok_or("Missing item-link item owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded item links differ from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata16, files.metadata16) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded metadata16 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata52, files.metadata52) {
+            decoded.validate_links(files.item_links.ok_or("Missing metadata52 link owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded metadata52 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata4, files.metadata4) {
+            decoded.validate_metadata52(files.metadata52.ok_or("Missing metadata4 owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded metadata4 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata2, files.metadata2) {
+            decoded.validate_metadata52(files.metadata52.ok_or("Missing metadata2 owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded metadata2 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.default48, files.default48) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded default48 differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -756,6 +962,13 @@ impl Extraction {
             + usize::from(self.obj_graphics.is_some())
             + usize::from(self.ui_palettes.is_some())
             + usize::from(self.ui_graphics.is_some())
+            + usize::from(self.items.is_some())
+            + usize::from(self.item_links.is_some())
+            + usize::from(self.metadata16.is_some())
+            + usize::from(self.metadata52.is_some())
+            + usize::from(self.metadata4.is_some())
+            + usize::from(self.metadata2.is_some())
+            + usize::from(self.default48.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -827,6 +1040,13 @@ mod tests {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
             })
             .unwrap();
@@ -850,6 +1070,13 @@ mod tests {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
             })
             .is_err());
@@ -883,6 +1110,13 @@ mod tests {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
                 })
                 .is_err());
@@ -905,6 +1139,13 @@ mod tests {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
             })
             .is_err());

@@ -1,5 +1,12 @@
 //! Source-authenticated extraction, preparation and verified dataset loading.
 use gba_core::rom_data::{
+    metadata16::Metadata16, METADATA16_ID, METADATA16_FILE, MAX_METADATA16_FILE_BYTES,
+    metadata52::Metadata52, METADATA52_ID, METADATA52_FILE, MAX_METADATA52_FILE_BYTES,
+    metadata4::Metadata4, METADATA4_ID, METADATA4_FILE, MAX_METADATA4_FILE_BYTES,
+    metadata2::Metadata2, METADATA2_ID, METADATA2_FILE, MAX_METADATA2_FILE_BYTES,
+    default48::Template as Default48, DEFAULT48_ID, DEFAULT48_FILE, MAX_DEFAULT48_FILE_BYTES,
+    item_links::Links as ItemLinks, ITEM_LINKS_ID, ITEM_LINKS_FILE, MAX_ITEM_LINKS_FILE_BYTES,
+    items::Items, ITEM_RECORDS_ID, ITEM_RECORDS_FILE, MAX_ITEM_RECORDS_FILE_BYTES,
     ui_graphics::Graphics as UiGraphics, UI_CUSTOM_GRAPHICS_ID, UI_CUSTOM_GRAPHICS_FILE, MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES,
     ui_palettes::Palettes as UiPalettes, UI_RAW_PALETTES_ID, UI_RAW_PALETTES_FILE, MAX_UI_RAW_PALETTES_FILE_BYTES,
     obj_graphics::Graphics as ObjGraphics, OBJ_CUSTOM_GRAPHICS_ID, OBJ_CUSTOM_GRAPHICS_FILE, MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES,
@@ -86,6 +93,34 @@ mod obj_graphics_tests;
 mod ui_palette_tests;
 #[cfg(test)]
 mod ui_graphics_tests;
+#[cfg(test)]
+mod item_tests;
+#[cfg(test)]
+mod item_link_tests;
+#[cfg(test)]
+mod metadata16_tests;
+#[cfg(test)]
+mod metadata52_tests;
+#[cfg(test)]
+mod metadata4_tests;
+#[cfg(test)]
+mod metadata2_tests;
+#[cfg(test)]
+mod default48_tests;
+#[cfg(test)]
+mod metadata4_runtime_tests;
+#[cfg(test)]
+mod metadata2_runtime_tests;
+#[cfg(test)]
+mod default48_runtime_tests;
+#[cfg(test)]
+mod metadata52_runtime_tests;
+#[cfg(test)]
+mod metadata16_runtime_tests;
+#[cfg(test)]
+mod item_link_runtime_tests;
+#[cfg(test)]
+mod item_runtime_tests;
 #[cfg(test)]
 mod ui_localized_graphics_tests;
 #[cfg(test)]
@@ -243,6 +278,49 @@ fn encode_short_texts(value: &ShortTexts) -> Result<Vec<u8>, String> {
     serde_json::to_vec_pretty(value).map_err(|e| format!("Cannot encode short texts: {e}"))
 }
 
+fn parse_metadata16(bytes:&[u8])->Result<Metadata16,String> {
+    let value:Metadata16=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata16: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata16(value:&Metadata16)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata16: {e}"))}
+
+fn parse_metadata52(bytes:&[u8])->Result<Metadata52,String> {
+    let value:Metadata52=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata52: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata52(value:&Metadata52)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata52: {e}"))}
+
+fn parse_metadata4(bytes:&[u8])->Result<Metadata4,String> {
+    let value:Metadata4=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata4: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata4(value:&Metadata4)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata4: {e}"))}
+fn parse_metadata2(bytes:&[u8])->Result<Metadata2,String> {
+    let value:Metadata2=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata2: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata2(value:&Metadata2)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata2: {e}"))}
+fn parse_default48(bytes:&[u8])->Result<Default48,String> {
+    let value:Default48=serde_json::from_slice(bytes).map_err(|e|format!("Invalid default48: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_default48(value:&Default48)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode default48: {e}"))}
+
+fn parse_item_links(bytes:&[u8])->Result<ItemLinks,String> {
+    let value:ItemLinks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item links: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_item_links(value:&ItemLinks)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode item links: {e}"))}
+
+fn parse_items(bytes: &[u8]) -> Result<Items, String> {
+    let value: Items = serde_json::from_slice(bytes).map_err(|e|format!("Invalid item records: {e}"))?;
+    value.validate()?;
+    Ok(value)
+}
+fn encode_items(value: &Items) -> Result<Vec<u8>,String> {
+    serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode item records: {e}"))
+}
+
 fn parse_ui_graphics(bytes: &[u8]) -> Result<UiGraphics, String> {
     let value: UiGraphics = serde_json::from_slice(bytes).map_err(|e| format!("Invalid UI custom graphics: {e}"))?;
     value.validate()?;
@@ -354,6 +432,20 @@ struct Dataset {
     ui_palette_bytes: Option<Vec<u8>>,
     ui_graphics: Option<UiGraphics>,
     ui_graphic_bytes: Option<Vec<u8>>,
+    items: Option<Items>,
+    item_bytes: Option<Vec<u8>>,
+    item_links: Option<ItemLinks>,
+    metadata16: Option<Metadata16>,
+    metadata52: Option<Metadata52>,
+    metadata4: Option<Metadata4>,
+    metadata2: Option<Metadata2>,
+    default48: Option<Default48>,
+    metadata16_bytes: Option<Vec<u8>>,
+    metadata52_bytes: Option<Vec<u8>>,
+    metadata4_bytes: Option<Vec<u8>>,
+    metadata2_bytes: Option<Vec<u8>>,
+    default48_bytes: Option<Vec<u8>>,
+    item_link_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
 }
@@ -377,6 +469,13 @@ impl Dataset {
             obj_graphics: self.obj_graphics.as_ref().zip(self.obj_graphic_bytes.as_deref()),
             ui_palettes: self.ui_palettes.as_ref().zip(self.ui_palette_bytes.as_deref()),
             ui_graphics: self.ui_graphics.as_ref().zip(self.ui_graphic_bytes.as_deref()),
+            items: self.items.as_ref().zip(self.item_bytes.as_deref()),
+            item_links: self.item_links.as_ref().zip(self.item_link_bytes.as_deref()),
+            metadata16: self.metadata16.as_ref().zip(self.metadata16_bytes.as_deref()),
+            metadata52: self.metadata52.as_ref().zip(self.metadata52_bytes.as_deref()),
+            metadata4: self.metadata4.as_ref().zip(self.metadata4_bytes.as_deref()),
+            metadata2: self.metadata2.as_ref().zip(self.metadata2_bytes.as_deref()),
+            default48: self.default48.as_ref().zip(self.default48_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -435,6 +534,20 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(|| read_bounded(&path.join(UI_RAW_PALETTES_FILE), MAX_UI_RAW_PALETTES_FILE_BYTES)).transpose()?;
     let ui_graphic_bytes = manifest.coverage.iter().any(|id| id == UI_CUSTOM_GRAPHICS_ID)
         .then(|| read_bounded(&path.join(UI_CUSTOM_GRAPHICS_FILE), MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES)).transpose()?;
+    let item_bytes = manifest.coverage.iter().any(|id|id == ITEM_RECORDS_ID)
+        .then(||read_bounded(&path.join(ITEM_RECORDS_FILE),MAX_ITEM_RECORDS_FILE_BYTES)).transpose()?;
+    let item_link_bytes=manifest.coverage.iter().any(|id|id==ITEM_LINKS_ID)
+        .then(||read_bounded(&path.join(ITEM_LINKS_FILE),MAX_ITEM_LINKS_FILE_BYTES)).transpose()?;
+    let metadata16_bytes=manifest.coverage.iter().any(|id|id==METADATA16_ID)
+        .then(||read_bounded(&path.join(METADATA16_FILE),MAX_METADATA16_FILE_BYTES)).transpose()?;
+    let metadata52_bytes=manifest.coverage.iter().any(|id|id==METADATA52_ID)
+        .then(||read_bounded(&path.join(METADATA52_FILE),MAX_METADATA52_FILE_BYTES)).transpose()?;
+    let metadata4_bytes=manifest.coverage.iter().any(|id|id==METADATA4_ID)
+        .then(||read_bounded(&path.join(METADATA4_FILE),MAX_METADATA4_FILE_BYTES)).transpose()?;
+    let metadata2_bytes=manifest.coverage.iter().any(|id|id==METADATA2_ID)
+        .then(||read_bounded(&path.join(METADATA2_FILE),MAX_METADATA2_FILE_BYTES)).transpose()?;
+    let default48_bytes=manifest.coverage.iter().any(|id|id==DEFAULT48_ID)
+        .then(||read_bounded(&path.join(DEFAULT48_FILE),MAX_DEFAULT48_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -453,6 +566,13 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         obj_graphic_bytes.as_ref().map_or(0, Vec::len),
         ui_palette_bytes.as_ref().map_or(0, Vec::len),
         ui_graphic_bytes.as_ref().map_or(0, Vec::len),
+        item_bytes.as_ref().map_or(0, Vec::len),
+        item_link_bytes.as_ref().map_or(0, Vec::len),
+        metadata16_bytes.as_ref().map_or(0, Vec::len),
+        metadata52_bytes.as_ref().map_or(0, Vec::len),
+        metadata4_bytes.as_ref().map_or(0, Vec::len),
+        metadata2_bytes.as_ref().map_or(0, Vec::len),
+        default48_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -470,6 +590,13 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let obj_graphics = obj_graphic_bytes.as_deref().map(parse_obj_graphics).transpose()?;
     let ui_palettes = ui_palette_bytes.as_deref().map(parse_ui_palettes).transpose()?;
     let ui_graphics = ui_graphic_bytes.as_deref().map(parse_ui_graphics).transpose()?;
+    let items = item_bytes.as_deref().map(parse_items).transpose()?;
+    let item_links=item_link_bytes.as_deref().map(parse_item_links).transpose()?;
+    let metadata16=metadata16_bytes.as_deref().map(parse_metadata16).transpose()?;
+    let metadata52=metadata52_bytes.as_deref().map(parse_metadata52).transpose()?;
+    let metadata4=metadata4_bytes.as_deref().map(parse_metadata4).transpose()?;
+    let metadata2=metadata2_bytes.as_deref().map(parse_metadata2).transpose()?;
+    let default48=default48_bytes.as_deref().map(parse_default48).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -502,6 +629,20 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         ui_palette_bytes,
         ui_graphics,
         ui_graphic_bytes,
+        items,
+        item_bytes,
+        item_links,
+        item_link_bytes,
+        metadata16,
+        metadata52,
+        metadata4,
+        metadata2,
+        default48,
+        metadata16_bytes,
+        metadata52_bytes,
+        metadata4_bytes,
+        metadata2_bytes,
+        default48_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -525,6 +666,13 @@ fn check_dataset_budget(
     obj_graphics: usize,
     ui_palettes: usize,
     ui_graphics: usize,
+    items: usize,
+    item_links: usize,
+    metadata16: usize,
+    metadata52: usize,
+    metadata4: usize,
+    metadata2: usize,
+    default48: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -542,6 +690,13 @@ fn check_dataset_budget(
         || obj_graphics as u64 > MAX_OBJ_CUSTOM_GRAPHICS_FILE_BYTES
         || ui_palettes as u64 > MAX_UI_RAW_PALETTES_FILE_BYTES
         || ui_graphics as u64 > MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES
+        || items as u64 > MAX_ITEM_RECORDS_FILE_BYTES
+        || item_links as u64 > MAX_ITEM_LINKS_FILE_BYTES
+        || metadata16 as u64 > MAX_METADATA16_FILE_BYTES
+        || metadata52 as u64 > MAX_METADATA52_FILE_BYTES
+        || metadata4 as u64 > MAX_METADATA4_FILE_BYTES
+        || metadata2 as u64 > MAX_METADATA2_FILE_BYTES
+        || default48 as u64 > MAX_DEFAULT48_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -562,6 +717,13 @@ fn check_dataset_budget(
         .saturating_add(obj_graphics)
         .saturating_add(ui_palettes)
         .saturating_add(ui_graphics)
+        .saturating_add(items)
+        .saturating_add(item_links)
+        .saturating_add(metadata16)
+        .saturating_add(metadata52)
+        .saturating_add(metadata4)
+        .saturating_add(metadata2)
+        .saturating_add(default48)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -602,6 +764,27 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         eprintln!("ROM_DATA runtime=decoded resource={BG_MAIN_GRAPHICS_ID} source={} dataset={} file={} graphics={}",
             resources.source_sha256(), resources.dataset_sha256(), dataset.manifest.resources[5].sha256,
             graphics.graphics.len());
+    }
+    if let Some(data)= &dataset.metadata16 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA16_ID} file={} records={}",dataset.manifest.resources[18].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.metadata52 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA52_ID} file={} records={}",dataset.manifest.resources[19].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.metadata4 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA4_ID} file={} records={}",dataset.manifest.resources[20].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.metadata2 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA2_ID} file={} records={}",dataset.manifest.resources[21].sha256,data.records.len());
+    }
+    if let Some(_data)= &dataset.default48 {
+        eprintln!("ROM_DATA runtime=decoded resource={DEFAULT48_ID} file={} templates={}",dataset.manifest.resources[22].sha256,1);
+    }
+    if let Some(links)= &dataset.item_links {
+        eprintln!("ROM_DATA runtime=decoded resource={ITEM_LINKS_ID} file={} records={}",dataset.manifest.resources[17].sha256,links.records.len());
+    }
+    if let Some(items) = &dataset.items {
+        eprintln!("ROM_DATA runtime=decoded resource={ITEM_RECORDS_ID} file={} records={}",dataset.manifest.resources[16].sha256,items.records.len());
     }
     if let Some(graphics) = &dataset.ui_graphics {
         eprintln!("ROM_DATA runtime=decoded resource={UI_CUSTOM_GRAPHICS_ID} file={} banks={}", dataset.manifest.resources[15].sha256, graphics.banks.len());
@@ -668,6 +851,27 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(graphics) = resources.graphics_stats() {
             eprintln!("ROM_DATA_USE resource={BG_MAIN_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={}",
                 resources.dataset_sha256(), graphics.bus_reads, graphics.source_bytes, graphics.decoded_literal_bytes);
+        }
+        if let Some(i)=resources.metadata16_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA16_ID} dataset={} bus_reads={} source_bytes={} alias_bytes={} display_bytes={} flag_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.alias_bytes,i.display_bytes,i.flag_bytes,i.value_bytes,i.opaque_bytes);
+        }
+        if let Some(i)=resources.metadata52_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA52_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);
+        }
+        if let Some(i)=resources.metadata4_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA4_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} value_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.value_bytes);
+        }
+        if let Some(i)=resources.metadata2_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA2_ID} dataset={} bus_reads={} source_bytes={} key_bytes={} value_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.key_bytes,i.value_bytes);
+        }
+        if let Some(i)=resources.default48_stats() {
+            eprintln!("ROM_DATA_USE resource={DEFAULT48_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} argument_bytes={} halfword_bytes={} flag_bytes={} tail_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.argument_bytes,i.halfword_bytes,i.flag_bytes,i.tail_bytes);
+        }
+        if let Some(i)=resources.item_link_stats() {
+            eprintln!("ROM_DATA_USE resource={ITEM_LINKS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
+        }
+        if let Some(i)=resources.item_stats() {
+            eprintln!("ROM_DATA_USE resource={ITEM_RECORDS_ID} dataset={} bus_reads={} source_bytes={} halfword_bytes={} signed_bytes={} other_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.halfword_bytes,i.signed_bytes,i.other_bytes);
         }
         if let Some(g) = resources.ui_graphics_stats() {
             eprintln!("ROM_DATA_USE resource={UI_CUSTOM_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} decoded_literal_bytes={} selector_bytes={} localized_source_bytes={} localized_literal_bytes={}", resources.dataset_sha256(), g.bus_reads, g.source_bytes, g.decoded_literal_bytes,g.selector_bytes,g.localized_source_bytes,g.localized_literal_bytes);
@@ -790,6 +994,13 @@ fn write_dataset(
     let obj_graphic_data = source.obj_graphics.as_ref().map(|catalog| encode_obj_graphics(&catalog.decoded)).transpose()?;
     let ui_palette_data = source.ui_palettes.as_ref().map(|catalog| encode_ui_palettes(&catalog.decoded)).transpose()?;
     let ui_graphic_data = source.ui_graphics.as_ref().map(|catalog| encode_ui_graphics(&catalog.decoded)).transpose()?;
+    let item_data = source.items.as_ref().map(|catalog|encode_items(&catalog.decoded)).transpose()?;
+    let item_link_data=source.item_links.as_ref().map(|catalog|encode_item_links(&catalog.decoded)).transpose()?;
+    let metadata16_data=source.metadata16.as_ref().map(|catalog|encode_metadata16(&catalog.decoded)).transpose()?;
+    let metadata52_data=source.metadata52.as_ref().map(|catalog|encode_metadata52(&catalog.decoded)).transpose()?;
+    let metadata4_data=source.metadata4.as_ref().map(|catalog|encode_metadata4(&catalog.decoded)).transpose()?;
+    let metadata2_data=source.metadata2.as_ref().map(|catalog|encode_metadata2(&catalog.decoded)).transpose()?;
+    let default48_data=source.default48.as_ref().map(|catalog|encode_default48(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -802,6 +1013,13 @@ fn write_dataset(
     if let Some(bytes) = &obj_graphic_data { files.push(bytes); }
     if let Some(bytes) = &ui_palette_data { files.push(bytes); }
     if let Some(bytes) = &ui_graphic_data { files.push(bytes); }
+    if let Some(bytes) = &item_data {files.push(bytes);}
+    if let Some(bytes) = &item_link_data {files.push(bytes);}
+    if let Some(bytes) = &metadata16_data {files.push(bytes);}
+    if let Some(bytes) = &metadata52_data {files.push(bytes);}
+    if let Some(bytes) = &metadata4_data {files.push(bytes);}
+    if let Some(bytes) = &metadata2_data {files.push(bytes);}
+    if let Some(bytes) = &default48_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -823,6 +1041,13 @@ fn write_dataset(
         obj_graphic_data.as_ref().map_or(0, Vec::len),
         ui_palette_data.as_ref().map_or(0, Vec::len),
         ui_graphic_data.as_ref().map_or(0, Vec::len),
+        item_data.as_ref().map_or(0, Vec::len),
+        item_link_data.as_ref().map_or(0, Vec::len),
+        metadata16_data.as_ref().map_or(0, Vec::len),
+        metadata52_data.as_ref().map_or(0, Vec::len),
+        metadata4_data.as_ref().map_or(0, Vec::len),
+        metadata2_data.as_ref().map_or(0, Vec::len),
+        default48_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -840,6 +1065,13 @@ fn write_dataset(
     if let Some(bytes) = &obj_graphic_data { write(&path.join(OBJ_CUSTOM_GRAPHICS_FILE), bytes)?; }
     if let Some(bytes) = &ui_palette_data { write(&path.join(UI_RAW_PALETTES_FILE), bytes)?; }
     if let Some(bytes) = &ui_graphic_data { write(&path.join(UI_CUSTOM_GRAPHICS_FILE), bytes)?; }
+    if let Some(bytes) = &item_data {write(&path.join(ITEM_RECORDS_FILE),bytes)?;}
+    if let Some(bytes) = &item_link_data {write(&path.join(ITEM_LINKS_FILE),bytes)?;}
+    if let Some(bytes) = &metadata16_data {write(&path.join(METADATA16_FILE),bytes)?;}
+    if let Some(bytes) = &metadata52_data {write(&path.join(METADATA52_FILE),bytes)?;}
+    if let Some(bytes) = &metadata4_data {write(&path.join(METADATA4_FILE),bytes)?;}
+    if let Some(bytes) = &metadata2_data {write(&path.join(METADATA2_FILE),bytes)?;}
+    if let Some(bytes) = &default48_data {write(&path.join(DEFAULT48_FILE),bytes)?;}
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -1080,6 +1312,13 @@ mod tests {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
             font_bank: None,
         }
     }
@@ -1405,8 +1644,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

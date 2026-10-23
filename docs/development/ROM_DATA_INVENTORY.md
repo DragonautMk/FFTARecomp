@@ -249,10 +249,94 @@ remain groundwork for other linked graphics families.
   selectors, independent1..361/362..375enumeration bounds and following table
   root. Raw halfword/byte/signed fields and live02002030modifier branches are
   distinguished; all32record bytes roundtrip and no e22resource overlaps.
-  This is static discovery only: original execution/model/extractor/runtime and
-  new Linux/USA checks remain pending. The following20byte table and item
-  semantics/job/ability/law/AI catalogs still need contracts. Extractor: absent;
-  runtime: guest logic and semantic host readers.
+  Current e23-d22publishes eighteenth items.json/resource gameplay.item-records
+  and directly consumes typed fields via original CPU/DMA/native logic, retaining
+  all16previous decoded files/e22. Reduced Wine original14371+240isolated-negative
+  and managed/native/lifecycle checks pass;86native paths with altered source
+  match complete states/clocks. One positive320-frame Unit full-state/image/audio/
+  CLI Wine pair uses40typed signed-field bytes. New Linux/USA checks remain pending. Following
+ 20byte table/item semantics/job/ability/law/AI catalogs still need contracts;
+  live inventory/modifiers and secondary reads remain guest state/code/ROM.
+  The following item-linked table now has a standalone typed source contract:
+ 225records/20bytes/4500B/count0..9/opaque/nine pairs,472active entries/eightFF,
+  all376item owners checked,220referenced rows and independent next root6e4c64.
+  Wine2244original cases/4synthetic queries plus8actualFFpredecessor gates pass.
+  All unused bytes remain exact. EUR e24-d23now adds item-links.json with parsed
+  item-owner dependency and typed CPU/DMA/native count/selector/value/opaque
+  views. Every17old decoded file/e23retained; reduced Wine managed/lifecycle/
+ 62native paths with4500raw bytes altered match full states/clocks, including
+  a typed crossing read of both adjacent owners. One positive560-frame ordinary
+  headgear inventory full-state/image/audio/CLI Wine pair consumes574new bytes
+ (287count/205selector/82value); first slots-only locator is negative, not rerun.
+  New Linux/USA remain pending.
+  The next table, 6e4c64..6e5464, has a lossless typed contract: 128 records
+  of 16 bytes / 2048 bytes, a u16 alias plus 14 raw bytes, 23 checked LDR roots
+  and an independently rooted following 52-byte table. One Wine source oracle
+  passes 2581 original display/nonzero-alias/live-pair sum/choice/flag cases and
+  19 synthetic edges, including original LCG state. EUR e25-d24 adds its fixed
+  linked-metadata16.json resource: 20 files / 19 resources, retaining all 18
+  previous decoded files and e24 generations. Two focused Wine integration
+  checks pass 42 native paths with all new raw bytes altered and equal complete
+  states/clocks, including adjacent typed ownership. One positive 520-frame
+  Clan Mission Item full-state/image/audio/actual CLI pair reads 6 new display
+  bytes. Other ordinary fields, broader field names and alias-zero caller
+  preconditions remain unproved; new Linux/USA/native Windows checks are pending.
+  A further source-only metadata52 catalog bounds 6e5464..6e6bf4: 116 records
+  of 52 bytes / 6032 bytes, eight checked LDR roots, original 0..115 enumeration
+  and independently rooted next table. Its 48 unsigned packed properties retain
+  caller-alternate FF routing and nonreturning invalid/cyclic behavior. A new
+  Wine source oracle passes 6369 real returning calls / 4 bounded loops and
+  294 synthetic high-bit/redirect calls / 2 bounded loops, plus raw live-index
+  tail readers and strict storage/source guards. Subsequent e26-d25 now adds
+  linked-metadata52.json / gameplay.linked-metadata52, 21 files / 20 resources,
+  retaining all 19 previous decoded files and e25 generations. Parsed normal
+  link-owner guards and two Wine managed/lifecycle/native checks pass 75 paths
+  with all 6032 new raw bytes altered and equal complete states/clocks, all-byte
+  bus/SWI/DMA and adjacent metadata16/metadata52 typed crossing. One positive
+  540-frame Change Jobs full-state/image/audio/actual CLI pair passes with
+  664 new typed bytes; ordinary tail/opaque and new Linux/USA/native Windows
+  checks remain unverified.
+  The following four-byte source table now has a separate lossless contract:
+  20 rows / 80 bytes at 6e6bf4..6e6c44, two selector/value pairs each, 26 active
+  pairs and parsed metadata52 cross-owner indices. One focused Wine oracle
+  passes 320 real / 24 isolated synthetic cases across both original count,
+  contiguous gate, caller selection and live-count threshold prefixes. Counted
+  nonzero slots and leading pairs stay distinct; unsigned values, signed
+  comparison, tally wrapping and deeper live scans are preserved. Subsequent
+  e27-d26 adds linked-metadata4.json / gameplay.linked-metadata4, 22 files /
+  21 resources, all 20 previous decoded files/e26 retained. Parsed owner bounds,
+  two Wine managed/lifecycle/native checks with 56 prefixes/all 80 raw bytes
+  altered/equal full states-clocks and adjacent typed crossing pass. One positive
+  540-frame Change Jobs full-state/image/audio/actual CLI pair reads 32 selector /
+  6 value bytes. New Linux/USA/native Windows remain pending.
+  Following metadata2 owns 44 key/value records / 88 bytes at
+  6e6c44..6e6c9c, including real row43. Original direct u8 indexing reads all44;
+  inverse u8 lookup scans only43 and returns first stored key / miss0. Parsed
+  metadata52 key owners, independent next48Bsource, strict lossless source/JSON
+  guards and one Wine348real+13synthetic oracle pass. Live byte7 wrapper prefix
+  retains its frame; global caller bounds/semantic value names remain unproved.
+  EUR e28-d27adds linked-metadata2.json/gameplay.linked-metadata2,23files/
+  22resources; all21prior decoded files/e27retained. Two focused Wine managed/
+  lifecycle/native checks pass21paths with88rawB altered/equal full states-clock,
+  typed boundary/DMA/SWI. One positive1840Pub mission full-state/image/audio/
+  actualCLI pair reads4value/0keyB; inverse key use stays targeted-only.
+  Negative ChangeJobs/Rumors/Missions locator evidence remains closed.
+  Default48owns6e6c9c..6e6ccc/48Bfrom exact constructor copy length,
+  with structural byte/halfword fields and original signed-ID/selector/argument/
+  ORflags patches. Mode1/2and four alternate IDs20..23stay distinct. One Wine
+  oracle passes271real+30synthetic constructor prefixes after original IWRAM
+  copy initialization; allocation/live-unit tails and four alternate192B/ROM
+  pointer/following240B remain unowned. EUR e29-d28adds fixed default-constructor-
+  template.json/resource gameplay.default-constructor-template,24files/23resources,
+  all22previous decoded files/e28retained. Two focused Wine managed/native/lifecycle
+  checks pass16paths/all48rawB altered/fullstates-clocks equal/IWRAMhelper and
+  eight alternate/rejected paths0newreads. One397Pub full-state/image/audio/
+  actualCLI pair reads96newBacross every structural field category.
+  Static next contract separately roots four alternate48Brecords/192B at
+  6eca78..6ecb38and pointer70cd58..70cd5c/4B,196Btotal/noe29overlap. Original
+  gatedID20..23copy and five equipment-slot reads perrecord/parsed376item owners
+  checked; byte01meaning/neighboring headers unclaimed. Model/oracle/managed/
+  runtime remain pending; default271+30/native16/397proofs stay closed.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

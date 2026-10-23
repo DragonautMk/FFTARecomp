@@ -108,7 +108,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
  320-frame Clan full-state/image/audio/actual CLI pair pass; first Party→Unit
   locator is coverage-negative and preserved. Other indirect palette/graphics
   sources, older empty contracts and wider TODO/new Linux/USA stay open.
-  Current EUR e22-d21extends UI graphics to16banks/two language selector groups
+  EUR e22-d21extends UI graphics to16banks/two language selector groups
   and two explicit shared OBJ links,26ranges/71474sourceB/119168decodedB.
   Seven new banks and ten asset-pointer literals add17ranges/14436B; code jump
   tables, live language, English-vs-skip fallback and5056OBJ/2688BG split copies
@@ -118,12 +118,85 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   equality; save/native ABI unchanged. One positive1200-frame English intro
   full-state/image/audio/actual CLI Wine pair passes with4selectorB/2347new-sourceB/
  1124new-literalB. Other ordinary languages/new Linux/USA/native Windows stay open.
-  A separate static [gameplay item inventory](../rom_data_gameplay.md) roots
-  EUR6e0bd0..6e3ad0:376records/32bytes/12032Bfrom original shop/property readers,
-  independent enumeration/following-table bounds and19field selectors. Signed
-  ROM fields and02002030live modifiers remain distinct. No gameplay extractor/
-  runtime/original execution is implemented yet; source oracle is next. Other
-  gameplay catalogs and new Linux/USA checks remain unverified.
+  EUR e23-d22adds [static item records](../rom_data_gameplay.md),
+  eighteenth items.json/resource gameplay.item-records:376records/32bytes/12032B.
+  Exact typed halfword/raw/signed/tail fields serve original CPU/DMA/native
+  property readers. Live02002030bonuses, inventory, signed/clamp logic and
+  secondary table remain original; save/native ABI and all16previous decoded
+  files/e22generations unchanged. Reduced Wine source14371+240isolated-negative
+  calls and authentication/lifecycle/native86calls with altered source/full
+  states/clocks pass. One positive320-frame Unit full-state/image/audio/CLI Wine
+  pair consumes40typed signed-field bytes; prefix/tail scenes not claimed. Source signed fields are all nonnegative; the synthetic
+  cases are isolated and never authenticated/published. Other gameplay catalogs/
+  semantics and new Linux/USA/native Windows remain unverified.
+  Current EUR e24-d23adds item-links.json/resource gameplay.item-links:
+ 225records/20bytes/4500Bwith count/opaque/nine-pair storage and parsed item-owner
+  dependency.19files/18resources authenticate together; all17old decoded files/
+  e23remain unchanged. Typed CPU/DMA/native reads retain live unit query/bit7/
+  FFbyte3dpublication and original work/clock/save/native ABI. Reduced Wine
+  managed/lifecycle/native62paths with altered raw source match complete states/
+  clocks; all bytes/BIOS/SWI/DMA and a2old+2new typed-byte boundary word pass.
+  One positive560-frame headgear inventory full-state/image/audio/actual CLI Wine
+  pair consumes574new bytes(287count/205selector/82value); the first slots-only
+  locator is negative and retained. Source2244+8original checks stay closed. New Linux/USA/native Windows/wider
+  gameplay remain pending. [Contract](../rom_data_gameplay.md#managed-and-direct-item-link-consumption).
+  EUR e25-d24 adds `linked-metadata16.json` / `gameplay.linked-metadata16`:
+  128 records of 16 bytes, 2048 source bytes, 20 files / 19 resources. All 18
+  prior decoded files and e24 generations remain unchanged. The standalone
+  source oracle passes 2581 original cases plus 19 isolated synthetic edges;
+  the subsequent two Wine integration checks pass 42 sampled native paths with
+  every new raw byte altered and equal complete states/clocks. Original live
+  list/RNG work, typed crossing ownership and save/native ABI remain intact.
+  One positive 520-frame Clan Mission Item full-state/image/audio/actual CLI
+  pair passes with 6 typed display bytes. Broader field names, alias-zero caller
+  preconditions and other ordinary fields remain unproved; new Linux/USA/native
+  Windows checks remain pending. See the [contract](../rom_data_gameplay.md#managed-and-direct-metadata16-consumption).
+  EUR e26-d25 adds `linked-metadata52.json` / `gameplay.linked-metadata52`:
+  116 records / 6032 source bytes, 21 files / 20 resources, retaining all 19
+  earlier decoded files and e25 generations. Actual parsed normal item-link
+  selectors validate against the new owner; FF retains its separate contract.
+  Two focused Wine checks pass 75 sampled native paths with new raw bytes
+  altered / equal complete states and clocks, transactional authentication,
+  lifecycle, all-byte bus/SWI/DMA and adjacent typed ownership. Original getter/
+  alternate/redirect/live-record work and save/native ABI remain. Closed source
+  6369+294 calls / bounded-loop proofs are retained. One positive 540-frame
+  Change Jobs full-state/image/audio/actual CLI pair passes with 664 new bytes
+  (74 header / 335 routing / 255 packed); ordinary tail/opaque is not claimed.
+  New Linux/USA/native Windows checks remain pending. See the
+  [contract](../rom_data_gameplay.md#managed-and-direct-metadata52-consumption).
+  EUR e27-d26 adds `linked-metadata4.json` / `gameplay.linked-metadata4`:
+  20 two-pair records / 80 source bytes, 22 files / 21 resources, retaining
+  all 20 earlier decoded files and e26 generations. Parsed metadata52 indices
+  and new pair selectors validate together. Two focused Wine managed/native/
+  lifecycle checks pass 56 prefixes with raw bytes altered / equal complete
+  states/clocks and adjacent typed ownership. Original count/contiguous walk/
+  live qualification/signed comparison/tally and save/native ABI remain.
+  One positive 540-frame Change Jobs full-state/image/audio/actual CLI pair
+  reads 32 selector / 6 value bytes. Closed source320+24 proof stays valid;
+  new Linux/USA/native Windows checks remain pending. See the
+  [contract](../rom_data_gameplay.md#managed-and-direct-metadata4-consumption).
+  EUR e28-d27 adds linked-metadata2.json/gameplay.linked-metadata2,23files/
+  22resources, all21prior decoded files/e27retained. Metadata2 bounds 44 two-byte key/value records / 88 bytes at
+  6e6c44..6e6c9c; last row43 is real. Original forward u8 indexing reads44,
+  inverse u8 search scans43 and returns first stored key / miss0. One focused
+  Wine348real+13synthetic source oracle and parsed metadata52 owners pass;
+  semantic value names/global caller bounds remain unproved. Two focused Wine
+  managed/lifecycle/native checks pass21paths with88rawB altered/equal complete
+  states-clocks, typed boundaries/SWI/DMA. One1840Pub mission full-state/image/
+  audio/actualCLI pair reads4value/0keyB; inversekey use is targeted-only.
+  Source348+13proof stays closed, new Linux/USA/native Windows stay pending. [Contract](../rom_data_gameplay.md#two-byte-forward-and-inverse-source-contract).
+  EUR e29-d28adds default-constructor-template.json/resource
+  gameplay.default-constructor-template,24files/23resources/all22prior decoded
+  files/e28retained. `default48::Catalog` owns48B at6e6c9c..6e6ccc. Original constructor
+  mode1/2gates copying, IDs20..23select four separate sources, common signed-ID/
+  selector/argument/ORflag patches preserve all remaining fields. One focused
+  Wine271real+30synthetic prefix oracle passes after original IWRAM helper
+  initialization; allocation/live-unit tails, alternate192B/ROMpointer and next
+  240Bremain unowned. Two focused Wine managed/native/lifecycle checks pass16paths
+  with48rawB altered/fullstates-clocks equal, real IWRAMhelper and8alternate/
+  rejected paths0newreads. One397Pub full-state/image/audio/actualCLI pair reads
+  96newBacross all structural categories; source271+30closed/not repeated.
+  New Linux/USA/native Windows remain pending. [Contract](../rom_data_gameplay.md#default-constructor-template-source-contract).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

@@ -72,7 +72,7 @@ copies. All17files/16resources authenticate together and all15earlier decoded
 files stay byte-identical. Reduced Wine original/native/lifecycle and one
 positive320-frame Clan full-state/image/audio/actual CLI pair pass. See the
 [custom UI graphics contract](rom_data_ui_graphics.md).
-Current EUR `v1/e22-d21` extends UI graphics to16banks/two language selectors
+EUR `v1/e22-d21` extends UI graphics to16banks/two language selectors
 and two links to existing OBJ banks,26ranges/71474source bytes/119168decoded
 bytes. The seven new banks and ten pointer literals add17ranges/14436source
 bytes. Both original fallback rules and split5056OBJ/2688BG uploads remain.
@@ -81,6 +81,64 @@ with17files/16resources. Focused Wine source/native/lifecycle checks pass;
 new-source and selector counters distinguish actual language payload use. One positive
 1200-frame English intro full-state/image/audio/actual CLI Wine pair passes;
 other ordinary language scenes remain pending.
+EUR `v1/e23-d22` adds `items.json`, resource `gameplay.item-records`:
+376static records/12032source bytes,18files/17resources. Exact typed halfword/
+byte/signed/tail fields preserve all32bytes per record; original property/live
+bonus/inventory/clamp logic and clocks remain. Every16earlier decoded file and
+e22generation stays unchanged. Reduced Wine original/native/authentication/
+lifecycle checks pass. One positive320-frame Unit full-state/image/audio/
+actual CLI Wine pair passes with40typed signed-field bytes. See [gameplay item contract](rom_data_gameplay.md).
+EUR `v1/e24-d23` adds `item-links.json`, resource `gameplay.item-links`:
+225records/4500source bytes of count/opaque/nine-pair fields. Nineteen files/
+eighteen resources authenticate together; all17earlier decoded files/e23stay
+unchanged. Parsed item-owner dependency and typed CPU/DMA/native reads preserve
+original live-unit publication/query work and clock. Reduced Wine managed/
+native/lifecycle and adjacent-owner crossing checks pass. One positive560-frame
+headgear inventory full-state/image/audio/actual CLI Wine pair consumes574new
+bytes; the first slots-only locator is negative and not compared again. See the
+[item-link contract](rom_data_gameplay.md#managed-and-direct-item-link-consumption).
+EUR `v1/e25-d24` adds `linked-metadata16.json`, resource
+`gameplay.linked-metadata16`:128sixteen-byte records/2048source bytes of raw
+alias/byte fields. Twenty files/nineteen resources authenticate together;
+all18prior decoded files/e24stay unchanged. Typed CPU/DMA/native reads preserve
+original live-list/RNG/arithmetic/shift work, clock and save/native ABI.
+Reduced Wine managed/native/lifecycle and adjacent-owner crossing checks pass;
+ordinary Clan Mission Item scene/actual CLI acceptance passes with6new display
+bytes. Field semantics beyond the proved readers retain structural names. See [metadata16contract](rom_data_gameplay.md#managed-and-direct-metadata16-consumption).
+EUR `v1/e26-d25` adds `linked-metadata52.json`, resource
+`gameplay.linked-metadata52`: 116 records / 6032 source bytes with original
+packed-property and redirect behavior. All 21 files / 20 resources authenticate
+together; all 19 earlier decoded files and e25 generations stay unchanged.
+Parsed normal item-link selectors validate against the actual new row owner,
+with FF kept separate. Two focused Wine managed/native/lifecycle checks pass,
+including all 48 properties, four FF rows with alternate inputs and both raw
+tails. One positive 540-frame Change Jobs full-state/image/audio/actual CLI pair
+passes with 664 new bytes (74 header / 335 routing / 255 packed). See the
+[metadata52 contract](rom_data_gameplay.md#managed-and-direct-metadata52-consumption).
+EUR `v1/e27-d26` adds `linked-metadata4.json`, resource
+`gameplay.linked-metadata4`: 20 two-pair records / 80 source bytes. All 22 files /
+21 resources authenticate together and all 20 prior decoded files/e26 remain
+unchanged. Actual parsed metadata52 indices/selector owners validate together;
+original count/contiguous walk/qualification/clock/save/native ABI remains.
+Two focused Wine managed/native/lifecycle checks and one positive 540-frame
+Change Jobs full-state/image/audio/actual CLI pair pass with 32 selector /
+6 value bytes. See the [pair contract](rom_data_gameplay.md#managed-and-direct-metadata4-consumption).
+EUR `v1/e28-d27` adds `linked-metadata2.json`, resource
+`gameplay.linked-metadata2`:44stored key/value pairs/88source bytes. All23files/
+22resources authenticate together; all21prior decoded files/e27remain unchanged.
+Parsed metadata52key owners and original forward44/inverse43/first storedkey/
+miss0/u8truncation/live caller work remain. Two focused Wine managed/native/
+lifecycle checks and one positive1840Pub mission full-state/image/audio/actualCLI
+pair pass with4value/0keyB. Inverse key use stays targeted-only; earlier negative
+locators remain recorded. [Map contract](rom_data_gameplay.md#managed-and-direct-metadata2-consumption).
+Current EUR `v1/e29-d28` adds `default-constructor-template.json`, resource
+`gameplay.default-constructor-template`:one48Btemplate with original copy/live
+patch fields. All24files/23resources authenticate together; all22previous decoded
+files/e28remain unchanged. Two focused Wine managed/native/lifecycle checks pass
+16constructor prefixes including original IWRAMhelper;8alternate/rejected paths
+read0newB. One397Pub full-state/image/audio/actualCLI pair reads96newBacross all
+structural categories. Alternate192B/pointer/following240B remain unowned.
+[Template contract](rom_data_gameplay.md#managed-and-direct-default-constructor-template).
 USA retains its six-file `v1/e8-d7`
 contract; new Linux/USA checks remain pending.
 `frames` and `runc` support the same opt-in. The source ROM remains required for
@@ -196,7 +254,7 @@ The output directory contains `manifest.toml`, `obj-dimensions.toml`,
 `bg-transfer-programs.json`, `short-texts.json`, `text-catalogs.json`,
 `font-bank.json`, `name-keyboard.json`, `obj-static-lists.json` and
 `obj-animation-banks.json`, `obj-graphics.json`, `ui-palettes.json` and
-`ui-graphics.json`.
+`ui-graphics.json`, `items.json` and `item-links.json`.
 OBJ dimensions store twelve indexed width/height records;
 BG metadata stores 162 typed 88-byte descriptors with relative source links,
 transfer triples, selectors and retained unclassified bytes. Other linked graphics
@@ -217,7 +275,7 @@ OBJv1, `bg-descriptors-json-v2`, `bg-base-palettes-v2-json`,
 `text-catalogs-v1-json`, `font-bank-v1-json`, `name-keyboard-v1-json` and
 `obj-static-lists-v1-json`, `obj-animation-banks-v1-json` and
 `obj-custom-banks-v1-json`, `ui-raw-palettes-v1-json` and
-`ui-custom-banks-v1-json`.
+`ui-custom-banks-v1-json`, `item-records-v1-json` and `item-links-v1-json`.
 Transfer programs preserve42frame-control programs/34shared tile banks and97links;
 all162variant pointers are absent in this declared catalog.
 Short texts preserve five107-entry language selector tables, exact compact/
@@ -269,7 +327,7 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e22-d21`
+selected generation's relative name. Current revisions are EUR `v1/e24-d23`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
 same seventeen EUR/six USA files as offline extraction. Source identity is rehashed from

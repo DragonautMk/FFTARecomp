@@ -15,6 +15,27 @@ mod obj_animations;
 mod obj_custom_graphics;
 mod ui_raw_palettes;
 mod ui_custom_graphics;
+mod item_records;
+mod metadata16;
+use metadata16::Metadata16Resources;
+pub use metadata16::Metadata16Stats;
+mod metadata52;
+use metadata52::Metadata52Resources;
+pub use metadata52::Metadata52Stats;
+mod metadata4;
+use metadata4::Metadata4Resources;
+pub use metadata4::Metadata4Stats;
+mod metadata2;
+use metadata2::Metadata2Resources;
+pub use metadata2::Metadata2Stats;
+mod default48;
+use default48::Default48Resources;
+pub use default48::Default48Stats;
+mod item_links;
+use item_links::ItemLinkResources;
+pub use item_links::ItemLinkStats;
+use item_records::ItemResources;
+pub use item_records::ItemStats;
 use ui_custom_graphics::UiGraphicsResources;
 pub use ui_custom_graphics::UiGraphicsStats;
 use ui_raw_palettes::UiPaletteResources;
@@ -85,6 +106,13 @@ pub struct RuntimeResources {
     obj_graphics: Option<Box<ObjGraphicsResources>>,
     ui_palettes: Option<Box<UiPaletteResources>>,
     ui_graphics: Option<Box<UiGraphicsResources>>,
+    items: Option<Box<ItemResources>>,
+    item_links: Option<Box<ItemLinkResources>>,
+    metadata16: Option<Box<Metadata16Resources>>,
+    metadata52: Option<Box<Metadata52Resources>>,
+    metadata4: Option<Box<Metadata4Resources>>,
+    metadata2: Option<Box<Metadata2Resources>>,
+    default48: Option<Box<Default48Resources>>,
 }
 
 impl RuntimeResources {
@@ -199,6 +227,27 @@ impl RuntimeResources {
                 manifest.resources[15].sha256.clone(),
             )?));
         }
+        if let Some((items,_))= files.items {
+            resources.items = Some(Box::new(ItemResources::new(items.clone(), &source.items.as_ref().unwrap().sources, manifest.resources[16].sha256.clone())?));
+        }
+        if let Some((links,_))= files.item_links {
+            resources.item_links = Some(Box::new(ItemLinkResources::new(links.clone(), &source.item_links.as_ref().unwrap().sources, files.items.ok_or("Missing item-link owner")?.0, manifest.resources[17].sha256.clone())?));
+        }
+        if let Some((data,_))= files.metadata16 {
+            resources.metadata16 = Some(Box::new(Metadata16Resources::new(data.clone(), &source.metadata16.as_ref().unwrap().sources, manifest.resources[18].sha256.clone())?));
+        }
+        if let Some((data,_))= files.metadata52 {
+            resources.metadata52 = Some(Box::new(Metadata52Resources::new(data.clone(), &source.metadata52.as_ref().unwrap().sources, files.item_links.ok_or("Missing metadata52 link owner")?.0)?));
+        }
+        if let Some((data,_))= files.metadata4 {
+            resources.metadata4 = Some(Box::new(Metadata4Resources::new(data.clone(), &source.metadata4.as_ref().unwrap().sources, files.metadata52.ok_or("Missing metadata4 owner")?.0)?));
+        }
+        if let Some((data,_))= files.metadata2 {
+            resources.metadata2 = Some(Box::new(Metadata2Resources::new(data.clone(), &source.metadata2.as_ref().unwrap().sources, files.metadata52.ok_or("Missing metadata2 owner")?.0)?));
+        }
+        if let Some((data,_))= files.default48 {
+            resources.default48 = Some(Box::new(Default48Resources::new(data.clone(), &source.default48.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -237,6 +286,13 @@ impl RuntimeResources {
             obj_graphics: None,
             ui_palettes: None,
             ui_graphics: None,
+            items: None,
+            item_links: None,
+            metadata16: None,
+            metadata52: None,
+            metadata4: None,
+            metadata2: None,
+            default48: None,
         }
     }
 
@@ -280,6 +336,13 @@ impl RuntimeResources {
             + self.obj_graphics.as_ref().map_or(0, |g| g.resident_bytes())
             + self.ui_palettes.as_ref().map_or(0, |p| p.resident_bytes())
             + self.ui_graphics.as_ref().map_or(0, |g| g.resident_bytes())
+            + self.items.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.item_links.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata16.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata52.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata4.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata2.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.default48.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -350,6 +413,15 @@ impl RuntimeResources {
     pub fn text_catalog_file_sha256(&self) -> Option<&str> { self.text_catalogs.as_ref().map(|t| t.file_sha256()) }
     pub fn text_catalog_stats(&self) -> Option<TextCatalogStats> { self.text_catalogs.as_ref().map(|t| t.stats()) }
 
+    pub fn metadata16_stats(&self) -> Option<Metadata16Stats> {self.metadata16.as_ref().map(|m|m.stats())}
+    pub fn metadata52_stats(&self) -> Option<Metadata52Stats> {self.metadata52.as_ref().map(|m|m.stats())}
+    pub fn metadata4_stats(&self) -> Option<Metadata4Stats> {self.metadata4.as_ref().map(|m|m.stats())}
+    pub fn metadata2_stats(&self) -> Option<Metadata2Stats> {self.metadata2.as_ref().map(|m|m.stats())}
+    pub fn default48_stats(&self) -> Option<Default48Stats> {self.default48.as_ref().map(|m|m.stats())}
+    pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
+    pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
+    pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
+    pub fn item_file_sha256(&self) -> Option<&str> {self.items.as_ref().map(|i|i.file_sha256())}
     pub fn ui_graphics_stats(&self) -> Option<UiGraphicsStats> { self.ui_graphics.as_ref().map(|g| g.stats()) }
     pub fn ui_graphics_file_sha256(&self) -> Option<&str> { self.ui_graphics.as_ref().map(|g| g.file_sha256()) }
     pub fn ui_graphics_used_sources(&self) -> Vec<(u32,u64)> { self.ui_graphics.as_ref().map_or_else(Vec::new, |g| g.used_sources()) }
@@ -456,8 +528,36 @@ impl RuntimeResources {
                 Some(palettes) => palettes.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.ui_graphics {
+            let prior = match &self.ui_graphics {
                 Some(graphics) => graphics.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.items {
+                Some(items) => items.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.item_links {
+                Some(links) => links.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata16 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata52 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata4 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata2 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.default48 {
+                Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
         };
@@ -604,6 +704,13 @@ impl crate::MemMap {
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)
+            || ItemResources::source_page(index)
+            || ItemLinkResources::source_page(index)
+            || Metadata16Resources::source_page(index)
+            || Metadata52Resources::source_page(index)
+            || Metadata4Resources::source_page(index)
+            || Metadata2Resources::source_page(index)
+            || Default48Resources::source_page(index)
     }
 }
 

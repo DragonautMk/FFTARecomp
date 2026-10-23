@@ -174,15 +174,14 @@ alle due routine originali con clipping/flip/wrap/capacità/ritorno anticipato,
 interi buffer OAM/matrici/guardie uguali. Altre radici indirette, animazioni e
 grafica OBJ restano aperte; Linux/USA da fare. [Contratto](../rom_data_obj.md).
 
-**ROMDATA-01-GAMEPLAY-ITEM-ROOTS: inventario statico dichiarato completato,
-esecuzione originale ancora da fare.** Lettore proprietà080ce1ec/tabella6e0bd0,
+**ROMDATA-01-GAMEPLAY-ITEM-ROOTS: inventario dichiarato completato,
+contratto originale ora verificato sotto.** Lettore proprietà080ce1ec/tabella6e0bd0,
 376record×32byte/12032byte fino al root indipendente6e3ad0. Chiamanti negozio/
 classificatore e enumerazione originale1..361/362..375confermano i limiti;
 19proprietà espongono halfword/byte/signed e modificatori live02002030.
 Tutti32byte per record conservati, nessuna sovrapposizione e22; semantiche non
-provate non inventate. Nessun nuovo modello/estrattore/consumo/esecuzione/build/
-test rivendicato. Prossimo criterio: catalogo tipizzato/oracolo originale Wine,
-poi gestione e consumo; tabella seguente20byte, altre famiglie e Linux/USA aperti.
+provate non inventate. Oracolo/modello/gestione/consumo EUR ora completati sotto;
+tabella seguente20byte, altre famiglie e Linux/USA restano aperti.
 [Contratto](../rom_data_gameplay.md).
 
 ## ROMDATA-02 — Estrattori e decoder
@@ -558,6 +557,236 @@ stati/clock/immagini/OAM/dispatch/audio passa, immagine finale ispezionata.
 Altre scene linguistiche ordinarie/sorgenti indirette restano aperte, Linux/USA/
 Windows nativo da fare; nessuna misura prestazionale/spazio.
 [Contratto](../rom_data_ui_graphics.md#localized-ui-selectors-in-e22).
+
+**ROMDATA-02-GAMEPLAY-ITEM-SOURCE-ORACLE / ROMDATA-02-GAMEPLAY-ITEM-DATA /
+ROMDATA-04-GAMEPLAY-ITEM-CONSUMPTION completati per EUR/Wine dichiarato:**
+376record/32byte/12032sorgente, items.json/resource gameplay.item-records,
+EUR e23-d22/18file/17risorse, tutti16file decodificati precedenti/e22immutati.
+Campi halfword/byte/signed/tail conservano ogni bit; proprietà/bonus live/
+inventario/clamp unsigned e tabella secondaria restano originali. Un oracolo
+Wine passa14371chiamate su tutti i record/19proprietà/due rami bonus, speciali/
+troncamenti/invalidi e240casi signed negativi isolati; i campi ROM distribuiti
+sono tutti non negativi. Prima assunzione errata della fixture corretta prima
+dell'esecuzione, log fallito conservato. Due integrazioni Wine passano gestione/
+recupero/retention/transazioni/provenienza/Load/Undo/backup/restart e86chiamate
+native con12032byte raw alterati/stati-clock uguali;100byte compilati(24prefix/
+40signed/36altri). Tutti byte/edges/mirrors/BIOS/SWI/DMA4byte passano.
+ROMDATA-05-GAMEPLAY-ITEM-SCENE-CLI è completo per una scena Unit320frame:
+CLI create/no-write reuse/vecchia cache e una coppia completa stati/clock/
+immagini/OAM/dispatch/audio passano con40nuovi byte signed; immagine finale
+ispezionata. Prefix/tail ordinari non rivendicati; altri cataloghi e Linux/USA/
+Windows nativo restano aperti, nessuna misura prestazionale/spazio.
+[Contratto](../rom_data_gameplay.md).
+
+**ROMDATA-01-GAMEPLAY-ITEM-SECONDARY-ROOTS / ROMDATA-02-GAMEPLAY-ITEM-LINK-SOURCE-ORACLE
+completati per il contratto EUR/Wine dichiarato:**6e3ad0..6e4c64,
+225record×20byte/4500byte, count0..9/byte opaco/nove coppie,472attive/ottoFF.
+Dodici literal LDR e root seguente indipendente confermano i limiti;376oggetti
+riferiscono220righe, tutte225conservate. Catalogo tipizzato lossless/JSON/source/
+owner/extent/coherent edit passa Wine:378selettori/1394ricerche/464prefissi normali/
+8prefissiFF,4query sintetiche zero/duplicati/unused e8casi separati dal confronto
+precedente al ramoFF.2244casi/61906istruzioni principali+80del gate, nessuna
+misura prestazionale. Unit bit7/byte3drestano live; chiamate job/abilità successive
+non rivendicate. Il contratto precede la successiva integrazione e24riportata sotto;
+nuove verifiche Linux/USA/Windows nativo restano da fare.
+[Contratto](../rom_data_gameplay.md#item-linked-pair-source-contract).
+
+**ROMDATA-02-GAMEPLAY-ITEM-LINK-DATA / ROMDATA-04-GAMEPLAY-ITEM-LINK-CONSUMPTION
+completati per EUR/Wine dichiarato:** e24-d23aggiunge item-links.json/resource
+ gameplay.item-links con dipendenza esplicita dai376oggetti parsed;19file/
+18risorse, tutti17file decodificati precedenti/e23immutati.225record/4500byte
+count/selector/value/opaque alimentano i lettori CPU/DMA/native; query, unit
+bit7/FFbyte3d, chiamate successive, clock/save/native ABI restano originali.
+Due controlli Wine passano pubblicazione/failure/riuso/riparazione/spostamento/
+retention/transazioni/lifecycle e62percorsi nativi con sorgente alterata/stati-
+clock uguali:36byte count/114selector/56value, otto forme count e gateFFreali.
+Opaque non letto da questi percorsi ma verificato con tutti i4500byte bus;
+edges/mirrors/BIOS/SWI/DMA4byte e crossing2byte vecchi+2nuovi con entrambi i
+raw alterati passano. Nessun vecchio oracolo ripetuto.
+ROMDATA-05-GAMEPLAY-ITEM-LINK-SCENE-CLI è completo per scena EUR/Wine dichiarata:
+CLI create/no-write reuse/vecchia cache passa; locator Equip slot400frame legge0
+nuovi byte, conservato senza coppia/ripetizione. Down/Aordinari aprono la lista
+copricapi(immagine finale ispezionata); CLI560frame e una coppia completa stati/
+clock/immagini/OAM/dispatch/audio passano con574byte nuovi(287count/205selector/
+82value). I nomi privati weapon-list sono locator, non prova di una scena armi.
+Linux/USA/Windows nativo e resto TODO aperti, niente
+misure prestazionali/spazio. [Contratto](../rom_data_gameplay.md#managed-and-direct-item-link-consumption).
+
+**ROMDATA-01-GAMEPLAY-METADATA16-ROOTS / ROMDATA-02-GAMEPLAY-METADATA16-SOURCE-ORACLE
+completati per il contratto EUR/Wine dichiarato:**128record×16byte/2048byte,
+6e4c64..6e5464,23literal LDR e root successivo indipendente. Modello lossless
+u16alias+14byte/JSON/source/extent e inventario indipendente passano. Un solo
+controllo Wine passa2581casi originali display/alias nonzero/lista live/somme/
+flag/scelta e19sintetici per priorità1assente nei dati/somma u8/shift. Stato LCG
+originale e guardie RAM/stack/callee verificati; nessun nome legge/missione/
+abilità inventato, alias0non rivendicato.156038istruzioni/319PC sono copertura,
+nessuna misura prestazionale. EUR gestito resta e24-d23/19file/18risorse;
+preparazione, consumo diretto/lifecycle/scena/CLI di questa nuova tabella aperti.
+Linux/USA/Windows nativo da fare. [Contratto](../rom_data_gameplay.md#sixteen-byte-linked-metadata-source-contract).
+
+**ROMDATA-02-GAMEPLAY-METADATA16-DATA / ROMDATA-04-GAMEPLAY-METADATA16-CONSUMPTION
+completati per EUR/Wine dichiarato:** e25-d24aggiunge linked-metadata16.json/
+resource gameplay.linked-metadata16,20file/19risorse; tutti18file decodificati
+precedenti/e24conservati, USAe8-d7. Campi alias/display/flag/value/opaque tipizzati
+alimentano CPU/DMA/native mantenendo lista live/RNG/somme/shift/clock/save/native
+ABI originali. Due controlli Wine passano pubblicazione/failure/riuso/riparazione/
+spostamento/retention/transazioni/lifecycle e42percorsi nativi con2048byte raw
+alterati/stati-clock uguali:8byte alias/17display/22flag/24value compilati.
+Opaque verificato al bus con tutti i byte/edges/mirrors/BIOS/SWI/DMA4byte e
+crossing2byte vecchi link+2nuovi metadata entrambi alterati. Oracolo sorgente
+2581+19non ripetuto. ROMDATA-05-GAMEPLAY-METADATA16-SCENE-CLI è completo:
+CLI crea/riusa e controllo22file hash/mtime senza scritture passa; locator
+Area List/Start/Party/inventario normale leggono0nuovi byte e non sono ripetuti
+né confrontati a coppia. Clan→Mission Item520frame legge6byte display nuovi,
+immagine Chocobo Egg ispezionata; una coppia stati/clock/immagini/OAM/dispatch/
+audio passa con gli stessi6byte. Alias/flag/value ordinari non rivendicati.
+Errore iniziale header input corretto prima dell'esecuzione; solo il replay
+corretto e poi il criterio no-write prima non raggiunto sono stati eseguiti.
+Nuovi Linux/USA/Windows nativo e resto TODO aperti; nessuna misura prestazionale/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-metadata16-consumption).
+
+**ROMDATA-01-GAMEPLAY-METADATA52-ROOTS / ROMDATA-02-GAMEPLAY-METADATA52-SOURCE-ORACLE
+completati per il contratto EUR/Wine dichiarato:** 116 record da 52 byte /
+6032 byte, 6e5464..6e6bf4, otto literal LDR, enumeratore 0..115 e root
+successivo indipendente. Modello lossless con route esplicita e tre array fissi;
+48 proprietà unsigned/bitfield mantengono rinvii FF all'indice del chiamante,
+rinvii nonzero e cicli originali, senza fallback inventati. Un controllo Wine
+passa 6369 chiamate reali / 4 probe non ritornanti limitati e 294 chiamate
+sintetiche high-bit/rinvii / 2 probe ciclici; lettori tail32/33 da indice live e
+guardie JSON/source/extent/RAM/stack/callee passano. I 464 selettori normali
+precedenti rientrano nel nuovo owner; otto FF restano distinti. Nessun vecchio
+oracolo ripetuto, 223421 istruzioni / 524 PC sono solo copertura. Dataset
+rimane e25-d24 / 20 file / 19 risorse: preparazione, consumo diretto/lifecycle/
+scena/CLI di questa tabella e nuovi Linux/USA/Windows nativo restano aperti.
+[Contratto](../rom_data_gameplay.md#fifty-two-byte-linked-metadata-source-contract).
+
+**ROMDATA-02-GAMEPLAY-METADATA52-DATA / ROMDATA-04-GAMEPLAY-METADATA52-CONSUMPTION
+completati per EUR/Wine dichiarato:** e26-d25 aggiunge linked-metadata52.json /
+resource gameplay.linked-metadata52, 21 file / 20 risorse; tutti i 19 file
+decodificati precedenti e le generazioni e25 conservati, USA e8-d7. Owner parsed
+dei selettori normali validato entro 116, FF distinto. Letture tipizzate header/
+routing/packed/tail/opaque mantengono getter, indici alternativi, rinvii, record
+live, clock e ABI save/native originali. Due controlli Wine passano pubblicazione/
+failure/riuso/riparazione/spostamento/retention/transazioni/lifecycle e 75 percorsi
+nativi con tutti i 6032 byte raw alterati e stati-clock uguali: 18 byte header /
+83 routing / 68 packed / 8 tail compilati. Opaque al bus con tutti i byte/edges/
+mirrors/BIOS/SWI/DMA4 e crossing 2 byte metadata16 + 2 metadata52 entrambi
+alterati. Oracolo sorgente/cicli non ripetuto.
+ROMDATA-05-GAMEPLAY-METADATA52-SCENE-CLI completo: CLI crea/riusa senza cambiare
+hash/mtime, usa la vecchia cache da cwd diverso e apre Change Jobs con input
+ordinario. Una coppia 540 frame stati/clock/immagini/OAM/dispatch/audio passa con
+664 byte nuovi (74 header / 335 routing / 255 packed), immagine finale Marsh/
+Thief ispezionata. Tail/opaque ordinari non rivendicati. Nessun locator fallito,
+harness/test fallito o controllo precedente ripetuto. Nuovi Linux/USA/Windows
+nativo e resto TODO aperti; nessuna misura prestazionale/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-metadata52-consumption).
+
+**ROMDATA-01-GAMEPLAY-METADATA4-ROOTS / ROMDATA-02-GAMEPLAY-METADATA4-SOURCE-ORACLE
+completati per i prefissi EUR/Wine dichiarati:** 20 record da quattro byte /
+80 byte, 6e6bf4..6e6c44, due coppie selector/value, 26 attive. Due literal e
+root successivo indipendente, indici cross-owner parsed con metadata52 passano.
+Un controllo Wine passa 320 casi reali / 24 sintetici Count/Select/Gate/Threshold
+per entrambe le versioni originali: tutti i record, job chiamanti 2..43, soglie
+sotto/uguale/sopra, buchi, payload unused, value255, confronto signed e tally u8.
+Conteggio di entrambi gli slot e cammino fino al primo zero restano distinti;
+scansioni live delle abilità e intere funzioni non rivendicate o congelate.
+9560 istruzioni / 136 PC sono copertura, nessun vecchio oracolo ripetuto.
+Dataset rimane e26-d25 / 21 file / 20 risorse: preparazione, consumo diretto,
+lifecycle, scena/CLI e nuovi Linux/USA/Windows nativo restano aperti.
+[Contratto](../rom_data_gameplay.md#four-byte-two-pair-source-contract).
+
+**ROMDATA-02-GAMEPLAY-METADATA4-DATA / ROMDATA-04-GAMEPLAY-METADATA4-CONSUMPTION
+completati per EUR/Wine dichiarato:** e27-d26 aggiunge linked-metadata4.json /
+resource gameplay.linked-metadata4, 22 file / 21 risorse; tutti i 20 file
+decodificati precedenti/e26 conservati, USA e8-d7. Owner metadata52 parsed e
+indici/selettori validati; byte tipizzati mantengono conteggio/cammino contiguo,
+scansioni live, valori unsigned/confronto signed/tally u8 e clock/ABI originali.
+Due controlli Wine passano pubblicazione/failure/riuso/riparazione/spostamento/
+retention/transazioni/lifecycle e 56 prefissi nativi con 80 byte raw alterati e
+stati-clock uguali: 54 byte selector / 34 value compilati, tutti i byte/edges/
+mirrors/BIOS/SWI/DMA4 e crossing 2 byte metadata52 + 2 metadata4 passano.
+ROMDATA-05-GAMEPLAY-METADATA4-SCENE-CLI completo: CLI crea/riusa senza cambiare
+hash/mtime, vecchia cache/cwd diverso; una coppia 540 frame Change Jobs stati/
+clock/immagini/OAM/dispatch/audio passa con 32 byte selector / 6 value nuovi,
+immagine Marsh/Thief ispezionata. Input conservato giustificato dalla nuova
+famiglia/nuovo gate; e26 non riaperto. Oracolo sorgente320+24 non ripetuto,
+prefissi non rivendicati come intere funzioni. Nuovi Linux/USA/Windows nativo e
+resto TODO aperti; nessuna misura prestazionale/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-metadata4-consumption).
+
+**ROMDATA-01-GAMEPLAY-METADATA2-MAP-ROOTS / ROMDATA-02-GAMEPLAY-METADATA2-SOURCE-ORACLE
+completati per EUR/Wine dichiarato:** 44 coppie key/value / 88 byte a
+6e6c44..6e6c9c, ultimo record43 reale e successiva sorgente48B indipendente.
+Forward originale tronca u8 e legge indice0..43 senza bound locale; inverse
+tronca u8, cerca solo0..42 e restituisce primo stored key / zero se assente.
+Owner metadata52 parsed/JSON/source/extent e 348 casi reali + 13 sintetici
+Wine passano, inclusi alias, high byte, chiavi non uguali all'indice e match
+solo nell'ultimo record escluso inversamente. Wrapper live byte7 provato fino
+al ritorno del getter con frame mantenuto; intere funzioni, bound globali e
+semantica dei valori non rivendicati. Dataset e27-d26/22file/21risorse invariato;
+preparazione/consumo/lifecycle/scena-CLI e nuovi Linux/USA/Windows nativo da fare.
+Nessuna misura prestazionale/spazio, nessun vecchio oracolo ripetuto.
+[Contratto](../rom_data_gameplay.md#two-byte-forward-and-inverse-source-contract).
+
+**ROMDATA-02-GAMEPLAY-METADATA2-DATA / ROMDATA-04-GAMEPLAY-METADATA2-CONSUMPTION
+completati per EUR/Wine dichiarato:** e28-d27 aggiunge linked-metadata2.json /
+resource gameplay.linked-metadata2,23file/22risorse, tutti i21file precedenti/e27
+conservati; USAe8-d7. Owner metadata52parsed/byte key-value autenticati conservano
+istruzioni originali forward44/inverse43, alias/first storedkey/miss0/u8 e live
+byte7/clock/save/native ABI. Due controlli Wine passano pubblicazione/transazioni/
+riuso/riparazione/spostamento/retention/lifecycle e21percorsi originali/nativi,
+88byte raw alterati/stati-clock uguali,7key/235value compilati, tutti byte/bordi/
+mirrors/BIOS/SWI/DMA4/crossing2metadata4+2metadata2. Build corretta warning-free
+(dopo tre argomenti zero mancanti nei vecchi test budget); sorgente348+13 chiusa.
+ROMDATA-05-GAMEPLAY-METADATA2-SCENE-CLI completo: CLI prepara/riusa senza scritture
+con cache vecchia/cwd diverso. ChangeJobs540/Rumors560/prefissi e Missions620/
+1260sono locator negativi conservati; conferme ordinarie aggiuntive danno una
+coppia Pub1840stati/clock/immagini/OAM/dispatch/audio uguali e4value/0keyBnuovi.
+Inverse key provato solo nei test mirati, immagine finale Pub con pannelli nativi
+separati non prova unità/outcome missione. Nessun vecchio oracolo/full pair sui
+negativi, nessuna misura performance/spazio. Nuovi Linux/USA/Windows nativo e
+resto TODO aperti. [Contratto](../rom_data_gameplay.md#managed-and-direct-metadata2-consumption).
+
+**ROMDATA-01-GAMEPLAY-DEFAULT48-TEMPLATE / ROMDATA-02-GAMEPLAY-DEFAULT48-SOURCE-ORACLE
+completati per EUR/Wine dichiarato:**48byte strutturali6e6c9c..6e6ccc, root e
+lunghezza copia originali. Costruttore mode1/2, quattro ID20..23con sorgenti
+alternate, patch signedID/selector>1/argomenti/ORflag distinti. Un controllo Wine
+passa271casi reali+30sintetici con inizializzatore IWRAM originale, tutti256ID,
+mode/troncamento/bordi signed/selector/flag e preservazione bit/byte inutilizzati.
+48Broundtrip/JSON/array/source/stack/args/callee-invalid/outerRAM passano; nessun
+oracolo vecchio ripetuto,48812istruzioni/155PCsolo copertura. Allocazione/liveunit
+dopo127EB0esclusi; alternate192B/puntatore ROM e successivi240Bnon ancora owned.
+Dataset e28-d27/23file/22risorse invariato; preparazione/consumo/lifecycle/scenaCLI
+e nuovi Linux/USA/Windows nativo da fare, nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#default-constructor-template-source-contract).
+
+**ROMDATA-02-GAMEPLAY-DEFAULT48-DATA / ROMDATA-04-GAMEPLAY-DEFAULT48-CONSUMPTION
+completati per EUR/Wine dichiarato:**e29-d28aggiunge default-constructor-template.json /
+resource gameplay.default-constructor-template,24file/23risorse,22file precedenti/
+e28conservati; USAe8-d7. Byte header/argomenti/halfword/flag/tail conservano copia
+originale ROM/IWRAM, patch live, mode/alternative/allocazione/clock/save/native ABI.
+Due controlli Wine passano pubblicazione/transazioni/lifecycle/retention e16prefissi
+originali/interprete/nativi con48rawBalterati/stati-clock uguali;8rami alternativi/
+rifiutati0newreads,39/21/272/16/32Bcompilati, tutti byte/bordi/BIOS/mirror/SWI/DMA4/
+crossing2metadata2+2default48. Build corretta warning-free dopo macrocontatore
+rimasta a2elementi anziché5; log iniziale conservato. Sorgente271+30non ripetuta.
+ROMDATA-05-GAMEPLAY-DEFAULT48-SCENE-CLI completo: CLI crea/riusa senza scritture
+con vecchia cache/cwd diverso; una coppia397Pub stati/clock/immagini/OAM/dispatch/
+audio passa con96Bnuovi=10header/6argomenti/68halfword/4flag/8tail, immagine
+ispezionata. Nuova famiglia/gate giustifica input conservato; nessun locator
+negativo, RAMedit/recording nuovo o vecchio oracolo ripetuto. Tail allocazione,
+alternate192B/puntatore ROM e successivi240Bnon ancora owned. Nuovi Linux/USA/
+Windows nativo/restoTODOaperti; nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-default-constructor-template).
+
+**ROMDATA-01-GAMEPLAY-CONSTRUCTOR-ALTERNATES completato staticamente:**4record
+48B/192Ba6eca78..6ecb38+puntatore4Ba70cd58,196Btotali/noe29overlap. RootLDR,
+LDR+4, IDu8gated20..23/stride48/copia48 e roundtrip indipendente passano.
+Consumatore CCF9C..CD046legge cinque equipment halfword08..10perrecord attraverso
+item proprietà6/3;20linkentro376item parsed. Byte01e header vicini non ricevono
+semantiche non provate. Modello/oracolo sorgente/preparazione/consumo/scena restano
+da fare; EUR e29-d28invariato, prove default271+30/native16/397chiuse.
+[Contratto](../rom_data_gameplay.md#next-rooted-constructor-sources).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 

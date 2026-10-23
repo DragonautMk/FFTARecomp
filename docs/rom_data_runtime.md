@@ -1,6 +1,85 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e22-d21` extends custom UI graphics to16banks/two language
+Current EUR `v1/e29-d28` serves one48Bdefault constructor template from
+`gameplay.default-constructor-template`. Typed header/argument/full-halfword/flag/
+tail bytes preserve original ROM/IWRAM copy/live patches/mode/alternate selection/
+allocation/clock/save/native ABI. All24files/23resources authenticate together,
+all22prior decoded files/e28retained. Two focused Wine managed/lifecycle/native
+checks pass16prefixes with48rawBaltered/fullstates-clocks equal and8alternate/
+rejected paths0newreads, plus all-byte bus/SWI/DMA/adjacent crossing. One397Pub
+full-state/image/audio/actualCLI pair reads96newBacross all structural categories.
+New Linux/USA/native Windows and alternate192B/pointer/next240Bremain pending.
+[Contract](rom_data_gameplay.md#managed-and-direct-default-constructor-template).
+
+EUR `v1/e28-d27` serves44stored key/value pairs/88source bytes from
+`gameplay.linked-metadata2`. Typed bytes preserve original forward44/inverse43,
+first stored key/duplicates/miss0/u8truncation/live caller instructions and clock.
+All23files/22resources authenticate together; actual parsed metadata52key owners,
+all21previous decoded files/e27and save/native ABI remain. Two focused Wine
+managed/lifecycle/native checks pass21paths with raw88B altered/equal complete
+states-clocks, all-byte bus/SWI/DMA and adjacent typed crossing. One positive
+1840Pub mission full-state/image/audio/actualCLI pair reads4value/0keyB;
+inverse key use remains targeted-only. New Linux/USA/native Windows remain
+pending. [Contract](rom_data_gameplay.md#managed-and-direct-metadata2-consumption).
+
+EUR `v1/e27-d26` serves 20 two-pair records / 80 source bytes from
+`gameplay.linked-metadata4`. Typed selectors/values preserve original counting,
+contiguous walking, unsigned values/signed comparisons, tally wrapping and
+live ability scans. Actual parsed metadata52 ownership is checked; save/native
+ABI and all 20 prior decoded files/e26 stay unchanged. Two focused Wine
+managed/native/lifecycle checks pass 56 sampled prefixes with all new raw bytes
+altered / equal complete states and clocks, plus all-byte bus/SWI/DMA and
+adjacent typed crossing. One positive 540-frame Change Jobs full-state/image/
+audio/actual CLI pair reads 32 selector / 6 value bytes. New Linux/USA/native
+Windows remain pending. See the [pair contract](rom_data_gameplay.md#managed-and-direct-metadata4-consumption).
+
+EUR `v1/e26-d25` serves 116 records / 6032 source bytes from
+`gameplay.linked-metadata52`. Typed header/routing/packed/tail/opaque bytes feed
+original CPU/DMA/native readers without replacing the packed getter, redirects,
+alternate indices, live-record inputs, clock or save/native ABI. All 19 previous
+decoded files and e25 generations remain unchanged. Two focused Wine checks pass
+75 sampled native paths with all new raw bytes altered / equal complete states
+and clocks, actual parsed link-owner bounds, lifecycle and adjacent typed
+metadata16/metadata52 crossing ownership. One positive 540-frame Change Jobs full-state/image/audio/actual CLI pair
+passes with 664 new bytes; ordinary tail/opaque use is not claimed. New
+Linux/USA/native Windows checks remain pending. See the
+[metadata52 contract](rom_data_gameplay.md#managed-and-direct-metadata52-consumption).
+
+EUR `v1/e25-d24` serves128sixteen-byte records/2048source bytes from
+`gameplay.linked-metadata16`. Exact typed alias/raw fields feed original
+CPU/DMA/native reads while live-list IDs/indices, RNGstate/selection, sums,
+register-ASR and all guest work/clock stay active. All18prior decoded files/e24
+and save/native ABI remain unchanged. Two reduced Wine authentication/lifecycle/
+native checks pass42sampled paths with2048new raw bytes altered/full states and
+clocks equal, plus all-byte/BIOS/SWI/DMA and a2old-link+2newmetadata crossing.
+One positive520-frame Clan Mission Item full-state/image/audio/actual CLI pair
+passes with6typed display bytes; ordinary alias/flag/value use is not claimed.
+Linux/USA/native Windows
+remain pending. See [metadata16contract](rom_data_gameplay.md#managed-and-direct-metadata16-consumption).
+
+EUR `v1/e24-d23` serves225counted item-linked records/4500source bytes
+from `gameplay.item-links`, with an explicit parsed item-owner dependency.
+Typed count/selector/value/opaque fields preserve live query/unit publication,
+all original work/clock and save/native ABI. All17earlier decoded files/e23
+remain unchanged. Reduced Wine authentication/lifecycle/native62paths with
+altered raw source match full states/clocks; a crossing word also proves both
+adjacent typed owners. One positive560-frame headgear inventory full-state/image/
+audio/actual CLI Wine pair consumes574new bytes(287count/205selector/82value).
+See [item-link contract](rom_data_gameplay.md#managed-and-direct-item-link-consumption).
+New Linux/USA/native Windows and wider gameplay catalogs remain pending.
+
+EUR `v1/e23-d22` also serves376static item records/12032source bytes
+from `gameplay.item-records`. Typed halfword/raw/signed/tail bytes preserve every
+record bit through original CPU/DMA/native reads; live bonus/inventory, property
+dispatch/clamp and secondary table work stay original. All16previous decoded
+files/e22generations and save/native ABI remain. Reduced Wine original/native/
+authentication/lifecycle checks pass, with altered raw sources/full state/clock
+equality and separate source/field counters. One positive320-frame Unit Wine
+full-state/image/audio/actual CLI pair passes with40typed signed-field bytes.
+See [item contract](rom_data_gameplay.md).
+New Linux/USA/native Windows and broader gameplay catalogs remain pending.
+
+EUR `v1/e22-d21` extends custom UI graphics to16banks/two language
 selectors/two explicit shared OBJ owners. Typed asset-pointer literals preserve
 live language choice, English fallback in Clan and skip-outside0..4in the
 second switch. Original5056OBJ/2688BG split uploads retain exact word data.
@@ -132,7 +211,7 @@ complete graphics extraction.
 EUR `v1/e13-d12` added `font.complete-bank`/`text.name-keyboard` as two
 fixed readable JSON files, bringing that version to12files/11resources; e14adds
 the thirteenth static OBJ file and e15the fourteenth animation file described
-above. e18retains that set; e19adds custom OBJ graphics and e20adds raw UI palettes and e21adds custom UI graphics; current e22extends their localized selectors/payloads.
+above. e18retains that set; e19adds custom OBJ graphics and e20adds raw UI palettes and e21adds custom UI graphics; e22extends their localized selectors/payloads; e23adds static item records; current e24adds counted item links.
 All3175packed glyph slots and metrics, three keyboard programs/indices and
 navigation widths are immutable typed runtime sources. The original routines
 still build cell pages and render/copy data with unchanged guest work/clock.

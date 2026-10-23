@@ -337,6 +337,41 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_UI_GRAPHICS_SCENE frames={frames} bus_reads={} source_bytes={} decoded_literal_bytes={} sources={:x?}",g.bus_reads,g.source_bytes,g.decoded_literal_bytes,owner.ui_graphics_used_sources());
         assert!(g.source_bytes>0 && g.decoded_literal_bytes>0,"ordinary scene must consume newly migrated custom UI literals");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA16").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata16_stats().expect("decoded EUR metadata16");
+        eprintln!("ROM_DATA_METADATA16_SCENE frames={frames} bus_reads={} source_bytes={} alias_bytes={} display_bytes={} flag_bytes={} value_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.alias_bytes,i.display_bytes,i.flag_bytes,i.value_bytes,i.opaque_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly migrated metadata16fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA4").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata4_stats().expect("decoded EUR metadata4");
+        eprintln!("ROM_DATA_METADATA4_SCENE frames={frames} bus_reads={} source_bytes={} selector_bytes={} value_bytes={}",i.bus_reads,i.source_bytes,i.selector_bytes,i.value_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly migrated metadata4 fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA2").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata2_stats().expect("decoded EUR metadata2");
+        eprintln!("ROM_DATA_METADATA2_SCENE frames={frames} bus_reads={} source_bytes={} key_bytes={} value_bytes={}",i.bus_reads,i.source_bytes,i.key_bytes,i.value_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly migrated metadata2 fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_DEFAULT48").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().default48_stats().expect("decoded EUR default48");
+        eprintln!("ROM_DATA_DEFAULT48_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} argument_bytes={} halfword_bytes={} flag_bytes={} tail_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.argument_bytes,i.halfword_bytes,i.flag_bytes,i.tail_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly migrated default48 fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA52").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata52_stats().expect("decoded EUR metadata52");
+        eprintln!("ROM_DATA_METADATA52_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly migrated metadata52fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ITEM_LINKS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().item_link_stats().expect("decoded EUR item links");
+        eprintln!("ROM_DATA_ITEM_LINK_SCENE frames={frames} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
+        assert!(i.source_bytes>0 && i.count_bytes>0 && i.selector_bytes>0 && i.value_bytes>0,"ordinary scene must consume newly migrated item-link fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ITEMS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().item_stats().expect("decoded EUR item records");
+        eprintln!("ROM_DATA_ITEM_SCENE frames={frames} bus_reads={} source_bytes={} halfword_bytes={} signed_bytes={} other_bytes={}",i.bus_reads,i.source_bytes,i.halfword_bytes,i.signed_bytes,i.other_bytes);
+        assert!(i.source_bytes>0,"ordinary scene must read new file-derived item fields");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_GRAPHICS_SELECTOR").is_some() {
         let g=decoded.bus.rom_resources().unwrap().ui_graphics_stats().expect("decoded EUR localized UI graphics");
         eprintln!("ROM_DATA_UI_GRAPHICS_SELECTOR_SCENE frames={frames} selector_bytes={} localized_source_bytes={} localized_literal_bytes={}",g.selector_bytes,g.localized_source_bytes,g.localized_literal_bytes);

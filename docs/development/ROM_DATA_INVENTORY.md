@@ -392,7 +392,8 @@ remain groundwork for other linked graphics families.
   decoded files/e33 retained. Two focused Wine managed/native/lifecycle checks
   pass27prefixes/raw38Baltered/fullstate-clock equality/classmask31/class0zero/
   SWI-DMA/rawgap checks. One1840Pubmission full-state/image/audio/actualCLI
-  pair reads15scoreB; thresholdordinary remains targeted-only. Whole tails/
+  pair reads15scoreB; later400frame Yes/fee CLI/Winefullpair reads1threshold
+  class1/mask1, classes2..5remain targeted-only. Whole tails/
   semanticlabels/newLinux/USA remain pending.
   Next static10Bcontract roots6e79da/*10/0default and normal index0..99from
   04B3E0..04B416,100records/1000Bthrough6e7dc2.12zeroBbeforeindependent6e7dce
@@ -420,8 +421,16 @@ remain groundwork for other linked graphics families.
   fullstate-clock paths/raw768Baltered/two-page typed bus/zero-success/fullmask/
   SWI-DMA/gap/coexistence. ActualCLI no-write/oldcache and one1000Wine normal
   dispatchcompletion fullstate/image/audio pair pass209requirements/8deltaB;
-  return/outputordinary targeted-only. GUI1threshold at signing is positive
-  but its paired prefix/downstreamreceipt-FK/newLinux/USA remain pending.
+  return/outputordinary targeted-only. Separate400frame Yes/fee prefix closes
+  class1threshold ordinary use; downstreamreceipt-FK/newLinux/USA remain pending.
+  Next selection gates own64x16/1024B6e80de..6e84de fromD2390physical1..64,
+  notrow0. Hardunsigned minima01/02/04, ANYactive06..0d and flag0e preserve
+  physical firstmatch, zero-condition store0 and exhausted64no-store. Actual
+  row52sentinel/53..64storage distinguished; independentnextroot6e84e0leaves2B.
+  Static contract/roundtrip/noe36overlap and strict source-only model pass; one
+  Wine fullD2390/reset-count-flag oracle138real+80synthetic checks831actualfieldB/
+  all1024Broundtrip/ANY/unsigned/zero-terminal/no-store/fullRAM-SP-callee.
+  Managed/runtime/ordinary/newLinux-USA pending, e36unchanged.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

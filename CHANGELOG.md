@@ -3,6 +3,30 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-23 — Validate European class1 evaluation threshold during ordinary mission acceptance
+
+Type: docs. Platforms: Windows, Wine.
+
+**Changes**
+
+- Close the missing class1 ordinary threshold prefix with a private normal-UI checkpoint before Mad Alchemist/Sigmund Yes and a short confirmation/fee acknowledgement replay; retain the existing score and dispatch-completion proofs.
+- Clarify the observed boundary: the GUI stopped at the fee dialogue reads no threshold; confirmation plus fee acknowledgement does. No runtime source/build change.
+
+**Validation**
+
+- WineGUI17436saves isolated slot2 through normal menu, confirms600gil/funds7109 and closes0; source/copiedslot1 unchanged. ActualCLI70012first400frames positive16evaluationB:7divisor/7weight/1bonus/1threshold, mask1, no opaque/gates/rewards.
+- One Wine96264fullpair matches all400complete states/clocks/central-wide images/OAM/dispatch and mixed/PSG/FIFO/HLEaudio with same class1threshold. Reuses frozen production46c8cb78/test9e5e6f0c/e36dataset/nativecache/loader; no build or old132+52/native27/1840score/1000completion repeat.
+- CLI33managed files retain hashes/mtimes; fullpair protects all scene inputs. Evidence target/rom-data-progression-gates/{windows-accept-threshold/,threshold-scene-inputs.json,windows-cli-threshold-accept.json,windows-threshold-scene-result.json,windows-threshold-accept-full-state-audio.log}.
+
+**Limitations**
+
+- Classes2..5/wholecaller/downstream outcomes, gate return/output ordinary use and global11Bconcrete condition remain separate scopes. NewLinux/USA/nativeWindows/broader TODO still pending.
+- No performance or space measurements, AndroidPort work, private ROM/saves/inputs publication, agent commit or push. Parallel Debug-save work preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [2026-10-23-consume-european-evaluation-score-and-threshold-parameters.json](docs/changes/2026-10-23-consume-european-evaluation-score-and-threshold-parameters.json), [2026-10-23-consume-european-progression-gates-and-receipt-records.json](docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json).
+
+[Change record](docs/changes/2026-10-23-validate-european-evaluation-threshold-acceptance.json)
+
 ## 2026-10-23 — Restore the configured pixel grid on native game HUDs and portraits
 
 Type: fixed. Platforms: Windows.
@@ -231,6 +255,32 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-decode-european-sixteen-byte-linked-metadata.json)
+
+## 2026-10-23 — Decode European progression selection conditions and preserve ANY and terminal-store semantics
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Prove D2390literal/index1..64/stride16 source6e80de..6e84de/1024B; row0/16B and independent-next-root2Bgap stay unowned, no e36overlap. Add exact EUR source-only strict model with physical IDs/order/offset and lossless fields.
+- Preserve hard unsigned minimum01/02/04, ANYactive06..0d, original flag0e predicate/reset/count helpers, physical first match, zero-condition store0 and exhausted64no-store. No inferred rank/title/selector==ID schema or publication/runtime attachment; e36-d35 remains current.
+
+**Validation**
+
+- Static bounded original consumer/helper/sixcallers/nextroot/field opcodes and independent1024Broundtrip/no-overlap pass; target/rom-data-rank-gates/ inventory and disassembly retained.
+- Windows21065testbuild warning-free; one Wine82907fullD2390+CCECC-CCE98-D22FC oracle passes138real-source/80unauthenticated-unpublished mutated-source cases,831distinct actual fieldB through row52. All64physical rows selectable synthetic-only; ANY8active thresholds/unsignedu8-u16/selector0-255/low8reset0-1-100-101/300liveflags+36-linked017f/zero-terminal-vs-exhausted-no-store/fullEWRAM-only-flags-output/SP-callee-stack pass.2657243instructions/248PCcoverageonly.
+- StrictJSON/fixedcount-ID-order-offset/arrays/unknown/sourceauthentication/coherentedit guards and all1024Broundtrip pass.39protected ROM/e36dataset/candidate/cache/loader/canonical/inventory inputs unchanged, no build/Winefailure or old source-native-scene repeat.
+- Evidence target/rom-data-rank-gates/{windows-tests-build.*,windows-tests.json,recomp-tests-original.exe,windows-original-result.json,windows-original.log,windows-original-europe/{progression-selection-gates.json,result.json},source-protected.json,original-protected.json}.
+
+**Limitations**
+
+- Source proof complete for stated scope; managed publication/direct consumption/lifecycle/ordinary scene and newLinux/USA/nativeWindows/semantic consumers remain pending.
+- Actual row52zero terminal prevents original53..64ordinary reachability; mutable-source targeted checks remain separate from ordinary use. Raw aggregate-helper source6e9a5c is not migrated here.
+- No performance/space/AndroidPort work, private ROM/saves/inputs publication, agent commit or push. Parallel Debug-save audit preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-progression-selection-gates.json)
 
 ## 2026-10-23 — Decode European progression deltas and price discounts with original live-state proof
 
@@ -893,6 +943,36 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json)
+
+## 2026-10-23 — Catalog current debug-save cases with stable scene IDs and scoped validation
+
+Type: docs. Platforms: Windows/Wine.
+
+**Changes**
+
+- Rewrite the user debug saves TODO as 26 stable DS-01 through DS-26 cases, preserving every original requested scenario and assigning descriptive names, source locators, validation scope and exact remaining criteria. Initial outcome: 3 validated, 10 partial, 13 uncovered.
+- Create an ignored local saves/debug-cases collection with 13 numbered snapshot slots from six exact source snapshots and an unchanged cartridge-save copy. Numbers match case IDs, including partial-candidate labels; no original file is renamed or overwritten and no private bytes enter tracked documentation.
+- Link the scene checklist from Extended saves and durable validation entry points. Reuse accepted ordinary dispatch/source/scene evidence instead of repeating builds, metrics or full differential proofs.
+
+**Validation**
+
+- Read current handoff, user archive, relevant scene records/results/logs and retained captures. Eight selected ordinary EUR snapshots pass full-file SHA-256, embedded preview checksum, version1, exact EUR ROM identity and payload checksum checks. Cartridge and archived snapshot copies match their ZIP entries.
+- Accepted existing evidence supports DS-01 clan-skill increases and DS-02 successful Mad Alchemist return at day19, including the closed 1000-frame full-state/image/audio pair. Existing ordinary GUI captures support DS-19 mission browsing, requirements, member choice and confirmed 600-gil acceptance. No accepted full pair is rerun.
+- New isolated Windows/Wine interpreter/HLE keyboard GUI inspection of the user deployment snapshot passes load, placement selection/movement, reload, one-law classification and normal close. A separate brief Party inspection also closes normally. Original snapshot/archive/cartridge hashes remain unchanged.
+- An intermediate inventory inspection reaches unit equipment with five visible headgear entries, then its harness ends with SIGTERM143 and no final result. Retain that limited observation only; DS-17 remains partial and no complete-inventory or clean-exit result is inferred.
+- All 13 curated slots are byte-identical to their declared sources, names/numbers/status counts match the 26-item catalog, and the collection/manifest/save files are ignored by Git. No new game checkpoint recording, runtime mutation, build or benchmark is performed.
+- Final catalog checks pass all 26 IDs/names/status counts, 13 exact ignored copies, source hashes, relative documentation links and two normal GUI terminal results. git diff --check passes. The full project-memory check currently reports uncovered concurrent ROM-data implementation paths; this audit does not claim or cover those unrelated edits.
+
+**Limitations**
+
+- Initial catalog audit only: 10 partial and 13 uncovered scenarios remain explicit. In particular one active law does not validate multiple laws, mission rewards do not validate clan-threshold receipts, an empty bank does not validate a populated bank, and an ordinary enemy turn does not reproduce reported lag.
+- New GUI observations use Wine, interpreter execution, BIOS HLE and keyboard input. Native Windows hardware, physical controllers, new Linux/USA/Android tests and package publication are outside scope.
+- Private files/captures/catalog remain local and ignored. Tracked documentation carries descriptions and source/evidence locators, not save contents or screenshots.
+- The shared working tree contains independent in-progress ROM-data changes without their final memory record (rom_data module declarations and new progression_selection_gates/progression_selection_gate_tests files). Their coverage check remains owned by that work; no unrelated implementation files are attributed to this documentation audit.
+
+Documentation: [debug saves.md](docs/development/debug saves.md), [extended_saves.md](docs/extended_saves.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [2026-10-23-consume-european-progression-gates-and-receipt-records.json](docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json).
+
+[Change record](docs/changes/2026-10-23-catalog-current-debug-save-cases.json)
 
 ## 2026-10-23 — Add Extended saves with 99 snapshots and numbered cartridge saves
 

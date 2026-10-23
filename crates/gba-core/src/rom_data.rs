@@ -35,6 +35,7 @@ pub mod global_pair_flags;
 pub mod evaluation_parameters;
 pub mod progression_rewards;
 pub mod progression_gates;
+pub mod progression_selection_gates;
 mod custom_lz;
 pub mod lz77;
 

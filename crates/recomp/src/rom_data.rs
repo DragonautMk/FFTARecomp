@@ -129,6 +129,8 @@ mod progression_reward_tests;
 #[cfg(test)]
 mod progression_gate_tests;
 #[cfg(test)]
+mod progression_selection_gate_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;

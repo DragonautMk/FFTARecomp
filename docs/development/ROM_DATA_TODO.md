@@ -951,7 +951,7 @@ Build iniziale con avviso import inutilizzato rifiutato dal wrapper; campioni
 native sovrapposti corretti prima di Wine, rebuild senza avvisi, nessun errore
 Wine. CLI crea/riusa senza scritture/vecchia cache/cwd estraneo; primo1840Pubmission
 positivo15scoreB(7divisori/7pesi/1bonus), una sola coppia completa stato/clock/
-immagini/OAM/dispatch/audio passa. Soglie ordinarie restano targeted-only,
+immagini/OAM/dispatch/audio passa. La successiva400firma/fee chiudeclass1; classi2..5restano targeted-only,
 fonte132+52/provee28/e33 non ripetute. Wholefunction/semantica/gap/global11Bordinary/
 nuoviLinux/USA/Windows nativo da fare; nessuna misura performance/spazio.
 [Contratto](../rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
@@ -1352,12 +1352,36 @@ necessari (nessunpayloadedit/savepersonale); MissionCleared/rewards/2skilllevelu
 ispezionati,209requirements/8delta/1thresholdGUI. Nuovo1000CLI29523positivo209/8;
 unicoWine57387fullpair1000stati-clock-immagini-OAM-dispatch-audio identici. E35
 row0otto deltaordinary chiusi; e36return/outputordinary targeted-only, threshold1
-GUIavviene prima slot3 quindi acceptanceprefixpaired ancora dafare. Sharedtestexe
+GUIavviene prima slot3; il successivo400frame Yes/fee pair sotto chiudeclass1. Sharedtestexe
 cambiato dal lavoroDebug parallelo: verificatoree36immutato, copiapinnata9e5e6f0c
 conquelcodicecompilatoparallelo; nessunafalsaidentitàcolvecchio19native. Provefonte/
 native/lifecycle vecchie nonripetute, nessunfullpairsuicoperturanegativa. Nuovi
 Linux/USA/Windowsnativo/receiptUI-FK restano, niente performance/spazio/Android.
 [Contratto](../rom_data_gameplay.md#ordinary-progression-gates-dispatch-completion).
+
+**ROMDATA-05-GAMEPLAY-EVALUATION-THRESHOLD-ACCEPT-SCENE completato per EUR/Wine class1:**
+unicoGUI17436salva normale slot2 prima di Yes, conferma600gil/funds7109 e chiude0;
+nessuneditpayload o savepersonale, originali/copia1protetti. Il GUIfermo alla fee
+legge0threshold: confineeffettivo include conferma e acknowledgementfee. Primo
+CLI70012400framepositivo16evaluationB(7divisor/7weight/1bonus/1threshold), mask1.
+UnicoWine96264fullpair400stati-clock-immagini-OAM-dispatch-tuttiaudio identici,
+stesso threshold1. Binari46c8cb78/9e5e6f0c e dataset/cache riusati; nessunbuild/
+132+52/native27/1840score/1000completion ripetuto. Classi2..5/wholecaller/newLinux/
+USA/Windowsnativo ancora dafare; nessunuso gates/rewards o outcomeinferito.
+[Prova](../rom_data_gameplay.md#ordinary-evaluation-threshold-acceptance).
+
+**ROMDATA-01-GAMEPLAY-PROGRESSION-RANK-GATES-ROOTS / ROMDATA-02-GAMEPLAY-PROGRESSION-SELECTION-GATES-SOURCE-ORACLE completati EUR/Wine sorgente:**
+64record×16/1024B6e80de..6e84de daD2390/shift4/indici1..64; riga0/16Bnonowned,
+nextrootindipendente6e84e0lascia2B. Minimiunsigned01/02/04tutti necessari;
+06..0d richiedeANYsogliattiva, flag0e originale, primoeligible scriveselector00.
+Senza condizioni scrive0eferma, esaurire64non scrive; riga52sentinel/53..64storage.
+Resetlow8/input e count/flaghelper originali, nessunselector==IDschema. Modello
+strictsource-only/roundtrip1024B e singolobuild senzaavvisi/oracleWine82907passano
+138reali+80sintetici fullD2390/reset-count-flag:831fieldBoriginali/ANY/unsigned/
+zero-terminal-vs-exhausted-no-store/fullRAM-SP-callee/guardieJSON-source.39input
+protetti invariati; nessunprova vecchia ripetuta. E36immutato, pubblicazione/
+runtime/lifecycle/scena/nuoviLinux-USA dafare.
+[Contratto](../rom_data_gameplay.md#progression-selection-gates-source-contract).
 
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
@@ -1418,13 +1442,12 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** chiudere la piccola lacuna paired della soglia evaluation:
-la GUI ha letto1threshold alla firma MadAlchemist/Sigmund, prima del nuovo
-checkpointday18. Creare con normaleUI un checkpoint prima di AcceptconditionsYes,
-poi solo locatorpositivo e un breve fullpair di quella conferma (non rifare1000
-post-returnné1840Pubscore). E36fonte80+25/19native/1000completion ed e35row0delta8
-chiusi; return/outputordinarygates e global11Bcondition restano distinti.
-Poi inventariare nextroot6e80ce/16Bconsumer se non emergono altri criteri più
-concreti. Restano altre fonti indirette grafiche/testuali, mappe, audio/gameplay,
-GUI/archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA dafare, niente misure
-prestazionali/limiti spazio. Preservare lavoro paralleloDebugsalvataggi.
+**Prossima azione:** integrare selection-gates nella preparazione gestita e nel
+consumo diretto, con retentione36/provenienza/coherentedit/transactional/Load-Undo/
+backup-restart e stati-clock native più confini/SWI/DMA. Fonte138+80chiusa: non
+ripeterla. Poi una scena ordinaria positiva scelta dai caller concreti D2390.
+E36source/native19/1000completion/e35delta8/class1threshold400chiusi; non ripeterli.
+Return/outputordinarygates/global11Bcondition e altre fonti grafiche/testuali/
+mappe/audio/gameplay/GUI/archivi/mod restano distinti. Test ridotti Wine/EUR;
+nuoviLinux/USA dafare, niente misure prestazionali/limiti spazio. Preservare
+lavoro parallelo.

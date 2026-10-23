@@ -5,6 +5,11 @@ Left/Right, or Confirm and the ON/OFF selector. The default is OFF. The choice
 is stored as `debug.extended_saves` in `av.cfg`, including portable
 `Data/config/av.cfg`.
 
+The [debug scene checklist](development/debug%20saves.md) assigns stable
+DS-01 through DS-26 names/numbers to test situations, with evidence and explicit
+validated/partial/uncovered status. The local ignored `saves/debug-cases/`
+collection uses those same snapshot-slot numbers; partial slots remain candidates.
+
 ## Snapshot slots
 
 The existing **Save states** page offers slots **1–99** while enabled, and

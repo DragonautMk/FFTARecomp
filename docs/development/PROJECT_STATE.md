@@ -247,8 +247,9 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   checks pass27prefixes/raw38Baltered/fullstate-clock equality/all5thresholds/
   class0no-read/SWI-DMA/rawgap boundaries. Original live producers/unsigned-u8/
   signed32/wrap/bonuses/RNG/clock/save/nativeABI remain. One1840Pubmission
-  full-state/image/audio/actualCLI pair reads15scoreB; thresholdordinary
-  remains targeted-only. NewLinux/USA/nativeWindows/wholefunctiontails/
+  full-state/image/audio/actualCLI pair reads15scoreB; a later400frame ordinary
+  Yes/fee acceptance CLI/Winefullpair reads1threshold/class1. Classes2..5
+  remain targeted-only. NewLinux/USA/nativeWindows/wholefunctiontails/
   semanticlabels pending. [Contract](../rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
   A static ten-byte progression/price contract bounds100records/1000B at
   6e79da..6e7dc2 from normal index0..99and three literal/indexed/default paths.
@@ -287,8 +288,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Source80+25closed. ProductionCLIcreate/reuse-no-write/oldcache passes; a
   new normal10dayMadAlchemist dispatch yields209requirements/8deltaB, one
   1000Winefullstate-image-audio pair passes. Return/outputordinary remain
-  targeted-only; GUIthreshold1use at signing has a separate paired-prefix
-  gap. Downstreamreceipt-FK/newLinux/USA/nativeWindows pending. [Contract](../rom_data_gameplay.md#managed-and-direct-progression-gates).
+  targeted-only; the separate400frame Yes/fee prefix now closes thresholdclass1
+  ordinary use. Downstreamreceipt-FK/newLinux/USA/nativeWindows pending. [Contract](../rom_data_gameplay.md#managed-and-direct-progression-gates).
+  Next progression selection contract owns1024B6e80de..6e84de (64x16,
+  physicalindices1..64), row0/16B and next2B unowned. Hard unsigned minima,
+  ANY of8active live thresholds, original flag/reset/count helpers and physical
+  order preserve conditional selector/zero-terminal/no-store-exhaustion behavior.
+  Source-only strict model and one Wine fullD2390/reset-count-flag oracle pass
+  138real+80synthetic cases,831original fieldB/1024Broundtrip/SP-callee-fullRAM;
+  row52zero-terminal versus exhausted no-store preserved. Managed/runtime/
+  ordinaryuse pending, e36unchanged. [Contract](../rom_data_gameplay.md#progression-selection-gates-source-contract).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit
@@ -877,6 +886,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Validation knowledge and remaining uncertainty
 
+- [Debug save cases](debug%20saves.md) uses stable DS-01 through DS-26 IDs and
+  distinguishes observed coverage from candidate snapshots and missing scenes.
+  The ignored `saves/debug-cases/` collection follows the same slot numbers;
+  its local catalog preserves source hashes and flags partial cases explicitly.
+  Ordinary progression receipts, multiple laws and the originally slow enemy
+  turn require their own evidence; related mission rewards or a normal turn
+  do not close those cases.
 - [Desktop performance TODO](PERFORMANCE_TODO.md) tracks task completion separately
   from partial progress. Its first P0 tranche adds native Linux/Windows/Wine
   comparisons, optional final serialized-state verification, bounded headless

@@ -1302,7 +1302,7 @@ windows-tests-build.*, windows-original-result.json and
 windows-original-europe/{evaluation-parameters.json,result.json}. At this
 source-only boundary EUR e33-d32/28files/27resources and USAe8-d7 are unchanged.
 Managed publication/direct CPU-DMA-native/lifecycle/positive ordinary score use
-were subsequently completed below; threshold ordinary use remains targeted-only. Whole-function tails, semantic names/other consumers, unused gaps and new
+were subsequently completed below; class1 threshold ordinary use is now verified in the acceptance prefix linked below. Classes2..5 remain targeted-only. Whole-function tails, semantic names/other consumers, unused gaps and new
 Linux/USA/nativeWindows remain open; no performance/space/AndroidPort work.
 
 ## Managed and direct evaluation parameters
@@ -1351,8 +1351,9 @@ threshold bytes and thresholdmask0. One Wine71943pair matches every complete
 state/clock, central-wide image, OAM, dispatch and mixed/PSG/FIFO/HLE audio
 stream with those counters. The final Pub background is inspected; separated
 panels do not independently establish selected-unit or completed-mission state.
-Threshold ordinary use remains targeted-only. No negative scene locator, new
-fixture, directRAMedit, persisted save write or old source/e28/e33acceptance repeat.
+That score pair reads no thresholds. The later short acceptance proof below
+closes class1 ordinary use. No negative scene locator, new fixture, directRAMedit,
+persisted save write or old source/e28/e33acceptance repeat.
 
 Evidence: `target/rom-data-numeric-pairs/` contains windows-initial-warning-managed-
 tests-build.*, windows-managed-tests-build.*, windows-managed-results.json,
@@ -1614,9 +1615,9 @@ image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio stream with identical counts. New
 record mask6155840078674362367shows observed unmarked-row tests, not all64ordinary
 rows. e35delta ordinary use is now proved for row0/all8delta fields; earlier600
 Shop/362+68source/27native proof is not repeated. e36return/output and all-record
-success coverage remain targeted-only. The threshold is read at mission signing
-before slot3, so this pair reads0thresholds; the new GUI1threshold use is distinct
-from a still-pending paired acceptance prefix. No fullpair runs on negative
+success coverage remain targeted-only. The signing/fee sequence occurs before
+slot3, so this pair reads0thresholds; its separate paired acceptance prefix is
+now verified below. No fullpair runs on negative
 coverage and no benchmark/profiling/performance/space measurement is performed.
 
 The shared test executable was overwritten by parallel Debug-save work. Its
@@ -1640,3 +1641,87 @@ and inspected captures, dispatch-completion.input, scene-executable.json,
 windows-scene-result.json, windows-dispatch-progression-gates-full-state-audio.log,
 final-summary.json/final-protected.json/final-source-hashes.json. Private data
 and states remain ignored and excluded from commits/packages.
+
+## Ordinary evaluation threshold acceptance
+
+One new normal Wine GUI checkpoint captures Mad Alchemist/Sigmund immediately
+before Accept conditions Yes. The isolated normal9-slot menu saves slot2;
+confirmation shows the600gil fee/funds7109, then the GUI closes0. Source ROM,
+original states and copied slot1 retain their hashes; no ROM/RAM/state payload
+or personal save is edited. This GUI stops at the fee dialogue and reads no
+threshold: the observed boundary includes confirmation and fee acknowledgement,
+not the Yes press alone.
+
+The first400frame actualCLI70012from this checkpoint reads16evaluation bytes:
+7divisors/7weights/1bonus/1threshold, thresholdmask1/class1, no opaque bytes.
+One Wine96264pair matches all400complete states/clocks/central-wide images/OAM/
+dispatch and every mixed/PSG/FIFO/HLE audio stream, with the same positive
+threshold read. The normal Yes/fee sequence closes the class1 ordinary gap;
+classes2..5, whole caller and downstream outcomes retain their earlier scopes.
+No gate/reward use is inferred from this short scene.
+
+Frozen e36production46c8cb78/test9e5e6f0c, e36dataset, native cache and loader
+are reused without a build. Source132+52/native27/1840score and1000dispatch
+completion proofs remain closed. Evidence in `target/rom-data-progression-gates/`:
+windows-accept-threshold/{commands,result,scene-inputs}.json and inspected captures,
+threshold-accept.input, threshold-scene-inputs.json, windows-cli-threshold-accept.json,
+windows-threshold-scene-result.json and windows-threshold-accept-full-state-audio.log.
+CLI33managed hashes/mtimes and all scene input hashes remain unchanged. NewLinux/
+USA/nativeWindows remain pending; no performance/space/AndroidPort work.
+
+## Progression selection gates source contract
+
+Original D2390 roots6e80ce and scans physical indices1..64 with stride16,
+therefore the owned source is6e80de..6e84de/1024bytes. Its unused row0/16bytes
+remain unowned. Independent16192→161B0roots the next source at6e84e0, leaving
+another2bytes unowned. The structural name avoids assigning a rank/title meaning
+to the returned selector without tracing its display consumers.
+
+Each record preserves selector00, unsigned minimum01, little-endian unsigned
+minimum02/minimum04, eight any_minima06_0d and a little-endian flag0e. Nonzero
+minimum01compares live020021b4; minimum02compares02001f6c; minimum04compares the
+u16result of original D22FC. Every hard minimum must pass. For the eight live
+bytes020021b6+2*k, if any corresponding minimum exists, at least one active
+minimum must pass. Zero minima do not count as passes. Nonzero flag0e must pass
+original CCE98. No selector00==physical ID or observed-range constraint is added.
+
+Physical order is significant. The first eligible row with at least one condition
+writes selector00to020021c6. A row with no conditions explicitly writes0and stops,
+even if selector00is nonzero. Exhausting64rows performs no output store, retaining
+the old byte. Actual row52is the zero-condition terminal;53..64remain lossless
+storage without an ordinary reachability claim. Diagnostic Outcome keeps the
+matched physical index and optional output store separate.
+
+The original function's low8input, when nonzero, first clears flags5a1/5a2/5a3/5a9
+through CCECC. The original D22FCaggregate counts live flags for a separate
+300-entry raw source plus flag36or a linked017fitem fallback. Those live helpers
+and that separate raw source remain original; the diagnostic model takes their
+result and the post-reset flag view. Six original callers pass reset0or1,
+including04B464/04B4B8and063C54/063CC8. No model is published or attached to guest
+reads in this step; EUR e36-d35/31files/30resources and USAe8-d7 remain unchanged.
+
+Static opcode/root/extent/no-overlap and independent1024byte roundtrip pass.
+The strict source-only Catalog requires the exact EUR ROM; fixed64records,
+physical IDs1..64/order/offset, exact arrays and unknown-field guards preserve
+all fields. Windows21065testbuild is warning-free. One Wine82907oracle passes
+138real-source cases and80unauthenticated/unpublished mutated-source cases through
+full original D2390and its original reset/count/flag helpers. It observes831distinct
+original field bytes through row52; all64rows are selectable in synthetic scope.
+Unsigned u8/u16/higher-bit inputs, any one of8active minima, 300live-flag counts,
+flag36/linked017ffallback, low8reset0/1/0x100/0x101, selectors0/255, no-condition
+zero store and exhausted no-store match. Full EWRAM changes only by original
+reset flags/output; SP/callee registers/stack guards pass. 2657243instructions/
+248PCs describe coverage only. Strict JSON/ID/order/source/coherent-edit guards
+and all1024bytes roundtrip pass. The raw aggregate-helper source is not migrated.
+
+Protected39ROM/e36dataset/candidate/cache/loader/canonical/inventory inputs stay
+unchanged. No build/Wine failure or closed source/native/scene proof is repeated.
+Managed publication, direct consumption, lifecycle and ordinary scene acceptance
+remain pending. NewLinux/USA/nativeWindows/semantic display consumers are
+unverified; no performance/space/AndroidPort work.
+
+Private evidence: `target/rom-data-rank-gates/` contains independent records,
+inventory, bounded consumer/helper/caller/next-source disassembly, discovery,
+windows-tests-build.*, windows-tests.json, recomp-tests-original.exe,
+windows-original-result.json, windows-original.log and
+windows-original-europe/{progression-selection-gates.json,result.json}.

@@ -181,7 +181,19 @@ ActualCLIcreates/reuses without writes/oldcache/unrelatedcwd. EchoGrass2200is
 negative for this new source; positive ordinary global use/fullscene pair remain
 pending, along with newLinux/USA/nativeWindows checks.
 [Contract](rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
-Current EUR `v1/e37-d36` adds `progression-selection-gates.json` /
+Current EUR `v1/e38-d37` adds `aggregate-flag-keys.json` /
+`gameplay.aggregate-flag-keys`:300ordered u16slots and a terminalffff/602source
+bytes. All33files/32resources authenticate together, all31prior decoded files/
+e37generation retained, USAe8-d7. Two focused Wine checks pass16fullglobal/context
+counter paths with raw602Baltered/fullstate-clock equality, key/terminal/300slot
+coverage and publication/lifecycle/bus-BIOS/SWI-DMA guards. Original live flag/
+linked predicates/context/key-wrap/count/clock/save-nativeABI remain active.
+Source32+26is closed. ActualCLIcreate/reuse-no-write/oldcache and one1000Wine
+ordinary dispatch fullstate/image/audio pair pass1204sourceB(1200key/4terminal)/
+all300slotmask; includes rereads and does not infer both ordinary entrypoints.
+NewLinux-USA-nativeWindows/other UIreaders remain pending. [Contract](rom_data_gameplay.md#managed-and-direct-aggregate-flag-keys).
+
+EUR `v1/e37-d36` adds `progression-selection-gates.json` /
 `gameplay.progression-selection-gates`:64physical records/1024source bytes.
 All32files/31resources authenticate together, all30prior decoded files/e36
 remain unchanged; USA stays e8-d7. Original reset/count/ANY/flag/terminal-store
@@ -393,10 +405,10 @@ back to installed storage when its own directory is unwritable.
 Managed layout is `<root>/<source-sha256>/v<schema>/e<extractor>-d<decoder>/`.
 This revision directory contains a persistent `prepare.lock`, immutable
 `generation-*` directories and a small `current` file containing only the
-selected generation's relative name. Current revisions are EUR `v1/e37-d36`
+selected generation's relative name. Current revisions are EUR `v1/e38-d37`
 and USA `v1/e8-d7`;
 all previous revision directories are retained. Each generation contains the
-same32EUR/six USA files as offline extraction. Source identity is rehashed from
+same33EUR/six USA files as offline extraction. Source identity is rehashed from
 the selected ROM contents at every preparation; file name or mtime cannot
 substitute another source. Region and schema/decoder changes select separate
 directories and retain previous versions.

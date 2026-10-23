@@ -1,6 +1,18 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e37-d36` adds `progression-selection-gates.json` /
+Current EUR `v1/e38-d37` adds `aggregate-flag-keys.json` /
+`gameplay.aggregate-flag-keys`:300ordered u16slots and a terminalffff/602source
+bytes. All33files/32resources authenticate together, all31prior decoded files/
+e37generation retained, USAe8-d7. Two focused Wine checks pass16fullglobal/context
+counter paths with raw602Baltered/fullstate-clock equality, key/terminal/300slot
+coverage and publication/lifecycle/bus-BIOS/SWI-DMA guards. Original live flag/
+linked predicates/context/key-wrap/count/clock/save-nativeABI remain active.
+Source32+26is closed. ActualCLIcreate/reuse-no-write/oldcache and one1000Wine
+ordinary dispatch fullstate/image/audio pair pass1204sourceB(1200key/4terminal)/
+all300slotmask; includes rereads and does not infer both ordinary entrypoints.
+NewLinux-USA-nativeWindows/other UIreaders remain pending. [Contract](rom_data_gameplay.md#managed-and-direct-aggregate-flag-keys).
+
+EUR `v1/e37-d36` adds `progression-selection-gates.json` /
 `gameplay.progression-selection-gates`:64physical records/1024source bytes.
 All32files/31resources authenticate together, all30prior decoded files/e36
 remain unchanged; USA stays e8-d7. Original reset/count/ANY/flag/terminal-store

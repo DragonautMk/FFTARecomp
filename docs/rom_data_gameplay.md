@@ -1841,3 +1841,68 @@ records/inventory/literal readers/bounded disassembly, windows-tests-build.*,
 windows-tests.json, recomp-tests-original.exe, windows-original-result.json,
 windows-original.log and windows-original-europe/{aggregate-flag-keys.json,result.json}.
 No performance/space/AndroidPort work or agent commit/push is included.
+
+## Managed and direct aggregate flag keys
+
+EUR `v1/e38-d37` adds `aggregate-flag-keys.json`, resource
+`gameplay.aggregate-flag-keys`, format `aggregate-flag-keys-v1-json`.
+All33files/32resources authenticate together; all31prior decoded files/e37
+remain unchanged. USA stays e8-d7. Strict fixed300slots/terminal/source binding
+and source-equal JSON attach transactionally. Readability is retained without
+an extraction-space target; malformed-file parsing guards remain bounded.
+
+Direct typed reads project602bytes on page6e9, merging neighboring raw/prior
+bytes. Nonserialized counters separate600key bytes from2terminal bytes and
+track all300physical slots in five64bit words. An in-slotffffis still a keyfield;
+the original counter decides its early-stop behavior. Original global/context
+arguments, key+2ffu16wrap, flag36ORlinked017f/count/return-u16, every instruction/
+clock and save/nativeABI remain active. No host replacement of live code occurs.
+
+Windows76657testbuild is warning-free. Two focused Wine87184checks pass
+publication interruption/create/reuse/repair/move/e37retention; coherent key/
+duplicate/earlyffff/terminal/ID/order/binding/source/dependency/path/role/hash/
+coverage and atomic owner guards; unavailable-copy Load/Undo/backup/restart;
+all602bytes/300entry mask including the last44bits of the fifth word.
+
+16full original/interpreter/native global and context counter paths with
+all602raw bytes altered match complete states/clocks. Compiled key/terminal
+counters are9540/30bytes. All bytes/entry edges/widths/mirrors/real BIOS,
+preceding8/following4raw bytes, terminal-word2typed2raw, CpuSet/FastSet32typed
+each plus terminal CpuSet2typed2raw, and DMA2typed2raw pass. 168888instructions/
+10357dispatches describe coverage only. Original key/terminal reads and every
+live predicate/context/linked pointer remain original code; source32+26is not
+repeated. No build or Wine failure occurs.
+
+ProductionCLI and ordinary scene are now verified below; newLinux/USA/
+nativeWindows/whole other UI readers remain pending. No performance/space/AndroidPort work. Evidence under
+`target/rom-data-aggregate-flag-keys/`: windows-managed-tests-build.*,
+windows-managed-results.json, recomp-tests-managed.exe,
+windows-managed-europe/{managed-result,native-result}.json and protected manifests.
+
+## Ordinary aggregate keys dispatch completion
+
+Warning-free production59636restores the canonical Windows executable by hash;
+private candidate SHA2dfdd6096c948234e34b33cf3e3af3757771b882868e7001af436e1b63428f25.
+ActualCLI44401creates and reuses e38from an unrelated working directory with
+35managed file hashes/mtimes unchanged, then replays with the old native cache.
+The first1000frame replay of the existing normal-UI day18dispatch checkpoint
+reads1204new source bytes:1200key/4terminal, with all300physical slots in the
+five-word mask (last44bits). Counts include rereads;1204is not a distinct-ROM-
+byte count and does not establish both counter entrypoints in ordinary play.
+
+One Wine11196full pair matches all1000complete states/clocks/central-wide images/
+OAM/dispatch and every mixed/PSG/FIFO/HLE audio stream with the same counters/
+mask. The final image shows Sigmund/MadAlchemist success and skill levels
+08,02,11,04,02,08,42,02. Existing state/input suffice: no new GUI/fixture, ROM/RAM/
+state-payload edit or personal save write. The new pair proves e38only;
+source32+26/native16/e37same-input and earlier accepted proofs remain closed.
+
+The frozen76657test artifact is4369f09cfb2ba859cc0d1513e50d9fd0d1916aba3ec2920b261
+f4d5ce77e5af4, validatora3838598b36ba49861a5257904713ab1f270cb0e6e77c0c2af78b4d950589074.
+Private evidence in `target/rom-data-aggregate-flag-keys/`: windows-build.json,
+windows-cli-{processes,no-write,summary}.json, windows-scene-result.json,
+windows-dispatch-aggregate-keys-full-state-audio.log, scene-executable.json and
+dispatch-completion.png. Protected ROM/data/state/input/cache/loader/canonical/
+candidate hashes and35CLIfile hash/mtime guards pass. NewLinux/USA/nativeWindows/
+whole other UI readers/both ordinary counter entrypoints and the rest of the
+TODO remain pending; no performance/space/AndroidPort work or agent commit/push.

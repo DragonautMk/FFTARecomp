@@ -55,6 +55,9 @@ pub use progression_gates::ProgressionGatesStats;
 mod progression_selection_gates;
 use progression_selection_gates::ProgressionSelectionGatesResources;
 pub use progression_selection_gates::ProgressionSelectionGatesStats;
+mod aggregate_flag_keys;
+use aggregate_flag_keys::AggregateFlagKeysResources;
+pub use aggregate_flag_keys::AggregateFlagKeysStats;
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -145,6 +148,7 @@ pub struct RuntimeResources {
     progression_rewards: Option<Box<ProgressionRewardsResources>>,
     progression_gates: Option<Box<ProgressionGatesResources>>,
     progression_selection_gates: Option<Box<ProgressionSelectionGatesResources>>,
+    aggregate_flag_keys: Option<Box<AggregateFlagKeysResources>>,
 }
 
 impl RuntimeResources {
@@ -304,6 +308,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.progression_selection_gates {
             resources.progression_selection_gates = Some(Box::new(ProgressionSelectionGatesResources::new(data.clone(), &source.progression_selection_gates.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.aggregate_flag_keys {
+            resources.aggregate_flag_keys = Some(Box::new(AggregateFlagKeysResources::new(data.clone(), &source.aggregate_flag_keys.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -357,6 +364,7 @@ impl RuntimeResources {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
         }
     }
 
@@ -415,6 +423,7 @@ impl RuntimeResources {
             + self.progression_rewards.as_ref().map_or(0, |i| i.resident_bytes())
             + self.progression_gates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.progression_selection_gates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.aggregate_flag_keys.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -498,6 +507,7 @@ impl RuntimeResources {
     pub fn progression_rewards_stats(&self) -> Option<ProgressionRewardsStats> {self.progression_rewards.as_ref().map(|m|m.stats())}
     pub fn progression_gates_stats(&self) -> Option<ProgressionGatesStats> {self.progression_gates.as_ref().map(|m|m.stats())}
     pub fn progression_selection_gates_stats(&self) -> Option<ProgressionSelectionGatesStats> {self.progression_selection_gates.as_ref().map(|m|m.stats())}
+    pub fn aggregate_flag_keys_stats(&self) -> Option<AggregateFlagKeysStats> {self.aggregate_flag_keys.as_ref().map(|m|m.stats())}
     pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
@@ -668,7 +678,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.progression_selection_gates {
+            let prior = match &self.progression_selection_gates {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.aggregate_flag_keys {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -831,6 +845,7 @@ impl crate::MemMap {
             || ProgressionRewardsResources::source_page(index)
             || ProgressionGatesResources::source_page(index)
             || ProgressionSelectionGatesResources::source_page(index)
+            || AggregateFlagKeysResources::source_page(index)
     }
 }
 

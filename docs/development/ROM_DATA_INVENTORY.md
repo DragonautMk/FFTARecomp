@@ -449,7 +449,13 @@ remain groundwork for other linked graphics families.
   Strict source-only model/one Wine32real+26synthetic oracle pass both complete
   counters/all602B/key+2ffu16wrap/duplicates/earlystop/flag36ORlinked017f/
   contextisolation/fullRAMreadonly-SP-callee guards. OtherindexedUIreader roots
-  static-only. Managed/runtime/ordinary/newLinux-USA pending, e37unchanged.
+  static-only. EUR e38-d37nowadds33rdfile/32ndresource/all31prior decoded/e37
+  retained. Two focused Wine managed-native-lifecycle checks pass16fullglobal/
+  context paths/raw602Baltered/fullstates-clocks/key-terminal-300slotmask/
+  bus-BIOS/SWI-DMA/typed2raw2terminal crossing. ActualCLIcreate/reuse-no-write/
+  oldcache and one1000Wine ordinary dispatch fullstate-image-audio pair pass
+  1204sourceB(1200key/4terminal)/all300slotmask; countsinclude rereads, both
+  ordinaryentrypoints notinferred. NewLinux-USA/wholeotherUIreaders pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

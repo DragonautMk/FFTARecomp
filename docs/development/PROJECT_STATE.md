@@ -319,8 +319,17 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   independent next root at exactend. Strict source model and one Wine full
   D22FCglobal/13FB1Ccontext oracle pass32real+26synthetic cases/all602B,
   key+2ffu16wrap/duplicates/earlysentinel/contextisolation/flag36ORlinked017f/
-  read-only fullRAM-SP-callee guards. Source-only/e37unchanged; managed/runtime/
-  ordinary/newLinux-USA-nativeWindows pending. [Contract](../rom_data_gameplay.md#aggregate-flag-keys-source-contract).
+  read-only fullRAM-SP-callee guards. Managed/runtime/ordinary proofs follow
+  below; newLinux-USA-nativeWindows pending. [Contract](../rom_data_gameplay.md#aggregate-flag-keys-source-contract).
+  EUR e38-d37adds aggregate-flag-keys.json/gameplay.aggregate-flag-keys,
+  33files/32resources/all31prior decodedfiles/e37retained/USAe8-d7. Two reduced
+  Wine managed/native/lifecycle checks pass16fullglobal-contextcounter paths/
+  raw602Baltered/fullstate-clock equality/all602B-300entrymask/terminal-SWI-DMA/
+  raw-boundary-BIOS guards. Original live predicates/context/earlystop/wrap/
+  count/clock/save-nativeABI remain. Source32+26closed. ActualCLIcreate/reuse-no-write/
+  oldcache and one1000Wine dispatch fullstate-image-audio pair pass1204sourceB
+  (1200key/4terminal)/all300slotmask; includesrereads, no bothentrypointsinference.
+  NewLinux-USA-nativeWindows/wholeotherUIreaders pending. [Contract](../rom_data_gameplay.md#managed-and-direct-aggregate-flag-keys).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

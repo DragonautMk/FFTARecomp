@@ -1418,6 +1418,32 @@ nessun errore/ripetizioneprova vecchia. E37invariato; preparazione/consumo/
 lifecycle/scena e nuoviLinux-USA-Windowsnativo dafare; altri4readerUIstatic-only.
 [Contratto](../rom_data_gameplay.md#aggregate-flag-keys-source-contract).
 
+**ROMDATA-02-GAMEPLAY-AGGREGATE-FLAG-KEYS-DATA / ROMDATA-04-GAMEPLAY-AGGREGATE-FLAG-KEYS-CONSUMPTION completati EUR/Wine:**
+e38-d37aggiunge aggregate-flag-keys.json/gameplay.aggregate-flag-keys,33file/
+32risorse/all31precedenti/e37conservati/USAe8-d7. Windows76657senzaavvisi e due
+Wine87184passano pubblicazione/retention/coherentkey-duplicate-earlyffff-terminal-
+binding-source-role-path-hash-coverage/transactionalowner/Load-Undo-backup-restart;
+16fullcounterglobale-contesto originali/interprete/native con raw602Balterati
+hanno stati-clockidentici. Compiledkey9540/terminal30; all602B/300slotmask5word/
+confini-mirror-BIOS/preceding8-following4raw/SWI32typed ciascuno+terminal2typed2raw/
+wordterminal2typed2raw/DMA2typed2raw passano. Fonte32+26chiusa/nonripetuta,
+istruzioni-contesto-predicati-wrapping-clock-ABI originali. CLI/scenaordinaria/
+nuoviLinux-USA-Windowsnativo dafare, nessunmisuraperformance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-aggregate-flag-keys).
+
+**ROMDATA-05-GAMEPLAY-AGGREGATE-FLAG-KEYS-SCENE-CLI completato EUR/Wine:**
+produzione59636senzaavvisi/canonicalripristinato; CLI44401crea/riusa-no-write/
+vecchiacache/cwdestraneo passa,35filehash-mtime protetti. Primo1000dispatchday18
+positivo1204sourceB(1200key/4terminal)/all300slotmask(5wordultimi44bit). Riletture
+incluse, nessun1204byte distinti o entrambicounterordinary inferiti. UnicoWine11196
+fullpair1000stati-clock-immagini-OAM-dispatch-tuttiaudio identici con stessi
+contatori; finalSigmund/MadAlchemistsuccess/skills08-02-11-04-02-08-42-02ispezionato.
+Stato/inputesistenti, nessunGUI/fixture/payloadedit/savepersonale nuovo. Nuova
+prova solo e38; fonte32+26/native16/e37sameinput chiusi/nonripetuti. NuoviLinux-
+USA-Windowsnativo/altrireaderUI/entrambicounterordinary/restTODO dafare; nessuna
+misuraperformance/spazio o AndroidPort.
+[Prova](../rom_data_gameplay.md#ordinary-aggregate-keys-dispatch-completion).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
@@ -1477,13 +1503,12 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** integrare aggregate-flag-keys in e38-d37, pubblicazione e
-consumo diretto tipizzato. Fonte32+26chiusa: nonripeterla. Coprire retentione37,
-transazioni/coherentedit/binding/Load-Undo-backup-restart, duecontatorioriginali-
-interprete-native con raw602Balterati/stati-clock, confini/sentinel/mirror/BIOS/
-SWI/DMA. Poi CLI e una positiva scenaordinaria, riusando checkpointday18/input
-esistente per solo il nuovo source. E37source/native18/CLI/1000ordinary e
-class1threshold400nonriaprire. Return/outputordinarygates/global11Bcondition e
-altre fonti grafiche/testuali/mappe/audio/gameplay/GUI/archivi/mod restano distinti.
-Test ridotti Wine/EUR; nuoviLinux/USA dafare, niente misure prestazionali/limiti
-spazio. Preservare lavoro parallelo.
+**Prossima azione:** inventariare l'adiacente root6e9cb6 dai caller indicizzati:
+provare estensione/indici/campi/nextroot prima del modello; non inferire una
+mappa inversa dai valori iniziali. Se i limiti restano RAMdipendenti, lasciare
+quel criterio preciso e valutare il root indipendente6e84e0. Aggregatekeys
+fonte32+26/16native/CLI/1000ordinary chiusi; e37/e36/class1threshold400nonriaprire.
+Return/outputordinarygates/global11Bcondition e altre fonti grafiche/testuali/
+mappe/audio/gameplay/GUI/archivi/mod restano distinti. Test ridotti Wine/EUR;
+nuoviLinux/USA dafare, niente misure prestazionali/limiti spazio. Preservare
+lavoro parallelo.

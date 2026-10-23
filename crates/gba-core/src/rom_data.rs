@@ -41,8 +41,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 37;
-pub const DECODER_REV: u32 = 36;
+pub const EXTRACTOR_REV: u32 = 38;
+pub const DECODER_REV: u32 = 37;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -95,6 +95,10 @@ pub const PROGRESSION_SELECTION_GATES_ID: &str = "gameplay.progression-selection
 pub const PROGRESSION_SELECTION_GATES_FILE: &str = "progression-selection-gates.json";
 pub const PROGRESSION_SELECTION_GATES_FORMAT: &str = "progression-selection-gates-v1-json";
 pub const MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const AGGREGATE_FLAG_KEYS_ID: &str = "gameplay.aggregate-flag-keys";
+pub const AGGREGATE_FLAG_KEYS_FILE: &str = "aggregate-flag-keys.json";
+pub const AGGREGATE_FLAG_KEYS_FORMAT: &str = "aggregate-flag-keys-v1-json";
+pub const MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -297,6 +301,7 @@ pub struct Extraction {
     pub progression_rewards: Option<progression_rewards::Catalog>,
     pub progression_gates: Option<progression_gates::Catalog>,
     pub progression_selection_gates: Option<progression_selection_gates::Catalog>,
+    pub aggregate_flag_keys: Option<aggregate_flag_keys::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -335,6 +340,7 @@ pub struct BaseFiles<'a> {
     pub progression_rewards: Option<(&'a progression_rewards::ProgressionRewards, &'a [u8])>,
     pub progression_gates: Option<(&'a progression_gates::ProgressionGates, &'a [u8])>,
     pub progression_selection_gates: Option<(&'a progression_selection_gates::ProgressionSelectionGates, &'a [u8])>,
+    pub aggregate_flag_keys: Option<(&'a aggregate_flag_keys::AggregateFlagKeys, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -593,6 +599,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.progression_selection_gates = Some(metadata);
+            let metadata = aggregate_flag_keys::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(AGGREGATE_FLAG_KEYS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AGGREGATE_FLAG_KEYS_ID.into(), path: AGGREGATE_FLAG_KEYS_FILE.into(), format: AGGREGATE_FLAG_KEYS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.aggregate_flag_keys = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -661,6 +674,7 @@ impl Extraction {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -728,6 +742,7 @@ impl Extraction {
             || self.progression_rewards.is_some() && self.evaluation_parameters.is_none()
             || self.progression_gates.is_some() && self.progression_rewards.is_none()
             || self.progression_selection_gates.is_some() && self.progression_gates.is_none()
+            || self.aggregate_flag_keys.is_some() && self.progression_selection_gates.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -1023,6 +1038,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected progression_selection_gates resource".into()),
         }
+        match (&self.aggregate_flag_keys, files.aggregate_flag_keys) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES { return Err("AggregateFlagKeys file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[31].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected aggregate_flag_keys resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1173,6 +1197,9 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.progression_selection_gates, files.progression_selection_gates) {
             if decoded != &expected.decoded {return Err("Decoded progression_selection_gates differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.aggregate_flag_keys, files.aggregate_flag_keys) {
+            if decoded != &expected.decoded {return Err("Decoded aggregate_flag_keys differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1206,6 +1233,7 @@ impl Extraction {
             + usize::from(self.progression_rewards.is_some())
             + usize::from(self.progression_gates.is_some())
             + usize::from(self.progression_selection_gates.is_some())
+            + usize::from(self.aggregate_flag_keys.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1292,6 +1320,7 @@ mod tests {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
             font_bank: None,
             })
             .unwrap();
@@ -1330,6 +1359,7 @@ mod tests {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
             font_bank: None,
             })
             .is_err());
@@ -1378,6 +1408,7 @@ mod tests {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1415,6 +1446,7 @@ mod tests {
             progression_rewards: None,
             progression_gates: None,
             progression_selection_gates: None,
+            aggregate_flag_keys: None,
             font_bank: None,
             })
             .is_err());

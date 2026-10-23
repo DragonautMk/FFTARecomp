@@ -8,18 +8,18 @@ use gba_core::{
 };
 use std::collections::BTreeSet;
 const STACK: u32 = 0x03007e00;
-const RETURN: u32 = 0x08000300;
+pub(super) const RETURN: u32 = 0x08000300;
 const OUTPUT: usize = 0x21c6;
 #[derive(Clone, Copy, Debug, Default)]
-struct Case {
-    byte01: u8,
-    halfword02: u16,
-    levels: [u8; 8],
-    aggregate_flags: usize,
-    special36: bool,
-    linked_item: bool,
-    selector_flags: u8,
-    reset: u32,
+pub(super) struct Case {
+    pub(super) byte01: u8,
+    pub(super) halfword02: u16,
+    pub(super) levels: [u8; 8],
+    pub(super) aggregate_flags: usize,
+    pub(super) special36: bool,
+    pub(super) linked_item: bool,
+    pub(super) selector_flags: u8,
+    pub(super) reset: u32,
 }
 fn flag(ram: &[u8], id: u16) -> bool {
     ram[0x1f70 + usize::from(id >> 3)] & (1 << (id & 7)) != 0
@@ -41,13 +41,7 @@ fn aggregate_ids(rom: &[u8]) -> Vec<u16> {
     assert_eq!(ids.len(), 300);
     ids
 }
-fn run(
-    m: &mut Machine,
-    c: Case,
-    data: &ProgressionSelectionGates,
-    visited: &mut BTreeSet<u32>,
-    fields: &mut BTreeSet<(u8, u8)>,
-) -> usize {
+pub(super) fn setup(m: &mut Machine, c: Case) {
     let ids = aggregate_ids(&m.bus.rom);
     assert!(c.aggregate_flags <= ids.len());
     m.bus.ewram.fill(0x3c);
@@ -84,6 +78,16 @@ fn run(
     m.cpu.cpsr = 0xbf;
     m.bus.reg_ie = 0;
     m.bus.ime = false;
+}
+pub(super) fn run(
+    m: &mut Machine,
+    c: Case,
+    data: &ProgressionSelectionGates,
+    visited: &mut BTreeSet<u32>,
+    fields: &mut BTreeSet<(u8, u8)>,
+) -> usize {
+    setup(m, c);
+    let ids = aggregate_ids(&m.bus.rom);
     let preserved = m.cpu.regs;
     let mut ram = m.bus.ewram.to_vec();
     if c.reset as u8 != 0 {

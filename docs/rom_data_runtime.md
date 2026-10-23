@@ -1,6 +1,18 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e34-d33` adds `evaluation-parameters.json` /
+Current EUR `v1/e37-d36` adds `progression-selection-gates.json` /
+`gameplay.progression-selection-gates`:64physical records/1024source bytes.
+All32files/31resources authenticate together, all30prior decoded files/e36
+remain unchanged; USA stays e8-d7. Original reset/count/ANY/flag/terminal-store
+instructions, clocks and save/nativeABI remain active. Two focused Wine checks
+pass18original/interpreter/native fullstate-clock paths with raw1024B altered,
+publication/lifecycle/binding and bus/SWI/DMA/gap/coexistence checks. Source138+80
+is closed. ActualCLIcreate/no-write reuse/oldcache and one1000Wine ordinary
+dispatch fullstate/image/audio pair pass277newB/all6fields/first26records; the
+400Yes-fee0Blocator is closed negative/no fullpair. NewLinux-USA-nativeWindows/
+all64ordinary rows/semantic consumers remain pending. [Contract](rom_data_gameplay.md#managed-and-direct-progression-selection-gates).
+
+EUR `v1/e34-d33` adds `evaluation-parameters.json` /
 `gameplay.evaluation-parameters`:7score terms,2conditional bonuses and5class
 thresholds,38source bytes in two disjoint ranges. All29files/28resources
 authenticate together; all27earlier decoded files/e33 generations remain
@@ -9,7 +21,8 @@ conditional predicates, RNG, clock and save/nativeABI remain active. Two focused
 Wine managed/native/lifecycle checks pass27prefixes with raw38Baltered and
 complete state/clock equality; all5threshold classes are positive. One1840Pub
 mission full-state/image/audio/actualCLI pair reads15score bytes. Threshold
-ordinary use remains targeted-only; newLinux/USA/nativeWindows remain pending.
+ordinary class1 use now passes a later400frame Yes/fee fullpair; classes2..5
+remain targeted-only. NewLinux/USA/nativeWindows remain pending.
 [Contract](rom_data_gameplay.md#managed-and-direct-evaluation-parameters).
 
 EUR `v1/e33-d32` adds `global-pair-flags.json` /

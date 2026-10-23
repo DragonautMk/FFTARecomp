@@ -7,6 +7,13 @@ Offsets below are file offsets unless prefixed with a guest memory region.
 Do not apply a regional offset to another image or infer language coverage
 from a shared rendering format.
 
+The [overall ROM coverage map](ROM_COVERAGE.md) provides an offset atlas and
+reproducible metadata-only JSON/HTML for the frozen EUR e37-d36 baseline. It
+separates speculative code, authenticated data, typed runtime availability,
+ordinary positive resource use, shared references and unclassified regions.
+Overlapping layers are not additive; ordinary distinct-read-byte coverage is
+explicitly unavailable rather than inferred from aggregate read counters.
+
 ## First migration unit: graphics.obj-dimensions
 
 The first family is the static OBJ dimension metadata, not sprite pixel data
@@ -430,7 +437,13 @@ remain groundwork for other linked graphics families.
   Static contract/roundtrip/noe36overlap and strict source-only model pass; one
   Wine fullD2390/reset-count-flag oracle138real+80synthetic checks831actualfieldB/
   all1024Broundtrip/ANY/unsigned/zero-terminal/no-store/fullRAM-SP-callee.
-  Managed/runtime/ordinary/newLinux-USA pending, e36unchanged.
+  EUR e37-d36nowadds32ndfile/31stresource, all30prior decoded/e36retained.
+  Two focused Wine managed/native/lifecycle checks pass18fullD2390paths/raw1024B
+  altered/fullstate-clock, all6fields/64recordmask/bus-BIOS/16Brow0+2Bgapraw/
+  SWI-DMA/oldgate2-raw16-new2. ActualCLIcreate/no-write reuse/oldcache and one
+  1000Wine ordinary dispatchcompletion fullstate-image-audio pair pass277newB/
+  all6fields/first26records;400Yes-fee0Bclosednegative/no fullpair. NewLinux-USA/
+  all64ordinary/semanticdisplay remain pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

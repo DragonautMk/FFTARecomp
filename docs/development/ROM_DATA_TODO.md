@@ -1383,6 +1383,30 @@ protetti invariati; nessunprova vecchia ripetuta. E36immutato, pubblicazione/
 runtime/lifecycle/scena/nuoviLinux-USA dafare.
 [Contratto](../rom_data_gameplay.md#progression-selection-gates-source-contract).
 
+**ROMDATA-02-GAMEPLAY-PROGRESSION-SELECTION-GATES-DATA / ROMDATA-04-GAMEPLAY-PROGRESSION-SELECTION-GATES-CONSUMPTION completati EUR/Wine:**
+e37-d36aggiunge progression-selection-gates.json/gameplay.progression-selection-gates,
+32file/31risorse/all30precedenti/e36conservati/USAe8-d7. DueWine73517passano
+pubblicazione/retention/guardiecoherenti/binding-source-role-path-hash/transazioni/
+Load-Undo-backup-restart e18fullD2390native-interprete/raw1024Balterati/stati-clock
+identici. Compiledselector15/min01282/min02505/min04462/ANY1635/flag162; all64mask/
+tuttibyte-confini-mirror-BIOS/row0raw16+gapraw2/SWI32typedciascuno/oldgate2-raw16-
+new2/DMA2typed2raw. Primo48254compileE0061fixturebudget32argcorretto,77778senza
+avvisi; nessunWinefailure. Fonte138+80chiusa/nonripetuta, helperstesseistruzioni/
+clock/ABI. ProduzioneCLI/scenaordinaria/nuoviLinux-USA-Windowsnativo dafare.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-progression-selection-gates).
+
+**ROMDATA-05-GAMEPLAY-PROGRESSION-SELECTION-GATES-SCENE-CLI completato EUR/Wine:**
+produzione34174senzaavvisi/canonicalripristinato; CLI43381create/riuso-no-write/
+vecchiacache/cwdestraneo passa,34file hash-mtime invariati. Primo400Yes-fee0newB,
+negativochiuso/nofullpair. Primo1000checkpointday18dispatchcompletion CLI9298
+positivo277B(selector1/min0126/min0246/min0442/ANY152/flag10), mask67108863:
+prim26recordosservati. UnicoWine3138fullpair1000stati-clock-immagini-OAM-dispatch-
+audio identici; immagineSigmund/MadAlchemistsuccess/skill08-02-11-04-02-08-42-02
+ispezionata. NessunGUI/fixture/payloadedit/savepersonale nuovo. Nuova prova e37,
+fonte138+80/native18/e36/delta8/thresholdclass1chiusi/nonripetuti. NuoviLinux-USA-
+Windowsnativo/all64ordinary/semanticadisplay dafare; niente performance/spazio.
+[Prova](../rom_data_gameplay.md#ordinary-progression-selection-dispatch-completion).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
@@ -1442,12 +1466,12 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** integrare selection-gates nella preparazione gestita e nel
-consumo diretto, con retentione36/provenienza/coherentedit/transactional/Load-Undo/
-backup-restart e stati-clock native più confini/SWI/DMA. Fonte138+80chiusa: non
-ripeterla. Poi una scena ordinaria positiva scelta dai caller concreti D2390.
-E36source/native19/1000completion/e35delta8/class1threshold400chiusi; non ripeterli.
-Return/outputordinarygates/global11Bcondition e altre fonti grafiche/testuali/
-mappe/audio/gameplay/GUI/archivi/mod restano distinti. Test ridotti Wine/EUR;
-nuoviLinux/USA dafare, niente misure prestazionali/limiti spazio. Preservare
-lavoro parallelo.
+**Prossima azione:** inventariare la sorgente raw a300elementi del helperD22FC
+(6e9a5c, terminatore0xffff): provare root/extent/sentinel/offsetflag0x2ff e
+consumo prima di modellarla. Il1000dispatch esistente già percorre quelhelper,
+quindi non creare nuovefixture se la futura integrazione può riusarlo.
+Selection-gates fonte138+80/18native/CLI/1000ordinary chiusi; e36/delta8/
+class1threshold400nonriaprire. Return/outputordinarygates/global11Bcondition e
+altre fonti grafiche/testuali/mappe/audio/gameplay/GUI/archivi/mod restano distinti.
+Test ridotti Wine/EUR; nuoviLinux/USA dafare, niente misure prestazionali/limiti
+spazio. Preservare lavoro parallelo.

@@ -40,8 +40,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 36;
-pub const DECODER_REV: u32 = 35;
+pub const EXTRACTOR_REV: u32 = 37;
+pub const DECODER_REV: u32 = 36;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -90,6 +90,10 @@ pub const PROGRESSION_GATES_ID: &str = "gameplay.progression-gates";
 pub const PROGRESSION_GATES_FILE: &str = "progression-gates.json";
 pub const PROGRESSION_GATES_FORMAT: &str = "progression-gates-v1-json";
 pub const MAX_PROGRESSION_GATES_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const PROGRESSION_SELECTION_GATES_ID: &str = "gameplay.progression-selection-gates";
+pub const PROGRESSION_SELECTION_GATES_FILE: &str = "progression-selection-gates.json";
+pub const PROGRESSION_SELECTION_GATES_FORMAT: &str = "progression-selection-gates-v1-json";
+pub const MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -291,6 +295,7 @@ pub struct Extraction {
     pub evaluation_parameters: Option<evaluation_parameters::Catalog>,
     pub progression_rewards: Option<progression_rewards::Catalog>,
     pub progression_gates: Option<progression_gates::Catalog>,
+    pub progression_selection_gates: Option<progression_selection_gates::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -328,6 +333,7 @@ pub struct BaseFiles<'a> {
     pub evaluation_parameters: Option<(&'a evaluation_parameters::EvaluationParameters, &'a [u8])>,
     pub progression_rewards: Option<(&'a progression_rewards::ProgressionRewards, &'a [u8])>,
     pub progression_gates: Option<(&'a progression_gates::ProgressionGates, &'a [u8])>,
+    pub progression_selection_gates: Option<(&'a progression_selection_gates::ProgressionSelectionGates, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -579,6 +585,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.progression_gates = Some(metadata);
+            let metadata = progression_selection_gates::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PROGRESSION_SELECTION_GATES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: PROGRESSION_SELECTION_GATES_ID.into(), path: PROGRESSION_SELECTION_GATES_FILE.into(), format: PROGRESSION_SELECTION_GATES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.progression_selection_gates = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -646,6 +659,7 @@ impl Extraction {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -712,6 +726,7 @@ impl Extraction {
             || self.evaluation_parameters.is_some() && self.global_pair_flags.is_none()
             || self.progression_rewards.is_some() && self.evaluation_parameters.is_none()
             || self.progression_gates.is_some() && self.progression_rewards.is_none()
+            || self.progression_selection_gates.is_some() && self.progression_gates.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -998,6 +1013,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected progression_gates resource".into()),
         }
+        match (&self.progression_selection_gates, files.progression_selection_gates) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES { return Err("ProgressionSelectionGates file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[30].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected progression_selection_gates resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1145,6 +1169,9 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.progression_gates, files.progression_gates) {
             if decoded != &expected.decoded {return Err("Decoded progression_gates differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.progression_selection_gates, files.progression_selection_gates) {
+            if decoded != &expected.decoded {return Err("Decoded progression_selection_gates differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1177,6 +1204,7 @@ impl Extraction {
             + usize::from(self.evaluation_parameters.is_some())
             + usize::from(self.progression_rewards.is_some())
             + usize::from(self.progression_gates.is_some())
+            + usize::from(self.progression_selection_gates.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1262,6 +1290,7 @@ mod tests {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
             })
             .unwrap();
@@ -1299,6 +1328,7 @@ mod tests {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
             })
             .is_err());
@@ -1346,6 +1376,7 @@ mod tests {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1382,6 +1413,7 @@ mod tests {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
             })
             .is_err());

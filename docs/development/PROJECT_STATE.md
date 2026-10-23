@@ -44,6 +44,12 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   target/build-logs/ and waits for Enter on interactive failure, retaining
   the original exit status for noninteractive automation.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
+  The [overall ROM coverage atlas](ROM_COVERAGE.md) freezes EUR e37-d36 as
+  metadata-only interactive HTML/JSON, with exact interval unions and separate
+  code-candidate/data/runtime-availability/ordinary-use/sharing/unknown layers.
+  Aggregate source counters do not establish distinct bytes read; candidate
+  code/data overlaps remain explicit classification conflicts. Regenerate with
+  `scripts/rom_coverage.py` only after reviewing the baseline/evidence registry.
   EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
   roots reference66lists/160objects. Source-authenticated JSON fields now feed
   original CPU/DMA/native and host descriptor readers without changing guest
@@ -297,7 +303,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Source-only strict model and one Wine fullD2390/reset-count-flag oracle pass
   138real+80synthetic cases,831original fieldB/1024Broundtrip/SP-callee-fullRAM;
   row52zero-terminal versus exhausted no-store preserved. Managed/runtime/
-  ordinaryuse pending, e36unchanged. [Contract](../rom_data_gameplay.md#progression-selection-gates-source-contract).
+  ordinaryuse subsequently verified below. [Contract](../rom_data_gameplay.md#progression-selection-gates-source-contract).
+  EUR e37-d36adds progression-selection-gates.json/gameplay.progression-selection-gates,
+  32files/31resources/all30prior decodedfiles/e36retained/USAe8-d7. Two reduced
+  Wine managed/native/lifecycle checks pass18fullD2390paths/raw1024Baltered/
+  fullstate-clock equality, all6field counters/64recordmask/16Brow0+2Bgapraw/
+  typedbus-BIOS/SWI/DMA/oldgate-newselectioncoexistence. Original reset/count/
+  ANY/flag/terminalstore/clock/save-nativeABI remain. Source138+80closed;
+  ActualCLIcreate/reuse-no-write/oldcache passes; first400Yes-fee locator0newB
+  has no fullpair. Existing1000normal dispatchcompletion CLI/fullpair passes
+  277newB/all6fields/first26records, every complete state-clock-image-audio equal.
+  NewLinux-USA-nativeWindows/all64ordinary/semanticdisplay pending.
+  [Contract](../rom_data_gameplay.md#managed-and-direct-progression-selection-gates).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

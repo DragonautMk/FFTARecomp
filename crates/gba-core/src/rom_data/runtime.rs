@@ -52,6 +52,9 @@ pub use progression_rewards::ProgressionRewardsStats;
 mod progression_gates;
 use progression_gates::ProgressionGatesResources;
 pub use progression_gates::ProgressionGatesStats;
+mod progression_selection_gates;
+use progression_selection_gates::ProgressionSelectionGatesResources;
+pub use progression_selection_gates::ProgressionSelectionGatesStats;
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -141,6 +144,7 @@ pub struct RuntimeResources {
     evaluation_parameters: Option<Box<EvaluationParametersResources>>,
     progression_rewards: Option<Box<ProgressionRewardsResources>>,
     progression_gates: Option<Box<ProgressionGatesResources>>,
+    progression_selection_gates: Option<Box<ProgressionSelectionGatesResources>>,
 }
 
 impl RuntimeResources {
@@ -297,6 +301,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.progression_gates {
             resources.progression_gates = Some(Box::new(ProgressionGatesResources::new(data.clone(), &source.progression_gates.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.progression_selection_gates {
+            resources.progression_selection_gates = Some(Box::new(ProgressionSelectionGatesResources::new(data.clone(), &source.progression_selection_gates.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -349,6 +356,7 @@ impl RuntimeResources {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
         }
     }
 
@@ -406,6 +414,7 @@ impl RuntimeResources {
             + self.evaluation_parameters.as_ref().map_or(0, |i| i.resident_bytes())
             + self.progression_rewards.as_ref().map_or(0, |i| i.resident_bytes())
             + self.progression_gates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.progression_selection_gates.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -488,6 +497,7 @@ impl RuntimeResources {
     pub fn evaluation_parameters_stats(&self) -> Option<EvaluationParametersStats> {self.evaluation_parameters.as_ref().map(|m|m.stats())}
     pub fn progression_rewards_stats(&self) -> Option<ProgressionRewardsStats> {self.progression_rewards.as_ref().map(|m|m.stats())}
     pub fn progression_gates_stats(&self) -> Option<ProgressionGatesStats> {self.progression_gates.as_ref().map(|m|m.stats())}
+    pub fn progression_selection_gates_stats(&self) -> Option<ProgressionSelectionGatesStats> {self.progression_selection_gates.as_ref().map(|m|m.stats())}
     pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
@@ -654,7 +664,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.progression_gates {
+            let prior = match &self.progression_gates {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.progression_selection_gates {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -816,6 +830,7 @@ impl crate::MemMap {
             || EvaluationParametersResources::source_page(index)
             || ProgressionRewardsResources::source_page(index)
             || ProgressionGatesResources::source_page(index)
+            || ProgressionSelectionGatesResources::source_page(index)
     }
 }
 

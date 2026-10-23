@@ -85,6 +85,34 @@ Documentation: [docker.md](docs/docker.md), [MEMORY_WORKFLOW.md](docs/developmen
 
 [Change record](docs/changes/2026-10-23-remove-obsolete-local-build-and-extraction-artifacts.json)
 
+## 2026-10-23 — Map European ROM code candidates, authenticated data, consumption evidence and sharing
+
+Type: added. Platforms: Linux.
+
+**Changes**
+
+- Add a reproducible metadata-only JSON/offline interactive HTML atlas over the complete 16 MiB EUR ROM, frozen on e37-d36. Advance the initial e36 baseline after concurrent managed and ordinary selection-gate evidence becomes available; preserve the earlier snapshot locally without rerunning its closed tests.
+- Separate exact interval unions for static code candidates, identified data, typed runtime availability, ordinary positive resource extents, shared references, multiple resource ownership and unclassified regions. Report 260472 candidate code B, 3972680 identified/runtime B, 610710 shared-reference B and 12597392 unclassified B, with 53516 code/data overlap B explicitly unresolved.
+- Authenticate every source span and all31 decoded files against the pinned ROM/manifest; bind native entry discovery to the retained cache hash. Export instruction extents without disassembly or payloads, excluding404RAM entries and deduplicating ARM/Thumb/alias overlaps. Curated records distinguish28ordinary-positive families from3targeted-only families and keep ordinary distinct-read-byte coverage unavailable.
+- Link the atlas, interpretation and regeneration instructions from the inventory and project state. Keep private ROM/assets/saves/inputs/native translations and browser diagnostics outside tracked outputs. Preserve unrelated concurrent ROM-data implementation and Debug-save work.
+
+**Validation**
+
+- Warning-free offline release build of the rom_code_ranges helper succeeds on Linux. Actual retained native cache yields28455ROM entries/28455discovered blocks; all source and decoded-file SHA-256 checks pass for EUR e37-d36, manifest51b89fe76fcdca0c08535b131623f76f8695e0ff6634d81a8fe293ebb408a80e.
+- Four ROM-free accounting checks pass, including250randomized interval sets checked against independent byte-set unions/intersections/complements, distinct ownership, adjacent exclusive endpoints and invalid-range rejection. Regeneration produces byte-identical JSON/HTML; evidence links, metadata-only payload-field guard and whitespace checks pass.
+- Chrome headless desktop1400/mobile620/dark inspections and interaction assertions pass:31resource rows, current31runtime/28ordinary baseline, family jump, address lookup, invalid-address feedback, map selection, resolved colors and no page overflow. Browser artifacts remain under target/rom-coverage; no runtime/translation rebuild, gameplay replay, recording or benchmark was performed by this map task.
+- Reuse the terminal e37ordinary1000frame full-state/image/audio result:277source B, all six fields positive, first26physical rows. It remains distinct from the831source-oracle field B and18targeted native paths. Other ordinary proofs remain scoped historical records, not a new all-resources replay.
+
+**Limitations**
+
+- Static code includes speculative data-as-instruction candidates and incomplete entry coverage; it is neither executed-byte coverage nor semantic/decompilation progress. Unknown is a conservative report classification, not unused space. Code/data conflicts remain unresolved.
+- Aggregate read counters include repeats; exact distinct ordinary source-byte coverage is unavailable. Short texts, name keyboard and global pair flags lack accepted ordinary positive scenes. Shared-reference census is a lower bound limited to declared BG links and manifest aliases; other reference graphs remain uncensused.
+- The atlas freezes exact EUR e37-d36. It does not automatically describe later generations, USA, AndroidPort, native Windows or all languages/scenes. Existing Wine evidence is reused rather than rerun. No ROM bytes, decoded payloads or generated native code are published, and no commit/push/package is performed.
+
+Documentation: [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [evidence.json](docs/development/rom-coverage/evidence.json), [2026-10-23-consume-european-progression-selection-gates.json](docs/changes/2026-10-23-consume-european-progression-selection-gates.json).
+
+[Change record](docs/changes/2026-10-23-map-overall-european-rom-coverage.json)
+
 ## 2026-10-23 — Identify European ten-byte progression deltas and price discount records
 
 Type: docs. Platforms: Windows, Wine.
@@ -645,6 +673,37 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-sixteen-byte-linked-metadata.json)
+
+## 2026-10-23 — Consume European progression selection conditions through original reset and ANY threshold paths
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e37-d36 adds progression-selection-gates.json/gameplay.progression-selection-gates,32files/31resources retaining all30earlier decodedfiles/e36generation; USAe8-d7 unchanged. Authenticate fixed64records/1024Bspan and strict source-equal content with no inferred selector/rank semantics or foreign keys.
+- Direct typed source fields and nonserialized selector/minimum01/minimum02/minimum04/ANY/flag counters plus64physical recordmask preserve original reset/count/flag helpers, physical scan/terminal/no-store, instructions/clock/save/nativeABI. Row0/16B and next2Bgap stay raw.
+- Reuse source138+80proof. Share unchanged setup/run test body for new complete original/interpreter/native checks, add focused publication/transactional/lifecycle/native/bus validation and optional ordinary-scene positive-use gate.
+
+**Validation**
+
+- Initial Windows48254compile fails E0061 in existing bg_packet_managed_tests budget-call fixture missing32ndargument; zero placeholder added and failedJSONL/log retained. Corrected77778testbuild warning-free; Wine73517two focused checks terminal/pass.
+- Static integration diff and Python extraction-wrapper syntax checks pass; no old source/native/1840score/1000completion/400threshold proof repeated.
+- Publication interruption/create-reuse-repair-move/e36retention/coherent minimum-ANY-selector-flag-lastrow-reorder-source-dependency-path-role-missingbinding-hash guards and unavailable-copy Load-Undo-backup-restart/all1024B-all64mask pass.
+- 18fullD2390original/interpreter/native paths with all1024rawB altered match fullstates/clocks; compiled selector15/minimum01282/minimum02505/minimum04462/ANY1635/flag162. Allbytes/recordedges/widths/mirrors/realBIOS/16Brow0+2Bgapraw/SWI32typed each/oldgate2-raw16-new2coexistence/DMA2typed2raw pass.211068instructions/11893dispatchcoverageonly.
+- Evidence target/rom-data-rank-gates/{windows-managed-results.json,recomp-tests-managed.exe,windows-managed-europe/{managed-result,native-result}.json,managed-protected.json,managed-run-protected.json}; protected originals unchanged.
+- Production34174warning-free/canonicalf3e277dbrestored/candidate870a964806a6d6b19e458280aa375b5a190ee8b05ccec655d31e3a192f3fd20a. ActualCLI43381create/reuse-no-write/oldcache/unrelatedcwd pass,34managed files retain hashes/mtimes. First400Yes-fee0newBclosednegative/no fullpair.
+- First1000existingday18dispatchcompletion CLI9298positive277selectionB:1selector/26min01/46min02/42min04/152ANY/10flag, mask67108863(first26physicalrows). One Wine3138fullpair matches every complete state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio sample with same counts. FinalSigmund/MadAlchemistsuccess/skills08-02-11-04-02-08-42-02 image inspected.
+- Frozen77778test37a243230d39db1e34a40ac3b7782b5565efe5c99bca89ca0ca2aa23077358ed and new optional scene-use gate are used. No newGUI/fixture/payloadedit/personalsavewrite or oldsource/native/e36/delta8/thresholdproof repeat. Scene evidence target/rom-data-rank-gates/{windows-build.json,windows-cli-{processes,no-write,summary,dispatch-completion}.json,windows-scene-result.json,windows-dispatch-selection-gates-full-state-audio.log,scene-executable.json,dispatch-completion.png}.
+- Final126protected-file hashes/canonical/candidates and34CLImanagedhash-mtime guards pass; project-memory/whitespace checks pass after concurrent coverage-tool work adds its own record. Final-summary/final-source-hashes/final-protected retained; all unit processes terminal.
+
+**Limitations**
+
+- Managed/runtime/productionCLI/ordinary dispatch scope complete; newLinux/USA/nativeWindows/all64ordinary rows/othercallers/semanticdisplay and fullTODO remain pending. Rawaggregate-helper300entry table and nextroot6e84e0remain separate inventories.
+- No performance/space/AndroidPort work, private ROM/save/input publication or agent commit/push. External99fb9fdsource/threshold/Debugcatalog commit and concurrent coverage work preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md), [2026-10-23-decode-european-progression-selection-gates.json](docs/changes/2026-10-23-decode-european-progression-selection-gates.json), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-progression-selection-gates.json)
 
 ## 2026-10-23 — Consume European progression deltas and discounts through authenticated typed records
 

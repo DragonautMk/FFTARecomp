@@ -12,6 +12,7 @@ use gba_core::rom_data::{
     evaluation_parameters::EvaluationParameters, EVALUATION_PARAMETERS_ID, EVALUATION_PARAMETERS_FILE, MAX_EVALUATION_PARAMETERS_FILE_BYTES,
     progression_rewards::ProgressionRewards, PROGRESSION_REWARDS_ID, PROGRESSION_REWARDS_FILE, MAX_PROGRESSION_REWARDS_FILE_BYTES,
     progression_gates::ProgressionGates, PROGRESSION_GATES_ID, PROGRESSION_GATES_FILE, MAX_PROGRESSION_GATES_FILE_BYTES,
+    progression_selection_gates::ProgressionSelectionGates, PROGRESSION_SELECTION_GATES_ID, PROGRESSION_SELECTION_GATES_FILE, MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES,
     item_links::Links as ItemLinks, ITEM_LINKS_ID, ITEM_LINKS_FILE, MAX_ITEM_LINKS_FILE_BYTES,
     items::Items, ITEM_RECORDS_ID, ITEM_RECORDS_FILE, MAX_ITEM_RECORDS_FILE_BYTES,
     ui_graphics::Graphics as UiGraphics, UI_CUSTOM_GRAPHICS_ID, UI_CUSTOM_GRAPHICS_FILE, MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES,
@@ -150,6 +151,8 @@ mod evaluation_parameter_runtime_tests;
 mod progression_reward_runtime_tests;
 #[cfg(test)]
 mod progression_gate_runtime_tests;
+#[cfg(test)]
+mod progression_selection_gate_runtime_tests;
 #[cfg(test)]
 mod metadata52_runtime_tests;
 #[cfg(test)]
@@ -377,6 +380,11 @@ fn parse_progression_gates(bytes:&[u8])->Result<ProgressionGates,String> {
     value.validate()?;Ok(value)
 }
 fn encode_progression_gates(value:&ProgressionGates)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode progression_gates: {e}"))}
+fn parse_progression_selection_gates(bytes:&[u8])->Result<ProgressionSelectionGates,String> {
+    let value:ProgressionSelectionGates=serde_json::from_slice(bytes).map_err(|e|format!("Invalid progression_selection_gates: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_progression_selection_gates(value:&ProgressionSelectionGates)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode progression_selection_gates: {e}"))}
 
 fn parse_item_links(bytes:&[u8])->Result<ItemLinks,String> {
     let value:ItemLinks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item links: {e}"))?;
@@ -519,6 +527,7 @@ struct Dataset {
     evaluation_parameters: Option<EvaluationParameters>,
     progression_rewards: Option<ProgressionRewards>,
     progression_gates: Option<ProgressionGates>,
+    progression_selection_gates: Option<ProgressionSelectionGates>,
     metadata16_bytes: Option<Vec<u8>>,
     metadata52_bytes: Option<Vec<u8>>,
     metadata4_bytes: Option<Vec<u8>>,
@@ -531,6 +540,7 @@ struct Dataset {
     evaluation_parameters_bytes: Option<Vec<u8>>,
     progression_rewards_bytes: Option<Vec<u8>>,
     progression_gates_bytes: Option<Vec<u8>>,
+    progression_selection_gates_bytes: Option<Vec<u8>>,
     item_link_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
@@ -569,6 +579,7 @@ impl Dataset {
             evaluation_parameters: self.evaluation_parameters.as_ref().zip(self.evaluation_parameters_bytes.as_deref()),
             progression_rewards: self.progression_rewards.as_ref().zip(self.progression_rewards_bytes.as_deref()),
             progression_gates: self.progression_gates.as_ref().zip(self.progression_gates_bytes.as_deref()),
+            progression_selection_gates: self.progression_selection_gates.as_ref().zip(self.progression_selection_gates_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -655,6 +666,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(PROGRESSION_REWARDS_FILE),MAX_PROGRESSION_REWARDS_FILE_BYTES)).transpose()?;
     let progression_gates_bytes=manifest.coverage.iter().any(|id|id==PROGRESSION_GATES_ID)
         .then(||read_bounded(&path.join(PROGRESSION_GATES_FILE),MAX_PROGRESSION_GATES_FILE_BYTES)).transpose()?;
+    let progression_selection_gates_bytes=manifest.coverage.iter().any(|id|id==PROGRESSION_SELECTION_GATES_ID)
+        .then(||read_bounded(&path.join(PROGRESSION_SELECTION_GATES_FILE),MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -687,6 +700,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         evaluation_parameters_bytes.as_ref().map_or(0, Vec::len),
         progression_rewards_bytes.as_ref().map_or(0, Vec::len),
         progression_gates_bytes.as_ref().map_or(0, Vec::len),
+        progression_selection_gates_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -718,6 +732,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let evaluation_parameters=evaluation_parameters_bytes.as_deref().map(parse_evaluation_parameters).transpose()?;
     let progression_rewards=progression_rewards_bytes.as_deref().map(parse_progression_rewards).transpose()?;
     let progression_gates=progression_gates_bytes.as_deref().map(parse_progression_gates).transpose()?;
+    let progression_selection_gates=progression_selection_gates_bytes.as_deref().map(parse_progression_selection_gates).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -766,6 +781,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         evaluation_parameters,
         progression_rewards,
         progression_gates,
+        progression_selection_gates,
         metadata16_bytes,
         metadata52_bytes,
         metadata4_bytes,
@@ -778,6 +794,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         evaluation_parameters_bytes,
         progression_rewards_bytes,
         progression_gates_bytes,
+        progression_selection_gates_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -815,6 +832,7 @@ fn check_dataset_budget(
     evaluation_parameters: usize,
     progression_rewards: usize,
     progression_gates: usize,
+    progression_selection_gates: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -846,6 +864,7 @@ fn check_dataset_budget(
         || evaluation_parameters as u64 > MAX_EVALUATION_PARAMETERS_FILE_BYTES
         || progression_rewards as u64 > MAX_PROGRESSION_REWARDS_FILE_BYTES
         || progression_gates as u64 > MAX_PROGRESSION_GATES_FILE_BYTES
+        || progression_selection_gates as u64 > MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -880,6 +899,7 @@ fn check_dataset_budget(
         .saturating_add(evaluation_parameters)
         .saturating_add(progression_rewards)
         .saturating_add(progression_gates)
+        .saturating_add(progression_selection_gates)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -956,6 +976,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.progression_gates {
         eprintln!("ROM_DATA runtime=decoded resource={PROGRESSION_GATES_ID} file={} records={}",dataset.manifest.resources[29].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.progression_selection_gates {
+        eprintln!("ROM_DATA runtime=decoded resource={PROGRESSION_SELECTION_GATES_ID} file={} records={}",dataset.manifest.resources[30].sha256,data.records.len());
     }
     if let Some(links)= &dataset.item_links {
         eprintln!("ROM_DATA runtime=decoded resource={ITEM_LINKS_ID} file={} records={}",dataset.manifest.resources[17].sha256,links.records.len());
@@ -1064,6 +1087,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(i)=resources.progression_gates_stats() {
             eprintln!("ROM_DATA_USE resource={PROGRESSION_GATES_ID} dataset={} bus_reads={} source_bytes={} requirement_bytes={} return_bytes={} output_bytes={} unused_bytes={} record_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.requirement_bytes,i.return_bytes,i.output_bytes,i.unused_bytes,i.record_mask);
+        }
+        if let Some(i)=resources.progression_selection_gates_stats() {
+            eprintln!("ROM_DATA_USE resource={PROGRESSION_SELECTION_GATES_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} minimum01_bytes={} minimum02_bytes={} minimum04_bytes={} any_minima_bytes={} flag_bytes={} record_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.minimum01_bytes,i.minimum02_bytes,i.minimum04_bytes,i.any_minima_bytes,i.flag_bytes,i.record_mask);
         }
         if let Some(i)=resources.item_link_stats() {
             eprintln!("ROM_DATA_USE resource={ITEM_LINKS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
@@ -1206,6 +1232,7 @@ fn write_dataset(
     let evaluation_parameters_data=source.evaluation_parameters.as_ref().map(|catalog|encode_evaluation_parameters(&catalog.decoded)).transpose()?;
     let progression_rewards_data=source.progression_rewards.as_ref().map(|catalog|encode_progression_rewards(&catalog.decoded)).transpose()?;
     let progression_gates_data=source.progression_gates.as_ref().map(|catalog|encode_progression_gates(&catalog.decoded)).transpose()?;
+    let progression_selection_gates_data=source.progression_selection_gates.as_ref().map(|catalog|encode_progression_selection_gates(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -1232,6 +1259,7 @@ fn write_dataset(
     if let Some(bytes) = &evaluation_parameters_data {files.push(bytes);}
     if let Some(bytes) = &progression_rewards_data {files.push(bytes);}
     if let Some(bytes) = &progression_gates_data {files.push(bytes);}
+    if let Some(bytes) = &progression_selection_gates_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -1267,6 +1295,7 @@ fn write_dataset(
         evaluation_parameters_data.as_ref().map_or(0, Vec::len),
         progression_rewards_data.as_ref().map_or(0, Vec::len),
         progression_gates_data.as_ref().map_or(0, Vec::len),
+        progression_selection_gates_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -1298,6 +1327,7 @@ fn write_dataset(
     if let Some(bytes) = &evaluation_parameters_data {write(&path.join(EVALUATION_PARAMETERS_FILE),bytes)?;}
     if let Some(bytes) = &progression_rewards_data {write(&path.join(PROGRESSION_REWARDS_FILE),bytes)?;}
     if let Some(bytes) = &progression_gates_data {write(&path.join(PROGRESSION_GATES_FILE),bytes)?;}
+    if let Some(bytes) = &progression_selection_gates_data {write(&path.join(PROGRESSION_SELECTION_GATES_FILE),bytes)?;}
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -1552,6 +1582,7 @@ mod tests {
             evaluation_parameters: None,
             progression_rewards: None,
             progression_gates: None,
+            progression_selection_gates: None,
             font_bank: None,
         }
     }
@@ -1877,8 +1908,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

@@ -1725,3 +1725,75 @@ inventory, bounded consumer/helper/caller/next-source disassembly, discovery,
 windows-tests-build.*, windows-tests.json, recomp-tests-original.exe,
 windows-original-result.json, windows-original.log and
 windows-original-europe/{progression-selection-gates.json,result.json}.
+
+## Managed and direct progression selection gates
+
+EUR `v1/e37-d36` adds `progression-selection-gates.json`, resource
+`gameplay.progression-selection-gates`, format `progression-selection-gates-v1-json`.
+All32files/31resources authenticate together; every30prior decoded file and the
+e36generation remain intact. USA stays e8-d7. The same fixed physical IDs1..64,
+1024byte span, source binding and source-equal JSON are verified transactionally.
+No rank/title interpretation, selector00==ID or semantic foreign dependency is
+inferred. Row0/16bytes and the next2byte gap retain raw ROM behavior.
+
+Typed CPU/native/SWI/DMA reads use the model fields on source page6e8 and merge
+raw/prior-family bytes at each boundary. Nonserialized counters separate
+selector00/minimum01/minimum02/minimum04/any_minima06_0d/flag0e and a64bit physical
+record mask. Original D2390reset/count/flag helpers, unsigned comparisons,
+ANY thresholds, physical order, terminal store/no-store and every guest
+instruction/clock remain unchanged. Save/native identities stay unchanged.
+
+Two focused Wine73517checks pass publication interruption/create/reuse/repair/
+move/e36retention; coherent fields/lastrow/reorder/source/dependency/path/role/
+missing binding/hash and transactional attachment; unavailable-copy Load/Undo/
+backup/restart; all1024bytes/64recordmask. Initial48254test compile misses the
+32nd argument in an existing aggregate-guard fixture; its zero placeholder is
+corrected, failed logs retained and corrected77778build is warning-free.
+
+18full original D2390/interpreter/native paths with all1024raw bytes altered
+match complete states/clocks. Compiled counts are selector15/minimum01 282/
+minimum02 505/minimum04 462/ANY1635/flag162. All bytes/record edges/widths/mirrors/
+real BIOS,16raw row0bytes/2raw trailing gap bytes, CpuSet/FastSet32typed bytes
+each, CpuSet oldgate2/raw16/newselection2coexistence and DMA2typed2raw pass.
+211068instructions/11893dispatches describe coverage only. Original setup/run
+is factored unchanged to share these18new paths; the closed138+80source oracle
+is not repeated. No original helper or output semantics are replaced by host code.
+
+ProductionCLI and ordinary scene are now verified below; newLinux/USA/
+nativeWindows/semantic consumers remain pending. No performance/space/AndroidPort work. Private evidence
+under `target/rom-data-rank-gates/`: windows-managed-tests-build.*,
+windows-initial-failed-managed-tests-build.*, windows-managed-results.json,
+recomp-tests-managed.exe, windows-managed-europe/{managed-result,native-result}.json
+and protected manifests. External99fb9fdcommits prior source/threshold/Debugcatalog
+work; new coverage-tool changes are preserved without agent edits or commit.
+
+## Ordinary progression selection dispatch completion
+
+Warning-free production34174restores the canonical Windows binary by hash;
+private e37candidate SHA870a964806a6d6b19e458280aa375b5a190ee8b05ccec655d31e3a192f3fd20a.
+ActualCLI43381creates and reuses e37from an unrelated working directory without
+changing34managed file hashes/mtimes, then replays with the existing native cache.
+The first400frame Yes/fee locator reads0selection bytes; it is closed negative,
+with no full pair and no change to the earlier class1threshold acceptance.
+
+The existing normal-UI day18checkpoint and1000frame dispatch-completion input
+reach original04B464/4B4B8. FirstCLI9298reads277new selection bytes: selector1,
+minimum01 26/minimum02 46/minimum04 42/ANY152/flag10. Mask67108863observes the
+first26physical rows, not all64ordinary selections. One Wine3138full pair matches
+all1000complete states/clocks/central-wide images/OAM/dispatch and every
+mixed/PSG/FIFO/HLE audio stream with the same277bytes/all6fields positive.
+The inspected final image shows Sigmund/MadAlchemist success and skill levels
+08,02,11,04,02,08,42,02. No new GUI/fixture, ROM/RAM/state-payload edit or personal
+save write is needed. This new pair proves e37only; source138+80/native18 and
+accepted e36/8delta/class1threshold proofs remain closed.
+
+The frozen corrected77778test executable is37a243230d39db1e34a40ac3b7782b5565efe5c99
+bca89ca0ca2aa23077358ed, validator84b5d4230b8386b2b50d52746ddb1b3edfe8287809e4567e26b
+0fc742c461e5c. Evidence under `target/rom-data-rank-gates/`: windows-build.json,
+windows-cli-{processes,no-write,summary,dispatch-completion}.json,
+windows-scene-result.json, windows-dispatch-selection-gates-full-state-audio.log,
+scene-executable.json and dispatch-completion.png. ROM/state/input/dataset/cache/
+loader/candidates/canonical hashes are protected, CLI also checks file mtimes.
+NewLinux/USA/nativeWindows/all64ordinary rows/other callers/semantic display
+consumers and the rest of the TODO remain pending; no performance/space/
+AndroidPort work or agent commit/push.

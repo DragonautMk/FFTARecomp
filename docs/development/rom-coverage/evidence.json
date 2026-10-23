@@ -1,0 +1,253 @@
+{
+  "schema": 1,
+  "date": "2026-10-23",
+  "translation_sha256": "ab7aa1808c4c14550c46ec2410f18ef47e301dbcf07a6ed021dbd015cf8f38ca",
+  "baseline": [
+    "8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632",
+    37,
+    36
+  ],
+  "resources": {
+    "graphics.obj-dimensions": {
+      "ordinary_positive": true,
+      "note": "Boot-to-battle: tabella diretta e alias copiato osservati, non tutti gli sprite.",
+      "references": [
+        "docs/changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json"
+      ]
+    },
+    "graphics.bg-descriptors": {
+      "ordinary_positive": true,
+      "note": "Transizione: 53 letture BG, scene stabili negative. Non tutti i 162 descrittori.",
+      "references": [
+        "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
+      ]
+    },
+    "graphics.bg-base-palettes": {
+      "ordinary_positive": true,
+      "note": "Transizione: un palette decoded da 160 B, non tutto il catalogo.",
+      "references": [
+        "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
+      ]
+    },
+    "graphics.bg-alternate-palettes": {
+      "ordinary_positive": true,
+      "note": "Pub LCD/TV positivi; precondizioni globali e descrittori FF limitati.",
+      "references": [
+        "docs/changes/2026-10-21-validate-alternate-palette-scenes.json"
+      ]
+    },
+    "graphics.bg-packet-programs": {
+      "ordinary_positive": true,
+      "note": "397 frame: 12 source B e 2640 typed HLE B. Byte letti ed espansi non sono sommabili.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-background-packet-programs.json"
+      ]
+    },
+    "graphics.bg-main-graphics": {
+      "ordinary_positive": true,
+      "note": "397 frame: 16209 source B, incluse riletture, non byte distinti.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-main-background-graphics.json"
+      ]
+    },
+    "graphics.bg-transfer-programs": {
+      "ordinary_positive": true,
+      "note": "397 frame: 1203 control B e 21504 tile B, incluse riletture.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-background-transfer-programs.json"
+      ]
+    },
+    "text.short-strings": {
+      "ordinary_positive": false,
+      "note": "Oracle e native mirati positivi; accettazione in scena ordinaria ancora aperta.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-short-texts-and-referenced-font.json"
+      ]
+    },
+    "text.catalogs": {
+      "ordinary_positive": true,
+      "note": "397 frame: 8427 source B. Programma raw positivo, controlli encoded zero in questa scena.",
+      "references": [
+        "docs/changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json"
+      ]
+    },
+    "font.complete-bank": {
+      "ordinary_positive": true,
+      "note": "397 frame: 8064 glyph B e 93 metric B, non tutto il font.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
+      ]
+    },
+    "text.name-keyboard": {
+      "ordinary_positive": false,
+      "note": "Oracle e fixture mouse positivi; Pub con zero byte tastiera. Inserimento nome ordinario aperto.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
+      ]
+    },
+    "graphics.obj-static-lists": {
+      "ordinary_positive": true,
+      "note": "Transizione ordinaria positiva, language-screen separata. Altri riferimenti indiretti aperti.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-static-obj-lists.json"
+      ]
+    },
+    "graphics.obj-animation-banks": {
+      "ordinary_positive": true,
+      "note": "Menu, Party ed Engage positivi in prove distinte. Contratti vuoti e altri linguaggi aperti.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-language-selected-obj-banks.json"
+      ]
+    },
+    "graphics.obj-custom-banks": {
+      "ordinary_positive": true,
+      "note": "400 frame Engage: 1194 source B e 4 selector B.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-obj-custom-graphics.json"
+      ]
+    },
+    "graphics.ui-raw-palettes": {
+      "ordinary_positive": true,
+      "note": "Boot 240 frame: 130 source B. Inizializzatori codice e RAM dinamica restano originali.",
+      "references": [
+        "docs/changes/2026-10-22-consume-european-raw-ui-palettes.json"
+      ]
+    },
+    "graphics.ui-custom-banks": {
+      "ordinary_positive": true,
+      "note": "Clan e intro inglese positivi; intro 2347 nuovi source B e 4 selector B. Altre lingue aperte.",
+      "references": [
+        "docs/changes/2026-10-23-extend-european-localized-ui-graphics.json"
+      ]
+    },
+    "gameplay.item-records": {
+      "ordinary_positive": true,
+      "note": "Unit 320 frame: 40 signed B. Prefisso e coda ordinari non validati.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-static-item-records.json"
+      ]
+    },
+    "gameplay.item-links": {
+      "ordinary_positive": true,
+      "note": "Inventory 560 frame: 574 B count/selector/value; opaque zero.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-item-linked-pairs.json"
+      ]
+    },
+    "gameplay.linked-metadata16": {
+      "ordinary_positive": true,
+      "note": "520 frame: 6 display B. Alias/flag/value/opaque zero in questa scena.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-sixteen-byte-linked-metadata.json"
+      ]
+    },
+    "gameplay.linked-metadata52": {
+      "ordinary_positive": true,
+      "note": "540 frame: 664 B header/routing/packed; tail/opaque zero.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-fifty-two-byte-linked-metadata.json"
+      ]
+    },
+    "gameplay.linked-metadata4": {
+      "ordinary_positive": true,
+      "note": "540 frame: 38 B selector/value.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-four-byte-linked-pairs.json"
+      ]
+    },
+    "gameplay.linked-metadata2": {
+      "ordinary_positive": true,
+      "note": "1840 frame: 4 value B; key zero.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-two-byte-forward-inverse-map.json"
+      ]
+    },
+    "gameplay.default-constructor-template": {
+      "ordinary_positive": true,
+      "note": "397 frame: 96 source B da una risorsa di 48 B. Le riletture non sono byte distinti.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-default-constructor-template.json"
+      ]
+    },
+    "gameplay.constructor-alternate-templates": {
+      "ordinary_positive": true,
+      "note": "3600 frame: 45 source B inclusi 4 pointer B. Una sola variante ordinaria.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json"
+      ]
+    },
+    "gameplay.linked-metadata14": {
+      "ordinary_positive": true,
+      "note": "397 frame: 27 B da due record, non tutta la tabella.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-fourteen-byte-special-unit-metadata.json"
+      ]
+    },
+    "gameplay.linked-metadata12": {
+      "ordinary_positive": true,
+      "note": "2200 frame: 44 primary B, un record; secondary zero.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-twelve-byte-packed-pair-banks.json"
+      ]
+    },
+    "gameplay.global-pair-flags": {
+      "ordinary_positive": false,
+      "note": "Tutti gli 11 B verificati nei test mirati. Locator ordinario 2200 frame: 0 nuovi B, nessuna accettazione positiva.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-global-packed-pair-flags.json"
+      ]
+    },
+    "gameplay.evaluation-parameters": {
+      "ordinary_positive": true,
+      "note": "400 frame Yes/fee: 16 source B inclusa una threshold; opaque zero.",
+      "references": [
+        "docs/changes/2026-10-23-validate-european-evaluation-threshold-acceptance.json"
+      ]
+    },
+    "gameplay.progression-rewards": {
+      "ordinary_positive": true,
+      "note": "Prezzi: 7 discount B. Dispatch successivo: 8 delta B. Non tutti i record/opaque.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-progression-reward-and-price-records.json",
+        "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
+      ]
+    },
+    "gameplay.progression-gates": {
+      "ordinary_positive": true,
+      "note": "1000 frame ritorno dispatch: 209 requirement B. Return/output/unused zero; prove mirate distinte.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
+      ]
+    },
+    "gameplay.progression-selection-gates": {
+      "ordinary_positive": true,
+      "note": "Dispatch 1000 frame: 277 source B (selector 1, minima 26/46/42, ANY 152, flag 10), primi 26 record fisici. Full-state/image/audio positivo; altri record non osservati. Oracle sorgente 831 field B distinti e 18 percorsi native mirati sono prove separate.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-progression-selection-gates.json",
+        "docs/changes/2026-10-23-decode-european-progression-selection-gates.json"
+      ],
+      "observation": {
+        "artifact": "target/rom-data-rank-gates/windows-scene-result.json",
+        "artifact_sha256": "4327b2c230cfe533ad7dd28e70a486791e08cc7c9d74b29caaacccc94965a130",
+        "log": "target/rom-data-rank-gates/windows-dispatch-selection-gates-full-state-audio.log",
+        "log_sha256": "6cbbe3249c1e9a907d4b09bc26d65a964bf32057735a0982eebcc2ec0ceda1ce",
+        "frames": 1000,
+        "source_bytes_including_repeats": 277,
+        "physical_records_observed": 26,
+        "exit": 0
+      }
+    }
+  },
+  "source_only": [],
+  "limits": [
+    "Baseline congelata EUR e37-d36 del 23 ottobre 2026; non applicabile a USA, AndroidPort o generazioni future. Cambiamenti successivi richiedono nuova estrazione e revisione delle prove.",
+    "Codice: unione esatta degli intervalli di istruzioni scoperti dall’analizzatore attuale dai punti di ingresso ROM della cache conservata. Include candidati speculativi, non certifica ogni byte come codice o eseguito. RAM/BIOS esclusi; codice copiato in RAM non ricondotto automaticamente alla sorgente ROM.",
+    "Dati identificati: unione dei source span autenticati del manifest. Eventuali cataloghi source-only devono essere dichiarati separatamente; nessuno extra nella baseline e37. Header tecnico 0x4..0xc0 separato. Puntatori o nomi senza estensioni provate non classificano intere regioni.",
+    "Disponibilità runtime e uso effettivo sono distinti. Le prove ordinarie sono storiche per famiglia, a volte su generazioni precedenti con file mantenuti. Non certificano una singola sessione e37 che tocchi tutte le famiglie.",
+    "Non esiste qui una traccia ordinaria completa degli indirizzi letti: byte distinti consumati N/D. source_bytes include riletture; decoded_body_bytes e literal bytes non sono addendi della copertura ROM. Nessuna percentuale di byte effettivamente consumati viene inventata.",
+    "Condivisione: più riferimenti allo stesso intervallo nei modelli esaminati. Minimo limitato a descrittori/packet/transfer BG e alias manifest. Grafi testuali/audio/altri riferimenti non censiti possono ampliarlo. Copie uguali a offset diversi non sono condivisione di indirizzo.",
+    "Sovrapposizione tra risorse: stessi byte rivendicati da famiglie distinte, inclusi font/glyph e OBJ condivisi. Livello separato dai riferimenti condivisi. Sovrapposizione codice/dati: conflitto o interleaving da esaminare, non byte da contare due volte.",
+    "Non classificato: complemento dell’unione dati/header/candidati codice. Non significa spazio libero, inutilizzato o indecifrabile. Falsi candidati codice potrebbero aumentare questa quota.",
+    "Wine non equivale a Windows nativo. Il report non ripete runtime build, scene, benchmark o fixture accettati, né misura performance, correttezza completa o progresso di decompilazione."
+  ]
+}

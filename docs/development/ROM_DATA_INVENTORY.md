@@ -348,8 +348,39 @@ remain groundwork for other linked graphics families.
   Next static14Bcontract:93records/1302Bphysical6e6f6c..6e7482/logicalIDs2..94,
   original addressbias6e6f50/predicate>1, independent next12Bsource6e7484and
   unowned2Bgap. Exact reconstruction/noe30overlap/parsed field-range checks pass;
-  byte02live-job link supported, byte01semantic owner unproved. Model/source
-  oracle/managed/runtime pending. Separate6e6dbc4Broot/12Broot hypotheses recorded.
+  byte02live-job link supported, byte01semantic owner unproved. Strict lossless
+  model and one Wine504real+13synthetic getter/live-palette/initializer-prefix
+  oracle pass exact source/JSON/bias/owner/stack/unit/palette/outerRAM guards.
+  EUR e31-d30 adds linked-metadata14.json/gameplay.linked-metadata14,
+  26 files/25 resources/all24prior decoded files/e30 retained. Two focused Wine
+  managed/native/lifecycle checks pass37paths/raw1302Baltered/fullstate-clock
+  equality; normal0/1no new source. One397Pub full-state/image/audio/actualCLI
+  pair reads27B/two records/all four field categories. Separate6e6dbc4Broot/
+  12Broot contracts, global bounds and newLinux/USA/nativeWindows remain open.
+  Two distinct12Bindexed banks6e7484..6e78d4/92rows and6e78d4..6e7994/16rows
+  now have a strict lossless source model:108rows/1296B/5184two-bit pairs.
+  Shared135a1c reader uses full32row/signed-wrapping slot/u8mode; caller loops
+  slots0..43, all48stored pairs retained. Next6e7994global root excluded.
+  One reduced Wine source oracle passes1640real/10raw-outside-wrapping/384
+  synthetic cases plus exact LDRB/address/source/JSON/callee/stack/RAM guards.
+  EUR e32-d31 now adds linked-metadata12.json/gameplay.linked-metadata12,
+  27files/26resources/all25earlier decoded files/e31 retained. Two focused Wine
+  managed/native/lifecycle checks pass49paths/raw1296Baltered/fullstate-clock
+  equality/bothbanks positive/three outside0newB and bank-boundary/SWI/DMA.
+  One2200-Echo Grass confirmation full-state/image/audio/actualCLI pair is positive.
+  Global bounds/flag semantics/global bank and newLinux/USA remain pending.
+  The separately rooted global pair source6e7994has a minimum44pairs/11B
+  source contract from original1377b4RAM-mask loop0..43/mode0. Threebytes
+  before independently rooted6e79a2remain unowned; no12Browstride inferred.
+  Strict fixed11×4groups and one Wine102real/10raw-wrap/91synthetic oracle
+  pass wrapper/bothbits/live-mask/earlyexit/address/callee/stack/RAM/JSON/source
+  guards. EUR e33-d32 now adds global-pair-flags.json/gameplay.global-pair-flags,
+  28files/27resources/all26prior decoded files/e32retained. Two focused Wine
+  managed/native/lifecycle checks pass28paths/raw11Baltered/fullstate-clock
+  equality/newtypeduse/prior-typed and raw-tail SWI/DMA crossings. ActualCLI
+  creation/no-write reuse/oldcache/cwd pass;2200EchoGrass0globalB is negative,
+  no fullpair. Positiveordinary globaluse/fullpair/highmode/newLinux/USA
+  remain pending, bounded descriptor/live-mask gates guide future selection.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

@@ -209,6 +209,37 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   image/audio/actualCLI pair reads45B(pointer4/record20fields41), mask1; other
   records/full-copy behavior targeted-only. NewLinux/USA/nativeWindows pending.
   [Contract](../rom_data_gameplay.md#typed-constructor-alternates-source-proof).
+  EUR e31-d30 adds linked-metadata14.json/gameplay.linked-metadata14,
+  93 records / 1,302 bytes at 6e6f6c..6e7482, logical IDs2..94 and biased
+  address6e6f50. All 26 files / 25 resources and parsed metadata52 byte02 owner
+  authenticate together; all 24 earlier decoded files/e30 remain unchanged.
+  Byte01 has no proven semantic owner. Source504+13 and two focused Wine
+  managed/native/lifecycle checks pass; 37 paths with raw bytes altered match
+  full states/clocks, normal IDs0/1 use no new bytes. Original live books,
+  palette copies, overrides, clock and save/native ABI remain. One397Pub
+  full-state/image/audio/actualCLI pair reads27B/two records/all field groups.
+  Global bounds/palette payloads/allocation tails and newLinux/USA/nativeWindows
+  remain pending. [Contract](../rom_data_gameplay.md#managed-and-direct-fourteen-byte-special-unit-metadata).
+  EUR e32-d31 adds linked-metadata12.json/gameplay.linked-metadata12,27files/
+  26resources/all25prior decoded files/e31 retained;108rows/1296B across two
+  indexed banks6e7484..6e7994,48two-bit fields per row. Original full32row/
+  signed-wrapping slot/u8mode/clock/save/nativeABI remain. No semantic owner
+  dependency invented. Source1640real/10raw-wrap/384synthetic plus two focused
+  Wine managed/native/lifecycle checks pass49paths/raw1296Baltered/fullstate-
+  clock equality/bothbanks positive/three outside0newreads.
+  One positive2200-Echo Grass confirmation full-state/image/audio/actualCLI pair passes.
+  Global bounds/next global bank/otherfamilies and newLinux/USA/nativeWindows
+  remain pending. [Contract](../rom_data_gameplay.md#managed-and-direct-twelve-byte-packed-pair-banks).
+  EUR e33-d32 adds global-pair-flags.json/gameplay.global-pair-flags,
+  28files/27resources/all26earlier decoded files/e32 retained. Minimum44pairs/
+  11Bat6e7994..6e799f, next3Bunowned. Source102+10+91 and two focused Wine
+  managed/native/lifecycle checks pass28paths/raw11Baltered/fullstate-clock
+  equality, prior/new typed crossing and partial SWI/DMA tails. Original
+  ignoredr0/slotwrap/u8mode/live-mask/earlyexit/clock/save/nativeABI remain.
+  ActualCLIcreate/no-write-reuse/oldcache/cwd pass;2200EchoGrass is0globalB
+  despite44oldmetadata12B. Positive ordinary global use/fullpair and highmode/
+  newLinux/USA/nativeWindows remain pending; original descriptorhword4/live
+  mask gates guide new scene selection. [Contract](../rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

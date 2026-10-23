@@ -6,6 +6,9 @@ use gba_core::rom_data::{
     metadata2::Metadata2, METADATA2_ID, METADATA2_FILE, MAX_METADATA2_FILE_BYTES,
     default48::Template as Default48, DEFAULT48_ID, DEFAULT48_FILE, MAX_DEFAULT48_FILE_BYTES,
     constructor_alternates::Alternates as ConstructorAlternates, CONSTRUCTOR_ALTERNATES_ID, CONSTRUCTOR_ALTERNATES_FILE, MAX_CONSTRUCTOR_ALTERNATES_FILE_BYTES,
+    metadata14::Metadata14, METADATA14_ID, METADATA14_FILE, MAX_METADATA14_FILE_BYTES,
+    metadata12::Metadata12, METADATA12_ID, METADATA12_FILE, MAX_METADATA12_FILE_BYTES,
+    global_pair_flags::GlobalPairFlags, GLOBAL_PAIR_FLAGS_ID, GLOBAL_PAIR_FLAGS_FILE, MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES,
     item_links::Links as ItemLinks, ITEM_LINKS_ID, ITEM_LINKS_FILE, MAX_ITEM_LINKS_FILE_BYTES,
     items::Items, ITEM_RECORDS_ID, ITEM_RECORDS_FILE, MAX_ITEM_RECORDS_FILE_BYTES,
     ui_graphics::Graphics as UiGraphics, UI_CUSTOM_GRAPHICS_ID, UI_CUSTOM_GRAPHICS_FILE, MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES,
@@ -111,6 +114,12 @@ mod default48_tests;
 #[cfg(test)]
 mod constructor_alternate_tests;
 #[cfg(test)]
+mod metadata14_tests;
+#[cfg(test)]
+mod metadata12_tests;
+#[cfg(test)]
+mod global_pair_flags_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;
@@ -118,6 +127,12 @@ mod metadata2_runtime_tests;
 mod default48_runtime_tests;
 #[cfg(test)]
 mod constructor_alternate_runtime_tests;
+#[cfg(test)]
+mod metadata14_runtime_tests;
+#[cfg(test)]
+mod metadata12_runtime_tests;
+#[cfg(test)]
+mod global_pair_flags_runtime_tests;
 #[cfg(test)]
 mod metadata52_runtime_tests;
 #[cfg(test)]
@@ -315,6 +330,21 @@ fn parse_constructor_alternates(bytes:&[u8])->Result<ConstructorAlternates,Strin
     value.validate()?;Ok(value)
 }
 fn encode_constructor_alternates(value:&ConstructorAlternates)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode constructor_alternates: {e}"))}
+fn parse_metadata14(bytes:&[u8])->Result<Metadata14,String> {
+    let value:Metadata14=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata14: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata14(value:&Metadata14)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata14: {e}"))}
+fn parse_metadata12(bytes:&[u8])->Result<Metadata12,String> {
+    let value:Metadata12=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata12: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_metadata12(value:&Metadata12)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata12: {e}"))}
+fn parse_global_pair_flags(bytes:&[u8])->Result<GlobalPairFlags,String> {
+    let value:GlobalPairFlags=serde_json::from_slice(bytes).map_err(|e|format!("Invalid global_pair_flags: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_global_pair_flags(value:&GlobalPairFlags)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode global_pair_flags: {e}"))}
 
 fn parse_item_links(bytes:&[u8])->Result<ItemLinks,String> {
     let value:ItemLinks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item links: {e}"))?;
@@ -451,12 +481,18 @@ struct Dataset {
     metadata2: Option<Metadata2>,
     default48: Option<Default48>,
     constructor_alternates: Option<ConstructorAlternates>,
+    metadata14: Option<Metadata14>,
+    metadata12: Option<Metadata12>,
+    global_pair_flags: Option<GlobalPairFlags>,
     metadata16_bytes: Option<Vec<u8>>,
     metadata52_bytes: Option<Vec<u8>>,
     metadata4_bytes: Option<Vec<u8>>,
     metadata2_bytes: Option<Vec<u8>>,
     default48_bytes: Option<Vec<u8>>,
     constructor_alternates_bytes: Option<Vec<u8>>,
+    metadata14_bytes: Option<Vec<u8>>,
+    metadata12_bytes: Option<Vec<u8>>,
+    global_pair_flags_bytes: Option<Vec<u8>>,
     item_link_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
@@ -489,6 +525,9 @@ impl Dataset {
             metadata2: self.metadata2.as_ref().zip(self.metadata2_bytes.as_deref()),
             default48: self.default48.as_ref().zip(self.default48_bytes.as_deref()),
             constructor_alternates: self.constructor_alternates.as_ref().zip(self.constructor_alternates_bytes.as_deref()),
+            metadata14: self.metadata14.as_ref().zip(self.metadata14_bytes.as_deref()),
+            metadata12: self.metadata12.as_ref().zip(self.metadata12_bytes.as_deref()),
+            global_pair_flags: self.global_pair_flags.as_ref().zip(self.global_pair_flags_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -563,6 +602,12 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(DEFAULT48_FILE),MAX_DEFAULT48_FILE_BYTES)).transpose()?;
     let constructor_alternates_bytes=manifest.coverage.iter().any(|id|id==CONSTRUCTOR_ALTERNATES_ID)
         .then(||read_bounded(&path.join(CONSTRUCTOR_ALTERNATES_FILE),MAX_CONSTRUCTOR_ALTERNATES_FILE_BYTES)).transpose()?;
+    let metadata14_bytes=manifest.coverage.iter().any(|id|id==METADATA14_ID)
+        .then(||read_bounded(&path.join(METADATA14_FILE),MAX_METADATA14_FILE_BYTES)).transpose()?;
+    let metadata12_bytes=manifest.coverage.iter().any(|id|id==METADATA12_ID)
+        .then(||read_bounded(&path.join(METADATA12_FILE),MAX_METADATA12_FILE_BYTES)).transpose()?;
+    let global_pair_flags_bytes=manifest.coverage.iter().any(|id|id==GLOBAL_PAIR_FLAGS_ID)
+        .then(||read_bounded(&path.join(GLOBAL_PAIR_FLAGS_FILE),MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -589,6 +634,9 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         metadata2_bytes.as_ref().map_or(0, Vec::len),
         default48_bytes.as_ref().map_or(0, Vec::len),
         constructor_alternates_bytes.as_ref().map_or(0, Vec::len),
+        metadata14_bytes.as_ref().map_or(0, Vec::len),
+        metadata12_bytes.as_ref().map_or(0, Vec::len),
+        global_pair_flags_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -614,6 +662,9 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let metadata2=metadata2_bytes.as_deref().map(parse_metadata2).transpose()?;
     let default48=default48_bytes.as_deref().map(parse_default48).transpose()?;
     let constructor_alternates=constructor_alternates_bytes.as_deref().map(parse_constructor_alternates).transpose()?;
+    let metadata14=metadata14_bytes.as_deref().map(parse_metadata14).transpose()?;
+    let metadata12=metadata12_bytes.as_deref().map(parse_metadata12).transpose()?;
+    let global_pair_flags=global_pair_flags_bytes.as_deref().map(parse_global_pair_flags).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -656,12 +707,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         metadata2,
         default48,
         constructor_alternates,
+        metadata14,
+        metadata12,
+        global_pair_flags,
         metadata16_bytes,
         metadata52_bytes,
         metadata4_bytes,
         metadata2_bytes,
         default48_bytes,
         constructor_alternates_bytes,
+        metadata14_bytes,
+        metadata12_bytes,
+        global_pair_flags_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -693,6 +750,9 @@ fn check_dataset_budget(
     metadata2: usize,
     default48: usize,
     constructor_alternates: usize,
+    metadata14: usize,
+    metadata12: usize,
+    global_pair_flags: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -718,6 +778,9 @@ fn check_dataset_budget(
         || metadata2 as u64 > MAX_METADATA2_FILE_BYTES
         || default48 as u64 > MAX_DEFAULT48_FILE_BYTES
         || constructor_alternates as u64 > MAX_CONSTRUCTOR_ALTERNATES_FILE_BYTES
+        || metadata14 as u64 > MAX_METADATA14_FILE_BYTES
+        || metadata12 as u64 > MAX_METADATA12_FILE_BYTES
+        || global_pair_flags as u64 > MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -746,6 +809,9 @@ fn check_dataset_budget(
         .saturating_add(metadata2)
         .saturating_add(default48)
         .saturating_add(constructor_alternates)
+        .saturating_add(metadata14)
+        .saturating_add(metadata12)
+        .saturating_add(global_pair_flags)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -804,6 +870,15 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.constructor_alternates {
         eprintln!("ROM_DATA runtime=decoded resource={CONSTRUCTOR_ALTERNATES_ID} file={} records={}",dataset.manifest.resources[23].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.metadata14 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA14_ID} file={} records={}",dataset.manifest.resources[24].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.metadata12 {
+        eprintln!("ROM_DATA runtime=decoded resource={METADATA12_ID} file={} records={}",dataset.manifest.resources[25].sha256,data.banks.iter().map(|b|b.records.len()).sum::<usize>());
+    }
+    if let Some(data)= &dataset.global_pair_flags {
+        eprintln!("ROM_DATA runtime=decoded resource={GLOBAL_PAIR_FLAGS_ID} file={} pairs={}",dataset.manifest.resources[26].sha256,data.groups.len()*4);
     }
     if let Some(links)= &dataset.item_links {
         eprintln!("ROM_DATA runtime=decoded resource={ITEM_LINKS_ID} file={} records={}",dataset.manifest.resources[17].sha256,links.records.len());
@@ -894,6 +969,15 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(i)=resources.constructor_alternates_stats() {
             eprintln!("ROM_DATA_USE resource={CONSTRUCTOR_ALTERNATES_ID} dataset={} bus_reads={} source_bytes={} pointer_bytes={} record_mask={} header_bytes={} argument_bytes={} halfword_bytes={} flag_bytes={} tail_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.pointer_bytes,i.record_mask,i.header_bytes,i.argument_bytes,i.halfword_bytes,i.flag_bytes,i.tail_bytes);
+        }
+        if let Some(i)=resources.metadata14_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA14_ID} dataset={} bus_reads={} source_bytes={} records_used={} byte_fields={} halfword_bytes={} packed_bytes={} tail_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.records_used(),i.byte_fields,i.halfword_bytes,i.packed_bytes,i.tail_bytes);
+        }
+        if let Some(i)=resources.metadata12_stats() {
+            eprintln!("ROM_DATA_USE resource={METADATA12_ID} dataset={} bus_reads={} source_bytes={} records_used={} primary_bytes={} secondary_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.records_used(),i.primary_bytes,i.secondary_bytes);
+        }
+        if let Some(i)=resources.global_pair_flags_stats() {
+            eprintln!("ROM_DATA_USE resource={GLOBAL_PAIR_FLAGS_ID} dataset={} bus_reads={} source_bytes={} bytes_used={} byte_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.bytes_used(),i.byte_mask);
         }
         if let Some(i)=resources.item_link_stats() {
             eprintln!("ROM_DATA_USE resource={ITEM_LINKS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
@@ -1030,6 +1114,9 @@ fn write_dataset(
     let metadata2_data=source.metadata2.as_ref().map(|catalog|encode_metadata2(&catalog.decoded)).transpose()?;
     let default48_data=source.default48.as_ref().map(|catalog|encode_default48(&catalog.decoded)).transpose()?;
     let constructor_alternates_data=source.constructor_alternates.as_ref().map(|catalog|encode_constructor_alternates(&catalog.decoded)).transpose()?;
+    let metadata14_data=source.metadata14.as_ref().map(|catalog|encode_metadata14(&catalog.decoded)).transpose()?;
+    let metadata12_data=source.metadata12.as_ref().map(|catalog|encode_metadata12(&catalog.decoded)).transpose()?;
+    let global_pair_flags_data=source.global_pair_flags.as_ref().map(|catalog|encode_global_pair_flags(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -1050,6 +1137,9 @@ fn write_dataset(
     if let Some(bytes) = &metadata2_data {files.push(bytes);}
     if let Some(bytes) = &default48_data {files.push(bytes);}
     if let Some(bytes) = &constructor_alternates_data {files.push(bytes);}
+    if let Some(bytes) = &metadata14_data {files.push(bytes);}
+    if let Some(bytes) = &metadata12_data {files.push(bytes);}
+    if let Some(bytes) = &global_pair_flags_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -1079,6 +1169,9 @@ fn write_dataset(
         metadata2_data.as_ref().map_or(0, Vec::len),
         default48_data.as_ref().map_or(0, Vec::len),
         constructor_alternates_data.as_ref().map_or(0, Vec::len),
+        metadata14_data.as_ref().map_or(0, Vec::len),
+        metadata12_data.as_ref().map_or(0, Vec::len),
+        global_pair_flags_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -1104,6 +1197,9 @@ fn write_dataset(
     if let Some(bytes) = &metadata2_data {write(&path.join(METADATA2_FILE),bytes)?;}
     if let Some(bytes) = &default48_data {write(&path.join(DEFAULT48_FILE),bytes)?;}
     if let Some(bytes) = &constructor_alternates_data {write(&path.join(CONSTRUCTOR_ALTERNATES_FILE),bytes)?;}
+    if let Some(bytes) = &metadata14_data {write(&path.join(METADATA14_FILE),bytes)?;}
+    if let Some(bytes) = &metadata12_data {write(&path.join(METADATA12_FILE),bytes)?;}
+    if let Some(bytes) = &global_pair_flags_data {write(&path.join(GLOBAL_PAIR_FLAGS_FILE),bytes)?;}
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -1352,6 +1448,9 @@ mod tests {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
         }
     }
@@ -1677,8 +1776,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

@@ -980,7 +980,279 @@ The earlier6e6dbcroot hypothesis was rejected: its reader uses4Bindexing,
 and6e6ee4is also separate. Supposed14Baliases6e7484/6e78d4actually have12Bstride.
 Evidence:target/rom-data-metadata14/{reader-*.txt,readers-*.txt,
 predicate-0cbab0.txt,inventory-metadata14.py,metadata14-inventory.json,
-metadata14-records-independent.json}. Model/source oracle/managed/runtime are
-next; current EUR e30-d29/25files/24resources and USAe8-d7unchanged. No new
+metadata14-records-independent.json}. Model/source oracle were subsequently completed below; managed/runtime remain
+next at this boundary, EUR e30-d29/25files/24resources and USAe8-d7unchanged. No new
 build/test or closed acceptance repeat; newLinux/USA/nativeWindows and other
 families remain pending, no metrics/space work.
+
+
+## Typed fourteen-byte records source proof
+
+Strict `metadata14::{Metadata14,Record,Catalog}` separates biased address6e6f50
+from physical6e6f6c..6e7482, retaining93records/1302B/logicalIDs2..94and every
+byte/full-halfword/packed field. Byte02validates against actual parsed116metadata52
+job owners. Byte01has no proven semantic owner: a synthetic value250or255is
+structurally accepted but fails source authentication. IDs0/1/95plus and the
+2Btrailing gap are not owned; diagnostic recordNone never becomes a guest fallback.
+
+Warning-free Windows18151and one Wine66692oracle pass504real cases:471getter
+calls over all93IDs and u8argument truncation,22packed-palette cases across live
+books0/1/2/default3and11initializer prefixes. Getter results preserve unsigned
+u16/u8values. Palette tests observe the original source returned byCF5DC, verify
+original32Bcopy/destination bank/512Bguards and keep the live book byte02002fc2.
+No palette payload ownership is inferred. Initialization stops atCD0B6after the
+original CCF9Cprefix, checking byte02fallback/descriptor overrides/live auxiliary
+byte/flags/264Bunit contents and retained mid-function frame, not allocation tails.
+
+13isolated synthetic cases preserve highu16/u8fields, bank15, unused bytes,
+unprovedbyte01and a valid highjob selector. StrictJSON/fixedarray/bias/ID/order/
+count/source/coherent-edit/byte02owner/callee/scratch/descriptor/unit/palette/
+outer-RAM guards pass; synthetic records unauthenticated/unpublished.23627guest
+instructions/380PCs and10original helper-init instructions are coverage only.
+All33protected original/e30/metadata52owner/candidate/cache/loader/canonical/source
+fixtures remain unchanged; no build/runtimefailure or old acceptance repeat.
+HEAD2d66955advanced externally during this unit, committing prior e30/cleanup/
+user-doc changes; inspected/preserved without agent commit.
+
+Evidence:target/rom-data-metadata14/{windows-tests-build.{jsonl,log},
+windows-original-result.json,windows-original-europe/{metadata14.json,result.json}}.
+Managed publication/direct CPU-DMA-native ownership/lifecycle/positive ordinary
+scene/actualCLI were subsequently completed below; this source-only boundary
+retained EUR e30-d29/25files/24resources and USAe8-d7.
+Normal live job/property branches, global caller bounds, neighboring families,
+newLinux/USA/nativeWindows and the broader TODO remain pending. No performance/
+space campaign or AndroidPort change.
+
+## Managed and direct fourteen-byte special-unit metadata
+
+EUR `v1/e31-d30` adds `linked-metadata14.json`, resource
+`gameplay.linked-metadata14`, format `linked-metadata14-v1-json`. All 26 files /
+25 resources authenticate together; all 24 earlier decoded files and e30
+generations are retained. The declared dependency is the actual parsed
+`gameplay.linked-metadata52` owner for byte02. Byte01 remains unconstrained by
+that dependency. USA retains e8-d7. The 2 MiB file limit guards malformed input;
+this change does not enforce a performance or extraction-space target.
+
+Typed fields serve exactly 1,302 bytes at 6e6f6c..6e7482 through CPU, compiled
+native, DMA and SWI reads on pages 6e6/6e7. Reads crossing a source boundary
+merge typed and original bytes; IDs0/1, the following two-byte gap and higher
+indices retain their existing sources. Nonserialized field counters and two
+64-bit record masks distinguish positive use of these 93 records. Original
+getter routing, live palette books and 32-byte copies, descriptor overrides,
+initialization/allocation, guest clock and save/native ABI remain active.
+
+The warning-free Windows test build and two Wine checks (75387) pass managed
+publication interruption/create/reuse/repair/move, e30 retention, coherent
+field/source/dependency/path/role edits, parsed byte02 owner validation and
+transactional attachment. With the dataset copy made unavailable, Load/Undo,
+backup restoration and restart retain the in-memory resources. Byte01=255 is
+structurally valid but cannot authenticate as original data.
+
+37 original/interpreter/compiled paths with all 1,302 raw source bytes altered
+match complete states and clocks. IDs2/20/28/94 consume compiled byte/halfword/
+packed/tail fields (13/12/35/9 bytes); two normal-ID0/1 paths consume no new
+source bytes. All bytes, record-mask boundary, edges, widths, mirrors, real-BIOS
+bus, CpuSet/FastSet, cross-record DMA and typed/raw padding crossings pass.
+4,793 instructions and 2,502 dispatches describe coverage only. The source
+504+13 oracle and earlier runtime acceptance remain closed and were not repeated.
+
+Production build7465 is warning-free and restores the canonical executable.
+ActualCLI9489 creates and reuses the dataset without file/hash/mtime changes,
+then replays the retained 397-frame Pub transition with the old native cache
+from an unrelated working directory. It reads 27 new bytes from two records:
+4 byte fields, 8 halfword bytes, 12 packed bytes and 3 tail bytes. The final Pub
+image is inspected. One Wine24398 pair matches every complete state/clock,
+central and wide image, OAM, dispatch and mixed/PSG/FIFO/HLE audio stream with
+the same positive source counters. No additional scene locator is needed.
+
+Evidence: `target/rom-data-metadata14/` contains windows-managed-results.json,
+windows-managed-europe/{managed-result.json,native-result.json}, windows-build.json,
+windows-cli-{processes,no-write,summary}.json, windows-scene-result.json,
+windows-pub-metadata14-full-state-audio.log and pub.png. Protected originals,
+e30 data, source proof, snapshots, input, cache, loader and canonical executable
+are retained. Global caller bounds, byte01 semantic meaning, palette payloads,
+allocation tails, adjacent families and broader TODO coverage remain open.
+New Linux/USA/native Windows checks are pending; no performance, space or
+AndroidPort work is included.
+
+## Indexed twelve-byte packed pair source contract
+
+Two distinct indexed banks occupy 6e7484..6e78d4 (92 rows / 1,104 bytes) and
+6e78d4..6e7994 (16 rows / 192 bytes). Original literals13762e→137640 and
+137652→137664, both original multiply-by-12 paths and shared reader135a1c
+establish the contract. The following independent root1377a2→1377b0 points to
+6e7994 and is excluded. All 1,296 bytes reconstruct without e31 overlap.
+These are separate from the earlier fourteen-byte special-unit source.
+
+Each row stores 48 two-bit values. The strict `metadata12` model keeps twelve
+fixed groups of four values0..3, IDs, offsets, bank order and exact92/16counts.
+No semantic label or foreign owner is inferred. Existing caller loops visit
+slots0..43; stored pairs44..47 retain every bit. Original code chooses the low
+bit when the mode's low byte is zero and the high bit for any other low byte.
+Rows use the full32-bit input and slots retain signed/wrapping shift arithmetic;
+there is no local row/slot bound. A diagnostic None never supplies a guest
+return value or changes original access outside the catalog.
+
+One reduced Wine88437 source oracle passes 1,640 real calls over every row,
+boundary slots and all48pairs in first/last rows, plus ten raw outside/wrapping
+calls: next-bank/global-source reads, row256 distinct from row0, large row wrap,
+negative slot and slot48. 384 isolated synthetic calls cover all pair values,
+high bits and mode0/0x101/0xff/0x100. Every call observes the exact original
+byte address/one LDRB and checks return value, callee, stack and outer RAM.
+Strict JSON/fixed shapes/pair range/order/count/ID/source/coherent edits pass.
+Synthetic sources fail authentication and remain unpublished. 75,515 guest
+instructions / 54 PCs describe coverage only.
+
+Initial Windows99149 compile exposed test setup field/type errors; these are
+corrected and the22815build is warning-free. Wine has no failure. All34protected
+ROM/e31/candidate/cache/loader/canonical/sourcefixture hashes remain unchanged;
+no earlier source/runtime/scene proof was repeated. Evidence lives in
+`target/rom-data-metadata12/`: metadata12-inventory.json, independent records,
+bounded reader/caller disassembly, windows-initial-failed-tests-build.*,
+windows-tests-build.*, windows-original-result.json and
+windows-original-europe/{metadata12.json,result.json}.
+
+At this source-only boundary managed EUR e31-d30 / 26 files / 25 resources and
+USAe8-d7 remain unchanged. Managed publication, direct CPU/DMA/native ownership,
+lifecycle and positive ordinary use were subsequently completed below. Global caller row bounds,
+meaning of pair values, the separately rooted global bit source, newLinux/USA/
+nativeWindows and wider gameplay/maps/audio/mod phases remain open. No
+performance, space or AndroidPort work is included.
+
+## Managed and direct twelve-byte packed pair banks
+
+EUR `v1/e32-d31` publishes `linked-metadata12.json`, resource
+`gameplay.linked-metadata12`, format `linked-metadata12-v1-json`. All27files /
+26resources authenticate together. Both source roles retain exact1104/192-byte
+bank extents; every earlier25decoded file and e31 generation stays unchanged.
+The original semantic owner of these flags is unproved, so no foreign-key
+dependency is invented. USA retains e8-d7. Parsing limits guard malformed input;
+no extraction-space or performance target is measured.
+
+Typed bytes from the 48two-bit fields in each row serve original CPU/native,
+SWI and DMA reads on page6e7. Cross-bank words combine both banks; outside
+bytes retain existing owners/ROM. Nonserialized bank counters and two64-bit
+record masks gate the108records. Full32row, signed/wrapping slot, low8mode,
+original routines, clock and save/native ABI remain active. Diagnostic None
+never replaces a guest read or return value.
+
+Warning-free Windows36670 and two Wine22271 checks pass publication failure,
+create/reuse/repair/move/e31 retention, coherent pair and unused-tail edits,
+source/dependency/path/both-role guards, transactional attachment and unavailable
+copy Load/Undo/backup/restart.49original/interpreter/compiled paths with all
+1296raw bytes altered match complete states/clocks. Four records are positive;
+compiled primary/secondary reads are23/22bytes. Three outside paths use0new
+bytes; full32, wrapping and next-bank accesses retain their original behavior.
+All1296bytes/edges/mask boundaries/widths/mirrors/real-BIOS, both-bank CpuSet/
+FastSet and cross-bank4typed/trailing-global2typed2raw DMA checks pass.
+1828instructions/153dispatches describe coverage only. Only a comment and
+injected-error wording were cleaned after compiling the test; assertions and
+production behavior were unchanged. The source1640+10+384 and e31 acceptance
+were not repeated.
+
+Windows94316 production build is warning-free and restores the canonical
+executable. ActualCLI prepares/reuses e32 without managed-file/hash/mtime changes,
+then uses the existing native cache from an unrelated working directory.
+The positive ordinary sample is 2200-frame Echo Grass confirmation: ROM_DATA_METADATA12_SCENE frames=2200 bus_reads=44 source_bytes=44 records_used=1 primary_bytes=44 secondary_bytes=0.
+One Wine pair matches every complete state/clock, central-wide image, OAM,
+dispatch and mixed/PSG/FIFO/HLE audio stream with the same counters; the final
+image is inspected. Pub397, Lutia deployment3600 and the earlier3530enemy-movement replay are
+coverage-negative and retained without full pairs. Bounded original action
+callers guide menu navigation from a retained frame12006baseline snapshot,
+avoiding3530prefix repeats. Its serialized separate-UI setting overrides the
+pre-load locator environment; existing BG-layer diagnostics expose Steal and
+Item menus without changing runtime code. EchoGrass1200reaches Do it/Cancel,
+so it is a pre-effect locator. One extra physical A1300commits the action and
+makes the2200sequence positive. No RAM/snapshot edit or new fixture is needed;
+the old rejected ROM-seed experiment is not reopened when reusing its baseline.
+Ordinary coverage is44primary-byte reads/one record/0secondary; the secondary
+bank remains targeted-only.
+
+Evidence: `target/rom-data-metadata12/` contains windows-managed-results.json,
+windows-managed-europe/{managed-result.json,native-result.json}, windows-build.json,
+windows-cli-*.json, windows-scene-result.json and the full-state/audio log.
+Protected ROM/e31/sourceproof/fixtures/input/cache/loader/canonical/candidates
+remain unchanged. Global caller bounds, flag semantics and the separately rooted
+global bank remain unclaimed. NewLinux/USA/nativeWindows, other gameplay/maps/
+audio/GUI/archive/mod coverage remain pending; no performance, space or
+AndroidPort work is included.
+
+## Global packed pair flags source proof
+
+The original13779c wrapper roots6e7994 through1377a2→1377b0 and discards its
+incoming r0: there is no row stride. Its only direct caller1377e0 belongs to
+the1377b4 live-RAM mask loop over slots0..43, mode0. This proves the minimum
+44two-bit fields / 11bytes at6e7994..6e799f. The independent next root6e79a2
+(D2DB0→D2F20, original byte-pair reads) leaves three zero bytes unowned.
+No12-byte shape, extra slots or padding ownership is inferred from adjacency.
+
+`global_pair_flags::{GlobalPairFlags,Catalog}` keeps eleven fixed groups of
+four values0..3, exact source offset and every stored bit. Diagnostic flags
+accept slots0..43 and retain u8mode selection; original signed/wrapping slot
+arithmetic and raw adjacent accesses remain guest code. High-mode direct
+wrapper behavior is proved; ordinary callers' high-mode use is unclaimed.
+The live-mask filter scans only set RAM bits, exits at the first false low
+flag and accepts an empty mask. High live-mask tail bits beyond43 are ignored.
+
+Warning-free Windows91155 and one Wine35647 oracle pass102real cases,10raw
+outside/wrapping cases and91isolated synthetic cases. These cover all44fields/
+bothbits, u8mode, ignoredr0, live empty/all/sparse/tail-only/single masks, source
+padding/next-root/negative slot/wrap, high bits, full44scan and early rejection.
+Exact source-load address sequences/return values, callee/stack/liveRAM guards,
+strictJSON/fixedgroups/pairrange/offset/source/coherent edits pass. Synthetic
+sources fail authentication and remain unpublished.13601instructions/70PCs
+are coverage only; there is no build or Wine failure or old oracle repeat.
+
+Evidence: `target/rom-data-global-pair-flags/` contains bounded reader/next-root
+disassembly, global-pair-flags-inventory.json, independent fields,
+windows-tests-build.*, windows-original-result.json and
+windows-original-europe/{global-pair-flags.json,result.json}. Protected ROM/e32/
+candidate/cache/loader/canonical/sourcefixtures remain unchanged. At this
+source-only boundary EUR e32-d31 /27files/26resources and USAe8-d7 are unchanged.
+Managed publication/direct CPU-DMA-native/lifecycle were subsequently completed
+below; positive ordinary global use remains pending. Three adjacent bytes, semantic labels, other callers/conditions and new
+Linux/USA/nativeWindows checks remain open; no performance/space/AndroidPort work.
+
+## Managed and direct global packed pair flags
+
+EUR `v1/e33-d32` adds `global-pair-flags.json`, resource
+`gameplay.global-pair-flags`, format `global-pair-flags-v1-json`. All28files /
+27resources authenticate together; all26earlier decoded files/e32 generations
+remain unchanged. The exact11Bsource and44two-bit fields retain their single
+root and original live-mask filter; no semantic dependency, row stride or
+ownership of the following three bytes is invented. USA retains e8-d7.
+
+Typed source bytes serve CPU/native/SWI/DMA reads on page6e7, merging prior
+metadata12ownership and raw tail bytes. Nonserialized source counters/11-bit
+byte-position mask distinguish new global use. Original ignoredr0, signed-
+wrapping slot, low8mode, live RAM-mask/earlyexit, clock and save/nativeABI remain.
+A byte mask observes source-byte positions, not which bit-pair a caller selected.
+
+Warning-free Windows61276 and two Wine84782 checks pass publication interruption,
+create/reuse/repair/move/e32retention, coherent pair/tail/sourceoffset/hash/
+unexpecteddependency/path/role edits, transactional attachment and unavailable
+copy Load/Undo/backup/restart.28original/interpreter/compiled paths with all11raw
+bytes altered match complete states/clocks;17compiled byte reads/mask1059prove
+new use. Eight outside paths use0new bytes. All11B/edges/widths/mirrors/real-BIOS,
+prior2metadata12+2global typed crossing with both raw sides altered, CpuSet and
+FastSet exact11typed bytes and DMA3typed1raw/1typed3raw pass.3076instructions /
+231dispatches describe coverage only. Source102+10+91/e32proofs were not repeated.
+
+Windows73677 production is warning-free and restores the canonical executable.
+ActualCLI13165 creates/reuses e33 without managed-file/hash/mtime changes, using
+the old native cache from an unrelated working directory. Its only new-global
+ordinary locator reuses2200EchoGrass:0global bytes/mask0, while metadata12still
+reads44bytes, confirming the action executes. This is coverage-negative; no
+full pair is run on it. Bounded original131db8..131de8gates the global filter
+behind nonzero descriptor halfword4 and liveunit+e8mask. A positive ordinary
+scene and corresponding full-state/image/audio pair remain pending; further
+selection needs concrete evidence of those conditions. High-mode ordinary
+use also remains unclaimed.
+
+Evidence: `target/rom-data-global-pair-flags/` contains windows-managed-results.json,
+windows-managed-europe/{managed-result.json,native-result.json}, windows-build.json,
+windows-cli-{processes,no-write,summary}.json and caller-131d8c.txt. Protected ROM,
+e32/sourceproof/fixtures/input/cache/loader/canonical/candidates are retained.
+Three adjacent bytes, semantics/other callers/conditions, newLinux/USA/nativeWindows
+and wider graphics/text/maps/gameplay/audio/GUI/archive/mod coverage remain open.
+No performance, space or AndroidPort work is included.

@@ -831,6 +831,98 @@ Modello/oracolo sorgente/consumo da fare,e30invariato; nessun build/test/ripetiz
 vecchia accettazione, nuovi Linux/USA/Windows nativo da fare.
 [Contratto](../rom_data_gameplay.md#next-bounded-fourteen-byte-records).
 
+**ROMDATA-02-GAMEPLAY-METADATA14-SOURCE-ORACLE completato per EUR/Wine dichiarato:**
+modello strict93record/1302B,ID2..94/basebiased6e6f50/fisici6e6f6c..6e7482,
+tutti byte/halfword/packed, owner metadata52parsed per byte02solo; byte01non
+vincolato semanticamente dal solo range. Un controllo Wine passa504casi reali:
+471getter/tutti93ID/troncamento u8,22palette con book RAM0/1/2/default3/copia32B/
+guardie512B e11prefissi inizializzazioneCCF9C→CD0B6/override/flag/frame264Bunit.
+13sintetici highu16/u8/bank15/unused/byte01unproved/altojob valido passano insieme
+JSON/source/array/bias/ID/order/count/owner/callee/stack/descriptor/unit/palette/
+outerRAM.23627istruzioni/380PCsolo copertura, nessun vecchio oracolo ripetuto.
+Allocazione e bound globali esclusi;0/1/95plus/2Bpadding nonowned, nessun fallback.
+Dataset e30-d29/25file/24risorse invariato; preparazione/consumo/scenaCLI/lifecycle
+e nuoviLinux/USA/Windows nativo da fare, nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#typed-fourteen-byte-records-source-proof).
+
+**ROMDATA-02-GAMEPLAY-METADATA14-DATA / ROMDATA-04-GAMEPLAY-METADATA14-CONSUMPTION /
+ROMDATA-05-GAMEPLAY-METADATA14-SCENE-CLI completati per EUR/Wine dichiarato:**
+e31-d30 aggiunge linked-metadata14.json/gameplay.linked-metadata14, 26 file /
+25 risorse; tutti i 24 file precedenti/e30 conservati, USAe8-d7. Owner metadata52
+parsed solo per byte02; byte01 senza vincolo semantico. Proiezione tipizzata di
+1302B, contatori e maschere dei 93 record preservano getter originali, book RAM,
+copie palette, override, clock e ABI native/save. Due controlli Wine passano
+pubblicazione/riuso/riparazione/spostamento/retention/guardie transazionali e
+Load/Undo/backup/restart con copia dataset indisponibile. 37 percorsi originali/
+interprete/native con raw1302B alterati hanno stati-clock identici; ID2/20/28/94
+positivi, normali0/1 senza nuove letture. Bus/edge/width/mirror/BIOS/SWI/DMA e
+confini typed/raw passano. CLI reale crea/riusa senza scritture e usa la vecchia
+cache da cwd estraneo; una sola coppia397Pub completa stato/clock/immagini/OAM/
+dispatch/audio con27B/due record/tutti i gruppi di campi, immagine ispezionata.
+Oracolo sorgente504+13 e prove precedenti non ripetuti. Bound globali, payload
+palette, code di allocazione, famiglie adiacenti e nuoviLinux/USA/Windows nativo
+da fare; nessuna misura performance/spazio o modificaAndroidPort.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-fourteen-byte-special-unit-metadata).
+
+**ROMDATA-01-GAMEPLAY-METADATA12-ROOTS / ROMDATA-02-GAMEPLAY-METADATA12-SOURCE-ORACLE
+completati per EUR/Wine sorgente dichiarato:** due banchi con stride12 a
+6e7484..6e78d4/92record e6e78d4..6e7994/16record, totale108record/1296B/5184coppie
+di bit. Root/callee135a1c/sorgente successiva indipendente6e7994 verificati;
+modello strict gruppi12×4 valori0..3 conserva48coppie anche se i loop usano0..43.
+Indici row32 e slot signed/wrapping originali, mode troncato u8, nessun bound o
+fallback guest nuovo. Un controllo Wine passa1640reali/10raw-fuori-wrap/384
+sintetici, indirizzo/LDRB esatti, JSON/source/callee/stack/RAM. Build iniziale con
+errori setup test corretto, rebuild Windows senza avvisi; nessun errore Wine.
+EUR e31-d30 invariato; preparazione/consumo/lifecycle/scena, significato campi,
+bound globali e nuoviLinux/USA/Windows nativo da fare. Nessuna misura performance/
+spazio o prova precedente ripetuta.
+[Contratto](../rom_data_gameplay.md#indexed-twelve-byte-packed-pair-source-contract).
+
+**ROMDATA-02-GAMEPLAY-METADATA12-DATA / ROMDATA-04-GAMEPLAY-METADATA12-CONSUMPTION /
+ROMDATA-05-GAMEPLAY-METADATA12-SCENE-CLI completati per EUR/Wine dichiarato:**
+e32-d31 aggiunge linked-metadata12.json/gameplay.linked-metadata12,27file/26risorse,
+25file precedenti/e31 conservati; USAe8-d7. Campi a due bit tipizzati, due owner
+sorgente, contatori di banco/maschere108record mantengono row32/slot signed-wrap/
+modeu8/clock/ABI originali senza dipendenze semantiche inventate. Due controlli
+Wine passano pubblicazione/riuso/riparazione/spostamento/retention/guardie
+transazionali/Load-Undo-backup-restart con copia dataset indisponibile.
+49percorsi originali/interprete/native con1296rawB alterati hanno stati-clock
+identici; entrambi i banchi positivi, tre percorsi esterni0nuove letture.
+Bus/edge/width/mirror/BIOS/SWI/DMA e confini raw/typed/tra banchi passano.
+Una coppia2200-Echo Grass confirmation stato/clock/immagini/OAM/dispatch/audio/CLI positiva
+completa il perimetro ordinario dichiarato. Oracolo sorgente1640+10+384/e31 non
+ripetuti. Bound globali/semantica flag/banco globale separato/altre famiglie e
+nuoviLinux/USA/Windows nativo da fare; nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-twelve-byte-packed-pair-banks).
+
+**ROMDATA-01-GAMEPLAY-GLOBAL-PAIR-FLAGS / ROMDATA-02-GAMEPLAY-GLOBAL-PAIR-FLAGS-SOURCE-ORACLE
+completati per EUR/Wine sorgente dichiarato:** root singolo6e7994,44coppie/11B
+fino6e799f da loop RAM0..43/mode0; nessuno stride12,3Bprima root indipendente
+6e79a2 nonowned. Modello strict11×4 valori0..3 conserva entrambi i bit. Un controllo
+Wine passa102reali/10raw-fuori-wrap/91sintetici, wrapper conr0ignorato/slot signed-
+wrap/modeu8/filtro maschera live/uscita anticipata/scansione44/JSON/source/callee/
+stack/RAM.13601istruzioni/70PC solo copertura; nessun build/Winefailure/prova
+precedente ripetuta. EUR e32-d31 invariato; preparazione/consumo/lifecycle/scena,
+highmode ordinario, semantica/padding e nuoviLinux/USA/Windows nativo da fare.
+[Contratto](../rom_data_gameplay.md#global-packed-pair-flags-source-proof).
+
+**ROMDATA-02-GAMEPLAY-GLOBAL-PAIR-FLAGS-DATA / ROMDATA-04-GAMEPLAY-GLOBAL-PAIR-FLAGS-CONSUMPTION
+completati per EUR/Wine; ROMDATA-05CLI concluso, uso ordinario globale da fare:**
+e33-d32 aggiunge global-pair-flags.json/gameplay.global-pair-flags,28file/27risorse,
+26file precedenti/e32conservati, USAe8-d7.11Btipizzati/maschera posizioni byte
+mantengono ignoredr0/slotwrap/modeu8/liveRAM/uscita anticipata/clock/ABI senza
+owner/padding inventati. Due controlli Wine passano pubblicazione/retention/
+guardie transazionali/Load-Undo-backup-restart;28percorsi native/interprete con
+raw11Balterati hanno stati-clock identici,17Bcompiled/8esterni0nuoviB.
+Tutti11B/bus/mirror/BIOS/confine2vecchi2nuovi/SWI11typed/DMA3typed1raw e1typed3raw
+passano. CLI crea/riusa senza scritture, vecchia cache/cwd estraneo; unica scena
+2200EchoGrass negativa(0globali/44metadata12), nessuna coppia completa su di essa.
+Mancano uso ordinario globale positivo/relativa coppia completa; reader131db8
+richiede descriptorhword4 e maschera live nonzero, servono condizioni concrete
+prima di altri replay. Highmode/newLinux/USA/Windows nativo/3Badiacenti da fare.
+Oracoli102+10+91/e32 non ripetuti; nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
+
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
 
@@ -1197,19 +1289,10 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** ampliare le sorgenti grafiche indirette/localizzate ancora
-non migrate, a partire dal selettore originale del banco Clan43bc28in08ed28
-e dai chiamanti adiacenti. Il catalogo letterale con conteggi derivati da r0
-è ora concluso per il perimetro dichiarato; conservare le sue prove.
-Il catalogo raw UI di21palette è ora concluso per il perimetro dichiarato;
-altre fonti indirette restano aperte. Conservare senza ripetizione
-il loro decoder/consumo/scena400frame verificati. Il catalogo
-statico esteso a 73 liste e i sedici banchi OBJ hanno concluso le proprie
-prove 01/02/04 e scena/CLI 05 dichiarate: conservarle senza ripetizione.
-La coppia a conteggio zero b4d8e8/b4f4e8 è ora migrata e verificata su Wine;
-anche i costruttori in38008/88328sono ora risolti nelle cinque coppie localizzate. Radici testuali dinamiche e scena tastiera nome
-ordinaria restano gate separati. Font completo/tastiera01/02/04e transizione
-font/CLI05sono conclusi nel perimetro dichiarato: riutilizzare le prove.
-Test ridotti solo Wine/EUR; nuovi controlli Linux e USA da fare. Restano mappe,
-font Unicode/semantica controlli, precondizioniFFglobali, audio/gameplay,
-GUI/archivi e fasi mod. Nessuna misura prestazionale o lavoro sui limiti spazio.
+**Prossima azione:** censire la distinta sorgente di coppie numeriche a6e79a2,
+con lettore originale D2DB0, conservando le prove globali11B/e33 concluse.
+L'uso ordinario globale resta aperto: selezionare una nuova scena solo con
+prova concreta delle condizioni descriptorhword4/live-mask; EchoGrass negativo
+non va ripetuto senza tale evidenza. Restano altre fonti indirette grafiche/
+testuali, mappe, audio/gameplay, GUI/archivi e fasi mod. Test ridotti Wine/EUR;
+nuoviLinux/USA da fare, nessuna misura prestazionale o limite di spazio.

@@ -34,6 +34,15 @@ pub use default48::Default48Stats;
 mod constructor_alternates;
 use constructor_alternates::ConstructorAlternatesResources;
 pub use constructor_alternates::ConstructorAlternatesStats;
+mod metadata14;
+use metadata14::Metadata14Resources;
+pub use metadata14::Metadata14Stats;
+mod metadata12;
+use metadata12::Metadata12Resources;
+pub use metadata12::Metadata12Stats;
+mod global_pair_flags;
+use global_pair_flags::GlobalPairFlagsResources;
+pub use global_pair_flags::GlobalPairFlagsStats;
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -117,6 +126,9 @@ pub struct RuntimeResources {
     metadata2: Option<Box<Metadata2Resources>>,
     default48: Option<Box<Default48Resources>>,
     constructor_alternates: Option<Box<ConstructorAlternatesResources>>,
+    metadata14: Option<Box<Metadata14Resources>>,
+    metadata12: Option<Box<Metadata12Resources>>,
+    global_pair_flags: Option<Box<GlobalPairFlagsResources>>,
 }
 
 impl RuntimeResources {
@@ -255,6 +267,15 @@ impl RuntimeResources {
         if let Some((data,_))= files.constructor_alternates {
             resources.constructor_alternates = Some(Box::new(ConstructorAlternatesResources::new(data.clone(), &source.constructor_alternates.as_ref().unwrap().sources, files.items.ok_or("Missing constructor-alternate item owner")?.0)?));
         }
+        if let Some((data,_))= files.metadata14 {
+            resources.metadata14 = Some(Box::new(Metadata14Resources::new(data.clone(), &source.metadata14.as_ref().unwrap().sources, files.metadata52.ok_or("Missing metadata14 job owner")?.0)?));
+        }
+        if let Some((data,_))= files.metadata12 {
+            resources.metadata12 = Some(Box::new(Metadata12Resources::new(data.clone(), &source.metadata12.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.global_pair_flags {
+            resources.global_pair_flags = Some(Box::new(GlobalPairFlagsResources::new(data.clone(), &source.global_pair_flags.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -301,6 +322,9 @@ impl RuntimeResources {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
         }
     }
 
@@ -352,6 +376,9 @@ impl RuntimeResources {
             + self.metadata2.as_ref().map_or(0, |i| i.resident_bytes())
             + self.default48.as_ref().map_or(0, |i| i.resident_bytes())
             + self.constructor_alternates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata14.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata12.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.global_pair_flags.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -428,6 +455,9 @@ impl RuntimeResources {
     pub fn metadata2_stats(&self) -> Option<Metadata2Stats> {self.metadata2.as_ref().map(|m|m.stats())}
     pub fn default48_stats(&self) -> Option<Default48Stats> {self.default48.as_ref().map(|m|m.stats())}
     pub fn constructor_alternates_stats(&self) -> Option<ConstructorAlternatesStats> {self.constructor_alternates.as_ref().map(|m|m.stats())}
+    pub fn metadata14_stats(&self) -> Option<Metadata14Stats> {self.metadata14.as_ref().map(|m|m.stats())}
+    pub fn metadata12_stats(&self) -> Option<Metadata12Stats> {self.metadata12.as_ref().map(|m|m.stats())}
+    pub fn global_pair_flags_stats(&self) -> Option<GlobalPairFlagsStats> {self.global_pair_flags.as_ref().map(|m|m.stats())}
     pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
@@ -570,7 +600,19 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.constructor_alternates {
+            let prior = match &self.constructor_alternates {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata14 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.metadata12 {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.global_pair_flags {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -726,6 +768,9 @@ impl crate::MemMap {
             || Metadata2Resources::source_page(index)
             || Default48Resources::source_page(index)
             || ConstructorAlternatesResources::source_page(index)
+            || Metadata14Resources::source_page(index)
+            || Metadata12Resources::source_page(index)
+            || GlobalPairFlagsResources::source_page(index)
     }
 }
 

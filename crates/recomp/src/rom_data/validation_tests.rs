@@ -362,6 +362,21 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_CONSTRUCTOR_ALTERNATES_SCENE frames={frames} bus_reads={} source_bytes={} pointer_bytes={} record_mask={} header_bytes={} argument_bytes={} halfword_bytes={} flag_bytes={} tail_bytes={}",i.bus_reads,i.source_bytes,i.pointer_bytes,i.record_mask,i.header_bytes,i.argument_bytes,i.halfword_bytes,i.flag_bytes,i.tail_bytes);
         assert!(i.source_bytes>i.pointer_bytes && i.pointer_bytes>0 && i.record_mask>0,"ordinary scene must consume newly migrated constructor_alternates fields");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA14").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata14_stats().expect("decoded EUR metadata14");
+        eprintln!("ROM_DATA_METADATA14_SCENE frames={frames} bus_reads={} source_bytes={} records_used={} byte_fields={} halfword_bytes={} packed_bytes={} tail_bytes={}",i.bus_reads,i.source_bytes,i.records_used(),i.byte_fields,i.halfword_bytes,i.packed_bytes,i.tail_bytes);
+        assert!(i.source_bytes>0 && i.records_used()>0,"ordinary scene must consume newly migrated metadata14 fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA12").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().metadata12_stats().expect("decoded EUR metadata12");
+        eprintln!("ROM_DATA_METADATA12_SCENE frames={frames} bus_reads={} source_bytes={} records_used={} primary_bytes={} secondary_bytes={}",i.bus_reads,i.source_bytes,i.records_used(),i.primary_bytes,i.secondary_bytes);
+        assert!(i.source_bytes>0 && i.records_used()>0,"ordinary scene must consume newly migrated metadata12 fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_GLOBAL_PAIR_FLAGS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().global_pair_flags_stats().expect("decoded EUR global_pair_flags");
+        eprintln!("ROM_DATA_GLOBAL_PAIR_FLAGS_SCENE frames={frames} bus_reads={} source_bytes={} bytes_used={} byte_mask={}",i.bus_reads,i.source_bytes,i.bytes_used(),i.byte_mask);
+        assert!(i.source_bytes>0 && i.bytes_used()>0,"ordinary scene must consume newly migrated global_pair_flags fields");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA52").is_some() {
         let i=decoded.bus.rom_resources().unwrap().metadata52_stats().expect("decoded EUR metadata52");
         eprintln!("ROM_DATA_METADATA52_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);

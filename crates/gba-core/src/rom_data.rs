@@ -29,12 +29,15 @@ pub mod metadata4;
 pub mod metadata2;
 pub mod default48;
 pub mod constructor_alternates;
+pub mod metadata14;
+pub mod metadata12;
+pub mod global_pair_flags;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 30;
-pub const DECODER_REV: u32 = 29;
+pub const EXTRACTOR_REV: u32 = 33;
+pub const DECODER_REV: u32 = 32;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -59,6 +62,18 @@ pub const CONSTRUCTOR_ALTERNATES_ID: &str = "gameplay.constructor-alternate-temp
 pub const CONSTRUCTOR_ALTERNATES_FILE: &str = "constructor-alternate-templates.json";
 pub const CONSTRUCTOR_ALTERNATES_FORMAT: &str = "constructor-alternate-templates-v1-json";
 pub const MAX_CONSTRUCTOR_ALTERNATES_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const METADATA14_ID: &str = "gameplay.linked-metadata14";
+pub const METADATA14_FILE: &str = "linked-metadata14.json";
+pub const METADATA14_FORMAT: &str = "linked-metadata14-v1-json";
+pub const MAX_METADATA14_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const METADATA12_ID: &str = "gameplay.linked-metadata12";
+pub const METADATA12_FILE: &str = "linked-metadata12.json";
+pub const METADATA12_FORMAT: &str = "linked-metadata12-v1-json";
+pub const MAX_METADATA12_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const GLOBAL_PAIR_FLAGS_ID: &str = "gameplay.global-pair-flags";
+pub const GLOBAL_PAIR_FLAGS_FILE: &str = "global-pair-flags.json";
+pub const GLOBAL_PAIR_FLAGS_FORMAT: &str = "global-pair-flags-v1-json";
+pub const MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -254,6 +269,9 @@ pub struct Extraction {
     pub metadata2: Option<metadata2::Catalog>,
     pub default48: Option<default48::Catalog>,
     pub constructor_alternates: Option<constructor_alternates::Catalog>,
+    pub metadata14: Option<metadata14::Catalog>,
+    pub metadata12: Option<metadata12::Catalog>,
+    pub global_pair_flags: Option<global_pair_flags::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -285,6 +303,9 @@ pub struct BaseFiles<'a> {
     pub metadata2: Option<(&'a metadata2::Metadata2, &'a [u8])>,
     pub default48: Option<(&'a default48::Template, &'a [u8])>,
     pub constructor_alternates: Option<(&'a constructor_alternates::Alternates, &'a [u8])>,
+    pub metadata14: Option<(&'a metadata14::Metadata14, &'a [u8])>,
+    pub metadata12: Option<(&'a metadata12::Metadata12, &'a [u8])>,
+    pub global_pair_flags: Option<(&'a global_pair_flags::GlobalPairFlags, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -493,6 +514,28 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![ITEM_RECORDS_ID.into()], sources: metadata.sources.clone(),
             });
             result.constructor_alternates = Some(metadata);
+            let metadata = metadata14::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_metadata52(&result.metadata52.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(METADATA14_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA14_ID.into(), path: METADATA14_FILE.into(), format: METADATA14_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.metadata14 = Some(metadata);
+            let metadata = metadata12::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(METADATA12_ID.into());
+            result.manifest.resources.push(Resource {
+                id: METADATA12_ID.into(), path: METADATA12_FILE.into(), format: METADATA12_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.metadata12 = Some(metadata);
+            let metadata = global_pair_flags::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(GLOBAL_PAIR_FLAGS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: GLOBAL_PAIR_FLAGS_ID.into(), path: GLOBAL_PAIR_FLAGS_FILE.into(), format: GLOBAL_PAIR_FLAGS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.global_pair_flags = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -554,6 +597,9 @@ impl Extraction {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -614,6 +660,9 @@ impl Extraction {
             || self.metadata2.is_some() && self.metadata52.is_none()
             || self.default48.is_some() && self.metadata2.is_none()
             || self.constructor_alternates.is_some() && self.default48.is_none()
+            || self.metadata14.is_some() && self.constructor_alternates.is_none()
+            || self.metadata12.is_some() && self.metadata14.is_none()
+            || self.global_pair_flags.is_some() && self.metadata12.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -846,6 +895,33 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected constructor_alternates resource".into()),
         }
+        match (&self.metadata14, files.metadata14) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA14_FILE_BYTES { return Err("Metadata14 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[24].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata14 resource".into()),
+        }
+        match (&self.metadata12, files.metadata12) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_METADATA12_FILE_BYTES { return Err("Metadata12 file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[25].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected metadata12 resource".into()),
+        }
+        match (&self.global_pair_flags, files.global_pair_flags) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_GLOBAL_PAIR_FLAGS_FILE_BYTES { return Err("GlobalPairFlags file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[26].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected global_pair_flags resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -974,6 +1050,16 @@ impl Extraction {
             decoded.validate_items(files.items.ok_or("Missing constructor-alternate item owner")?.0)?;
             if decoded != &expected.decoded {return Err("Decoded constructor_alternates differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata14, files.metadata14) {
+            decoded.validate_metadata52(files.metadata52.ok_or("Missing metadata14 job owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded metadata14 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.metadata12, files.metadata12) {
+            if decoded != &expected.decoded {return Err("Decoded metadata12 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.global_pair_flags, files.global_pair_flags) {
+            if decoded != &expected.decoded {return Err("Decoded global_pair_flags differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1000,6 +1086,9 @@ impl Extraction {
             + usize::from(self.metadata2.is_some())
             + usize::from(self.default48.is_some())
             + usize::from(self.constructor_alternates.is_some())
+            + usize::from(self.metadata14.is_some())
+            + usize::from(self.metadata12.is_some())
+            + usize::from(self.global_pair_flags.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1079,6 +1168,9 @@ mod tests {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
             })
             .unwrap();
@@ -1110,6 +1202,9 @@ mod tests {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
             })
             .is_err());
@@ -1151,6 +1246,9 @@ mod tests {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1181,6 +1279,9 @@ mod tests {
             metadata2: None,
             default48: None,
             constructor_alternates: None,
+            metadata14: None,
+            metadata12: None,
+            global_pair_flags: None,
             font_bank: None,
             })
             .is_err());

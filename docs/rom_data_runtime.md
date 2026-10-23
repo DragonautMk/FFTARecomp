@@ -1,6 +1,43 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e30-d29` serves four48Bconstructor records and4Bbase pointer from
+Current EUR `v1/e33-d32` adds `global-pair-flags.json` /
+`gameplay.global-pair-flags`:44two-bit fields/11source bytes with no inferred
+semantic dependency or padding ownership. All28files/27resources authenticate
+together; all26earlier decoded files/e32 generations remain unchanged. Two
+focused Wine managed/native/lifecycle checks pass28paths with raw11B altered
+and complete state/clock equality, including prior/new typed and raw-tail
+crossings. Original wrapper/live-mask/earlyexit/clock/save/nativeABI remain.
+ActualCLIcreates/reuses without writes/oldcache/unrelatedcwd. EchoGrass2200is
+negative for this new source; positive ordinary global use/fullscene pair remain
+pending, along with newLinux/USA/nativeWindows checks.
+[Contract](rom_data_gameplay.md#managed-and-direct-global-packed-pair-flags).
+
+EUR `v1/e32-d31` adds `linked-metadata12.json` /
+`gameplay.linked-metadata12`: two indexed packed-pair banks, 108 records /
+1,296 source bytes. All 27 files / 26 resources authenticate together; all
+25 earlier decoded files/e31 generations remain unchanged. No unproved
+semantic dependency is added. Typed CPU/native/SWI/DMA bytes preserve original
+full32 row, signed/wrapping slot, u8 mode, clock and save/native ABI. Two focused
+Wine managed/native/lifecycle checks pass 49 paths with all raw bytes altered
+and complete state/clock equality; both banks are positive and three unowned
+paths read zero new bytes.
+One positive 2200-frame Echo Grass confirmation full-state/image/audio/actualCLI pair passes.
+New Linux/USA/native Windows checks remain pending.
+[Contract](rom_data_gameplay.md#managed-and-direct-twelve-byte-packed-pair-banks).
+
+EUR `v1/e31-d30` adds `linked-metadata14.json` /
+`gameplay.linked-metadata14`: 93 special-unit records / 1,302 bytes with the
+parsed metadata52 byte02 owner. All 26 files / 25 resources authenticate together;
+all 24 prior decoded files and e30 generations remain unchanged. Typed CPU,
+native, SWI and DMA reads preserve original getters, live palette books/copies,
+descriptor overrides, clock and save/native ABI. Two focused Wine managed/native/
+lifecycle checks pass 37 paths with raw source bytes altered and complete state/
+clock equality; normal IDs0/1 consume no new bytes. One positive 397-frame Pub
+full-state/image/audio/actual CLI pair reads 27 bytes from two records across
+all field categories. New Linux/USA/native Windows checks remain pending.
+[Contract](rom_data_gameplay.md#managed-and-direct-fourteen-byte-special-unit-metadata).
+
+EUR `v1/e30-d29` serves four48Bconstructor records and4Bbase pointer from
 `gameplay.constructor-alternate-templates`,196Btotal. Typed pointer/header/argument/
 full-halfword/flag/tail bytes preserve original ROM/IWRAMcopy/live patches/mode/
 allocation/clock/save/native ABI. All25files/24resources authenticate together with

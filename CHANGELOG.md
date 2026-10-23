@@ -136,6 +136,30 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE
 
 [Change record](docs/changes/2026-10-23-decode-european-two-byte-forward-inverse-map.json)
 
+## 2026-10-23 — Decode European indexed packed pair banks with original bit-reader proof
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict metadata12 two-bank model for92+16rows/1296bytes/5184two-bit fields, fixed12groups of4values0..3 per row with IDs/offsets/order/extents. Roots6e7484/6e78d4 and independent following6e7994 preserve exact original boundaries; no owner/semantic label inferred.
+- Keep diagnostic finite row/slot helpers distinct from original full32row/signed-wrapping slot/u8mode code. Original loop0..43 and stored48pair shape stay separate; no guest bounds/fallback introduced. Managed EUR e31-d30 and USAe8-d7 unchanged at this source boundary.
+
+**Validation**
+
+- Independent exactEUR roots/stride/reader/call/loop opcodes,1296B roundtrip/next-source/noe31overlap pass. Initial Windows99149compile fails only test setup IRQ field/type/unusedimport; corrected22815test build warning-free, initial evidence retained.
+- Wine88437 one reduced new oracle passes1640real/all108rows/boundaryslots/selectedfirst-last all48pairs,10raw outside/wrapping calls (full32row256,large wrap,nextbank/globalroot,negative slot,slot48) and384isolated synthetic high-bit/mode calls. Exact one LDRB/address/value, callee/stack/outerRAM and strictJSON/fixedshape/order/count/ID/source/pairrange/coherent-edit guards pass.75515instructions/54PCs coverage only; synthetic unauthenticated/unpublished.
+- All34protected ROM/e31/candidate/cache/loader/canonical/sourcefixtures unchanged; no Wine failure or old source/native/scene proof repeat. Structured record/feature/inventory/TODO/state/handoff/changelog and memory/whitespace/source hashes recorded at closure; no agent commit/push.
+
+**Limitations**
+
+- Source-only proof; managed publication/direct CPU-DMA-native/lifecycle/positive ordinary scene remain pending. Global row/slot caller bounds, pair semantics/foreign owners and next separately rooted global source remain unclaimed.
+- NewLinux/USA/nativeWindows and wider graphics/text/maps/gameplay/audio/mod phases remain pending; no performance/startup/RSS/space campaign or AndroidPort change, private source fixtures/ROM/generated data stay ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-twelve-byte-packed-pair-banks.json)
+
 ## 2026-10-23 — Decode European sixteen-byte linked metadata with original live-pair and RNG proofs
 
 Type: added. Platforms: Windows, Wine.
@@ -187,6 +211,57 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-decode-european-item-linked-pairs.json)
+
+## 2026-10-23 — Decode the proven European global packed-pair extent and original live-mask filter
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict GlobalPairFlags/Catalog for44two-bit fields/11B6e7994..6e799f, fixed11groups of4values0..3/sourceoffset/allbits. Original single root1377a2->1377b0 and live-mask loop0..43 bound minimum extent; next independently rooted6e79a2leaves3Bunowned, no12Bstride/padding/semantic owner inferred.
+- Keep finite diagnostic None separate from original ignoredr0/signed-wrapping slot/u8mode and liveRAM-mask earlyexit. Current managed EUR e32-d31/27files/26resources and USAe8-d7unchanged at source boundary.
+
+**Validation**
+
+- Independent exactEUR original/next roots/reader/call/loop opcodes,11Broundtrip/noe32overlap pass. Windows91155warning-free and Wine35647single new oracle terminal/pass, no build/Winefailure.
+- 102real/all44bothbits/modes/ignoredargument/liveempty-all-sparse-tail-only-single masks,10raw padding/nextroot/negative/wrap and91isolated synthetic highbit/full44scan/earlyexit cases pass. Exact read-address sequences/answers/callee/stack/liveRAM/strictJSON/fixedgroups/pairrange/sourceoffset/coherentedit/authentication guards pass; synthetic unauthenticated/unpublished.13601instructions/70PCs coverage only.
+- All35protected ROM/e32/candidate/cache/loader/canonical/sourcefixtures unchanged; old indexed/native/scene proofs not repeated. Structured memory/feature/state/inventory/TODO/handoff/changelog and final checks/source hashes recorded; no agent commit/push.
+
+**Limitations**
+
+- Source-only proof. Managed publication/direct CPU-DMA-native/lifecycle/positive ordinary use remain pending. High-mode ordinary use, semantic labels, other callers/conditions and three adjacent bytes remain unclaimed.
+- NewLinux/USA/nativeWindows/broader graphics/text/maps/gameplay/audio/mod remain pending; no performance/startup/RSS/space campaign or AndroidPort change. Private ROM/sourcefixtures/saves/generated data remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-global-packed-pair-flags.json)
+
+## 2026-10-23 — Decode European fourteen-byte special-unit records with original getters and live palette proof
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict Metadata14/Record/Catalog for93records/1302Bphysical6e6f6c..6e7482/logicalIDs2..94, separate original addressbias6e6f50, fixed IDs/offsets/order/count and full byte/halfword/packed fields. Retain unowned0/1/95plus/2Btrailinggap with no guest fallback.
+- Validate byte02against actual parsed116metadata52job owners; leave byte01semantically unconstrained despite its observed range. Diagnostic palette selector/bank helpers preserve u8mode, zero/no-copy and packed bits; original live book lookup/copy/initializer/normal job branches remain guest code.
+- Add one reduced source-only Wine oracle; managed EUR e30-d29/25files/24resources and USAe8-d7unchanged until separate publication/direct ownership integration.
+
+**Validation**
+
+- Independent exact-EUR elevenbiased-root literals/stride/predicate/next12Bsource/full1302Breconstruction/noe30overlap pass. Earlier6e6dbc14Bhypothesis and alleged14Baliases7484/78d4rejected by actual4B/12Bstrides; no old proof reopened.
+- Warning-free Windows18151build and Wine66692single new oracle terminal/pass:504real cases=471all93getters/u8argumenttruncation,22packed-palette livebooks0,1,2/default3/original32Bcopy/destination/512Bguards,11CCF9C→CD0B6initializer prefixes proving byte02fallback/descriptor override/live auxiliary/flags/264Bunit/frame before allocation.
+- 13isolated synthetic highu16/u8/bank15/unused/unprovedbyte01/valid-highjob cases pass. StrictJSON/fixedarray/bias/ID/order/count/source/coherent-edit/byte02owner/callee/scratch/descriptor/unit/palette/outerRAM guards pass; synthetic records unauthenticated/unpublished.23627instructions/380PCs/10original-helper-init instructions are coverage only.
+- All33protected original/e30/metadata52owner/candidate/cache/loader/canonical/sourcefixture hashes unchanged; no compiler/runtimefailure or closed e30source24+8/native14/3600scene/defaultproof repeat. External HEAD2d66955prior-work/cleanup/user-doc commit preserved; no agent commit/push. Source memory/whitespace/current hashes checked at closure, all jobs terminal.
+
+**Limitations**
+
+- Standalone source/original getter/palette/initializer-prefix proof only; managed publication/typed CPU-DMA-native ownership/lifecycle/positive ordinary scene/actualCLI remain pending. Allocation/live-unit tails, global caller upper bounds and constructorID0remain unclaimed.
+- Byte01semantic owner and palette payload ownership unproved; live book/descriptor overrides remain. IDs0/1/95plus/trailing2B and neighboring families are not part of this owned source; no guest bounds/fallback introduced.
+- NewLinux/USA/nativeWindows and broader gameplay/maps/audio/GUI/archive/mod remain pending. No performance/startup/RSS/space campaign or AndroidPort change; private ROM/saves/inputs/sourcefixtures/generated code remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-fourteen-byte-special-unit-metadata.json)
 
 ## 2026-10-23 — Decode European four-byte linked pairs with original count and threshold prefix proofs
 
@@ -325,6 +400,31 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](
 
 [Change record](docs/changes/2026-10-23-consume-european-two-byte-forward-inverse-map.json)
 
+## 2026-10-23 — Consume European indexed packed pair banks through original guest readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e32-d31 adds linked-metadata12.json/gameplay.linked-metadata12,27files/26resources, all25prior decoded files/e31 retained, USAe8-d7 unchanged. No unproved semantic owner/dependency is added.
+- Typed1296B/two source roles/bank counters/108record masks preserve original full32row/signed-wrapping slot/u8mode/clock/save/nativeABI across CPU/native/SWI/DMA; raw/cross-bank reads keep existing semantics.
+
+**Validation**
+
+- Windows36670 managed test and94316 production builds warning-free/canonical restored; candidate SHA 9c7f52d0e8fcb046962ebd8ef727a5cc1b72f81e41b47f7e9659ad8401dd4028. Wine22271 two checks pass publication interruption/create/reuse/repair/move/e31retention/coherent pair/unusedtail/source/dependency/path/bothroles transactional guards and unavailable-copy Load/Undo/backup/restart.
+- 49original/interpreter/compiled paths with1296rawB altered match full states/clocks. Four records/both banks positive, compiled primary23/secondary22B; three unowned paths0newreads. Full32/wrapping/otherbank behavior/all1296bytes/edges/maskboundary/widths/mirrors/BIOS/bothbanksCpuSet/FastSet/DMAcrossbank4typed/trailingglobal2typed2raw pass.1828instructions/153dispatches coverageonly. Source1640+10+384/e31 gates not repeated; comment/injected-error wording cleaned aftertestcompile without assertion/production change.
+- ActualCLI2659creates/reuses without writes/old cache/unrelatedcwd;29managed files hash/mtime guarded. Pub397/Lutia3600/enemy-movement3530 coverage-negative/no fullpairs. Existing baseline frame12006/BG diagnostics guide Steal/Item menus; EchoGrass1200 still awaits Do it, physical A1300 yields actualCLI82174positive. No RAM/snapshot edit/new fixture or rejected experiment reopen. One ordinary positive 2200-frame Echo Grass confirmation: ROM_DATA_METADATA12_SCENE frames=2200 bus_reads=44 source_bytes=44 records_used=1 primary_bytes=44 secondary_bytes=0. Every fullstate/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio sample matches; final image inspected.
+- Protected ROM/e31/currentdata/sourceproof/state/input/cache/loader/canonical/candidate unchanged; memory/whitespace/source hashes checked at closure. No runtime/build failure for integration, agent commit/push, performance or space measurements.
+
+**Limitations**
+
+- Ordinary scope is44primary-byte reads from one record,0secondary; secondary-bank ordinary use remains targeted-only. Other pairs/banks may be targeted-only. Global caller bounds/flag semantics/next separately rooted global source/other gameplay consumers remain unclaimed.
+- NewLinux/USA/nativeWindows and broader graphics/text/maps/gameplay/audio/GUI/archive/mod phases remain pending; AndroidPort unchanged, private ROM/saves/inputs/generated data remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-twelve-byte-packed-pair-banks.json)
+
 ## 2026-10-23 — Consume European static item fields with original live property modifiers
 
 Type: added. Platforms: Windows, Wine.
@@ -404,6 +504,58 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-item-linked-pairs.json)
+
+## 2026-10-23 — Consume European global packed-pair bytes with original live-mask and raw-tail behavior
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e33-d32 adds global-pair-flags.json/gameplay.global-pair-flags,28files/27resources/all26prior decoded files/e32 retained, USAe8-d7 unchanged. No semantic dependency/padding/rowstride invented.
+- Typed11B/source counters/byte-position mask serve CPU/native/SWI/DMA while original ignoredr0/slotwrap/u8mode/liveRAM-mask/earlyexit/clock/save/nativeABI remain. Preserve prior metadata12and rawtail byte ownership.
+
+**Validation**
+
+- Windows61276test and73677production builds warning-free/canonical restored; candidate SHA 19d6f42e5bfd9b25d2e2ef268376cf7a83fba3d3171e39367f65eb3aaed974d5. Wine84782 two managed/native checks pass interruption/create/reuse/repair/move/e32retention/coherent pair/tail/sourceoffset/hash/dependency/path/role transactional guards and unavailable-copy Load/Undo/backup/restart.
+- 28original/interpreter/compiled paths with11rawB altered match fullstates/clocks,17compiled reads/byte-mask1059positive,8outsidepaths0newB. All11bytes/edges/widths/mirrors/BIOS/prior2metadata12+2global crossing withbothrawsidesaltered/CpuSet-FastSetexact11typed/DMA3typed1raw and1typed3raw pass.3076instructions/231dispatches coverageonly; source102+10+91/e32proofs not repeated.
+- ActualCLI13165creates/reuses without writes/oldcache/unrelatedcwd;30managed files hash/mtime guarded. Exactlyone2200EchoGrass new-global locator0globalB/mask0while oldmetadata12reads44B, coverage-negative/no fullpair. Bounded original131db8..131de8requires nonzero descriptorhword4 and liveunit+e8mask before globalfilter reads; further ordinary selection needs those conditions.
+- Protected ROM/e32/sourceproof/state/input/cache/loader/canonical/candidate retained; memory/whitespace/source hashes recorded at closure. No compiler/Winefailure/oldproof repeat/agentcommit/push.
+
+**Limitations**
+
+- Positive ordinary global source use/corresponding full-state-image-audio pair remain pending. Current ordinary locator is negative, not acceptance. High-mode ordinary use/semantic labels/other callers/conditions and3adjacentbytes unclaimed.
+- NewLinux/USA/nativeWindows and wider graphics/text/maps/gameplay/audio/GUI/archive/mod remain pending. No performance/startup/RSS/space campaign or AndroidPort change; private ROM/sourcefixtures/saves/inputs/generated code remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-global-packed-pair-flags.json)
+
+## 2026-10-23 — Consume European fourteen-byte special-unit metadata through original guest readers
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- EUR e31-d30 adds linked-metadata14.json/gameplay.linked-metadata14, 26 files/25 resources with actual parsed metadata52 byte02 owner. All24 earlier decoded files/e30 generations retained; USAe8-d7 unchanged.
+- Project exactly1302 typed bytes across pages6e6/6e7 with field counters and two-word93-record mask. Preserve original getter routing/live palette books and copies/descriptor overrides/allocation/clock/save/native ABI. Byte01 remains semantically unconstrained; no new guest bounds/fallback.
+- Two reduced managed/native/lifecycle checks and one separate positive ordinary-scene gate use shared source helpers without repeating the closed504+13 source or earlier-family acceptance.
+
+**Validation**
+
+- Windows managed-test build warning-free and terminal/pass, recovered from logs/map after compaction without rebuild; immutable test copy retained. Wine75387 two checks pass interruption/create/reuse/repair/move/e30 retention/coherent field/payload/source/dependency/path/role rejection/parsed byte02 owner and transactional attachment.
+- Unavailable-copy Load/Undo/backup/restart retain in-memory resources.37 original/interpreter/compiled paths with all1302 raw bytes altered match full states/clocks. IDs2/20/28/94 positive; compiled byte/halfword/packed/tail13/12/35/9B; two normal0/1 paths zero new source. All1302bytes/record-mask boundary/widths/mirrors/BIOS/CpuSet/FastSet/DMAcross-record4typedB/padding2typed2raw pass.4793instructions/2502dispatches are coverage only.
+- Windows7465 production warning-free/canonical restored; candidate SHA c0f3b5cc6e4f50edbb17a596cd68876e5dbebb551a5ec4b4cea7e51140a4aeeb. ActualCLI9489 creates/reuses without writes/old cache/unrelatedcwd,28 managed files guarded.
+- First retained397Pub sample is positive; one Wine24398pair matches every fullstate/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio with27newB/two records/byte4-halfword8-packed12-tail3. Final Pub image inspected; no new scene locator/negative/fullpair repeat needed.
+- Protected originals/e30/current datasets/source proof/state/input/cache/loader/canonical/candidate retained. Memory/whitespace/source-hash checks recorded at closure; no build/runtime failure, source504+13/e30/default acceptance repeat, agent commit or push.
+
+**Limitations**
+
+- Ordinary scope covers two records and observed field reads; all93 getters/live book/initializer-prefix cases are covered by separate source proof, sampled compiled cases by targeted test. Allocation tails/global caller bounds/byte01 semantics/palette payloads/adjacent families remain unclaimed.
+- New Linux/USA/native Windows and broader gameplay/maps/audio/GUI/archive/mod phases remain pending. No performance/startup/RSS/space campaign or AndroidPort change; private ROM/saves/inputs/generated code stay ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-fourteen-byte-special-unit-metadata.json)
 
 ## 2026-10-23 — Consume European four-byte linked pairs through original live qualification logic
 

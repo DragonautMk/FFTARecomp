@@ -1389,13 +1389,124 @@ tou8/itemtou16and gates discount on itembyte0c&8. Its live predicate can add10
 to the discount with u8wrap. Original signed32 base*(100-discount)/100,
 unsigned comparison with minimum price and final zero→1remain distinct. These
 records store no item IDs or other proven foreign keys, so no owner dependency
-is inferred merely from the consumer. Model/original-source/runtime checks for
-this1000Bfamily are next; no new code/build/Wine test has run for it yet.
+is inferred merely from the consumer. Strict `ProgressionRewards`/`Record` now
+preserves fixed IDs0..99/source offsets/eight delta bytes/discount08/opaque09.
+Validation does not constrain deltas/discount to the values observed in this ROM.
+`record` returns diagnostic None for unowned IDs without changing guest access.
+
+Windows13783build is warning-free; one reduced Wine62460original-code oracle
+passes362real cases:7default/indexed publisher prefixes,232original caller→
+full04870cdelta helpers and123completeCF674prices. Every row participates;
+all eight delta fields, original live growth/progress/carry/u8wrap/cap99/flags
+and old99/255 behavior are checked. Prices use actual source-authenticated
+parsed Items, original mode2..6mask lookup/item getter and live predicate, plus
+u8mode/u16item truncation, ungated reads and raw outside indices100/255.
+68isolated high-delta/opaque/discount/u8+10wrap/signed quotient/unsigned minimum/
+zero cases pass. Synthetic copies remain unauthenticated/unpublished. Strict
+JSON/fixed arrays/IDs/order/offset/coherent edits/all1000Broundtrip/callee/SP/
+complete EWRAM and stack guards pass;64148instructions/404PCs are coverage only.
+The arithmetic suffix stops before its epilogue and does not claim whole ABI.
+Whole progression caller, semantic skill names, managed preparation/direct
+consumption/positive ordinary use and newLinux/USA/nativeWindows remain pending.
 
 All1000bytes reconstruct without overlap with e34. Evidence is under
 `target/rom-data-metadata10/`: progression-rewards-inventory.json, independent
 records, discovery.json and bounded selector/field/price/live-consumer/next-root
 disassembly. Current EUR e34-d33/29files/28resources and USAe8-d7remain unchanged.
-No old proof, newLinux/USA/nativeWindows, performance/space or AndroidPort work
-is included. External HEAD26409f7commits prior e31/e32/e33work; the current
-evaluation-parameter diff is inspected and preserved without an agent commit.
+New source evidence: `windows-tests-build.{jsonl,log}`,
+`windows-original-result.json`, `windows-original-europe/{progression-rewards,
+result}.json`, source-final-summary.json and source-final-source-hashes.json.
+All37protected ROM/e34dataset/cache/loader/canonical/candidate/source fixtures
+remain unchanged; no old source/native/scene proof is repeated. External
+HEADe634dd8committed earlier e34/static work; preserved without agent commit.
+No performance/space campaign or AndroidPort change is included.
+
+
+## Managed and direct progression rewards
+
+EUR `v1/e35-d34` adds `progression-rewards.json`, resource
+`gameplay.progression-rewards`:30files/29resources with all28prior decoded
+files and the retained e34generation unchanged; USA remains e8-d7. Preparation,
+bounded parsing, manifest/file/source-role authentication and immutable runtime
+ownership bind the exact1000Brow fields. No item foreign-key dependency is added:
+these records store no item IDs. Original index publication, live growth/level/
+progress/flags, mode masks/item getter/predicate/prices, instructions, clock,
+save/native ABI remain unchanged. Reads outside0..99and twelve trailing bytes
+retain raw access. Typed views compose with earlier resources at shared edges.
+
+Warning-free Windows84154build and Wine80590two focused checks pass. Managed
+publication interruption/create/reuse/repair/move/e34retention, coherent edits
+to delta/lastrow/discount/opaque/reordered records/source/dependency/path/role,
+transactional owner/state preservation and unavailable-file Load/Undo/backup/
+restart pass. All1000typed bytes and all100record-mask bits are verified.
+27selected original/interpreter/native paths match complete states/clocks with
+all1000raw source bytes altered: compiled17delta/4discount/0opaque bytes;
+6publisher/ungated/outside paths use0newbytes. Original whole-price paths and
+nonoverlapping delta fragments share safe exits; isolated arithmetic suffixes
+from the closed source oracle are not added to that native object.
+Allbytes/record boundaries/8-16-32bit widths/three mirrors/real-BIOS flag,
+12unowned trailing bytes, crossing2old evaluation+2new progression bytes,
+CpuSet/FastSet32typed bytes each and DMA2typed+2raw bytes pass.3792instructions/
+96native dispatches are coverage only. Source362+68proof is closed, not repeated.
+
+Evidence: `target/rom-data-metadata10/windows-managed-results.json` and
+`windows-managed-europe/{managed-result,native-result}.json`. ActualCLI25924prepare/reuse/no-write/old-cache/unrelated-cwd checks pass;
+all32managed files retain hashes/mtimes. First600frame town→Shop→Buy locator
+reads7discount bytes/record4(mask16), with no delta/opaque reads. One Wine52469
+full pair matches every complete state/clock/central-wide image/OAM/dispatch
+and mixed/PSG/FIFO/HLE audio stream, with the same7typed discount bytes.
+Final shop background is visually inspected; the separated inventory panel
+is absent from the raw PPM, so item selection/transactions are not inferred
+from that image. Delta use remains targeted-only. No negative locator, new
+recording/RAM edit/persisted save write or old accepted proof is repeated.
+Production33726build is warning-free and canonical binary restored by hash.
+Evidence: windows-build.json, windows-cli-{processes,no-write,summary}.json,
+windows-scene-result.json, windows-shop-progression-rewards-full-state-audio.log,
+shop-buy.png and final-summary/final-source-hashes/final-protected.json in the
+same ignored directory. All protected fixtures remain unchanged.
+NewLinux/USA/nativeWindows,
+whole progression caller/semantic names and the broader TODO remain pending.
+No performance/space measurements or AndroidPort changes are included.
+
+
+## Next progression gates and returned receipts
+
+Static inventory bounds64records×12bytes at6e7dce..6e80ce (768B). Original
+0487F6→048868roots the table; offset+=12/index0..63in0487c8establish its finite
+extent. Independent D23E6→D24A8roots exactly6e80cefor another stride16consumer,
+corroborating the exclusive end without owning any next-table bytes. The
+12zero bytes between e35progression rewards and this source remain unowned;
+none of the768bytes overlap existing e35resources.
+
+Each record preserves byte00, little-endian halfword01assembled from bytes1/2,
+byte03and eight u8requirements04..0b. Byte00currently equals the physical row
+index but is not read by this consumer; do not use that observed equality to
+normalize/drop it or select the received-bit index. Original0487c8reads a live
+u64mask at02002c08, scans unmarked physical indices in ascending order and
+compares each of eight live bytes020021b6+2*k(k0..7)unsigned against the minima.
+The first comparison is separate from the following seven-step loop. First
+eligible record sets its physical bit in the original mask through the original
+145bd0u64shift helper, writes byte03to the caller output and returns halfword01.
+A miss writes output0and returns0without marking. These results are distinct:
+row63has zero requirements/return/output but still marks bit63 on success.
+A scalar0is therefore insufficient to diagnose a miss.
+
+Caller04B60Epasses its stack output byte, truncates/tests the returned halfword
+and only enters047670when nonzero. That receiver retains its <=375and larger
+encoded-value branches. All actual64returned values fit the source-authenticated
+376Items (0..375), but their complete downstream receipt semantics/foreign-key
+contract is not yet proved; keep the two-byte field structural. Specific skill/
+reward names and whole receipt UI behavior remain unclaimed.
+
+Exact EUR root/stride/count/field/load/store/mask/return/caller/next-root opcodes,
+all768Broundtrip and no-e35overlap pass statically. Private inventory initially
+compared a decoded BL ROM offset with a guest address; the address base was
+corrected before producing its successful result. The earlier047678tail locator
+is superseded by the true047670function entry. No new model/build/Wine test
+ran for this family; source oracle/managed/runtime/ordinaryuse/newLinux/USA/
+nativeWindows remain pending, current e35-d34/30files/29resources unchanged.
+Evidence: `target/rom-data-progression-gates/{inventory.py,discovery.json,
+progression-gates-inventory.json,progression-gates-independent.json,
+consumer-0487c8.txt,result-consumer-047670.txt,next-root-0d23b0.txt,
+next-0d2420.txt,static-summary.json,static-source-hashes.json}`. No performance/
+space or AndroidPort work is included; e35source/native/600Shop checks stay closed.

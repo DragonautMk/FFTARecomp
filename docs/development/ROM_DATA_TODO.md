@@ -962,9 +962,41 @@ root6e79da/stride10/default0 e producer020021b4in04B3E0..04B416 fissano0..99,
 01A5A6display non è prova setter. Otto u8delta sono passati al consumer04870c
 con stato live/carry/wrap/cap99/flag; byte08usato in prezzo Items con optional+10u8,
 divisione signed/minimounsigned/zero→1, byte09structuralunused. Roundtrip/noe34overlap/
-root/stride/field opcodes passano; nessun nuovo modello/build/test Wine perquesti
-1000B. Sourceoracle/preparazione/consumo/scena/nomi campi/newLinux-USA da fare.
+root/stride/field opcodes passano. Modello e sourceoracle completati sotto.
+Preparazione/consumo/scena/nomi campi/newLinux-USA da fare.
 [Contratto](../rom_data_gameplay.md#next-ten-byte-progression-and-price-records).
+
+**ROMDATA-02-GAMEPLAY-PROGRESSION-REWARDS-SOURCE-ORACLE completato per EUR/Wine:**
+modello strict100record/1000Bcon8delta/discount08/opaque09, senza vincoli basati
+sui soli valori osservati. Build13783senza avvisi; unico Wine62460passa362casi
+reali (7publisher/232caller+helper04870c/123prezzi completi) e68sintetici.
+Items parsed autenticati, mask/predicato originali, overflowu8/carry/cap99/
+oldinvalid/flag, signeddivisione/minimounsigned/zero, JSON/roundtrip/ID/ordine/
+sourceoffset/SP/callee/EWRAM passano. Fuori100/255 resta raw; sintetici non
+autenticati/pubblicati;37file protetti invariati. Fonte chiusa, preparazione/
+consumo/scena/nuoviLinux-USA-Windowsnativo restano; nessuna misura prestazionale.
+
+**ROMDATA-02-GAMEPLAY-PROGRESSION-REWARDS-DATA / ROMDATA-04-GAMEPLAY-PROGRESSION-REWARDS-CONSUMPTION completati per EUR/Wine:**
+e35-d34 aggiunge progression-rewards.json/gameplay.progression-rewards,
+30file/29risorse, tutti28decoded precedenti/e34invariati, USAe8-d7. Build84154
+senza avvisi/Wine80590due controlli mirati passano pubblicazione/riuso/repair/
+move/coherent edits/transactional/load-undo-backup-restart.27percorsi originali/
+interprete/native con1000Braw alterati hanno stati-clock identici,17delta/
+4discount/0opaque compiled,6percorsi publisher/ungated/outsidezero. Tutti1000B/
+100record/boundary/width/mirror/BIOS/SWI32typed/DMA2typed2raw/crossing2eval2new
+passano. Fonte362+68chiusa/non ripetuta; CLI/scena completati sotto, newLinux-USA-
+Windowsnativo da fare.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-progression-rewards).
+
+**ROMDATA-01-GAMEPLAY-PROGRESSION-GATES-ROOTS completato nel perimetro statico:**
+0487F6→048868/stride12/index0..63fissano64record/768B6e7dce..6e80ce,
+nextrootD23E6→D24A8indipendente allo stessoend. Byte00unused, halfword01return,
+byte03output,8u8minimi contro020021b6+2*k; originale masku64/ordine prima
+riga unmarked idonea/bitfisico/zero-return con bit63successo distinti dal miss.
+Tutti768Broundtrip/noe35overlap/root/field/stride/count/caller/next opcodes
+passano; ritorni attuali0..375compatibili Items, receipt/FK completo nonprovato.
+Nessun nuovo modello/build/Wine; questi restano da fare/newLinux-USA-Windowsnativo.
+[Contratto](../rom_data_gameplay.md#next-progression-gates-and-returned-receipts).
 
 ## ROMDATA-03 — Preparazione automatica e riuso all'avvio
 
@@ -1273,6 +1305,17 @@ Snapshot/ROM/cache/dataset/canonici protetti; nessuna forzatura RAM/PC o misura
 prestazionale. Restano scene/regione/lingue più ampie, FFglobali, archivi e Windows
 nativo. [Prove](ROM_DATA_VALIDATION.md#alternate-palette-e7-scene-and-gui-acceptance).
 
+**ROMDATA-05-GAMEPLAY-PROGRESSION-REWARDS-SCENE-CLI completato nel perimetro EUR/Wine:**
+produzione33726senza avvisi/canonicalripristinato; CLI25924create/reuse/no-write/
+vecchia cache/cwd estraneo passano,32file gestiti invariati perhash/mtime.
+Primo600town→Shop→Buy positivo7discountB/record4(mask16), una sola coppiaWine52469
+ha ogni stato/clock/immagine/OAM/dispatch/audio identici. SfondoShop ispezionato;
+pannello inventory separato non visibile nel PPM, selezione/transazione non
+inferite. Delta ordinary resta targeted-only. Nessun negativo/nuovo recording/
+RAMedit/scritture save/prove362+68o27native ripetute; nuoviLinux-USA-Windowsnativo/
+wholecaller/campi semantici da fare. Nessuna misura performance/spazio.
+[Contratto](../rom_data_gameplay.md#managed-and-direct-progression-rewards).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
@@ -1332,11 +1375,13 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** implementare il modello dei100record progression-rewards e
-un solo controllo sorgente Wine per publisher, delta/live state e prezzo con
-Items parsed. Confini, domain0..99e12Bnonowned sono stabiliti; non riaprire il
-candidato101né le provee34/1840Pubscore. Soglie RNGordinarie restano targeted-only;
-global11Bordinary richiede condizioni descriptor/live-mask concrete, niente
-EchoGrass invariato. Restano altre fonti indirette grafiche/testuali, mappe,
-audio/gameplay, GUI/archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA da fare,
-niente misure prestazionali o limiti spazio.
+**Prossima azione:** implementare modello e unico sourceoracle Wine dei64record
+progression-gates: otto minimi live, maschera u64 e primo successo, miss e
+successo-row63che restituisce0ma marca bit63. Conservare byte00unused e
+halfword01structural, niente FK o nomi per soli intervalli osservati. Inventario
+768B/extent chiuso; e35fonte362+68/managed27native/600Shop chiusi, non ripetere.
+Delta ordinary e soglie RNGordinarie restano targeted-only; global11Bordinary
+richiede condizioni descriptor/live-mask concrete, niente EchoGrass invariato.
+Restano altre fonti indirette grafiche/testuali, mappe, audio/gameplay, GUI/
+archivi e mod. Test ridotti Wine/EUR; nuoviLinux/USA da fare, niente misure
+prestazionali o limiti spazio.

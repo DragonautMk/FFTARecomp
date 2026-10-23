@@ -33,12 +33,14 @@ pub mod metadata14;
 pub mod metadata12;
 pub mod global_pair_flags;
 pub mod evaluation_parameters;
+pub mod progression_rewards;
+pub mod progression_gates;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 34;
-pub const DECODER_REV: u32 = 33;
+pub const EXTRACTOR_REV: u32 = 35;
+pub const DECODER_REV: u32 = 34;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -79,6 +81,10 @@ pub const EVALUATION_PARAMETERS_ID: &str = "gameplay.evaluation-parameters";
 pub const EVALUATION_PARAMETERS_FILE: &str = "evaluation-parameters.json";
 pub const EVALUATION_PARAMETERS_FORMAT: &str = "evaluation-parameters-v1-json";
 pub const MAX_EVALUATION_PARAMETERS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const PROGRESSION_REWARDS_ID: &str = "gameplay.progression-rewards";
+pub const PROGRESSION_REWARDS_FILE: &str = "progression-rewards.json";
+pub const PROGRESSION_REWARDS_FORMAT: &str = "progression-rewards-v1-json";
+pub const MAX_PROGRESSION_REWARDS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -278,6 +284,7 @@ pub struct Extraction {
     pub metadata12: Option<metadata12::Catalog>,
     pub global_pair_flags: Option<global_pair_flags::Catalog>,
     pub evaluation_parameters: Option<evaluation_parameters::Catalog>,
+    pub progression_rewards: Option<progression_rewards::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -313,6 +320,7 @@ pub struct BaseFiles<'a> {
     pub metadata12: Option<(&'a metadata12::Metadata12, &'a [u8])>,
     pub global_pair_flags: Option<(&'a global_pair_flags::GlobalPairFlags, &'a [u8])>,
     pub evaluation_parameters: Option<(&'a evaluation_parameters::EvaluationParameters, &'a [u8])>,
+    pub progression_rewards: Option<(&'a progression_rewards::ProgressionRewards, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -550,6 +558,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.evaluation_parameters = Some(metadata);
+            let metadata = progression_rewards::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PROGRESSION_REWARDS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: PROGRESSION_REWARDS_ID.into(), path: PROGRESSION_REWARDS_FILE.into(), format: PROGRESSION_REWARDS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.progression_rewards = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -615,6 +630,7 @@ impl Extraction {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -679,6 +695,7 @@ impl Extraction {
             || self.metadata12.is_some() && self.metadata14.is_none()
             || self.global_pair_flags.is_some() && self.metadata12.is_none()
             || self.evaluation_parameters.is_some() && self.global_pair_flags.is_none()
+            || self.progression_rewards.is_some() && self.evaluation_parameters.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -947,6 +964,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected evaluation_parameters resource".into()),
         }
+        match (&self.progression_rewards, files.progression_rewards) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_PROGRESSION_REWARDS_FILE_BYTES { return Err("ProgressionRewards file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[28].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected progression_rewards resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1088,6 +1114,9 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.evaluation_parameters, files.evaluation_parameters) {
             if decoded != &expected.decoded {return Err("Decoded evaluation_parameters differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.progression_rewards, files.progression_rewards) {
+            if decoded != &expected.decoded {return Err("Decoded progression_rewards differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1118,6 +1147,7 @@ impl Extraction {
             + usize::from(self.metadata12.is_some())
             + usize::from(self.global_pair_flags.is_some())
             + usize::from(self.evaluation_parameters.is_some())
+            + usize::from(self.progression_rewards.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1201,6 +1231,7 @@ mod tests {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
             font_bank: None,
             })
             .unwrap();
@@ -1236,6 +1267,7 @@ mod tests {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
             font_bank: None,
             })
             .is_err());
@@ -1281,6 +1313,7 @@ mod tests {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1315,6 +1348,7 @@ mod tests {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
             font_bank: None,
             })
             .is_err());

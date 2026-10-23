@@ -254,8 +254,28 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   6e79da..6e7dc2 from normal index0..99and three literal/indexed/default paths.
   Eightu8deltas retain original live level/progress/flag work; byte08discount
   uses the original parsed-Items price chain. Byte09unused/12Btailunowned;
-  candidate101rows rejected. Model/source/runtime/ordinaryuse and newLinux/USA/
-  nativeWindows pending, e34unchanged. [Contract](../rom_data_gameplay.md#next-ten-byte-progression-and-price-records).
+  candidate101rows rejected. Strict lossless source model and one Wine original
+  oracle pass362real/68synthetic publisher/delta/live-price cases using actual
+  parsed Items, exact u8wrap/signed-unsigned minimum and full EWRAM/stack/callee
+  guards. Managed/runtime/ordinaryuse and newLinux/USA/nativeWindows pending;
+  e34unchanged. [Contract](../rom_data_gameplay.md#next-ten-byte-progression-and-price-records).
+  EUR e35-d34 adds progression-rewards.json/gameplay.progression-rewards,
+  30files/29resources/all28prior decoded files/e34retained;100records/1000B
+  direct typed delta/discount/opaque bytes. Two focused Wine managed/native/
+  lifecycle checks and27original/interpreter/native paths with1000rawB altered
+  pass fullstate-clock equality; compiled17delta/4discount/0opaque, outside/
+  publisher/ungated paths0newreads, allbytes/boundaries/mirrors/BIOS/SWI/DMA
+  and old-evaluation/new-progression crossing pass. Source362+68closed;
+  ActualCLI prepare/reuse/no-write/oldcache and one600Shop fullstate/image/
+  audio pair pass7discountB/record4; deltaordinary remains targeted-only.
+  NewLinux/USA/nativeWindows/whole progression caller remain pending.
+  [Contract](../rom_data_gameplay.md#managed-and-direct-progression-rewards).
+  Next static progression-gates source owns64x12/768B6e7dce..6e80cefrom
+  original0487c8stride/loop, with independent next root exactly at its end.
+  Byte00unused, halfword01returned/byte03output/eight live unsigned minima
+  preserve physical-index u64received-bit ordering; row63returns0but still
+  marks bit63. Whole downstream receipt/FK/source model/runtime remain pending;
+  no new build/Wine run, e35unchanged. [Contract](../rom_data_gameplay.md#next-progression-gates-and-returned-receipts).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

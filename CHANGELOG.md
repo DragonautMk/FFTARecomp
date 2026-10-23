@@ -105,6 +105,29 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-23-inventory-european-static-item-records.json)
 
+## 2026-10-23 — Bound European progression gates by original live minima and receipt-mask consumers
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Inventory64records/12B/768B6e7dce..6e80ce from0487F6literal/0487c8offset+=12,index0..63and independent next D23E6literal at exact end. Preserve prior12Bunowned gap/noe35overlap; no adjacent next payload ownership.
+- Distinguish unusedbyte00/structuralunalignedhalfword01return/byte03output/eightunsigned live minima020021b6+2*k, original u64received mask02002c08/physical lowest eligible index/145bd0shift. Zero-valued row63still marks bit63; scalar0not equivalent to miss. Downstream047670contains <=375/larger encoded-value branches; actual376Items range compatibility is not complete receipt/FK proof.
+
+**Validation**
+
+- ExactEUR literal/stride/count/all8field/live-mask/store/return/callerBL/independent next root opcodes and768Broundtrip/noe35overlap pass statically. Private inventory BL offset-vs-guest-address assertion corrected before successful output; initial047678tail locator superseded by true047670entry.
+- No new model/build/Wine test/fixture; previous e35source362+68/native27/600Shop/CLI proof remains closed. Current e35-d34/30files/29resources and USAe8-d7 unchanged; structured memory checks recorded.
+
+**Limitations**
+
+- Source model/original-code oracle/managed publication/direct runtime/lifecycle/ordinaryuse and complete downstream receipt semantics/FK/skill names remain pending; byte00observed ID equality is not a schema semantic constraint.
+- NewLinux/USA/nativeWindows and wider TODO pending; no performance/startup/RSS/space measurement, AndroidPort change, agent commit or push. Private ROM/decoded records/disassembly/artifacts stay ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-inventory-european-progression-gates-and-receipt-records.json)
+
 ## 2026-10-23 — Consume European localized UI graphics and shared OBJ split uploads
 
 Type: added. Platforms: Windows, Wine.
@@ -208,6 +231,30 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-decode-european-sixteen-byte-linked-metadata.json)
+
+## 2026-10-23 — Decode European progression deltas and price discounts with original live-state proof
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Add strict lossless ProgressionRewards/Record model for100records/1000B6e79da..6e7dc2, IDs0..99/fixedsourceoffsets/eightu8deltas/discount08/opaque09. Keep12Btailunowned/rejected101candidate; no observed-range constraints or invented item foreign keys. Finite diagnostic arithmetic retains live growth/u8wrap/carry/cap99/oldinvalid/flags and signed price division/unsigned minimum/zero/optional+10u8wrap; original guest routines unchanged.
+- Managed EUR e34-d33/29files/28resources and USAe8-d7 unchanged at this source boundary. Read actual source-authenticated parsed Items for the complete original price consumer; outside IDs100/255 preserve original raw access and model None is diagnostic only.
+
+**Validation**
+
+- Windows13783build warning-free; single new Wine62460oracle terminal/pass with362real cases:7default/indexed publisher prefixes,232original delta caller/full04870chelpers and123completeCF674prices; all100rows/all8fields/original mode masks/item getter/live predicate/u8mode-u16item truncation/old99-255 tested.
+- 68isolated high-delta/opaque/discount/signed quotient/unsigned minimum/zero/u8+10wrap cases pass; copies unauthenticated/unpublished. StrictJSON/fixedarray/IDs/order/sourceoffset/coherentedit/all1000Broundtrip/SP/callee/fullEWRAM/stack guards pass.64148instructions/404PCs coverage only, no performance metric.
+- All37protected ROM/e34dataset/cache/loader/canonical/candidate/sourcefixture hashes unchanged; old accepted source/native/scene checks not repeated. Source final summary/hashes and structured memory checks recorded. No agent commit/push; external e634dd8 earlier e34/static commit preserved.
+
+**Limitations**
+
+- Source scope covers publisher prefixes, eight caller-to-full-helper paths and full prices; isolated arithmetic suffix stops before epilogue, no whole-progression-caller/skill-semantic claim. Managed publication/direct CPU-DMA-native consumption/lifecycle/positive ordinary use remain pending.
+- NewLinux/USA/nativeWindows and wider TODO pending; no performance/startup/RSS/space measurements or AndroidPort changes. Private ROM/data/saves/inputs/generated code/fixtures remain ignored.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-progression-reward-and-price-records.json)
 
 ## 2026-10-23 — Decode European counted item-linked pairs with original query and publication proofs
 
@@ -524,6 +571,32 @@ Type: added. Platforms: Windows, Wine.
 Documentation: [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
 
 [Change record](docs/changes/2026-10-23-consume-european-sixteen-byte-linked-metadata.json)
+
+## 2026-10-23 — Consume European progression deltas and discounts through authenticated typed records
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Advance EUR to e35-d34/30files/29resources with progression-rewards.json/gameplay.progression-rewards,100records/1000B/one authenticated source range. Preserve all28prior decoded file bytes/e34generation and USAe8-d7. Add typed delta/discount/opaque reads with two-word100record coverage mask and composition across the earlier evaluation boundary.
+- Keep original pointer publication/live growth-level-progress-flag work/item mode masks/getter/predicate/price arithmetic/guest instructions-clock/save-native ABI. Outside0..99/twelve trailing bytes stay raw. No invented item foreign-key dependency; private source data remains excluded.
+
+**Validation**
+
+- Windows84154warning-free and Wine80590two focused managed/native checks terminal/pass: publication interruption/create/reuse/repair/move/e34retention/coherent delta-lastrow-discount-opaque-reorder-source-dependency-path-role/transactional state-owner/unavailable-copy Load-Undo-backup-restart/all1000B-100record mask.
+- 27original/interpreter/native paths with1000rawB altered match fullstates/clocks;17delta/4discount/0opaque compiled bytes,6publisher-ungated-outside paths0newreads. Allbytes/recordedges/widths/mirrors/real-BIOS flag/12rawtail/2old-evaluation+2new crossing/SWI32typed each/DMA2typed2raw pass.3792instructions/96native dispatches coverageonly; source362+68/oldnative/scene proofs not repeated.
+- Production33726warning-free/canonical restored by hash; actualCLI25924create/reuse/no-write/oldcache/unrelatedcwd pass with32managed file hashes/mtimes unchanged. First600frame town-Shop-Buy locator uses7discountB/record4(mask16), no negative locator/fullpair on negative.
+- One600Wine52469pair terminal/pass: every fullstate/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio stream equal with7typeddiscountB. FinalShopbackground visually inspected; separatedinventory panel absent from rawPPM, no inferred item selection/transaction. No newrecording/RAMedit/persistedsavewrite; no closedsource/native/lifecycle proof repeated.
+- Structured record/feature/state/inventory/TODO/handoff/changelog and final memory/whitespace/protected-file/source-hash checks recorded. All jobs terminal, no build/Wine failure or agent commit/push.
+
+**Limitations**
+
+- Delta ordinary use remains targeted-only; positive scene covers discount reads, not whole progression caller or transaction outcome. Semantic skill names/other consumers not claimed.
+- NewLinux/USA/nativeWindows/widerTODO remain pending, no performance/startup/RSS/space measurements or AndroidPort changes, no agent commit/push.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-consume-european-progression-reward-and-price-records.json)
 
 ## 2026-10-23 — Consume European counted item links with original live unit publication
 

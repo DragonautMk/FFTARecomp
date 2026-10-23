@@ -46,6 +46,9 @@ pub use global_pair_flags::GlobalPairFlagsStats;
 mod evaluation_parameters;
 use evaluation_parameters::EvaluationParametersResources;
 pub use evaluation_parameters::EvaluationParametersStats;
+mod progression_rewards;
+use progression_rewards::ProgressionRewardsResources;
+pub use progression_rewards::ProgressionRewardsStats;
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -133,6 +136,7 @@ pub struct RuntimeResources {
     metadata12: Option<Box<Metadata12Resources>>,
     global_pair_flags: Option<Box<GlobalPairFlagsResources>>,
     evaluation_parameters: Option<Box<EvaluationParametersResources>>,
+    progression_rewards: Option<Box<ProgressionRewardsResources>>,
 }
 
 impl RuntimeResources {
@@ -283,6 +287,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.evaluation_parameters {
             resources.evaluation_parameters = Some(Box::new(EvaluationParametersResources::new(data.clone(), &source.evaluation_parameters.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.progression_rewards {
+            resources.progression_rewards = Some(Box::new(ProgressionRewardsResources::new(data.clone(), &source.progression_rewards.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -333,6 +340,7 @@ impl RuntimeResources {
             metadata12: None,
             global_pair_flags: None,
             evaluation_parameters: None,
+            progression_rewards: None,
         }
     }
 
@@ -388,6 +396,7 @@ impl RuntimeResources {
             + self.metadata12.as_ref().map_or(0, |i| i.resident_bytes())
             + self.global_pair_flags.as_ref().map_or(0, |i| i.resident_bytes())
             + self.evaluation_parameters.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.progression_rewards.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -468,6 +477,7 @@ impl RuntimeResources {
     pub fn metadata12_stats(&self) -> Option<Metadata12Stats> {self.metadata12.as_ref().map(|m|m.stats())}
     pub fn global_pair_flags_stats(&self) -> Option<GlobalPairFlagsStats> {self.global_pair_flags.as_ref().map(|m|m.stats())}
     pub fn evaluation_parameters_stats(&self) -> Option<EvaluationParametersStats> {self.evaluation_parameters.as_ref().map(|m|m.stats())}
+    pub fn progression_rewards_stats(&self) -> Option<ProgressionRewardsStats> {self.progression_rewards.as_ref().map(|m|m.stats())}
     pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
@@ -626,7 +636,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.evaluation_parameters {
+            let prior = match &self.evaluation_parameters {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.progression_rewards {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -786,6 +800,7 @@ impl crate::MemMap {
             || Metadata12Resources::source_page(index)
             || GlobalPairFlagsResources::source_page(index)
             || EvaluationParametersResources::source_page(index)
+            || ProgressionRewardsResources::source_page(index)
     }
 }
 

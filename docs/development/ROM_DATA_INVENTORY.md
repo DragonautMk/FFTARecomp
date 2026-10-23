@@ -400,8 +400,21 @@ remain groundwork for other linked graphics families.
   level/progress/flags through04870c; byte08feeds live itemprice discount,
   byte09structuralunused. Unsigned/signed/u8wrap/min-price/zero behavior and
   actual parsed Items base are distinguished; no storedforeignkey inferred.
-  Exactroundtrip/noe34overlap/roots/stride/fields pass statically. Model/source
-  oracle/managed/runtime/ordinaryuse and newLinux/USA remain pending.
+  Exactroundtrip/noe34overlap/roots/stride/fields pass. Strict source model and
+  one Windows/Wine oracle pass362real/68synthetic publisher/delta/full-price
+  cases with actual parsed Items and complete EWRAM/SP/callee guards. Source
+  work closed. EUR e35-d34adds30thfile/29thresource; all28old decoded files/
+  e34retained. Two focused Wine managed/native/lifecycle checks pass27original/
+  interpreter/native paths, raw1000Baltered/fullstate-clock equality, typed
+  boundaries/mirrors/BIOS/SWI/DMA/coexistence. ActualCLI no-write reuse and
+  one600Shop fullstate/image/audio pair read7discountB/record4; ordinary
+  deltas targeted-only, newLinux/USA remain pending.
+  Next static progression-gates roots6e7dce/stride12/index0..63,768Bto6e80ce;
+  independent next root D23E6→D24A8. Byte00unused/halfword01return/byte03output/
+  eight live unsigned minima and original u64mask order preserved structurally;
+  row63zero return still marks bit63. Roundtrip/noe35overlap/opcodes pass,
+  no new model/build/test, downstream receipt/FK/source/runtime/ordinaryuse
+  and newLinux/USA remain pending.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

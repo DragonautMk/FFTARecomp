@@ -1797,3 +1797,47 @@ loader/candidates/canonical hashes are protected, CLI also checks file mtimes.
 NewLinux/USA/nativeWindows/all64ordinary rows/other callers/semantic display
 consumers and the rest of the TODO remain pending; no performance/space/
 AndroidPort work or agent commit/push.
+
+## Aggregate flag keys source contract
+
+The raw ordered table at6e9a5c..6e9cb6owns602bytes:300little-endian u16slots
+and terminalffffat6e9cb4. Original D2300→D2344and13FB22→13FB74independently
+root the two counters. Independent29AF4→29B0Croots the next table at exactly
+the exclusive end6e9cb6. All602bytes roundtrip without overlap with e37.
+Other indexed lookup/publication readers50354/5165C/51E50/52110are statically
+located; this does not prove their complete UI contracts or arbitrary indices.
+
+Original D22FCcounts global flags at02001f70;13FB1Ccounts flags in the passed
+context atctx+1f70. Both add0x2ffto each stored key and truncate to u16before
+their original flag predicate. Count is by occurrences, preserving order and
+duplicates. Affffinside a slot stops immediately; later slots remain lossless
+storage. The explicit terminalffffkeeps the declared stream bounded. The exact
+base contains300unique keys3..315with gaps; uniqueness/value==ID/range/foreign-key
+constraints are not imposed on the model. Synthetic high/wrapping keys are
+separate unauthenticated cases and are never published.
+
+After the key loop, either live flag36or an original linked list containing
+masked ten-bit ID017fadds one, with OR/short-circuit behavior. Global list head
+is020028c8; context list head isctx+28c8. Original pointer chasing/flag getters/
+return-u16 remain active. A diagnostic model reads a flag closure and a linked
+match input; it does not replace guest code, bind an unrelated context or write
+RAM. Strict fixed300slot IDs/order/offset/terminal/unknown-field/source checks
+and exact602byte authentication preserve the structural contract.
+
+Windows5092testbuild is warning-free. One Wine38100oracle passes32real-source
+and26mutated-source cases through both complete counters and original flag/
+linked predicates. All602source bytes are observed. Global/context flag isolation,
+key+2ffu16wrap, duplicate occurrences, early slotffffat0/1/149/299, flag36ORmasked
+linked first/second matches and short circuit pass. Full EWRAM stays read-only;
+SP/callee/stack guards pass. 506977instructions/177PCs describe coverage only.
+The previous e37source/native/scene proofs are not repeated. Protected ROM/
+e37data/states/inputs/cache/loader/candidates/canonical retain hashes.
+
+This step adds a source-only model; EUR e37-d36/32files/31resources and USAe8-d7
+remain unchanged. Managed publication/direct consumption/lifecycle/ordinary
+scene and newLinux/USA/nativeWindows/whole other UI readers remain pending.
+Private evidence: `target/rom-data-aggregate-flag-keys/` contains independent
+records/inventory/literal readers/bounded disassembly, windows-tests-build.*,
+windows-tests.json, recomp-tests-original.exe, windows-original-result.json,
+windows-original.log and windows-original-europe/{aggregate-flag-keys.json,result.json}.
+No performance/space/AndroidPort work or agent commit/push is included.

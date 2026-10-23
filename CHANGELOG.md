@@ -567,6 +567,31 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE
 
 [Change record](docs/changes/2026-10-23-decode-european-constructor-alternate-templates.json)
 
+## 2026-10-23 — Decode ordered European aggregate flag keys and verify both original counters
+
+Type: added. Platforms: Windows, Wine.
+
+**Changes**
+
+- Prove602Bsource6e9a5c..6e9cb6/300u16slots+terminalffff from original globalD22FC/context13FB1Croots and independent next source at exact end. Add strict lossless source-only model with physical IDs/order/offset/terminator and no key uniqueness/range/semantic FK constraint.
+- Preserve ordered occurrence counts, key+2ffu16wrap, in-slotffffearlystop and original global/context flag predicates/live36ORmasked017flinked-list extra1/u16return. Diagnostic model does not write RAM or replace guest code; EUR e37-d36/32files/31resources and USAe8-d7 unchanged.
+
+**Validation**
+
+- Bounded source/literal/loop/nextroot/helper/indexed-reader static checks, independent602Broundtrip/noe37overlap pass. Four other UI lookup/publication roots are static-only, not whole UI proof.
+- Windows5092testbuild warning-free; one Wine38100fullglobalD22FC/context13FB1C oracle passes32real-source/26unauthenticated-unpublished mutated-source cases. All602source bytes read, context isolation/key+2ffwrap/duplicate occurrences/earlyffffat0-1-149-299/live36ORmasked017ffirst-second-match-shortcircuit/fullEWRAMreadonly/SP-callee-stack/strictJSON-ID-order-offset-terminator-source guards pass.506977instructions/177PCcoverageonly.
+- Private evidence target/rom-data-aggregate-flag-keys/{aggregate-flag-keys-{inventory,independent}.json,literal-readers.json,*reader*.txt,windows-tests-build.*,windows-tests.json,recomp-tests-original.exe,windows-original-result.json,windows-original.log,windows-original-europe/{aggregate-flag-keys.json,result.json},source-protected.json}. No prior e37/source/native/scene proof repeated.
+- Final142protected ROM/e37dataset/candidates/canonical/nativecache/loader/state/input/sourcefixture hashes unchanged; project-memory including --base99fb9fd and whitespace checks pass, all unit processes terminal, source-final-summary/source-final-source-hashes retained.
+
+**Limitations**
+
+- Managed publication/direct consumption/lifecycle/ordinary scene and newLinux/USA/nativeWindows/whole other UI readers/fullTODO remain pending.
+- No performance/space/AndroidPort work, private ROM/save/input publication or agent commit/push. External5b2a10bprior e37/coverage commit and concurrent .gitignore/debug_saves addition preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [PROJECT_STATE.md](docs/development/PROJECT_STATE.md), [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-23-decode-european-aggregate-flag-keys.json)
+
 ## 2026-10-23 — Consume European byte-pair map through managed typed runtime ownership
 
 Type: added. Platforms: Windows, Wine.

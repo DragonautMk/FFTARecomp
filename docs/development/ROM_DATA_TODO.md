@@ -1407,6 +1407,17 @@ fonte138+80/native18/e36/delta8/thresholdclass1chiusi/nonripetuti. NuoviLinux-US
 Windowsnativo/all64ordinary/semanticadisplay dafare; niente performance/spazio.
 [Prova](../rom_data_gameplay.md#ordinary-progression-selection-dispatch-completion).
 
+**ROMDATA-01-GAMEPLAY-AGGREGATE-FLAG-KEYS-ROOTS / ROMDATA-02-GAMEPLAY-AGGREGATE-FLAG-KEYS-SOURCE-ORACLE completati EUR/Wine sorgente:**
+602B6e9a5c..6e9cb6,300slotu16+terminatoreffff, nextrootindipendente29AF4esattoend.
+Duecontatori completi D22FCglobale/13FB1Ccontesto mantengono(key+2ff)u16,
+ordine/duplicati/earlyffff, liveflag36ORlinked017fextra1/returnu16. Modello strict
+lossless e unicoWine38100passano32reali+26sintetici, tutti602B osservati,
+isolamentocontesto/overflow/duplicati/terminazioneprecoce/shortcircuit/readonly
+fullEWRAM-SP-callee-stack/JSON-ID-order-offset-source guards. Build5092senzaavvisi,
+nessun errore/ripetizioneprova vecchia. E37invariato; preparazione/consumo/
+lifecycle/scena e nuoviLinux-USA-Windowsnativo dafare; altri4readerUIstatic-only.
+[Contratto](../rom_data_gameplay.md#aggregate-flag-keys-source-contract).
+
 ## ROMDATA-06 — Mod tramite sostituzione delle risorse
 
 **ROMDATA-05-TEXT-CATALOG-SCENE-CLI completato per EUR/Wine dichiarato:**
@@ -1466,11 +1477,12 @@ suoi criteri restano aperti e non riaprire figli conclusi senza nuova evidenza.
 Seguire [MEMORY_WORKFLOW.md](MEMORY_WORKFLOW.md) per documentazione, record e
 verifiche; mantenere ROM, risorse estratte e prove personali fuori da Git.
 
-**Prossima azione:** inventariare la sorgente raw a300elementi del helperD22FC
-(6e9a5c, terminatore0xffff): provare root/extent/sentinel/offsetflag0x2ff e
-consumo prima di modellarla. Il1000dispatch esistente già percorre quelhelper,
-quindi non creare nuovefixture se la futura integrazione può riusarlo.
-Selection-gates fonte138+80/18native/CLI/1000ordinary chiusi; e36/delta8/
+**Prossima azione:** integrare aggregate-flag-keys in e38-d37, pubblicazione e
+consumo diretto tipizzato. Fonte32+26chiusa: nonripeterla. Coprire retentione37,
+transazioni/coherentedit/binding/Load-Undo-backup-restart, duecontatorioriginali-
+interprete-native con raw602Balterati/stati-clock, confini/sentinel/mirror/BIOS/
+SWI/DMA. Poi CLI e una positiva scenaordinaria, riusando checkpointday18/input
+esistente per solo il nuovo source. E37source/native18/CLI/1000ordinary e
 class1threshold400nonriaprire. Return/outputordinarygates/global11Bcondition e
 altre fonti grafiche/testuali/mappe/audio/gameplay/GUI/archivi/mod restano distinti.
 Test ridotti Wine/EUR; nuoviLinux/USA dafare, niente misure prestazionali/limiti

@@ -444,6 +444,12 @@ remain groundwork for other linked graphics families.
   1000Wine ordinary dispatchcompletion fullstate-image-audio pair pass277newB/
   all6fields/first26records;400Yes-fee0Bclosednegative/no fullpair. NewLinux-USA/
   all64ordinary/semanticdisplay remain pending.
+  Next aggregate key table owns6e9a5c..6e9cb6/602B(300u16slots+ffff),
+  D22FCglobal and13FB1Ccontext counters share exactsource, next root29AF4atend.
+  Strict source-only model/one Wine32real+26synthetic oracle pass both complete
+  counters/all602B/key+2ffu16wrap/duplicates/earlystop/flag36ORlinked017f/
+  contextisolation/fullRAMreadonly-SP-callee guards. OtherindexedUIreader roots
+  static-only. Managed/runtime/ordinary/newLinux-USA pending, e37unchanged.
   [Item contract/evidence](../rom_data_gameplay.md).
 - **Audio samples, instruments, songs and sequencing.** `engine.rs` detects
   driver families; `mp2k.rs`, `gax.rs` and `rdrv.rs` shadow live voices while

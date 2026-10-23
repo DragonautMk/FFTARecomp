@@ -30,3 +30,4 @@ ffta-input-diagnostic*.txt
 # Local save fixture archive; never commit personal game progress.
 /saves.zip
 /saves/
+/debug_saves/

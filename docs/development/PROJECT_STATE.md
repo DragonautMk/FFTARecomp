@@ -315,6 +315,12 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   277newB/all6fields/first26records, every complete state-clock-image-audio equal.
   NewLinux-USA-nativeWindows/all64ordinary/semanticdisplay pending.
   [Contract](../rom_data_gameplay.md#managed-and-direct-progression-selection-gates).
+  Aggregate-flag-keys source contract owns300u16slots+ffff/602B6e9a5c..6e9cb6,
+  independent next root at exactend. Strict source model and one Wine full
+  D22FCglobal/13FB1Ccontext oracle pass32real+26synthetic cases/all602B,
+  key+2ffu16wrap/duplicates/earlysentinel/contextisolation/flag36ORlinked017f/
+  read-only fullRAM-SP-callee guards. Source-only/e37unchanged; managed/runtime/
+  ordinary/newLinux-USA-nativeWindows pending. [Contract](../rom_data_gameplay.md#aggregate-flag-keys-source-contract).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit

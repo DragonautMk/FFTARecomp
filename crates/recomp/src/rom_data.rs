@@ -132,6 +132,8 @@ mod progression_gate_tests;
 #[cfg(test)]
 mod progression_selection_gate_tests;
 #[cfg(test)]
+mod aggregate_flag_key_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;

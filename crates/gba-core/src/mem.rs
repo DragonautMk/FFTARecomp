@@ -604,6 +604,7 @@ impl MemMap {
                 if let Some(h) = mp2k.as_deref_mut() {
                     if h.active && h.engaged {
                         let mem = crate::mp2k::MemView {
+                            resources: self.rom_resources.as_deref(),
                             rom: &self.rom,
                             ewram: &self.ewram,
                             iwram: &self.iwram,
@@ -618,6 +619,7 @@ impl MemMap {
                 if let Some(g) = gax.as_deref_mut() {
                     if g.active {
                         let mem = crate::mp2k::MemView {
+                            resources: None,
                             rom: &self.rom,
                             ewram: &self.ewram,
                             iwram: &self.iwram,
@@ -640,6 +642,7 @@ impl MemMap {
                 if let Some(rr) = rdrv.as_deref_mut() {
                     if rr.active {
                         let mem = crate::mp2k::MemView {
+                            resources: None,
                             rom: &self.rom,
                             ewram: &self.ewram,
                             iwram: &self.iwram,
@@ -671,6 +674,7 @@ impl MemMap {
     pub fn gax_frame_hook(&mut self, key: u32, r0: u32) {
         if let Some(mut g) = self.gax.take() {
             let mem = crate::mp2k::MemView {
+                resources: None,
                 rom: &self.rom,
                 ewram: &self.ewram,
                 iwram: &self.iwram,
@@ -685,6 +689,7 @@ impl MemMap {
     pub fn rdrv_frame_hook(&mut self, key: u32) {
         if let Some(mut rr) = self.rdrv.take() {
             let mem = crate::mp2k::MemView {
+                resources: None,
                 rom: &self.rom,
                 ewram: &self.ewram,
                 iwram: &self.iwram,
@@ -699,6 +704,7 @@ impl MemMap {
     pub fn mp2k_frame_hook(&mut self, key: u32) {
         if let Some(mut h) = self.mp2k.take() {
             let mem = crate::mp2k::MemView {
+                resources: self.rom_resources.as_deref(),
                 rom: &self.rom,
                 ewram: &self.ewram,
                 iwram: &self.iwram,

@@ -37,12 +37,25 @@ pub mod progression_rewards;
 pub mod progression_gates;
 pub mod progression_selection_gates;
 pub mod aggregate_flag_keys;
+pub mod trade_parameters;
+pub mod item_effect_parameters;
+pub mod audio_directory;
+mod audio_producers;
+pub mod audio_tones;
+pub mod audio_sequences;
+pub mod audio_driver;
+pub mod palette_effect_dispatch;
+pub mod palette_programs;
+pub mod blend_programs;
+pub mod task_descriptors;
+pub mod effect_event_directories;
+pub mod script_commands;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 38;
-pub const DECODER_REV: u32 = 37;
+pub const EXTRACTOR_REV: u32 = 50;
+pub const DECODER_REV: u32 = 49;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -99,6 +112,54 @@ pub const AGGREGATE_FLAG_KEYS_ID: &str = "gameplay.aggregate-flag-keys";
 pub const AGGREGATE_FLAG_KEYS_FILE: &str = "aggregate-flag-keys.json";
 pub const AGGREGATE_FLAG_KEYS_FORMAT: &str = "aggregate-flag-keys-v1-json";
 pub const MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const TRADE_PARAMETERS_ID: &str = "gameplay.trade-parameters";
+pub const TRADE_PARAMETERS_FILE: &str = "trade-parameters.json";
+pub const TRADE_PARAMETERS_FORMAT: &str = "trade-parameters-v1-json";
+pub const MAX_TRADE_PARAMETERS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const ITEM_EFFECT_PARAMETERS_ID: &str = "gameplay.item-effect-parameters";
+pub const ITEM_EFFECT_PARAMETERS_FILE: &str = "item-effect-parameters.json";
+pub const ITEM_EFFECT_PARAMETERS_FORMAT: &str = "item-effect-parameters-v1-json";
+pub const MAX_ITEM_EFFECT_PARAMETERS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const AUDIO_DIRECTORY_ID: &str = "audio.m4a-directory";
+pub const AUDIO_DIRECTORY_FILE: &str = "audio-directory.json";
+pub const AUDIO_DIRECTORY_FORMAT: &str = "audio-directory-v1-json";
+pub const MAX_AUDIO_DIRECTORY_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const AUDIO_TONES_ID: &str = "audio.m4a-tones";
+pub const AUDIO_TONES_FILE: &str = "audio-tones.json";
+pub const AUDIO_TONES_FORMAT: &str = "audio-tones-v1-json";
+pub const MAX_AUDIO_TONES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const AUDIO_SEQUENCES_ID: &str = "audio.m4a-sequences";
+pub const AUDIO_SEQUENCES_FILE: &str = "audio-sequences.json";
+pub const AUDIO_SEQUENCES_FORMAT: &str = "audio-sequences-v1-json";
+pub const MAX_AUDIO_SEQUENCES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const AUDIO_DRIVER_ID: &str = "audio.m4a-driver-tables";
+pub const AUDIO_DRIVER_FILE: &str = "audio-driver-tables.json";
+pub const AUDIO_DRIVER_FORMAT: &str = "audio-driver-tables-v1-json";
+pub const MAX_AUDIO_DRIVER_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const PALETTE_EFFECT_DISPATCH_ID: &str = "graphics.palette-effect-dispatch";
+pub const PALETTE_EFFECT_DISPATCH_FILE: &str = "palette-effect-dispatch.json";
+pub const PALETTE_EFFECT_DISPATCH_FORMAT: &str = "palette-effect-dispatch-v1-json";
+pub const MAX_PALETTE_EFFECT_DISPATCH_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const PALETTE_PROGRAMS_ID: &str = "graphics.palette-programs";
+pub const PALETTE_PROGRAMS_FILE: &str = "palette-programs.json";
+pub const PALETTE_PROGRAMS_FORMAT: &str = "palette-programs-v1-json";
+pub const MAX_PALETTE_PROGRAMS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const BLEND_PROGRAMS_ID: &str = "graphics.blend-programs";
+pub const BLEND_PROGRAMS_FILE: &str = "blend-programs.json";
+pub const BLEND_PROGRAMS_FORMAT: &str = "blend-programs-v1-json";
+pub const MAX_BLEND_PROGRAMS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const TASK_DESCRIPTORS_ID: &str = "engine.task-descriptors";
+pub const TASK_DESCRIPTORS_FILE: &str = "task-descriptors.json";
+pub const TASK_DESCRIPTORS_FORMAT: &str = "task-descriptors-v1-json";
+pub const MAX_TASK_DESCRIPTORS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const EFFECT_EVENT_DIRECTORIES_ID: &str = "engine.effect-event-directories";
+pub const EFFECT_EVENT_DIRECTORIES_FILE: &str = "effect-event-directories.json";
+pub const EFFECT_EVENT_DIRECTORIES_FORMAT: &str = "effect-event-directories-v1-json";
+pub const MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const SCRIPT_COMMANDS_ID: &str = "engine.script-command-directory";
+pub const SCRIPT_COMMANDS_FILE: &str = "script-command-directory.json";
+pub const SCRIPT_COMMANDS_FORMAT: &str = "script-command-directory-v1-json";
+pub const MAX_SCRIPT_COMMANDS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -302,6 +363,18 @@ pub struct Extraction {
     pub progression_gates: Option<progression_gates::Catalog>,
     pub progression_selection_gates: Option<progression_selection_gates::Catalog>,
     pub aggregate_flag_keys: Option<aggregate_flag_keys::Catalog>,
+    pub trade_parameters: Option<trade_parameters::Catalog>,
+    pub item_effect_parameters: Option<item_effect_parameters::Catalog>,
+    pub audio_directory: Option<audio_directory::Catalog>,
+    pub audio_tones: Option<audio_tones::Catalog>,
+    pub audio_sequences: Option<audio_sequences::Catalog>,
+    pub audio_driver: Option<audio_driver::Catalog>,
+    pub palette_effect_dispatch: Option<palette_effect_dispatch::Catalog>,
+    pub palette_programs: Option<palette_programs::Catalog>,
+    pub blend_programs: Option<blend_programs::Catalog>,
+    pub task_descriptors: Option<task_descriptors::Catalog>,
+    pub effect_event_directories: Option<effect_event_directories::Catalog>,
+    pub script_commands: Option<script_commands::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -341,6 +414,18 @@ pub struct BaseFiles<'a> {
     pub progression_gates: Option<(&'a progression_gates::ProgressionGates, &'a [u8])>,
     pub progression_selection_gates: Option<(&'a progression_selection_gates::ProgressionSelectionGates, &'a [u8])>,
     pub aggregate_flag_keys: Option<(&'a aggregate_flag_keys::AggregateFlagKeys, &'a [u8])>,
+    pub trade_parameters: Option<(&'a trade_parameters::TradeParameters, &'a [u8])>,
+    pub item_effect_parameters: Option<(&'a item_effect_parameters::ItemEffectParameters, &'a [u8])>,
+    pub audio_directory: Option<(&'a audio_directory::AudioDirectory, &'a [u8])>,
+    pub audio_tones: Option<(&'a audio_tones::AudioTones, &'a [u8])>,
+    pub audio_sequences: Option<(&'a audio_sequences::AudioSequences, &'a [u8])>,
+    pub audio_driver: Option<(&'a audio_driver::AudioDriver, &'a [u8])>,
+    pub palette_effect_dispatch: Option<(&'a palette_effect_dispatch::PaletteEffectDispatch, &'a [u8])>,
+    pub palette_programs: Option<(&'a palette_programs::PalettePrograms, &'a [u8])>,
+    pub blend_programs: Option<(&'a blend_programs::BlendPrograms, &'a [u8])>,
+    pub task_descriptors: Option<(&'a task_descriptors::TaskDescriptors, &'a [u8])>,
+    pub effect_event_directories: Option<(&'a effect_event_directories::EffectEventDirectories, &'a [u8])>,
+    pub script_commands: Option<(&'a script_commands::ScriptCommands, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -606,6 +691,94 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.aggregate_flag_keys = Some(metadata);
+            let metadata = trade_parameters::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(TRADE_PARAMETERS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: TRADE_PARAMETERS_ID.into(), path: TRADE_PARAMETERS_FILE.into(), format: TRADE_PARAMETERS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.trade_parameters = Some(metadata);
+            let metadata = item_effect_parameters::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_items(&result.items.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(ITEM_EFFECT_PARAMETERS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: ITEM_EFFECT_PARAMETERS_ID.into(), path: ITEM_EFFECT_PARAMETERS_FILE.into(), format: ITEM_EFFECT_PARAMETERS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![ITEM_RECORDS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.item_effect_parameters = Some(metadata);
+            let metadata = audio_directory::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(AUDIO_DIRECTORY_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUDIO_DIRECTORY_ID.into(), path: AUDIO_DIRECTORY_FILE.into(), format: AUDIO_DIRECTORY_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.audio_directory = Some(metadata);
+            let metadata = audio_tones::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_directory(&result.audio_directory.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(AUDIO_TONES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUDIO_TONES_ID.into(), path: AUDIO_TONES_FILE.into(), format: AUDIO_TONES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![AUDIO_DIRECTORY_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.audio_tones = Some(metadata);
+            let metadata = audio_sequences::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_owners(&result.audio_directory.as_ref().unwrap().decoded,&result.audio_tones.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(AUDIO_SEQUENCES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUDIO_SEQUENCES_ID.into(), path: AUDIO_SEQUENCES_FILE.into(), format: AUDIO_SEQUENCES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![AUDIO_DIRECTORY_ID.into(),AUDIO_TONES_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.audio_sequences = Some(metadata);
+            let metadata = audio_driver::Catalog::from_rom(rom)?;
+            metadata.decoded.validate_sequence_owner(&result.audio_sequences.as_ref().unwrap().decoded)?;
+            result.manifest.coverage.push(AUDIO_DRIVER_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUDIO_DRIVER_ID.into(), path: AUDIO_DRIVER_FILE.into(), format: AUDIO_DRIVER_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![AUDIO_SEQUENCES_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.audio_driver = Some(metadata);
+            let metadata = palette_effect_dispatch::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PALETTE_EFFECT_DISPATCH_ID.into());
+            result.manifest.resources.push(Resource {
+                id: PALETTE_EFFECT_DISPATCH_ID.into(), path: PALETTE_EFFECT_DISPATCH_FILE.into(), format: PALETTE_EFFECT_DISPATCH_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.palette_effect_dispatch = Some(metadata);
+            let metadata = palette_programs::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PALETTE_PROGRAMS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: PALETTE_PROGRAMS_ID.into(), path: PALETTE_PROGRAMS_FILE.into(), format: PALETTE_PROGRAMS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.palette_programs = Some(metadata);
+            let metadata = blend_programs::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(BLEND_PROGRAMS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: BLEND_PROGRAMS_ID.into(), path: BLEND_PROGRAMS_FILE.into(), format: BLEND_PROGRAMS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.blend_programs = Some(metadata);
+            let metadata = task_descriptors::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(TASK_DESCRIPTORS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: TASK_DESCRIPTORS_ID.into(), path: TASK_DESCRIPTORS_FILE.into(), format: TASK_DESCRIPTORS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.task_descriptors = Some(metadata);
+            let metadata = effect_event_directories::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(EFFECT_EVENT_DIRECTORIES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: EFFECT_EVENT_DIRECTORIES_ID.into(), path: EFFECT_EVENT_DIRECTORIES_FILE.into(), format: EFFECT_EVENT_DIRECTORIES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![TASK_DESCRIPTORS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.effect_event_directories = Some(metadata);
+            let metadata = script_commands::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SCRIPT_COMMANDS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: SCRIPT_COMMANDS_ID.into(), path: SCRIPT_COMMANDS_FILE.into(), format: SCRIPT_COMMANDS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.script_commands = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -675,6 +848,18 @@ impl Extraction {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -743,6 +928,18 @@ impl Extraction {
             || self.progression_gates.is_some() && self.progression_rewards.is_none()
             || self.progression_selection_gates.is_some() && self.progression_gates.is_none()
             || self.aggregate_flag_keys.is_some() && self.progression_selection_gates.is_none()
+            || self.trade_parameters.is_some() && self.aggregate_flag_keys.is_none()
+            || self.item_effect_parameters.is_some() && self.trade_parameters.is_none()
+            || self.audio_directory.is_some() && self.item_effect_parameters.is_none()
+            || self.audio_tones.is_some() && self.audio_directory.is_none()
+            || self.audio_sequences.is_some() && self.audio_tones.is_none()
+            || self.audio_driver.is_some() && self.audio_sequences.is_none()
+            || self.palette_effect_dispatch.is_some() && self.audio_driver.is_none()
+            || self.palette_programs.is_some() && self.palette_effect_dispatch.is_none()
+            || self.blend_programs.is_some() && self.palette_programs.is_none()
+            || self.task_descriptors.is_some() && self.blend_programs.is_none()
+            || self.effect_event_directories.is_some() && self.task_descriptors.is_none()
+            || self.script_commands.is_some() && self.effect_event_directories.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -1047,6 +1244,114 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected aggregate_flag_keys resource".into()),
         }
+        match (&self.trade_parameters, files.trade_parameters) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_TRADE_PARAMETERS_FILE_BYTES { return Err("TradeParameters file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[32].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected trade_parameters resource".into()),
+        }
+        match (&self.item_effect_parameters, files.item_effect_parameters) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_ITEM_EFFECT_PARAMETERS_FILE_BYTES { return Err("ItemEffectParameters file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[33].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected item_effect_parameters resource".into()),
+        }
+        match (&self.audio_directory, files.audio_directory) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUDIO_DIRECTORY_FILE_BYTES { return Err("AudioDirectory file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[34].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected audio_directory resource".into()),
+        }
+        match (&self.audio_tones, files.audio_tones) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUDIO_TONES_FILE_BYTES { return Err("AudioTones file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[35].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected audio_tones resource".into()),
+        }
+        match (&self.audio_sequences, files.audio_sequences) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUDIO_SEQUENCES_FILE_BYTES { return Err("AudioSequences file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[36].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected audio_sequences resource".into()),
+        }
+        match (&self.audio_driver, files.audio_driver) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUDIO_DRIVER_FILE_BYTES { return Err("AudioDriver file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[37].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected audio_driver resource".into()),
+        }
+        match (&self.palette_effect_dispatch, files.palette_effect_dispatch) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_PALETTE_EFFECT_DISPATCH_FILE_BYTES { return Err("PaletteEffectDispatch file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[38].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected palette_effect_dispatch resource".into()),
+        }
+        match (&self.palette_programs, files.palette_programs) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_PALETTE_PROGRAMS_FILE_BYTES { return Err("PalettePrograms file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[39].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected palette_programs resource".into()),
+        }
+        match (&self.blend_programs, files.blend_programs) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_BLEND_PROGRAMS_FILE_BYTES { return Err("BlendPrograms file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[40].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected blend_programs resource".into()),
+        }
+        match (&self.task_descriptors, files.task_descriptors) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_TASK_DESCRIPTORS_FILE_BYTES { return Err("TaskDescriptors file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[41].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected task_descriptors resource".into()),
+        }
+        match (&self.effect_event_directories, files.effect_event_directories) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES { return Err("EffectEventDirectories file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[42].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected effect_event_directories resource".into()),
+        }
+        match (&self.script_commands, files.script_commands) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_SCRIPT_COMMANDS_FILE_BYTES { return Err("ScriptCommands file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[43].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected script_commands resource".into()),
+        }
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1200,6 +1505,52 @@ impl Extraction {
         if let (Some(expected),Some((decoded,_))) = (&self.aggregate_flag_keys, files.aggregate_flag_keys) {
             if decoded != &expected.decoded {return Err("Decoded aggregate_flag_keys differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.trade_parameters, files.trade_parameters) {
+            if decoded != &expected.decoded {return Err("Decoded trade_parameters differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.item_effect_parameters, files.item_effect_parameters) {
+            decoded.validate_items(files.items.ok_or("Missing item-effect item owner")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded item_effect_parameters differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.audio_directory, files.audio_directory) {
+            if decoded != &expected.decoded {return Err("Decoded audio_directory differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.audio_tones, files.audio_tones) {
+            decoded.validate_directory(files.audio_directory.ok_or("Missing actual audio-directory dependency")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded audio_tones differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.audio_sequences, files.audio_sequences) {
+            decoded.validate_owners(files.audio_directory.ok_or("Missing actual audio-directory dependency")?.0,files.audio_tones.ok_or("Missing actual audio-tone dependency")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded audio_sequences differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.audio_driver, files.audio_driver) {
+            decoded.validate_sequence_owner(files.audio_sequences.ok_or("Missing actual audio-sequence dependency")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded audio_driver differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.palette_effect_dispatch, files.palette_effect_dispatch) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded palette_effect_dispatch differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.palette_programs, files.palette_programs) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded palette_programs differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.blend_programs, files.blend_programs) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded blend_programs differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.task_descriptors, files.task_descriptors) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded task_descriptors differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.effect_event_directories, files.effect_event_directories) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded effect_event_directories differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.script_commands, files.script_commands) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded script_commands differs from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1234,6 +1585,18 @@ impl Extraction {
             + usize::from(self.progression_gates.is_some())
             + usize::from(self.progression_selection_gates.is_some())
             + usize::from(self.aggregate_flag_keys.is_some())
+            + usize::from(self.trade_parameters.is_some())
+            + usize::from(self.item_effect_parameters.is_some())
+            + usize::from(self.audio_directory.is_some())
+            + usize::from(self.audio_tones.is_some())
+            + usize::from(self.audio_sequences.is_some())
+            + usize::from(self.audio_driver.is_some())
+            + usize::from(self.palette_effect_dispatch.is_some())
+            + usize::from(self.palette_programs.is_some())
+            + usize::from(self.blend_programs.is_some())
+            + usize::from(self.task_descriptors.is_some())
+            + usize::from(self.effect_event_directories.is_some())
+            + usize::from(self.script_commands.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1321,6 +1684,18 @@ mod tests {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
             })
             .unwrap();
@@ -1360,6 +1735,18 @@ mod tests {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
             })
             .is_err());
@@ -1409,6 +1796,18 @@ mod tests {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1447,6 +1846,18 @@ mod tests {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
             })
             .is_err());

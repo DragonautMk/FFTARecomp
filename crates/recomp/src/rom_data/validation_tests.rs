@@ -402,6 +402,66 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_AGGREGATE_FLAG_KEYS_SCENE frames={frames} bus_reads={} source_bytes={} key_bytes={} terminator_bytes={} entry_mask={:?}",i.bus_reads,i.source_bytes,i.key_bytes,i.terminator_bytes,i.entry_mask);
         assert!(i.key_bytes>0 && i.terminator_bytes>0,"ordinary scene must consume aggregate keys and terminal");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TRADE_PARAMETERS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().trade_parameters_stats().expect("decoded EUR trade parameters");
+        eprintln!("ROM_DATA_TRADE_PARAMETERS_SCENE frames={frames} bus_reads={} source_bytes={} opaque_bytes={} markup_low_bytes={} shared41_bytes={} discount_bytes={} record_mask={}",i.bus_reads,i.source_bytes,i.opaque_bytes,i.markup_low_bytes,i.shared41_bytes,i.discount_bytes,i.record_mask);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly owned trade parameters");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ITEM_EFFECT_PARAMETERS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().item_effect_parameters_stats().expect("decoded EUR item effect parameters");
+        eprintln!("ROM_DATA_ITEM_EFFECT_PARAMETERS_SCENE frames={frames} bus_reads={} source_bytes={} coefficient_bytes={} shared05_bytes={} shared06_bytes={} record_mask={}",i.bus_reads,i.source_bytes,i.coefficient_bytes,i.shared05_bytes,i.shared06_bytes,i.record_mask);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly owned item effect parameters");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_AUDIO_DIRECTORY").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().audio_directory_stats().expect("decoded EUR M4A directory");
+        eprintln!("ROM_DATA_AUDIO_DIRECTORY_SCENE frames={frames} bus_reads={} source_bytes={} player_bytes={} directory_bytes={} header_bytes={} track_pointer_bytes={} player_mask={}",i.bus_reads,i.source_bytes,i.player_bytes,i.directory_bytes,i.header_bytes,i.track_pointer_bytes,i.player_mask);
+        assert!(i.source_bytes>0,"ordinary scene must consume newly owned audio directory");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_AUDIO_TONES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().audio_tones_stats().expect("decoded EUR M4A tones and samples");
+        eprintln!("ROM_DATA_AUDIO_TONES_SCENE frames={frames} bus_reads={} source_bytes={} tone_bytes={} keymap_bytes={} wave_header_bytes={} pcm_bytes={} endpoint_bytes={} cgb_bytes={} host_reads={} host_source_bytes={} host_wave_header_bytes={} host_pcm_bytes={}",i.bus_reads,i.source_bytes,i.tone_bytes,i.keymap_bytes,i.wave_header_bytes,i.pcm_bytes,i.endpoint_bytes,i.cgb_bytes,i.host_reads,i.host_source_bytes,i.host_wave_header_bytes,i.host_pcm_bytes);
+        assert!(i.source_bytes>0 && i.host_pcm_bytes>0,"ordinary scene must consume typed audio through guest and shadow sampler");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_AUDIO_SEQUENCES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().audio_sequences_stats().expect("decoded EUR M4A sequence instructions");
+        eprintln!("ROM_DATA_AUDIO_SEQUENCES_SCENE frames={frames} bus_reads={} source_bytes={} opcode_bytes={} operand_bytes={} clock_bytes={} command_bytes={} extended_bytes={} instructions_used={} clock_mask={} command_mask={} extended_mask={}",i.bus_reads,i.source_bytes,i.opcode_bytes,i.operand_bytes,i.clock_bytes,i.command_bytes,i.extended_bytes,i.instructions_used,i.clock_mask,i.command_mask,i.extended_mask);
+        assert!(i.opcode_bytes>0 && i.operand_bytes>0 && i.clock_bytes>0,"ordinary scene must consume typed sequence opcodes, operands and clocks");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_AUDIO_DRIVER").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().audio_driver_stats().expect("decoded EUR M4A driver tables");
+        eprintln!("ROM_DATA_AUDIO_DRIVER_SCENE frames={frames} bus_reads={} source_bytes={} table_bytes={:?} entries_used={:?}",i.bus_reads,i.source_bytes,i.table_bytes,i.entries_used);
+        assert!(i.table_bytes[0]>0 && i.table_bytes[1]>0,"ordinary scene must consume typed PCM key and base tables");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PALETTE_EFFECT_DISPATCH").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().palette_effect_dispatch_stats().expect("decoded EUR palette effect dispatch");
+        eprintln!("ROM_DATA_PALETTE_EFFECT_DISPATCH_SCENE frames={frames} bus_reads={} source_bytes={} callback_bytes={} null_bytes={} slot_mask={}",i.bus_reads,i.source_bytes,i.callback_bytes,i.null_bytes,i.slot_mask);
+        assert!(i.callback_bytes>0,"ordinary scene must consume typed palette effect callback slots");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PALETTE_PROGRAMS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().palette_programs_stats().expect("decoded EUR palette programs");
+        eprintln!("ROM_DATA_PALETTE_PROGRAMS_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} command_bytes={} parameter_bytes={} producer_bytes={} programs_used={} producer_tables_used={}",i.bus_reads,i.source_bytes,i.header_bytes,i.command_bytes,i.parameter_bytes,i.producer_bytes,i.programs_used,i.producer_tables_used);
+        assert!(i.header_bytes>0 && i.command_bytes>0 && i.parameter_bytes>0,"ordinary scene must consume typed palette programs and parameters");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_BLEND_PROGRAMS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().blend_programs_stats().expect("decoded EUR blend programs");
+        eprintln!("ROM_DATA_BLEND_PROGRAMS_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} command_bytes={} producer_bytes={} programs_used={} producer_tables_used={}",i.bus_reads,i.source_bytes,i.header_bytes,i.command_bytes,i.producer_bytes,i.programs_used,i.producer_tables_used);
+        assert!(i.header_bytes>0 && i.command_bytes>0,"ordinary scene must consume typed blend programs");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TASK_DESCRIPTORS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().task_descriptors_stats().expect("decoded EUR task descriptors");
+        eprintln!("ROM_DATA_TASK_DESCRIPTORS_SCENE frames={frames} bus_reads={} source_bytes={} callback_bytes={} context_size_bytes={} metadata_bytes={} records_used={} catalogs_used={}",i.bus_reads,i.source_bytes,i.callback_bytes,i.context_size_bytes,i.metadata_bytes,i.records_used,i.catalogs_used);
+        assert!(i.callback_bytes>0 && i.context_size_bytes>0,"ordinary scene must consume typed task descriptors");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_EFFECT_EVENT_DIRECTORIES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().effect_event_directories_stats().expect("decoded EUR effect/event directories");
+        eprintln!("ROM_DATA_EFFECT_EVENT_DIRECTORIES_SCENE frames={frames} bus_reads={} source_bytes={} event_bytes={} selector_bytes={} dispatch_bytes={} event_records_used={} selectors_used={} dispatch_tables_used={}",i.bus_reads,i.source_bytes,i.event_bytes,i.selector_bytes,i.dispatch_bytes,i.event_records_used,i.selectors_used,i.dispatch_tables_used);
+        assert!((i.event_bytes>0 || i.selector_bytes>0),"ordinary scene must consume typed event records or effect selectors");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_SCRIPT_COMMANDS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().script_commands_stats().expect("decoded EUR script commands");
+        eprintln!("ROM_DATA_SCRIPT_COMMANDS_SCENE frames={} bus_reads={} source_bytes={} advance_bytes={} callback_bytes={} commands_used={}",frames,i.bus_reads,i.source_bytes,i.advance_bytes,i.callback_bytes,i.commands_used);
+        assert!(i.advance_bytes>0 && i.callback_bytes>0, "scene must consume typed script advances and callbacks");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA52").is_some() {
         let i=decoded.bus.rom_resources().unwrap().metadata52_stats().expect("decoded EUR metadata52");
         eprintln!("ROM_DATA_METADATA52_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);
@@ -430,9 +490,12 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
             "required source ranges did not execute"
         );
     }
+    // A scene can use typed fields through guest bus reads without calling the
+    // original OBJ-dimension host fast path. Family-specific requirements above
+    // still verify consumption of the resource selected for this scene.
     assert!(
-        stats.host_rom_reads + stats.host_ram_reads > 0,
-        "typed consumers must execute"
+        stats.bus_reads + stats.host_rom_reads + stats.host_ram_reads > 0,
+        "typed bus or host consumers must execute"
     );
     eprintln!("ROM_DATA_SCENE frames={frames} first={first} native={} fallback={} full_states={frames} audio={audio:?} bus_reads={} host_rom_reads={} host_ram_reads={} dynamic_ram_reads={} bus_source_mask={}", dispatch[0], dispatch[1], stats.bus_reads, stats.host_rom_reads, stats.host_ram_reads, stats.dynamic_ram_reads, stats.bus_source_mask);
     eprintln!(

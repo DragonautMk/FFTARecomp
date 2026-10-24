@@ -1142,6 +1142,7 @@ mod tests {
             *b = (i as u8) & 0x3F;
         }
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,
@@ -1187,6 +1188,7 @@ mod tests {
         let rom = vec![0u8; 4];
         let ewram = vec![0u8; 4];
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,

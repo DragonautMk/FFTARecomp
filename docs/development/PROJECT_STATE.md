@@ -12,6 +12,170 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- [EUR audio source contracts](../rom_data_audio.md) identify the original
+  M4A driver,3player configurations,640song-directory entries and455unique
+  headers with explicit dummy-header/WaveData alias. A graph over1610track
+  roots identifies390bank/program pairs,429tones,347keymap B and277PCM waves;
+  a focused Wine source check confirms program/map selection and276interpolating
+  endpoints plus one fixed-frequency endpoint. Their736-range/1941759Bsource
+  plan now has a shared bounded producer parser and strict lossless typed
+  tone/keymap/signedPCM/CGBmodel. One focused Wine decoder/independent hashes/
+  alias-dependency check and2neworiginal CGBcopy checkpoints pass. Managed
+  publication plus guest and MP2Kshadow-sampler consumption now pass in e42-d41:
+  37files/36resources/all35prior decoded/e41retained, actual directory alias
+  dependency. Two reduced Wine checks pass26guards/lifecycle/all1941759B/
+  25original-interpreter-native fullstate-clock checkpoints/736edges-SWI-DMA;
+  both actual MP2Khook/tick callsites read typed headers/samples for all277waves,
+  nonzero bit-exactshadow audio and completehoststate-clock equality. Internal
+  checkpoints remain partial. ProductionCLIcreate/reuse-no-write39managedfiles/
+  oldcache and one400ordinary Winefullstate-image-audio pair pass516956guestB
+  and3093208hostB(1056header/3092152PCM); CGBordinary0. DefaultCLIshadowoff is
+  explicit; differential arms shadow after load. No newperformance measurement.
+  No local640song or128tone guard is inferred. The strict15,236Bsource model
+  and one focused Wine original-reader oracle pass640entries/nine targeted
+  inputs/one raw lookup/six synthetic variants; unused bytes stay explicit.
+  EUR e41-d40adds the typed audio directory:36files/35resources/457new source
+  spans, all earlier decoded files/e40retained, USAe8-d7. Two focused Wine
+  publication/authentication/lifecycle and44original-interpreter-native start
+  paths pass with raw15236Baltered/fullstate-clock equality. ProductionCLI
+  create/reuse/oldcache and one400-frame ordinary Wine fullstate-image-audio
+  pair pass179newsourceB across directory/header/track fields (no player reads).
+  Sequence source model now derives105253nonoverlapping instructions from
+  1610roots/805ranges177047B, with canonical branch/pattern IDs and explicit/
+  inherited opcode/typed operands.49clockB/36commandwords144B/CD8-9dispatch8B
+  add3spans:808sources177248B. One focused Wine source/model check passes all
+  independent fields/hashes/27guards and404new original-reader checkpoints;
+  no fullsequencer/native/clock/ordinary claim for that source check. e43-d42now
+  publishes sequences with actual directory+tonebank dependencies:38files37
+  resources/all36prior/e42retained. Two reduced Wine checks pass25guards/
+  lifecycle/all177248B/allinstruction-table masks and35original-interpreter-
+  native fullstate-clock checkpoints,808edges-BIOS-SWI-DMA/generic-host cross-
+  owner/rawfallback/liveRAM runningoverride. ProductionCLIcreate/reuse-no-write
+  40managedfiles/oldcache and one400ordinary Winefullstate-image-audio pair pass
+  819newB(366opcode/262operand/191clock),185source instruction records including
+  lookahead;0command/extended/generic-host. No hostsequencer/wholeABI claim.
+  Seven further driver tables370b20..370d04/484Bnow have a strict typed source
+  model and oneWineoracle:180PCMkeys/12u32bases/12samplecounts/132CGBkeys/
+  12i16bases/60noise/16volume codes.1138neworiginal probes pass unsignedmulhi/
+  signedASR/truncation-clamps/sample0-13-15adjacent aliases/publiczero skip/live
+  volume aliases; all484B read at observed original loadsites. Eight additional
+  targeted gain returns correct the initial cap15inference: balanced liveinputs
+  canyield16/23/31, while one-sided routing clamps15. No ordinaryreachability/
+  global16-domain claim. e44-d43now publishes/consumes seven tables:39files/
+  38resources/all37prior/e43retained, actualsequence boundarydependency.
+  Two reduced Wine checks pass19guards/lifecycle/all484B/424entry bits and
+  28original-interpreter-native complete-state/clock paths including mixed
+  Thumb/ARM/aliases/BIOS-SWI-DMA/guest-host boundaries. No fullinit/mixerABI;
+  productionCLIcreate/reuse-no-write41files/oldcache and one400ordinary Wine
+  fullstate-clock-image-audio pair pass756aggregate byte reads/67entries from
+  PCM/CGB key-base tables.0samplecount/noise/volume/generic-host ordinaryreads;
+  their targeted scope remains distinct. Queued370eb0/b94690are nowreclassified:
+  copied-IWRAM memoryhelpers (executable support), and palette-effect dispatch.
+  Fivefixed constructors/state1/unmaskedu16index prove a17word68Bprojection with
+  12nullslots; no globalmax16guard/fulltableextent. Static7literal/5producer/hash/
+  all38priorowner checks pass. Strict17slot68Bpalette model/oneWinecheck nowpass
+  independent fields/hash/JSON/12guards/31neworiginal prefixes, all68Bobserved;
+  source-only scope distinct. e45-d44now publishes40files/39resources/all38prior/
+  e44retained. Two reduced Wine checks pass12guards/lifecycle/all68B/17slotmask/
+  10original-native complete-state/clock prefixes/livekind-null-raw aliases/
+  BIOS-SWI-DMA/boundaries. ActualproductionCLIcreate/reuse-no-write42files/
+  oldcache and one normal English-confirm1000Winepair pass everyfullstate-clock/
+  image-OAM-dispatch-audio with5944aggregate byte reads/kind1only(mask2), other
+  callbacks/nulls targeted-only. Neutralboot240closed0use/no fullpair. No whole
+  callback/allocatorABI. Paletteprogram inventory nowroots185programs/1000commands
+  from285literalexpressions/3countedlists/2stackcopies:16135candidateprogramB+
+  88producerBdisjointfrom39e45owners.20indexedproducer projections now follow
+  explicit task-ID/message/constant/count-loop evidence:97cells388B add45programs,
+  total230programs/1135commands/18221programB+476producerB=18697B/165ranges, disjoint
+  all39owners.185earlier records unchanged;39bcc4only2pointers, mixedtail excluded.
+  These are no globalRAM guard/fullphysicaltable claim. Strict lossless typedmodel
+  nowreconstructs165ranges/18697B and oneWine sourcecheck observes all18221programB/
+  18681allB (16reservedlistBpreserved/unread),97cells/8rows/2stacktables,6copyboundary/
+  3count-period/1direction probes and16shape-JSON-source guards; warningfreeWindows.
+  Source/model childclosed; no fullcallback/native/stateclock/ordinary claim.
+  e46-d45nowpublishes41files40resources/all39prior-e45retained and consumes typed
+  header-command-parameter-producer fields. ReducedWine passes12guards/lifecycle/
+  all18697B/230programs25tables and24original-native complete-state-clock prefixes/
+  rawoutside/BIOS-SWI-DMA; testchaining endpoint corrected, emitterunchanged.
+  ActualCLIcreate/reuse-no-write43files/oldcache passes. English-confirm1000reads0
+  newB/closednegative/no fullpair;10protected worldmap-bank snapshots have no
+  palette-program task. Actual EUR Montblanc Richiamo/Pecorelle CLI and one
+  1000-frame Wine fullstate-clock-classic240x160-image-OAM-dispatch-audio pair
+  nowpass170sourceB/4programs (32header/90command/48parameter),0producer. The
+  generic test guard accepts typed bus or host consumers; selected palette-use
+  assertions remain strict. Other226programs/tables targeted-only/new32:9 pending.
+  Neighbor080d77c4is nowidentified as blendcontrol via originalDMAshadow→
+  BLDCNT/BLDALPHA/BLDY mapping. All248direct constructor calls are classified;
+  CFG-checked constants/conditional/indexed/inline/RAMtemplate producers yield
+  160programs/345commands/2340B plus22pointercells88B=2428B/158ranges, disjoint
+  all40e46owners. False code-root080e2ec8rejected; actualmutableRAMtemplate from
+  39a5f0has a live duration override. Independent static reconstruction/hash/
+  44consumer opcodes pass. Strictlossless160program/6table source model now
+  authenticates110opcodes/all2428B158ranges. Warning-freeWindows/oneWineoracle
+  passes160headers345commands22cells/5instantchains/template-RAMoverride/packed
+  masks31-mode0/6duration/3delay/index65535raw;17shape3source2JSON2identity guards.
+  2376Bobserved/52nonalpha timed second bytes preserved-hashchecked only for
+  these initial modes. No fulltaskABI claim. EUR e47-d46nowpublishes/consumes
+  42files41resources/all40prior-e46retained/USAe8-d7 unchanged;158bindings2428B
+  serve typed header/command/producer fields. Reduced Wine passes12guards/
+  lifecycle/all2428B/160program6tables and20original-native fullstate-clock
+  prefixes/[34header70command16producer]compiledB/live2→1mode/rawcommand65535-
+  index3/previouspaletteindex5/new2-old2/SWI-DMA. Source-set coherence separately
+  passes onefocused Wineguard; production backend/source proofs unchanged.
+  ActualCLIcreate/reuse-no-write44managedfiles/oldcache and one1000Wine ordinary
+  EURPecorelle fullstate-clock-classic240x160-image-OAM-dispatch-audio pair now
+  pass18aggregateB(10header8command)/1program/0producer; other159programs/tables
+  targeted-only. NewLinux-USA-nativeWindows/new32:9 scene staypending. [Blend consumption](../rom_data_graphics.md#managed-blend-programs-and-typed-guest-reads).
+  OtherLUTs/unselected bank/sample/sequence work
+  and newLinux-USA-nativeWindows stay open.
+
+- [Task descriptor source contract](../rom_data_tasks.md) covers341primary/
+  20auxiliary/51script records,3296B/3spans disjoint41e47owners. Original main and
+  secondary constructors use different ID formulas. Independent graphics root
+  39a490and directory kind0/ID413reference bound the final descriptor39a488;
+  nullableThumb/contextsize/rawmetadata remain distinct. Strict lossless model/
+  one reduced Wine original-reader oracle pass all3296Breconstructed/3156Bobserved,
+  aliases/rawindices/23guards;140suffixmetadataBpreserved-unread intheseprobes.
+  No global live selector cap or complete task ABI is inferred. e48-d47nowpublishes
+  43files42resources/all41prior decoded/e47retained, USAe8-d7. Two reduced Wine
+  checks pass13guards/lifecycle/all3296typedB/412records3catalogs and29original-
+  interpreter-native fullstate-clock prefixes/[44callback22context9metadata]API B,
+  raw/aliases/oldblendowner/BIOS-SWI-DMA; no wholeABI claim. ProductionCLIcreate/
+  reuse-no-write45managedfiles/oldcache andone1000Wine ordinaryPecorelle fullstate-
+  clock-classic240x160-image-OAM-dispatch-allaudio pair pass28aggregateB/4records/
+  2catalogs (16callback8context4metadata). Other408records/thirdcatalog targeted-
+  only; new32:9/Linux-USA-nativeWindows pending. No fixture/navigation/payloadedit.
+
+- [Effect/event source model](../rom_data_events.md) covers75event records,
+  51selectors and28evenThumbsame-state dispatchwords:1516B/4spans disjoint42e48
+  owners. Independent successor roots andevent compare74bound projections; no
+  global live index guard or source count fromtaskcatalog size.70assetlinks use
+  engine.task-descriptors. Strictmodel/oneWineoracle pass1106original-loadsiteB,
+  410Bpreserved-unread/27guards/defaults/rawindices/wrap;92halfword8word fingerprints.
+  Evententry124e1creachability unknown; no wholeinterpreter/ordinaryclaim.
+  e49-d48nowpublishes44files43resources/all42prior decoded/e48retained, actual
+  taskdescriptor dependency/USAe8-d7. Two reduced Wine checks pass13guards/
+  lifecycle/all1516typedB and29original-interpreter-native complete-state-clock
+  prefixes/[24event6selector24dispatch]API B, raw/defaults/evenstate/previousfont11B/
+  samepagepalette4B/BIOS-SWI-DMA. ActualCLIcreate/reuse-no-write46managedfiles/
+  oldcache passes. Pecorelle1000/schoolcoldboot3000/suspendboot-to-battle8476
+  locators readzero newbytes, closednegative/no event-requiredfullpairs; positiveordinary source-use remains pending.
+
+- The [EUR script command model](../rom_data_scripts.md) covers 115 six-byte
+  commands/690 bytes, independently bounded by a distinct byte lookup. Strict
+  source authentication and one corrected Wine original-reader oracle pass all
+  690 bytes, signed cursors, u16 advances, relative targets, Thumb BX and loop
+  return branches. A test-only ADDS expectation was corrected; production/model
+  code needed no correction. Managed e50-d49 nowpublishes45files44resources,
+  all43prior decoded/e49 retained/USAe8-d7 unchanged, noassetdependency. Two new
+  reduced Wine checks pass13guards/lifecycle/all690B and26original-interpreter-
+  native complete-state-clock prefixes/[14advance28callback]API B, raw115/255/
+  signedcursor/wrap/relative-target/BL-BX/returnloops/adjacentoldowners/rawgap.
+  ActualCLIcreate/reuse-no-write47managedfiles/oldcache andone8476-frame Wine
+  EURsuspendboot-to-battle fullstate-clock-image-OAM-dispatch-audio pair pass
+  42B=14advance28callback/7commands. Other108commands targeted-only; new32:9/Linux-
+  USA-nativeWindows pending. No whole script interpreter ABI/new opcode cap.
+
 - The root Cargo workspace and `AndroidPort/` are separate trees. A root fix
   does not automatically update AndroidPort.
 - `crates/recomp/src/play.rs` connects the desktop event loop, input, menu and
@@ -330,6 +494,46 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   oldcache and one1000Wine dispatch fullstate-image-audio pair pass1204sourceB
   (1200key/4terminal)/all300slotmask; includesrereads, no bothentrypointsinference.
   NewLinux-USA-nativeWindows/wholeotherUIreaders pending. [Contract](../rom_data_gameplay.md#managed-and-direct-aggregate-flag-keys).
+  Source-only trade-parameters model owns five96B records/physical IDs2..6,
+  480B at6e85bc..6e879c, from explicit selector/biased price/independent next roots.
+  64opaqueB/u16markup/30discountB preserve count0alias of markup highbyte41.
+  Original separate70B-source D1F30property36, zero skip, live flags/count30RAMrows,
+  unsigned divide/wrap arithmetic remain guest code. One Wine source oracle
+  passes499real+160edited-source+15separate injected arithmetic operands,
+  all160price-fieldB/320opaqueBroundtrip-only/fullRAM-SP-callee/source guards.
+  EUR e38-d37 unchanged; managed/runtime/ordinary/newLinux-USA-nativeWindows
+  pending. Adjacent6e9cb6halfword lookup remains partial: producer index bounds
+  unproved, no106-entry model inferred. [Contract](../rom_data_gameplay.md#trade-parameters-source-contract).
+  EUR e39-d38publishes trade-parameters.json/gameplay.trade-parameters,
+  34files/33resources/all32prior decodedfiles/e38retained/USAe8-d7. Two reduced
+  Wine checks pass28original/interpreter/native paths/raw480Baltered/fullstate-
+  clock equality, all480B/mask31/field-boundaries/priorowner2-raw222-new2/SWI-DMA/
+  lifecycle/source guards. Original live/getter/price/count/clock/ABI preserved;
+  opaque price reads unclaimed. ActualCLIcreate/reuse-no-write/oldcache and one
+  400Wine feeacceptance fullstate-image-audio pair pass14sourceB(markup-low7/
+  shared417),mask1physicalID2, includesrereads. Other ordinary fields/records/
+  newLinux-USA-nativeWindows pending.
+  [Contract](../rom_data_gameplay.md#managed-and-direct-trade-parameters).
+  Next packed item-effect parameter source is statically bounded:14×7B/98B
+  6e879c..6e87fe, original itemIDs362..375/subtract362 and independent next root.
+  Nine5-bit coefficients/8-bit cap/3opaque bits; CFE28low8property/index and
+  CFDA8fullu16cap index differ. Strict source model/one Wine original oracle pass
+  540real+4explicit raw-cap aliases+166synthetic cases/all98B/fullEWRAM-SP-callee/
+  itemowner/source guards; no14371itemoracle repeat. Managed/runtime/ordinary/
+  newLinux-USA-nativeWindows pending, e39unchanged.
+  [Contract](../rom_data_gameplay.md#item-effect-parameter-source-model-and-original-oracle).
+  EUR e40-d39publishes item-effect-parameters.json/gameplay.item-effect-parameters,
+  35files/34resources/all33prior/e39retained/USAe8-d7; explicit parsed item-owner
+  dependency. Two Wine checks pass50original-interpreter-native paths/raw98B
+  altered/fullstate-clock equality/all98B-mask16383/edges-BIOS/SWI-DMA/two-owner
+  trade crossing/publication-retention-lifecycle. Original getter/indexwidths/
+  raw-cap aliases/live current/quantity/clamp/clock/ABI preserved. ActualCLIcreate/
+  reuse-no-write/oldcache and one400Wine EUR GoblinPlay fullstate-image-audio
+  pair pass3sourceB(coefficient1/shared051/shared061),mask1record0. Normal guest
+  input from retained EUR IN13reaches actualCyrilBank/GoblinLv4/Play; replay is
+  mixed native/interpreted. Other14items/20monsters/cap>99UI/newLinux-USA-native
+  Windows pending.
+  [Contract](../rom_data_gameplay.md#managed-and-direct-item-effect-parameters).
   `rom-data prepare` and opt-in `play --rom-data` share installed/portable
   preparation: versioned immutable generations, source-verified reuse, OS locks,
   atomic relative selection and corruption recovery before save writes. Explicit
@@ -922,9 +1126,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   distinguishes observed coverage from candidate snapshots and missing scenes.
   The ignored `saves/debug-cases/` collection follows the same slot numbers;
   its local catalog preserves source hashes and flags partial cases explicitly.
-  Ordinary progression receipts, multiple laws and the originally slow enemy
-  turn require their own evidence; related mission rewards or a normal turn
-  do not close those cases.
+  Expanded imported sources and ordinary derived checkpoints live under ignored
+  `debug_saves/ready/`, split by USA/EUR. IN source numbers belong to standard
+  save selection; DS case numbers belong to snapshot selection. Its local
+  catalog distinguishes wrapper region hints, verified runtime region, payload
+  duplicates and untested internal game File No.2 entries. Original containers,
+  converted SRAM, screenshots and snapshots remain outside Git/packages.
+  Derived standards use GEN IDs:30/31 for map progress,33 for an ordinary
+  Save Now suspended battle verified through Resume Battle. Retained masters
+  live outside the working family in ignored `debug_saves/generated/`.
+  NEW-32 is factory-empty memory for naming checkpoints: choose that standard
+  slot before loading DS23, since snapshots also restore/flush cartridge memory.
+  Snapshot slots51–64 are explicit variants, separate from stable DS IDs.
+  Clan-threshold prizes and the originally slow enemy turn still require their
+  own evidence; related mission rewards or a normal turn do not close them.
 - [Desktop performance TODO](PERFORMANCE_TODO.md) tracks task completion separately
   from partial progress. Its first P0 tranche adds native Linux/Windows/Wine
   comparisons, optional final serialized-state verification, bounded headless

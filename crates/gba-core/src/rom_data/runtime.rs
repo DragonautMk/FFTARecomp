@@ -58,6 +58,42 @@ pub use progression_selection_gates::ProgressionSelectionGatesStats;
 mod aggregate_flag_keys;
 use aggregate_flag_keys::AggregateFlagKeysResources;
 pub use aggregate_flag_keys::AggregateFlagKeysStats;
+mod trade_parameters;
+use trade_parameters::TradeParametersResources;
+pub use trade_parameters::TradeParametersStats;
+mod item_effect_parameters;
+use item_effect_parameters::ItemEffectParametersResources;
+pub use item_effect_parameters::ItemEffectParametersStats;
+mod audio_directory;
+use audio_directory::AudioDirectoryResources;
+pub use audio_directory::AudioDirectoryStats;
+mod audio_tones;
+use audio_tones::AudioTonesResources;
+pub use audio_tones::AudioTonesStats;
+mod audio_sequences;
+use audio_sequences::AudioSequencesResources;
+pub use audio_sequences::AudioSequencesStats;
+mod audio_driver;
+use audio_driver::AudioDriverResources;
+pub use audio_driver::AudioDriverStats;
+mod palette_effect_dispatch;
+use palette_effect_dispatch::PaletteEffectDispatchResources;
+pub use palette_effect_dispatch::PaletteEffectDispatchStats;
+mod palette_programs;
+use palette_programs::PaletteProgramResources;
+pub use palette_programs::PaletteProgramStats;
+mod blend_programs;
+use blend_programs::BlendProgramResources;
+pub use blend_programs::BlendProgramStats;
+mod task_descriptors;
+use task_descriptors::TaskDescriptorResources;
+pub use task_descriptors::TaskDescriptorStats;
+mod effect_event_directories;
+use effect_event_directories::EffectEventDirectoryResources;
+pub use effect_event_directories::EffectEventDirectoryStats;
+mod script_commands;
+use script_commands::ScriptCommandResources;
+pub use script_commands::ScriptCommandStats;
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -149,6 +185,18 @@ pub struct RuntimeResources {
     progression_gates: Option<Box<ProgressionGatesResources>>,
     progression_selection_gates: Option<Box<ProgressionSelectionGatesResources>>,
     aggregate_flag_keys: Option<Box<AggregateFlagKeysResources>>,
+    trade_parameters: Option<Box<TradeParametersResources>>,
+    item_effect_parameters: Option<Box<ItemEffectParametersResources>>,
+    audio_directory: Option<Box<AudioDirectoryResources>>,
+    audio_tones: Option<Box<AudioTonesResources>>,
+    audio_sequences: Option<Box<AudioSequencesResources>>,
+    audio_driver: Option<Box<AudioDriverResources>>,
+    palette_effect_dispatch: Option<Box<PaletteEffectDispatchResources>>,
+    palette_programs: Option<Box<PaletteProgramResources>>,
+    blend_programs: Option<Box<BlendProgramResources>>,
+    task_descriptors: Option<Box<TaskDescriptorResources>>,
+    effect_event_directories: Option<Box<EffectEventDirectoryResources>>,
+    script_commands: Option<Box<ScriptCommandResources>>,
 }
 
 impl RuntimeResources {
@@ -311,6 +359,42 @@ impl RuntimeResources {
         if let Some((data,_))= files.aggregate_flag_keys {
             resources.aggregate_flag_keys = Some(Box::new(AggregateFlagKeysResources::new(data.clone(), &source.aggregate_flag_keys.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.trade_parameters {
+            resources.trade_parameters = Some(Box::new(TradeParametersResources::new(data.clone(), &source.trade_parameters.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.item_effect_parameters {
+            resources.item_effect_parameters = Some(Box::new(ItemEffectParametersResources::new(data.clone(), &source.item_effect_parameters.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.audio_directory {
+            resources.audio_directory = Some(Box::new(AudioDirectoryResources::new(data.clone(), &source.audio_directory.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.audio_tones {
+            resources.audio_tones = Some(Box::new(AudioTonesResources::new(data.clone(), &source.audio_tones.as_ref().unwrap().sources, files.audio_directory.ok_or("Missing typed audio directory owner")?.0)?));
+        }
+        if let Some((data,_))= files.audio_sequences {
+            resources.audio_sequences = Some(Box::new(AudioSequencesResources::new(data.clone(), &source.audio_sequences.as_ref().unwrap().sources, files.audio_directory.ok_or("Missing typed audio directory owner")?.0, files.audio_tones.ok_or("Missing typed audio tones owner")?.0)?));
+        }
+        if let Some((data,_))= files.audio_driver {
+            resources.audio_driver = Some(Box::new(AudioDriverResources::new(data.clone(), &source.audio_driver.as_ref().unwrap().sources, files.audio_sequences.ok_or("Missing typed audio sequence owner")?.0)?));
+        }
+        if let Some((data,_))= files.palette_effect_dispatch {
+            resources.palette_effect_dispatch = Some(Box::new(PaletteEffectDispatchResources::new(data.clone(), &source.palette_effect_dispatch.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.palette_programs {
+            resources.palette_programs = Some(Box::new(PaletteProgramResources::new(data.clone(), &source.palette_programs.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.blend_programs {
+            resources.blend_programs = Some(Box::new(BlendProgramResources::new(data.clone(), &source.blend_programs.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.task_descriptors {
+            resources.task_descriptors = Some(Box::new(TaskDescriptorResources::new(data.clone(), &source.task_descriptors.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.effect_event_directories {
+            resources.effect_event_directories = Some(Box::new(EffectEventDirectoryResources::new(data.clone(), &source.effect_event_directories.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.script_commands {
+            resources.script_commands = Some(Box::new(ScriptCommandResources::new(data.clone(), &source.script_commands.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -365,6 +449,18 @@ impl RuntimeResources {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
         }
     }
 
@@ -424,6 +520,18 @@ impl RuntimeResources {
             + self.progression_gates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.progression_selection_gates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.aggregate_flag_keys.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.trade_parameters.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.item_effect_parameters.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.audio_directory.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.audio_tones.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.audio_sequences.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.audio_driver.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.palette_effect_dispatch.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.palette_programs.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.blend_programs.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.task_descriptors.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.effect_event_directories.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.script_commands.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -508,6 +616,26 @@ impl RuntimeResources {
     pub fn progression_gates_stats(&self) -> Option<ProgressionGatesStats> {self.progression_gates.as_ref().map(|m|m.stats())}
     pub fn progression_selection_gates_stats(&self) -> Option<ProgressionSelectionGatesStats> {self.progression_selection_gates.as_ref().map(|m|m.stats())}
     pub fn aggregate_flag_keys_stats(&self) -> Option<AggregateFlagKeysStats> {self.aggregate_flag_keys.as_ref().map(|m|m.stats())}
+    pub fn trade_parameters_stats(&self) -> Option<TradeParametersStats> {self.trade_parameters.as_ref().map(|m|m.stats())}
+    pub fn item_effect_parameters_stats(&self) -> Option<ItemEffectParametersStats> {self.item_effect_parameters.as_ref().map(|m|m.stats())}
+    pub fn audio_directory_stats(&self) -> Option<AudioDirectoryStats> {self.audio_directory.as_ref().map(|m|m.stats())}
+    pub fn audio_tones_stats(&self) -> Option<AudioTonesStats> {self.audio_tones.as_ref().map(|m|m.stats())}
+    pub fn audio_sequences_stats(&self) -> Option<AudioSequencesStats> {self.audio_sequences.as_ref().map(|m|m.stats())}
+    pub fn audio_driver_stats(&self) -> Option<AudioDriverStats> {self.audio_driver.as_ref().map(|m|m.stats())}
+    pub fn palette_effect_dispatch_stats(&self) -> Option<PaletteEffectDispatchStats> {self.palette_effect_dispatch.as_ref().map(|m|m.stats())}
+    pub fn palette_programs_stats(&self) -> Option<PaletteProgramStats> {self.palette_programs.as_ref().map(|m|m.stats())}
+    pub fn blend_programs_stats(&self) -> Option<BlendProgramStats> {self.blend_programs.as_ref().map(|m|m.stats())}
+    pub fn task_descriptors_stats(&self) -> Option<TaskDescriptorStats> {self.task_descriptors.as_ref().map(|m|m.stats())}
+    pub fn effect_event_directories_stats(&self) -> Option<EffectEventDirectoryStats> {self.effect_event_directories.as_ref().map(|m|m.stats())}
+    pub fn script_commands_stats(&self) -> Option<ScriptCommandStats> {self.script_commands.as_ref().map(|m|m.stats())}
+    /// Host audio view: typed owners merge at shared boundaries without guest bus clocks.
+    pub fn audio_host_read<const N:usize>(&self,index:usize,rom:&[u8])->Option<[u8;N]>{
+        rom.get(index..index.checked_add(N)?)?;
+        let prior=self.audio_directory.as_ref().and_then(|d|d.host_read(index,rom,None));
+        let prior = match &self.audio_tones{Some(t)=>t.host_read(index,rom,prior),None=>prior};
+        let prior = match &self.audio_sequences{Some(t)=>t.host_read(index,rom,prior),None=>prior};
+        match &self.audio_driver{Some(t)=>t.host_read(index,rom,prior),None=>prior}
+    }
     pub fn item_link_stats(&self) -> Option<ItemLinkStats> {self.item_links.as_ref().map(|l|l.stats())}
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
@@ -682,7 +810,55 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.aggregate_flag_keys {
+            let prior = match &self.aggregate_flag_keys {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.trade_parameters {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.item_effect_parameters {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.audio_directory {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.audio_tones {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.audio_sequences {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.audio_driver {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.palette_effect_dispatch {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.palette_programs {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.blend_programs {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.task_descriptors {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.effect_event_directories {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.script_commands {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -846,6 +1022,18 @@ impl crate::MemMap {
             || ProgressionGatesResources::source_page(index)
             || ProgressionSelectionGatesResources::source_page(index)
             || AggregateFlagKeysResources::source_page(index)
+            || TradeParametersResources::source_page(index)
+            || ItemEffectParametersResources::source_page(index)
+            || AudioDirectoryResources::source_page(index)
+            || AudioTonesResources::source_page(index)
+            || AudioSequencesResources::source_page(index)
+            || AudioDriverResources::source_page(index)
+            || PaletteEffectDispatchResources::source_page(index)
+            || PaletteProgramResources::source_page(index)
+            || BlendProgramResources::source_page(index)
+            || TaskDescriptorResources::source_page(index)
+            || EffectEventDirectoryResources::source_page(index)
+            || ScriptCommandResources::source_page(index)
     }
 }
 

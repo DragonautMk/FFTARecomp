@@ -9,6 +9,23 @@ The [debug scene checklist](development/debug%20saves.md) assigns stable
 DS-01 through DS-26 names/numbers to test situations, with evidence and explicit
 validated/partial/uncovered status. The local ignored `saves/debug-cases/`
 collection uses those same snapshot-slot numbers; partial slots remain candidates.
+The expanded local collection is `debug_saves/ready/`, with separate USA/EUR
+folders, an Italian usage guide and a provenance/status catalog. Its `IN-NN`
+numbers select imported standard saves; `DS-NN` numbers select scene snapshots.
+The entire root `debug_saves/` tree is ignored, including original containers,
+converted saves, derived checkpoints and local metadata. The checklist records
+region-specific validation and the remaining untested internal File No.2 entries.
+Generated standard saves use GEN IDs: **GEN-30** is Sprohm before Decision
+Time; **GEN-31** has Decision Time plus Prison Break active and White Magic
+assigned; **GEN-33** resumes Prison Break through the game's **Resume Battle**.
+File No.1 loads map progress for GEN-30/31. GEN-33 requires confirming the
+resume summary, the warning and final Yes; an actual battle load is verified.
+Master copies remain under ignored `debug_saves/generated/`, separately from
+the numbered working family. **NEW-32** is factory-empty memory for naming
+snapshots: select standard slot32 before loading DS-23 or variants53/54.
+Loading snapshots restores SRAM and may flush it to the active standard file.
+The guide lists **17 validated, 6 partial, 3 uncovered cases**, plus menu-ready
+variant snapshots51–64, keeping those variant numbers distinct from DS IDs.
 
 ## Snapshot slots
 

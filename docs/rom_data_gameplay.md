@@ -1906,3 +1906,299 @@ dispatch-completion.png. Protected ROM/data/state/input/cache/loader/canonical/
 candidate hashes and35CLIfile hash/mtime guards pass. NewLinux/USA/nativeWindows/
 whole other UI readers/both ordinary counter entrypoints and the rest of the
 TODO remain pending; no performance/space/AndroidPort work or agent commit/push.
+
+
+## Adjacent halfword lookup discovery
+
+The table rooted at6e9cb6 has16 verified literal references. The next independent
+root is6e9d8a, leaving a212-byte candidate interval. Its106halfwords alone do not
+prove the natural indexed domain. Generic readers dereference RAM indices;
+62818mode1 uses a signed low16argument plus41, with no established0..64guard.
+Fixed indices64/67 and bounded lists16..20 and21,22,4,23 are verified, but the
+live producers of the other UI indices remain unresolved. An apparent6B4C0
+reference is not accepted without control-flow evidence. No model or owner is
+created from numeric patterns or the neighboring boundary. Reopen this partial
+inventory only when a producer bound or another ownership proof is available.
+Private static evidence stays under `target/rom-data-adjacent-halfword/`.
+
+## Trade parameters source contract
+
+Original selectorD0744 truncates its input to u8, accepts physical IDs2..6 and
+returns five explicit pointers at6e85bc/6e861c/6e867c/6e86dc/6e873c. Other IDs
+return null. The price readerD26AC independently uses biased root6e84fc plus
+96times the u8ID. The next independent rootCFDE2→CFE14 is6e879c, establishing
+five96-byte records/480owned bytes at6e85bc..6e879c. Earlier biased rows and
+other indices remain unowned. A nearby counter over30live RAM rows bounds an
+internal discount argument; the initial30-ROM-record hypothesis is rejected.
+
+The strict source-only model stores physical ID, source offset,64opaque bytes,
+a little-endian u16markup at40/41 and30discount bytes42..5f. Discount count0
+reads byte41, also the high byte of markup. Counts1..30 read the tail. This
+alias has one stored owner. The model imposes no percentage limit, header
+meaning, equality across records or semantic foreign key. All480bytes roundtrip;
+320opaque bytes have no price-field-read claim.
+
+D26AC truncates its first argument to u16 and passes it to original D1F30 with
+property36. That getter uses a separate70-byte source at713b3c; property36
+returns byte3e times200. It is not the already decoded32-byte item catalog,
+and its source is not owned by this model. Zero returns before reading any
+trade parameters or live flags. Otherwise flags at02002cb4+12*ID, byte1, select
+one of two paths. Both bits0and1 set select byte41+u8count and subtract
+(base times percentage)/100 from base; other flags select u16markup and add
+the same quotient. Multiplication and add/subtract wrap at32bits; original
+146474 divides unsigned. This diagnostic arithmetic does not replace guest
+code, RAM flags, division, source getter or clocks. Out-of-bank source and
+discount counts above30 return no diagnostic value, never an invented guest
+fallback; the zero-base early return remains defined even for those inputs.
+
+Windows73640testbuild is warning-free. One Wine52757source oracle passes499
+real-source cases,160unauthenticated/unpublished edited-source cases and15
+separate arithmetic cases that explicitly inject the getter return operand.
+The latter are arithmetic-tail evidence, not authenticated ROM behavior. All256
+low8descriptor inputs/null outside2..6, price flags/truncation/zero skip,
+count0alias/count1..30tail and all31possible live RAM counts pass. Full original
+D0744/D26AC/D1F30/146474/D2728 execute. High synthetic markup proves unsigned
+quotients; isolated injected operands prove32bit product/add/subtract wrapping.
+All160price-field bytes are read, while320opaque bytes roundtrip only. Strict
+JSON/ID/order/offset/arrays/coherent source rejection and full EWRAM read-only/
+SP/callee/stack guards pass.72810instructions/184PCs describe coverage only.
+146protected-file hashes including the frozen test binary match; prior source/
+runtime/ordinary proofs are not repeated. No build or Wine failure occurs.
+
+Managed publication/direct consumption/lifecycle/ordinary scene and newLinux/
+USA/nativeWindows are separate pending criteria.
+EUR e38-d37/33files/32resources and USAe8-d7 remain unchanged. No performance,
+space or AndroidPort work is included. Static evidence remains under
+`target/rom-data-stride96/`; independent fixture and the new original oracle
+are under `target/rom-data-trade-parameters/`.
+
+
+## Managed and direct trade parameters
+
+EUR `v1/e39-d38` adds `trade-parameters.json`, resource
+`gameplay.trade-parameters`, format `trade-parameters-v1-json`. All34files/
+33resources authenticate before transactional attachment; all32previous decoded
+files and e38generations remain unchanged. USA remains e8-d7. No dependency
+on items.json or the separate70B source is invented. Fixed five physical IDs,
+source-equal fields, source binding/role/path/hash/coverage and publication
+failure guards preserve the declared480byte owner.
+
+Typed projections on page6e8 serve CPU/native/guest-BIOS/SWI/DMA reads, merging
+prior owners and raw gaps. Nonserialized counters distinguish64opaque bytes,
+markup low byte40, shared byte41 and30discount tail bytes per record, plus a
+five-bit physical record mask. Byte41 counts its address without inferring
+which branch read it. Earlier biased rows and other indices remain raw.
+Original descriptor selection, separate D1F30getter, zero early return, live
+flags/count, arithmetic/division and every instruction/clock remain active.
+Save/native ABI stays unchanged; immutable ownership survives Load/Undo/backup/
+restart without dataset files. A shared original setup/run helper skips its
+raw-source assertion only when typed ownership is attached, with no added
+observer read or change to the closed source-only oracle.
+
+Windows21694testbuild is warning-free. Two focused Wine20164checks pass
+publication interruption/create/reuse/repair/move/e38retention;20coherent field/
+ID/order/source/dependency/path/role/hash/coverage guards, missing-file failure
+and transactional ownership; unavailable-copy Load/Undo/backup/restart. All480
+bytes match after altering raw source, with320opaque/5markup-low/5shared41/
+150discount-tail bytes and physical mask31.
+
+28full original/interpreter/native paths match complete states/clocks with only
+480new raw bytes altered. Compiled opaque/markup-low/shared41/discount-tail counts
+are0/5/10/10: no original opaque-field price read is inferred. Descriptor/null/
+zero skip/flags/count/getter remain original. All bytes, record/field boundaries,
+widths, mirrors, real BIOS,222preceding raw gap bytes/4following raw bytes,
+tail word2typed2raw, CpuSet/FastSet32typed each, tail CpuSet2typed2raw, earlier
+selection2/rawgap222/newtrade2coexistence and DMA2typed2raw pass.
+3377instructions/109dispatches describe coverage only. The closed source-only
+499+160+15oracle is not repeated. No build or Wine failure occurs.
+
+ProductionCLI and ordinary scene are verified below; newLinux/USA/nativeWindows
+remain separate pending criteria.
+Evidence is retained under `target/rom-data-trade-parameters/`.
+
+
+## Ordinary trade parameter fee acceptance
+
+Production46740is warning-free and restores the canonical Windows executable
+by hash. The private candidate SHA is59892c74d251ff35c5144e5773d4110c69a12bd8a441
+fbf67da167581e3defbe. ActualCLI17191creates/reuses e39from an unrelated working
+directory with36managed file hashes/mtimes unchanged, then replays the existing
+normal-UI pre-Yes slot2/threshold-accept input through the old native cache.
+The first400frames read14new source bytes:7markup-low/7shared41, mask1 for
+physical ID2. Counts include rereads; no14distinct-byte claim is made.
+
+One Wine89539full400pair matches every complete state/clock/central-wide image/
+OAM/dispatch and all mixed/PSG/FIFO/HLE audio samples, with the same14bytes/mask.
+The final inspected image shows the Pub mission list and7109funds. No new GUI,
+fixture, ROM/RAM/state-payload edit or personal save write is needed. This pair
+proves e39only: the earlier class1threshold400/e38/source499+160+15/native28/
+managed/lifecycle proofs remain closed and are not repeated. Ordinary discount
+tail/opaque fields/all5records/other callers remain targeted-only or unverified.
+
+The frozen21694test SHA is4070866db2c4fb6825f3f0df8e9d17dd2bf76157397ef4b677761531
+f8a9bc0c, validator SHA ded241a5520283cb3b658244afd3e306f61c598e49feeda8485cbe0518cc7ed5.
+Evidence under `target/rom-data-trade-parameters/`: windows-build.json,
+windows-cli-{processes,no-write,summary}.json, windows-scene-result.json,
+windows-fee-accept-trade-parameters-full-state-audio.log, scene-executable.json
+and threshold-accept.png. Protected original/canonical/cache/loader/fixture/data/
+executable hashes and CLI file mtimes remain unchanged. NewLinux/USA/native
+Windows and the wider TODO remain pending; no performance/space/AndroidPort work.
+
+
+## Item effect parameter static contract
+
+Eleven verified literals root6e879c. Original getterCFE28 and helpers CFDA8/
+5AAAC use7-byte records. Four independent readers root the next table at6e87fe,
+exactly14records/98bytes later. Existing original item enumeration362..375/
+14records and explicit subtraction of362 agree with physical IDs0..13. This
+reuses the closed item enumeration proof; it does not assign item names or
+reclassify the existing catalog. Arbitrary other indices remain raw/unclaimed.
+The new source begins exactly at the e39trade parameter end, without overlap.
+
+Each56-bit record stores nine5-bit coefficients in bits0..44, an8-bit cap in
+bits45..52 and three opaque bits53..55. All98bytes roundtrip independently;
+the contiguous bit representation matches each original split-byte getter.
+Low8properties0..19 map to coefficient indices
+0,0,1,1,1,2,2,3,3,3,4,4,5,5,6,6,7,7,8,8. Higher low8property values return0 before
+source access. The getter truncates its record index to u8 without a local
+14-record guard; the declared bank does not invent behavior outside its owner.
+
+CFDA8 truncates slot to u8, item to u16 and quantity to u8. Its cap lookup uses
+the full (item−362)u16index, while the coefficient getter uses that index's low8.
+These are distinct address rules. With live current byte02002e7f+16*slot, it
+returns coefficient×quantity when the sum fits the cap,0when current is already
+at/above cap, otherwise (cap−current)u16. It writes no live value itself.
+The UI wrapper5AAAC/caller5DA44 has extra cap>99 branches and live selection;
+its complete write behavior is not yet verified.
+
+The source model and original oracle are verified below. EUR e39-d38 and
+USAe8-d7 remain unchanged; managed/runtime/ordinary/newLinux/USA/nativeWindows
+remain pending. Private evidence: `target/rom-data-stride7/`, including
+item-effect-parameters-{inventory,independent}.json, literal/caller maps and
+bounded original disassemblies. No previous item oracle, fixture or benchmark
+is repeated.
+
+
+## Item effect parameter source model and original oracle
+
+The strict source-only model stores14fixed physical IDs0..13, item IDs362..375,
+source offsets, nine5-bit coefficients, cap45..52u8 and opaque53..55three bits.
+JSON rejects unknown/missing fields, wrong arrays/IDs/item mapping/order/offsets
+and values exceeding packed widths. Source equality rejects coherent field
+changes; parsed376item-owner validation confirms all declared item identities.
+The diagnostic getter preserves both low8arguments and invalid-property early
+zero. The delta diagnostic requires the fullu16cap source index, leaving other
+indices unowned; live current/quantity/cap arithmetic remain guest code/RAM.
+
+Windows94173testbuild is warning-free. One Wine94185full originalCFE28/CFDA8
+oracle passes540real cases,4explicit raw-cap alias probes and166isolated
+unauthenticated/unpublished synthetic cases. All98bytes are observed in original
+reads and roundtrip. Getter20property mapping/truncation/invalid earlyzero,
+fullu16item-minus362cap index versus low8getter, live current byte, quantityu8,
+fit/zero/remaining and u16return pass. Synthetic coefficients0/1/15/16/31,
+caps0/1/99/100/255 and all opaque high-bit values preserve the original packed
+rules. Four observed raw cap addresses outside the declared source are neither
+owned nor a diagnostic fallback. Full EWRAM stays read-only; SP/callee/stack
+guards pass.31740instructions/156PCs describe coverage only.
+
+No build/Wine failure or old14371item/e39proof repetition occurs. Existing ROM,
+owner datasets, saves/inputs/cache/loader/canonical and frozen original binary
+retain258protected hashes. Private evidence under
+`target/rom-data-item-effect-parameters/`: windows-tests-build.*,
+windows-tests.json, recomp-tests-original.exe, windows-original-result.json,
+windows-original.log and windows-original-europe/{item-effect-parameters,result}.json.
+The static artifacts remain under `target/rom-data-stride7/`.
+
+This source-only step retains e39-d38/34files/33resources/USAe8-d7. Managed
+publication/direct consumption/lifecycle/ordinary/newLinux/USA/nativeWindows
+and the full UI wrapper remain pending. No performance/space/AndroidPort work,
+new gameplay fixture or personal save write is included.
+
+
+## Managed and direct item effect parameters
+
+EUR `v1/e40-d39` adds `item-effect-parameters.json`, resource
+`gameplay.item-effect-parameters`, format `item-effect-parameters-v1-json`.
+All35files/34resources authenticate together; all33previous decoded files and
+e39generations remain unchanged. USA stays e8-d7. The original item IDs give an
+explicit `gameplay.item-records` dependency, validated against the parsed376
+item owner. Fixed98-byte source/ID/item/order/packed-width/source-binding/
+path/role/hash/coverage guards attach transactionally.
+
+Typed page6e8 reads merge the immediately adjacent e39trade owner and following
+raw source. Exclusive nonserialized counters track bytes00..04 (coefficients),
+byte05 (coefficient+cap), byte06 (cap+opaque), plus a14-record mask. Shared bits
+retain one stored byte owner; counters do not invent semantic bit-read counts.
+Original CFE28getter, fullu16cap index versus low8getter, out-of-bank raw cap,
+live current/quantity/cap arithmetic, all instructions/clocks and save/nativeABI
+remain active. Immutable ownership survives unavailable files and Load/Undo/
+backup/restart; no guest routine or source outside98bytes is replaced.
+
+Windows93110testbuild is warning-free. Two reduced Wine21177checks pass
+publication interruption/create/reuse/repair/move/e39retention;22coherent field/
+bitwidth/ID/item/order/source/dependency/path/role/hash/coverage guards, missing
+file and transactional owner; unavailable-copy Load/Undo/backup/restart. All98
+bytes match with raw source altered, counters70/14/14 and record mask16383.
+
+50full original/interpreter/native paths with all98raw bytes altered match
+complete states/clocks, including the explicit raw-cap alias distinction.
+Compiled coefficient/shared05/shared06 counts are36/37/23. All7-byte record and
+field edges/widths/mirrors/real BIOS,4following raw bytes, tail word2typed2raw,
+CpuSet/FastSet32typed each, tail CpuSet2typed2raw, adjacent trade2/itemeffect2
+owned crossing and DMA2typed2raw pass.2406instructions/134dispatches describe
+coverage only. The closed540+4+166source oracle is not repeated; no build or
+Wine failure occurs.
+
+ProductionCLI and one EUR ordinary path are now verified below. Other items/
+monsters/cap>99UI paths/newLinux/USA/nativeWindows remain pending. Existing bank
+references identify EUR5AEE4/5E7B4; the earlier USA DS-22proof is not reused as
+EUR evidence. A new ordinary EUR checkpoint is exported through guest input. Private evidence under
+`target/rom-data-item-effect-parameters/`: windows-managed-tests-build.*,
+windows-managed-results.json, recomp-tests-managed.exe,
+windows-managed-europe/{managed-result,native-result}.json and protected guards.
+No performance/space/AndroidPort work is included.
+
+
+## Ordinary item effect parameters in the European Monster Bank
+
+Production4620is warning-free and restores canonical Windows SHA f3e277db…;
+private candidate SHA9f1093246640762e89383f566a55b2748ce6c219e91c227d14b45f0209b64927.
+ActualCLI59404creates/reuses e40from an unrelated working directory with37
+managed file hashes/mtimes unchanged. CLI50707then loads the old native cache
+and replays400frames from an ordinary EUR Goblin Play checkpoint. It reads3
+new source bytes: coefficient1/shared051/shared061, physical record mask1.
+
+The retained EUR IN-13snapshot comes from the earlier ordinary boot/load of
+its unchanged imported SRAM. A frozen existing Windows replay/export helper
+uses only game buttons: travel to Cyril, MonsterBank→List, actual Goblin Lv4,
+then Play/Release with Play selected. Normal guest state exports supply
+`bank-eur-IN13/open-feed-1.ffstate`; four spaced A presses form bank-play.input.
+No guest RAM/state payload, ROM, original cartridge file or personal save is
+edited. The actual native-size captures show the owned monster and Play menu.
+
+Initial BagubaPort(Pub/Shop) and Sprohm(Pub/Shop/Prison) probes did not reach a
+bank. The guessed64,184target/constant long-hold speed was rejected. Existing
+accepted Cyril pre-Yes state proves120,216/place18; short key pulses reach it
+from IN13world112,168 without repeating boot/old asset checks. Those failed
+navigation guesses remain terminal evidence, not an extraction/runtime failure.
+
+One Wine5779full400pair matches every complete state/clock/central-wide image/
+OAM/dispatch and all mixed/PSG/FIFO/HLE audio samples, with the same3bytes/mask.
+The ordinary replay mixes1379881native and2741618fallback dispatches; these are
+coverage context, not an all-native or performance claim. Source540+4+166/
+native50/e39/earlier proofs are not repeated; this pair proves newly migrated
+e40only. The final bank-background image is inspected, but serialized separate
+UI omits its panels from CLI PPM (the existing capture limitation). No final
+food count/confirmation is inferred from that image.
+
+The frozen93110test SHA isa6e7037b4c6aa567945a303f9a659e1fa47114c1a9a74a920e0894154e0c11d3; validator SHA is7a1356a3218159919a4b0137737c5c11267c71caa89099c49cd359caa34ef93c.
+
+Evidence under `target/rom-data-item-effect-parameters/`: windows-build.json,
+windows-cli-{processes,no-write,summary}.json, windows-scene-result.json,
+windows-bank-play-item-effect-parameters-full-state-audio.log,
+scene-executable.json, bank-play.png, bank-locator-protected.json and
+bank-eur-IN13/{known-cyril-*,enter-bank-*,open-monster-*,open-feed-*}.
+All original/SPS/SRAM/snapshot/cache/loader/canonical/candidate/dataset hashes
+and37managed CLI file mtimes remain unchanged. Other14item/20monster/cap>99UI
+ordinary paths/newLinux/USA/nativeWindows and the rest of the TODO remain
+pending; no performance/space/AndroidPort work is included.

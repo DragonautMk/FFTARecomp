@@ -1110,6 +1110,7 @@ mod tests {
             *b = (i as u8) & 0x7f;
         }
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,

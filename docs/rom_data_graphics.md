@@ -1405,3 +1405,509 @@ explicit shared OBJ links, keeping every old record/other decoded file intact.
 Seven new banks and ten asset-pointer literals add17ranges/14436source bytes.
 Original jump tables, language fallbacks, partial Clan and5056OBJ/2688BG split
 copies stay active. See [localized UI contract](rom_data_ui_graphics.md#localized-ui-selectors-in-e22).
+
+## Palette-effect dispatch source contract
+
+Two roots previously queued as audio are now classified from original code.
+370eb0 contains three Thumb entries for copied-IWRAM zero-clear/copy/byte-fill
+helpers. Existing EUR snapshot code prefixes uniquely match ROM offsetsd96838,
+d968a8,d9686c. Palette constructors load the first helper and call the generic
+BX-r2trampoline08145c10 to clear objects; this is executable support metadata,
+not a new audio or palette asset. Copied instructions remain outside asset scope.
+
+The other rootb94690 is a graphical palette-effect callback table. Update code
+0814ac62 gates object.stateu16==1, then0814ac68..0814ac70loads the root,
+reads unmasked object.u16(4), multiplies by4 and loads the original guest entry.
+Five constructors store fixed kinds1/2/4/8/16 at14a954/14aa12/14aacc/14ab88/
+14ac30and following STRH instructions. Their callbacks are0814c105/0814a229/
+0814a575/0814a651/0814a6fd. The bodies consume RAM color components/palette
+buffers and remain original guest execution.
+
+A17word/68Bprojection atb94690..b946d4 retains those five entries and12interior
+null slots. It is a producer-bounded projection, not a claim that arbitrary
+liveRAM indices are at most16 or that this is the whole physical table. Index17
+and higher remain original adjacent/raw data; no guest guard is justified.
+All38current e44resource owners are disjoint from this projection. Static
+literal/opcode/source-hash/independent checks pass with no guest execution,
+build, new fixture or old acceptance repeat. Private evidence:
+`target/rom-data-audio-wrappers/wrapper-reclassification-independent.json`,
+`inventory-reclassification.py` and bounded disassemblies. Typed model,
+Windows/Wine source probes and managed/runtime/ordinary scope are closed below;
+newLinux-USA-nativeWindows and other asset criteria remain pending. No performance measurement.
+
+## Typed palette-effect callback projection
+
+`palette_effect_dispatch::Catalog::from_rom` now reconstructs all68bytes of
+the17slot projection. `PaletteEffectDispatch` stores explicit source offset,
+canonicalu16kinds and optional `ThumbEntry` ROM code offsets, with exactly five
+nonnull targets. Source words preserve their Thumb bit and null entries; no
+host address or executable body is serialized. Strict JSON/shape/source guards
+validate count/order/null topology/alignment/ROM range and exact original source.
+
+The decoder checks the original state1/u16/stride4load sequence and all five
+fixed MOV/STRHproducer pairs. `callback_word` and `byte` express membership in
+the declared physical projection. They do not add a guest validity guard or
+freeze dynamic object state/kind. Coherent target changes require source
+authentication; a compatible-looking Thumb pointer alone is insufficient.
+The e44-d43managed set remains unchanged. Windows71666builds tests without
+warnings; Wine22360runs one focused check, terminal/pass. Independent17words/
+68Bhash/typed fields/source-JSONroundtrip and12shape/JSON/coherent-source guards
+plus wrong-ROM input pass.31new original prefixes cover23lookups (including
+raw17/31/255/65535 andhighword truncation),3inactive-state gates and5fixed
+producer stores. All68distinct owned bytes are observed at0814ac70; predicted
+2Bproducer writes and otherwise identical RAM/SP/callee registers pass.
+134instructions/18PCs are coverage counts only.1216protected artifacts remain
+unchanged; no build/Wine failure or old acceptance repeat. Source scope is
+lookup/state/store prefixes, not full callbacks/allocators/native/state-clock.
+Private `target/rom-data-palette-effects/windows-model-europe/result.json`,
+`windows-model-result.json` and frozen logs/executable retain evidence.
+Publication, typed runtime/native/state-clock and ordinary acceptance remain
+separate criteria.
+
+## Managed palette-effect callback consumption
+
+EUR e45-d44 registers `palette-effect-dispatch.json` /
+`graphics.palette-effect-dispatch`, format `palette-effect-dispatch-v1-json`.
+The40files/39resources retain all38prior decoded files and e44; USA stays e8-d7.
+The source binding covers the17slot/68Bprojection independently of audio files.
+
+`PaletteEffectDispatchResources` derives original little-endian guest words
+from optional Thumb code-offset fields and null slots. CPU/DMA/BIOS/native reads
+merge typed bytes and raw boundaries. Live object state/kind and original
+callback execution remain active; outside indices delegate to prior owners/raw
+ROM. Callback/null byte counters and17slot mask are not serialized. No host
+callback, copied executable body or guest clock/RAM/save/native ABI is changed.
+
+Windows67564managed test compilation is warning-free; Wine46138two reduced
+integration checks are terminal/pass:12coherent field/binding/dependency/path/
+hash guards, publication failure/create-reuse-repair-move/e44retention, missing
+file transactional activation and unavailable-directory Load/Undo/backup/Restart.
+All68typed bytes(20callback/48null) and17slot mask pass with raw68B altered.
+10representative original/interpreter/native lookup/inactive-state prefixes
+match complete states/clocks, with24callback/4null bytes from compiled reads.
+Liveu16kind/highword truncation/null/state gates/raw17-65535, all boundary widths/
+mirrors/realBIOS/SWI/DMA and two-typed-two-raw crossings pass.48instructions/
+8PCs/10dispatches are coverage counts only; whole callback/allocator ABI is not
+claimed.1226old protected artifacts plus the frozen test executable remain
+unchanged, with no build/Wine failure. Source31prefixes and earlier e44/graphics
+acceptance remain closed and are not repeated. Private evidence:
+`target/rom-data-palette-effects/windows-managed-europe/{managed-result,native-result}.json`
+and associated logs/results. Ten distinct protected EUR snapshots have no active effect list
+at their saved instant, found by static inspection; no scene replay was used.
+Actual productionCLI and one positive ordinary transition are complete below;
+newLinux-USA-nativeWindows validation remains pending.
+
+
+## Ordinary European palette dispatch and e45 production CLI
+
+Windows95401production build is warning-free; private
+`target/rom-data-palette-effects/recomp-rom-data.exe` SHA-256 is
+`d4f296712164852968b9a59f2184de5869ad6b778e07a853204f3ddf8db37fb3`.
+The canonical executable is restored. Wine56076passes actual CLIcreate/reuse
+without changing42managed file hashes/mtimes and oldnativecache use from an
+unrelated working directory. Neutralboot240has zero new callback/null reads;
+that locator is closed negative and no fullpair is run for it.
+
+The inspected240frame image highlights English. A new normal input confirms
+English at240/releases252, then staysneutral through1000. Wine60304passes this
+CLItransition with1486reads/5944callback-byte reads, null0 andslotmask2:onlykind1.
+These are repeated source-byte reads, not5944distinct bytes. No RAM/statepayload,
+cartridge save or snapshot is edited; this is a deliberate UItransition rather
+than a repeat of the closed neutral boot.
+
+One new Wine35467full1000pair passes everycomplete state/clock, central/wide
+image, OAM, dispatch behavior and mixed/PSG/FIFO/HLE sample. Newfamily usage is
+identical and required positive. First0/native2803110/fallback1056100 are coverage
+counts only. The final568x160CLIimage shows the ordinary ProductDevelopment
+Division-4 Presents intro/snow scene. This demonstrates kind1use; fourother
+callbacks/nulls remain targeted-only. No wholecallback/allocatorABI or wider
+ordinary domain claim is inferred. Source31/native10/e44/earlierUIpalette proofs
+remain closed and are not repeated. No new build/Wine failure/live job remains.
+
+Private evidence under `target/rom-data-palette-effects/` includes
+`windows-{build,cli-processes,cli-no-write,cli-summary}.json`,
+`windows-language-transition-result.json`, `windows-scene-result.json`,
+`windows-language-confirm-palette-dispatch-full-state-audio.log`,
+`language-confirm.input` and `language-confirm.png`. Remaining palette-effect
+parameter/program producers, other asset families, GUI/archive/mod criteria
+and newLinux/USA/nativeWindows checks remain open. No performance/space campaign.
+
+## Palette-program producer inventory
+
+The callback file does not contain the palette programs themselves. Original
+command handler080d7b48/indexed records and080d7d34/direct updates lead back to
+palette task080d7fac and public constructors080d8214/080d8234. The adjacent
+080d79ac/080d79d0task class uses a different callback/data layout; its248BL
+candidates are retained separately and are not palette roots.
+
+A bounded static scan finds308direct callsites of the actual palette constructors.
+Exact argument expressions resolve285calls and179distinct ROMprograms, without
+crossing unknown branches/calls/memory. Three calls to list constructor080d8380
+provide explicit counts3/3/2 and8Bstride:8rows/64B contain program pointers,
+u16delay override and u16reserved data. They add5distinct programs. Two original
+LDMIA/STMIA copies at080e7a8e/080e7a9a each copy exactly3ROM words to local stack
+arrays,24Btotal, adding1more distinct program. The first array's null third word
+is still copied; a selector==2branch skips its dereference, without a global
+RAMselector<=2guard. A saved-R4bridge at081144e4reuses a program already rooted
+at081144d2. The combined catalog contains185programs and1000commands.
+
+Headers have6bytes: first color index, rawflags, color width and command count
+are u8; initial delay is u16. Flagbit1adds256to the starting index; other bits
+are preserved without inventing repeat semantics. Runtime repeat/pause flags
+come from message arguments and remain RAM state. Each6Bcommand stores u8opcode/
+mode and u16duration/relative parameter offset. Original command indexing uses
+live wrappingu16state; these field counts are file structure, not new guest guards.
+
+The current185programs use opcodes0/1/4/7/8/9/10/11/12/13 and modes0/1. Static
+parameter contracts distinguish direct opcode0color copying (headerwidth words)
+from queued mode1color copying (original wrapping start+width-1andclamp511).
+Opcode11provides count/flag bytes and a color-word sequence whose constructor
+forces at least1word. Its callback reads the current word before testing the
+frame countdown. Packed colors, scalar bytes and signed halfword component
+updates retain their original representation; unused relative offsets do not
+justify owning arbitrary pointed data. Parameter extents remain candidates
+until the planned original-reader Wine check validates these contracts.
+
+The declared program-field plan covers16135bytes in124ranges, with no repeated
+logical byte or overlap with the39current e45owners. Adding64list/24stack
+producer bytes yields16223candidate source bytes, also disjoint. This is source
+inventory; no typed model or runtime resource has been added and e45-d44/USAe8-d7
+remain unchanged.
+
+The20indexed producer calls now have bounded producer projections:97pointer
+cells/388B add45distinct programs, for230programs/1135commands. These come from
+actual task IDs and message copies, explicit constant stores, seven public
+constructor calls with selectors0..6, and counted loops. Generic080d7018uses
+3997b0+(ID-1)*8 forIDs1..341 and39a258+(ID-342)*8 for its second descriptor
+segment. The latter proves IDs354/355 produce palette indices0/1; using a
+single extrapolated descriptor base for all task classes is rejected.
+
+Parent/child copies prove selectors for39bcc4 (IDs9/10 minus9),39cc7c/39cc88
+(24..26 minus24, special231 selects0),39cf28 (27..29, special232),39d184/39d190
+(30..32, special233), and3a4d64 (239..246 lowbyte+17 wraps to0..7).
+39d7fc uses IDs39/40 minus39 plus an explicit message84 selecting2.39fa48's
+original switch maps IDs75/76/77/78/120/138/142/289 to0..7;3a1338 uses113..115
+minus113;3a19b0 selects0/1.3a4a50 has five12Brows, from234..238 lowbyte+22,
+and an explicit0..2column loop.3a6054/3a606c select twice(ID124..126 minus124)
+plus a live boolean.3ac748/3ac75c follow a zero-initialized parent selector
+incremented through0..4; original allocator080059b8 clears task/context bytes
+through the already-classified IWRAM zero helper.39ab94/39aba8 use explicit
+stores0..4. The24B mixed39bcc4 neighborhood still owns only its first2pointer
+words: trailing null/scalar words are excluded. All indices remain live RAM;
+these are bounded projections, not new guest clamps, global valid-input domains
+or proof of full physical table extents/whole task ABI.
+
+The expanded field plan contains18221candidate program B/146ranges and476B
+producer metadata (88earlier list/stack plus388indexed). Its18697B/165combined
+ranges are disjoint from all39e45owners, with no repeated logical program byte.
+All185earlier program records remain unchanged. The source parameter Wine
+oracle, typed model/publication/runtime and ordinary acceptance remain pending;
+e45-d44/USAe8-d7 are unchanged.
+No new guest run, build/test, snapshot/fixture, performance or space campaign
+was performed. Closed callback/source31/native10/ordinary1000/negativeboot240
+and earlier audio/graphics acceptance remain closed.
+
+Private evidence is under `target/rom-data-palette-programs/`:
+`all-proved-program-discovery.json`, `producer-data-source-plan.json`,
+`actual-palette-producer-arguments.json`, `resolve-producer-arguments.py`,
+`resolved-list-programs.json`, `resolved-stack-program-tables.json`,
+`dynamic-table-boundary-candidates.json`, `indexed-producer-proofs.json`,
+`indexed-program-discovery.json`, `prove-indexed-producers.py`,
+`extend-indexed-programs.py`, `indexed-handlers/`, `pending-callers/` and bounded
+original disassemblies. The earlier179program discovery is retained, with the
+additional list/stack roots explicitly accounted for. NewLinux/USA/nativeWindows
+and wider asset/GUI/archive/mod criteria remain open.
+
+
+## Palette-program source model and original-reader validation
+
+`rom_data::palette_programs` now decodes the230producer-rooted programs and
+25producer tables into a strict lossless model. Headers preserve first index,
+raw flags, width, u8command count and u16initial delay. Commands preserve opcode,
+raw mode, duration and relative parameter offset; tagged parameters distinguish
+raw color words, signed components, scalar words/bytes, counted color cycles
+and unused offsets. Producer pointers use canonical program IDs, preserving
+repeated targets, the explicit null stack slot, list delay overrides and
+reserved u16fields.120original reader/producer instruction fingerprints guard
+the exact EUR source profile.165source ranges reconstruct all18697bytes and
+are checked against independent inventory hashes; overlaps, bad source/order,
+wrong counts, invalid references/null membership and parameter shapes fail.
+These validation bounds apply to the decoded file. Original guest task counters,
+repeat/pause flags, scheduling and out-of-projection memory reads remain live.
+
+One focused Wine check passes every230header/1135command and declared parameter
+field through original Thumb readers, including the original relocated copy
+helper and color-cycle load-before-countdown prefix. All18221distinct program
+bytes are observed, plus97indexed cells,8list rows and2stack tables:18681distinct
+bytes total.16reserved list bytes are source-authenticated and preserved but
+not read by the producer. Six queued-copy boundary inputs confirm u16end wrap/
+clamp511 (zero width at start0selects512words; direct width0selects0). Three
+count/period probes confirm original minimum1, and raw direction255 normalizes
+to1only at the original call argument while remaining255in the model. Packed
+color high bits and signed component arguments are preserved. Eleven malformed
+shape cases, changed-source rejection, nested/top-level unknown JSON fields and
+wrong/empty ROM checks also pass.154347instructions/389PCs are coverage counts,
+not performance measurements. Only the source-present opcode/mode combinations
+and the stated synthetic boundaries are claimed verified.
+
+The Windows target compiles without warnings; the single source check runs under
+Wine. An initial compiled test was corrected before Wine to observe the actual
+stack LDMIA instructions, then recompiled with the new boundary probes. No Wine
+failure or earlier acceptance repeat occurred. All1645earlier protected artifacts
+plus the frozen new test executable remain unchanged. No allocator/fullcallback/
+native/state-clock/ordinary-program acceptance is claimed by this source check.
+The model is exposed without adding a managed resource: EUR e45-d44/USAe8-d7
+remain unchanged. Managed publication, typed runtime consumption and positive
+ordinary use are next; newLinux/USA/nativeWindows runtime checks remain pending.
+
+Evidence: `target/rom-data-palette-programs/{windows-model-tests-build.jsonl,
+windows-model-tests-build.log,windows-model-tests.json,windows-model.log,
+windows-model-result.json,windows-model-europe/result.json,
+windows-model-europe/palette-programs.json}`. The earlier230metadata and20indexed
+producer proofs stay closed. See the
+[change record](changes/2026-10-24-decode-european-palette-programs.json).
+
+
+## Managed palette programs and typed guest reads
+
+EUR `v1/e46-d45` adds `palette-programs.json` / `graphics.palette-programs`.
+The41files/40resources authenticate before activation; all39earlier decoded
+files and the e45generation are retained, with USAe8-d7unchanged. The model's
+canonical program IDs refer only to this resource, so it has no external asset
+dependency.165source bindings authenticate18697bytes. Runtime bindings identify
+header, command, parameter or producer fields; reads reconstruct their values
+from the typed model, including list delays/reserved fields and null pointers.
+They retain the previous resource owner or raw ROM for every unowned byte in a
+mixed-width read. No byte-for-byte ROM shadow, guest sequencer replacement,
+new live-index guard, save format or native cache ABI change is introduced.
+Counters report header/command/parameter/producer bytes and unique programs/
+tables outside serialized machine state.
+
+One reduced Wine lifecycle check passes12coherent shape/source/hash/path/
+dependency/coverage guards, failure-before-manifest publication, create/reuse/
+repair/move/e45retention and transactional missing-file rejection. A live owner
+survives unavailable-file Load/Undo/backup/Restart. Poisoning all18697raw bytes
+still yields their typed values, including1380header/6810command/10031parameter/
+476producer bytes and230programs/25tables. Windows builds are warning-free.
+
+The native check passes24original/interpreter/native complete-state-and-clock
+prefixes across all source-present command classes, copied IWRAM color copying,
+header/count reads, color loads and indexed producers. Generated native APIs
+observe[16header,52command,66parameter,12producer]bytes. Livecommand65535,
+coloroffset65534and mixedtableindex2 retain raw semantics outside every typed
+owner. Three selected boundary families cover byte/halfword/word reads, three
+ROM mirrors, real-BIOS policy, CpuSet/FastSet and a DMA two-typed/two-raw crossing.
+962original instructions/328PCs/193native dispatches are coverage only. Two
+initial native checks exposed a test endpoint inside another probe's chained
+native graph; the test now yields at its declared endpoint while respecting the
+real event budget. Both observations remain retained; the production emitter
+was unchanged, and the already-passing lifecycle/source checks were not rerun.
+This targeted scope does not establish a complete allocator/callback/scheduler ABI.
+
+Actual production CLI create/reuse/old-cache execution from an unrelated working
+directory passes with43managed files and unchanged hashes/mtimes on reuse.
+The normal English-confirm1000intro reads0new program bytes, so it is a closed
+negative locator, with no full differential replay run for that scene. A new
+static scan of the10protected EUR worldmap/bank snapshots finds no080d7facpalette
+task or initialized battle-task manager; this is distinct from the earlier
+palette-effect callback-list scan. Positive ordinary consumption now passes in a genuine EUR battle: Montblanc's
+Richiamo/Pecorelle reads170aggregate source bytes (32header/90command/48parameter)
+from4programs. The production CLI starts from a private confirmation checkpoint
+created by ordinary pad replay from the preserved EUR deployment snapshot;
+no guest RAM, state payload or cartridge save was edited. Producer bytes are0,
+so producer-table use and the other226programs retain their targeted-only scope.
+
+The same scene/input passes one1000-frame Wine differential replay in classic
+240x160 mode. Every complete state/clock, central image, wide buffer, OAM,
+dispatch count, mixed audio, PSG/FIFO sample and bitwise HLE sample agrees.
+Audio sample counts are[2194500,2194500,264000,264000,2194366]. The first replay
+completed all1000comparisons and the palette requirement, then failed a generic
+host-only OBJ-dimension consumption assertion. The harness now accepts actual
+typed bus or host consumers; the selected palette header/command/parameter
+requirement is unchanged. Only the affected Windows test was rebuilt, without
+warnings, and this same pair was rerun. Production runtime/backend, source,
+managed and targeted native proofs were unchanged and not rerun. Both outcomes
+are retained. NewLinux/USA/nativeWindows and new32:9 scene checks remain pending. No performance or
+space campaign was run; original game data/inputs/cache and concurrent work
+remain unchanged.
+
+Evidence: `target/rom-data-palette-programs/{windows-managed-tests-build.*,
+windows-managed-results.json,windows-native-diagnostic-results.json,
+windows-native-fixed-results.json,windows-managed-europe/{managed-result.json,
+native-result.json},windows-build.json,windows-cli-processes.json,
+windows-cli-no-write.json,windows-cli-summary.json,ordinary-palette-task-scan.json,
+windows-river-execute-sheep1000-result.json,windows-sheep-scene-result.json,
+windows-scene-tests-build-result.json,windows-sheep-fixed-scene-result.json}`.
+The new production candidate is private; the canonical executable is restored.
+See the [runtime record](changes/2026-10-24-consume-european-palette-programs.json).
+
+
+## Blend-program producer inventory
+
+A separate EUR task at080d77c4, created by080d79ac/080d79d0, controls hardware
+blending. It is distinct from the e46palette task080d7fac. The original register
+flush uses DMA from compact PPU shadow03000942 to04000008 for39halfwords;
+shadow03000940+4A/4C/4E therefore maps to BLDCNT/BLDALPHA/BLDY at50/52/54.
+The task writes the control word, alpha coefficients or brightness coefficient
+through these shadow fields, with original scheduling and interpolation.
+
+All248retained direct constructor-call candidates now have a bounded source
+classification.235current-block constant expressions, checked against reachable
+Thumb CFG instructions, identify133programs. Two conditional callsites have
+four literal arms. Six indexed projections own22pointer cells/88bytes, using
+original task-ID transforms, parent/child messages and counted loops. Four of
+those selector contracts reuse already-proved parent/child fields from the
+palette inventory; the new tables and loadsites are checked separately. An
+inline stride10pair is selected by explicit state initialization to0or1 for
+message-ID branches397..401/404..406. These are projections of known producers,
+not global bounds for live RAM or complete physical pointer-table extents.
+
+One further caller copies a10-byte template from0839a5f0to RAM context+16,
+then overwrites its command duration from live state. Three other callers
+construct their entire program in RAM. The file model must preserve typed ROM
+reads of the template while leaving the subsequent RAM program mutable.
+An initial unchecked backward expression had mistaken a literal-pool word for
+an ADD-PC instruction and invented ROMroot080e2ec8. That root is rejected;
+current basic-block verification and the explicit RAM copy replace that inference.
+Both intermediate evidence and the correction remain private and retained.
+
+The combined source plan has160programs/345commands:960header bytes and1380
+command bytes, plus88producer bytes, totaling2428bytes in158ranges. Every range
+is disjoint from all40e46resource owners, with no repeated logical byte in this
+plan. Headers are6bytes: packed u16blend control, packed u16initial coefficients
+and u16command count. Control bits select first targets, mode and second targets;
+coefficient fields use the original5-bit masks. Reserved bits remain lossless.
+Each4-byte command stores a raw u16duration and two u8target coefficients.
+There is no separate parameter stream for this family.
+
+The source programs use135alpha,20brighten and5darken modes, with5immediate
+commands whose duration isffff. No source command has duration0, another signed
+negative duration, or an immediate final command. These observations do not
+justify new runtime guards or a coefficient cap16. Repeat/reset/pause flags
+come from live messages, and the command index is a live wrapping u16. The
+original immediate-command loop and out-of-projection reads must retain their
+semantics rather than adopting file lengths as guest guards.
+
+Independent static reconstruction matches every source byte/hash, all22pointer
+cells target canonical programs,44consumer instruction fingerprints pass, and
+the DMA shadow-to-register mapping is checked. This is a source inventory;
+a strict typed model, an original-reader Wine oracle, managed publication,
+runtime and ordinary scene acceptance remain pending. EUR e46-d45/USAe8-d7
+remain unchanged. No new guest run, build, performance or space measurement was
+made; newLinux/USA/nativeWindows checks remain pending.
+
+Evidence: `target/rom-data-blend-programs/{producer-arguments.json,
+verified-producer-arguments.json,source-contract.json,static-source-verification.json,
+resolve-producers.py,verify-producer-blocks.py,inventory-source-contract.py,
+verify-source-contract.py,*.txt}`. See the
+[change record](changes/2026-10-24-inventory-european-blend-program-producers.json).
+
+
+## Typed blend-program source model
+
+`rom_data::blend_programs` now decodes the160canonical EUR programs and6producer
+tables. Typed control/initial-coefficient bitfields preserve every reserved bit;
+raw u16durations and u8target values retain the original representations. Header
+counts, source ordering, program references and overlapping/out-of-ROM fields
+are checked before use. Canonical IDs refer within this resource. The decoder
+requires the exact EUR source identity and110reader/producer instruction
+fingerprints. Strict JSON rejects unknown fields; changes to valid decoded fields
+still fail source authentication. It reconstructs158ranges/2428bytes without a
+ROM shadow. The public typed byte accessors prepare later runtime integration;
+there is no managed resource or guest reader attached in this source-only unit.
+
+One affected Windows test build is warning-free. A single focused Wine source
+oracle passes all160original header readers,345command initializers and22indexed
+pointer loads, including5actual immediate-command chains. It observes2376of2428
+declared bytes.52second-target bytes in timed nonalpha commands are preserved
+and hash-checked but not read under these original-initial-mode probes; later
+live mode changes are not classified as unreachable. Source reconstruction
+still covers all2428bytes losslessly.
+
+The same check runs the original copied-IWRAM template copy and live RAM duration
+override, maximum packed masks (initial coefficients31) and mode0, six raw/signed
+duration initializers, three delay+1/wrap/decrement inputs and an unguarded live
+command-index65535lookup outside the declared projection.17shape,3edited-source,
+2strict-JSON and2ROM-identity guards pass.52943original instructions/264PCs are
+coverage counts only. These prefixes do not prove a full-state/clock/native,
+allocator, scheduler or complete task ABI. Publication, typed runtime, actual
+CLI and ordinary scene acceptance remain open; EUR e46-d45/USAe8-d7 is unchanged.
+NewLinux/USA/nativeWindows checks remain pending, with no performance or space
+campaign and no original input/save/ROM change.
+
+Evidence: `target/rom-data-blend-programs/{windows-model-tests-build.jsonl,
+windows-model-tests-build.log,windows-model-result.json,
+windows-model-europe/{blend-programs.json,result.json}}`. The closed producer
+inventory is reused without rescanning. See the
+[model record](changes/2026-10-24-decode-european-blend-programs.json).
+
+
+## Managed blend programs and typed guest reads
+
+EUR `v1/e47-d46` adds `blend-programs.json` / `graphics.blend-programs`:
+42files/41resources authenticate before activation, retaining all40earlier decoded
+files and the e46generation; USAe8-d7 remains unchanged.158source bindings cover
+2428bytes. Canonical producer references are internal to this file, so no external
+asset dependency is declared. Runtime bindings identify header, command or
+producer fields and reconstruct values from the typed model. Mixed reads retain
+the previous resource owner or raw ROM for every unowned byte. No ROM shadow,
+guest interpolation/sequencer rewrite, live-index guard, coefficient cap, save
+format or native cache ABI change is introduced.13source pages route through the
+existing bus policy, with category/program/table counters outside saved state.
+
+A reduced Wine lifecycle check passes12coherent shape/source/hash/path/dependency/
+coverage guards, publication failure before manifest, create/reuse/repair/move,
+e46retention, transactional missing-file rejection and unavailable-file
+Load/Undo/backup/Restart. All2428poisoned raw bytes still read from typed fields:
+960header/1380command/88producer bytes,160programs and6tables. The first Windows
+compile identified three existing input-guard test calls missing the new file
+argument and one unused test import; these compile fixes are retained separately
+from runtime behavior. The affected Windows build then passed without warnings.
+
+The second reduced Wine check passes20original/interpreter/native complete-state
+and clock prefixes. Generated native APIs read[34header,70command,16producer]bytes.
+They cover initial modes1/2/3, waiting and immediate commands, live mode2→1
+selection of a previously initial-mode-unread second target, copied-IWRAM template
+copy, delay and count paths. Livecommand65535 and tableindex3 stay raw outside
+every typed owner; tableindex5 reaches the previous palette-program owner.
+Three representative boundary families cover byte/halfword/word reads, three ROM
+mirrors, real-BIOS policy, CpuSet/FastSet and DMA new2/raw2. A separate new2/old2
+crossing preserves the previous palette file even when both raw regions are
+poisoned.1034instructions/295PCs/93dispatches are coverage only, not performance.
+These controlled prefixes do not establish a whole allocator/callback/scheduler ABI.
+
+Diff review also corrected the extraction-set coherence gate to require the
+immediately preceding palette owner before indexed manifest checks. One focused
+Wine negative guard reused the existing dataset and verified early rejection;
+only its affected Windows test was rebuilt, without warnings. The passing full
+file set and runtime field bindings were unchanged, so the closed lifecycle and
+native checks were not repeated. Source160program/inventory248/e46proofs also
+remain closed.
+
+Actual production CLI create/reuse-no-write/old-cache execution now passes
+under Wine from an unrelated working directory.44managed files keep identical
+hashes/mtimes on reuse, and all42generation files match the accepted e47dataset.
+The Windows production candidate is warning-free; the canonical executable was
+restored exactly. The retained genuine EUR Montblanc Richiamo/Pecorelle scene
+reads18aggregate source bytes (10header/8command),1program,0producer. The scene
+snapshot's EUR identity/payload digest and its input hashes were checked without
+recreating navigation or changing guest RAM/state payloads/saves.
+
+One1000-frame Wine differential replay of that same state/input, using the
+actual CLI-published generation in classic240x160 mode, passes every complete
+state/clock, central image, wide buffer, OAM, dispatch count, mixed audio,
+PSG/FIFO sample and bitwise HLE sample. Audio sample counts are
+[2194500,2194500,264000,264000,2194366]. The current test executable was reused;
+no source/managed/native/old-family checks were repeated. Other159programs and
+all6producer tables retain their targeted-only scope, with no new32:9 scene or
+whole allocator/callback/scheduler ABI claim. NewLinux/USA/nativeWindows checks
+remain pending. No performance/space campaign, original game-data/input/save
+change, installed production executable replacement or commit was made.
+
+Evidence: `target/rom-data-blend-programs/{windows-managed-tests-build.*,
+windows-managed-fixed-tests-build.*,windows-managed-results.json,
+windows-guard-tests-build.*,windows-source-set-results.json,
+windows-managed-europe/{managed-result.json,native-result.json,source-set-result.json},
+windows-build.json,windows-cli-processes.json,windows-cli-no-write.json,
+windows-cli-summary.json,windows-scene-result.json}`.
+See the [runtime record](changes/2026-10-24-consume-european-blend-programs.json).

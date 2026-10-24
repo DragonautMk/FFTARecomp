@@ -14,6 +14,18 @@ use gba_core::rom_data::{
     progression_gates::ProgressionGates, PROGRESSION_GATES_ID, PROGRESSION_GATES_FILE, MAX_PROGRESSION_GATES_FILE_BYTES,
     progression_selection_gates::ProgressionSelectionGates, PROGRESSION_SELECTION_GATES_ID, PROGRESSION_SELECTION_GATES_FILE, MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES,
     aggregate_flag_keys::AggregateFlagKeys, AGGREGATE_FLAG_KEYS_ID, AGGREGATE_FLAG_KEYS_FILE, MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES,
+    trade_parameters::TradeParameters, TRADE_PARAMETERS_ID, TRADE_PARAMETERS_FILE, MAX_TRADE_PARAMETERS_FILE_BYTES,
+    item_effect_parameters::ItemEffectParameters, ITEM_EFFECT_PARAMETERS_ID, ITEM_EFFECT_PARAMETERS_FILE, MAX_ITEM_EFFECT_PARAMETERS_FILE_BYTES,
+    audio_directory::AudioDirectory, AUDIO_DIRECTORY_ID, AUDIO_DIRECTORY_FILE, MAX_AUDIO_DIRECTORY_FILE_BYTES,
+    audio_tones::AudioTones, AUDIO_TONES_ID, AUDIO_TONES_FILE, MAX_AUDIO_TONES_FILE_BYTES,
+    audio_sequences::AudioSequences, AUDIO_SEQUENCES_ID, AUDIO_SEQUENCES_FILE, MAX_AUDIO_SEQUENCES_FILE_BYTES,
+    audio_driver::AudioDriver, AUDIO_DRIVER_ID, AUDIO_DRIVER_FILE, MAX_AUDIO_DRIVER_FILE_BYTES,
+    palette_effect_dispatch::PaletteEffectDispatch, PALETTE_EFFECT_DISPATCH_ID, PALETTE_EFFECT_DISPATCH_FILE, MAX_PALETTE_EFFECT_DISPATCH_FILE_BYTES,
+    palette_programs::PalettePrograms, PALETTE_PROGRAMS_ID, PALETTE_PROGRAMS_FILE, MAX_PALETTE_PROGRAMS_FILE_BYTES,
+    blend_programs::BlendPrograms, BLEND_PROGRAMS_ID, BLEND_PROGRAMS_FILE, MAX_BLEND_PROGRAMS_FILE_BYTES,
+    task_descriptors::TaskDescriptors, TASK_DESCRIPTORS_ID, TASK_DESCRIPTORS_FILE, MAX_TASK_DESCRIPTORS_FILE_BYTES,
+    effect_event_directories::EffectEventDirectories, EFFECT_EVENT_DIRECTORIES_ID, EFFECT_EVENT_DIRECTORIES_FILE, MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES,
+    script_commands::ScriptCommands, SCRIPT_COMMANDS_ID, SCRIPT_COMMANDS_FILE, MAX_SCRIPT_COMMANDS_FILE_BYTES,
     item_links::Links as ItemLinks, ITEM_LINKS_ID, ITEM_LINKS_FILE, MAX_ITEM_LINKS_FILE_BYTES,
     items::Items, ITEM_RECORDS_ID, ITEM_RECORDS_FILE, MAX_ITEM_RECORDS_FILE_BYTES,
     ui_graphics::Graphics as UiGraphics, UI_CUSTOM_GRAPHICS_ID, UI_CUSTOM_GRAPHICS_FILE, MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES,
@@ -135,6 +147,32 @@ mod progression_selection_gate_tests;
 #[cfg(test)]
 mod aggregate_flag_key_tests;
 #[cfg(test)]
+mod trade_parameter_tests;
+#[cfg(test)]
+mod item_effect_parameter_tests;
+#[cfg(test)]
+mod audio_directory_tests;
+#[cfg(test)]
+mod audio_tone_source_tests;
+#[cfg(test)]
+mod audio_tone_model_tests;
+#[cfg(test)]
+mod audio_sequence_model_tests;
+#[cfg(test)]
+mod audio_driver_model_tests;
+#[cfg(test)]
+mod palette_effect_dispatch_model_tests;
+#[cfg(test)]
+mod palette_program_model_tests;
+#[cfg(test)]
+mod blend_program_model_tests;
+#[cfg(test)]
+mod task_descriptor_model_tests;
+#[cfg(test)]
+mod effect_event_directory_model_tests;
+#[cfg(test)]
+mod script_command_model_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;
@@ -156,6 +194,30 @@ mod progression_reward_runtime_tests;
 mod progression_gate_runtime_tests;
 #[cfg(test)]
 mod progression_selection_gate_runtime_tests;
+#[cfg(test)]
+mod trade_parameter_runtime_tests;
+#[cfg(test)]
+mod item_effect_parameter_runtime_tests;
+#[cfg(test)]
+mod audio_directory_runtime_tests;
+#[cfg(test)]
+mod audio_tone_runtime_tests;
+#[cfg(test)]
+mod audio_sequence_runtime_tests;
+#[cfg(test)]
+mod audio_driver_runtime_tests;
+#[cfg(test)]
+mod palette_effect_dispatch_runtime_tests;
+#[cfg(test)]
+mod palette_program_runtime_tests;
+#[cfg(test)]
+mod blend_program_runtime_tests;
+#[cfg(test)]
+mod task_descriptor_runtime_tests;
+#[cfg(test)]
+mod effect_event_directory_runtime_tests;
+#[cfg(test)]
+mod script_command_runtime_tests;
 #[cfg(test)]
 mod aggregate_flag_key_runtime_tests;
 #[cfg(test)]
@@ -395,6 +457,66 @@ fn parse_aggregate_flag_keys(bytes:&[u8])->Result<AggregateFlagKeys,String> {
     value.validate()?;Ok(value)
 }
 fn encode_aggregate_flag_keys(value:&AggregateFlagKeys)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode aggregate_flag_keys: {e}"))}
+fn parse_trade_parameters(bytes:&[u8])->Result<TradeParameters,String> {
+    let value:TradeParameters=serde_json::from_slice(bytes).map_err(|e|format!("Invalid trade_parameters: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_trade_parameters(value:&TradeParameters)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode trade_parameters: {e}"))}
+fn parse_item_effect_parameters(bytes:&[u8])->Result<ItemEffectParameters,String> {
+    let value:ItemEffectParameters=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item_effect_parameters: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_item_effect_parameters(value:&ItemEffectParameters)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode item_effect_parameters: {e}"))}
+fn parse_audio_directory(bytes:&[u8])->Result<AudioDirectory,String> {
+    let value:AudioDirectory=serde_json::from_slice(bytes).map_err(|e|format!("Invalid audio_directory: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_audio_directory(value:&AudioDirectory)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode audio_directory: {e}"))}
+fn parse_audio_tones(bytes:&[u8])->Result<AudioTones,String> {
+    let value:AudioTones=serde_json::from_slice(bytes).map_err(|e|format!("Invalid audio_tones: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_audio_tones(value:&AudioTones)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode audio_tones: {e}"))}
+fn parse_audio_sequences(bytes:&[u8])->Result<AudioSequences,String> {
+    let value:AudioSequences=serde_json::from_slice(bytes).map_err(|e|format!("Invalid audio_sequences: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_audio_sequences(value:&AudioSequences)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode audio_sequences: {e}"))}
+fn parse_audio_driver(bytes:&[u8])->Result<AudioDriver,String> {
+    let value:AudioDriver=serde_json::from_slice(bytes).map_err(|e|format!("Invalid audio_driver: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_audio_driver(value:&AudioDriver)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode audio_driver: {e}"))}
+fn parse_palette_effect_dispatch(bytes:&[u8])->Result<PaletteEffectDispatch,String> {
+    let value:PaletteEffectDispatch=serde_json::from_slice(bytes).map_err(|e|format!("Invalid palette_effect_dispatch: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_palette_effect_dispatch(value:&PaletteEffectDispatch)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode palette_effect_dispatch: {e}"))}
+fn parse_palette_programs(bytes:&[u8])->Result<PalettePrograms,String> {
+    let value:PalettePrograms=serde_json::from_slice(bytes).map_err(|e|format!("Invalid palette_programs: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_palette_programs(value:&PalettePrograms)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode palette_programs: {e}"))}
+fn parse_blend_programs(bytes:&[u8])->Result<BlendPrograms,String> {
+    let value:BlendPrograms=serde_json::from_slice(bytes).map_err(|e|format!("Invalid blend_programs: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_blend_programs(value:&BlendPrograms)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode blend_programs: {e}"))}
+fn parse_task_descriptors(bytes:&[u8])->Result<TaskDescriptors,String> {
+    let value:TaskDescriptors=serde_json::from_slice(bytes).map_err(|e|format!("Invalid task_descriptors: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_task_descriptors(value:&TaskDescriptors)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_descriptors: {e}"))}
+fn parse_effect_event_directories(bytes:&[u8])->Result<EffectEventDirectories,String> {
+    let value:EffectEventDirectories=serde_json::from_slice(bytes).map_err(|e|format!("Invalid effect_event_directories: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_effect_event_directories(value:&EffectEventDirectories)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode effect_event_directories: {e}"))}
+fn parse_script_commands(bytes:&[u8])->Result<ScriptCommands,String> {
+    let value:ScriptCommands=serde_json::from_slice(bytes).map_err(|e|format!("Invalid script_commands: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_script_commands(value:&ScriptCommands)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode script_commands: {e}"))}
 
 fn parse_item_links(bytes:&[u8])->Result<ItemLinks,String> {
     let value:ItemLinks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item links: {e}"))?;
@@ -539,6 +661,18 @@ struct Dataset {
     progression_gates: Option<ProgressionGates>,
     progression_selection_gates: Option<ProgressionSelectionGates>,
     aggregate_flag_keys: Option<AggregateFlagKeys>,
+    trade_parameters: Option<TradeParameters>,
+    item_effect_parameters: Option<ItemEffectParameters>,
+    audio_directory: Option<AudioDirectory>,
+    audio_tones: Option<AudioTones>,
+    audio_sequences: Option<AudioSequences>,
+    audio_driver: Option<AudioDriver>,
+    palette_effect_dispatch: Option<PaletteEffectDispatch>,
+    palette_programs: Option<PalettePrograms>,
+    blend_programs: Option<BlendPrograms>,
+    task_descriptors: Option<TaskDescriptors>,
+    effect_event_directories: Option<EffectEventDirectories>,
+    script_commands: Option<ScriptCommands>,
     metadata16_bytes: Option<Vec<u8>>,
     metadata52_bytes: Option<Vec<u8>>,
     metadata4_bytes: Option<Vec<u8>>,
@@ -553,6 +687,18 @@ struct Dataset {
     progression_gates_bytes: Option<Vec<u8>>,
     progression_selection_gates_bytes: Option<Vec<u8>>,
     aggregate_flag_keys_bytes: Option<Vec<u8>>,
+    trade_parameters_bytes: Option<Vec<u8>>,
+    item_effect_parameters_bytes: Option<Vec<u8>>,
+    audio_directory_bytes: Option<Vec<u8>>,
+    audio_tones_bytes: Option<Vec<u8>>,
+    audio_sequences_bytes: Option<Vec<u8>>,
+    audio_driver_bytes: Option<Vec<u8>>,
+    palette_effect_dispatch_bytes: Option<Vec<u8>>,
+    palette_programs_bytes: Option<Vec<u8>>,
+    blend_programs_bytes: Option<Vec<u8>>,
+    task_descriptors_bytes: Option<Vec<u8>>,
+    effect_event_directories_bytes: Option<Vec<u8>>,
+    script_commands_bytes: Option<Vec<u8>>,
     item_link_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
@@ -593,6 +739,18 @@ impl Dataset {
             progression_gates: self.progression_gates.as_ref().zip(self.progression_gates_bytes.as_deref()),
             progression_selection_gates: self.progression_selection_gates.as_ref().zip(self.progression_selection_gates_bytes.as_deref()),
             aggregate_flag_keys: self.aggregate_flag_keys.as_ref().zip(self.aggregate_flag_keys_bytes.as_deref()),
+            trade_parameters: self.trade_parameters.as_ref().zip(self.trade_parameters_bytes.as_deref()),
+            item_effect_parameters: self.item_effect_parameters.as_ref().zip(self.item_effect_parameters_bytes.as_deref()),
+            audio_directory: self.audio_directory.as_ref().zip(self.audio_directory_bytes.as_deref()),
+            audio_tones: self.audio_tones.as_ref().zip(self.audio_tones_bytes.as_deref()),
+            audio_sequences: self.audio_sequences.as_ref().zip(self.audio_sequences_bytes.as_deref()),
+            audio_driver: self.audio_driver.as_ref().zip(self.audio_driver_bytes.as_deref()),
+            palette_effect_dispatch: self.palette_effect_dispatch.as_ref().zip(self.palette_effect_dispatch_bytes.as_deref()),
+            palette_programs: self.palette_programs.as_ref().zip(self.palette_programs_bytes.as_deref()),
+            blend_programs: self.blend_programs.as_ref().zip(self.blend_programs_bytes.as_deref()),
+            task_descriptors: self.task_descriptors.as_ref().zip(self.task_descriptors_bytes.as_deref()),
+            effect_event_directories: self.effect_event_directories.as_ref().zip(self.effect_event_directories_bytes.as_deref()),
+            script_commands: self.script_commands.as_ref().zip(self.script_commands_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -683,6 +841,30 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(PROGRESSION_SELECTION_GATES_FILE),MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES)).transpose()?;
     let aggregate_flag_keys_bytes=manifest.coverage.iter().any(|id|id==AGGREGATE_FLAG_KEYS_ID)
         .then(||read_bounded(&path.join(AGGREGATE_FLAG_KEYS_FILE),MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES)).transpose()?;
+    let trade_parameters_bytes=manifest.coverage.iter().any(|id|id==TRADE_PARAMETERS_ID)
+        .then(||read_bounded(&path.join(TRADE_PARAMETERS_FILE),MAX_TRADE_PARAMETERS_FILE_BYTES)).transpose()?;
+    let item_effect_parameters_bytes=manifest.coverage.iter().any(|id|id==ITEM_EFFECT_PARAMETERS_ID)
+        .then(||read_bounded(&path.join(ITEM_EFFECT_PARAMETERS_FILE),MAX_ITEM_EFFECT_PARAMETERS_FILE_BYTES)).transpose()?;
+    let audio_directory_bytes=manifest.coverage.iter().any(|id|id==AUDIO_DIRECTORY_ID)
+        .then(||read_bounded(&path.join(AUDIO_DIRECTORY_FILE),MAX_AUDIO_DIRECTORY_FILE_BYTES)).transpose()?;
+    let audio_tones_bytes=manifest.coverage.iter().any(|id|id==AUDIO_TONES_ID)
+        .then(||read_bounded(&path.join(AUDIO_TONES_FILE),MAX_AUDIO_TONES_FILE_BYTES)).transpose()?;
+    let audio_sequences_bytes=manifest.coverage.iter().any(|id|id==AUDIO_SEQUENCES_ID)
+        .then(||read_bounded(&path.join(AUDIO_SEQUENCES_FILE),MAX_AUDIO_SEQUENCES_FILE_BYTES)).transpose()?;
+    let audio_driver_bytes=manifest.coverage.iter().any(|id|id==AUDIO_DRIVER_ID)
+        .then(||read_bounded(&path.join(AUDIO_DRIVER_FILE),MAX_AUDIO_DRIVER_FILE_BYTES)).transpose()?;
+    let palette_effect_dispatch_bytes=manifest.coverage.iter().any(|id|id==PALETTE_EFFECT_DISPATCH_ID)
+        .then(||read_bounded(&path.join(PALETTE_EFFECT_DISPATCH_FILE),MAX_PALETTE_EFFECT_DISPATCH_FILE_BYTES)).transpose()?;
+    let palette_programs_bytes=manifest.coverage.iter().any(|id|id==PALETTE_PROGRAMS_ID)
+        .then(||read_bounded(&path.join(PALETTE_PROGRAMS_FILE),MAX_PALETTE_PROGRAMS_FILE_BYTES)).transpose()?;
+    let blend_programs_bytes=manifest.coverage.iter().any(|id|id==BLEND_PROGRAMS_ID)
+        .then(||read_bounded(&path.join(BLEND_PROGRAMS_FILE),MAX_BLEND_PROGRAMS_FILE_BYTES)).transpose()?;
+    let task_descriptors_bytes=manifest.coverage.iter().any(|id|id==TASK_DESCRIPTORS_ID)
+        .then(||read_bounded(&path.join(TASK_DESCRIPTORS_FILE),MAX_TASK_DESCRIPTORS_FILE_BYTES)).transpose()?;
+    let effect_event_directories_bytes=manifest.coverage.iter().any(|id|id==EFFECT_EVENT_DIRECTORIES_ID)
+        .then(||read_bounded(&path.join(EFFECT_EVENT_DIRECTORIES_FILE),MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES)).transpose()?;
+    let script_commands_bytes=manifest.coverage.iter().any(|id|id==SCRIPT_COMMANDS_ID)
+        .then(||read_bounded(&path.join(SCRIPT_COMMANDS_FILE),MAX_SCRIPT_COMMANDS_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -717,6 +899,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         progression_gates_bytes.as_ref().map_or(0, Vec::len),
         progression_selection_gates_bytes.as_ref().map_or(0, Vec::len),
         aggregate_flag_keys_bytes.as_ref().map_or(0, Vec::len),
+        trade_parameters_bytes.as_ref().map_or(0, Vec::len),
+        item_effect_parameters_bytes.as_ref().map_or(0, Vec::len),
+        audio_directory_bytes.as_ref().map_or(0, Vec::len),
+        audio_tones_bytes.as_ref().map_or(0, Vec::len),
+        audio_sequences_bytes.as_ref().map_or(0, Vec::len),
+        audio_driver_bytes.as_ref().map_or(0, Vec::len),
+        palette_effect_dispatch_bytes.as_ref().map_or(0, Vec::len),
+        palette_programs_bytes.as_ref().map_or(0, Vec::len),
+        blend_programs_bytes.as_ref().map_or(0, Vec::len),
+        task_descriptors_bytes.as_ref().map_or(0, Vec::len),
+        effect_event_directories_bytes.as_ref().map_or(0, Vec::len),
+        script_commands_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -750,6 +944,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let progression_gates=progression_gates_bytes.as_deref().map(parse_progression_gates).transpose()?;
     let progression_selection_gates=progression_selection_gates_bytes.as_deref().map(parse_progression_selection_gates).transpose()?;
     let aggregate_flag_keys=aggregate_flag_keys_bytes.as_deref().map(parse_aggregate_flag_keys).transpose()?;
+    let trade_parameters=trade_parameters_bytes.as_deref().map(parse_trade_parameters).transpose()?;
+    let item_effect_parameters=item_effect_parameters_bytes.as_deref().map(parse_item_effect_parameters).transpose()?;
+    let audio_directory=audio_directory_bytes.as_deref().map(parse_audio_directory).transpose()?;
+    let audio_tones=audio_tones_bytes.as_deref().map(parse_audio_tones).transpose()?;
+    let audio_sequences=audio_sequences_bytes.as_deref().map(parse_audio_sequences).transpose()?;
+    let audio_driver=audio_driver_bytes.as_deref().map(parse_audio_driver).transpose()?;
+    let palette_effect_dispatch=palette_effect_dispatch_bytes.as_deref().map(parse_palette_effect_dispatch).transpose()?;
+    let palette_programs=palette_programs_bytes.as_deref().map(parse_palette_programs).transpose()?;
+    let blend_programs=blend_programs_bytes.as_deref().map(parse_blend_programs).transpose()?;
+    let task_descriptors=task_descriptors_bytes.as_deref().map(parse_task_descriptors).transpose()?;
+    let effect_event_directories=effect_event_directories_bytes.as_deref().map(parse_effect_event_directories).transpose()?;
+    let script_commands=script_commands_bytes.as_deref().map(parse_script_commands).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -800,6 +1006,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         progression_gates,
         progression_selection_gates,
         aggregate_flag_keys,
+        trade_parameters,
+        item_effect_parameters,
+        audio_directory,
+        audio_tones,
+        audio_sequences,
+        audio_driver,
+        palette_effect_dispatch,
+        palette_programs,
+        blend_programs,
+        task_descriptors,
+        effect_event_directories,
+        script_commands,
         metadata16_bytes,
         metadata52_bytes,
         metadata4_bytes,
@@ -814,6 +1032,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         progression_gates_bytes,
         progression_selection_gates_bytes,
         aggregate_flag_keys_bytes,
+        trade_parameters_bytes,
+        item_effect_parameters_bytes,
+        audio_directory_bytes,
+        audio_tones_bytes,
+        audio_sequences_bytes,
+        audio_driver_bytes,
+        palette_effect_dispatch_bytes,
+        palette_programs_bytes,
+        blend_programs_bytes,
+        task_descriptors_bytes,
+        effect_event_directories_bytes,
+        script_commands_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -853,6 +1083,18 @@ fn check_dataset_budget(
     progression_gates: usize,
     progression_selection_gates: usize,
     aggregate_flag_keys: usize,
+    trade_parameters: usize,
+    item_effect_parameters: usize,
+    audio_directory: usize,
+    audio_tones: usize,
+    audio_sequences: usize,
+    audio_driver: usize,
+    palette_effect_dispatch: usize,
+    palette_programs: usize,
+    blend_programs: usize,
+    task_descriptors: usize,
+    effect_event_directories: usize,
+    script_commands: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -886,6 +1128,18 @@ fn check_dataset_budget(
         || progression_gates as u64 > MAX_PROGRESSION_GATES_FILE_BYTES
         || progression_selection_gates as u64 > MAX_PROGRESSION_SELECTION_GATES_FILE_BYTES
         || aggregate_flag_keys as u64 > MAX_AGGREGATE_FLAG_KEYS_FILE_BYTES
+        || trade_parameters as u64 > MAX_TRADE_PARAMETERS_FILE_BYTES
+        || item_effect_parameters as u64 > MAX_ITEM_EFFECT_PARAMETERS_FILE_BYTES
+        || audio_directory as u64 > MAX_AUDIO_DIRECTORY_FILE_BYTES
+        || audio_tones as u64 > MAX_AUDIO_TONES_FILE_BYTES
+        || audio_sequences as u64 > MAX_AUDIO_SEQUENCES_FILE_BYTES
+        || audio_driver as u64 > MAX_AUDIO_DRIVER_FILE_BYTES
+        || palette_effect_dispatch as u64 > MAX_PALETTE_EFFECT_DISPATCH_FILE_BYTES
+        || palette_programs as u64 > MAX_PALETTE_PROGRAMS_FILE_BYTES
+        || blend_programs as u64 > MAX_BLEND_PROGRAMS_FILE_BYTES
+        || task_descriptors as u64 > MAX_TASK_DESCRIPTORS_FILE_BYTES
+        || effect_event_directories as u64 > MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES
+        || script_commands as u64 > MAX_SCRIPT_COMMANDS_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -922,6 +1176,18 @@ fn check_dataset_budget(
         .saturating_add(progression_gates)
         .saturating_add(progression_selection_gates)
         .saturating_add(aggregate_flag_keys)
+        .saturating_add(trade_parameters)
+        .saturating_add(item_effect_parameters)
+        .saturating_add(audio_directory)
+        .saturating_add(audio_tones)
+        .saturating_add(audio_sequences)
+        .saturating_add(audio_driver)
+        .saturating_add(palette_effect_dispatch)
+        .saturating_add(palette_programs)
+        .saturating_add(blend_programs)
+        .saturating_add(task_descriptors)
+        .saturating_add(effect_event_directories)
+        .saturating_add(script_commands)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -1004,6 +1270,42 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.aggregate_flag_keys {
         eprintln!("ROM_DATA runtime=decoded resource={AGGREGATE_FLAG_KEYS_ID} file={} records={}",dataset.manifest.resources[31].sha256,data.entries.len());
+    }
+    if let Some(data)= &dataset.trade_parameters {
+        eprintln!("ROM_DATA runtime=decoded resource={TRADE_PARAMETERS_ID} file={} records={}",dataset.manifest.resources[32].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.item_effect_parameters {
+        eprintln!("ROM_DATA runtime=decoded resource={ITEM_EFFECT_PARAMETERS_ID} file={} records={}",dataset.manifest.resources[33].sha256,data.records.len());
+    }
+    if let Some(data)= &dataset.audio_directory {
+        eprintln!("ROM_DATA runtime=decoded resource={AUDIO_DIRECTORY_ID} file={} records={}",dataset.manifest.resources[34].sha256,data.songs.len());
+    }
+    if let Some(data)= &dataset.audio_tones {
+        eprintln!("ROM_DATA runtime=decoded resource={AUDIO_TONES_ID} file={} records={}",dataset.manifest.resources[35].sha256,data.tones.len());
+    }
+    if let Some(data)= &dataset.audio_sequences {
+        eprintln!("ROM_DATA runtime=decoded resource={AUDIO_SEQUENCES_ID} file={} records={}",dataset.manifest.resources[36].sha256,data.instructions.len());
+    }
+    if let Some(data)= &dataset.audio_driver {
+        eprintln!("ROM_DATA runtime=decoded resource={AUDIO_DRIVER_ID} file={} records={}",dataset.manifest.resources[37].sha256,(0..7).map(|id|data.table(id).unwrap().1).sum::<usize>());
+    }
+    if let Some(data)= &dataset.palette_effect_dispatch {
+        eprintln!("ROM_DATA runtime=decoded resource={PALETTE_EFFECT_DISPATCH_ID} file={} records={}",dataset.manifest.resources[38].sha256,data.slots.len());
+    }
+    if let Some(data)= &dataset.palette_programs {
+        eprintln!("ROM_DATA runtime=decoded resource={PALETTE_PROGRAMS_ID} file={} records={}",dataset.manifest.resources[39].sha256,data.programs.len());
+    }
+    if let Some(data)= &dataset.blend_programs {
+        eprintln!("ROM_DATA runtime=decoded resource={BLEND_PROGRAMS_ID} file={} records={}",dataset.manifest.resources[40].sha256,data.programs.len());
+    }
+    if let Some(data)= &dataset.task_descriptors {
+        eprintln!("ROM_DATA runtime=decoded resource={TASK_DESCRIPTORS_ID} file={} records={}",dataset.manifest.resources[41].sha256,data.tables().iter().map(|t|t.entries.len()).sum::<usize>());
+    }
+    if let Some(data)= &dataset.effect_event_directories {
+        eprintln!("ROM_DATA runtime=decoded resource={EFFECT_EVENT_DIRECTORIES_ID} file={} records={}",dataset.manifest.resources[42].sha256,data.events.len()+data.selectors.len());
+    }
+    if let Some(data)= &dataset.script_commands {
+        eprintln!("ROM_DATA runtime=decoded resource={SCRIPT_COMMANDS_ID} file={} records={}",dataset.manifest.resources[43].sha256,data.commands.len());
     }
     if let Some(links)= &dataset.item_links {
         eprintln!("ROM_DATA runtime=decoded resource={ITEM_LINKS_ID} file={} records={}",dataset.manifest.resources[17].sha256,links.records.len());
@@ -1118,6 +1420,42 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(i)=resources.aggregate_flag_keys_stats() {
             eprintln!("ROM_DATA_USE resource={AGGREGATE_FLAG_KEYS_ID} dataset={} bus_reads={} source_bytes={} key_bytes={} terminator_bytes={} entry_mask={:?}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.key_bytes,i.terminator_bytes,i.entry_mask);
+        }
+        if let Some(i)=resources.trade_parameters_stats() {
+            eprintln!("ROM_DATA_USE resource={TRADE_PARAMETERS_ID} dataset={} bus_reads={} source_bytes={} opaque_bytes={} markup_low_bytes={} shared41_bytes={} discount_bytes={} record_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.opaque_bytes,i.markup_low_bytes,i.shared41_bytes,i.discount_bytes,i.record_mask);
+        }
+        if let Some(i)=resources.item_effect_parameters_stats() {
+            eprintln!("ROM_DATA_USE resource={ITEM_EFFECT_PARAMETERS_ID} dataset={} bus_reads={} source_bytes={} coefficient_bytes={} shared05_bytes={} shared06_bytes={} record_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.coefficient_bytes,i.shared05_bytes,i.shared06_bytes,i.record_mask);
+        }
+        if let Some(i)=resources.audio_directory_stats() {
+            eprintln!("ROM_DATA_USE resource={AUDIO_DIRECTORY_ID} dataset={} bus_reads={} source_bytes={} player_bytes={} directory_bytes={} header_bytes={} track_pointer_bytes={} player_mask={} songs_read={} headers_read={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.player_bytes,i.directory_bytes,i.header_bytes,i.track_pointer_bytes,i.player_mask,i.song_masks.iter().map(|v|v.count_ones()).sum::<u32>(),i.header_masks.iter().map(|v|v.count_ones()).sum::<u32>());
+        }
+        if let Some(i)=resources.audio_tones_stats() {
+            eprintln!("ROM_DATA_USE resource={AUDIO_TONES_ID} dataset={} bus_reads={} source_bytes={} tone_bytes={} keymap_bytes={} wave_header_bytes={} pcm_bytes={} endpoint_bytes={} cgb_bytes={} host_reads={} host_source_bytes={} host_wave_header_bytes={} host_pcm_bytes={} host_endpoint_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.tone_bytes,i.keymap_bytes,i.wave_header_bytes,i.pcm_bytes,i.endpoint_bytes,i.cgb_bytes,i.host_reads,i.host_source_bytes,i.host_wave_header_bytes,i.host_pcm_bytes,i.host_endpoint_bytes);
+        }
+        if let Some(i)=resources.audio_sequences_stats() {
+            eprintln!("ROM_DATA_USE resource={AUDIO_SEQUENCES_ID} dataset={} bus_reads={} source_bytes={} opcode_bytes={} operand_bytes={} clock_bytes={} command_bytes={} extended_bytes={} instructions_used={} clock_mask={} command_mask={} extended_mask={} host_reads={} host_source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.opcode_bytes,i.operand_bytes,i.clock_bytes,i.command_bytes,i.extended_bytes,i.instructions_used,i.clock_mask,i.command_mask,i.extended_mask,i.host_reads,i.host_source_bytes);
+        }
+        if let Some(i)=resources.audio_driver_stats() {
+            eprintln!("ROM_DATA_USE resource={AUDIO_DRIVER_ID} dataset={} bus_reads={} source_bytes={} pcm_key_bytes={} pcm_base_bytes={} sample_count_bytes={} cgb_key_bytes={} cgb_base_bytes={} noise_bytes={} volume_bytes={} entries_used={:?} host_reads={} host_source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.table_bytes[0],i.table_bytes[1],i.table_bytes[2],i.table_bytes[3],i.table_bytes[4],i.table_bytes[5],i.table_bytes[6],i.entries_used,i.host_reads,i.host_source_bytes);
+        }
+        if let Some(i)=resources.palette_effect_dispatch_stats() {
+            eprintln!("ROM_DATA_USE resource={PALETTE_EFFECT_DISPATCH_ID} dataset={} bus_reads={} source_bytes={} callback_bytes={} null_bytes={} slot_mask={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.callback_bytes,i.null_bytes,i.slot_mask);
+        }
+        if let Some(i)=resources.palette_programs_stats() {
+            eprintln!("ROM_DATA_USE resource={PALETTE_PROGRAMS_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} command_bytes={} parameter_bytes={} producer_bytes={} programs_used={} producer_tables_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.command_bytes,i.parameter_bytes,i.producer_bytes,i.programs_used,i.producer_tables_used);
+        }
+        if let Some(i)=resources.blend_programs_stats() {
+            eprintln!("ROM_DATA_USE resource={BLEND_PROGRAMS_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} command_bytes={} producer_bytes={} programs_used={} producer_tables_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.command_bytes,i.producer_bytes,i.programs_used,i.producer_tables_used);
+        }
+        if let Some(i)=resources.task_descriptors_stats() {
+            eprintln!("ROM_DATA_USE resource={TASK_DESCRIPTORS_ID} dataset={} bus_reads={} source_bytes={} callback_bytes={} context_size_bytes={} metadata_bytes={} records_used={} catalogs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.callback_bytes,i.context_size_bytes,i.metadata_bytes,i.records_used,i.catalogs_used);
+        }
+        if let Some(i)=resources.effect_event_directories_stats() {
+            eprintln!("ROM_DATA_USE resource={EFFECT_EVENT_DIRECTORIES_ID} dataset={} bus_reads={} source_bytes={} event_bytes={} selector_bytes={} dispatch_bytes={} event_records_used={} selectors_used={} dispatch_tables_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.event_bytes,i.selector_bytes,i.dispatch_bytes,i.event_records_used,i.selectors_used,i.dispatch_tables_used);
+        }
+        if let Some(i)=resources.script_commands_stats() {
+            eprintln!("ROM_DATA_USE resource={SCRIPT_COMMANDS_ID} dataset={} bus_reads={} source_bytes={} advance_bytes={} callback_bytes={} commands_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.advance_bytes,i.callback_bytes,i.commands_used);
         }
         if let Some(i)=resources.item_link_stats() {
             eprintln!("ROM_DATA_USE resource={ITEM_LINKS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
@@ -1262,6 +1600,18 @@ fn write_dataset(
     let progression_gates_data=source.progression_gates.as_ref().map(|catalog|encode_progression_gates(&catalog.decoded)).transpose()?;
     let progression_selection_gates_data=source.progression_selection_gates.as_ref().map(|catalog|encode_progression_selection_gates(&catalog.decoded)).transpose()?;
     let aggregate_flag_keys_data=source.aggregate_flag_keys.as_ref().map(|catalog|encode_aggregate_flag_keys(&catalog.decoded)).transpose()?;
+    let trade_parameters_data=source.trade_parameters.as_ref().map(|catalog|encode_trade_parameters(&catalog.decoded)).transpose()?;
+    let item_effect_parameters_data=source.item_effect_parameters.as_ref().map(|catalog|encode_item_effect_parameters(&catalog.decoded)).transpose()?;
+    let audio_directory_data=source.audio_directory.as_ref().map(|catalog|encode_audio_directory(&catalog.decoded)).transpose()?;
+    let audio_tones_data=source.audio_tones.as_ref().map(|catalog|encode_audio_tones(&catalog.decoded)).transpose()?;
+    let audio_sequences_data=source.audio_sequences.as_ref().map(|catalog|encode_audio_sequences(&catalog.decoded)).transpose()?;
+    let audio_driver_data=source.audio_driver.as_ref().map(|catalog|encode_audio_driver(&catalog.decoded)).transpose()?;
+    let palette_effect_dispatch_data=source.palette_effect_dispatch.as_ref().map(|catalog|encode_palette_effect_dispatch(&catalog.decoded)).transpose()?;
+    let palette_programs_data=source.palette_programs.as_ref().map(|catalog|encode_palette_programs(&catalog.decoded)).transpose()?;
+    let blend_programs_data=source.blend_programs.as_ref().map(|catalog|encode_blend_programs(&catalog.decoded)).transpose()?;
+    let task_descriptors_data=source.task_descriptors.as_ref().map(|catalog|encode_task_descriptors(&catalog.decoded)).transpose()?;
+    let effect_event_directories_data=source.effect_event_directories.as_ref().map(|catalog|encode_effect_event_directories(&catalog.decoded)).transpose()?;
+    let script_commands_data=source.script_commands.as_ref().map(|catalog|encode_script_commands(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -1290,6 +1640,18 @@ fn write_dataset(
     if let Some(bytes) = &progression_gates_data {files.push(bytes);}
     if let Some(bytes) = &progression_selection_gates_data {files.push(bytes);}
     if let Some(bytes) = &aggregate_flag_keys_data {files.push(bytes);}
+    if let Some(bytes) = &trade_parameters_data {files.push(bytes);}
+    if let Some(bytes) = &item_effect_parameters_data {files.push(bytes);}
+    if let Some(bytes) = &audio_directory_data {files.push(bytes);}
+    if let Some(bytes) = &audio_tones_data {files.push(bytes);}
+    if let Some(bytes) = &audio_sequences_data {files.push(bytes);}
+    if let Some(bytes) = &audio_driver_data {files.push(bytes);}
+    if let Some(bytes) = &palette_effect_dispatch_data {files.push(bytes);}
+    if let Some(bytes) = &palette_programs_data {files.push(bytes);}
+    if let Some(bytes) = &blend_programs_data {files.push(bytes);}
+    if let Some(bytes) = &task_descriptors_data {files.push(bytes);}
+    if let Some(bytes) = &effect_event_directories_data {files.push(bytes);}
+    if let Some(bytes) = &script_commands_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -1327,6 +1689,18 @@ fn write_dataset(
         progression_gates_data.as_ref().map_or(0, Vec::len),
         progression_selection_gates_data.as_ref().map_or(0, Vec::len),
         aggregate_flag_keys_data.as_ref().map_or(0, Vec::len),
+        trade_parameters_data.as_ref().map_or(0, Vec::len),
+        item_effect_parameters_data.as_ref().map_or(0, Vec::len),
+        audio_directory_data.as_ref().map_or(0, Vec::len),
+        audio_tones_data.as_ref().map_or(0, Vec::len),
+        audio_sequences_data.as_ref().map_or(0, Vec::len),
+        audio_driver_data.as_ref().map_or(0, Vec::len),
+        palette_effect_dispatch_data.as_ref().map_or(0, Vec::len),
+        palette_programs_data.as_ref().map_or(0, Vec::len),
+        blend_programs_data.as_ref().map_or(0, Vec::len),
+        task_descriptors_data.as_ref().map_or(0, Vec::len),
+        effect_event_directories_data.as_ref().map_or(0, Vec::len),
+        script_commands_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -1360,6 +1734,18 @@ fn write_dataset(
     if let Some(bytes) = &progression_gates_data {write(&path.join(PROGRESSION_GATES_FILE),bytes)?;}
     if let Some(bytes) = &progression_selection_gates_data {write(&path.join(PROGRESSION_SELECTION_GATES_FILE),bytes)?;}
     if let Some(bytes) = &aggregate_flag_keys_data {write(&path.join(AGGREGATE_FLAG_KEYS_FILE),bytes)?;}
+    if let Some(bytes) = &trade_parameters_data {write(&path.join(TRADE_PARAMETERS_FILE),bytes)?;}
+    if let Some(bytes) = &item_effect_parameters_data {write(&path.join(ITEM_EFFECT_PARAMETERS_FILE),bytes)?;}
+    if let Some(bytes) = &audio_directory_data {write(&path.join(AUDIO_DIRECTORY_FILE),bytes)?;}
+    if let Some(bytes) = &audio_tones_data {write(&path.join(AUDIO_TONES_FILE),bytes)?;}
+    if let Some(bytes) = &audio_sequences_data {write(&path.join(AUDIO_SEQUENCES_FILE),bytes)?;}
+    if let Some(bytes) = &audio_driver_data {write(&path.join(AUDIO_DRIVER_FILE),bytes)?;}
+    if let Some(bytes) = &palette_effect_dispatch_data {write(&path.join(PALETTE_EFFECT_DISPATCH_FILE),bytes)?;}
+    if let Some(bytes) = &palette_programs_data {write(&path.join(PALETTE_PROGRAMS_FILE),bytes)?;}
+    if let Some(bytes) = &blend_programs_data {write(&path.join(BLEND_PROGRAMS_FILE),bytes)?;}
+    if let Some(bytes) = &task_descriptors_data {write(&path.join(TASK_DESCRIPTORS_FILE),bytes)?;}
+    if let Some(bytes) = &effect_event_directories_data {write(&path.join(EFFECT_EVENT_DIRECTORIES_FILE),bytes)?;}
+    if let Some(bytes) = &script_commands_data {write(&path.join(SCRIPT_COMMANDS_FILE),bytes)?;}
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -1616,6 +2002,18 @@ mod tests {
             progression_gates: None,
             progression_selection_gates: None,
             aggregate_flag_keys: None,
+            trade_parameters: None,
+            item_effect_parameters: None,
+            audio_directory: None,
+            audio_tones: None,
+            audio_sequences: None,
+            audio_driver: None,
+            palette_effect_dispatch: None,
+            palette_programs: None,
+            blend_programs: None,
+            task_descriptors: None,
+            effect_event_directories: None,
+            script_commands: None,
             font_bank: None,
         }
     }
@@ -1941,8 +2339,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

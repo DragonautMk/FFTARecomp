@@ -1,6 +1,148 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e38-d37` adds `aggregate-flag-keys.json` /
+Current EUR `v1/e47-d46` adds `blend-programs.json` /
+`graphics.blend-programs`:160programs/345commands/6producer tables,
+158ranges/2428bytes.42files/41resources authenticate; all40prior decoded files/
+e46 and USAe8-d7 remain. Typed header/command/producer fields serve original
+CPU/DMA/BIOS/native reads with previous-owner/raw merging and mutable RAM intact.
+Reduced Wine checks pass12publication/authentication/lifecycle guards/all2428B/
+160programs6tables and20original-interpreter-native complete-state/clock prefixes.
+Compiled APIs read[34header70command16producer]B, including live mode override,
+raw command65535/tableindex3 and previous palette-owner index5/boundary.
+One additional focused source-set guard verifies early rejection of a missing
+preceding extraction owner; no closed source/lifecycle/native proof repeat.
+Actual production CLI create/reuse-no-write44managedfiles/oldcache and one
+1000-frame Wine ordinary EUR Pecorelle fullstate-clock-classic240x160-image-OAM-
+dispatch-audio pair pass18aggregate sourceB (10header/8command),1program,
+0producer. Other159programs/tables retain targeted-only coverage. NewLinux-USA-
+nativeWindows/new32:9 scene checks remain pending.
+[Blend consumption](rom_data_graphics.md#managed-blend-programs-and-typed-guest-reads).
+
+EUR `v1/e46-d45` adds `palette-programs.json` /
+`graphics.palette-programs`:230programs/1135commands/25producer tables,
+165ranges/18697bytes.41files/40resources authenticate; all39prior decoded files/
+e45 and USAe8-d7remain. Typed header/command/parameter/producer fields serve
+CPU/DMA/BIOS/native reads; guest sequencing, live indices and raw outside reads
+remain original. One reduced Wine lifecycle check passes12guards/all18697B/
+230programs/25tables/create-reuse-repair-move/load-Undo-backup-Restart. A native-only
+check passes24original-interpreter-native complete-state/clock prefixes with all
+fourfield categories and raw command65535/coloroffset65534/index2 behavior.
+The test endpoint guard corrects a chained-prefix harness issue; production
+emitter unchanged. Production CLI create/reuse-no-write43files/oldcache passes.
+Normal English-confirm1000is coverage-negative0use/no fullpair. Ordinary EUR
+Montblanc Richiamo/Pecorelle now passes actual CLI plus one1000-frame Wine pair:
+170aggregate source bytes (32header/90command/48parameter),4programs,0producer.
+Every complete state/clock/classic240x160 image/OAM/dispatch and all five audio
+streams agree. The generic scene guard now accepts typed bus or host consumers;
+family-specific positive-use requirements remain. Other226programs and producer
+tables retain targeted-only coverage. NewLinux-USA-nativeWindows/new32:9 scenes
+remain pending.
+[Palette programs](rom_data_graphics.md#managed-palette-programs-and-typed-guest-reads).
+
+EUR `v1/e45-d44` adds `palette-effect-dispatch.json` /
+`graphics.palette-effect-dispatch`:17slots/68bytes,40files/39resources/all38prior
+decoded files/e44retained, USAe8-d7. Typed guest callback/null words feed original
+CPU/DMA/BIOS/native reads with liveu16kind/state gates/rawoutside semantics.
+Two reduced Wine checks pass12guards/lifecycle/all68bytes/17slot mask and
+10original-native fullstate-clock prefixes/BIOS-SWI-DMA/boundaries. No callback
+rewrite/save-native ABI change. Actual productionCLIcreate/reuse-no-write42files/
+oldcache and one normal English-confirm1000frame Winepair pass full states/clocks/
+images/OAM/dispatch/audio and5944aggregate callback-byte reads, kind1only(mask2).
+Neutralboot240is closednegative0use/no fullpair; othercallbacks/nulls targeted-only.
+Remainingasset/newLinux-USA-nativeWindows work stays open.
+[Palette dispatch](rom_data_graphics.md#managed-palette-effect-callback-consumption).
+
+EUR `v1/e44-d43` adds `audio-driver-tables.json` /
+`audio.m4a-driver-tables`: seven spans / 484 bytes, 39 files / 38 resources,
+all37 prior decoded files/e43 retained and USAe8-d7. Actual parsed sequence
+boundaries authenticate the new owner. CPU/DMA/BIOS/native/generic-host reads
+reconstruct typed fields and preserve sample0/13–15 and volume16/31/64/255
+adjacent-owner/raw aliases, without new guest clamps. Seven byte counters and
+424 entry bits stay outside saves; guest clock/RAM/native ABI remain original.
+Two reduced Wine checks pass19guards/lifecycle/all484bytes/424entry bits and
+28original-native complete-state/clock paths, mixed Thumb/ARM/aliases/BIOS/SWI/DMA/
+boundary-host reads. Actual productionCLIcreate/reuse-no-write41managedfiles/
+oldcache and one400ordinary Winefull-state/clock/image/audio pair pass756source-
+byte reads (132PCMkey/528PCMbase/32CGBkey/64CGBbase),67physical entries. Sample-
+count/noise/volume/generic-host ordinary reads are zero; other work/newLinux-USA-
+nativeWindows remain open.
+[Driver contract](rom_data_audio.md#managed-driver-tables-and-original-integer-reads).
+
+EUR `v1/e43-d42` adds `audio-sequences.json` / `audio.m4a-sequences`:
+808 spans / 177,248 bytes of typed instructions and driver tables. All 38 files /
+37 resources authenticate with actual directory/tonebank dependencies; all 36
+prior decoded files and e42 remain, USA stays e8-d7. Two focused Wine checks pass
+25 guards/lifecycle/all bytes/instruction-table masks/35 original-interpreter-
+native state-clock checkpoints/808 boundaries-BIOS-SWI-DMA/live RAM running status/
+raw fallback and two-owner tone/sequence guest/generic-host reads. No host
+sequencer or guest timing/save/native ABI change. Production CLI create/reuse
+without rewriting 40 managed files, old-cache dispatch and one 400-frame ordinary
+Wine full-state/clock/image/audio pair pass with 819 new bytes (366 opcode,
+262 operand, 191 clock) and 185 instruction source records observed including
+lookahead. Command/extended/generic-host reads are zero in this scene. Other
+asset/LUT/GUI/archive/mod and new Linux/USA/native Windows work remain open.
+[Sequence consumption](rom_data_audio.md#managed-sequence-publication-and-typed-guest-reads).
+
+EUR `v1/e42-d41` adds `audio-tones.json` / `audio.m4a-tones`:
+429 tones, 347 map bytes, 277 signed PCM waves and two CGB waves; 736 source
+spans / 1,941,759 bytes, with an actual directory dependency for the four-byte
+alias. All 37 files / 36 resources authenticate; all 35 prior decoded files,
+e41 and USA e8-d7 remain. Two reduced Wine checks pass publication/26 guards/
+lifecycle/all typed bytes/25 original-interpreter-native state-clock checkpoints/
+736 boundaries/BIOS/SWI/DMA. Actual MP2K frame-hook and tick samplers read typed
+headers/samples for all 277 waves with nonzero bit-exact shadow audio and equal
+complete host state/clocks. Production CLI create/reuse-no-write (39 managed
+files), old-cache dispatch and one 400-frame ordinary Wine pair pass all states,
+clocks, images and audio with 516,956 guest source bytes plus 3,093,208 host bytes
+(1,056 header / 3,092,152 PCM). Ordinary CGB reads are zero. Default headless CLI
+shadow is off; the differential arms it after load. Internal probes are partial.
+Complete sequence export, driver LUTs, unselected assets and new Linux/USA/native
+Windows remain open.
+[Audio consumption](rom_data_audio.md#typed-tone-and-sample-consumption).
+
+EUR `v1/e41-d40` adds `audio-directory.json`/`audio.m4a-directory`:
+typed3player/640song/455shared-header fields reconstruct15236Bacross457spans.
+All36files/35resources authenticate; all34prior decoded files/e40generations
+and USAe8-d7remain. Nonserialized field counters/record bitsets observe use;
+raw gaps/dummy-header-wave alias, guest mixer/sequencer/RAM/clock/ABI remain.
+Two focused Wine checks pass publication/25coherent guards/retention/lifecycle,
+44original-interpreter-native paths with raw15236Baltered/fullstate-clock
+equality and allspans/allbytes/edges-BIOS/SWI-DMA/rawtail. ProductionCLIcreate/
+reuse-no-write/oldcache and one400-frame Wine ordinary fullstate-image-audio
+pair pass179B(36directory/79header/64track-pointer),3songs/headers/0player reads.
+Full bank/sample/sequence/newLinux-USA-nativeWindows pending.
+[Contract](rom_data_audio.md#managed-publication-and-typed-source-consumption).
+
+EUR `v1/e40-d39` adds fourteen packed7B `item-effect-parameters.json`
+records/98source bytes, with explicit item-record owner dependency. All35files/
+34resources authenticate together; all33prior decoded files/e39generations and
+USAe8-d7remain unchanged. Typed page6e8coefficient/shared05/shared06/14recordmask
+reads merge adjacent trade ownership, preserving original getter/fullu16cap vs
+low8index/raw-cap aliases/live current/quantity/clamp/instructions/clock/ABI.
+Two reduced Wine checks pass50original-interpreter-native paths/raw98Baltered/
+fullstate-clock equality, all98B/mask16383/edges-BIOS/SWI-DMA/two-owner crossing/
+publication-retention-lifecycle. ActualCLIcreate/reuse-no-write/oldcache and one
+400Wine EUR GoblinPlay fullstate-image-audio pair pass3newsourceB,mask1record0.
+Ordinary replay is mixed native/interpreted; other14item/20monster/cap>99UI/
+newLinux-USA-nativeWindows paths remain pending.
+[Contract](rom_data_gameplay.md#ordinary-item-effect-parameters-in-the-european-monster-bank).
+
+
+EUR `v1/e39-d38` adds five96B `trade-parameters.json` records, physical
+IDs2..6,480source bytes. All34files/33resources authenticate together; prior
+32decoded files/e38generations and USAe8-d7remain unchanged. Source-equal typed
+reads merge page6e8owners/raw gaps, retain shared byte41, and keep original
+selector/price/getter/live flags/count/division/clock/save-nativeABI. Separate
+opaque/markup-low/shared41/discount-tail counters and five-record mask observe
+usage. Two reduced Wine checks pass publication/authentication/retention/lifecycle,
+28original-interpreter-native paths/raw480Baltered/fullstate-clock equality,
+all480B/5recordmask/field-boundaries/SWI-DMA/rawgap/priorowner-coexistence.
+ActualCLIcreate/reuse-no-write/oldcache and one400Wine fee acceptance fullstate-
+image-audio pair pass14sourceB(7markup-low/7shared41),mask1physicalID2; rereads
+included. Other ordinary fields/rows/newLinux-USA-nativeWindows remain pending.
+[Contract](rom_data_gameplay.md#ordinary-trade-parameter-fee-acceptance).
+
+EUR `v1/e38-d37` adds `aggregate-flag-keys.json` /
 `gameplay.aggregate-flag-keys`:300ordered u16slots and a terminalffff/602source
 bytes. All33files/32resources authenticate together, all31prior decoded files/
 e37generation retained, USAe8-d7. Two focused Wine checks pass16fullglobal/context
@@ -631,3 +773,48 @@ through three HLE calls. Its raw typed bus count is0; the component probe
 provides that distinct evidence. See [the full contract](rom_data_graphics.md#direct-european-packet-consumption).
 New Linux/USA, broader scenes, GUI/archive and native Windows checks remain
 pending. No performance/space campaign or normal-enablement claim is made.
+
+The [EUR task descriptor resource](rom_data_tasks.md#managed-task-descriptors-and-typed-guest-reads)
+in e48-d47adds43rdfile/42ndresource, retaining all41prior decoded files/e47. Three
+catalog spans/3296B reconstruct nullable callback words, context sizes and raw
+metadata; no guest ID cap/allocator/scheduler/save-native ABI change. Two reduced
+Wine checks pass13guards/lifecycle/alltypedbytes/412records3catalogs and29original-
+interpreter-native complete-state-clock prefixes, including raw/cross-catalog
+aliases/previousblendowner and boundaries-BIOS-SWI-DMA. CompiledAPI reads44callback/
+22context/9metadataB, aggregate coverage only. ActualproductionCLIcreate/reuse-
+no-write45managedfiles/oldcache andone1000WinePecorelle fullstate-clock-classic-
+image-OAM-dispatch-all-audio pair pass28aggregateB=16callback8context4metadata/
+4records2catalogs; other408records/thirdcatalog targeted-only. Source-model oracle
+stays closed; new32:9/Linux/USA/nativeWindows pending, no wholeABI claim.
+
+[Effect/event directories](rom_data_events.md#managed-publication-and-typed-guest-reads)
+in e49-d48add44thfile/43rdresource and the actualengine.task-descriptors dependency,
+retaining42prior decoded/e48/USAe8-d7.1516B/four bindings onpages124/128/3ac/3ad
+serve typed event/selector/even-MOV-PC fields without a byte shadow, new liveindex
+cap, hostsequencer or save/native ABI. Two reduced Wine checks pass13guards/
+lifecycle/alltypedbytes and29original-interpreter-native fullstate-clock prefixes;
+compiledAPI reads[24event6selector24dispatch]aggregateB. Raw/defaults/u16wrap/font
+alias11B/samepagepalette4B/BIOS-SWI-DMA/new2raw2 pass; no wholeinterpreter/ordinary/
+reachability claim. ActualCLIcreate/reuse-no-write46managedfiles/oldcache passes.
+Pecorelle1000/schoolcoldboot3000/suspendboot-to-battle8476 locators readzero
+newbytes: closednegative/no event-requiredfullpairs; positiveordinary remains pending, Linux/USA remain toverify.
+
+## European script command directory fields
+
+EUR e50-d49 adds `script-command-directory.json` / `engine.script-command-directory`
+with115commands/690source bytes on existing pages3ac/3ad. Typed u16 advances and
+Thumb callbacks reconstruct original field bytes; prior event/selector owners
+and raw lookup bytes merge at mixed boundaries. Guest signed cursor/u8 opcode/
+relative targets/advance wrap/BL-BX/return loops stay original. The directory has
+no asset dependency, while source-set coherence requires the preceding owner.
+Save/native ABIs are unchanged; counters remain outside serialized state.
+
+Two reduced Wine filters pass13managed guards/publication/lifecycle/all690B and
+26original-interpreter-native complete-state/clock prefixes. Compiled API reads
+14advance/28callback aggregate bytes; adjacent prior events4B/selectors4B,
+previous2+new2/new2+raw2, widths/mirrors/real BIOS/CpuSet/FastSet/DMA pass.
+314instructions/70PCs/32native dispatches are coverage only. This is controlled
+field/address/call-prefix integration. ActualCLIcreate/reuse-no-write47managedfiles/
+oldcache andone8476-frame Wine EURsuspendboot-to-battle fullstate-clock-image-OAM-
+dispatch-audio pair pass42B=14advance28callback/7commands. Other108commands remain
+targeted-only; new32:9/Linux-USA-nativeWindows pending. [Evidence and limits](rom_data_scripts.md#managed-publication-and-direct-command-fields).

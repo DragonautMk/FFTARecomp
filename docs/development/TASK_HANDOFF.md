@@ -1,21 +1,104 @@
 # Task handoff
 
-Updated: 2026-10-23. Latest user instructions take precedence. Follow
+Updated: 2026-10-24. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- **DEBUG-SAVES-EXPANSION — selected (2026-10-23).** Latest request: ignore
-  new root debug_saves/ completely, audit saves against stable DS-01..26 and
-  derive nearby ordinary checkpoints where possible. Initial directory is
-  empty; ask whether it is the destination or awaiting incoming files while
-  inspecting existing ordinary fixtures. Existing catalog outcome3validated/
-  10partial/13uncovered remains closed; new criteria are missing subcases and
-  new save checkpoints, not repeated accepted differential/performance tests.
-  Next: add ignore rule/check no tracked files, inventory actual inputs, then
-  inspect battle/menu neighbors in isolated Windows/Wine copies. Preserve
-  originals and concurrent aggregate-flag-keys implementation/handoff work.
+- **DEBUG-SAVES-FINALIZE-RESUMED — increment complete; overall scene coverage
+  remains partial (2026-10-23).** Latest request explicitly resumed exploration
+  and authorized ordinary saves/snapshots. Ready catalog17validated/6partial/
+  3uncovered:31case snapshots,31loaded,25named variants and14menu variant
+  slots51–64,133artifacts. New10/13/23/24 and GEN31/33/NEW32 published;
+  earlier04/05/06/09/11/14/25/GEN30 retained. Final verification passes133hashes,
+  101preview/core envelopes (includes duplicate shortcuts),32cartridges,
+  28originals/27extracted payloads,31guards,13oldEURstates,4masters,
+  26catalog-TODO statuses,167ignored files/0tracked and244local doc links.
+  Project-memory/whitespace pass; no live unit game process. Four later GUI
+  sessions close normally exit0; historical first interrupted GUI is separate.
+  Evidence: target/debug-saves-expansion/{scenes3-publication,
+  scenes3-verification,scenes3-final-checks}.json; guide/catalog in ignored
+  debug_saves/ready/. No build/differential/benchmark repeat, commit or push.
+  Independent ROM-data changes preserved. No open action in this increment;
+  future scene searches must select remaining criteria below, not repeat these
+  completed boots/scenes. Master saves under debug_saves/generated/.
+
+- **DEBUG-SAVES-RESUME-MODE — complete (2026-10-23).**26retained menu probes
+  (25distinct sources plus IN19EUR) and A show no battle loaded; no repeated
+  boots. Positive control GEN33 generated through System Save Now, flushed by
+  frozen frontend normal exit0. New boot: Resume Battle > summary > warning >
+  final Yes (default No) > actual first Marche turn, observed at
+  resume-GEN33-final-load/step4. The earlier provisional steps were summary/
+  warning, not successful loads; curated loaded/GEN33 now points to actual field.
+  Master in debug_saves/generated/GEN-33.sav; working USA slot33.
+
+- **DEBUG-SAVES-STATUS-10 / VICTORY-13 / NAME-23 / MAP-24 — complete for
+  stated scope (2026-10-23).**10: alternating overhead status icons visible
+  on field and Status; ordinary Auto-Life animation/MP85→69. Do not attribute
+  every icon to that cast (icons also present before), or claim KO-triggered
+  auto-revive, movement/turn effects.13: before Mateus final attack in Prison
+  Break; Mission Cleared and RESULTS7000Gil/40AP/HeljeKey/PerseusBow/Chivalry,
+  then20clan points. Overflow notice follows; discard resolution/level-up not
+  claimed.23: ordinary factory-NewGame name keyboard/type/delete/cancel/confirm,
+  also frozen GUI snapshot23 and normal exit0; choose NEW32 standard before
+  these snapshots.24: DecisionTime plus PrisonBreak active at Sprohm on same
+  advanced source; both different battle entries observed. GEN31 preserves
+  WhiteMagic plus both missions in File1 after fresh load. Old24archived.
+  Variants51–64 are direct-menu shortcuts, not additional DS cases.
+  IN06near-threshold lead is closed negative: visible skill28, GirlInLove needs
+  absent WhiteThread, no dispatch/prize. IN04Ambervale lead closed negative:
+  no active missions, only day advance/Saveprompt. Do not retry unchanged Bind
+  range/0% previews, Ambervale Save-No or unavailable GirlInLove acceptance.
+  Remaining:03thresholdprize/15alternativeobjective/20failedreturn uncovered;
+  07/08/12/17/21/26partial. Require new criterion/input for future exploration.
+
+- **DEBUG-SAVES-SCENES-2 — historical increment complete
+  (2026-10-23).** User explicitly resumed interrupted work and authorized
+  ordinary snapshots/standard saves. Ready catalog now13validated/7partial/
+  6uncovered: new04two-member reposition/removal-confirm/start,05two-laws+Help,
+  06TargetAll/Mateus redcard-prison,09Firaga+Mateus effects,11actualKO+PhoenixDown,
+  14GameOver,25long DecisionTime/Cid/Marche/judges dialogue. 26nowpartial:
+  actual postgame DecisionTime Sprohm/3members/first Cid turn; ending unobserved.
+  Sources/results target/debug-saves-expansion/resume-*/ and resume-publication.
+  New generated USA standard GEN-30 ready/USA/ffta-slot-30.sav: IN05File2 saved
+  normally into File1 at Sprohm, exported by frozen frontend normal exit0,
+  fresh boot/File1map and active DecisionTime verified. IN19EUR load passes;
+  IN03/05File2load passes (IN03File2actually300missions, not299). All originals
+  guarded; no old boot/build/differential tests repeated. Private SRAM-helper
+  extension compilation never started: old rlib SHA replaced concurrently;
+  failed precondition retained, existing frozen frontend writer reused instead.
+  No RAM/HP/status byte edits. Previous curated replacements archived as variants.
+  Its then-missing10/13/23/24 are closed by the later scenes3 entry above;
+  all older next-action suggestions are superseded. No scene acceptance repeat.
+  This increment is closed: 99artifact hashes/70snapshot envelopes+core checks,
+  28original guards,26catalog-TODO statuses, all129debug files ignored/0tracked,
+  project-memory/whitespace pass. TODO/record/guide are current for13/7/6.
+  Preserve concurrent ROM-data code/docs; do not repeat closed phase1/scenes2.
+
+- **DEBUG-SAVES-EXPANSION — audit/collection delivered; scene coverage partial
+  (2026-10-23).** Latest request: ignore debug_saves/, test new sources against
+  DS-01..26 and derive nearby ordinary checkpoints. Delivered ignored
+  debug_saves/ready/{README.local.md,catalog.json,USA/,EUR/}: 27 exact SRAM
+  copies plus old EUR base, 22 DS slots (13 old EUR/9 new USA), 25 loaded File1
+  checkpoints and four nearby variants. Outcome6validated/9partial/11uncovered;
+  new valid16advanced-jobs/18buy-sell-cancel/22owned-bank;25brief-dialoguepartial.
+  All25distinct payload boot/load runs exit0; IN06/11 duplicate, IN01/19 same
+  SRAM but IN19 EUR wrapper unverified (IN01 tested USA). IN18 BGBA unsupported;
+  four SPS wrapper checksums mismatch, unchanged payloads load. Internal File2
+  not played; author last-battle claims and Ambervale Saveprompt not DS26proof.
+  Completed derived Swimming Meet reaches first player turn; no law, magic,
+  KO, victory/loss or multiple-member formation validation inferred. Main GUI
+  interrupted/X connection broken/no final.json, no normal-close claim; no
+  gameplay resumed after interruption. All task processes terminal at inspection.
+  Existing captures/scripts/results under target/debug-saves-expansion/;
+  final-verification/package-result record28originals+source guards unchanged,
+  79artifact hashes/51state preview-core checks,26TODO statuses,13old hashes,
+  all109debug files ignored/0tracked. Memory checker, doc links and whitespace
+  pass. Next criteria only on explicit resumption: remaining DS subcases,
+  IN05File2final lead, IN19EUR load or documented IN18conversion; do not rerun
+  closed boot/import/build/pair work for context. No commit/push by this audit;
+  concurrent ROM-data changes preserved. [Record](../changes/2026-10-23-audit-imported-debug-saves.json).
 
 - **ROM-COVERAGE-MAP — complete (2026-10-23).** Latest request implemented:
   [overall atlas](ROM_COVERAGE.md), metadata-only offline HTML/JSON and reusable
@@ -2685,4 +2768,1184 @@ Static aggregate-flags selection closed; see terminal ROMDATA-01-GAMEPLAY-AGGREG
 
 **ROMDATA-05-GAMEPLAY-AGGREGATE-FLAG-KEYS-SCENE-CLI — complete for declared EUR/Wine (2026-10-23).** Production59636warning-free/canonicalf3e277dbrestored/candidate2dfdd6096c948234e34b33cf3e3af3757771b882868e7001af436e1b63428f25. CLI44401create/reuse-no-write/oldcache/unrelatedcwdpass,35managedfileshash-mtimeprotected; first1000existingday18dispatchcompletion positive1204sourceB(1200key/4terminal)/full300slotfivewordmask(last44bits). Countsinclude rereads, not1204distinctROMbytes, no inference thatbothcounterentrypoints executedordinary. One Wine11196fullpair terminal/pass every complete state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio with samecounts/mask. Frozen76657test4369f09cfb2ba859cc0d1513e50d9fd0d1916aba3ec2920b261f4d5ce77e5af4/validatora3838598b36ba49861a5257904713ab1f270cb0e6e77c0c2af78b4d950589074. FinalSigmund/MadAlchemistsuccess/skills08-02-11-04-02-08-42-02 image inspected. Existingstate/input reused/no newGUI/fixtures/ROM-RAM-statepayloadedit/personalsavewrite; newpaironlynew e38source, source32+26/native16/e37sameinputproofs remainclosed. Evidence target/rom-data-aggregate-flag-keys/{windows-build.json,windows-cli-{processes,no-write,summary}.json,windows-scene-result.json,windows-dispatch-aggregate-keys-full-state-audio.log,scene-executable.json,dispatch-completion.png}. Alljobs terminal/no build-Winefailure/no remainingCLI-ordinarye38action. Structuredrecord/feature/state/inventory/TODO/main-runtime/changelog updated; project-memory/whitespace/215protected hashes/35CLIfilehash-mtime guards pass, final-summary/final-source-hashes/final-protected retained. No remaining action in e38unit. Fullgoalactive/progress/noimpasse; newLinux-USA-nativeWindows/wholeotherUIreaders/bothordinaryentrypoints/otherfamilies-restTODO pending, no metrics-space-Androidwork/agentcommit-push.
 
-Next unfinished unit (not selected): **ROMDATA-01-GAMEPLAY-ADJACENT-HALFWORD-LOOKUP-ROOTS**. Independent nextroot6e9cb6is known only as boundary from29AF4→29B0C(and16otherliteralrefs). Need prove actual indexed input bounds/extent/field readers/nextroot before model; initial0,0,1,2...values do not prove inverse relation or schema. Start bounded callers29AF4/29B32andone loop-bound consumer; preserve static reports target/rom-data-aggregate-flag-keys/reader-029af4.txt and literal-readers.json, no broad CFG or fixture creation. If limits remain RAMdependent, record exact missing criterion and inspect independent6e84e0consumer instead. Aggregate602B source32+26/native16/CLI/1000e38sceneclosed; do not repeat completed e37/e36/class1threshold or data-source oracles for context. Newstaticunit only; e38current33files/32resources/USAe8-d7. Fullgoalactive/progress/noimpasse, no live jobs; newLinux-USA-nativeWindows/otherfamiliestext-graphics-maps-gameplay-audio/GUI-archives/mod pending, no metrics-space-Androidwork/agentcommit-push.
+**ROMDATA-01-GAMEPLAY-ADJACENT-HALFWORD-LOOKUP-ROOTS — partial static discovery (2026-10-23), selection closed without model.** Root6e9cb6has16checkedliteral references; independent nextroot29B6C→29B84/4D3DE→4D424targets6e9d8a, yielding212B/106halfwcandidate0,0,1..104, no existing e38owner. Natural indexed domain106isnotproved: generic29AF4/29B32/51002dereference RAMwordindices; modal62818mode1uses signlow16argument+41and resultu16+1, caller628E6gets live list result018CA8; no guard establishing0..64. Fixedreads64/67plus bounded45BD4list16..20and45CACsource21,22,4,23proved, not all106/tablelimit. Two-level UIrecord readers53860/56CD4/5B2C6/5C680/6B812-83C use live selectedbyte then different ROMindexarrays; their initializer/list-bound contract stillmissing. 6B4C0apparentPC-relativematch is not accepted without flow. No inverse/key/FK semantic inference; next table6e9d8ahas0then1294+values, separatecatalog. Evidence target/rom-data-adjacent-halfword/{discovery,literal-readers,biased-reader-callers}.json, reader-*.txt, bounded-list-045ba0.txt/call-0628e6.txt. No build/Wine/fixture or e38proofrepeat; e38unchanged. Reopen only for concrete producer bounds or documented alternate ownership proof; do not model106solelyfromvalues/neighborboundary. CurrentHEADadvanced externally7597b92commits prior e38, diff/status preserved. Widergoalactive/progress/noimpasse.
+
+**ROMDATA-01-GAMEPLAY-ADJACENT-STRIDE96-ROOTS — complete declared static trade-parameters contract (2026-10-23).** OriginalD0744low8/subtract2/unsignedcmp4returnsfiveexplicitroots D0778/80/88/90/98→6e85bc/861c/867c/86dc/873c, IDs2..6/stride96/480Bto6e879c. IndependentCFDE2→CFE14rootsnext7Btable at exactend. Biased D26D0→D2700base6e84fc+96*IDmatchesfivepositions, doesnotown pre-ID2gap or otherindices. OriginalD26ACcallsD1F30(selectoru16,prop36)forbasevalue, zero skip; r1/r2normalizedu8, liveflags02002cb4+12*ID byte1bits0&1bothset discountelsemarkup. Fields64opaqueB+u16markup40/41+30discountB42..5f; discountcount0aliasesmarkuphighbyte41, counts1..30use30tailbytes. D2728actual30liveRAMrows yields0..30discountargument (from1A320/602CC), not30ROMrecords; initial30-record hypothesis rejected, source900cseparate40stridedtable notboundary. Bothpricepaths originalwrap32products/unsigned146474divide100/wrapadd-sub. Othercaller6232Csupplieslivecountbyte. All480Broundtrip/noe38overlap/literals-opcodes-fivepointer-nulloutside-next/countbound/alias checked. Headersemantics/FKs/fullotherreaders unclaimed. Evidence target/rom-data-stride96/{trade-parameters-{inventory,independent}.json,descriptor-selector-0d0744.txt,trade-price-0d26ac.txt,owned-count-0d2728.txt,caller-*.txt,literal-roots.json}. No model/build/Winecheck yet/e38unchanged; selectedstaticunit closed. Previous106halfwordUIlookup remains precise partial, not reopened.
+
+
+**ROMDATA-02-GAMEPLAY-TRADE-PARAMETERS-SOURCE-ORACLE — complete for declared EUR/Wine source scope (2026-10-23).** Strict five-record480B model/physical IDs2..6/order/offset/fixed arrays/unknown/source equality and count0-byte41 alias pass. Windows73640build warning-free; one Wine52757originalD0744/D26AC/D1F30/146474/D2728 oracle terminal/pass: 499real cases/160unauthenticated-unpublished synthetic-source cases/15explicitly separate injected-return-operand arithmetic cases. All160actual price-field B read; 320opaqueBroundtrip-only, all480Blossless. Descriptorall256low8/nulloutside, zero-base skips source/flags, original separate70B713b3c getter property36 byte3e*200(no items.json/FK/ownership claim), markupu16/discount0alias+1..30tail/flagsbothbits/unsigneddivide/wrap32product-add-sub/live30RAMrowcount and fullEWRAMreadonly/SP-callee-stack pass. 72810instructions/184PCcoverageonly, no performance metrics. Evidence target/rom-data-trade-parameters/{windows-tests-build.*,windows-tests.json,recomp-tests-original.exe,windows-original-result.json,windows-original.log,windows-original-europe/{trade-parameters,result}.json,source-protected.json} plus static target/rom-data-stride96/. Protected145inputfiles plus frozen executable unchanged. No build/Wine failure/old proof repeat. EUR e38-d37/33files/32resources and USAe8-d7 unchanged. Managed publication/direct consumption/lifecycle/ordinaryscene/newLinux-USA-nativeWindows pending. Source selection closed; structured record/feature/state/inventory/TODO/changelog updated, project-memory including --base7597b92/whitespace and146protected hashes pass; source-final-summary/source-final-source-hashes/source-final-protected retained, no live unit process. Widergoalactive/progress/noimpasse/no space-Android work or agentcommit-push.
+
+
+**ROMDATA-02-GAMEPLAY-TRADE-PARAMETERS-DATA / ROMDATA-04-GAMEPLAY-TRADE-PARAMETERS-CONSUMPTION — complete for declared EUR/Wine (2026-10-23).** e39-d38adds trade-parameters.json/gameplay.trade-parameters,34files/33resources/all32prior decoded files/e38retained/USAe8-d7. Typed480B/page6e8/opaque-markup-low-shared41-discount-tail/5recordmask preserves originalD0744selector/D26ACprice/separate70B D1F30getter/zero skip/live flags-count/arithmetic-divide/clock/save-nativeABI. Windows21694testbuild warning-free; Wine20164two targeted checks terminal/pass publication failure/create-reuse-repair-move/e38retention/20coherent opaque-markup-shared41-discount-ID-order-source-dependency-path-role-hash-coverage guards/missingfile-transactionalowner/Load-Undo-backup-restart/all480B/mask31. 28fulloriginal/interpreter/native paths with480rawB altered have equal complete states/clocks; compiled opaque/markuplow/shared41/discount counts[0, 5, 10, 10], opaque originalprice reads unclaimed. 3377instructions/109dispatchcoverageonly. Allbytes/record-fieldedges/widths/mirrors/realBIOS/222precedingrawgap-following4raw/tailword2typed2raw/SWI32typed each+tail2typed2raw+oldselection2/raw222/new2coexistence/DMA2typed2raw pass. Source499+160+15closed/notrerun; setup/run shared without source-only behavior change/extra observer reads. No build-Winefailure/live unit process/remaining02-04action. Evidence target/rom-data-trade-parameters/{windows-managed-results.json,recomp-tests-managed.exe,windows-managed-europe/{managed-result,native-result}.json,managed-run-protected.json}. Structuredrecord/feature/state/inventory/TODO/main-runtime/changelog updated; project-memory including --base7597b92/whitespace/183protected hashes pass, managed-final-summary retained. ProductionCLI/ordinaryscene/newLinux-USA-nativeWindows/otherTODO remain pending, no metrics-space-Androidwork/agentcommit-push. Widergoalactive/progress/noimpasse.
+
+
+**ROMDATA-05-GAMEPLAY-TRADE-PARAMETERS-SCENE-CLI — complete for declared EUR/Wine (2026-10-23).** Production46740warning-free/canonicalf3e277dbrestored/privatecandidate59892c74d251ff35c5144e5773d4110c69a12bd8a441fbf67da167581e3defbe. ActualCLI17191create/reuse-no-write/oldcache/unrelatedcwd terminal/pass, 36managedfilehash-mtimeguards. Existing pre-Yes normalUI slot2/threshold-accept.input first400acceptance positive14newsourceB(markup-low7/shared417), mask1physicalID2. One Wine89539full400pair terminal/pass every complete state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio equal with same14B/mask. Frozen21694test4070866db2c4fb6825f3f0df8e9d17dd2bf76157397ef4b677761531f8a9bc0c/validatorded241a5520283cb3b658244afd3e306f61c598e49feeda8485cbe0518cc7ed5 unchanged. FinalPubmissionlist/7109funds image inspected (not Sigmund success image). No newGUI/fixtures/ROM-RAM-statepayloadedits/personal save writes. Newpair proves e39only; e34class1threshold400/e38/source499+160+15/native28managed proofs stayclosed/notrepeated. Ordinary discounttail/opaque/all5rows/othercallers remain targeted-only or unverified, no expandedordinaryclaim. Evidence target/rom-data-trade-parameters/{windows-build.json,windows-cli-{processes,no-write,summary}.json,windows-scene-result.json,windows-fee-accept-trade-parameters-full-state-audio.log,scene-executable.json,threshold-accept.png}. No build/Winefailure/liveprocess/remainingCLI-ordinarye39action. Structuredrecord/feature/state/inventory/TODO/main-runtime/changelog updated; project-memory including --base7597b92/whitespace/254protected hashes/36CLIfilehash-mtime guards pass, final-summary/final-source-hashes/final-protected retained. External Debug-save doc changes observed/preserved without attribution or edits. NewLinux-USA-nativeWindows/otherfamilies/GUI-archives/mod/restTODO remain pending. Widergoalactive/progress/noimpasse, no metrics-space-Androidwork/agentcommit-push.
+
+
+**ROMDATA-01-GAMEPLAY-ADJACENT-STRIDE7-ROOTS — complete declared static item-effect-parameters contract (2026-10-23).** Elevencheckedliterals root6e879c; originalCFE28property0..19/low8index/7stride has9coefficient readers, CFDA8and5AAACread packed cap. FourindependentnextrootsCF9EC→CFA24/CFA30→CFA60/CFA70→CFAA0/CFAAC→CFAF8target6e87fe, exact14*7=98B. Existing original item enumeration362..375/14 (CF876200e/constants361-375) plus originalsubtract362(CFE08fe960000/5AB84fffffe96) establishphysical0..13/items362..375; no type/name inference. Packed56bits: nine5bitcoefficients0..44, cap45..52u8, opaque53..55threebits. Twentyproperty→coeff map[0,0,1,1,1,2,2,3,3,3,4,4,5,5,6,6,7,7,8,8]; invalidpropertylow8>19returns0before source; indexlow8not locallybounded14. CFDA8normalizes slotu8/itemu16/quantityu8; full(item-362)u16 capindex differsfrom getter'slow8index, live currentbyte02002e7f+16*slot, coefficient*qty; fits→delta, already>=cap→0, else(cap-current)u16. 5AAAC/5DA44UIwrapper live selecteditem/extra cap>99branches staticonly, notcompleteUI proof. Arbitraryout-of-bankindicesunowned/raw. All98Btypedpack-roundtrip/independent9splitbytegetters/cap/layout/nextroots/noe39overlap/opcodechecks pass; source model/originaloracle/runtime/ordinarypending, e39-d38/USAe8-d7unchanged. Evidence target/rom-data-stride7/{item-effect-parameters-{inventory,independent}.json,discovery.json,neighbor-pointer-candidates.json,next-source-literal-readers.json,callers.json,reader-*.txt,consumer-0cfd80.txt,property-reader-0cfe28.txt,ui-producer-05aa40.txt,ui-caller-05da44.txt,next-source-0cf9e0.txt}. No build/Wine/old14371itemoracle repeat. Static selection closed/no live job. Structuredstaticrecord/feature/state/inventory/TODO/changelog updated; project-memory including --base7597b92/whitespace pass. Source model/original CFE28-CFDA8oracle subsequently closed below; no remaining static action. Widergoalactive/progress/noimpasse.
+
+
+**ROMDATA-02-GAMEPLAY-ITEM-EFFECT-PARAMETERS-SOURCE-ORACLE — complete for declared EUR/Wine source scope (2026-10-23).** Strict14record98Bsource/physical0..13/itemIDs362..375/9coeff5bit/cap8/opaque3/IDs-order-offset-array-bitwidth-itemowner/source equality passes. Windows94173testbuild warning-free; one Wine94185originalCFE28/CFDA8oracle terminal/pass540real cases+4explicitraw-capaliasprobes+166unauthenticated-unpublishedsynthetic cases. All98sourceB originalread/roundtrip;20propertymap/low8getter/invalidpropertybefore source/full(itemu16-362)u16capindex vsgetterlow8/livecurrent02002e7f+16*slot/quantityu8/capfit-zero-remaining/u16return/fullEWRAMreadonly/SP-callee-stack pass. Fourrawcapreadaddresses outsideowner are explicitly observed, not modeled/owned/fallback data. Syntheticcoeff0-1-15-16-31/cap0-1-99-100-255/opaque0..7prove packedwidth/unsigned/capbehavior;31740instructions/156PCcoverageonly. Parsed376itemowner mapping valid; no old14371item/e39oracle repeat, no build-Winefailure/liveprocess. e39-d38/34files/33resources/USAe8-d7unchanged; managed/runtime/ordinary/newLinux-USA-nativeWindows pending. Evidence target/rom-data-item-effect-parameters/{windows-tests-build.*,windows-tests.json,recomp-tests-original.exe,windows-original-result.json,windows-original.log,windows-original-europe/{item-effect-parameters,result}.json,source-protected.json}; static target/rom-data-stride7/. Source selectionclosed; structuredrecord/feature/state/inventory/TODO/changelog updated, project-memory including --base7597b92/whitespace/258protected hashes pass, source-final-summary/source-final-source-hashes/source-final-protected retained. Existing e39/concurrentDebugsave work preserved/no metrics-space-Androidwork/agentcommit-push. Widergoalactive/progress/noimpasse.
+
+
+**ROMDATA-02-GAMEPLAY-ITEM-EFFECT-PARAMETERS-DATA / ROMDATA-04-GAMEPLAY-ITEM-EFFECT-PARAMETERS-CONSUMPTION — complete for declared EUR/Wine (2026-10-23).** e40-d39adds item-effect-parameters.json/gameplay.item-effect-parameters,35files/34resources/all33prior decodedfiles/e39retained/USAe8-d7. Actual ITEM_RECORDS dependency/376parsedowner/fixed98B/item mapping/packedwidths source-equal binding authenticates transactionally. Typed page6e8coefficient00..04/shared05(coeff+cap)/shared06(cap+opaque)/14recordmask preserves original CFE28-CFDA8/indexwidths/rawexternalcap/live current-quantity/capclamp/instructions/clock/save-nativeABI. Windows93110testbuildwarning-free; Wine21177two targeted checks terminal/pass publicationfailure/create-reuse-repair-move/e39retention/22coherent coeff-cap-opaque-bitwidth-ID-item-order-source-dependency-path-role-hash-coverage guards/missingfile-transactionalowner/Load-Undo-backup-restart/all98B/mask16383. 50fulloriginal/interpreter/native paths with98rawB altered have equal complete states/clocks; compiled coefficient/shared05/shared06[36,37,23], includingexplicitrawcapaliases. 2406instructions/134dispatchcoverageonly. Allbytes/7Brecord-fieldedges/widths/mirrors/realBIOS/following4raw/tailword2typed2raw/SWI32typed each+tail2typed2raw+adjacenttrade2-itemeffect2typedcoexistence/DMA2typed2raw pass. Source540+4+166closed/notrepeated; no build-Winefailure/liveprocess/remaining02-04action. Evidence target/rom-data-item-effect-parameters/{windows-managed-results.json,recomp-tests-managed.exe,windows-managed-europe/{managed-result,native-result}.json,managed-run-protected.json}. Structuredrecord/feature/state/inventory/TODO/main-runtime/changelog updated; project-memory including --base7597b92/whitespace/261protected hashes pass, managed-final-summary retained. ProductionCLI/ordinaryscene/newLinux-USA-nativeWindows/fullUIwrapper pending. Newly inspected existing docs/ffta_shop_bank_mouse.md place nearby5AEE4/5E7B4inMonsterBank; DS22populatedproof is USA-only(IN01), cannot count asEUR e40ordinaryproof. New ordinary selection must identify an actual EUR populated-bank/feed path, no USA validation or unproven semantic rename. Existing e39/Debugsavework preserved, widergoalactive/progress/noimpasse/no metrics-space-Androidwork/agentcommit-push.
+
+
+**ROMDATA-05-GAMEPLAY-ITEM-EFFECT-PARAMETERS-SCENE-CLI — complete for declared EUR/Wine (2026-10-23).** Production4620warning-free/canonicalf3e277dbrestored/privatecandidate9f1093246640762e89383f566a55b2748ce6c219e91c227d14b45f0209b64927. ActualCLI59404create/reuse-no-write37managedfilehash-mtimeguards, then50707oldcache/unrelatedcwd400GoblinPlay locator terminal/pass:3newsourceB(coefficient1/shared051/shared061),mask1physicalrecord0. New ordinary checkpoint from retainedEUR IN13boot20 via frozenexistingWindows replay.exe/normalgamekeys: CyrilBank→List→GoblinLv4→Play/Release(defaultPlay), open-feed-1.ffstate; no RAM/statepayloadedits/personal save writes/USA/newLinux. One Wine5779full400pair terminal/pass every complete state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-HLEaudio sample equal, same3B/mask. Replay is mixed native/interpreted(1379881native/2741618fallback dispatches, coverageonly), no all-native claim. Frozen93110testa6e7037b4c6aa567945a303f9a659e1fa47114c1a9a74a920e0894154e0c11d3/validator7a1356a3218159919a4b0137737c5c11267c71caa89099c49cd359caa34ef93c unchanged. FinalCLIbankbackground inspected; serializedseparateUI omits finalpanels (knowncapturelimit), no finalfoodcount/confirmationclaim; prior native240x160captures prove actualEUR GoblinLv4/Play. Source540+4+166/native50/e39/e34andallclosedproofs not repeated; thispaironlynew e40data. Other14items/20monsters/cap>99UIpaths ordinaryunverified, typedsource/native targeted proofs remain. Evidence target/rom-data-item-effect-parameters/{windows-build.json,windows-cli-{processes,no-write,summary}.json,windows-scene-result.json,windows-bank-play-item-effect-parameters-full-state-audio.log,scene-executable.json,bank-play.png,bank-locator-protected.json,bank-eur-IN13/{known-cyril-*,enter-bank-*,open-monster-*,open-feed-*}}. InitialIN19BagubaPortPub-Shop-only andIN13SprohmPub-Shop-Prison-only navigation probes terminal; guessed64,184/constantlongholdspeed rejected (cursor35,184→35,205/AresetSprohm), preserve logs/no repeat. Cheap acceptedCyrilslot2read gives actual120,216/place18; Right8/release8+sixDown8/release8+A3/180fromIN13original112,168reachesCyril; oldorigins/SPS/SRAM/snapshots unchanged. No build-Winefailure/liveprocess/remainingCLI-ordinarye40action. Structuredrecord/feature/state/inventory/TODO/main-runtime/changelog updated; project-memory including --base7597b92/whitespace/348protected hashes/37CLIfilehash-mtime guards pass, final-summary/final-source-hashes/final-protected retained. Existing e39/concurrentDebugsavework preserved, fullgoalactive/progress/noimpasse; newLinux-USA-nativeWindows/wholeotherUIpaths/otherfamilies-GUI-archives-mod-restTODO pending, no metrics-space-Androidwork/agentcommit-push.
+
+
+**ROMDATA-01-AUDIO-TYPED-CATALOG-ROOTS — complete for initial EUR roots (2026-10-23).**
+Exact M4A pool147f40/original SoundMain147ed4/RAMentry030034dd and retained
+ordinary SoundInfo020084e0 verified without new replay. Original checked flow
+proves3player configurations/36B,640directory entries/5120B,455unique headers/
+10080B(454nonempty/186aliases to oneempty),1610unique track roots/four banks
+14d9fc/14df78/14e578/14eb6c. Independent allfield/unused/padding/pointer source
+roundtrip and nonoverlapping unique headers pass. No local640song guard;
+rawbyte tone selector has no127mask. Header150940word04 overlaps WaveData150944
+with40000000; preserve alias/zero-track behavior. Generic HLE compression is
+not title evidence. Static selection closed; feature/inventory/TODO/state and
+[record](../changes/2026-10-23-inventory-european-m4a-directory.json) updated.
+Evidence target/rom-data-audio-m4a/{engine-eur-identification,inventory-summary,
+directory-independent,driver-pointer-literals,driver-direct-bl-candidates}.json
+and bounded disassemblies. No build/newWine/newLinux/USA/old proof repeat.
+EUR e40-d39/USAe8-d7unchanged. Bank/sample/sequence extents remain open; no
+impasse/no metrics-space-Android/agentcommit-push; concurrent work preserved.
+
+**ROMDATA-02-AUDIO-M4A-DIRECTORY-SOURCE-ORACLE — complete for EUR/Wine source scope (2026-10-23).**
+Strict3player/640directory/455shared headers/457ranges/15236Bmodel authenticates
+exactEUR/14literals/count-stride-index-header/boundary alias; headerIDfirstsong,
+allunused/padding/dummy40000000word preserved. Windows20851retry2warning-free;
+one focused Wine78051terminal/pass640real-source selections+9targeted live/
+index inputs+1explicitrawindex640probe stopped before nullheader deref+6synthetic
+unauthenticated/unpublished variants. CompleteEWRAM/IWRAMoutsidecallstack/
+trackdestinations/SP-callee/stackguards match independent model. All1610track
+pointers/186emptyaliases/low16/live mincapacity/lock/priority/reverb pass.
+13477distinct original-read B(3840directory/12player/9625headers),1759Bretained
+only; all15236Broundtrip/17JSON-shape-link-source guards pass.187739instructions/
+181PCscoverageonly/no performance metrics. Initial56702compileE0283(Vecas_ref)
+and Wine93497wrong trackword20expectation retained; explicit slice/zero captured
+once1492e4 withbackedge1492e6correct oracle only, asset model unchanged. Final
+build20851/Wine78051pass; no source-oldproofrepeat or newordinary/native claim.
+364protectedfilesunchanged; evidence target/rom-data-audio-m4a/{source-protected,
+windows-retry2-tests,windows-original-retry1-result}.json,windows-original-retry1.log,
+windows-original-retry1-europe/{audio-directory,result}.json. Source selection
+closed; [record](../changes/2026-10-23-decode-european-m4a-directory.json)/feature/
+state/inventory/TODO/changelog updated. No live unit process or source action.
+EUR e40-d39/USAe8-d7unchanged; next missing criterion managed publication+typed
+CPU-DMA-native/lifecycle then onepositive ordinaryfull-state-clock-image-audio
+Winepair. Full bank/sample/sequence extents remain separate open work. No impasse,
+metrics-space-Android/agentcommit-push; e39/e40/concurrentDebugsave preserved.
+Final closure: project-memory including --base7597b92/whitespace pass;376protected
+hashes+179source/doc hashes retained in final-summary/final-protected/final-source-hashes.
+Private output ignored; no remaining source action/live unit process, widergoalactive.
+
+**ROMDATA-02-AUDIO-M4A-DIRECTORY-DATA / ROMDATA-04-AUDIO-M4A-DIRECTORY-CONSUMPTION — complete for declared EUR/Wine (2026-10-23).**
+EUR e41-d40adds audio-directory.json/audio.m4a-directory:36files/35resources/
+all34prior decoded files/e40retained, USAe8-d7. All457audio spans disjoint from
+priorowners. Typed fields/ordered source index (no rawoverlay), fourcategory
+counters and3player/640song/455header masks preserve gaps/dummy-wave alias/
+original mixer-sequencer/RAM/clock/save-nativeABI. Windows5021warning-free;
+Wine51686two targeted checks terminal/pass publicationfailure/create-reuse-
+repair-move/e40retention/25coherent guards/missingfile-transactionalowner and
+unavailable-copy Load-Undo-backup-Restart/all15236B/allmasks. 44fulloriginal/
+interpreter/native starts with raw15236Baltered have equal complete states/
+clocks, compiled categorybytes[176,264,539,884]allpositive. All457spans/allbytes/
+boundarywidths-mirrors-realBIOS/SWI-DMA pass; dummy-wave2typed2raw word/copy/DMA
+and CPUSet2directory+8header+2raw explicit.14926instructions/181PCs/608native
+coverageonly; source649+1+6not rerun, shared helper visibility only. No build/
+Wine failure/live unit process/remaining02-04action. Evidence target/rom-data-
+audio-m4a/{windows-managed-tests.*,windows-managed-results.json,managed-prior-
+overlap.json,managed-run-protected.json,recomp-tests-managed.exe,windows-managed-
+europe/{managed-result,native-result}.json}. [Record](../changes/2026-10-23-consume-european-m4a-directory.json).
+ProductionCLI/ordinaryfull-state-clock-image-audio/newLinux-USA-nativeWindows/
+fullbank-sample-sequenceotherTODO remain pending; no metrics-space-Androidwork/
+agentcommit-push, concurrentDebugsave/e39/e40preserved. Widergoalactive/progress.
+Final managed closure: project-memory including --base7597b92/whitespace and416protected hashes pass; managed-final-summary/protected retained.
+
+**ROMDATA-05-AUDIO-M4A-DIRECTORY-SCENE-CLI — complete for declared EUR/Wine (2026-10-23).**
+Production78108warning-free/private700009cc615f516bd31d98fdf982e4970a3dc64b6f470db0ee0045c7ddb060ec/
+canonicalf3e277dbrestored. ActualCLI14580create/reuse-no-write38managedfiles,
+27876oldcache/unrelatedcwd400ordinary GoblinPlay terminal/pass179newsourceB
+(36directory/79header/64track-pointer),3songs/headers/0player reads. OneWine91327
+newfamilyfull400pair terminal/pass everycomplete state/clock/central-wideimage/
+OAM/dispatch/mixedPSGFIFOHLEsample, same179B. Mixed1379881native/2741618fallback
+coveragecontextonly/no allnative/performance claim. Frozen5021tests/helper in
+scene-executable.json. Reused retainede40EURbankstate/input, no navigation/
+fixture recreation/RAM-statepayloadedits/personal save writes/USA-newLinux.
+Final568x160bankbackground inspected; serializedseparateUIomits panels asknown,
+no newfoodcount/confirmationclaim. Source649+1+6/native44/e40andolder proofs
+closed/notrerun; no build/Wine failure/live unit process/remaininge41action.
+464protectedhashes+38CLIhash-mtimeguards pass; ordinary-final-protected retained.
+Evidence target/rom-data-audio-m4a/{windows-build.json,windows-cli-*.json,
+windows-scene-result.json,windows-bank-play-audio-directory-full-state-audio.log,
+scene-executable.json,bank-play.png}; [record](../changes/2026-10-23-consume-european-m4a-directory.json).
+Feature/state/inventory/TODO/main-runtime/changelog updated. Widergoalactive/
+progress/noimpasse; nextaudio criterion fullinstrumentbankselectors/extents/
+nestedtones-keymaps/samplepayloads/sequencebytecode from originalreaders,
+no directory/CLI/ordinary400repeat. NewLinux-USA-nativeWindows/otherfamilies/
+GUI-archives-mod-restTODOremain open; no metrics-space-Androidwork/agentcommit-
+push, concurrentDebugsave/e39/e40preserved.
+Final ordinary closure: project-memory including --base7597b92/whitespace pass;
+ordinary-final-summary/ordinary-final-source-hashes retained, no live unit job.
+
+**ROMDATA-01-AUDIO-M4A-TONE-SEQUENCE-PRODUCERS — complete for declared produced EUR source domains (2026-10-23).**
+ExactEUR7literals/36wordcopy+initializationpatches reproduce retained livecmd
+RAMtable; B9/CDdiffer fromROMdefaults. Static1610graphs/147424states terminate
+stop/repeatedstate, zero failures/patternmax1/177047consumedB/805ranges; noB5-B9,
+CD8/9only4occurrences/no waveoverride,18defaultRAMtone notes unowned.390bank-
+program pairs (35/121/121/113; max115/127/126/126),2065bank-program-key pairs,
+429canonical12Btone records/5148B;348nestedkeylinks/347physicalmapB/sharedbyte
+14f3b8. Generic128map sweep rejected asownershipproof (adjacent tables/255),
+otherkeys/dynamicRAMbankchanges raw/unclaimed.277PCMheaders/1931528nominal
+signed8payloadB/276interpolationendpoints+1fixed8noextra;2CGBwaves16Beach
+14f4dc/14f4ecstaticcopyproof only. Plan736nonoverlappingranges/1941759newB
+excludes4B150944..150948 already e41owned; future actualdependency required.
+Bytecode disjoint all35prior resources/header-tone-PCM-CGBsources; all429tone/
+277header/1931528signedPCM/64CGBnibble independentroundtrip pass.
+Windows32264warning-free; oneWine8457terminal/pass390BDcopies(4680B,complete
+EWRAM/SP/callee)/348mappednote selections(347mapB)/276signed last+1endpoint+
+1fixed8nominal endpoint. Note/kernel are partialinternalcheckpoints, NOTfull
+mixer/state-clock/native/ordinary acceptance; notallPCMpayloadguestread.
+38926instructions/109PCcoverageonly,480protectedfilesunchanged. Initialcheap
+staticassertioncorrectedwrongCDroot148e2a→148e10/148ea8; no ROM/runtimechange.
+No build-Winefailure/old e41proofrepeat/liveunitprocess. Evidence target/rom-data-
+audio-tones/{sequence_producers.py,sequence-producers.json,sequence-producer-
+summary.json,effective-command-table.json,nested-tone-producer-domains.json,
+tone-wave-independent.json,candidate-overlaps.json,producer-independent-checks.
+json,lossless-independent-checks.json,producer-source-plan.json,original-source-
+cases.json,source-protected.json,windows-tests.*,windows-original-result.json,
+windows-original-europe/result.json}. [Record](../changes/2026-10-23-inventory-european-m4a-tone-producers.json).
+Selection closed, source-contract/probe action complete. Next: shared bounded
+ROMproducer parser and lossless tone/keymap/PCM/CGBmodel, sourcealias validation,
+then managed/runtime/ordinary. Preserve390/348/277proof; do not re-create static
+fixtures or rerun e41. e41-d40/USAe8-d7unchanged. FulldriverLUTs/otherbankrecords/
+sequencecodec/otherfamilies-GUI-archives-mod-restTODO/newLinux-USA-nativeWindows
+remain open; no metrics-space-Android/agentcommit-push, concurrentwork preserved.
+Widergoalactive/progress/noimpasse.
+Final source closure: project-memory including --base7597b92/whitespace and491protected hashes pass; final-summary/final-protected/final-source-hashes retained.
+
+**ROMDATA-02-AUDIO-M4A-TONE-MODEL — complete for declared EUR/Wine decoder scope (2026-10-24).**
+Shared bounded ROMproducer parser + strict lossless model implemented; graph
+matches retained1610tracks/147424states/18defaultRAMnotes/patternmax1/390programs/
+2065keypairs/805ranges177047B.4banks/429tones/347canonicalmapB-348links/277PCM/
+2CGB/1directoryalias,736newranges1941759B. Semantic first-reference IDs,
+signedi8PCM+276endpoints/CGB32amplitudes exact; unsupportedCDproducer states
+fail explicitly. Actual typed directory roots/alias validated; alias-only flag
+edit has identicalnewspans but dependencyrejects, coherent sampleeditrejected.
+Windows61632warning-free; oneWine19316terminal/pass independent alldomains/
+429tonefields/277header-payload/736span hashes/JSON-source roundtrip/28guards.
+New2originalCGBfour-wordcopy checkpoints 081497b0..081497cc pass exact32BwaveRAM/
+EWRAM/SP,28instructionscoverageonly, not fullCGBmixer/clock/native/ordinary.
+492protectedfilesunchanged; no build/Winefailure/live job. Old390BD/348map/
+277endpoint/e41source-native-scenes closed/notrerun, no fixture recreation.
+Evidence target/rom-data-audio-tones/{windows-model-tests.*,windows-model-
+result.json,windows-model.log,recomp-tests-model.exe,windows-model-europe/
+{audio-tones,result}.json,model-protected.json}; [record](../changes/2026-10-24-decode-european-m4a-tones.json).
+Decoder selection closed; no remaining model action. Managed stays EUR e41-d40/
+USAe8-d7; next publication with actual directory dependency plus direct CPU-DMA-
+native AND MP2Kshadow samples from typed owner, lifecycle and onepositiveordinary
+Winepair. MemViewrawROM path must be covered; guest-only overlay is insufficient.
+Whole sequenceexport/driverLUTs/unselectedassets/otherfamilies-GUI-archives-mod-
+restTODO/newLinux-USA-nativeWindows remain open. No metrics-space-Androidwork/
+agentcommit-push; concurrentDebugsave/e39-e41preserved; widergoalactive/progress.
+Final model closure: project-memory including --base7597b92/whitespace and499protected hashes pass; model-final-summary/model-final-protected/model-final-source-hashes retained.
+
+**ROMDATA-02-AUDIO-M4A-TONE-DATA / ROMDATA-04-AUDIO-M4A-TONE-CONSUMPTION — complete for declared EUR/Wine (2026-10-24).**
+e42-d41adds audio-tones.json/audio.m4a-tones,37files/36resources; all35prior
+decoded/e41retained, USAe8-d7.736bindings/1941759Bdisjoint from prior35resources;
+actual directory dependency owns shared4B. Typed guest CPU-DMA-BIOS-native and
+actual MP2Kframe-hook/tick header/sample reads implemented, no serializedhost
+pointers/mixer-sequencer-clock-save-nativeABI change. Nonserialized separate
+host/guest coverage. Windows10352/87016/49176warning-free; Wine84702managed and
+3937native terminal/pass. Publication failure/create-reuse-repair-move/e41/
+26coherentguards/transactional missingfile/unavailable owner Load-Undo-backup-
+Restart/all1941759B and429tone-347map-277wave-2CGBmasks pass.25representative
+original/interpreter/native checkpoints have equal complete states/clocks with
+newraw1941759B+4alias altered; compiled[115tone,7map,14header,3PCM,2endpoint,
+32CGB]allpositive.736edges/widths/mirrors/BIOS/SWI-DMA/two-owneralias/rawfixed8
+fallback pass. Actual MP2Khook/tick all277waves use4428header+35458PCM B and
+nonzero bit-exactshadow audio; completehoststate/clock matches.276directhost
+endpoint probes separate from existing HLEboundaryclamp.903instructions/135PCs/
+55dispatches coverageonly; note/header/ARM/CGBpartial checkpoints are not full
+originalmixerABI. All499old protectedfiles+eachcurrenttestexe unchanged.
+Firstmanaged test read guard9forged file at guard10; corrected to original
+parsed directory. Secondtest left real_bios=truebefore falsebaseline restore;
+corrected test flag. Failed logs/roots/objects/source retained, production/model
+unchanged; only failed focused checks rebuilt/rerun, managedpass not repeated.
+Evidence target/rom-data-audio-tones/{windows-managed-retry{1,2}-tests.*,
+windows-managed-results.json,windows-{managed,native}.log,recomp-tests-managed-
+retry{1,2}.exe,windows-managed-europe/{managed-result,native-result}.json,
+managed-prior-overlap.json,managed-run-protected.json};
+[record](../changes/2026-10-24-consume-european-m4a-tones.json).
+Integration selection closed; no live unit process or remaining02/04criterion.
+Next distinct criterion: actual productionCLIcreate/reuse-no-write/oldcache and
+onepositive ordinary EUR Winefullstate-clock-image-audio pair for newtonedata.
+Reuse existing bank checkpoint/input; oldsource/model/390BD-348map-277endpoint/
+e41scenes not rerun. Broader families/sequenceexport/driverLUTs/GUI-archives-mod/
+newLinux-USA-nativeWindows stay open. No metrics-space-Androidwork/agentcommit-
+push, concurrentDebugsave/e39-e41preserved; fullgoalactive/progress/noimpasse.
+Final integration closure: project-memory including --base7597b92and CRLF-aware
+whitespace checks pass; managed-final-summary/managed-final-protected retain
+544protected hashes. OriginalCRLFpreserved; no live unit process.
+
+**ROMDATA-05-AUDIO-M4A-TONE-SCENE-CLI — complete for declared EUR/Wine (2026-10-24).**
+ProductionWindows16173warning-free/privatecandidate719db176a0d2672de5bc8e0712b6dcdefb6c3b91bec62157e3116e91dd7047d2;
+canonicalf3e277dbrestored. Wine79505actualCLIcreate/reuse-no-write39managedfiles/
+oldnativecache/unrelatedcwd400retained IN13bankPlay pass516956newguestB:
+247tone/5map/11362header/504912PCM/430endpoint/0CGB. Defaultheadless/retained
+state has shadow off(host0); no CLIhost-useclaim or locator repeat. Existing
+scenehelper arms shadow after load, without changing fixture payload.
+OneWine36911new e42full400pair passes everycomplete state/clock/central-wide
+image/OAM/dispatch/mixedPSGFIFOHLEsample. Same516956guestB, actualhost3093208B:
+1056header/3092152PCM. Native1379881/fallback2741618dispatches coverageonly,
+no all-native/performanceclaim. Bothguest andhostPCMrequiredpositive. First3753,
+400fullstates; original checkpoint/input/ROM/cache preserved, no GUI/fixture/
+RAM-statepayload/personal-save edits. Final568x160CLI bankbackground inspected;
+known serializedseparateUIomits panels, no newfoodcount/confirmationclaim.
+Evidence target/rom-data-audio-tones/{windows-build.json,windows-cli-processes.
+json,windows-cli-no-write.json,windows-cli-summary.json,windows-scene-result.
+json,scene-executable.json,windows-bank-play-audio-tones-full-state-audio.log,
+bank-play.png}; [record](../changes/2026-10-24-consume-european-m4a-tones.json).
+Selection closed/no remaining e42CLI-ordinarycriterion/no live unit process.
+Broadergoalactive/progress/noimpasse: next useful unit is typed sequence export
+and guest consumption from retained805producer-proved ranges/177047B, after
+checking opcodes/operands/aliases and driverLUTdependency. Use retained producer
+metadata; do not recreate traversal fixtures or reopen closed390BD/348map/277
+endpoint/model/native-host/ordinary proofs. Full driverLUTs/unselectedassets/
+othergraphics-text-map-gameplay/GUI-archives-modTODO and newLinux-USA-nativeWindows
+remain open. No benchmark/perf-space/Androidwork/agentcommit-push, concurrent
+Debug-save and existing e39-e41work preserved.
+Final ordinary closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass; 597protected hashes and39CLIhash-mtime guards unchanged,
+ordinary-final-summary/ordinary-final-protected retained; no live unit process.
+
+**ROMDATA-02-AUDIO-M4A-SEQUENCE-MODEL — complete for declared EUR/Wine source/model scope (2026-10-24).**
+Previous turn progress/e42closed; terminalsummary/198source-doc hashes read first.
+Extended shared bounded producer emits unique physical observations:105253starts/
+105253interpretations/no overlap, original1610tracks/147424states/805ranges/
+177047B unchanged. Strict lossless instruction enum covers50616wait/36579note/
+12732parameter/2337pattern/1209end/1094return/401jump/281endtie/4extended records.
+CanonicalIDbranches/trackroots; opcode omission preserves runningstatus metadata
+without host sequencing or freezing RAM.49clockB/36originalcommandwords144B/
+onlyCD8-9dispatch8B add3ranges201B:808sources177248B disjoint from prior36owners.
+Other extended slots and driver LUTs remain unowned; actualdirectory roots
+validated. Same-byte implicit-duration metadata edit rejects canonicalsource.
+Windows95625initial-no-run/44635final-no-run/76630retry1warning-free. Wine29418
+first check failed before model/oracles: two assertion PCs transcribed+2;
+actual1c08at1485ca/38cfat1485cc corrected from rawROM. Inspect also fixed test
+parameter-kind count12/strongerstackguards/3CEcases and implicitvalue>=80guard;
+failed/no-run logs/sources/exes retained. Wine4313onefocused retry1terminal/pass:
+all105253independent instruction fields-hashes/1610roots/805bytecoderanges/
+201tableB/losslessJSON-source/27shape-JSONguards/coherent encoded/samebytes
+metadata/actual-directory guards.404new original-source calls/checkpoints:
+161dispatch prefixes/158note-operand prefixes/16jump-pattern returns including
+stackdepth0..2/12genericparameter reads/4CD8-9returns/49wait prefixes/3CEreturns/
+1full36word commandcopy. CompleteEWRAM/cursor/key/length/SP/outside-stack/callee
+checks pass for declared probes.7020instructions/142PCs coverageonly; not full
+sequencer/mixer/state-clock/native/ordinary acceptance.598protected files
+unchanged; e42-d41/USAe8-d7managed remains, no live unit job.
+Evidence target/rom-data-audio-sequences/{sequence-instructions-independent.
+json,sequence-source-plan.json,inventory-instructions.py,windows-model-retry1-
+tests.*,windows-model-retry1-{result.json,log},recomp-tests-model-retry1.exe,
+windows-model-europe/{audio-sequences,result}.json,source-protected.json};
+[record](../changes/2026-10-24-decode-european-m4a-sequences.json).
+Selection closed; no remaining model/source criterion. Next distinct deliverable
+is e43managed publication with actual directory/bank dependencies and typed
+CPU-DMA-native consumption of these808sources, lifecycle and one newpositive
+ordinary Winepair. Reuse e42scene/input, source404/old390BD-348map-277endpoint/
+e42source-native-host-ordinary acceptance closed/notrerun. WiderdriverLUTs/
+unselectedassets/otherfamilies/GUI-archive-modTODO/newLinux-USA-nativeWindows
+pending. No performance-space-Androidwork/agentcommit-push, concurrentDebug-save
+and priorwork preserved; fullgoalactive/progress/noimpasse.
+Final sequence model closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass; 627protected hashes unchanged, model-final-summary/
+model-final-protected retained; no live unit job.
+
+**ROMDATA-02-AUDIO-M4A-SEQUENCE-DATA / ROMDATA-04-AUDIO-M4A-SEQUENCE-CONSUMPTION — complete for declared EUR/Wine (2026-10-24).**
+Previous turn model76630/4313closed; resume201source-doc/627protectedhashes match.
+e43-d42adds audio-sequences.json/audio.m4a-sequences,38files37resources/all36prior
+decoded/e42retained, USAe8-d7.808bindings177248B/authenticated directory+tonebank
+owners; typedgraph147424states/390program-key domains validates actualparsed
+banks and inheritedcommandmetadata, including sameencodedbyte bank metadata.
+Typed CPU-DMA-BIOS-native bytes and generic host view; no rawoverlay/hostsequencer/
+serializedpointers/guestRAM-clock-save-nativeABI change. Opcode/operand/table
+counters105253instruction/49clock/36command/2extended coverage outside saves.
+Windows11482warning-free/Wine49125twofocused checks terminal/pass. Publication
+failure/create-reuse-repair-move/e42retention/25coherentguards/missingfile
+transactional owner/unavailable-copy Load-Undo-backup-Restart/all177248B and
+allinstruction/table masks pass.35representative original/interpreter/native
+checkpoints with raw177248B altered match complete states/clocks. Compiled
+[15opcode,36operand,10clock,144command,8extended]allpositive;953instructions/
+142PCs/81dispatches coverageonly. Explicit live RAM running override preserved;
+rawoperand nativefallback unchanged. All808edges/widths/mirrors/BIOS/SWI-DMA/
+2tone+2sequence guest+generic-host crossing/rawpadding pass. Sourcecheckpoint
+scope dispatch/note/wait internals, narrow branch/operand/CD/CE/copy returns;
+not whole sequencer/mixer ABI. Generic host byte access not hostsequencing.
+No build/Wine failure; private preview None-field duplicate and testgenerator
+pattern corrected before application/output. Oldsource404/e42closedproofs not
+rerun.627oldprotectedfiles+currenttestexe unchanged. No live unit job.
+Evidence target/rom-data-audio-sequences/{windows-managed-tests.*,windows-
+managed-results.json,windows-{managed,native}.log,recomp-tests-managed.exe,
+windows-managed-europe/{managed-result,native-result}.json,managed-run-
+protected.json}; [record](../changes/2026-10-24-consume-european-m4a-sequences.json).
+Selection closed/no remaining02/04criterion. Next distinct deliverable: actual
+productionCLIcreate/reuse-no-write/oldcache and one newpositive ordinary EUR
+Winefullstate-clock-image-audio pair requiring opcode/operand/clock use. Reuse
+retained bankPlay checkpoint/input; no source404/e42repeat. BroaderdriverLUTs/
+unselectedassets/otherfamilies/GUI-archives-modTODO/newLinux-USA-nativeWindows
+pending. No perf-space-Android/agentcommit-push; prior/concurrentDebug-save work
+preserved; fullgoalactive/progress/noimpasse.
+Final sequence integration closure: project-memory including --base7597b92/
+CRLF-aware whitespace checks pass; 824protected hashes unchanged, managed-final-
+summary/managed-final-protected retained; no live unit job.
+
+**ROMDATA-05-AUDIO-M4A-SEQUENCE-SCENE-CLI — complete for declared EUR/Wine (2026-10-24).**
+ProductionWindows48965warning-free/privatecandidate355ebc024334d6d0791931692ee0fd8f2eeeb4107f58e8becc91b272668da5e6;
+canonicalf3e277dbrestored. Wine48325actualCLIcreate/reuse-no-write40managedfiles/
+oldnativecache/unrelatedcwd400retained IN13bankPlay terminal/pass. Positive
+819newsourceB(366opcode/262operand/191clock),185instruction source records
+observed(includeslookahead, not executioncount);0command/extended/generic-host
+reads/no such ordinaryuseclaim. Model177248B/105253instructions wider than scene.
+OneWine29123new e43full400pair terminal/pass everycomplete state/clock/central-
+wideimage/OAM/dispatch/mixedPSGFIFOHLEsample with same819B/185records, required
+opcode-operand-clock allpositive. Native1379881/fallback2741618dispatches coverage
+only/no all-native or performanceclaim. First3753/400fullstates. Existing EUR
+bank state/input reused; no GUI/navigation/fixture/RAM-statepayload/personal-
+save edits, no oldsource404/native35/e42acceptance repeat. Final568x160CLIbank
+background inspected; known separateUIomits panels, no foodcount/confirmation.
+Evidence target/rom-data-audio-sequences/{windows-build.json,windows-cli-
+processes.json,windows-cli-no-write.json,windows-cli-summary.json,windows-scene-
+result.json,scene-executable.json,windows-bank-play-audio-sequences-full-state-
+audio.log,bank-play.png}; [record](../changes/2026-10-24-consume-european-m4a-sequences.json).
+Selection closed/no remaining e43CLI-ordinarycriterion/no live unit job.
+Fullgoalactive/progress/noimpasse. Next useful criterion: inventory remaining
+M4Adriver LUTs from original pitch/volume readers and initialization roots,
+proving physical bounds/consumer index rules before typing more spans. Existing
+sequence tables49clock/36commands/CD8-9 are closed; use retained original reader
+metadata/disassemblies, do not rerun source404/native35/ordinary400or tone277/
+earlier acceptance to reconstruct context. Unselectedassets/othergraphics-text-
+map-gameplay/GUI-archives-modTODO/newLinux-USA-nativeWindows remain open. No
+perf-space-Androidwork/agentcommit-push, concurrentDebug-save/priorwork preserved.
+Final ordinary sequence closure: project-memory including --base7597b92/
+CRLF-aware whitespace checks pass; 878protected hashes and40CLIhash-mtime guards
+unchanged, ordinary-final-summary/ordinary-final-protected retained. All unit
+jobs terminal; fullgoalactive/progress/noimpasse.
+
+**ROMDATA-01-AUDIO-M4A-DRIVER-LUTS — complete for declared EUR static source scope (2026-10-24).**
+Previous turn e43closed/204hashes match;878protected priorfiles retained. Original
+readers prove7adjacent tables370b20..370d04/484B:180packedPCMkeycodes/12u32bases/
+12u16samplecounts/132packedCGBkeycodes/12i16bases/60noise codes/16wavevolume codes.
+PCM148a5ckeylow8clamp178+endpoint179, clampforcesfrac255; unsigned multiplyhigh
+through147ec4Thumb/ARM. CGB149510type4noise(keylow8<=20→0,minus21clamp59);
+othertypeskey<=35→0frac0,minus36clamp130+endpoint131/clampfrac255, signedi16base
+ASR/interpolation. Soundfreq148fccnibble0..15 reads physical1..12;0aliasesPCM
+lastbasehighhalf,13..15aliasfirst6CGBkeybytes. Wrapper149070skipszero, no12clamp.
+Volume149a32reads unmaskedenvbyte09:16physical entries bounded by nextclockroot;
+initialglobalcap15inference is corrected by DRIVER-VOLUME-PRODUCER below.
+HigherliveRAM16/64alias e43clocks0/48,255raw.
+No newguest validity guard.7literalrefs/independentroundtrip/no-overlap with all
+37e43owners pass. Sourceplan/values/hashes/aliases retained at target/rom-data-
+audio-driver/{driver-independent.json,inventory-driver.py,*reader*.json,*.txt}.
+Static selection closed; original-reader Wine/model not yet done, e43unchanged.
+
+**ROMDATA-02-AUDIO-M4A-DRIVER-MODEL — complete for declared EUR/Wine source/model scope (2026-10-24).**
+Strict AudioDriver/Table/KeyCode retains7tables484B:180PCMpacked keys/12u32bases/
+12u16samplecounts/132CGBpacked keys/12i16bases/60rawnoise codes/16rawwavevolume
+codes. Canonical table/index IDs/explicit offsets; exactnibble/little-endian/
+signedness/allflags; originalmath diagnostics only, no hostmixer rewrite.
+Source-byte lookup preserves sample selector0/13..15internal aliases; public
+zeroFrequencySoundModegate remainsseparate. Volume16/64delegatee43clocks0/48,
+255unownedraw; no guest validity guard invented. Actualsequence table boundary
+owner validated; all7spansdisjointfrom37priorowners. Managed e43unchanged.
+Windows87853warning-free/Wine60589onefocused checkterminal/pass allindependent
+values/7hashes/JSON-source roundtrip/15shape-JSONguards/coherentsigned-base and
+unsignedunused-volumebit edits/actualsequenceowner guard.1138neworiginal-reader
+calls/checkpoints:541PCMfullreturns/300tonalCGBfullreturns/259noisefullreturns/
+18samplecount prefixes/19volume prefixes/1publiczero-frequencyfullreturn.
+CompleteEWRAMreadonly or predictedprefixwrites, SP/callee/outside-stack pass;
+observed original load sites read all484owned distinctB plus3outside aliases
+370d04/370d34/370df3. Thumb→ARM unsignedUMULLhelper executed; signedCGBASR/
+truncation/clamps/interpolation/modealiases agree.52869instructions/189PCs are
+coverageonly. Not fullSoundModeinit/CGBmixer/state-clock/native/ordinary proof.
+879protectedfiles unchanged; no build/Wine failure/live unit job. No source404/
+native35/e43ordinary400/tone277or otherclosedacceptance repeated.
+Evidence target/rom-data-audio-driver/{driver-independent.json,inventory-driver.
+py,new-reader-callers.json,*.txt,windows-model-tests.*,windows-model-{result.
+json,log},recomp-tests-model.exe,windows-model-europe/{audio-driver-tables,
+result}.json,source-protected.json};
+[record](../changes/2026-10-24-decode-european-m4a-driver-tables.json).
+Selection closed/no remaining model/sourcecriterion. Next distinct deliverable:
+e44managed driverfile/actualsequence boundarydependency, typed CPU-DMA-native/
+generic-host reads/lifecycle; preserve sample0/13..15aliases and volume16/64via
+priorclockowner plus255raw. Newnative representatives needmixedThumb/ARM helper,
+not repeat1138sourcecalls; then onepositive ordinaryWinepair. Reuse e43bankstate/
+input/sourceproofs. OtherFFTAaudio wrapperroots370eb0/b94690/unselectedassets/
+otherfamilies/GUI-archive-modTODO/newLinux-USA-nativeWindows remainopen. No
+metrics-space-Android/agentcommit-push; concurrentDebug-save/priorworkpreserved;
+fullgoalactive/progress/noimpasse.
+
+**ROMDATA-01-AUDIO-M4A-DRIVER-VOLUME-PRODUCER — complete, conditional cap corrected (2026-10-24).**
+Concrete reopening reason: finalstatic149640branch skips14964ccap. Initial
+unconditionalnormal16-level producer statement was too broad. Physical16table
+and all1138source/model proofs remainvalid/closed; no production/model change.
+Windows59773warning-free/Wine27372only8neworiginal gainfullreturns terminal/pass:
+single-side255/0and0/255clamp15; balanced128/128→16,255/128→23,255/255→31 with
+correctpanmask/sustain/EWRAM/SP/callee/outside8Bstack. No ROMtable reads/newbytes.
+290instructions/52PCs coverageonly, ordinaryreachability of those liveinputs
+notestablished/global16-domain unproved. Metadata/docs corrected;1138oldsource
+check not rerun. Evidence target/rom-data-audio-driver/{windows-gain-tests.*,
+windows-gain-{result.json,log},recomp-tests-gain.exe,windows-gain-europe/result.
+json,gain-contract-correction.json,model-1138-test-source.rs}. No live job.
+Narrow selection closed. Next e44consumer mustpreserve volume16/31/64through
+existingclockowner and255raw, sample0/13..15internalaliases; no addedclamps.
+Source-model/alias proofs are terminal; broaderLUT/wrapper/families/GUI-archive-
+mod/newLinux-USA-nativeWindows remainopen/fullgoalactive/progress.
+Final driver model/gain closure: project-memory including --base7597b92/
+CRLF-aware whitespace checks pass; 917protected hashes unchanged, model-final-
+summary/model-final-protected retained. Old1138test source unchanged/no repeat;
+all unit jobs terminal/fullgoalactive.
+
+**ROMDATA-02-AUDIO-M4A-DRIVER-DATA / ROMDATA-04-AUDIO-M4A-DRIVER-CONSUMPTION — complete for declared EUR/Wine (2026-10-24).**
+Latest request remains fullTODO/EUR/reducedWine/no performance-space/USALinux
+pending. Prior e43/model1138/gain8closed; no acceptance repeat. e44-d43adds
+7span484Bdriverfile/audio.m4a-driver-tables,39files38resources/all37prior/e43
+retained/USAe8-d7; actual parsedsequence boundaryowner. Typed CPU-DMA-BIOS-native/
+generic-host fields preserve sample0/13..15 and volume16/31/64priorclock/255raw
+without clamps; counters424entries/seventables remainoutside saves.
+Windows70748warning-free/Wine51847two focused checks terminal/pass:19coherent
+guards/publication failure-create-reuse-repair-move/e43retention/missingfile
+transactionalowner/unavailable-copy Load-Undo-backup-Restart/all484B/424entry
+bits/generichost28B.28original-interpreter-native complete-state/clock paths with
+484rawB altered pass mixedThumb-ARMUMULL andall7compiled categories
+[10,42,6,18,24,4,2], sample/volumealiases/all7edges-widths-mirrors-BIOS-SWI-DMA/
+twosequence-twodriver guest-host crossings/rawfallback.844instructions/150PCs/
+70dispatches coverageonly; pitchfullreturns/rate-volumeprefixes, notwholeinit/
+mixerABI/hostarithmetic rewrite. No build/Wine failure; previewmissingkey exposed
+andfixed existingduplicate audio-tones description.917oldprotectedfiles+frozen
+exe unchanged. Evidence target/rom-data-audio-driver/{windows-managed-tests.*,
+windows-managed-results.json,windows-{managed,native}.log,recomp-tests-managed.
+exe,windows-managed-europe/{managed-result,native-result}.json};
+[record](../changes/2026-10-24-consume-european-m4a-driver-tables.json).
+Selection closed/no remaining02/04criterion/no live unit job. Next distinct:
+actual productionCLIcreate/reuse-no-write/oldcache and one newpositiveordinary
+Wine400pair; reuse retainedbankstate/input. Otheraudio roots/LUTs/unselected
+assets/otherfamilies/GUI-archives-mod/newLinux-USA-nativeWindows remainopen.
+No metrics/Android/agentcommit-push; concurrentDebug-save/priorworkpreserved;
+fullgoalactive/progress/noimpasse.
+Final integration closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass;1128protected artifacts retained, managed-final-summary/
+managed-final-protected/managed-final-source-hashes are current. No live job.
+
+**ROMDATA-05-AUDIO-M4A-DRIVER-SCENE-CLI — complete for declared EUR/Wine (2026-10-24).**
+ProductionWindows85643warning-free/privatecandidate376f98f15e1504c97d17e515e04ad9c13a8c9ade25c1fab9ce521a3a012afbd8;
+canonicalf3e277dbrestored. Wine30529actualCLIcreate/reuse-no-write41managedfiles/
+oldnativecache/unrelatedcwd400retained IN13bankPlay terminal/pass.756newfamily
+source-byte reads (132PCMkey/528PCMbase/32CGBkey/64CGBbase),67distinctphysical
+entries[31,12,0,16,8,0,0].0samplecount/noise/volume/generic-host ordinaryreads,
+no such ordinaryuseclaim. Counts are repeated byte reads, not distinct bytes.
+OneWine21679new e44full400pair terminal/pass everycomplete state/clock/central-
+wideimage/OAM/dispatch/mixedPSGFIFOHLEsample with same756source-byte reads/
+67entries. Native1379881/fallback2741618dispatches coverageonly/no allnative or
+performanceclaim. First3753/400fullstates; audio samples[877800,877800,105600,
+105600,877726]. Retained EURstate/input reused, noGUI/navigation/fixture/RAM-
+statepayload/personal-save edits; model1138/gain8/native28/earlieracceptance not
+repeated. Final568x160bankbackground inspected; known separateUIomits panels,
+nofoodcount/confirmationclaim. No productionbuild/Wine failure/live unit job.
+Evidence target/rom-data-audio-driver/{windows-build.json,windows-cli-processes.
+json,windows-cli-no-write.json,windows-cli-summary.json,windows-scene-result.
+json,windows-bank-play-audio-driver-tables-full-state-audio.log,bank-play.png};
+[record](../changes/2026-10-24-consume-european-m4a-driver-tables.json).
+Selection closed/no remaining e44CLI-ordinarycriterion/no live unit job.
+Fullgoalactive/progress/noimpasse. Next useful criterion: bounded static
+inventory of remaining FFTA audio wrapper roots370eb0/b94690 and their original
+callers/index domains; check retained disassemblies/metadata first, prove physical
+bounds/aliases before new types. Do not reopen closed7driver tables/1138source/
+gain8/native28/ordinary400or earlier tone-sequence proofs. Unselected assets/
+othergraphics-text-map-gameplay/GUI-archives-modTODO/newLinux-USA-nativeWindows
+remain open. No performance-space-Androidwork/agentcommit-push; concurrent
+Debug-save/priorwork preserved.
+Final driver ordinary closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass;1191protected artifacts retained, all1128priorhashes and
+41CLIhash-mtime guards unchanged. ordinary-final-summary/ordinary-final-protected
+retained; no live unit process/fullgoalactive. Source/doc snapshot follows final
+record/changelog render; unrelated Debug-save files preserved.
+
+**ROMDATA-01-AUDIO-FFTA-WRAPPER-SOURCES — complete, reclassified (2026-10-24).**
+Previous turn progress/e44closed/210source-doc hashes match; no oldacceptance
+repeat. Sevenretained literals prove370eb0generalcopied-IWRAM clear/copy/fill
+helpervector (unique32Bsnapshot↔ROMcode matchesd96838/d968a8/d9686c), b94690
+palette-effect dispatch, not audio. BX-r2trampoline145c10unchanged/codeexcluded.
+Originalstate1/u16kind/stride4 plus5fixed constructorstores1/2/4/8/16 prove
+17word68Bprojection/12nullholes/all38priorownersdisjoint. No fulltableextent or
+globalRAMmax16guard; outside17/31/255/65535raw. Static source/hash/opcode checks
+pass, no guest/build/fixture or e44/model1138/gain8/native28/ordinary400repeat.
+Evidence target/rom-data-audio-wrappers/{wrapper-reclassification-independent.
+json,inventory-reclassification.py,*.txt};
+[record](../changes/2026-10-24-reclassify-european-palette-effect-sources.json).
+Selection closed/no remainingclassification criterion/no live job. Next distinct:
+strictpalette-dispatch model and onefocused sourceWine reader/producers check,
+then managed/native/ordinary. e44-d43/USAe8-d7unchanged/fullgoalactive/progress;
+otherassets/families/GUI-archives-mod/newLinux-USA-nativeWindows pending.
+No performance-space-Android/agentcommit-push; concurrentworkpreserved.
+
+**ROMDATA-02-PALETTE-EFFECT-DISPATCH-MODEL — complete for declared EUR/Wine (2026-10-24).**
+Strict17slot68Bprojection/canonicalkindu16/guestThumbcodeoffsets/12nullslots,
+originalunmaskedRAMkind/rawoutside semantics retained. e44-d43/USAe8-d7unchanged.
+Windows71666warning-free/Wine22360one focused check terminal/pass independent
+words/fields/hash/source-JSONroundtrip/12shapeJSONsource+wrongROMguards.
+31neworiginal prefixes:23lookups inclraw17/31/255/65535+highwordinputs,3inactive
+stategates,5fixedMOV-STRHproducer stores. All68distinctBobserved at0814ac70;
+RAM/SP/callee unchanged exceptpredicted2Bproducerwrites.134instructions/18PCs
+coverageonly; not fullcallbacks/allocator/native/stateclock/ordinary.
+1216protectedartifacts inclfrozenexe unchanged; no build/Winefailure or old
+acceptance repeat. Evidence target/rom-data-palette-effects/{windows-model-
+tests.*,windows-model-result.json,windows-model.log,recomp-tests-model.exe,
+windows-model-europe/{palette-effect-dispatch,result}.json};
+[record](../changes/2026-10-24-decode-european-palette-effect-dispatch.json).
+Selection closed/no remainingmodel-sourcecriterion/no live job. Next distinct
+managedpublication/typedCPU-DMA-native/lifecycle, thenonepositive ordinaryWinepair;
+source31/e44source1138/gain8/native28/ordinary400/earliergraphics closednotrerun.
+Broadergoalactive/progress, newLinux-USA-nativeWindows/otherfamilies/GUI-archives-
+modpending; no performance-space-Android/agentcommit-push/concurrenteditslost.
+Final classification/model closure: project-memory including --base7597b92/
+CRLF-aware whitespace checks pass;1226protected artifacts retained, model-final-
+summary/model-final-protected/model-final-source-hashes saved; no live job.
+
+**ROMDATA-02-PALETTE-EFFECT-DISPATCH-DATA / ROMDATA-04-PALETTE-EFFECT-DISPATCH-CONSUMPTION — complete for declared EUR/Wine (2026-10-24).**
+e45-d44adds40files39resources/all38prior/e44retained/USAe8-d7,68B17slottyped
+palette dispatch with independent source binding. Originalstate/kindu16/nulls/
+rawoutside/callbackcode/clock/RAM/save-nativeABI retained; nonserialized counters.
+Windows67564warning-free/Wine46138two reduced checks terminal/pass12guards/
+publication failure-create-reuse-repair-move/e44retention/missingfile transaction/
+unavailable-copy Load-Undo-backup-Restart/all68B(20callback48null)/17slotmask.
+10neworiginal/interpreter/native complete-state/clock prefix paths with raw68B
+altered pass24callback/4nullcompiledB, highwordtruncation/livekind/inactivestate/
+raw17-65535/allwidths-bounds-mirrors-realBIOS/SWI-DMA/2typed2raw.48instructions/
+8PCs/10dispatches coverageonly; not wholecallback/allocatorABI.1226oldprotected
+artifacts+frozenexe unchanged/no build-Winefailure; source31/e44oldacceptance not
+rerun. Evidence target/rom-data-palette-effects/{windows-managed-tests.*,
+windows-managed-results.json,windows-{managed,native}.log,recomp-tests-managed.
+exe,windows-managed-europe/{managed-result,native-result}.json};
+[record](../changes/2026-10-24-consume-european-palette-effect-dispatch.json).
+Selection closed/no remaining02/04criterion/no live job. Next distinctCLI/ordinary:
+actualcreate/reuse-no-write/oldcache and bootEUR240neutral locator, thenonepair
+onlyifnewcallbackspositive. Existing10distinctprotectedEURstates have no effect
+list (staticonly/no replay); ordinary-static-candidates.json retained. Bounded
+staticBLcandidates show updater from0800053e and18constructorcalls inside the
+newlyreclassified palette-code region, no execution claim; retained palette-
+direct-call-candidates.json. Old UIpalette boot240/neutralfixture remainsvalid,
+not rerunforcontext; newe45resource criterion justifies thisnewscene check.
+Broadergoalactive/progress/noimpasse; otherassets/families/GUI-archives-mod/
+newLinux-USA-nativeWindows pending. No performance-space-Android/agentcommit-
+push, concurrentDebug-save/priorworkpreserved.
+Final integration closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass;1444protected artifacts retained, managed-final-summary/
+managed-final-protected/managed-final-source-hashes saved. No live unit job.
+
+**ROMDATA-05-PALETTE-EFFECT-DISPATCH-SCENE-CLI — complete for declared EUR/Wine (2026-10-24).**
+Windows95401warning-free/privatecandidated4f296712164852968b9a59f2184de5869ad6b778e07a853204f3ddf8db37fb3;
+canonicalf3e277dbrestored. Wine56076actualCLIcreate/reuse-no-write42managedfiles/
+oldcache/unrelatedcwd/neutralboot240terminal/pass, callback/null0. Thisboot
+locator closednegative/no fullpair; source31/native10/e44olderproofs notrerun.
+ROM/cache/loader/input/currentdatahash-mtimes unchanged. Evidence target/rom-data-
+palette-effects/{windows-build.json,windows-cli-processes.json,windows-cli-
+no-write.json,windows-cli-summary.json,windows-cli-boot-palette-dispatch.log,
+boot-palette-dispatch.png}. Selection closed/no remainingCLIcriterion/no livejob.
+Ordinary criterion is closed by SCENE-TRANSITION below; no zerobootrepeat.
+
+**ROMDATA-05-PALETTE-EFFECT-DISPATCH-SCENE-TRANSITION — complete for declared EUR/Wine (2026-10-24).**
+Boot240imageEnglishhighlighted; newordinary A240release252thenneutral1000input
+is deliberateUItransition, no RAM/statepayload/save/newsnapshot edit. Wine60304
+newCLItransition terminal/pass1486reads/5944callback-byte reads/null0/slotmask2
+(kind1only). OneWine35467full1000pair terminal/pass everycomplete state/clock/
+central-wideimage/OAM/dispatch/mixedPSGFIFOHLEsample, same5944aggregate byte reads/
+mask2, requiredpositive. Not5944distinctbytes or performance/allnativeclaim.
+First0/native2803110/fallback1056100 andsamples[2193846,2193846,263212,263212,
+2172508] coverageonly. Other4callbacks/nullslots targeted-only; no wholeABI.
+Final568x160CLIintro ProductDevelopmentDivision-4Presents/snow inspected; no new
+build/Wine failure/livejob. Source31/native10/e44/oldUIpalette proofs closednot
+repeated. Tenemptylist snapshotscan and82BLpublicwrappercandidates preserved
+as staticselectionevidence, notsceneproof. Alloriginalinputs/datahash-mtimes
+unchanged. Evidence target/rom-data-palette-effects/{windows-language-transition-
+result.json,windows-scene-result.json,windows-language-confirm-palette-dispatch-
+full-state-audio.log,language-confirm.input,language-confirm.png};
+[record](../changes/2026-10-24-consume-european-palette-effect-dispatch.json).
+Selection closed/no remainingordinary criterion/no liveunitjob. Fullgoalactive/
+progress/noimpasse. Next usefulcriterion: bounded originalpaletteparameter/
+program producer contracts through5constructors/publicwrappers, starting main
+080d7d24→0814b9f8. Reuse82BLcandidates/source metadata; no closed17slot/source31/
+native10/ordinary1000/negativeboot240or earlieraudio proof repeats. Othergraphics-
+text-map-gameplay/audioassets/GUI-archives-mod/newLinux-USA-nativeWindows remain
+open. No performance-space-Android/agentcommit-push; concurrentworkpreserved.
+Final e45ordinary closure: project-memory including --base7597b92/CRLF-aware
+whitespace checks pass;1515protected artifacts retained, all1444priorhashes and
+42CLIhash-mtime guards unchanged. ordinary-final-summary/ordinary-final-protected
+retained; no live unit job/fullgoalactive. Finalsource-doc snapshot follows record/
+changelog render; concurrent Debug-save files remain unchanged.
+
+**ROMDATA-01-PALETTE-EFFECT-PROGRAM-PRODUCERS — partial; bounded literal/list/stack inventory complete (2026-10-24).**
+Previousgoalturn progress/e45terminal/218source-doc hashes match. Initial
+main080d7d24→public0814b9f8→kind4callback path traced. Actualpalette script task
+is080d7fac/public080d8214-080d8234; neighboring080d79ac/79d0is a different0x2Ctask
+class, its248candidates are notpalette roots (retainmetadata, no sourceowner).
+308actualdirectBLcandidates:285exact boundedR0expressions root179programs;23
+initialunknowns reduce to20indexed after2explicit3wordstack arrays andspecific
+saved-R4bridge1144e4(literal114530/rootB477B0 alreadyrooted1144d2).3calls080d8380
+withcounts3/3/2 produce8rows8B/64B and5newprograms; twoLDM/STMcopies atE7A8E/
+E7A9A from14d680/14d68c add1newprogram and24sourceB(firstarraynullthirdslot is
+copied but skippedwhenindex2, no global<=2cap). Combined185programs1000commands,
+16135candidateprogramB124ranges +88producerB=16223B, no aliases/repeatedlogical
+program bytes/no overlap39currente45owners. Corrected preliminary stacknewcount
+from2to1becauseone target alreadyknown; actualfinal185.
+Headers6B: firstu8/rawflagsu8/widthu8/commandcountu8/initialdelayu16. Commands6B:
+opcode-mode u8/u16duration/u16relativeparameter. Programflagsbit1selects+256;
+repeat/pause remainmessageRAM, not assumedheaderflagbit0. Mode0op0copieswidth
+words; mode1wrapper wrapsstart+width-1/clamps511. op11count/flag +min1colorwords,
+callbackloadbeforewait test. Parameter lengths are STATICCANDIDATES, original
+Wineoracle stillmissing; no strictmodel/runtime/type publication claimed.
+20indexedcallers remain: unmaskedRAMbyte/compound12Brow. dynamic-table-boundary-
+candidates haspossibleprefixes fromnextliteralroots; pointershape/headerfit is
+not extent/domainproof. 39bcc4candidate6words includes0/CFscalar tail and isnot
+accepted6entrytable. Do not promote or addguest bounds. Allcurrente45source31/
+native10/ordinary1000/negativeboot240/earlieraudio proofs closednotrerun.
+Evidence target/rom-data-palette-programs/{actual-palette-producer-arguments.
+json,all-proved-program-discovery.json,producer-data-source-plan.json,resolved-
+list-programs.json,resolved-stack-program-tables.json,specific-saved-register-
+bridge.json,dynamic-table-boundary-candidates.json,pending-callers/,*.txt,
+resolve-producer-arguments.py,inventory-proved-programs.py}. 179literal-only
+firstsnapshot retained; combined185metadata is authoritative fornewrootset.
+[record](../changes/2026-10-24-inventory-european-palette-program-producers.json).
+Thisselection ends partial with bounded-rootchildclosed; missing20domains and
+source Wine/model/publication/runtime/ordinary programs remain. Next inspect
+those20fromretainedcallwindows/fieldwriters and relativeparameter contracts;
+no redisassembly/scans/recreating185data merelyforcontext. e45-d44/USAe8-d7
+unchanged/no liveunitjob/no newguest/build/test/fixture. Fullgoalactive/progress/
+noimpasse; newLinux-USA-nativeWindows/otherfamilies/GUI-archives-modpending.
+No metrics-space-Android/agentcommit-push; allconcurrentworkpreserved.
+Final program-inventory handoff: project-memory including --base7597b92/CRLF-
+aware whitespace checks pass;1592protected artifacts retained, all1515priorhashes/
+42CLIhash-mtime guards andearlierimplementation hashes unchanged. inventory-
+final-summary/inventory-final-protected saved; partialstatus/fullgoalactive/no
+liveunitjob. Source-doc snapshot follows finalrecord/changelog render.
+
+**ROMDATA-01-PALETTE-EFFECT-INDEXED-PRODUCER-DOMAINS — complete for20bounded projections (2026-10-24).**
+Latestrequest remains fullTODO/EUR/no space-performance campaigns/reducedWine/
+newLinux-USA pending. Previous1592protected/219source-doc inventory checked.
+Explicit taskID transforms/parent-child messages/stores/count loops prove97cells/
+388B, adding45programs. Current230programs1135commands/18221candidateprogramB/
+146ranges+476producerB=18697B/165combinedranges, all39e45ownersdisjoint/no repeated
+logicalprogramB.185earlier records unchanged.39bcc4only2pointers/mixedtail excluded;
+no globalRAM guard/fullphysicaltable/wholeABI claim. Single3997a0descriptorbase
+hypothesis rejected: D7018actually3997b0+(ID-1)*8/39a258+(ID-342)*8;354/355lowbyte
+minus98→0/1. Retainedzerohelper classification reused for clearedtaskcontext and
+parentselector0..4loop. No guest/build/Wine/performance run or closedproofrepeat.
+Evidence target/rom-data-palette-programs/{indexed-producer-proofs.json,
+indexed-program-discovery.json,indexed-f2960-arguments.json,indexed-handlers/,
+prove-indexed-producers.py,extend-indexed-programs.py}; updatedexistinginventory
+record, graphics/TODO/inventory/state. Selectionclosed/no remaining20projection
+criterion. Parentprograms remains partial: source-parameterWine/typedmodel/
+publication/runtime/ordinary pending; e45-d44/USAe8-d7unchanged/no liveunitjob.
+Next select combined strictmodel/originalreader sourcecheck using230metadata;
+no rerun185inventory/20projections oroldsource-native-ordinary tests forcontext.
+Fullgoalactive/progress/noimpasse; otherassets/GUI-archives-mod stillpending.
+Indexedprojection final: memory default/base7597b92 andCRLF-aware whitespace pass;1645protected artifacts/all1592priorhashes/42CLIhash-mtimes unchanged. Allprior implementation/concurrent Debug-save files unchanged; only7expectedmemory files changed. indexed-final-summary/protected saved; current source-doc snapshot follows finalrecord/render. No liveunitjob.
+
+**Selection checkpoint — ROMDATA-02-PALETTE-EFFECT-PROGRAM-MODEL (2026-10-24).**
+Latest request: full ROM_DATA_TODO/EUR, ignore space, no performance measurements,
+reduced Wine only/newLinux-USA pending. Previous goal turn is progress:20bounded
+indexed projections closed/current230programs1135commands. indexed-final-summary
+terminal/no livejob,219source-doc hashes match; preserve1645artifacts anduserwork.
+Missing deliverable: strict lossless typed program/producer model and onecombined
+original-reader Wine source/parameter check. Next implement model from existing
+230metadata, preserve all live guest scheduling/indexing, and run affected Windows
+compilation plus onefocused Wine check. No runtime/publication revision bump yet;
+e45remains until managedintegration. Closedsource/native/ordinary tests notrerun.
+Model unit inprogress: Windows85775terminal warningfree compile; before Wine, staticreview corrected newstack-prefix PCs from preceding literal loads to actualLDMIA E7A90/E7A9C and added6zero-width/clamp plus count-period/direction boundary probes. Recompile affected testmodule once for these newinputs; initialbuild logs retained. No Wine failure/repeat/closedproof reopened.
+ROMDATA-02-PALETTE-EFFECT-PROGRAM-MODEL terminalcomplete fordeclaredEUR/Wine: newstrict model230programs1135commands/25producer tables,165spans18697B; Windows23752warningfree, oneWine96989check passed all18221programB and18681allB atoriginalreaders,16reservedlistBpreserved/unread.97indexedcells/8listrows/2stacktables and6copyboundaries/3count-period/1rawdirection probes pass. No native/stateclock/ordinary/wholeABI claim. Sourceunitclosed/no liveunitjob; nextmanagedpublication/typedruntime fornewprogramfamily, e45unchangeduntilthen. Detailedrecord/docs/finalguards follow; closedsourcecheck notrerunwithoutchangedinputs.
+Source-model final closure: project-memory default/base7597b92/CRLF-aware
+whitespace pass;1661protected artifacts/all1645priorhashes/42CLIhash-mtimes
+unchanged. Only2expectedimplementation hubs/6memory files changed plusnewmodel/
+test/record; allother earlierimplementation/concurrentDebug-save files preserved.
+Evidence model-final-summary/protected/source-hashes; new source record
+2026-10-24-decode-european-palette-programs.json. No remainingdeclaredsource/model
+criterion orliveunitprocess. FullTODOgoalactive/progress/noimpasse. Nextunit
+managedpublication/typedruntime/ordinary programs; no repeat230sourceWine,
+20projection inventory/e45callback oroldaudio tests merelyforcontext.
+
+**Selection checkpoint — ROMDATA-03-PALETTE-PROGRAM-RUNTIME (2026-10-24).**
+Latest request stays fullROM_DATA_TODO/EUR/no space orperformance campaigns/
+reducedWine/newLinux-USA pending. Previousgoalturn progress:230program source
+model+oneWine sourcecheck closed; model-final-summary terminal/no livejob and
+222source-doc hashes match. Missing: managed publication/typed guest runtime/
+authentication-lifecycle-native and positive ordinary proof forpaletteprograms.
+Next wire newfamily e46-d45 retaining all39e45owners/40oldfiles, implementtyped
+field bindings and reduced new Wine checks. Source230/20projection/e45callback/
+oldaudio proofs closednotrerun. Preserve1661artifacts/concurrent useredits.
+Runtime unit inprogress: Windows74539warningfree. Wine78294 managedterminalpass
+12guards/41files40resources/all39prior-e45/all18697B/230program25tables/lifecycle.
+Managedcriterionclosed/notrerun. SameWine nativecheckterminal101: compiled328PCs,
+then missingnativeblock expectation (no PC diagnostic), not yet a typed-runtime
+mismatch verdict. Preserve windows-native.log andnative-initial object; add PC/
+CPSR/probe diagnostic, rebuild affectedtest and retry nativeonly againstexisting
+manageddataset. No production/ordinary run yet/no livejob; sourceproofnotreopened.
+Native-only Wine15650 diagnosticterminal101: all earlier probes reached complete
+state-clock checkpoints; RawCommand endpointD7B6A is an interior instruction in
+another probe's automatically chained graph, so native ran past boundary to
+D7B6E (nottraced). Harness-boundary issue, notmissingtypedfield. Preserve second
+log/native-diagnostic object. Add nativeprefix eventguard that respectsactual
+RTeventbudget and yields atSTOP_PC; no productionbackend/runtime change. Rebuild
+andretry nativeonly; managed/source proofs remainclosed. No productionrun yet.
+ROMDATA-03-PALETTE-PROGRAM-RUNTIME managed/native targetedcriteria complete:
+Windows4133warningfree; native-onlyWine33298terminalpass24original-interpreter-
+native fullstate-clock prefixes/all4typed categories/copiedIWRAM/rawcommand65535-
+coloroffset65534-index2/edges-widths-mirrors-BIOS-SWI-DMA. HarnessSTOP_PCguard fixes
+chainedprefixendpoint; productionbackendunchanged; first2failednative observations
+retained andclassified. Earliermanaged12guards/all18697B/41files40resources/e45/
+lifecycle closednotrerun. No remainingtargeted criterion/livejob. Nextproduction
+CLIcreate-reuse-oldcache/ordinarypositive/newfullpair only, e46-d45sourcecodecurrent.
+ROMDATA-04-PALETTE-PROGRAM-CLI — complete forcreate/reuse/oldcache (2026-10-24):
+Windows19390warningfree/canonicalrestored; candidateSHA9fe49ea4f35f140f7b6b0433d226a44f9d642b720edf5d3e51674b38ed919c96.
+Wine60759terminalpassprepare/reuse-no-write43managedfiles/oldcache/unrelatedcwd.
+NormalEnglishconfirm1000newfamilylocator is coverage-negative:0allcategories.
+Closednegative/no fullpair, do not repeat that intro or e45zero boot240.
+Newordinarycriterion stillmissing; source/native/managed/CLI remainclosed. Static
+newtask080d7fac scan of10protectedEURsnapshots finds manager02008ff0zero/no callback
+word/no activeprogramtask (separatecriterion fromoldpalette-effect scan); do not
+rescanthoseworldmap-bank states forcontext. Evidence ordinary-palette-task-scan.
+Next select actualEURbattle/attack/magic scene fromretained F-09/input/debugcases,
+trace realproducer ifneeded, thenonepositiveCLI+fullstate-audio pair. No forced
+RAM/statepayload/save mutations forordinary acceptance; no Linux/USA/performance.
+Runtime/CLI finalhandoff: memory default/base7597b92andCRLF-aware whitespace
+pass;1957protected artifacts/all1661priorhashes/old42-current43CLIhash-mtimes
+unchanged. Otherimplementation/concurrentDebug-save edits preserved;7expected
+implementation/8memory fileschanged plusnewruntime-test/record. Evidence
+runtime-final-summary/protected/source-hashes; record2026-10-24-consume-european-
+palette-programs.json. No liveunitjob. Publication/typedruntime/12guards/native24/
+CLI create-reuse-oldcache criteria closed. ROMDATA-05-PALETTE-PROGRAM-SCENE still
+open:actualEURbattle attack-magic positiveCLI andonefullstate-clock-image-audio
+pair. F09retained target/desktop-perf/ai-turn-replay/start.ffstate/input.input/
+scene.json exist; inspectidentity/contextcheaply beforeselection. Do notrepeat
+negativeintro1000/snapshot10/source230/projection20/native24 oroldproofs forcontext.
+FullTODOgoalactive/progress/noimpasse; no performance-space-Linux-USA-Android/
+agentcommit-push. Source-doc hashes followfinalrecord/render.
+
+**ROMDATA-05-PALETTE-PROGRAM-SCENE — complete EUR/Wine (2026-10-24).**
+Latest request remains fullTODO/EUR/ignore space/no performance measurements/
+reducedWine/newLinux-USA pending. ActualproductionCLI river-execute-sheep1000
+passes170aggregate source-byte reads:32header/90command/48parameter,4programs;
+0producer bytes/tables, targeted-only. GenuineMontblanc Richiamo/Pecorelle scene
+fromEURslot4, deployedMarsh+Montblanc usingordinarypad. Derivedconfirmcheckpoint
+river-sheep-confirm-6.ffstate was produced by ordinaryWine replayhelper(no guest
+RAM/statepayload/save edit); input river-execute-sheep.input A32/release44.
+Classic240x160/wide0. Originalslot4/ROM/cache/loader/inputs/managedfiles preserved.
+
+One1000frame fulloriginal-vs-decoded Winepair now passes every complete state/
+clock/central-image/widebuffer/OAM/dispatch/mixed-PSG-FIFO-bitwiseHLE sample and
+positive170B/4program requirement. Firstpair15902completed all1000comparisons
+andnew-family assertion butterminal101 at oldgenerichost-only OBJdimension
+consumer guard. Test now accepts typed busORhost consumers; explicit selected
+paletteheader-command-parameter assertion unchanged. Windows40694affectedtest
+compile warning-free; onlysamepair rerun49430PASS. Production/native backend/
+source/managed/targeted checks unchanged, notrerun. Bothfailed/pass logs retained.
+Evidence target/rom-data-palette-programs/{windows-river-execute-sheep1000-result,
+windows-sheep-scene-result,windows-scene-tests-build-result,
+windows-sheep-fixed-scene-result}.json. Newtestexe recomp-tests-scene.exe;
+productioncandidate recomp-rom-data.exe unchanged, canonicalexe stillrestored.
+
+Navigation outcomes retained, do not repeat forcontext: F09PollyFencerLastBreath
+unconfirmed/Fighttargetonly; SigmundThrowconfirm1900zero newprogramB. River4/12
+identicaldeployment, slot16worldmap/slot7Hildegard/slot8F09; previews authenticated.
+Riverdeployment/Starttwo1400zero; Pecorelle-self1600endedatEsegui, A500tooearly.
+Onlyfinalvisible-Eseguiconfirm executes ability and qualifies ordinaryuse.
+No fullpair on negative locators. Helpers onlymadefresh private navigation
+checkpoints; no original fixture edits. No source230/projection20/native24/
+managed12/CLIcreate-reuse oroldaudio/e45/negativeintro-snapshot proof repeated.
+
+No remaining e46declared integration/ordinary criterion orliveunitprocess;
+producer tables andother226programs have targeted-only coverage, no complete
+allocator/callback/scheduler ABI ornewwidescreen32:9 scene claim. NewLinux/USA/
+nativeWindows and other graphics/text/maps/gameplay/audio/GUI/archive/modTODO
+remain open. FullTODOgoalactive/progress/noimpasse. Memory/docs complete:
+project-memory default/base7597b92 andCRLFdiffcheck pass; all1957prior artifact
+hashes/124CLI-navigation hash-mtime guards unchanged.225source-doc snapshot has
+only10expected unit changes; otherimplementation/concurrentDebug-save work
+preserved. New evidence scene-preservation-check.json andscene-final-summary/
+protected/source-hashes.json. No livejob; no agentcommit/push. Next select new
+distinct asset-family inventory; cached248calls of neighboring
+080d79ac/080d79d0→080d77c4are a different task/data layout, not e46palette roots.
+Inspect existing producer/neighbor disassembly before a bounded new source
+contract. Never reopen e46 oroldcompleted families merely forcontext.
+
+**EUR blend programs e47 — declared migration children complete (2026-10-24).**
+Latestrequest remains fullROM_DATA_TODO/EUR/ignore space/no performance
+measurements/reducedWine/newLinux-USA pending. Previousgoalturn progress:
+e47typedruntime/lifecycle12/native20/source-setguard closed; terminalruntime-
+final-summary/no livejob and232source-doc hashes matched beforeCLI selection.
+Do not reopen completed blend/e46/earlier families merely because a parent isopen.
+
+ROMDATA-01-BLEND-PROGRAM-PRODUCERS closed for248bounded directcalls:235constant/
+2conditional/6indexed/1inline/1mutableRAMtemplate/3dynamicRAM.160programs345cmd,
+2340programB+88producerB(22cells/6tables)=2428B158ranges, disjoint40e46owners.
+False080e2ec8code-root rejected: literalpoolword mistaken forinstruction; actual
+caller copies10Bfrom39a5f0toRAMthen overridesduration. Source-contract.json and
+static-source-verification.json retain allproofs; no wholephysicaltable claim.
+ROMDATA-02-BLEND-PROGRAM-DATA closed: strictbitfield/reserved/rawduration-u8target/
+canonicalref model/110opcode fingerprints. Windows12341warningfree/Wine94935
+passes160headers345cmd22cells/5instantchains/templateRAMoverride/2packedheader/
+6duration/3delay/rawindex65535/17shape3source2JSON2identity guards.2376Bobserved;
+52nonalpha timed second bytes preserved/hashchecked forinitialmodeprobes only,
+not globallyunreachable. No source/inventory repeat forcontext.
+
+ROMDATA-03-BLEND-PROGRAM-RUNTIME closed: v1/e47-d46blend-programs.json/
+graphics.blend-programs,42files41resources/all40prior decoded-e46retained,
+USAe8-d7unchanged.158bindings2428B/13pages typedheader-command-producer, noROM
+shadow/guestcap/sequencer/save-nativeABI change; counters outside saves.
+InitialWindows89302compileerrors(testarity/import) corrected, logsretained;
+Windows86317warningfree/Wine43962passes managed12guards/lifecycle/all2428B/
+160program6tables and20original-native complete-state-clock prefixes with
+[34header70command16producer]compiledB. Live2→1mode/rawcommand65535-index3/
+previouspaletteindex5/new2-old2/SWI-DMA/new2-raw2 pass. Source-setcoherence
+corrected to immediatelypriorowner; Windows76187warningfree/onlynewWine5627
+negativeguard passes, no guestexecution orclosednative/lifecycle repeat.
+Evidence windows-managed-results/windows-source-set-results and managed-europe/
+{managed-result,native-result,source-set-result}.json; oldtypedexe andguardexe kept.
+
+ROMDATA-04-BLEND-PROGRAM-CLI closed: Windows81247productionwarningfree; candidate
+SHA7ff18437e21c9678a866ab410f0e6b36764bb43852b7a3150746e08f4275afd8,
+canonicalSHAf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720
+restoredexactly. Wine46190actualCLIcreate/reuse-no-write44managedfiles/oldcache/
+unrelatedcwd pass; all42generationfiles matchaccepted e47dataset.
+ROMDATA-05-BLEND-PROGRAM-SCENE closed: authenticretained EURPecorelleconfirm
+state/input at target/rom-data-palette-programs/{river-sheep-confirm-6.ffstate,
+river-execute-sheep.input}; A32/release44/1000/classic240x160. ActualCLIpositive
+18aggregateB=10header8command/1program/0producer. OneWine91145fullpair fromsame
+input/state andactualCLI-published generation passes everyfullstate-clock-image-
+widebuffer-OAM-dispatch-mixed-PSG-FIFO-bitwiseHLE sample. Audio counts
+[2194500,2194500,264000,264000,2194366]. Currentrecomp-tests-source-set.exe reused;
+no testrebuild/codechange/newnavigationfixture/payloadedit. Evidence windows-build,
+windows-cli-processes/no-write/summary,windows-scene-result.json andfullpairlog.
+Other159programs/6tables targeted-only; new32:9/Linux/USA/nativeWindows pending.
+No wholeallocator/callback/schedulerABI claim. No liveunitjob/remainingdeclared
+blend criterion. Otherasset/GUI/archive/modcriteria remainpartof fullTODO.
+
+CLI/scene finalmemory default/base7597b92/CRLFdiffcheck pass. All2580prior artifact
+hashes/170combinedCLI-state-input hash-mtime guards unchanged; nine memoryfiles
+only changed from232snapshot, everyimplementation/concurrentDebug-save preserved.
+ordinary-preservation-check andordinary-final-summary/protected/source-hashes
+arehandoff evidence. FullTODOgoalactive/progress/noimpasse. No performance/space/
+Android/agentcommit-push campaign; originalgame data retained privately.
+
+Task-descriptor candidate subsequently closed by source/model outcomes below;
+rejected456extent retained, no older next-action remains active.
+
+**ROMDATA-01-TASK-DESCRIPTOR-SOURCE — bounded EUR inventory complete (2026-10-24).**
+Latestrequest fullTODO/EUR/no space-performance campaigns/reducedWine/newLinux-USA
+pending.232prior source-doc hashes matched; e47closed not repeated. Independent
+080d9b56literal/call treats39a490as graphics data. Secondary directory row2 at
+3aca2c contains kind0/ID413, read by124eb8..124f80 and maps to last39a488record.
+With exact341branch/8Bstride/three roots this proves bounded341+20+51=412records,
+3296B/3catalog spans/1physicalunion,268distinctnonzero callbackwords/3nullrows,
+disjoint41owners. Callbacku32/contextsizeu16; metadatau16read at70a2, byte6at76b6.
+142suffixmetadataBpreserved/unread. Main/secondary IDformulas differ1; arbitrary
+liveindices/ID0underflow stayraw, no globalcallermaximum/wholeABI/catalog claim.
+53direct candidate calls retained; incomplete CFGs unknown, notnegativeproof.
+Rejected456extent staysclosed. Source-contract.json/literal-root-references and
+new disassembly areevidence; no guest/build/Wine/performance yet. Inventorychild
+closed, model/runtime notclaimed. Preserve2645priorartifacts/concurrentuserwork.
+
+**ROMDATA-02-TASK-DESCRIPTOR-MODEL — complete EUR/Wine (2026-10-24).**
+Latestrequest unchanged. New strictlossless412record3296B/3catalog model keeps
+canonicalordinals/nullableThumb/contextsize/rawmetadata andboth original ID
+formulas/aliases; no revision/runtime change. Windows24937warningfree; single
+Wine82576terminalPASS415main-load/59secondary-load/346metadatahalfword/346byte/
+18low16/9branchprefixes,3156ownedB observed/140suffixmetadataBpreserved-unread.
+10shape4sourceedit7JSON2identityguards pass; allsourcefields/independenthashes/
+roundtrip retained. ID0/65535/raw413-414 andcrosscatalogaliases stayraw/typedby
+physicalmembership; no cap/callback/allocator/scheduler/native/stateclock or
+ordinary acceptance claimed. Source/native/managed/e47/e46/oldproofs notrerun.
+Evidence target/rom-data-task-descriptors/{source-contract.json,static-source-
+verification.json,windows-model-tests.json,windows-model-result.json,windows-
+model-europe/result.json,windows-model.log}. All2645priorartifact hashes unchanged
+insideWineguard. No remaining declaredmodelcriterion/liveunitjob. Nextmanaged
+publication/typedruntime/lifecycle-native/CLI/positiveordinary fornewfamily;
+e47-d46/USAe8-d7 unchanged. Finalguard model-preservation-check passes2645priorhashes/170hash-mtimeguards;
+232prior source-doc snapshot shows only2moduledecl/6expectedmemory changes,
+allotherimplementation/concurrentDebug-save unchanged. Memorydefault/base7597b92/
+CRLFwhitespace pass; model-final-summary/protected/source-hashes follow finalrender.
+FullTODOgoalactive/progress/noimpasse; no newunitselected/agentcommit/push.
+Nextunit should reuse authentic EURPecorelle state/input frome47ordinary evidence
+for a newfamily positiveCLI/fullpair afterintegration; no navigation/fixture
+recreation or oldscene acceptance rerun merelyforcontext.
+
+**EUR task descriptors e48 — declared integration children complete (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/newLinux-USA
+pending. Previousgoalturn progress: source/model closed;236source-doc hashes match
+beforeintegration/no oldsource/native/lifecycle/ordinary proofrepeats forcontext.
+ROMDATA-03-TASK-DESCRIPTOR-RUNTIME closed: e48-d47/task-descriptors.json/resource
+engine.task-descriptors,43files42resources/all41prior decoded/e47retained/USAe8-d7.
+3typedcatalog bindings3296B/pages399-39a; callback/contextsize/metadata reconstructed
+withoutROMshadow/newguestcap/allocator-scheduler/save-nativeABI change. Resource-
+setguard requiresimmediateblendowner, noassetdependency. Source/model unchanged.
+Windows72886warningfree/Wine32369twofilters first-runPASS: managed13guards/create-
+reuse-repair-move/lifecycle/unavailablefiles/all3296B/412records3catalogs and29
+original-interpreter-native complete-state-clock prefixes. CompiledAPI aggregate
+[44callback22context9metadata]B, rawID0/65535/main413-secondary414/crosscatalogalias/
+low16/specialmetadata/precedingblendowner6B withrawpoison/borders-widths-mirrors-
+BIOS-CpuSet-FastSet-DMA/new2raw2 pass.206instructions41PC29dispatch coverageonly;
+STOP_PCprefixguard reused/emitterunchanged/no wholeABIclaim. Privatewiring helper
+expected3budgetcalls inonefile; actual1there/2frontend fixedbeforefirstcompile,
+no failedbuild/Wine. Evidence windows-managed-results andmanaged-europe/{managed-
+result,native-result}.json; prior2683artifacthashes protected.
+
+ROMDATA-04-TASK-DESCRIPTOR-CLI closed: Windows87514warningfreeproduction/canonical
+f3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720 restoredexactly; candidate9d10550ea1792fab8d1cfd4543e23361a93410e66bb01d3e6b430bb1fb848c50.
+Wine38310actualCLIcreate/reuse-no-write45managedfiles/cachevecchia/cwddiversa passes;
+all43generationfiles matchaccepted e48dataset. Datasetdcd4bf1075327d18fbc73aef6c9da2f08d81ecd0d0deb2660a77ffbd1893d850.
+ROMDATA-05-TASK-DESCRIPTOR-SCENE closed: unchanged authenticEURPecorelle confirm
+state/input at target/rom-data-palette-programs/{river-sheep-confirm-6.ffstate,
+river-execute-sheep.input}, A32/release44/1000/classic240x160. PositiveCLI andone
+Wine58452fullpair fromactualCLIpublishedgeneration pass28aggregateB=16callback/
+8context4metadata/4records2catalogs. Everyfullstate-clock-image-widebuffer-OAM-
+dispatch-mixedPSGFIFObitwiseHLE sample equal1000frames. Samealreadybuiltrecomp-
+tests-managed.exe; no newfixture/navigation/payloadedit/source/native/lifecycle
+oroldfamily proofrepeat. Other408records/thirdcatalog remain targeted-only; new32:9/Linux-USA-nativeWindows remainpending. No wholeallocator/callback/
+schedulerABI. Evidence windows-build/CLIprocesses-no-write-summary/scene-result/
+fullpairlog. No liveunitjob/remainingdeclaredsource-runtime-CLI-scenecriterion.
+Finalguard runtime-preservation-check passes2683priorhashes/217hash-mtime guards.
+Against236source-doc hashes only6intendedimplementation hubs/8memory fileschanged;
+source-model/allotherimplementation/concurrentDebug-save unchanged. Memorydefault/
+base7597b92/CRLFwhitespace pass; runtime-final-summary/protected/source-hashes
+freeze thiscompleted e48CLI/ordinary outcome. FullTODOgoalactive/progress/noimpasse.
+Otherasset/GUI/archive/modcriteria remainpartoffullgoal; no commit/push/Android/
+performance. No liveunitjob; currentunitclosed before nextinventoryselection.
+
+Effect/event candidate subsequently closed by source/model outcomes below;
+no earlier source-inventory action remains open.
+
+**ROMDATA-01-EFFECT-EVENT-DIRECTORIES — bounded EUR inventory complete (2026-10-24).**
+Latestrequest unchanged/fullTODO/EUR/ignore space/no performance/reducedWine/new
+Linux-USA pending. Prior e48closed/runtime-final-summary terminal/239source-doc
+hashes match; no oldproofrepeat.75event16Brows1200B at3aca0c explicitlyadvance/
+compare74, andindependent6Bnextcatalogstarts3acebc.51selector4Brows204B at3ad174
+endatindependent u3lookup3ad240; countnotinferredfrom51taskdescriptors.22event/
+6selector same-state evenThumb dispatchwords112B total1516B/4spans disjoint42owners.
+Eventfields opcodeu8/idrawu16/postdelayu8/arg8-12u32/4rawreservedB; selector kind+
+3rawu8parameters.19eventsecondaryIDrefs/51selectorrefs toexistingtaskdescriptors
+areexplicitassetlinks. Frontdoor q:u8→(q-1)&65535 and taskID=(index+363)&65535;
+q0rawindex65535/ID362andliveeventrelativejumps stayraw, no globalbounds/wholeABI.
+NoBL/even-oddliteralentryref foundfor124e1c; reachabilityunknown, notdeadcodeproof.
+Initialselector-tablebase128b4crejected(literal→actual128b50); initialnewstatic
+jump-rangeguard ended125394butincludescommonexit125398, correctedbeforeplanwritten.
+Static-source-verification passes reconstruction/hash/92halfword8word fingerprints/
+70assetrefs/42owner disjointness; no guest/build/test/revision change. Source-
+contract andretainednewdisassemblies under target/rom-data-event-directories;
+sourceunitclosed before nextselection, source/model-runtime criteria distinct.
+
+**ROMDATA-02-EFFECT-EVENT-DIRECTORY-MODEL — complete EUR/Wine (2026-10-24).**
+Latestrequest unchanged/fullTODO/EUR/no space-performance/reducedWine/newLinux-USA
+pending. Strictlossless75events/51selectors/28evenThumbdispatchwords1516B/4ranges,
+canonicalindices/rawfields/70taskdescriptorrefs and92halfword8word contractguards.
+Both existinghubs differonlybynewmodule declarations; allpriorimplementationkept.
+Windows78776warningfree; singleWine43580terminalPASSfirst-run:77eventheaders/
+77delay/53selector-address-kind/43kind-gatedparameterload/32dispatch/default/
+19frontdoor-low16-taskID-increment prefixes.1106ownedB observed/300eventreserved+
+110selectorparameterBpreserved-hashchecked/unreadinthisscope.12shape4sourceedit9JSON
+2identityguards pass; raw75/65535/51/q0 andu16wrap/default-evenstate semantics
+preserved. No hostsequencer/newguestcaps/wholeinterpreter-allocator/native/fullstate-
+clock/ordinary/reachability claim. e48-d47/USAe8-d7 unchanged; source/native/
+lifecycle/ordinary oroldfamily proofs notrerun. Evidence under target/rom-data-
+event-directories/{source-contract.json,static-source-verification.json,windows-
+model-tests.json,windows-model-result.json,windows-model-europe/result.json}.
+All2983priorartifacthashes protectedinsideWineguard. No liveunitjob/remaining
+source-modelcriterion. Finalguard model-preservation-check passes2983priorhashes/
+217hash-mtimeguards.239source-doc snapshot has only2moduledecl/5expectedmemory
+changes, allotherimplementation/concurrentDebug-save unchanged. Memorydefault/
+base7597b92/CRLFwhitespace pass; model-final-summary/protected/source-hashes
+followfinalrender. FullTODOgoalactive/progress/noimpasse. Nextmanagedpublication/typedruntime/lifecycle-native/CLI/positiveordinary
+fornewfamily; sourcescopealreadyclosed/no contextrepeat. Candidate e49-d48/44files
+43resources withactualengine.task-descriptors dependency; bindingspages124/128/
+3ac/3ad, categories events1200B/selectors204B/dispatch112B. Originalevententry124e1c
+reachabilityunknown, notdeadproof; ordinarylocator maycoverselectors only. Reuse
+existing authenticstates/input before anynewnavigation, positiveCLIbeforefullpair.
+No newunitselectedyet; sourcepipelineconcurrentuserwork/ROM/cache/savespreserved.
+
+**ROMDATA-03-EFFECT-EVENT-DIRECTORY-RUNTIME — targeted EUR/Wine complete (2026-10-24).**
+Latestrequest fullTODO/EUR/no space-performance/reducedWine/newLinux-USA pending.
+Previousgoalturn progress source/modelclosed/model-final-summary terminal/no livejob;
+243source-doc hashes match. e49-d48publishes effect-event-directories.json/resource
+engine.effect-event-directories,44files43resources/all42prior decoded/e48retained/
+USAe8-d7unchanged. Realengine.task-descriptors dependency andsource-setguard;1516B/
+4typedspans/pages124-128-3ac-3ad, noROMshadow/newguestcap/hostsequencer/save-nativeABI.
+Windows93869warningfree/Wine91663twofilters first-runPASS:13guards/publication-
+create-reuse-repair-move/lifecycle/unavailablefiles/all1516B/75events51selectors2
+same-state dispatch tables and29original-interpreter-native fullstate-clock
+prefixes. Raw event75/selector51-65535/q0/u16wrap/default-evenThumbdispatch,
+event65535aliases priorfontowner11B (notraw), samepagepaletteowner4B,4sourceedges/
+widths/mirrors/BIOS/CpuSet-FastSet/DMA/new2raw2 pass. NativeSTOP_PCguard reused,
+productionemitter/source-model unchanged; no whole event-interpreter/allocator/
+scheduler/ordinary/reachabilityclaim. Evidence windows-managed-results andmanaged-
+europe/{managed-result,native-result}.json. All3013priorartifacthashes protected;
+no failedbuild/Wine/no oldsource-native-lifecycle-ordinary proofrepeat. Targeted
+criterionclosed/no liveunitjob; ordinary must show actualevent-or-selector reads,
+notdispatch-only. Memory/finalguards follow; fullTODOgoalactive/progress/noimpasse.
+
+**ROMDATA-04-EFFECT-EVENT-DIRECTORY-CLI — complete EUR/Wine (2026-10-24).**
+Windows48886production warningfree/canonical restored; candidate119a71d75a916945d1700f611d4802e193ba20a7cfaa3e37e24f094ad8d24307.
+Wine76313 actualCLIcreate/reuse-no-write46managedfiles/cachevecchia/cwddiversa
+passes; all44generationfiles matchaccepted e49dataset544ec3669f5dd12cffd9a86dde524d279f0e9ab14daff54dc2c8a2175100c32c.
+Evidence windows-build/CLIprocesses-no-write-summary.json. Source/model/targeted/
+CLI criteria closed; no build/prepare repeat selected.
+
+**ROMDATA-05-EFFECT-EVENT-DIRECTORY-SCENE — pending positive source use.**
+Retained authentic EURPecorelle1000/classic0 locator returned0allnewcategories,
+closednegative/no fullpair. After trace6Bcommanddirectory3acebc opcode59→127458,
+5a→12746c(advance2)→128af4, checksum/ROM-authenticated retained Pecorelle/F09
+snapshots show20159d4queued-script root0. SwimmingMeet candidate hasUSAidentity,
+excludedbefore inspection/replay. Newread-only postcard decoder checks vector
+lengths andnevereditsstate. Genuine EURcoldboot3000/classic0 retainedintro.input
+locator22628 terminalPASS/exit0 but0allnewcategories: closednegative/no fullpair.
+Evidence windows-cli-school-courtyard3000.json/log andqueued-script-first-
+snapshots.json. No newfixture/input/navigation/RAM/payload edit. A later e50genuine suspend
+boot-to-battle8476 locator alsohaszero e49reads (detailsbelow). Allthreenegative
+locators stayclosed; positiveevent-or-selector ordinary/fullpair remainsopen,
+not inferredfrom targetedprefixes ordispatch-only counters. No liveunitjob.
+
+**ROMDATA-03-EFFECT-EVENT-DIRECTORY-MEMORY — complete (2026-10-24).**
+Sameconsume record/featuredocs reconciled targeted+CLIclosed/ordinarypositivepending.
+Finalpreservation passes3013priorartifacthashes/265hash-mtimeguards;243prior
+source-doc snapshot changesonly6intendedimplementation hubs/8memoryfiles, allother
+implementation/source-model/concurrentDebug-save unchanged. Default/base7597b92
+memory andCRLFwhitespace pass; runtime-final-summary/protected/source-hashes freeze
+thisscope. FullTODOgoalactive/progress/noimpasse; no livejob. Nextselect independent
+scriptcommanddirectory3acebcsourceinventory; negativeordinarylocators stayclosed.
+
+**ROMDATA-01-SCRIPT-COMMAND-DIRECTORY — bounded EUR inventory complete (2026-10-24).**
+690B/115six-bytecommands3acebc..3ad16e, independentlyboundbynextlookupreader
+literals1263c4/126468. Initial116-row candidate end3ad174rejectedbeforeplan/model:
+wouldinclude distinctlookup bytes.115unique nonnulloddThumbBXcallbacks/advanceu16,
+106halfword6wordfingerprints/43priorownersdisjoint/source-contract.json. Original
+u8opcode nocap/signedstreamcursor/u16advancewrap/return0x110 repeat andrelative
+commands0/1staylive. No assetdependency/newruntime/revision/guesttest; nextlookup
+notpromoted/semanticextentunproven. Sourceunitclosed beforemodelselection.
+
+**ROMDATA-02-SCRIPT-COMMAND-DIRECTORY-MODEL — complete EUR/Wine (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/newLinux-USA
+pending. Strict lossless115commands/690B, opcode/advanceu16/nonnullThumbBX,
+106halfword6wordcontractguards/sourcehashroundtrip; onlytwohub declarations.
+FirstWindows89555warningfree/Wine49512 failedharness line191: expectedADDSr1,
+original12660a=1840updatesr0/r1remainscursor. Correcttwoassertionsonly; typedmodel/
+sourcecontract/productionunchanged. Failedexe/log/resultretained; protected3329
+priorhashesunchanged. Requiredsmallestrepeat Windows12070warningfree, single
+Wine67188fixedcombinedfilter terminalPASS:117callback117advance115BX/4signedcursor/
+10relative-target5return-loop prefixes; all690ownedBobserved,7shape4sourceedit6JSON
+2ROMidentityguards.2905instructions67PCcoverageonly; no fullinterpreter/native/
+state-clock/ordinaryclaim. e49-d48/USAe8-d7unchanged; sourceunitclosed/no livejob.
+Evidence target/rom-data-script-commands/{source-contract.json,static-source-
+verification.json,windows-model-result.json,windows-model-fixed-result.json,
+windows-model-fixed-europe/result.json,windows-model-fixed.log}. Nooldsource/
+native/lifecycle/CLI/ordinaryproofrepeat, newfixture/navigation/payloadedit.
+Finalpreservation passes3328priorartifacthashes/265hash-mtimeguards;246source-doc
+baseline changesonlytwohubmoduledeclarations/fivememoryfiles, allotherimplementation/
+concurrentwork unchanged. Default/base7597b92memory/CRLFwhitespace pass; model-final-
+summary/protected/source-hashes freeze scope. Source/modelclosed; fullgoalactive/
+progress/noimpasse/no livejob. Nextselect e50-d49managed publication/directreads:
+script-command-directory.json/engine.script-command-directory,45files44resources,
+retainall43previousdecoded/e49/USAe8-d7; noassetdependency (callbackscode).690B
+3acebc..3ad16e/pages3ac-3ad: preserveadjacent oldevent/selector owners andrawlookup
+bytes/end2typed2raw. ReducednewWine managed/native thenproductionCLI/positiveordinary,
+reuseauthenticfixtures before newnavigation; no oldproof/contextrepeat. e49positive
+ordinaryevent-or-selector criterion remainsopenaftertwo closednegative locators.
+
+**ROMDATA-03-SCRIPT-COMMAND-DIRECTORY-RUNTIME — targeted EUR/Wine complete (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/newLinux-USA
+pending.250source-doc hashes match beforeselection; previousgoalturn progress.
+e50-d49/script-command-directory.json/engine.script-command-directory,45files44
+resources/all43prior decoded/e49retained/USAe8-d7 unchanged; noassetdependency,
+complete-setguardrequiresimmediateeffect/eventowner.690B/pages3ac-3ad reconstructed
+from115typedcommands, countersoutside state/noROMshadow/save-nativeABI change.
+Windows93228warningfree, Wine6355twofilters terminalPASS first-run:13guards/
+publication-create-reuse-repair-move/unavailablefiles/Load-Undo-backup-Restart/
+all690B/115commands;26original-interpreter-native complete-state-clock paths.
+CompiledAPI aggregate[14advance28callback]B; raw115/255/signedcursor/u16advancewrap/
+relative-targets/BL-BXcallprefix/return0x110loop pass, previousevent4B/selector4B,
+mixedprevious2new2/new2raw2, edges-widths-mirrors-BIOS-CpuSet-FastSet-DMA pass.
+314instructions70PC32nativedispatches coverageonly, notfullscript/callbackABI or
+ordinaryacceptance. STOP_PCguard reused/productionemitter/source-model unchanged.
+All3356priorartifacthashes protected, no failedbuild/Wine/newfixture/navigation/
+payloadedit orclosedoldproofrepeat. Evidence windows-managed-results andmanaged-
+europe/{managed-result,native-result}.json. Targetedcriterionclosed/no liveunitjob;
+productionCLI/positiveordinary separate pending. Fullgoalactive/progress/noimpasse.
+
+**ROMDATA-04-SCRIPT-COMMAND-DIRECTORY-CLI — complete EUR/Wine (2026-10-24).**
+Windows18103productionwarningfree/canonicalrestored; candidate9338c67c5449b4f83f9d3feea5cdb1c3572060ffad6de0e601daad7736f94a8c.
+Wine20133actualCLIcreate/reuse-no-write47managedfiles/unrelatedcwd/oldcache passes;
+all45generationfilesmatchaccepted e50datasetee8cdc1b318aecf0ef23aed4bda6dbc455d85bdab30b663d1bac8014b567f130.
+Onecleanbootframe servesactivation/cacheonly, zero newsourcebytes/notordinary
+acceptance. Evidence windows-build/CLIprocesses-no-write-summary.json;313hash-mtime
+guards. Targeted/source/model/CLIcriteria closed/no liveunitjob, nofailedchecks.
+
+**ROMDATA-05-SCRIPT-COMMAND-DIRECTORY-SCENE — complete EUR/Wine (2026-10-24).**
+Active-contextaudit traced1265cc←125b6a/manager125ac8, dynamiccallbacks125ed4/
+125f10/producers125e8c-125ed8/relativearchiveB946EC. Read-only checksum/ROM-
+authenticated63distinctEURtransitionalbootsnapshots allqueuedroot0; no repeat.
+School3000retainedimage reallyshowsdialogue, whichaloneisnotthisconsumerproof.
+Genuine retained target/desktop-perf/{ai-turn.input,ai-turn.input.sav} EURsuspend
+boot-to-battle8476/classic240x160 givesoneWine81783 actuale50CLIpositive locator:
+42B=14advance28callback/7commands. e49event-selector-dispatch remainsall0: third
+closednegative/noevent-requiredfullpair; do notrepeatforcontext.
+OneWine93633 fullpair fromactualCLIpublished e50generation terminalPASS first-run:
+every8476fullstate/clock/central-widebuffer/OAM/dispatch andmixed-PSG-FIFO-bitwiseHLE
+sampleequal; same42B/7commands. Audio[18599928,18599928,2236876,2236876,18578590].
+Alreadybuiltrecomp-tests-managed.exe/currentexe/dataset/cache reused; no build/
+prepare/source/native/lifecycle oroldfamilyproofrepeat, newfixture/navigation/
+input/save-RAM-payloadedit. Other108commands targeted-only; no wholecallback/
+scriptinterpreterABI/new32:9/Linux-USA-nativeWindows claim. Evidence windows-cli-
+battle-entry8476.json/log andwindows-scene-result.json/windows-battle-entry-script-
+full-state-audio.log.316hash-mtimeguardspass. No livejob/remainingdeclared e50
+source-runtime-CLI-positiveordinarycriterion; fullTODOgoalactive/progress/noimpasse.
+
+**ROMDATA-03-SCRIPT-COMMAND-DIRECTORY-MEMORY — complete (2026-10-24).**
+Sameconsume record/featuredocs reconcile targeted+CLIclosed/ordinarypositivepending.
+Finalpreservation passes3356priorartifacthashes/313hash-mtimeguards;250source-doc
+baseline changesonlysixintendedimplementation hubs/eightmemoryfiles, allother
+implementation/source-model/concurrentDebug-save unchanged. Default/base7597b92
+memory andCRLFwhitespace pass; runtime-final-summary/protected/source-hashes freeze
+thisscope. The subsequentordinaryaudit/fullpair isclosedabove; thissnapshot
+retainsitsthen-pendingordinaryscope. Fullgoalactive/progress/noimpasse/no livejob. e49positiveevent-or-selector remainsopen. Otherasset/
+GUI/archive/modcriteria remainfullgoal; no performance/Android/commit/push.
+
+**ROMDATA-05-SCRIPT-COMMAND-DIRECTORY-MEMORY — complete (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/Linux-USA
+pending. Sourceaudit/CLIpositive/onefullpair terminalacceptedabove/no livejob.
+Sameconsume record/featuredocs close declared e50source-runtime-CLI-ordinary;
+e49positiveevent-or-selector remainsopen afterthreeclosednegative locators.
+Finalpreservation passes3671priorartifacthashes/316hash-mtimeguards;253source-doc
+baseline changesonly11intendedmemoryfiles, allimplementation/source-model/
+concurrentDebug-save unchanged. Default/base7597b92memory/CRLFwhitespace pass;
+ordinary-final-summary/protected/source-hashes freezecompleted e50scope. No new
+fixture/navigation/payloadedit/build/prepare/oldsource-native-lifecycle-CLI repeat.
+Fullgoalactive/progress/noimpasse; otherasset/GUI/archive/modcriteria remainopen.
+
+Nextunitcandidate: rootedevent-key/relative-scriptarchive inventory toadvance
+otherassetmigration ande49contextsearch, notredo e50oracle/runtime/ordinary.
+Correctedread-only key-reader candidate08aa0wasrejected beforepromotion (manualBL
+lowhalf omitted); actual09aa0returnsD68C2C+(u16id*4), independentnextrootD68FD4
+at128994suggests234four-bytekeys. ArchiveB946ECfirstoffsetF8suggests62topbanks.
+Thesearecandidatesonly; prove nestedsource/last-bank boundaries/dependencies before
+plan/model. No globalu16ID/u8key cap orcompletearchive claim. Existingcurrentexe/
+dataset/oldcache/testexeandallapprovedfixtures available. No newunitselectedyet;
+recordselectioncheckpoint beforemutation/expensivework. Linux-USA-nativeWindows
+remainpending; no performance/space/Android/commit/push.
+
+**Selection checkpoint — ROMDATA-01-SCRIPT-ARCHIVE (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/Linux-USA
+pending. Previousgoalturn progress: e50declaredsource-runtime-CLI-ordinary closed
+inordinary-final-summary/no livejob;253source-doc hashesmatch. Missingnextsource
+contract forD68C2Ceventkeys/relativearchiveB946EC: originalfield readers/domains,
+independentbounds/nestedbanks/lastbank/aliases/commandlinks and44ownerdisjointness.
+Nextnew offline disassembly1289xxneighbor plus authenticatedrelativeheader/layout
+inspection andindependentrootsearch. Candidate234keys/62banks notacceptedcounts;
+no countfrompointershape, newguestcaps orwholearchive claim. Inventoryonly until
+boundaries/fieldsareproved; no oldsource/native/lifecycle/CLI/ordinary proofrepeat,
+newfixtures/navigation/payloadedit orguesttests. Close inventory outcome before
+modelselection. e49positiveordinaryremainsopenafter3closednegativecontexts.

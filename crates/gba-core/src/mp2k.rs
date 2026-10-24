@@ -162,12 +162,13 @@ const DPCM_LUT: [i8; 16] = [
 ];
 
 /// Read-only view of the guest memory regions sample data can live in.
-/// Side-effect free by construction — snapshotting and rendering must
-/// never perturb emulation (no I/O reads, no waitstates).
+/// Guest state stays read-only (no I/O reads or waitstates); typed-source
+/// usage counters are host metadata and never enter snapshots.
 pub struct MemView<'a> {
     pub rom: &'a [u8],
     pub ewram: &'a [u8],
     pub iwram: &'a [u8],
+    pub resources: Option<&'a crate::rom_data::RuntimeResources>,
 }
 
 impl<'a> MemView<'a> {
@@ -183,13 +184,21 @@ impl<'a> MemView<'a> {
         region.get(off..off.checked_add(len)?)
     }
 
-    pub fn u8(&self, addr: u32) -> Option<u8> {
-        self.slice(addr, 1).map(|s| s[0])
+    /// Read values through the typed audio owner while preserving RAM and raw-gap behavior.
+    pub fn bytes<const N: usize>(&self, addr: u32) -> Option<[u8; N]> {
+        let raw = self.slice(addr, N)?;
+        if matches!(addr >> 24, 0x08..=0x0d) {
+            if let Some(value) = self.resources.and_then(|r| r.audio_host_read::<N>((addr & 0x01ff_ffff) as usize, self.rom)) {
+                return Some(value);
+            }
+        }
+        Some(std::array::from_fn(|i| raw[i]))
     }
-
+    pub fn u8(&self, addr: u32) -> Option<u8> {
+        self.bytes::<1>(addr).map(|v| v[0])
+    }
     pub fn u32(&self, addr: u32) -> Option<u32> {
-        self.slice(addr, 4)
-            .map(|s| u32::from_le_bytes([s[0], s[1], s[2], s[3]]))
+        self.bytes::<4>(addr).map(u32::from_le_bytes)
     }
 }
 
@@ -709,7 +718,7 @@ impl Mp2kHle {
 /// per-voice and per-note (the upstream v1.8.1 hardening lesson).
 /// Free function: the caller holds a split borrow of `voices[ch]`.
 fn note_on(v: &mut Voice, mem: &MemView, ctype: u8, count: u32, wav: u32, count_mode: u8) -> bool {
-    let Some(h) = mem.slice(wav, 16) else {
+    let Some(h) = mem.bytes::<16>(wav) else {
         return false;
     };
     let hdr_type = u16::from_le_bytes([h[0], h[1]]);
@@ -798,7 +807,7 @@ fn fetch(v: &mut Voice, mem: &MemView, idx: u32) -> f32 {
     // nibble, odd k the low — byte 1's high nibble is never read.
     let blk = idx >> 6;
     if blk != v.blk_idx {
-        let Some(b) = mem.slice(v.data + blk * 33, 33) else {
+        let Some(b) = mem.bytes::<33>(v.data + blk * 33) else {
             return 0.0;
         };
         let mut cur = b[0] as i8;
@@ -864,6 +873,7 @@ mod tests {
         let (iwram, rom, _) = synth_guest();
         let ewram = vec![0u8; 0x4_0000];
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,
@@ -901,6 +911,7 @@ mod tests {
         iwram[s..s + 4].copy_from_slice(&0x6873_6D53u32.to_le_bytes());
         let ewram = vec![0u8; 0x4_0000];
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,
@@ -922,6 +933,7 @@ mod tests {
         iwram[s + 0x50 + 0x24..s + 0x50 + 0x28].copy_from_slice(&0x0500_0000u32.to_le_bytes());
         let ewram = vec![0u8; 0x4_0000];
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,
@@ -944,6 +956,7 @@ mod tests {
             *b = i as u8; // ramp 0..,  values < 128 stay positive
         }
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,
@@ -986,6 +999,7 @@ mod tests {
         rom[1] = 0xFF; // high nibble must be IGNORED (SDK never reads it)
         rom[2] = 0x12; // sample2 += LUT[1]=1, sample3 += LUT[2]=4
         let mem = MemView {
+            resources: None,
             rom: &rom,
             ewram: &ewram,
             iwram: &iwram,

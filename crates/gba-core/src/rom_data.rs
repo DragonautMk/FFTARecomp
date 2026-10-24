@@ -50,6 +50,7 @@ pub mod blend_programs;
 pub mod task_descriptors;
 pub mod effect_event_directories;
 pub mod script_commands;
+pub mod script_archive;
 mod custom_lz;
 pub mod lz77;
 

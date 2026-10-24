@@ -73,10 +73,55 @@ colorati come codice ROM solo perché ne è noto il contenitore misto.
 
 ## Rigenerazione
 
-Richiede Python 3.11+, Rust/Cargo e `nm` per leggere i simboli della cache ELF
-locale (l'estensione `.dll` di questa cache non ne cambia il formato). Non
-ricompila la traduzione e non esegue il gioco. Si compila soltanto il piccolo
-esportatore di metadati del progetto, senza modificare gli eseguibili runtime:
+Con Docker non serve installare Python, Rust/Cargo o `nm` sull'host. Su Windows
+avviare Docker Desktop con **container Linux**, poi da PowerShell:
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1
+```
+
+Su Linux, con Docker e Buildx:
+
+```bash
+bash scripts/linux/rom_coverage_docker.sh
+```
+
+Entrambi usano il target `coverage` di `Dockerfile.linux`: tutti gli strumenti
+sono nel container, compreso l'esportatore di metadati compilato dal sorgente.
+Non ricompilano la traduzione, non costruiscono il runtime e non eseguono il
+gioco. Restano necessari gli input locali della baseline **EUR e37-d36**:
+
+- ROM: `rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba`.
+- Dataset già estratto: `target/rom-data-rank-gates/windows-managed-europe/offline dataset`.
+- Cache ELF conservata: `out/1194 - Final Fantasy Tactics Advance (E)(Surplus).dll`.
+- Prove: `docs/development/rom-coverage/evidence.json` e record versionati.
+
+L'estensione `.dll` non cambia il formato ELF della cache. ROM, dataset,
+cache e file delle prove vengono montati **in sola lettura**, solo durante
+l'esecuzione. La build non riceve dati privati. Il container di generazione
+usa la rete disabilitata; la prima build può scaricare le dipendenze.
+L'output predefinito è `docs/development/rom-coverage/{index.html,coverage.json}`.
+Su Linux i file appartengono all'utente che avvia lo script.
+
+Per percorsi diversi o una cartella di output separata:
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1 -DatasetDir 'D:\FFTA dati\e37' -OutputDir 'target/coverage-preview'
+```
+
+```bash
+bash scripts/linux/rom_coverage_docker.sh --dataset '/dati/FFTA e37' --output target/coverage-preview
+```
+
+Le altre opzioni sono `-RomPath`, `-TranslationPath`, `-EvidencePath` in
+PowerShell e `--rom`, `--translation`, `--evidence` in Bash. Tutti i percorsi
+relativi partono dalla radice del progetto, anche avviando il launcher da
+un'altra cartella. Gli spazi sono supportati; virgole, doppi apici e ritorni
+a capo nei percorsi non sono supportati dalla sintassi dei mount.
+Docker deve poter accedere ai percorsi host (condivisione file in Docker Desktop).
+
+L'alternativa per sviluppatori con Python 3.11+, Rust/Cargo e `nm` già installati
+rimane disponibile:
 
 ```sh
 cargo build --release --locked --offline -p recomp-core --example rom_code_ranges
@@ -101,3 +146,11 @@ asset decoded e codice generato restano fuori dai file versionati. Nessun nuovo
 benchmark, registrazione o test runtime accettato è stato ripetuto per la mappa.
 La validazione del report comprende conteggi contro un modello indipendente
 di insiemi di byte, generazione reale autenticata e controlli del browser.
+
+Il percorso Docker è verificato con una generazione reale EUR su Linux:
+conteggi/intervalli/report coincidono con la fotografia, salvo l'hash
+dell'eseguibile analizzatore compilato nel container. Tutti i 38 file protetti
+(input e fotografia pubblicata) restano invariati. Cinque controlli Bash passano
+senza Python/Cargo/`nm` nel PATH del launcher; sette casi PowerShell 7.4 passano
+con Docker simulato su Linux. Windows nativo/PowerShell 5.1 e Docker Desktop
+non sono stati verificati direttamente. Le prove non aggiornano la baseline.

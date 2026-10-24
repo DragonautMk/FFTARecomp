@@ -129,6 +129,37 @@ outputs belong to the host user. Five Bash argument/error tests pass. Six
 PowerShell 7.4 cases with a simulated Docker command run inside its Linux
 container; native Windows PowerShell 5.1/Docker Desktop remain unverified.
 
+## ROM coverage atlas
+
+The coverage generator also runs entirely through Docker, including Python3.11,
+Cargo and `nm`. With Docker Desktop using Linux containers on Windows:
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1
+```
+
+On Linux:
+
+```bash
+bash scripts/linux/rom_coverage_docker.sh
+```
+
+Both build the `coverage` target in `Dockerfile.linux`, then generate
+`docs/development/rom-coverage/index.html` and `coverage.json`. Only the metadata
+helper is compiled; runtime builds, packaging, translation and gameplay are not
+run. ROM, retained ELF translation and the existing authenticated dataset stay
+outside the image and are mounted read-only, along with the evidence JSON.
+Generation runs with `--network none`; Linux forwards the caller's UID/GID.
+BuildKit reuses the native Cargo caches and may need network on a cold build.
+
+Defaults reproduce the frozen EUR e37-d36 atlas and require its local inputs;
+this wrapper does not extract a newer dataset or update the evidence baseline.
+Override `-RomPath/-DatasetDir/-TranslationPath/-OutputDir/-EvidencePath` in
+PowerShell or `--rom/--dataset/--translation/--output/--evidence` in Bash. All
+relative paths start at the repository root; spaces are accepted, commas,
+double quotes and newlines are rejected. Use a separate output directory for
+previews. See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
+
 ## Environment and compatibility
 
 `Dockerfile.windows` copies the pinned Rust 1.94.0 toolchain from the same

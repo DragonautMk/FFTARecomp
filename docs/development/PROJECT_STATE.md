@@ -176,6 +176,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   42B=14advance28callback/7commands. Other108commands targeted-only; new32:9/Linux-
   USA-nativeWindows pending. No whole script interpreter ABI/new opcode cap.
 
+- The [EUR relative script archive source contract](../rom_data_scripts.md#relative-script-archive-and-event-key-source-contract)
+  identifies115464B/two independently bounded ranges:234event keys,62topbanks/
+  233slots,207physical command segments/35048stored instructions, explicit
+  repeated/header/fill target views and45FFfillspans.493links use49existingeffect
+  selectors; command/effect assets are actual dependencies. Static exact-byte/
+  address/fingerprint/disjointness checks pass. Typed model/Wine/runtime/ordinary
+  remain pending, e50-d49/USAe8-d7 unchanged. Five linked localized text archives
+  remain unmigrated; byte arguments/live control flow are not given new guest caps.
+
 - The root Cargo workspace and `AndroidPort/` are separate trees. A root fix
   does not automatically update AndroidPort.
 - `crates/recomp/src/play.rs` connects the desktop event loop, input, menu and
@@ -213,7 +222,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   code-candidate/data/runtime-availability/ordinary-use/sharing/unknown layers.
   Aggregate source counters do not establish distinct bytes read; candidate
   code/data overlaps remain explicit classification conflicts. Regenerate with
-  `scripts/rom_coverage.py` only after reviewing the baseline/evidence registry.
+  `scripts/windows/rom_coverage_docker.ps1` or
+  `scripts/linux/rom_coverage_docker.sh` after reviewing the baseline/evidence
+  registry. Docker bundles Python/Cargo/nm and the metadata helper; only the
+  existing ROM/dataset/ELF inputs are mounted read-only at run time. The host
+  needs Docker, without Python or Rust. The direct Python entry remains optional.
   EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
   roots reference66lists/160objects. Source-authenticated JSON fields now feed
   original CPU/DMA/native and host descriptor readers without changing guest

@@ -1,4 +1,4 @@
-# European script command directory
+# European script resources
 
 The bounded EUR source projection contains 115 six-byte command records at
 `3acebc..3ad16e` (690 bytes). Each has a little-endian u16 stream advance and an
@@ -139,3 +139,65 @@ atB946EC using an event key returned by08009aa0 (sourceD68C2C). The complete arc
 and event-key projections are not yet migrated; their domains/bounds are a new
 inventory task. A read-only audit of63distinct retained EUR transitional boot
 snapshots had queued root0 and did not establish an active context by itself.
+
+## Relative script archive and event-key source contract
+
+The next bounded EUR source contains the relative archive at`B946EC..BB064C`
+(114528bytes) and234four-byte event keys at`D68C2C..D68FD4` (936bytes), totaling
+115464bytes in two disjoint ranges. Both ends come from independently rooted
+readers: the localized-text fallback at`08009b04` names`BB064C`, and the coordinate
+index reader at`08128922` names`D68FD4`. Neither extent is guessed from byte values.
+The ranges are disjoint from all44published e50resource owners.
+
+`08009aa0` returns`D68C2C + (u16(id)*4)`. Each key contains a script bank byte,
+script index byte, text-bank selector byte and one preserved raw byte. The script
+producer at`08125e98..08125eae` selects top-level bank`(bank-1)*4`, adds its u32
+relative offset to`B946EC`, then adds a second u32 relative offset to that bank's
+base. Key0is a null source record; this does not create a guest ID0guard. Raw IDs
+234/239/65535 and all original truncation/address behavior remain outside the
+projection contract.
+
+All234key domains independently agree with62top-level banks and all233nested
+slot domains. The self-delimiting first relative offsets agree with the same
+index lengths:248top-level bytes and932nested-index bytes. There are213distinct
+target addresses and20repeated links. Five links name four other bank headers;
+two additional links (bank46:slot1 and bank49:slot1) name only FFalignment fill.
+Those target views remain explicit. They are not rejected, flattened into copied
+programs or declared unreachable.
+
+The remaining physical storage partitions into207nonempty command segments,
+35048stored commands using110opcodes,78212raw parameter bytes and45alignment-fill
+spans totaling88bytes. Instruction lengths come from the authenticated
+[command directory](#boundaries-and-original-consumers). The one-to-three-byte
+FFfills end at independently established bank/end alignment boundaries. This is
+a storage partition, not a linear execution graph, complete argument semantics
+or proof that a guest can never read alignment bytes.
+
+There are493canonical command5a references to49of the existing51effect selectors:
+its u8 parameter q references selector`q-1`. These links and every command's
+opcode/length establish actual dependencies on`engine.effect-event-directories`
+and`engine.script-command-directory`. Other script arguments remain uninterpreted
+byte parameters; relative branches and live cursors keep their original semantics.
+No new guest q/opcode/ID cap is inferred from this decoded source projection.
+
+The original key byte2consumer at`08009b28` selects a bank in one of five localized
+text archives (`BB064C`, `C076F0`, `C5FBF0`, `CB7C48`, `D10644`). These archives are
+not yet migrated. Text bank61also has a live variant path at`08009b3a..08009b64`;
+it is not flattened into a fixed text choice. Byte3is preserved without assigning
+unproved semantics.
+
+Independent static verification reconstructs and hashes every115464source byte
+exactly once, verifies234key records and233non-null two-level address formulas, all493selector
+links,128original-instruction halfwords and five root words. The first private
+builder incorrectly required every nonheader target to contain commands; its
+assertion exposed the two FFfill targets and was corrected before writing the
+source plan. No model/code/build/guest test was produced from that assumption.
+The earlier candidate end`BB0000` was also excluded: the last script head is at
+`BB048B`, before the independently rooted end`BB064C`.
+
+This completes the bounded static inventory. Strict typed model, one reduced
+Wine original-reader oracle, managed publication, direct runtime and ordinary
+acceptance are still pending. EUR remains e50-d49/USAe8-d7. No new Linux/USA test
+or performance/space measurement is added. Private evidence is in
+`target/rom-data-script-archive/source-contract.json`,
+`static-source-verification.json` and the retained reader disassemblies.

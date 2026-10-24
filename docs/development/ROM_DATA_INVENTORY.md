@@ -1009,3 +1009,20 @@ EURsuspendboot-to-battle fullstate-clock-image-OAM-dispatch-audio pair pass
 42B=14advance28callback/7commands. Other108commands targeted-only; new32:9/Linux-
 USA-nativeWindows pending.
 [Contract, evidence and limits](../rom_data_scripts.md).
+
+## European relative script archive and event keys
+
+Bounded static inventory identifies115464B/two disjoint ranges:114528Barchive at
+B946EC..BB064C and936B/234keys atD68C2C..D68FD4. Independent localized-text and
+coordinate-index roots bound both ends. Keydomains/first relative offsets agree
+with62topbanks/233nestedslots (248+932indexB).213unique targets/20repeated links
+include5headeralias links and2FFfill links.207nonempty physical command segments
+contain35048storage instructions/110opcodes/78212parameterB;45FFfillspans88B remain
+readable.493command5alinks target49existing effectselectors; actualdependencies
+areengine.script-command-directory andengine.effect-event-directories. Keybyte2
+selects one of five unmigrated localized text archives; byte3raw is preserved.
+Independent reconstruction/234keys/233nonnulltargetformulas/128halfword5wordfingerprints/
+all115464B/disjoint44owners pass without guestexecution. First builder's empty-
+program assertion exposedtwofilltargets; correctedbeforeplanwritten. Notlinear
+CFG/wholeargument semantics/reachability/newguestcaps. Typed model/Wine/runtime/
+ordinary pending, e50-d49/USAe8-d7 unchanged. [Contract](../rom_data_scripts.md#relative-script-archive-and-event-key-source-contract).

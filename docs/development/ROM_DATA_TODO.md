@@ -2044,9 +2044,22 @@ solamente; non intera ABI/new32:9. e49event/selector/dispatch0: terzo locator
 negativo chiuso, niente fullpair richiesto per eventi.316hash-mtimeguards passano.
 [Scena](../rom_data_scripts.md#production-cli-and-positive-ordinary-scene).
 
-**Prossima azione:** record/guardie ordinari e50 completati; inventario radicato
-delle chiavi evento e archivio script relativo collegato al produttore. Provare
-limiti indipendenti e dipendenze prima di piano/modello; nessun cap guest dedotto.
-Source/model/targeted/CLI/ordinary dichiarati e50 chiusi; e49positiveordinary ancora
-aperto dopo tre locator negativi chiusi. Linux/USA/Windowsnativo e altri asset/
-GUI/archivi/mod restano dafare; nessuna misura performance/spazio.
+**ROMDATA-01-SCRIPT-ARCHIVE completato nell'inventario statico EUR (2026-10-24):**
+115464B/2range: archivio relativo114528B B946EC..BB064C e234chiavi4B/936B
+D68C2C..D68FD4. Limiti da root indipendenti testo localizzato/coordinatedirectory.
+Domini delle chiavi e primi offset concordano con62banchi/233slot,248+932B indici.
+213target distinti/20link ripetuti includono5link aheader e2aFFfill: conservati,
+non respinti/marcati morti.207segmenti fisici/35048comandi/110opcode/78212paramB;
+45fillspan88B.493link5a verso49selettori esistenti e dipendenza reale dai comandi.
+Byte2chiave seleziona cinque archivi testo ancora nonmigrati; byte3raw conservato.
+Ricostruzione indipendente/tutti115464B/234chiavi/233formule target non-null/128halfword5wordguard/
+disgiunto44owner passano senza guestexecution. Prima assunzione di programma
+nonvuoto respinta su46:1/49:1; corretta prima del piano. Non CFG/intera semantica
+argomenti/reachability/nuovi cap guest. Modello/Wine/runtime/CLI/ordinary aperti;
+e50-d49/USAe8-d7 invariati. [Contratto](../rom_data_scripts.md#relative-script-archive-and-event-key-source-contract).
+
+**Prossima azione:** record/guardie inventario completati; modello typed
+lossless dell'intero ambito115464B con alias header/fill espliciti, e un solo
+oracolo Wine nuovo. Non rifare source/runtime/CLI/ordinary e50 conclusi; e49uso
+ordinario positivo resta aperto dopo tre locator negativi. Altri asset e fasi
+GUI/archivi/mod rimangono nel TODO completo, Linux/USA/Windowsnativo dafare.

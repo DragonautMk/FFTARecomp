@@ -3,6 +3,36 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-24 — Run ROM coverage generation in Docker from Windows and Linux
+
+Type: added. Platforms: Linux/Docker, Windows/Docker tooling.
+
+**Changes**
+
+- Add Bash and PowerShell ROM coverage launchers using a dedicated coverage target in Dockerfile.linux. Python3.11, Cargo, nm and the rom_code_ranges metadata exporter run inside Docker, so neither host needs Python, Rust or binutils.
+- Reuse the pinned native Linux source stage and Cargo caches, compile only the metadata example, and copy the generator/template/public evidence records into the image. Preserve existing extraction, portable build and test/export targets.
+- Mount the existing ROM, authenticated dataset, retained ELF translation and selected evidence JSON read-only at run time, with network disabled; only report output is writable. Linux forwards UID/GID. Keep private-data exclusions while allowing the selected public coverage inputs and JSON change records in Docker context.
+- Provide root-relative defaults for the frozen EUR e37-d36 inputs, named overrides including evidence/output, paths with spaces, validation for missing inputs and CSV-unsafe paths, and build/run failure propagation. Document Docker as the primary regeneration route while retaining direct Python for developers.
+
+**Validation**
+
+- Actual Bash launcher builds the coverage image and generates authenticated EUR e37-d36 JSON/HTML under ignored target/rom-coverage-docker/report. The release metadata-helper build completes without warnings. No game execution, runtime build, translation rebuild or broad packaging test campaign is performed.
+- Report comparison matches every field except code.analyzer_executable_sha256, which identifies the container-compiled helper. All38 protected ROM/dataset/translation/database/published-report files retain their hashes; generated files belong to the host UID/GID. The frozen versioned atlas is unchanged.
+- Five ROM-free Bash/mock-Docker checks pass for default/spaced paths from unrelated cwd, named overrides, read-only input mounts and isolated output, missing inputs, build/run failures and invalid options/CSV paths. Child PATH deliberately contains no Python, Cargo or nm. Bash syntax and containerized ShellCheck pass.
+- Seven PowerShell7.4.6/mock-Docker cases pass in the existing Linux image without a Docker socket or game inputs: default/spaced paths, relative overrides/absolute output, build/run failures, missing manifest, CSV/empty path rejection and missing Docker. Initial harness image invocation failed before script execution because its entrypoint was omitted; corrected invocation is retained separately and passes.
+- Unmounted coverage-image inspection finds no ROM, save, input recording, retained DLL/EXE, host dataset or personal runtime directory under the workspace, and confirms the metadata helper is available. Logs/results and source hashes are retained locally under ignored target/rom-coverage-docker.
+- Project-memory coverage, relative documentation links and git diff --check pass. Concurrent source-inventory record/document changes are preserved; no previous gameplay or packaging acceptance is repeated.
+
+**Limitations**
+
+- Native Windows PowerShell5.1/Docker Desktop and non-amd64 hosts remain unverified; the PowerShell checks run on Linux with a simulated Docker CLI. Windows requires Docker Desktop Linux containers and host-path access.
+- The wrapper requires the existing local inputs matching the evidence baseline. It does not extract current data, update frozen EUR e37-d36 evidence, infer later coverage, or perform runtime/gameplay/performance/AndroidPort validation.
+- Only orchestration and documentation are changed; concurrent script-archive inventory work is preserved and retains its own record. No commit or push is performed.
+
+Documentation: [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [docker.md](docs/docker.md), [2026-10-23-map-overall-european-rom-coverage.json](docs/changes/2026-10-23-map-overall-european-rom-coverage.json).
+
+[Change record](docs/changes/2026-10-24-run-rom-coverage-with-docker.json)
+
 ## 2026-10-24 — Reclassify apparent audio roots as memory helpers and palette-effect dispatch
 
 Type: docs. Platforms: Windows, Wine.
@@ -25,6 +55,33 @@ Type: docs. Platforms: Windows, Wine.
 Documentation: [rom_data_graphics.md](docs/rom_data_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-24-reclassify-european-palette-effect-sources.json)
+
+## 2026-10-24 — Identify the European relative script archive and event-key source contract
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Bound114528archive bytes atB946EC..BB064C and234four-byte event keys/936B atD68C2C..D68FD4 using independent localized-text and coordinate-index reader roots. Key domains and first relative offsets agree on62topbanks/233slots; all115464B are disjoint from44published e50owners.
+- Classify213distinct target addresses/20repeated links, including five header-target links and two FFfill-target links. Preserve207nonempty physical command segments/35048stored instructions, raw parameter bytes and45alignment spans; do not infer linear control flow, whole argument semantics or unreachable data.
+- Identify493command5a references to49existing effect selectors and actual command/effect dependencies. Name the third event-key byte as the original text-bank selector; keep byte3raw and five unmigrated localized text archives/live textbank61variant explicit.
+
+**Validation**
+
+- Previous goal turn completed e50ordinary acceptance; ordinary-final-summary terminal/no livejob and253source/doc hashes match. No old source/native/lifecycle/CLI/ordinary evidence repeated for context.
+- Independent static verification reconstructs/hashchecks all115464B exactly once,234key records/233non-null original two-level target formulas,128instruction halfwords/five root words, all493selector links, actual dependency file hashes and disjointness from44owners. No guest execution, build or new Wine test.
+- First private plan builder rejects an assumption that every nonheader target contains instructions. Slots46:1/49:1 point only to FFfill; classify them explicitly before plan publication. The initial BB0000search range is too short; lastheadBB048B and independent nextrootBB064C establish the real end. Exclude unaligned08BC02xxopcode patterns as literal-root evidence. No implementation/model/test is produced from rejected assumptions.
+- Inventory preservation passes3693prior artifact hashes/316hash-mtimeguards. Against253prior source/doc hashes, only six intended memory files change; every prior implementation/source-model file and concurrent Debug-save file in that snapshot is unchanged. No implementation is changed by this inventory unit.
+
+**Limitations**
+
+- This closes the bounded static inventory only. Strict model/reduced Wine original-reader oracle/publication/direct runtime/CLI/positive ordinary remain pending. Current EUR e50-d49/USAe8-d7 stay unchanged; no whole script interpreter/callback ABI, global guest bounds or all-argument semantic claim.
+- All known original truncation/raw key0/234/239/65535/q0 behavior remains authoritative. Five localized text archives and textbank61dynamic variant are unmigrated; other asset/GUI/archive/mod criteria and new Linux/USA/native Windows checks remain open. No performance or space measurements, fixture/navigation/payload edits, Android changes, commit or push.
+- Concurrent work advanced HEAD toaff8a9b and introduced separate coverage-Docker wrappers/tests. Do not attribute or modify that work in this inventory record. Full project-memory checks now report missing coverage for those concurrent files; this unit uses the metadata-only check for its records/generated changelog and retains the global failure explicitly until their own record is provided.
+
+Documentation: [rom_data_scripts.md](docs/rom_data_scripts.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-24-inventory-european-script-archive.json)
 
 ## 2026-10-24 — Trace European palette programs through bounded literal and indexed producers
 

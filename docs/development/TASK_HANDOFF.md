@@ -6,6 +6,24 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **ROM-COVERAGE-DOCKER — complete (2026-10-24).** Latest request implemented:
+  Bash/PowerShell launchers build/run Dockerfile.linux coverage target, bundling
+  Python3.11/Cargo/nm and the metadata exporter. No host Python/Rust toolchain.
+  Existing ROM/dataset/ELF/evidence mounted read-only, output only writable,
+  network disabled; Linux UID/GID retained. Defaults stay frozen EUR e37-d36,
+  all relative overrides start at repo root. Primary commands in ROM_COVERAGE.md
+  and docs/docker.md. Real isolated Docker generation passes; every report field
+  matches except container-helper binary SHA.38protected input/published-file
+  hashes unchanged, output host-owned, image private-input probe clean.
+  Five Bash checks pass with no Python/Cargo/nm in child PATH; syntax/ShellCheck
+  pass. Seven PowerShell7.4.6/mock-Docker checks pass in Linux container without
+  socket/game data; first harness invocation lacked image entrypoint, corrected
+  runner passes. Native Windows/PS5.1/DockerDesktop/other arch unverified.
+  Evidence under ignored target/rom-coverage-docker/. Project-memory/whitespace
+  pass; no live task process, atlas baseline update, game/runtime build, old
+  scene/benchmark repeat, commit or push. Concurrent script-archive memory
+  preserved. No remaining task action. [Record](../changes/2026-10-24-run-rom-coverage-with-docker.json).
+
 - **DEBUG-SAVES-FINALIZE-RESUMED — increment complete; overall scene coverage
   remains partial (2026-10-23).** Latest request explicitly resumed exploration
   and authorized ordinary saves/snapshots. Ready catalog17validated/6partial/
@@ -3937,15 +3955,74 @@ dataset/oldcache/testexeandallapprovedfixtures available. No newunitselectedyet;
 recordselectioncheckpoint beforemutation/expensivework. Linux-USA-nativeWindows
 remainpending; no performance/space/Android/commit/push.
 
-**Selection checkpoint — ROMDATA-01-SCRIPT-ARCHIVE (2026-10-24).**
+**ROMDATA-01-SCRIPT-ARCHIVE — bounded EUR inventory complete (2026-10-24).**
 Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/Linux-USA
-pending. Previousgoalturn progress: e50declaredsource-runtime-CLI-ordinary closed
-inordinary-final-summary/no livejob;253source-doc hashesmatch. Missingnextsource
-contract forD68C2Ceventkeys/relativearchiveB946EC: originalfield readers/domains,
-independentbounds/nestedbanks/lastbank/aliases/commandlinks and44ownerdisjointness.
-Nextnew offline disassembly1289xxneighbor plus authenticatedrelativeheader/layout
-inspection andindependentrootsearch. Candidate234keys/62banks notacceptedcounts;
-no countfrompointershape, newguestcaps orwholearchive claim. Inventoryonly until
-boundaries/fieldsareproved; no oldsource/native/lifecycle/CLI/ordinary proofrepeat,
-newfixtures/navigation/payloadedit orguesttests. Close inventory outcome before
-modelselection. e49positiveordinaryremainsopenafter3closednegativecontexts.
+pending. Previousgoalturn progress e50source-runtime-CLI-ordinaryterminalclosed/
+ordinary-final-summary;253source-doc hashesmatch/no livejob. Newsourcecontract:
+114528BrelativearchiveB946EC..BB064C +936BkeysD68C2C..D68FD4 =115464B/2ranges,
+disjoint44e50owners. Independentlocalized-textfallback09b04→BB064C andcoordinate-
+index128994→D68FD4 boundphysicalspans.234keydomains match62topbanks/233nestedslots,
+index248+932=1180B.213uniqueheads/20repeatedlinks:207nonemptyphysicalprogram
+segments plus4headeraliasheads(5links) and2FFfillheads.35048storagecommands/
+110opcodes/78212rawparameterB;45FFfillspans88B. Storagepartition, notlinearCFG/
+wholecallbackABI/reachability.493opcode5aq1..51links to49existingeffectselectors;
+actualdependencies engine.script-command-directory andengine.effect-event-directories.
+Keyfields scriptbanku8/indexu8/textbanku8/byte3rawu8; key0nullphysicalrecord,
+rawu16IDs234/239/65535andq0guestbehavior notcapped. Textbank61dynamicvariant andfive
+localizedtextarchives remainoriginal/unmigrated, noflattening/fakeassetdependency.
+128halfword5wordfingerprints. Independentstatic-source-verification passesexact
+2rangeSHA/all115464Breconstruction/everyphysicalbyteonce/234keys/233nonnulloriginaltwo-level
+addressformulas/header-fillaliases/493selectorlinks/disjoint44owners. Firstprivate
+builder rejected assumption thatevery nonheaderhead hascommands: slots46:1BA9D8B/
+49:1BAAD6DareFFfill; correctedfirst-classclassification beforeplanwritten. Initial
+archive searchBB0000wastooshort(lastheadBB048B); actualindependentBB064C retained.
+Unaligned08BC02xxThumbbytepatterns excludedasliteralroots. No code/revision/build/
+Wine/guestexecution/newfixture/navigation/payloadedit oroldproofrepeat. Evidence
+source-contract.json/static-source-verification.json andretainedoriginalreaders
+under target/rom-data-script-archive. Sourceunitclosed beforemodelselection.
+
+**ROMDATA-01-SCRIPT-ARCHIVE-MEMORY — inventory scope complete (2026-10-24).**
+Sameinventoryrecord/featuredocs/TODO/STATE updated.3693priorartifacthashes/316
+hash-mtimeguards pass;253source-doc baseline changesonlysixintendedmemoryfiles,
+allpriorimplementation/source-model/Debug-save snapshotfiles unchanged. e50unit
+staysclosed, e49positiveordinarypending. No livejob; fullgoalprogress/noimpasse.
+ConcurrentHEADadvancedtoaff8a9b (notagentcommit) andnewseparatecoverageDockerwork
+in.dockerignore/Dockerfile.linux/scripts/{linux/rom_coverage_docker.sh,windows/
+rom_coverage_docker.ps1,tests/test_rom_coverage_docker.py} appeared. Preserve/read-
+only; notours/notcoveredbythisinventoryrecord. Latestfullmemorychecks default/
+base7597b92reportthoseconcurrentfiles missingtheirrecord; record/changelogmetadata-
+only andCRLFwhitespace checksfollow. Thisunrelatedglobalchecklimitationdoesnot
+reopensourceinventory orauthorizechangingnewwrappers. Recheckonnextcontinuation.
+Inventory-final-summary/protected/source-hashes retainthisscope; no newcode/test.
+
+NextselectROMDATA-02-SCRIPT-ARCHIVE-MODEL forwholebounded115464B, notjustkeys/
+indexes. Suggestedtypedshape:234keys;62banks233slots; TargetProgram207/TargetHeader
+bank/TargetFill45;207physicalcommandsegments35048(command,rawargs,sourceoffset,
+optionalcanonicaleffectselector);45fillrecords(value,length,offset). Reconstruct
+relativeindexwords fromtypedreferences, noROMshadow/aliasedpayload copies. Validate
+operandlengths againstactualcommandasset and493selectorrefs againstactualeffect
+asset; optionalreferencesoutsideprojection preservetheguest'srawq0behavior.
+Preserveheader/filltargetviews ratherthanrejectasdead. OnecombinednewWineoriginal
+key/index/opcode/selectedparameter oracle, notwholeinterpreter. e50remainsclosed/
+e49positiveordinarypending. Sourceplan/staticchecker complete: do notrerunfor
+context. No newunitselectedyet; checkpoint beforemutation/build. Linux/USA/
+nativeWindows pending, no performance/space/Android/agentcommit/push.
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-ARCHIVE-MODEL (2026-10-24).**
+Latestrequest fullTODO/EUR/ignore space/no performance/reducedWine/Linux-USA
+pending. Previousgoalturn progress: bounded115464Binventoryterminal/staticchecks
+closed/inventory-final-summary/no livejob.254prior source-doc snapshot hasonly
+concurrentPROJECT_STATE update (Dockercoverageparagraph); currentmodel-selection
+snapshot capturesit, preservewithoutattribution. ConcurrentDocker/wrapper/test/
+ROM_COVERAGE/docker docs work ongoing; fullmemorydefault/base stillmissingtheir
+record, metadataonlypasses. No changes tothatworkselected.
+Missingstrict typedwholearchive+keys/alias-preservingsource reconstruction andone
+newWineoriginal-readeroracle. Nextaddisolatedcoremodel/testmodules plusdeclarations
+only, no e50revision/publication/runtime change. Typed Program/Header/Fill target
+references;35kcommands rawargs+knownselectorlinks; reconstructrelativewords/noROM
+shadow oraliasedcopies. Validateactualcommand/effect dependencies; preservekey0/
+raw234-239-65535/q0guestsemantics. OneaffectedWindows testcompile/combinedWineonly;
+no oldsource/native/lifecycle/CLI/ordinaryproofrepeats/newfixtures/navigation/
+payloadedits. Sourcepipeline/runtime/positiveordinary remainlaterchildren; full
+TODOactive/progress/noimpasse. Useprojectmemory onfinish, globalscopeDockerlimitation
+separate ifstillpresent; no commit/push/Android/performance.

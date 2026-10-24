@@ -23,7 +23,14 @@
 !scripts/linux/package_ffta_linux.sh
 !scripts/package_ffta_portable.py
 !scripts/extract_rom_data.py
+!scripts/rom_coverage.py
+!scripts/rom_coverage.html
 !docs/
+!docs/changes/
+!docs/changes/*.json
+!docs/development/
+!docs/development/rom-coverage/
+!docs/development/rom-coverage/evidence.json
 !docs/portable.md
 !docs/docker.md
 !docs/fps_overlay.md

@@ -173,6 +173,8 @@ mod effect_event_directory_model_tests;
 #[cfg(test)]
 mod script_command_model_tests;
 #[cfg(test)]
+mod script_archive_model_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;

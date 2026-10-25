@@ -151,7 +151,7 @@ fn typed_full_text_sources_and_compressed_literals_cover_edges_mirrors_swi_dma_l
         let p = &mut typed.texts.archive_catalogs[map.category].languages[map.language].programs
             [map.item];
         if let Some(encoded) = &mut p.encoded {
-            for span in &map.literals {
+            for span in &map.map.literals {
                 encoded[span.encoded_offset..span.encoded_offset + span.length].fill(0xcd);
             }
         }

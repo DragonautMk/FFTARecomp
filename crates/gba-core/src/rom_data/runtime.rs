@@ -8,6 +8,7 @@ mod packets;
 mod graphics;
 mod transfers;
 mod texts;
+mod text_program;
 mod text_catalogs;
 mod font_keyboard;
 mod obj_lists;
@@ -94,6 +95,39 @@ pub use effect_event_directories::EffectEventDirectoryStats;
 mod script_commands;
 use script_commands::ScriptCommandResources;
 pub use script_commands::ScriptCommandStats;
+mod script_archive;
+use script_archive::ScriptArchiveResources;
+pub use script_archive::ScriptArchiveStats;
+mod script_text;
+use script_text::ScriptTextResources;
+pub use script_text::ScriptTextStats;
+mod script_coordinates;
+use script_coordinates::ScriptCoordinateResources;
+pub use script_coordinates::ScriptCoordinateStats;
+mod ui_choice_lists;
+use ui_choice_lists::UiChoiceListResources;
+pub use ui_choice_lists::UiChoiceListStats;
+mod unit_obj_initial_pose;
+use unit_obj_initial_pose::UnitObjInitialPoseResources;
+pub use unit_obj_initial_pose::UnitObjInitialPoseStats;
+pub(super) mod color_mode_palettes;
+use color_mode_palettes::ColorModePaletteResources;
+pub use color_mode_palettes::ColorModePaletteStats;
+mod unit_obj_equipment;
+use unit_obj_equipment::UnitObjEquipmentResources;
+pub use unit_obj_equipment::UnitObjEquipmentStats;
+mod unit_obj_normal_battle;
+use unit_obj_normal_battle::UnitObjNormalBattleResources;
+pub use unit_obj_normal_battle::UnitObjNormalBattleStats;
+mod unit_obj_alternate_battle;
+use unit_obj_alternate_battle::UnitObjAlternateBattleResources;
+pub use unit_obj_alternate_battle::UnitObjAlternateBattleStats;
+mod map_raster_palettes;
+use map_raster_palettes::MapRasterPaletteResources;
+pub use map_raster_palettes::MapRasterPaletteStats;
+mod auxiliary_scripts;
+use auxiliary_scripts::AuxiliaryScriptResources;
+pub use auxiliary_scripts::{AuxiliaryCommandStats, AuxiliaryArchiveStats};
 mod item_links;
 use item_links::ItemLinkResources;
 pub use item_links::ItemLinkStats;
@@ -197,6 +231,17 @@ pub struct RuntimeResources {
     task_descriptors: Option<Box<TaskDescriptorResources>>,
     effect_event_directories: Option<Box<EffectEventDirectoryResources>>,
     script_commands: Option<Box<ScriptCommandResources>>,
+    script_archive: Option<Box<ScriptArchiveResources>>,
+    script_text: Option<Box<ScriptTextResources>>,
+    script_coordinates: Option<Box<ScriptCoordinateResources>>,
+    ui_choice_lists: Option<Box<UiChoiceListResources>>,
+    unit_obj_initial_pose: Option<Box<UnitObjInitialPoseResources>>,
+    color_mode_palettes: Option<Box<ColorModePaletteResources>>,
+    unit_obj_equipment: Option<Box<UnitObjEquipmentResources>>,
+    unit_obj_normal_battle: Option<Box<UnitObjNormalBattleResources>>,
+    unit_obj_alternate_battle: Option<Box<UnitObjAlternateBattleResources>>,
+    map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
+    auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
 
 impl RuntimeResources {
@@ -395,6 +440,39 @@ impl RuntimeResources {
         if let Some((data,_))= files.script_commands {
             resources.script_commands = Some(Box::new(ScriptCommandResources::new(data.clone(), &source.script_commands.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.script_archive {
+            resources.script_archive = Some(Box::new(ScriptArchiveResources::new(data.clone(), &source.script_archive.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.script_text {
+            resources.script_text = Some(Box::new(ScriptTextResources::new(data.clone(), &source.script_text.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.script_coordinates {
+            resources.script_coordinates = Some(Box::new(ScriptCoordinateResources::new(data.clone(), &source.script_coordinates.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.ui_choice_lists {
+            resources.ui_choice_lists = Some(Box::new(UiChoiceListResources::new(data.clone(), &source.ui_choice_lists.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.unit_obj_initial_pose {
+            resources.unit_obj_initial_pose = Some(Box::new(UnitObjInitialPoseResources::new(data.clone(), &source.unit_obj_initial_pose.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.color_mode_palettes {
+            resources.color_mode_palettes = Some(Box::new(ColorModePaletteResources::new(data.clone(), &source.color_mode_palettes.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.unit_obj_equipment {
+            resources.unit_obj_equipment = Some(Box::new(UnitObjEquipmentResources::new(data.clone(), &source.unit_obj_equipment.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.unit_obj_normal_battle {
+            resources.unit_obj_normal_battle = Some(Box::new(UnitObjNormalBattleResources::new(data.clone(), &source.unit_obj_normal_battle.as_ref().unwrap().sources, files.unit_obj_initial_pose.unwrap().0, files.unit_obj_equipment.unwrap().0)?));
+        }
+        if let Some((data,_))= files.unit_obj_alternate_battle {
+            resources.unit_obj_alternate_battle = Some(Box::new(UnitObjAlternateBattleResources::new(data.clone(), &source.unit_obj_alternate_battle.as_ref().unwrap().sources, files.unit_obj_initial_pose.unwrap().0, files.unit_obj_equipment.unwrap().0, files.unit_obj_normal_battle.unwrap().0)?));
+        }
+        if let Some((data,_))= files.map_raster_palettes {
+            resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
+        }
+        if let (Some((data,_)),Some((commands,_)))= (files.auxiliary_archive,files.auxiliary_commands) {
+            resources.auxiliary_scripts = Some(Box::new(AuxiliaryScriptResources::new(data.clone(),commands.clone(), &source.auxiliary_scripts.as_ref().unwrap().sources)?));
+        }
         Ok(Arc::new(resources))
     }
 
@@ -461,6 +539,17 @@ impl RuntimeResources {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_scripts: None,
         }
     }
 
@@ -532,6 +621,17 @@ impl RuntimeResources {
             + self.task_descriptors.as_ref().map_or(0, |i| i.resident_bytes())
             + self.effect_event_directories.as_ref().map_or(0, |i| i.resident_bytes())
             + self.script_commands.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.script_archive.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.script_text.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.script_coordinates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.ui_choice_lists.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_initial_pose.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.color_mode_palettes.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_equipment.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_normal_battle.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_alternate_battle.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
 
     pub fn background_file_sha256(&self) -> Option<&str> {
@@ -628,6 +728,18 @@ impl RuntimeResources {
     pub fn task_descriptors_stats(&self) -> Option<TaskDescriptorStats> {self.task_descriptors.as_ref().map(|m|m.stats())}
     pub fn effect_event_directories_stats(&self) -> Option<EffectEventDirectoryStats> {self.effect_event_directories.as_ref().map(|m|m.stats())}
     pub fn script_commands_stats(&self) -> Option<ScriptCommandStats> {self.script_commands.as_ref().map(|m|m.stats())}
+    pub fn script_archive_stats(&self) -> Option<ScriptArchiveStats> {self.script_archive.as_ref().map(|m|m.stats())}
+    pub fn script_text_stats(&self) -> Option<ScriptTextStats> {self.script_text.as_ref().map(|m|m.stats())}
+    pub fn script_coordinates_stats(&self) -> Option<ScriptCoordinateStats> {self.script_coordinates.as_ref().map(|m|m.stats())}
+    pub fn ui_choice_lists_stats(&self) -> Option<UiChoiceListStats> {self.ui_choice_lists.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_initial_pose_stats(&self) -> Option<UnitObjInitialPoseStats> {self.unit_obj_initial_pose.as_ref().map(|m|m.stats())}
+    pub fn color_mode_palettes_stats(&self) -> Option<ColorModePaletteStats> {self.color_mode_palettes.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_equipment_stats(&self) -> Option<UnitObjEquipmentStats> {self.unit_obj_equipment.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_normal_battle_stats(&self) -> Option<UnitObjNormalBattleStats> {self.unit_obj_normal_battle.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_alternate_battle_stats(&self) -> Option<UnitObjAlternateBattleStats> {self.unit_obj_alternate_battle.as_ref().map(|m|m.stats())}
+    pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
+    pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
+    pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
     /// Host audio view: typed owners merge at shared boundaries without guest bus clocks.
     pub fn audio_host_read<const N:usize>(&self,index:usize,rom:&[u8])->Option<[u8;N]>{
         rom.get(index..index.checked_add(N)?)?;
@@ -858,7 +970,51 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.script_commands {
+            let prior = match &self.script_commands {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.script_archive {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.script_text {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.script_coordinates {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.auxiliary_scripts {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.map_raster_palettes {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.ui_choice_lists {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.unit_obj_initial_pose {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.color_mode_palettes {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.unit_obj_equipment {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.unit_obj_normal_battle {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.unit_obj_alternate_battle {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1034,6 +1190,17 @@ impl crate::MemMap {
             || TaskDescriptorResources::source_page(index)
             || EffectEventDirectoryResources::source_page(index)
             || ScriptCommandResources::source_page(index)
+            || ScriptArchiveResources::source_page(index)
+            || ScriptTextResources::source_page(index)
+            || ScriptCoordinateResources::source_page(index)
+            || UiChoiceListResources::source_page(index)
+            || UnitObjInitialPoseResources::source_page(index)
+            || ColorModePaletteResources::source_page(index)
+            || UnitObjEquipmentResources::source_page(index)
+            || UnitObjNormalBattleResources::source_page(index)
+            || UnitObjAlternateBattleResources::source_page(index)
+            || MapRasterPaletteResources::source_page(index)
+            || AuxiliaryScriptResources::source_page(index)
     }
 }
 

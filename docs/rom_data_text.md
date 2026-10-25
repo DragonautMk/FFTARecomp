@@ -413,3 +413,218 @@ makes that negative fixture fail as expected. The existing no-dataset mouse
 check also passes. This is a controlled scene fixture, not ordinary name entry.
 No performance, startup/RSS or space measurements were taken; AndroidPort is
 unchanged.
+
+
+## Script-selected localized text source contract
+
+The five further EUR archives at `BB064C`, `C076F0`, `C5FBF0`, `CB7C48` and
+`D10644` contain script-selected dialogue. Original `08009ab0` selects them by
+live language IDs0..4, with other language values falling back to0. Each ends
+at the next independently selected language root; the last ends at `D68C2C`,
+the independently rooted script-key resource. The five ranges total1803744bytes
+and are disjoint from all45published e51resource owners. This closes their
+static inventory, rather than their model or runtime migration.
+
+`08009b08` obtains a four-byte script key through `08009aa0` and uses its text-
+bank byte to read a u32offset relative to the selected language root. The234
+source key records reference bank IDs up to62; the minimum top-level offset is
+`FC`, agreeing with63four-byte entries per language. The first word points to
+a late shared bank0; it does not describe the top-level index length. Eleven
+other normal bank entries share that bank per language. These source domains
+do not introduce guest key, bank or message bounds.
+
+Bank61has a second index of26u32offsets, also relative to the language root.
+For the normal message path, the original reads the live byte at`02003C2A`,
+computes `n = byte == 0 ? 0 : byte - 1`, and selects variant`n / 10` through
+unsigned helper`08146474`. The separate message remapper`08009b7c` uses remainder
+helper`081464ec` and adds `(n % 10) * 24` with original u16truncation. Division
+and remainder have different roles; neither becomes a fixed text choice.
+The root selector tests the full u16message against239, while the remapper
+checks its low byte for special IDs. Preserve those distinct branches and the
+original fallback key`AA`; do not replace them with new caps or a common guard.
+
+After resolving aliases and variants there are77physical u16-indexed banks per
+language,385in total. Their41395index entries include385`FFFF`sentinels and name
+41010physical programs,8202per language. Original producer`0801916c` selects
+these roots for text kinds3/5 through`08009b08`/`08009b7c`. Caller`08011906`
+passes the returned root and remapped message through`08011920`→`08011e28`;
+`08011e80` invokes the existing `08013f8c` index/header/expansion reader. The new
+source uses the existing `text_catalogs::Program` and custom-LZ grammar.
+
+Programs retain all16header bits, glyph IDs, commands and operands. There are
+9813custom-LZ extended programs,5709raw extended programs and25488raw compact
+programs. Their212011command units use11existing forms. Compressed data has
+8784one-byte decoded tails and1029streams ending exactly at the terminator.
+The147referenced glyph IDs1..3112 already belong to the complete font resource;
+no new font payload is needed. Actual asset dependencies are `engine.script-archive`
+for the key selectors and `font.complete-bank` for the glyph references.
+
+The physical partition contains1260top-index bytes,520variant-index bytes,
+82790bank-index bytes,1684407program bytes and34767alignment bytes. All34314gaps
+are one–three bytes, with exact contents retained without assigning text
+semantics. Four three-byte gaps contain mixed values. An initial private
+uniform-fill assertion was rejected before writing a plan or producing any
+model/runtime/test; only that assumption was corrected.
+
+Independent static verification reconstructs and hashes all1803744bytes exactly
+once, validates15195key/variant target formulas,349instruction halfwords and13
+literal words, actual dependency hashes, all glyph references and disjointness
+from every earlier owner. No guest execution, build or Wine test is part of
+this inventory; existing text/codec/native/lifecycle/CLI/ordinary proofs were
+not repeated. Evidence is under `target/rom-data-script-text/`:
+`source-contract.json`, `static-source-verification.json`, bounded original
+reader disassemblies and `rejected-uniform-padding-assumption.json`.
+
+The following model and new Wine source oracle close the next criterion.
+Publication, direct runtime consumption, production CLI and positive ordinary
+acceptance remain pending. EUR stays e51-d50 and USA e8-d7. New Linux/USA/native Windows
+checks remain pending; no performance or space campaign, fixtures, navigation,
+save/RAM/payload edits or Android changes.
+
+
+## Typed script-selected text model and reduced Wine source oracle
+
+`rom_data::script_text` models all five ranges with typed top targets and variant
+references. Each physical bank owns its `text_catalogs::Program` records once;
+shared top entries refer to those banks. Relative top/variant words and u16index
+words reconstruct from typed addresses, with explicit `FFFF`sentinels. Exact
+one–three-byte alignment records retain arbitrary slack, including mixed values.
+The model preserves every header bit, command, operand and encoded/decoded tail.
+
+Validation requires canonical IDs and ordering, valid bank references, complete
+nonoverlapping physical coverage, and actual script-key/font dependencies. The
+147glyph references already belong to the font asset. Source construction
+verifies the exact EUR image,349instruction halfwords grouped into digest
+windows and13literal words. Bounded source lookup helpers retain language
+fallback and live quotient selection without replacing original guest raw-ID,
+message-remapping, text-expansion or callback behavior. EUR remains e51-d50;
+no runtime owner or save/native ABI changes are part of this source-only unit.
+
+The first warning-free Windows build and new Wine filter found a strict JSON
+defect: the internally tagged unit variant accepted an unexpected field despite
+`deny_unknown_fields`. The corrected empty struct variant rejects it, retaining
+the assertion. Original guest cases had not started in that failed attempt;
+its executable, build/output/log/result remain under `before-strict-variant-json`.
+No earlier text, codec, native, lifecycle, CLI or ordinary proof was repeated.
+
+After the correction, a warning-free Windows build and one combined Wine filter
+pass all independent fields, hashes and1,803,744source bytes,385banks/41,010programs,
+147glyphs/11command forms. Twenty-two shape, six coherent source-edit, three
+dependency,12JSON/shape and two identity guards pass. New original-reader cases
+cover seven language inputs,1170key/bank selections,1280live quotient choices,
+256live remainder choices,90raw/special-message combinations and1170u16index
+prefixes including sentinels and raw wrap. The837header cases preserve both
+flags and metadata;837original-source versus typed-rebuilt program outputs and
+guards agree, including249compressed bodies and decoded tails.
+
+The reader cases reuse the retained initialized EUR checkpoint without changing
+it. Controlled scratch arguments use the existing nullable-context fallback;
+they are separate from ordinary gameplay acceptance. The2,116,900instructions/
+834PCs are coverage counts. These results do not establish native full-state/
+clock parity, a complete text/callback ABI, all argument semantics or ordinary
+reachability. All earlier4060artifact hashes, failed-attempt files and368hash-
+mtime guards remain protected. Evidence under `target/rom-data-script-text/` is
+`windows-model-{tests,result}.json`, `windows-model-europe/{script-text,result}.json`
+and `windows-model.log`.
+
+The source model and reduced Wine source oracle are closed. The following
+sections cover managed publication, direct runtime and production CLI; ordinary
+acceptance is recorded separately. New Linux/USA/native Windows verification
+remains pending; USA stays e8-d7. No performance or space measurements, new gameplay fixtures,
+navigation, edits to retained checkpoint/save/input files or Android changes.
+
+
+## Managed script text and direct typed reads
+
+EUR `v1/e52-d51` adds `script-text.json` / `text.script-archives`, file47 /
+resource46. All45earlier decoded files and the e51generation remain unchanged;
+USA stays e8-d7. The manifest declares actual `engine.script-archive` and
+`font.complete-bank` dependencies. Activation checks their loaded key/glyph
+links, source-set coherence and authenticated base contents before publication.
+
+The owner covers all five ranges/1,803,744bytes through typed top, variant and
+bank indices, program headers, encoded controls, decoded glyph/command/operand/
+terminator fields and exact alignment bytes. It shares `TextProgramMap` with
+the earlier catalogs: encoded literal positions read typed decoded units, while
+size/token/reference bytes retain the original codec metadata. Original guest
+selection, decompression, text expansion, live RAM and clocks remain unchanged.
+Mixed reads merge prior script-archive owners at both shared BB0/D68pages and
+raw data outside registered ownership. Save/native ABIs are unchanged; usage
+counters and coverage masks stay outside serialized state.
+
+The full source scan reads1260top,520variant,82790bank-index,82020header,
+617389encoded-control,733676glyph,216619command,2477operand,32226terminator and
+34767alignment bytes. Direct decoded-tail source literals are0: preserved tails
+are generated by LZ controls/backreferences. The counter remains explicit;
+there is no claim that the original decoder does not produce or read tails.
+An initial private scanner's all-classes-positive assumption was rejected.
+
+Affected Windows core tests compile warning-free. The first frontend compile
+finds only a new test counter shape mismatch and an unused import; those are
+corrected, failed logs retained, and only the frontend build repeated. The
+corrected build is warning-free. Three sequential Wine filters pass on their
+first execution: one existing core literal-poison test for the changed shared
+mapper, then new managed and native checks. This affected-code check does not
+reopen earlier text source/native/lifecycle/CLI/scene acceptance for context.
+
+The managed check passes13guards, atomic create/reuse/repair/move, all earlier
+file/e51retention, failed-activation isolation, unavailable-file reads and
+Load/Undo/backups/Restart. With raw source bytes altered, every source byte
+agrees and all5languages/385banks/41010programs/130variant records/34314gaps are
+covered. Another163source bytes from earlier formats0/1/2verify the shared map
+on real old programs. The native check passes35original/interpreter/compiled
+complete-state/clock prefixes; compiled source categories are
+[21,17,17,13,6,4,5,1,3,0,3]aggregate bytes. Raw top255/variant255, u16sentinel/
+65535/high-bit truncation, previous2+new2/new2+previous2 boundaries, raw fallback
+after the adjacent key owner, widths/mirrors, real BIOS, CpuSet/FastSet and DMA
+agree. The379instructions/65PCs/71native dispatches count coverage only; these
+are controlled field/selector prefixes, rather than a whole text/callback ABI.
+
+Evidence under`target/rom-data-script-text/` includes `windows-managed-results.json`,
+`managed-run-protected.json`, `windows-managed-europe/{managed-result,native-result}.json`,
+`windows-{shared-text-map,managed,native}.log` and the retained compiler diagnostics.
+The shared-mapper core filter is closed after its new-code pass; source-model,
+inventory, e51/e50and old family proofs remain closed.
+
+## Script text production CLI and ordinary school dialog
+
+The warning-free Windows production CLI creates and reuses49managed files from
+an unrelated working directory without rewriting them, loads the old native
+cache, and matches all47generation files to the accepted e52dataset. The canonical
+executable is restored exactly. Candidate SHA-256 is
+`6126ce932fda4847579ad8dfb2f28d1a7f4a7a4c640e0fba06402d45440d137e`;
+dataset SHA-256 is
+`2379f2425ddfe664425502b7f4dcc0f4d0b11c0ebdec617ba5a94c1b2c73fa88`.
+All468hash-mtime guards, including retained inputs and the accepted dataset, pass.
+
+The retained8476-frame suspend-boot-to-battle locator reads0new text bytes and
+is closed negative; no fullpair runs for it. A read-only audit of74unique EUR
+checkpoints supplies no active text-manager cue and does not prove unreachability.
+Four USA school/name headers are excluded before payload/replay. This is separate
+from the previously closed engine-queue audit.
+
+The genuine EUR courtyard dialog and retained `intro.input` select a distinct
+cold-boot school3000/classic240x160 locator on the same CLI/dataset, with no save
+or state override. It reads289aggregate source bytes:8top+4bank-index+8header+
+93encoded-control+136glyph+39command+1terminator. Decoded program bytes total176;
+one language, one bank and two programs are used. Variant/operand/tail/slack reads
+are0. This is actual new-text source use, rather than inferred archive usage.
+One Wine fullpair from the actual CLI-published e52generation passes every
+one of3000full states/clocks, central/wide images, OAM/dispatch and mixed/PSG/FIFO/
+bitwise-HLE samples. Observed sample counts are
+[6582846,6582846,791212,791212,6561508]. New-text usage matches the locator and
+all468hash-mtime guards pass. The already-built test executable, native cache
+and retained input are reused, with no save/state override or earlier proof
+repeat. Terminal evidence is `windows-scene-result.json` and
+`windows-school-text-full-state-audio.log`.
+
+Other4languages/384banks/41008programs,130variant records and34314gaps retain
+targeted coverage only; no whole ABI/new32:9claim. The separate
+[e49ordinary selector criterion](rom_data_events.md#positive-ordinary-book-transition)
+is subsequently closed by a new EUR book scene; three old negative contexts
+are not reopened or recounted. New Linux/USA/native Windows checks remain
+pending. No performance/space measurement, new gameplay fixture/navigation,
+retained checkpoint/save/input edits, Android changes, agent commit or push.
+Evidence: `windows-build.json`, `windows-cli-{processes,no-write,summary}.json`,
+`ordinary-text-context-audit.json` and `windows-cli-text-school3000.json` with
+corresponding logs under `target/rom-data-script-text/`.

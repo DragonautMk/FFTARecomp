@@ -1,5 +1,20 @@
 # Decoded graphics formats and source contracts
 
+The separate [normal-mode battle pose source model](rom_data_unit_obj.md#normal-mode-battle-poses-source-projection-and-typed-model)
+now decodes2581sequences/17894frames over122normal-mode IDs, including real nulls,
+parts1/2 and command-dependent fields. New6021spans1455474B exclude byte-identical
+initial/equipment views. One new Wine source oracle passes constructor/reset/
+command/scheduler-DMA checks, including all1063200newpixelB; prior acceptance
+is not replayed. EUR e60-d59now publishes and consumes the new typed ranges:
+56files55resources/all54old resources/e59retained/USAe8unchanged. Two reduced
+Wine filters pass17guards/lifecycle/all1455474newtypedB and32original/interpreter/
+compiled full-state-clock paths with mixed older-owner/raw reads. Actual
+production CLIcreate/no-write reuse56generation/58managed files and one existing
+F09Wait3530ordinary fullstate-clock-image-OAM-dispatch-allaudio pair now pass
+842236newaggregateB/815360pixelB/fivesequences. Other2446new sequences retain
+targeted coverage; alternate/script/live-stream pairings and new Linux/USA
+checks stay open, without performance measurements.
+
 The next resource work units extend the OBJ metadata prototype toward actual
 graphics. They provide bounded offline LZ77, packet and descriptor decoders,
 with verified source ranges and original-instruction consumer checks.
@@ -11,6 +26,24 @@ Linux/USA consumer checks and other linked graphics/programs remain open.
 The [inventory](development/ROM_DATA_INVENTORY.md) and
 [full TODO](development/ROM_DATA_TODO.md) retain the remaining catalog,
 semantic decoding, extraction and runtime integration work.
+
+The separate [Color-Mode unit/UI palette model](rom_data_color_palettes.md)
+identifies30 unowned spans5750B outside all52 current resource owners. Its
+2873u16 colors/four selectors and actual original Wine read/copy prefixes pass.
+EUR e58-d57 now publishes and consumes those typed fields; reduced Wine managed/
+lifecycle/native-state-clock checks pass. ActualCLI/no-write reuse and one
+positive ordinaryLutia1700 fullstate-clock-image-audio pair pass1102aggregate
+colorB/fourfragments; remaining26ordinary fragments/othermodes are pending.
+
+The [equipment OBJ model](rom_data_unit_obj.md#equipment-managed-publication-and-runtime-reads)
+adds a separate item/action projection:593spans110666B,748cells/86nulls and
+258sequences. EUR e59-d58 now publishes and consumes its typed fields, retaining
+all53prior resource records/e58/USAe8-d7. Two reduced Wine filters pass lifecycle,
+all110666typedB and26original/interpreter/compiled state-clock paths. ActualCLI
+create/reuse-no-write55generation/57managed files now passes; Sheep1000/Fight700
+equipment-negative locators have no fullpairs. Authorized copiedEURPolly→Hildegard
+confirmedFight500singlefullpair passes allstate-clock-image-OAM-dispatch-audio,
+4477equipmentB/1408pixelB/two sequences; other256ordinary sequences targeted-only.
 
 ## Observed producers
 
@@ -745,8 +778,10 @@ The captured 456-byte body has 14 packets/196 values, consuming 450 bytes before
 six padding bytes. Original USA 0801f098/EUR 08020208 apply it at EWRAM 7cb0.
 The 1996-byte body has 112 packets/771 values, consuming 1992 bytes before four
 padding bytes. Original USA 0801efb0/EUR 08020120 apply it at EWRAM d1a0,
-through the original staged-pointer mechanism. These destinations are proven;
-the small plane's complete gameplay meaning remains unclassified.
+through the original staged-pointer mechanism. These destinations are proven.
+The [EUR map-loader classification](rom_data_maps.md) now ties the small plane
+to the normal16×16height/flag grid; complete flag and alternate-context
+semantics remain unclassified.
 
 The paired-plane body has a u32 header. Bit 31 selects a dictionary at the
 low-28-bit relative offset; bit 30 selects u16 indices instead of u8. Each
@@ -1911,3 +1946,21 @@ windows-managed-europe/{managed-result.json,native-result.json,source-set-result
 windows-build.json,windows-cli-processes.json,windows-cli-no-write.json,
 windows-cli-summary.json,windows-scene-result.json}`.
 See the [runtime record](changes/2026-10-24-consume-european-blend-programs.json).
+
+
+EUR `v1/e61-d60` adds `unit-obj-alternate-battle.json` /
+`graphics.unit-obj-alternate-battle`,57files56resources/all55prior decoded
+resources and e60retained/USAe8unchanged. The immutable typed owner serves only
+3321new spans410086B with actual metadata52/14/initial/equipment/normal
+dependencies. All20shared index-root targets stay explicit non-sequences under
+older ownership. Two reduced Wine filters firstPASS20managed guards/lifecycle/
+all new bytes/606sequences and34original/interpreter/compiled complete-state-clock
+paths, genuine extra-part nulls/shared-root prefixes/commands2-3-8/uploads-DMA/
+all3321edges/BIOS-SWI-DMA/mixed raw-oldowner reads. StrictNull parsing rejects
+extra fields while canonical valid JSON remains identical. Source/model/managed/
+native and actualCLI children are closed. Actual Wine CLI creates/reuses all57
+accepted generation files/59managed files without rewriting; one-frame oldcache
+attachment passes with zero new alternate use. Positive ordinary alternate use,
+script/live reachability and new Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage campaign
+or new gameplay checkpoint.
+[Alternate runtime contract](rom_data_unit_obj.md#alternate-managed-publication-and-typed-runtime-reads).

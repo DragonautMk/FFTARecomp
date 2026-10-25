@@ -159,8 +159,8 @@ courtyard at3000frames, and a genuine suspend boot-to-battle8476scene, all at
 classic240x160. Their unchanged states
 and input recordings are reused; no new navigation or fixture is created. They
 are closed negative results, so none receives an event-required full-state/audio
-pair. Positive
-ordinary event-or-selector consumption and its fullpair remain pending.
+pair. Positive ordinary selector consumption is established separately by the
+later book transition below.
 
 The original six-byte command directory at3acebc maps opcode59to127458 and
 5ato12746c→128af4. Read-only, checksum/ROM-authenticated Pecorelle and F09 snapshots
@@ -174,4 +174,42 @@ A later8476-frame genuine EUR suspendboot-to-battle CLI locator, selected for
 the script command owner, also reads zero event/selector/dispatch bytes. It is
 the third closed negative for this event owner; it receives no event-required
 fullpair. Positive command consumption in that scene does not establish event
-or selector consumption. The ordinary event criterion remains open.
+or selector consumption; the later book transition closes that criterion.
+
+## Positive ordinary book transition
+
+The EUR ordinary event-**or**-selector requirement is complete on Wine. A new
+normal-input chain advances from a cold boot through name confirmation, the
+snowball tutorial and the street to the bedroom/book scene. Nineteen genuine
+snapshots through frame39420 pass exact load roundtrips and recorded input/
+artifact hashes. Existing saves, snapshots and inputs remain untouched. Two
+private Windows capture helpers link the current prebuilt core; one also reads
+the existing visible menu descriptor to issue recorded physical Down/A/neutral
+keys for Wait. It restores the host detector flag before execution, never calls
+mouse selection and never patches guest memory or save/state bytes. Initial
+helper dependency/native-library search-path failures are retained and corrected;
+the successful helper builds are warning-free. No product/core rebuild is needed.
+
+The three earlier negative contexts stay closed. Two new bounded locators also
+finish with zero family reads:3180tutorial frames and6000turn/transition frames.
+Neither receives a fullpair. The black transition subsequently advances normally
+to the winter street and home. Read-only current VM state then supplies a concrete
+cue: key2/program1 cursor0bfb, before its sole command5a→selector50 atB95991.
+
+One new1800-frame locator from the genuine frame39420bedroom snapshot is positive
+with the actual CLI-published e52-d51 generation and existing native cache:
+2bus reads/5aggregate source bytes =0event +1selector +4dispatch, one selector
+record and one dispatch table. One matching Wine fullpair passes all1800full
+states and clocks, central/wide images, OAM, dispatch and mixed/PSG/FIFO/bitwise-HLE
+audio. Sample counts are[3950100,3950100,475200,475200,3950026]; source use first
+occurs at absolute frame39946 and matches the locator. All470hash-mtime guards
+pass. Frozen CLI/test executables and the dataset are reused, without preparation,
+old acceptance repeats or performance measurements.
+
+This establishes ordinary selector consumption. Event rows remain ordinary0;
+other50selectors/the other dispatch table retain targeted coverage. Entry124e1c
+reachability, whole callback/allocator/scheduler ABI and a new32:9scene are not
+claimed. New Linux/USA/native Windows checks remain pending. Evidence under
+`target/rom-data-event-ordinary/` includes `accepted-scene-acquisition-lineage.json`,
+`home-selector-locator.json`, `windows-scene-result.json` and
+`windows-event-full-state-audio.log`.

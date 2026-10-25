@@ -1,6 +1,7 @@
 //! Full file-derived EUR text catalogs; all original script/copy/decode work stays guest-side.
 use super::super::text_catalogs::{self as model, Program, ProgramUnit};
 use super::*;
+use super::text_program::{TextProgramMap, ProgramKind};
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct TextCatalogStats {
@@ -37,9 +38,7 @@ struct ProgramMap {
     category: usize,
     language: usize,
     item: usize,
-    offsets: Vec<usize>,
-    logical_len: usize,
-    literals: Vec<custom_lz::LiteralSpan>,
+    map: TextProgramMap,
 }
 pub(super) struct TextCatalogResources {
     texts: model::TextCatalogs,
@@ -134,51 +133,8 @@ impl TextCatalogResources {
                     Kind::Index(category, language),
                 )?;
                 for (item, p) in a.programs.iter().enumerate() {
-                    let compact = p.header & 1 != 0;
-                    let mut at = 0;
-                    let offsets = p
-                        .units
-                        .iter()
-                        .map(|u| {
-                            let n = at;
-                            at += match u {
-                                ProgramUnit::Glyph { .. } => {
-                                    if compact {
-                                        1
-                                    } else {
-                                        2
-                                    }
-                                }
-                                ProgramUnit::Command { operands, .. } => {
-                                    if compact {
-                                        1 + operands.len()
-                                    } else {
-                                        2 + operands.len()
-                                    }
-                                }
-                            };
-                            n
-                        })
-                        .collect();
-                    let literals = if let Some(encoded) = &p.encoded {
-                        custom_lz::decode(
-                            encoded,
-                            model::MAX_PROGRAM_BYTES,
-                            model::MAX_PROGRAM_BYTES,
-                        )?
-                        .literal_spans
-                    } else {
-                        Vec::new()
-                    };
                     let id = programs.len();
-                    programs.push(ProgramMap {
-                        category,
-                        language,
-                        item,
-                        offsets,
-                        logical_len: at + 1,
-                        literals,
-                    });
+                    programs.push(ProgramMap { category, language, item, map: TextProgramMap::new(p)? });
                     add(
                         p.source_offset,
                         p.source_bytes()?,
@@ -232,39 +188,6 @@ impl TextCatalogResources {
             counts: std::array::from_fn(|_| AtomicU64::new(0)),
         })
     }
-    fn program_byte(p: &Program, map: &ProgramMap, at: usize) -> Option<u8> {
-        let compact = p.header & 1 != 0;
-        if at >= map.logical_len {
-            return p.decoded_padding.get(at - map.logical_len).copied();
-        }
-        if at == map.logical_len - 1 {
-            return Some(if compact { 255 } else { 0 });
-        }
-        let id = map.offsets.partition_point(|&n| n <= at).checked_sub(1)?;
-        let at = at - map.offsets[id];
-        match &p.units[id] {
-            ProgramUnit::Glyph { index } => Some(if compact {
-                *index as u8
-            } else {
-                (*index | 0x8000).to_be_bytes()[at]
-            }),
-            ProgramUnit::Command { opcode, operands } => {
-                if compact {
-                    if at == 0 {
-                        Some(*opcode)
-                    } else {
-                        operands.get(at - 1).copied()
-                    }
-                } else {
-                    match at {
-                        0 => Some(64),
-                        1 => Some(*opcode),
-                        _ => operands.get(at - 2).copied(),
-                    }
-                }
-            }
-        }
-    }
     fn byte(&self, index: usize) -> Option<(u8, usize)> {
         let b = self.bindings.get(
             self.bindings
@@ -315,30 +238,8 @@ impl TextCatalogResources {
                 let map = &self.programs[id];
                 let p = &self.texts.archive_catalogs[map.category].languages[map.language].programs
                     [map.item];
-                if at < 2 {
-                    (p.header.to_le_bytes()[at], 3)
-                } else if let Some(encoded) = &p.encoded {
-                    let at = at - 2;
-                    let span = map
-                        .literals
-                        .partition_point(|s| s.encoded_offset <= at)
-                        .checked_sub(1)
-                        .and_then(|i| map.literals.get(i));
-                    if let Some(span) = span.filter(|s| at < s.encoded_offset + s.length) {
-                        (
-                            Self::program_byte(
-                                p,
-                                map,
-                                span.output_offset + at - span.encoded_offset,
-                            )?,
-                            5,
-                        )
-                    } else {
-                        (encoded[at], 4)
-                    }
-                } else {
-                    (Self::program_byte(p, map, at - 2)?, 5)
-                }
+                let (byte, kind) = map.map.source_byte(p, at)?;
+                (byte, match kind { ProgramKind::Header => 3, ProgramKind::Control => 4, _ => 5 })
             }
             Kind::Glyph(id) => (
                 self.texts.glyphs[id].tile_words[at / 4].to_le_bytes()[at % 4],
@@ -417,8 +318,7 @@ impl TextCatalogResources {
                 .programs
                 .iter()
                 .map(|p| {
-                    p.offsets.capacity() * std::mem::size_of::<usize>()
-                        + p.literals.capacity() * std::mem::size_of::<custom_lz::LiteralSpan>()
+p.map.resident_bytes()
                 })
                 .sum::<usize>()
             + self.texts.pointer_catalogs.capacity() * std::mem::size_of::<model::PointerCatalog>()

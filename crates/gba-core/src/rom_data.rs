@@ -51,12 +51,23 @@ pub mod task_descriptors;
 pub mod effect_event_directories;
 pub mod script_commands;
 pub mod script_archive;
+pub mod script_text;
+pub mod script_coordinates;
+pub mod auxiliary_scripts;
+pub mod map_raster_palettes;
+pub mod ui_choice_lists;
+pub mod unit_obj_initial_pose;
+pub mod unit_obj_equipment;
+pub mod unit_obj_normal_battle;
+pub mod unit_obj_script_special_normal;
+pub mod unit_obj_alternate_battle;
+pub mod color_mode_palettes;
 mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 50;
-pub const DECODER_REV: u32 = 49;
+pub const EXTRACTOR_REV: u32 = 61;
+pub const DECODER_REV: u32 = 60;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -161,6 +172,54 @@ pub const SCRIPT_COMMANDS_ID: &str = "engine.script-command-directory";
 pub const SCRIPT_COMMANDS_FILE: &str = "script-command-directory.json";
 pub const SCRIPT_COMMANDS_FORMAT: &str = "script-command-directory-v1-json";
 pub const MAX_SCRIPT_COMMANDS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const SCRIPT_ARCHIVE_ID: &str = "engine.script-archive";
+pub const SCRIPT_ARCHIVE_FILE: &str = "script-archive.json";
+pub const SCRIPT_ARCHIVE_FORMAT: &str = "script-archive-v1-json";
+pub const MAX_SCRIPT_ARCHIVE_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const SCRIPT_TEXT_ID: &str = "text.script-archives";
+pub const SCRIPT_TEXT_FILE: &str = "script-text.json";
+pub const SCRIPT_TEXT_FORMAT: &str = "script-text-v1-json";
+pub const MAX_SCRIPT_TEXT_FILE_BYTES: u64 = 512 * 1024 * 1024;
+pub const SCRIPT_COORDINATES_ID: &str = "engine.script-coordinate-paths";
+pub const SCRIPT_COORDINATES_FILE: &str = "script-coordinate-paths.json";
+pub const SCRIPT_COORDINATES_FORMAT: &str = "script-coordinate-paths-v1-json";
+pub const MAX_SCRIPT_COORDINATES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UI_CHOICE_LISTS_ID: &str = "engine.ui-choice-lists";
+pub const UI_CHOICE_LISTS_FILE: &str = "ui-choice-lists.json";
+pub const UI_CHOICE_LISTS_FORMAT: &str = "ui-choice-lists-v1-json";
+pub const MAX_UI_CHOICE_LISTS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UNIT_OBJ_INITIAL_POSE_ID: &str = "graphics.unit-obj-initial-pose";
+pub const UNIT_OBJ_INITIAL_POSE_FILE: &str = "unit-obj-initial-pose.json";
+pub const UNIT_OBJ_INITIAL_POSE_FORMAT: &str = "unit-obj-initial-pose-v1-json";
+pub const MAX_UNIT_OBJ_INITIAL_POSE_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const COLOR_MODE_PALETTES_ID: &str = "graphics.color-mode-palettes";
+pub const COLOR_MODE_PALETTES_FILE: &str = "color-mode-palettes.json";
+pub const COLOR_MODE_PALETTES_FORMAT: &str = "color-mode-palettes-v1-json";
+pub const MAX_COLOR_MODE_PALETTES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UNIT_OBJ_EQUIPMENT_ID: &str = "graphics.unit-obj-equipment";
+pub const UNIT_OBJ_EQUIPMENT_FILE: &str = "unit-obj-equipment.json";
+pub const UNIT_OBJ_EQUIPMENT_FORMAT: &str = "unit-obj-equipment-v1-json";
+pub const MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UNIT_OBJ_NORMAL_BATTLE_ID: &str = "graphics.unit-obj-normal-battle";
+pub const UNIT_OBJ_NORMAL_BATTLE_FILE: &str = "unit-obj-normal-battle.json";
+pub const UNIT_OBJ_NORMAL_BATTLE_FORMAT: &str = "unit-obj-normal-battle-v1-json";
+pub const MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UNIT_OBJ_ALTERNATE_BATTLE_ID: &str = "graphics.unit-obj-alternate-battle";
+pub const UNIT_OBJ_ALTERNATE_BATTLE_FILE: &str = "unit-obj-alternate-battle.json";
+pub const UNIT_OBJ_ALTERNATE_BATTLE_FORMAT: &str = "unit-obj-alternate-battle-v1-json";
+pub const MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const MAP_RASTER_PALETTES_ID: &str = "graphics.map-raster-palettes";
+pub const MAP_RASTER_PALETTES_FILE: &str = "map-raster-palettes.json";
+pub const MAP_RASTER_PALETTES_FORMAT: &str = "map-raster-palettes-v1-json";
+pub const MAX_MAP_RASTER_PALETTES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const AUXILIARY_COMMANDS_ID: &str = "engine.auxiliary-script-command-directory";
+pub const AUXILIARY_COMMANDS_FILE: &str = "auxiliary-script-command-directory.json";
+pub const AUXILIARY_COMMANDS_FORMAT: &str = "auxiliary-script-command-directory-v1-json";
+pub const MAX_AUXILIARY_COMMANDS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const AUXILIARY_ARCHIVE_ID: &str = "engine.auxiliary-script-archive";
+pub const AUXILIARY_ARCHIVE_FILE: &str = "auxiliary-script-archive.json";
+pub const AUXILIARY_ARCHIVE_FORMAT: &str = "auxiliary-script-archive-v1-json";
+pub const MAX_AUXILIARY_ARCHIVE_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const ITEM_LINKS_ID: &str = "gameplay.item-links";
 pub const ITEM_LINKS_FILE: &str = "item-links.json";
 pub const ITEM_LINKS_FORMAT: &str = "item-links-v1-json";
@@ -376,6 +435,17 @@ pub struct Extraction {
     pub task_descriptors: Option<task_descriptors::Catalog>,
     pub effect_event_directories: Option<effect_event_directories::Catalog>,
     pub script_commands: Option<script_commands::Catalog>,
+    pub script_archive: Option<script_archive::Catalog>,
+    pub script_text: Option<script_text::Catalog>,
+    pub script_coordinates: Option<script_coordinates::Catalog>,
+    pub ui_choice_lists: Option<ui_choice_lists::Catalog>,
+    pub unit_obj_initial_pose: Option<unit_obj_initial_pose::Catalog>,
+    pub color_mode_palettes: Option<color_mode_palettes::Catalog>,
+    pub unit_obj_equipment: Option<unit_obj_equipment::Catalog>,
+    pub unit_obj_normal_battle: Option<unit_obj_normal_battle::Catalog>,
+    pub unit_obj_alternate_battle: Option<unit_obj_alternate_battle::Catalog>,
+    pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
+    pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
 }
 
@@ -427,6 +497,18 @@ pub struct BaseFiles<'a> {
     pub task_descriptors: Option<(&'a task_descriptors::TaskDescriptors, &'a [u8])>,
     pub effect_event_directories: Option<(&'a effect_event_directories::EffectEventDirectories, &'a [u8])>,
     pub script_commands: Option<(&'a script_commands::ScriptCommands, &'a [u8])>,
+    pub script_archive: Option<(&'a script_archive::ScriptArchive, &'a [u8])>,
+    pub script_text: Option<(&'a script_text::ScriptText, &'a [u8])>,
+    pub script_coordinates: Option<(&'a script_coordinates::ScriptCoordinates, &'a [u8])>,
+    pub ui_choice_lists: Option<(&'a ui_choice_lists::UiChoiceLists, &'a [u8])>,
+    pub unit_obj_initial_pose: Option<(&'a unit_obj_initial_pose::UnitObjInitialPose, &'a [u8])>,
+    pub color_mode_palettes: Option<(&'a color_mode_palettes::ColorModePalettes, &'a [u8])>,
+    pub unit_obj_equipment: Option<(&'a unit_obj_equipment::UnitObjEquipment, &'a [u8])>,
+    pub unit_obj_normal_battle: Option<(&'a unit_obj_normal_battle::UnitObjNormalBattle, &'a [u8])>,
+    pub unit_obj_alternate_battle: Option<(&'a unit_obj_alternate_battle::UnitObjAlternateBattle, &'a [u8])>,
+    pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
+    pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
+    pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
     pub text_catalogs: Option<(&'a text_catalogs::TextCatalogs, &'a [u8])>,
 }
 
@@ -780,6 +862,88 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.script_commands = Some(metadata);
+            let metadata = script_archive::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SCRIPT_ARCHIVE_ID.into());
+            result.manifest.resources.push(Resource {
+                id: SCRIPT_ARCHIVE_ID.into(), path: SCRIPT_ARCHIVE_FILE.into(), format: SCRIPT_ARCHIVE_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![SCRIPT_COMMANDS_ID.into(), EFFECT_EVENT_DIRECTORIES_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.script_archive = Some(metadata);
+            let metadata = script_text::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SCRIPT_TEXT_ID.into());
+            result.manifest.resources.push(Resource {
+                id: SCRIPT_TEXT_ID.into(), path: SCRIPT_TEXT_FILE.into(), format: SCRIPT_TEXT_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![SCRIPT_ARCHIVE_ID.into(), FONT_BANK_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.script_text = Some(metadata);
+            let metadata = script_coordinates::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SCRIPT_COORDINATES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: SCRIPT_COORDINATES_ID.into(), path: SCRIPT_COORDINATES_FILE.into(), format: SCRIPT_COORDINATES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![SCRIPT_ARCHIVE_ID.into(), SCRIPT_COMMANDS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.script_coordinates = Some(metadata);
+            let metadata = auxiliary_scripts::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(AUXILIARY_COMMANDS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUXILIARY_COMMANDS_ID.into(), path: AUXILIARY_COMMANDS_FILE.into(), format: AUXILIARY_COMMANDS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: vec![metadata.sources[1].clone()],
+            });
+            result.manifest.coverage.push(AUXILIARY_ARCHIVE_ID.into());
+            result.manifest.resources.push(Resource {
+                id: AUXILIARY_ARCHIVE_ID.into(), path: AUXILIARY_ARCHIVE_FILE.into(), format: AUXILIARY_ARCHIVE_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![AUXILIARY_COMMANDS_ID.into()], sources: vec![metadata.sources[0].clone()],
+            });
+            result.auxiliary_scripts = Some(metadata);
+            let metadata = map_raster_palettes::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(MAP_RASTER_PALETTES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: MAP_RASTER_PALETTES_ID.into(), path: MAP_RASTER_PALETTES_FILE.into(), format: MAP_RASTER_PALETTES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![BG_DESCRIPTORS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.map_raster_palettes = Some(metadata);
+            let metadata = ui_choice_lists::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UI_CHOICE_LISTS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UI_CHOICE_LISTS_ID.into(), path: UI_CHOICE_LISTS_FILE.into(), format: UI_CHOICE_LISTS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.ui_choice_lists = Some(metadata);
+            let metadata = unit_obj_initial_pose::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UNIT_OBJ_INITIAL_POSE_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UNIT_OBJ_INITIAL_POSE_ID.into(), path: UNIT_OBJ_INITIAL_POSE_FILE.into(), format: UNIT_OBJ_INITIAL_POSE_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into(), METADATA14_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.unit_obj_initial_pose = Some(metadata);
+            let metadata = color_mode_palettes::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(COLOR_MODE_PALETTES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: COLOR_MODE_PALETTES_ID.into(), path: COLOR_MODE_PALETTES_FILE.into(), format: COLOR_MODE_PALETTES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA14_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.color_mode_palettes = Some(metadata);
+            let metadata = unit_obj_equipment::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UNIT_OBJ_EQUIPMENT_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UNIT_OBJ_EQUIPMENT_ID.into(), path: UNIT_OBJ_EQUIPMENT_FILE.into(), format: UNIT_OBJ_EQUIPMENT_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![ITEM_RECORDS_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.unit_obj_equipment = Some(metadata);
+            let metadata = unit_obj_normal_battle::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UNIT_OBJ_NORMAL_BATTLE_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UNIT_OBJ_NORMAL_BATTLE_ID.into(), path: UNIT_OBJ_NORMAL_BATTLE_FILE.into(), format: UNIT_OBJ_NORMAL_BATTLE_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into(), METADATA14_ID.into(), UNIT_OBJ_INITIAL_POSE_ID.into(), UNIT_OBJ_EQUIPMENT_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.unit_obj_normal_battle = Some(metadata);
+            let metadata = unit_obj_alternate_battle::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UNIT_OBJ_ALTERNATE_BATTLE_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UNIT_OBJ_ALTERNATE_BATTLE_ID.into(), path: UNIT_OBJ_ALTERNATE_BATTLE_FILE.into(), format: UNIT_OBJ_ALTERNATE_BATTLE_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into(), METADATA14_ID.into(), UNIT_OBJ_INITIAL_POSE_ID.into(), UNIT_OBJ_EQUIPMENT_ID.into(), UNIT_OBJ_NORMAL_BATTLE_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.unit_obj_alternate_battle = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -861,6 +1025,17 @@ impl Extraction {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_scripts: None,
             font_bank: None,
             manifest: Manifest {
                 schema: SCHEMA,
@@ -941,6 +1116,17 @@ impl Extraction {
             || self.task_descriptors.is_some() && self.blend_programs.is_none()
             || self.effect_event_directories.is_some() && self.task_descriptors.is_none()
             || self.script_commands.is_some() && self.effect_event_directories.is_none()
+            || self.script_archive.is_some() && self.script_commands.is_none()
+            || self.script_text.is_some() && self.script_archive.is_none()
+            || self.script_coordinates.is_some() && self.script_archive.is_none()
+            || self.ui_choice_lists.is_some() && self.map_raster_palettes.is_none()
+            || self.unit_obj_initial_pose.is_some() && (self.ui_choice_lists.is_none() || self.metadata52.is_none() || self.metadata14.is_none())
+            || self.color_mode_palettes.is_some() && (self.unit_obj_initial_pose.is_none() || self.metadata14.is_none())
+            || self.unit_obj_equipment.is_some() && (self.color_mode_palettes.is_none() || self.items.is_none())
+            || self.unit_obj_normal_battle.is_some() && (self.unit_obj_equipment.is_none() || self.unit_obj_initial_pose.is_none() || self.metadata52.is_none() || self.metadata14.is_none())
+            || self.unit_obj_alternate_battle.is_some() && (self.unit_obj_normal_battle.is_none() || self.unit_obj_equipment.is_none() || self.unit_obj_initial_pose.is_none() || self.metadata52.is_none() || self.metadata14.is_none())
+            || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
+            || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
             || self.manifest.resources.len() != self.resource_count()
         {
             return Err("Extraction resource set is inconsistent".into());
@@ -1353,6 +1539,115 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected script_commands resource".into()),
         }
+        match (&self.script_archive, files.script_archive) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_SCRIPT_ARCHIVE_FILE_BYTES { return Err("ScriptArchive file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[44].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected script_archive resource".into()),
+        }
+        match (&self.script_text, files.script_text) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_SCRIPT_TEXT_FILE_BYTES { return Err("ScriptText file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[45].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected script_text resource".into()),
+        }
+        match (&self.script_coordinates, files.script_coordinates) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_SCRIPT_COORDINATES_FILE_BYTES { return Err("ScriptCoordinates file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[46].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected script_coordinates resource".into()),
+        }
+        match (&self.ui_choice_lists, files.ui_choice_lists) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UI_CHOICE_LISTS_FILE_BYTES { return Err("UiChoiceLists file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[50].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected ui_choice_lists resource".into()),
+        }
+        match (&self.unit_obj_initial_pose, files.unit_obj_initial_pose) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UNIT_OBJ_INITIAL_POSE_FILE_BYTES { return Err("UnitObjInitialPose file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[51].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected unit_obj_initial_pose resource".into()),
+        }
+        match (&self.color_mode_palettes, files.color_mode_palettes) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_COLOR_MODE_PALETTES_FILE_BYTES { return Err("ColorModePalettes file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[52].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected color_mode_palettes resource".into()),
+        }
+        match (&self.unit_obj_equipment, files.unit_obj_equipment) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES { return Err("UnitObjEquipment file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[53].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected unit_obj_equipment resource".into()),
+        }
+        match (&self.unit_obj_normal_battle, files.unit_obj_normal_battle) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES { return Err("UnitObjNormalBattle file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[54].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected unit_obj_normal_battle resource".into()),
+        }
+        match (&self.unit_obj_alternate_battle, files.unit_obj_alternate_battle) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES { return Err("UnitObjAlternateBattle file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[55].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected unit_obj_alternate_battle resource".into()),
+        }
+        match (&self.map_raster_palettes, files.map_raster_palettes) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[49].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected map_raster_palettes resource".into()),
+        }
+        match (&self.auxiliary_scripts, files.auxiliary_commands) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES { return Err("AuxiliaryCommands file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[47].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected auxiliary_commands resource".into()),
+        }
+        match (&self.auxiliary_scripts, files.auxiliary_archive) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES { return Err("AuxiliaryArchive file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[48].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected auxiliary_archive resource".into()),
+        }
+
         if total > MAX_DATASET_BYTES {
             return Err("Resource files exceed total size limit".into());
         }
@@ -1552,6 +1847,75 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded {return Err("Decoded script_commands differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.script_archive, files.script_archive) {
+            let commands=files.script_commands.ok_or("Missing script archive command dependency")?.0;
+            let effects=files.effect_event_directories.ok_or("Missing script archive effect dependency")?.0;
+            decoded.validate_dependencies(commands,effects)?;
+            if decoded != &expected.decoded {return Err("Decoded script_archive differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.script_text, files.script_text) {
+            let keys=files.script_archive.ok_or("Missing script text key dependency")?.0;
+            let font=files.font_bank.ok_or("Missing script text font dependency")?.0;
+            decoded.validate_dependencies(keys,font)?;
+            if decoded != &expected.decoded {return Err("Decoded script_text differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.script_coordinates, files.script_coordinates) {
+            let archive=files.script_archive.ok_or("Missing coordinate archive dependency")?.0;
+            let commands=files.script_commands.ok_or("Missing coordinate command dependency")?.0;
+            decoded.validate_dependencies(archive,commands)?;
+            if decoded != &expected.decoded {return Err("Decoded script_coordinates differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.ui_choice_lists, files.ui_choice_lists) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded ui_choice_lists differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.unit_obj_initial_pose, files.unit_obj_initial_pose) {
+            let jobs=files.metadata52.ok_or("Missing unit OBJ job dependency")?.0;
+            let special=files.metadata14.ok_or("Missing unit OBJ special dependency")?.0;
+            decoded.validate_producers(jobs,special)?;
+            if decoded != &expected.decoded {return Err("Decoded unit_obj_initial_pose differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.color_mode_palettes, files.color_mode_palettes) {
+            let special=files.metadata14.ok_or("Missing Color-Mode palette metadata14 dependency")?.0;
+            runtime::color_mode_palettes::validate_dependencies(decoded,special)?;
+            if decoded != &expected.decoded {return Err("Decoded color_mode_palettes differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.unit_obj_equipment, files.unit_obj_equipment) {
+            let items=files.items.ok_or("Missing equipment OBJ item dependency")?.0;
+            decoded.validate_producers(items)?;
+            if decoded != &expected.decoded {return Err("Decoded unit_obj_equipment differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.unit_obj_normal_battle, files.unit_obj_normal_battle) {
+            let jobs=files.metadata52.ok_or("Missing normal battle job dependency")?.0;
+            let special=files.metadata14.ok_or("Missing normal battle special dependency")?.0;
+            let initial=files.unit_obj_initial_pose.ok_or("Missing normal battle initial dependency")?.0;
+            let equipment=files.unit_obj_equipment.ok_or("Missing normal battle equipment dependency")?.0;
+            decoded.validate_producers(jobs,special)?;
+            decoded.owned_spans(initial,equipment)?;
+            if decoded != &expected.decoded {return Err("Decoded unit_obj_normal_battle differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.unit_obj_alternate_battle, files.unit_obj_alternate_battle) {
+            let jobs=files.metadata52.ok_or("Missing alternate battle job dependency")?.0;
+            let special=files.metadata14.ok_or("Missing alternate battle special dependency")?.0;
+            let initial=files.unit_obj_initial_pose.ok_or("Missing alternate battle initial dependency")?.0;
+            let equipment=files.unit_obj_equipment.ok_or("Missing alternate battle equipment dependency")?.0;
+            let normal=files.unit_obj_normal_battle.ok_or("Missing alternate battle normal dependency")?.0;
+            decoded.validate_producers(jobs,special)?;
+            decoded.owned_spans(initial,equipment,normal)?;
+            if decoded != &expected.decoded {return Err("Decoded unit_obj_alternate_battle differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
+            let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
+            decoded.validate_dependencies(descriptors)?;
+            if decoded != &expected.decoded {return Err("Decoded map_raster_palettes differs from authenticated source".into());}
+        }
+        if let Some(expected) = &self.auxiliary_scripts {
+            let commands=files.auxiliary_commands.ok_or("Missing auxiliary command dependency")?.0;
+            let archive=files.auxiliary_archive.ok_or("Missing auxiliary archive resource")?.0;
+            commands.validate()?;
+            archive.validate_dependencies(commands)?;
+            if commands != &expected.commands || archive != &expected.decoded {return Err("Decoded auxiliary scripts differ from authenticated source".into());}
+        }
         Ok(())
     }
 
@@ -1598,6 +1962,17 @@ impl Extraction {
             + usize::from(self.task_descriptors.is_some())
             + usize::from(self.effect_event_directories.is_some())
             + usize::from(self.script_commands.is_some())
+            + usize::from(self.script_archive.is_some())
+            + usize::from(self.script_text.is_some())
+            + usize::from(self.script_coordinates.is_some())
+            + usize::from(self.ui_choice_lists.is_some())
+            + usize::from(self.unit_obj_initial_pose.is_some())
+            + usize::from(self.color_mode_palettes.is_some())
+            + usize::from(self.unit_obj_equipment.is_some())
+            + usize::from(self.unit_obj_normal_battle.is_some())
+            + usize::from(self.unit_obj_alternate_battle.is_some())
+            + usize::from(self.map_raster_palettes.is_some())
+            + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
 
     pub fn version(&self) -> Version {
@@ -1697,6 +2072,18 @@ mod tests {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_commands: None,
+            auxiliary_archive: None,
             font_bank: None,
             })
             .unwrap();
@@ -1748,6 +2135,18 @@ mod tests {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_commands: None,
+            auxiliary_archive: None,
             font_bank: None,
             })
             .is_err());
@@ -1809,6 +2208,18 @@ mod tests {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_commands: None,
+            auxiliary_archive: None,
             font_bank: None,
                 })
                 .is_err());
@@ -1859,6 +2270,18 @@ mod tests {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_commands: None,
+            auxiliary_archive: None,
             font_bank: None,
             })
             .is_err());

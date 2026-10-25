@@ -462,6 +462,58 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_SCRIPT_COMMANDS_SCENE frames={} bus_reads={} source_bytes={} advance_bytes={} callback_bytes={} commands_used={}",frames,i.bus_reads,i.source_bytes,i.advance_bytes,i.callback_bytes,i.commands_used);
         assert!(i.advance_bytes>0 && i.callback_bytes>0, "scene must consume typed script advances and callbacks");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_SCRIPT_ARCHIVE").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().script_archive_stats().expect("decoded EUR script archive");
+        eprintln!("ROM_DATA_SCRIPT_ARCHIVE_SCENE frames={} bus_reads={} source_bytes={} index_bytes={} opcode_bytes={} parameter_bytes={} key_bytes={} padding_bytes={} banks_used={} programs_used={} key_records_used={} padding_spans_used={}",frames,i.bus_reads,i.source_bytes,i.index_bytes,i.opcode_bytes,i.parameter_bytes,i.key_bytes,i.padding_bytes,i.banks_used,i.programs_used,i.key_records_used,i.padding_spans_used);
+        assert!(i.opcode_bytes>0 && i.parameter_bytes>0, "scene must consume typed script opcodes and parameters");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_SCRIPT_TEXT").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().script_text_stats().expect("decoded EUR script text");
+        eprintln!("ROM_DATA_SCRIPT_TEXT_SCENE frames={} bus_reads={} source_bytes={} top_index_bytes={} variant_index_bytes={} bank_index_bytes={} header_bytes={} encoded_control_bytes={} glyph_bytes={} command_bytes={} operand_bytes={} terminator_bytes={} decoded_tail_bytes={} alignment_bytes={} decoded_program_bytes={} languages_used={} banks_used={} programs_used={} variant_records_used={} alignment_spans_used={}",frames,i.bus_reads,i.source_bytes,i.top_index_bytes,i.variant_index_bytes,i.bank_index_bytes,i.header_bytes,i.encoded_control_bytes,i.glyph_bytes,i.command_bytes,i.operand_bytes,i.terminator_bytes,i.decoded_tail_bytes,i.alignment_bytes,i.decoded_program_bytes,i.languages_used,i.banks_used,i.programs_used,i.variant_records_used,i.alignment_spans_used);
+        assert!(i.header_bytes>0 && i.decoded_program_bytes>0, "scene must consume typed script text headers and program bytes");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_SCRIPT_COORDINATES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().script_coordinates_stats().expect("decoded EUR coordinate paths");
+        eprintln!("ROM_DATA_SCRIPT_COORDINATES_SCENE frames={} bus_reads={} source_bytes={} index_bytes={} count_bytes={} coordinate_bytes={} alignment_bytes={} paths_used={} alignment_spans_used={}",frames,i.bus_reads,i.source_bytes,i.index_bytes,i.count_bytes,i.coordinate_bytes,i.alignment_bytes,i.paths_used,i.alignment_spans_used);
+        assert!(i.index_bytes>0 && i.count_bytes>0 && i.coordinate_bytes>0, "scene must consume typed coordinate directory, count and XY fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_AUXILIARY_SCRIPTS").is_some() {
+        let resources=decoded.bus.rom_resources().unwrap();
+        let c=resources.auxiliary_commands_stats().expect("decoded EUR auxiliary commands");
+        let a=resources.auxiliary_archive_stats().expect("decoded EUR auxiliary archive");
+        eprintln!("ROM_DATA_AUXILIARY_SCENE frames={} command_source_bytes={} archive_source_bytes={} advance_bytes={} callback_bytes={} index_bytes={} opcode_bytes={} parameter_bytes={} alignment_bytes={}",frames,c.source_bytes,a.source_bytes,c.advance_bytes,c.callback_bytes,a.index_bytes,a.opcode_bytes,a.parameter_bytes,a.alignment_bytes);
+        assert!(c.source_bytes>0 && a.source_bytes>0,"scene must consume both typed auxiliary resources");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_CHOICE_LISTS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().ui_choice_lists_stats().expect("decoded EUR UI choice lists");
+        eprintln!("ROM_DATA_UI_CHOICE_LISTS_SCENE frames={} bus_reads={} source_bytes={} identifier_bytes={} coordinate_bytes={} opaque_bytes={} navigation_bytes={} lists_used={}",frames,i.bus_reads,i.source_bytes,i.identifier_bytes,i.coordinate_bytes,i.opaque_bytes,i.navigation_bytes,i.lists_used);
+        assert!(i.source_bytes>0,"scene must consume typed UI choice list fields");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_EQUIPMENT").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().unit_obj_equipment_stats().expect("decoded EUR equipment OBJ");
+        eprintln!("ROM_DATA_UNIT_OBJ_EQUIPMENT_SCENE frames={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",frames,i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        assert!(i.pixel_bytes>0 && i.sequences_used>0,"ordinary scene must consume newly decoded equipment OBJ pixels and sequences");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_NORMAL_BATTLE").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().unit_obj_normal_battle_stats().expect("decoded EUR normal battle OBJ");
+        eprintln!("ROM_DATA_UNIT_OBJ_NORMAL_BATTLE_SCENE frames={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",frames,i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        assert!(i.pixel_bytes>0,"ordinary scene must consume newly decoded normal battle OBJ pixels");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_INITIAL_POSE").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().unit_obj_initial_pose_stats().expect("decoded EUR unit OBJ initial pose");
+        eprintln!("ROM_DATA_UNIT_OBJ_INITIAL_POSE_SCENE frames={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",frames,i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        assert!(i.pixel_bytes>0,"scene must consume typed decoded unit OBJ pixels");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_COLOR_MODE_PALETTES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().color_mode_palettes_stats().expect("decoded EUR Color-Mode palettes");
+        eprintln!("ROM_DATA_COLOR_MODE_PALETTES_SCENE frames={} bus_reads={} source_bytes={} unit_base_bytes={} companion_bytes={} supplemental_bytes={} shared_color_bytes={} special_unit_bytes={} selector_bytes={} fragments_used={}",frames,i.bus_reads,i.source_bytes,i.unit_base_bytes,i.companion_bytes,i.supplemental_bytes,i.shared_color_bytes,i.special_unit_bytes,i.selector_bytes,i.fragments_used);
+        assert!(i.source_bytes>0 && i.unit_base_bytes+i.companion_bytes+i.supplemental_bytes+i.shared_color_bytes+i.special_unit_bytes>0,"ordinary scene must consume typed Color-Mode palette colors");
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_MAP_RASTER_PALETTES").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().map_raster_palettes_stats().expect("decoded EUR map raster palettes");
+        eprintln!("ROM_DATA_MAP_RASTER_PALETTES_SCENE frames={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",frames,i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
+        assert!(i.source_bytes>0,"scene must consume typed map raster palette fields");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA52").is_some() {
         let i=decoded.bus.rom_resources().unwrap().metadata52_stats().expect("decoded EUR metadata52");
         eprintln!("ROM_DATA_METADATA52_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} routing_bytes={} packed_bytes={} tail_bytes={} opaque_bytes={}",i.bus_reads,i.source_bytes,i.header_bytes,i.routing_bytes,i.packed_bytes,i.tail_bytes,i.opaque_bytes);

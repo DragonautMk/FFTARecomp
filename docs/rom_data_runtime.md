@@ -1,6 +1,49 @@
 # Direct decoded resource consumption
 
-Current EUR `v1/e47-d46` adds `blend-programs.json` /
+EUR e60-d59 adds the [normal-mode battle pose owner](rom_data_unit_obj.md#normal-battle-managed-publication-and-runtime-reads):
+6021new spans1455474B, with exact shared initial/equipment views retaining their
+older owners.56files55resources preserve all54previous decoded records and e59;
+USA stays e8-d7. Two new reduced Wine filters pass17guards/lifecycle/alltyped
+bytes and32original/interpreter/compiled complete-state-clock paths, allsix
+APIcategories/6021edges/mirrors/BIOS/DMA/raw holes and older-owner composition.
+Source/model acceptance remains closed. ActualCLIcreate/no-write reuse56generation/
+58managedfiles and one genuine3530frame F09movement fullstate-clock-image-OAM-
+dispatch-allaudio pair now pass842236aggregateB/815360pixelB/fivesequences. Other
+2446newsequence ordinary uses retain targeted coverage. New Linux/USA/native
+Windows/new32:9 checks stay open, without performance or storage measurements.
+
+EUR `v1/e58-d57` adds [Color-Mode unit/UI palettes](rom_data_color_palettes.md#managed-publication-and-typed-runtime-reads):
+30spans5750B/2873u16colors/fouru8selectors. The owner returns typed words and
+selectors with per-byte raw-gap/previous-owner composition; live modes, copies,
+fades, RAM and save/native ABI remain original.54files53resources authenticate
+with metadata14dependency; all52prior decoded/resource records/e57 and USAe8-d7
+remain. Two reduced Wine filters pass17guards/lifecycle/all5750B and28complete
+original/interpreter/compiled state-clock paths. MixedSWI/DMA preserve2new+20raw+
+4oldUI bytes with exact2/4charges; all30edges/mirrors/BIOSbus and liveRAMpass.
+Source/model/oldfamily proofs were not rerun. ActualCLI create/reuse-no-write
+56managedfiles/all54generationfiles and one positive ordinaryLutia1700 fullstate-
+clock-image-OAM-dispatch-allaudio pair pass1102aggregate colorB/fourfragments.
+Party320/boot240newfamily-negative locators receive no fullpairs; remaining26
+ordinary fragments and newLinux-USA-nativeWindows/32:9 stay pending. No metrics.
+
+EUR `v1/e57-d56` adds [normal unit initial-pose sources](rom_data_unit_obj.md#managed-publication-and-direct-runtime-reads):
+415 spans146358B/121 producer IDs/477 frames/333 raw4bpp requests. The immutable
+owner reconstructs source bytes from typed directory/index/header/frame/OAM
+fields and decoded palette indices, while original RAM/scheduling/DMA/VRAM and
+save/native ABI remain.53files52resources authenticate with actual metadata52/14
+dependencies; all51prior decoded files/resource records/e56 and USAe8-d7 remain.
+Two reduced Wine filters pass17guards/lifecycle/all146358typedB and30 complete
+original/interpreter/compiled state-clock paths, raw ID/animation, live RAM
+frames, all415edges/mirrors/BIOSbus/2SWI/1DMA. Mixed transfers preserve2new+
+1276raw+8oldOBJbytes with exact2/8owner charges; old OBJ shares page394 correctly.
+Actual production CLI create/reuse-no-write55managed files/all53generation files
+match the accepted set with the old cache. One320-frame existing Party-unit
+fullstate-clock-central/wideimage-OAM-dispatch-all-audio pair passes with10962
+aggregate new B=[8dir16index4header252frame7162OAM3520pixel]/2sequences and764guards.
+Wholeunit/allocator ABI, other119ordinary sequences, poses/parts/IDs/palettes/
+newLinux-USA-nativeWindows/32:9 remain open.
+
+EUR `v1/e47-d46` adds `blend-programs.json` /
 `graphics.blend-programs`:160programs/345commands/6producer tables,
 158ranges/2428bytes.42files/41resources authenticate; all40prior decoded files/
 e46 and USAe8-d7 remain. Typed header/command/producer fields serve original
@@ -794,10 +837,16 @@ serve typed event/selector/even-MOV-PC fields without a byte shadow, new liveind
 cap, hostsequencer or save/native ABI. Two reduced Wine checks pass13guards/
 lifecycle/alltypedbytes and29original-interpreter-native fullstate-clock prefixes;
 compiledAPI reads[24event6selector24dispatch]aggregateB. Raw/defaults/u16wrap/font
-alias11B/samepagepalette4B/BIOS-SWI-DMA/new2raw2 pass; no wholeinterpreter/ordinary/
+alias11B/samepagepalette4B/BIOS-SWI-DMA/new2raw2 pass; no wholeinterpreter/
 reachability claim. ActualCLIcreate/reuse-no-write46managedfiles/oldcache passes.
 Pecorelle1000/schoolcoldboot3000/suspendboot-to-battle8476 locators readzero
-newbytes: closednegative/no event-requiredfullpairs; positiveordinary remains pending, Linux/USA remain toverify.
+newbytes: closednegative/no event-requiredfullpairs. New normal EUR progression
+reaches a genuine frame39420bedroom/book snapshot. One1800-frame Wine locator
+and one fullstate-clock-central/wide-image-OAM-dispatch-all-audio pair on the
+actual e52generation pass5aggregateB=1selector+4dispatch/one selector/one table,
+470hash-mtime guards. Eventrows0/other50selectors/other table remain targeted-only;
+Linux/USA/nativeWindows/new32:9 remain pending. No product rebuild/performance
+measurement. [Ordinary scope](rom_data_events.md#positive-ordinary-book-transition).
 
 ## European script command directory fields
 
@@ -818,3 +867,219 @@ field/address/call-prefix integration. ActualCLIcreate/reuse-no-write47managedfi
 oldcache andone8476-frame Wine EURsuspendboot-to-battle fullstate-clock-image-OAM-
 dispatch-audio pair pass42B=14advance28callback/7commands. Other108commands remain
 targeted-only; new32:9/Linux-USA-nativeWindows pending. [Evidence and limits](rom_data_scripts.md#managed-publication-and-direct-command-fields).
+
+
+## European relative script archive
+
+EUR e51-d50 adds `script-archive.json` / `engine.script-archive`,
+46files/45resources, retaining all44earlier decoded files/e50 and USAe8-d7.
+Activation checks real command/effect-directory dependencies. Two source bindings
+cover115464bytes on pagesB94..BB0/D68; typed top/nested index words, opcodes,
+parameters, keys and fills serve original CPU/DMA/BIOS/native reads. Per-byte
+merging preserves the palette-effect owner on pageB94 and adjacent raw data.
+No new guest ID bounds, host sequencer or save/native ABI; counters remain
+outside serialized state.
+
+Two reduced Wine checks pass13guards/lifecycle/all115464bytes and28original/
+interpreter/native complete-state/clock prefixes. Compiled APIs read37index/
+4opcode/7parameter/12key/1fill aggregate bytes. Raw0/234/239/65535/low16/unaligned
+rotation/header-fill targets/q0/relative-target/return-loop, previous-owner4B,
+widths/mirrors/realBIOS/CpuSet/FastSet/DMA and mixed raw2+new2/new2+raw2 agree.
+169instructions/66PCs/28dispatches are coverage only. Actual production CLI
+create/reuse-no-write48managedfiles/oldcache passes. One retained ordinary
+8476-frame EUR locator reads27archive bytes (8index/7opcode/10parameter/2key),
+one bank/program/key and zero fill. One Wine8476-frame pair from that CLI
+generation passes every full state/clock, central/wide image, OAM/dispatch and
+mixed/PSG/FIFO/bitwise-HLE sample; all366hash-mtime guards pass.
+Other61banks/206programs/233keys/all45fills retain targeted coverage. New32:9/
+Linux/USA/native Windows remain pending. [Evidence and limits](rom_data_scripts.md#archive-production-cli-and-ordinary-acceptance).
+
+
+## European script-selected localized text
+
+Current EUR e52-d51 adds `script-text.json` / `text.script-archives`,47files/
+46resources, retaining45prior decoded files/e51and USAe8-d7. Actual script-key/
+font dependencies validate before activation. Five bindings/1803744bytes serve
+typed top/variant/bank indices, headers, encoded controls, decoded glyph/command/
+operand/terminator fields and exact slack. Shared `TextProgramMap` maps encoded
+literals to typed units for both old and new text owners; old categories remain.
+Decoded tails are preserved but have0direct source literals, being generated by
+original LZ controls/backreferences. Guest expansion/live RAM/clocks/save/native
+ABI remain original, counters and coverage masks stay outside saves.
+
+An affected shared-mapper literal-poison Wine check and two new managed/native
+filters pass13guards/lifecycle/allbytes/all masks and35original/interpreter/
+compiled complete-state-clock prefixes. Compiled categories
+[21,17,17,13,6,4,5,1,3,0,3]B, raw selectors/wrap/sentinels/BB0-D68prior-owner merging/
+raw after old key owner/width-mirror-realBIOS-CpuSet-FastSet-DMA agree.163real
+old-format0/1/2program source bytes verify the shared map;379instructions/65PCs/
+71dispatches count coverage only. Production CLI create/reuse-no-write49files/
+oldcache passes. The8476battle context is negative0new text/no fullpair; the
+retained school3000locator is positive289B across one language/bank/two programs,
+zero variants/operand/tail/slack. One Wine3000-frame pair from that CLI generation
+passes every full state/clock, central/wide image, OAM/dispatch and mixed/PSG/FIFO/
+bitwise-HLE sample; same positive source use and468hash-mtime guards.
+Other records retain targeted coverage; new32:9/Linux/USA/native Windows pending.
+[Evidence and limits](rom_data_text.md#script-text-production-cli-and-ordinary-school-dialog).
+
+## European coordinate path fields
+
+EUR e53-d52publishes `script-coordinate-paths.json` /
+`engine.script-coordinate-paths`,48files47resources/all46prior decoded/e52
+retained/USAe8-d7. Actual script-archive/command dependencies authenticate68links;
+one3056Bbinding serves typed relative indices/u16counts/XY/alignment through the
+shared immutable owner. No host movement routine, ROM byte shadow, new guest
+index/count cap or save/native ABI change. The original reader retains live RAM
+height and low16/low8control. D68merges previous text, keys and the new directory;
+rawD69BC4outside data stays live.
+
+The new managed Wine filter passes14coherent/missingfile guards/both dependencies,
+create/reuse/repair/move/e52retention/Load-Undo-backup-Restart/unavailable files,
+all3056typedB/210paths/856points/42alignment. Corrected native-observer filter
+passes24original/interpreter/compiled complete-state-clock cases, including four
+full copies/live height/raw arguments/allfour compiled classes[28,85,76,2]B,
+triple-owner boundaries/widths/mirrors/realBIOS/CpuSet/FastSet/DMA. Initial new-test
+array/observer errors are retained and corrected; successful core/managed/source
+proofs are reused. No whole movement/allocator ABI claim.
+
+Actual productionCLIcreate/reuse-no-write50managedfiles/oldcache/all48file
+equality and one6000-frame genuine EUR snowball/transition pair pass every full
+state/clock/central-wide image/OAM/dispatch/mixed-PSG-FIFO-bitwise-HLE sample.
+Source use28B=4index14count10XY/one path,0alignment;581hash-mtime guards. Other
+209paths/42alignment records targeted-only; newLinux-USA-nativeWindows/new32:9
+remain pending. No performance/space measurement.
+[CLI and ordinary scope](rom_data_scripts.md#coordinate-path-production-cli-and-ordinary-scene).
+
+
+## European auxiliary script directory and archive
+
+EUR e54-d53 publishes two separate files/resources for the auxiliary directory
+and u16-relative archive,50files49resources/all47prior decoded/e53retained/
+USAe8-d7. The archive authenticates its own actual directory dependency before
+one immutable owner serves typed advance/callback/index/opcode/parameter/
+alignment fields. No ROMshadow/hostscript/newguestcap/save-nativeABI change.
+Sourcepage370 retains audio owners and D69 merges preceding coordinates with
+auxiliary indices; raw370FFA+/D6ABC6+ remain original fallback.
+
+One warning-free affected Windows build and two new Wine filters pass first
+execution:26coherent/missingfile guards/create-reuse-repair-move/e53retention/
+unavailable-files/Load-Undo-backup-Restart/sameowner/all4200B.44original/interpreter/
+compiled complete-state-clock prefixes pass allsix APIclasses[6advance65callback
+18index19opcode15parameter2alignment]B/interior entries/signedcursor/wrap/rawopcodes/
+raw8:1u32LDRH/fullaction2vs102/mixedowners/edges-widths-mirrors-realBIOS-CpuSet-
+FastSet-DMA.624instructions92PC52dispatchescoverageonly, not wholepredicates/
+interpreter/callbackABI/ordinary for the targeted checks. ActualproductionCLI
+create/reuse-no-write52managedfiles/oldcache/all50generation equality now passes.
+One6000frame genuine EUR ordinary pair passes every complete state/clock/image/
+OAM/dispatch/mixed-PSG-FIFO-bitwise-HLE sample, directory96B=32advance64callback/
+6commands, archive82B=16index20opcode46parameter/2banks2programs/0alignment;
+640hash-mtime guards pass. Other11commands/6banks/131programs/5alignment spans
+remain targeted-only. NewLinux-USA-nativeWindows/32:9pending, no performance/
+space measurement/newfixture/navigation. [Evidence](rom_data_scripts.md#auxiliary-script-production-cli-and-positive-ordinary-scene).
+
+## European map raster palettes
+
+EUR e55-d54 publishes `map-raster-palettes.json` / `graphics.map-raster-palettes`:
+51generation files/50resources, all49prior decoded files unchanged/e54retained,
+USAe8-d7. Actual BGdescriptor links authenticate before one immutable typed
+index/header/color owner serves33ranges10496B. New pages487..489overlay only
+owned bytes; at489BB0the earlier alternate-palette owner retains its index word.
+Original signed/unsigned selectors, raw arguments, live windows,322Bcopies,
+extra read/wrap/clock and DMA scheduling remain guest work. No ROMshadow,
+host raster/DMA interpreter, guestcap or save/native/cache ABI change.
+
+One warning-free affected Windows core/frontend build and two new Wine filters
+pass first execution:17guards/publication/lifecycle/create-reuse-repair-move/
+e54retention/unavailable-files/Load-Undo-backup-Restart/sameowner/all10496B.
+28original-interpreter-compiled paths match complete states/clocks with both
+new sources and adjacent314Bpalette index poisoned, compiled[15index46header
+24color]B. Immediate/deferred/raw/sentinel/queuedDMA/copy-wrap, mixedowners/raw
+neighbors and widths/mirrors/realBIOSbusmode/fourSWIs/oneimmediateDMA pass.
+638instructions204PC55dispatches are coverage only, not wholecamera/rasterDMA/
+ordinaryABI.646hash-mtime guards pass. ActualproductionCLIcreate/reuse-no-write
+53managedfiles/all51generation equality/oldcache and one1500frame genuine
+coldboot Winefullstate-clock-image-OAM-dispatch-audio pair nowpass,50880aggregateB=
+2index322header50556color/25440busreads/programmask2 (neighbor-header touches
+included, not two full palette initializations/distinctB). Audio samples
+[3291096,3291096,395212,395212,3269758],701guards. Othercontexts/wholecamera-rasterABI/
+newLinux-USA-nativeWindows/new32:9 remain pending. No performance/space or new
+fixture/navigation work. [CLI and scene](rom_data_maps.md#raster-palette-production-cli-and-positive-ordinary-boot).
+
+
+## UI choice lists
+
+EUR e56-d55 publishes `ui-choice-lists.json` / `engine.ui-choice-lists`, with
+52generation files/51resources/all50prior decoded unchanged/e55retained; USAe8-d7
+unchanged. Thirteen immutable typed spans/336B expose original identifier,
+unsigned cursor X/Y, opaque byte3and four full raw navigation bytes. Per-byte
+composition preserves previous same-page OBJ owners and raw gaps. Original
+signed copy counts, filtered RAM lists, overrides, input/cursor/tasks and
+source-independent RAM reads remain guest work. No raw shadow, host navigation
+replacement or guest count/target cap; save/native identity and ABI unchanged.
+
+One warning-free affected Windows core/frontend test build and two focused Wine
+filters pass17guards/full-set coherence/lifecycle/all336typedB=[42ID84coordinate
+42opaque168nav]/13lists/transactional attachment/unavailableLoad-Undo-backup-
+Restart. Twenty-nine original-interpreter-compiled full-state/clock component
+paths pass with all336new+14oldOBJrawBpoisoned; compiled aggregate categoryB=
+[92,183,92,368]. Widths/mirrors/realBIOS bus/3SWI/1DMA and mixed2old+2raw+2newB
+copies pass.706hash-mtime guards;3010instructions186PC38dispatch coverage only.
+No completewidget ABI claim. ActualCLIcreate/reuse52generation54managedfiles/
+oldcache now passes no-write, and one320frame ordinaryParty complete-state-clock-
+image-OAM-dispatch-audio pair passes32aggregateUIB=[4ID8coordinate4opaque16nav]/
+1list/769hash-mtime guards. Other12lists'ordinaryuse/newLinux-USA-nativeWindows/
+new32:9 remain pending. Pecorelle1000/Moogle600are terminal0UI/no fullpairs. No performance/space, new fixture or
+navigation. [Contract and evidence](rom_data_ui.md#managed-publication-and-typed-runtime-reads).
+
+[Actual CLI/Party scene](rom_data_ui.md#production-cli-and-positive-ordinary-party-scene)
+reuses authentic existing snapshot/input and the same accepted dataset; no
+source/model/native/oldscene acceptance is reopened.
+
+
+## Equipment OBJ poses
+
+EUR e59-d58 publishes `unit-obj-equipment.json` / `graphics.unit-obj-equipment`
+with actual `gameplay.item-records` dependency,55generationfiles54resources/
+all53prior decoded-resource records/e58 retained/USAe8-d7. The immutable typed
+owner serves exact directory/index/null/header/frame/OAM/pixel bytes; packed
+pixels come from decoded palette indices. Temporary source buffers are dropped,
+raw holes and earlier owners compose per byte. Original facing, commands0/6/8,
+RAM task pools, scheduler, DMA, VRAM, save/native ABI and cache stay active.
+
+One warning-free Windows core/frontend test build and two new exact Wine filters
+pass on first execution:17guards/publication/transaction/lifecycle/create-reuse-
+repair-move/unavailable Load-Undo-backup-Restart/sharedowner/all110666typedB/
+258sequences. Twenty-six original/interpreter/compiled paths match complete
+states/guestclocks with all new sources plus24oldOBJ-initialB altered. Compiled
+API aggregate category bytes `[32,24,6,47,32,1]` cover directory/index/header/
+frame/OAM/pixels; actual DMA equivalence is checked separately. Fullword raw
+selectors, nulls, live RAM frame,593edges/widths/mirrors/realBIOS bus/2SWI/1DMA
+pass. Mixed2new+1028raw+8oldOBJ B charges2/8; unalignedAPI retains2edited raw B.
+831build/833runtime hash-mtime guards and eleven source inputs are intact.
+1511instructions502PC97dispatch coverage only, no whole allocator/scheduler or
+ordinary ABI claim. Source/model/oldproofs not rerun. ActualCLI create/reuse-no-
+write55generation/57managed files passes from unrelatedcwd/oldcache; retained
+Sheep1000/Fight700 are equipment-negative/no fullpairs. Authorized copiedEURPolly
+→Hildegard confirmedFight500singlefullpair now passes allstate-clock-image-OAM-
+dispatch-audio/4477equipmentB/1408pixelB/two sequences exactlymatchingactuale61CLI.
+Other256ordinary sequences and newLinux-USA-nativeWindows/32:9 retain pending
+coverage. No performance/space campaign.
+[Contract and targeted evidence](rom_data_unit_obj.md#equipment-managed-publication-and-runtime-reads).
+
+
+EUR `v1/e61-d60` adds `unit-obj-alternate-battle.json` /
+`graphics.unit-obj-alternate-battle`,57files56resources/all55prior decoded
+resources and e60retained/USAe8unchanged. The immutable typed owner serves only
+3321new spans410086B with actual metadata52/14/initial/equipment/normal
+dependencies. All20shared index-root targets stay explicit non-sequences under
+older ownership. Two reduced Wine filters firstPASS20managed guards/lifecycle/
+all new bytes/606sequences and34original/interpreter/compiled complete-state-clock
+paths, genuine extra-part nulls/shared-root prefixes/commands2-3-8/uploads-DMA/
+all3321edges/BIOS-SWI-DMA/mixed raw-oldowner reads. StrictNull parsing rejects
+extra fields while canonical valid JSON remains identical. Source/model/managed/
+native and actualCLI children are closed. Actual Wine CLI creates/reuses all57
+accepted generation files/59managed files without rewriting; one-frame oldcache
+attachment passes with zero new alternate use. Positive ordinary alternate use,
+script/live reachability and new Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage campaign
+or new gameplay checkpoint.
+[Alternate runtime contract](rom_data_unit_obj.md#alternate-managed-publication-and-typed-runtime-reads).

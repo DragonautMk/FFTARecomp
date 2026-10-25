@@ -1,5 +1,42 @@
 # European OBJ lists and animation banks
 
+The separate [normal-mode battle pose source model](rom_data_unit_obj.md#normal-mode-battle-poses-source-projection-and-typed-model)
+now decodes2581sequences/17894frames over122normal-mode IDs, including real nulls,
+parts1/2 and command-dependent fields. New6021spans1455474B exclude byte-identical
+initial/equipment views. One new Wine source oracle passes constructor/reset/
+command/scheduler-DMA checks, including all1063200newpixelB; prior acceptance
+is not replayed. EUR e60-d59now publishes and consumes the new typed ranges:
+56files55resources/all54old resources/e59retained/USAe8unchanged. Two reduced
+Wine filters pass17guards/lifecycle/all1455474newtypedB and32original/interpreter/
+compiled full-state-clock paths with mixed older-owner/raw reads. Actual
+production CLIcreate/no-write reuse56generation/58managed files and one existing
+F09Wait3530ordinary fullstate-clock-image-OAM-dispatch-allaudio pair now pass
+842236newaggregateB/815360pixelB/fivesequences. Other2446new sequences retain
+targeted coverage; alternate/script/live-stream pairings and new Linux/USA
+checks stay open, without performance measurements.
+
+The normal unit graphics path now has a separate [initial-pose source model](rom_data_unit_obj.md):
+121 producer IDs,477 frames and135168 decoded4bpp pixel bytes. EUR e57 now
+publishes and consumes this family; bounded source/model and managed/native
+Wine criteria pass. Production CLI create/no-write reuse and a positive320-frame
+Party-unit full state/image/audio pair now pass too. Other poses/parts/IDs remain open. The separate
+[Color-Mode unit/UI palette source model](rom_data_color_palettes.md) now covers
+30spans5750B with original Wine selector/copy proofs. EUR e58-d57 now publishes
+and consumes typed colors/selectors with targeted lifecycle/native-state-clock
+checks passing. ActualCLI create/no-write reuse and a positive ordinaryLutia1700
+fullstate-clock-image-audio pair pass1102aggregate paletteB/fourfragments. This does not extend the
+custom UI catalogs described below.
+
+The separate [equipment pose model](rom_data_unit_obj.md#equipment-managed-publication-and-runtime-reads)
+now publishes and consumes748cells/258sequences/593spans110666B in EUR e59-d58,
+including real nulls and non-transfer commands. Two reduced Wine filters pass
+lifecycle/alltyped bytes/26original-interpreter-compiled state-clock paths.
+All53prior resource records/e58 remain intact. ActualCLI create/no-write reuse
+55generation/57managed files passes; Sheep1000/Fight700 are equipment-negative,
+no fullpairs. One authorized copiedEURPolly→Hildegard confirmedFight500fullpair
+passes allstate-clock-image-OAM-dispatch-audio/4477equipmentB/1408pixelB/twosequences;
+other256ordinary sequences targeted-only. No metrics.
+
 `rom_data::obj_lists` defines the next bounded sprite resource family after
 OBJ dimensions. The current catalog contains 73 static lists (173 objects, 1184 source bytes),
 independently rooted by 123 direct literal references to EUR draw wrappers.
@@ -188,7 +225,8 @@ at `03002c58`/count `03002c50`. These are original code entry points and RAM
 contracts, not copied instructions or host replacements.
 
 Three sequence records are empty. Their source headers and original constructor
-results are retained. Their scheduling preconditions are unknown; the extractor
+results are retained. Their declared direct-root callers exclude these entries,
+as classified below; indirect or changed live task selection remains unverified. The extractor
 does not invent a frame or silently remove their index entries. The original
 runtime still handles live tasks, including any accesses outside a declared
 empty record, through its unchanged bus behavior.
@@ -274,7 +312,8 @@ New selectors add two owned bytes per sequence. Duration references must resolve
 to a typed sequence header or the start of a typed sequence index; they do not
 create overlapping owners. Invalid selectors, aliases, mixed nonzero headers,
 missing owners and source-inconsistent edits are rejected. The three earlier
-empty records have no hold interpretation and retain their open caller contracts.
+empty records have no proved hold interpretation; the bounded direct-root caller
+classification below rejects extending this field to them.
 Repeat mode one and other caller preconditions are unverified.
 
 EUR schema 1/extractor 17/decoder 16 retains all fourteen files/thirteen resources
@@ -390,8 +429,9 @@ Evidence is under ignored `target/rom-data-obj-indirect/`:
 `windows-managed-europe/*-result.json`, `windows-cli-summary.json`,
 `windows-cli-engage-confirm.json`, `windows-scene-result.json` and
 `windows-build.json`. New Linux/USA/native Windows verification, other ordinary
-scenes/languages, GUI/archives, three earlier empty-record caller contracts and
-other source roots remain open. The linked compressed OBJ graphics table
+scenes/languages, GUI/archives and other source roots remain open. The three
+earlier empty-record direct-root caller domains are classified below; indirect
+selection and changed live task contexts remain unverified. The linked compressed OBJ graphics table
 `395588`/3072-byte transfer is subsequently migrated under e19 below. No
 performance/startup/RSS/space campaign is included.
 
@@ -472,7 +512,7 @@ Private evidence: `target/rom-data-obj-graphics/` contains the independent
 `windows-engage-custom-graphics-full-state-audio.log` and Windows build logs.
 The native-result aggregate DMA flag is superseded by the explicit corrected
 DMA result. New Linux/USA/native Windows, other ordinary scenes/languages,
-remaining OBJ graphics/palettes, three earlier empty-record contracts and
+remaining OBJ graphics/palettes, unproved indirect empty-record selection and
 broader GUI/archive/gameplay/mod phases remain pending. No performance,
 startup/RSS or space campaign, AndroidPort change, commit or push is included.
 
@@ -495,3 +535,67 @@ through explicit authenticated owner links; obj-graphics.json stays identical.
 Original5056byte OBJ and2688byte BG copies cover each7744byte decoded bank
 exactly; no duplicated owner or invented tail. Both language fallbacks and
 original work/clock remain. See [localized UI contract](rom_data_ui_graphics.md#localized-ui-selectors-in-e22).
+
+
+## Earlier empty sequence caller domains
+
+A bounded EUR static audit closes the direct-root caller question for the three
+older empty records, without adding `zero_count_hold` or changing extraction:
+
+- Bank0/sequence1 at `B4BD20`, roots `B4BC84`/`B4BD10`, and bank1/sequence1 at
+  `B4BD34`, roots `B4BC98`/`B4BD24`: all twelve declared constructor calls pass
+  constant sequence0, excluding the empty sequence1.
+- Bank14/sequence6 at `B4FA10`, roots `B4F028`/`B4F9B8`: initializer `0808BBF0`
+  reaches constructor wrapper `0804E558`; updates `0808CA42`/`0808CF48` reach
+  `0804E494`. All eighteen direct Thumb callers of the initializer supply a
+  full-word mode constant0..3 at stack argument3. Their computed initial
+  selectors are0..3; the update paths select2/3 for every live flag byte. These
+  sequences are nonempty. Constant setup across calls relies on the original
+  compiler's callee-preserved r4..r11 convention, with explicit writes and
+  stack-slot replacement checked independently.
+
+The initializer preserves the low two mode bits and one flag bit in live RAM.
+Its original full-word comparisons against2/3 select the flag bit alone; other
+modes select `2*(mode & 3) | (flag & 1)`. Thus raw mode7 or65539 can select6/7.
+The initializer passes repeat1, and no actual rooted producer of these modes is
+established here. This is not a guest mode/index cap or a proof that the empty
+records are globally unreachable. Computed pointers, indirect entry and later
+RAM mutation remain outside the bounded literal/direct-call audit.
+
+The unchanged constructors retain count0 and body pointer `header+2`. The
+original scheduler reads the object-list selector there and a duration at
+`header+4`; nonrepeat mode can retain cursor0, while repeat1 takes the original
+zero-divisor path, whose scheduling result is unverified here. The three
+possible selector halfwords are zero and unowned (six bytes total). Their
+possible durations8/16/4 alias existing typed sequence-index owners at
+`B4BD24`/`B4BD38`/`B4FA14`. No new ownership follows from that adjacency.
+
+An all-byte ROM pointer census accounts for all thirty literal occurrences of
+the six bank roots and finds no absolute pointer to the three empty headers or
+bodies. Forty-seven original instruction fingerprints, fifteen rooted calls,
+eighteen mode producers and all fifty current source owners pass the static
+contract audit. The proposed hold extension is rejected for the current
+source evidence; reopen only with a concrete new producer or ordinary trace
+selecting an empty record with established scheduling semantics. EUR e55-d54
+and USA e8-d7 remain unchanged. No build or guest execution was needed; new
+Linux/USA/native Windows checks remain pending. Evidence:
+`target/rom-data-obj-empty-callers/source-contract.json`, `rooted-calls.json`,
+`mode-producer-bindings.json`, `pointer-census.json` and original disassembly.
+
+
+EUR `v1/e61-d60` adds `unit-obj-alternate-battle.json` /
+`graphics.unit-obj-alternate-battle`,57files56resources/all55prior decoded
+resources and e60retained/USAe8unchanged. The immutable typed owner serves only
+3321new spans410086B with actual metadata52/14/initial/equipment/normal
+dependencies. All20shared index-root targets stay explicit non-sequences under
+older ownership. Two reduced Wine filters firstPASS20managed guards/lifecycle/
+all new bytes/606sequences and34original/interpreter/compiled complete-state-clock
+paths, genuine extra-part nulls/shared-root prefixes/commands2-3-8/uploads-DMA/
+all3321edges/BIOS-SWI-DMA/mixed raw-oldowner reads. StrictNull parsing rejects
+extra fields while canonical valid JSON remains identical. Source/model/managed/
+native and actualCLI children are closed. Actual Wine CLI creates/reuses all57
+accepted generation files/59managed files without rewriting; one-frame oldcache
+attachment passes with zero new alternate use. Positive ordinary alternate use,
+script/live reachability and new Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage campaign
+or new gameplay checkpoint.
+[Alternate runtime contract](rom_data_unit_obj.md#alternate-managed-publication-and-typed-runtime-reads).

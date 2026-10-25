@@ -26,6 +26,18 @@ use gba_core::rom_data::{
     task_descriptors::TaskDescriptors, TASK_DESCRIPTORS_ID, TASK_DESCRIPTORS_FILE, MAX_TASK_DESCRIPTORS_FILE_BYTES,
     effect_event_directories::EffectEventDirectories, EFFECT_EVENT_DIRECTORIES_ID, EFFECT_EVENT_DIRECTORIES_FILE, MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES,
     script_commands::ScriptCommands, SCRIPT_COMMANDS_ID, SCRIPT_COMMANDS_FILE, MAX_SCRIPT_COMMANDS_FILE_BYTES,
+    script_archive::ScriptArchive, SCRIPT_ARCHIVE_ID, SCRIPT_ARCHIVE_FILE, MAX_SCRIPT_ARCHIVE_FILE_BYTES,
+    script_text::ScriptText, SCRIPT_TEXT_ID, SCRIPT_TEXT_FILE, MAX_SCRIPT_TEXT_FILE_BYTES,
+    script_coordinates::ScriptCoordinates, SCRIPT_COORDINATES_ID, SCRIPT_COORDINATES_FILE, MAX_SCRIPT_COORDINATES_FILE_BYTES,
+    ui_choice_lists::UiChoiceLists, UI_CHOICE_LISTS_ID, UI_CHOICE_LISTS_FILE, MAX_UI_CHOICE_LISTS_FILE_BYTES,
+    unit_obj_initial_pose::UnitObjInitialPose, UNIT_OBJ_INITIAL_POSE_ID, UNIT_OBJ_INITIAL_POSE_FILE, MAX_UNIT_OBJ_INITIAL_POSE_FILE_BYTES,
+    color_mode_palettes::ColorModePalettes, COLOR_MODE_PALETTES_ID, COLOR_MODE_PALETTES_FILE, MAX_COLOR_MODE_PALETTES_FILE_BYTES,
+    unit_obj_equipment::UnitObjEquipment, UNIT_OBJ_EQUIPMENT_ID, UNIT_OBJ_EQUIPMENT_FILE, MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES,
+    unit_obj_normal_battle::UnitObjNormalBattle, UNIT_OBJ_NORMAL_BATTLE_ID, UNIT_OBJ_NORMAL_BATTLE_FILE, MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES,
+    unit_obj_alternate_battle::UnitObjAlternateBattle, UNIT_OBJ_ALTERNATE_BATTLE_ID, UNIT_OBJ_ALTERNATE_BATTLE_FILE, MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES,
+    map_raster_palettes::MapRasterPalettes, MAP_RASTER_PALETTES_ID, MAP_RASTER_PALETTES_FILE, MAX_MAP_RASTER_PALETTES_FILE_BYTES,
+    auxiliary_scripts::AuxiliaryCommands, AUXILIARY_COMMANDS_ID, AUXILIARY_COMMANDS_FILE, MAX_AUXILIARY_COMMANDS_FILE_BYTES,
+    auxiliary_scripts::AuxiliaryArchive, AUXILIARY_ARCHIVE_ID, AUXILIARY_ARCHIVE_FILE, MAX_AUXILIARY_ARCHIVE_FILE_BYTES,
     item_links::Links as ItemLinks, ITEM_LINKS_ID, ITEM_LINKS_FILE, MAX_ITEM_LINKS_FILE_BYTES,
     items::Items, ITEM_RECORDS_ID, ITEM_RECORDS_FILE, MAX_ITEM_RECORDS_FILE_BYTES,
     ui_graphics::Graphics as UiGraphics, UI_CUSTOM_GRAPHICS_ID, UI_CUSTOM_GRAPHICS_FILE, MAX_UI_CUSTOM_GRAPHICS_FILE_BYTES,
@@ -175,6 +187,30 @@ mod script_command_model_tests;
 #[cfg(test)]
 mod script_archive_model_tests;
 #[cfg(test)]
+mod script_obj_query_tests;
+#[cfg(test)]
+mod script_text_model_tests;
+#[cfg(test)]
+mod script_coordinates_model_tests;
+#[cfg(test)]
+mod auxiliary_scripts_model_tests;
+#[cfg(test)]
+mod map_raster_palette_model_tests;
+#[cfg(test)]
+mod ui_choice_list_model_tests;
+#[cfg(test)]
+mod unit_obj_initial_pose_model_tests;
+#[cfg(test)]
+mod unit_obj_equipment_model_tests;
+#[cfg(test)]
+mod unit_obj_normal_battle_model_tests;
+#[cfg(test)]
+mod script_special_normal_model_tests;
+#[cfg(test)]
+mod unit_obj_alternate_battle_model_tests;
+#[cfg(test)]
+mod color_mode_palette_model_tests;
+#[cfg(test)]
 mod metadata4_runtime_tests;
 #[cfg(test)]
 mod metadata2_runtime_tests;
@@ -220,6 +256,28 @@ mod task_descriptor_runtime_tests;
 mod effect_event_directory_runtime_tests;
 #[cfg(test)]
 mod script_command_runtime_tests;
+#[cfg(test)]
+mod script_archive_runtime_tests;
+#[cfg(test)]
+mod script_text_runtime_tests;
+#[cfg(test)]
+mod script_coordinate_runtime_tests;
+#[cfg(test)]
+mod auxiliary_scripts_runtime_tests;
+#[cfg(test)]
+mod ui_choice_list_runtime_tests;
+#[cfg(test)]
+mod unit_obj_initial_pose_runtime_tests;
+#[cfg(test)]
+mod color_mode_palette_runtime_tests;
+#[cfg(test)]
+mod unit_obj_equipment_runtime_tests;
+#[cfg(test)]
+mod unit_obj_normal_battle_runtime_tests;
+#[cfg(test)]
+mod unit_obj_alternate_battle_runtime_tests;
+#[cfg(test)]
+mod map_raster_palette_runtime_tests;
 #[cfg(test)]
 mod aggregate_flag_key_runtime_tests;
 #[cfg(test)]
@@ -519,6 +577,66 @@ fn parse_script_commands(bytes:&[u8])->Result<ScriptCommands,String> {
     value.validate()?;Ok(value)
 }
 fn encode_script_commands(value:&ScriptCommands)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode script_commands: {e}"))}
+fn parse_script_archive(bytes:&[u8])->Result<ScriptArchive,String> {
+    let value:ScriptArchive=serde_json::from_slice(bytes).map_err(|e|format!("Invalid script_archive: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_script_archive(value:&ScriptArchive)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode script_archive: {e}"))}
+fn parse_script_text(bytes:&[u8])->Result<ScriptText,String> {
+    let value:ScriptText=serde_json::from_slice(bytes).map_err(|e|format!("Invalid script_text: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_script_text(value:&ScriptText)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode script_text: {e}"))}
+fn parse_script_coordinates(bytes:&[u8])->Result<ScriptCoordinates,String> {
+    let value:ScriptCoordinates=serde_json::from_slice(bytes).map_err(|e|format!("Invalid script_coordinates: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_script_coordinates(value:&ScriptCoordinates)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode script_coordinates: {e}"))}
+fn parse_ui_choice_lists(bytes:&[u8])->Result<UiChoiceLists,String> {
+    let value:UiChoiceLists=serde_json::from_slice(bytes).map_err(|e|format!("Invalid ui_choice_lists: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_ui_choice_lists(value:&UiChoiceLists)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode ui_choice_lists: {e}"))}
+fn parse_unit_obj_initial_pose(bytes:&[u8])->Result<UnitObjInitialPose,String> {
+    let value:UnitObjInitialPose=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_initial_pose: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_initial_pose(value:&UnitObjInitialPose)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_initial_pose: {e}"))}
+fn parse_color_mode_palettes(bytes:&[u8])->Result<ColorModePalettes,String> {
+    let value:ColorModePalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid color_mode_palettes: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_color_mode_palettes(value:&ColorModePalettes)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode color_mode_palettes: {e}"))}
+fn parse_unit_obj_equipment(bytes:&[u8])->Result<UnitObjEquipment,String> {
+    let value:UnitObjEquipment=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_equipment: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_equipment(value:&UnitObjEquipment)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_equipment: {e}"))}
+fn parse_unit_obj_normal_battle(bytes:&[u8])->Result<UnitObjNormalBattle,String> {
+    let value:UnitObjNormalBattle=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_normal_battle: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_normal_battle(value:&UnitObjNormalBattle)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_normal_battle: {e}"))}
+fn parse_unit_obj_alternate_battle(bytes:&[u8])->Result<UnitObjAlternateBattle,String> {
+    let value:UnitObjAlternateBattle=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_alternate_battle: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_alternate_battle(value:&UnitObjAlternateBattle)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_alternate_battle: {e}"))}
+fn parse_map_raster_palettes(bytes:&[u8])->Result<MapRasterPalettes,String> {
+    let value:MapRasterPalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid map_raster_palettes: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_map_raster_palettes(value:&MapRasterPalettes)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode map_raster_palettes: {e}"))}
+fn parse_auxiliary_commands(bytes:&[u8])->Result<AuxiliaryCommands,String> {
+    let value:AuxiliaryCommands=serde_json::from_slice(bytes).map_err(|e|format!("Invalid auxiliary_commands: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_auxiliary_commands(value:&AuxiliaryCommands)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode auxiliary_commands: {e}"))}
+fn parse_auxiliary_archive(bytes:&[u8])->Result<AuxiliaryArchive,String> {
+    let value:AuxiliaryArchive=serde_json::from_slice(bytes).map_err(|e|format!("Invalid auxiliary_archive: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_auxiliary_archive(value:&AuxiliaryArchive)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode auxiliary_archive: {e}"))}
 
 fn parse_item_links(bytes:&[u8])->Result<ItemLinks,String> {
     let value:ItemLinks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid item links: {e}"))?;
@@ -675,6 +793,18 @@ struct Dataset {
     task_descriptors: Option<TaskDescriptors>,
     effect_event_directories: Option<EffectEventDirectories>,
     script_commands: Option<ScriptCommands>,
+    script_archive: Option<ScriptArchive>,
+    script_text: Option<ScriptText>,
+    script_coordinates: Option<ScriptCoordinates>,
+    ui_choice_lists: Option<UiChoiceLists>,
+    unit_obj_initial_pose: Option<UnitObjInitialPose>,
+    color_mode_palettes: Option<ColorModePalettes>,
+    unit_obj_equipment: Option<UnitObjEquipment>,
+    unit_obj_normal_battle: Option<UnitObjNormalBattle>,
+    unit_obj_alternate_battle: Option<UnitObjAlternateBattle>,
+    map_raster_palettes: Option<MapRasterPalettes>,
+    auxiliary_commands: Option<AuxiliaryCommands>,
+    auxiliary_archive: Option<AuxiliaryArchive>,
     metadata16_bytes: Option<Vec<u8>>,
     metadata52_bytes: Option<Vec<u8>>,
     metadata4_bytes: Option<Vec<u8>>,
@@ -701,6 +831,18 @@ struct Dataset {
     task_descriptors_bytes: Option<Vec<u8>>,
     effect_event_directories_bytes: Option<Vec<u8>>,
     script_commands_bytes: Option<Vec<u8>>,
+    script_archive_bytes: Option<Vec<u8>>,
+    script_text_bytes: Option<Vec<u8>>,
+    script_coordinates_bytes: Option<Vec<u8>>,
+    ui_choice_lists_bytes: Option<Vec<u8>>,
+    unit_obj_initial_pose_bytes: Option<Vec<u8>>,
+    color_mode_palettes_bytes: Option<Vec<u8>>,
+    unit_obj_equipment_bytes: Option<Vec<u8>>,
+    unit_obj_normal_battle_bytes: Option<Vec<u8>>,
+    unit_obj_alternate_battle_bytes: Option<Vec<u8>>,
+    map_raster_palettes_bytes: Option<Vec<u8>>,
+    auxiliary_commands_bytes: Option<Vec<u8>>,
+    auxiliary_archive_bytes: Option<Vec<u8>>,
     item_link_bytes: Option<Vec<u8>>,
     text_catalogs: Option<TextCatalogs>,
     text_catalog_bytes: Option<Vec<u8>>,
@@ -753,6 +895,18 @@ impl Dataset {
             task_descriptors: self.task_descriptors.as_ref().zip(self.task_descriptors_bytes.as_deref()),
             effect_event_directories: self.effect_event_directories.as_ref().zip(self.effect_event_directories_bytes.as_deref()),
             script_commands: self.script_commands.as_ref().zip(self.script_commands_bytes.as_deref()),
+            script_archive: self.script_archive.as_ref().zip(self.script_archive_bytes.as_deref()),
+            script_text: self.script_text.as_ref().zip(self.script_text_bytes.as_deref()),
+            script_coordinates: self.script_coordinates.as_ref().zip(self.script_coordinates_bytes.as_deref()),
+            ui_choice_lists: self.ui_choice_lists.as_ref().zip(self.ui_choice_lists_bytes.as_deref()),
+            unit_obj_initial_pose: self.unit_obj_initial_pose.as_ref().zip(self.unit_obj_initial_pose_bytes.as_deref()),
+            color_mode_palettes: self.color_mode_palettes.as_ref().zip(self.color_mode_palettes_bytes.as_deref()),
+            unit_obj_equipment: self.unit_obj_equipment.as_ref().zip(self.unit_obj_equipment_bytes.as_deref()),
+            unit_obj_normal_battle: self.unit_obj_normal_battle.as_ref().zip(self.unit_obj_normal_battle_bytes.as_deref()),
+            unit_obj_alternate_battle: self.unit_obj_alternate_battle.as_ref().zip(self.unit_obj_alternate_battle_bytes.as_deref()),
+            map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
+            auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
+            auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
             text_catalogs: self.text_catalogs.as_ref().zip(self.text_catalog_bytes.as_deref()),
         }
     }
@@ -867,6 +1021,30 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(EFFECT_EVENT_DIRECTORIES_FILE),MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES)).transpose()?;
     let script_commands_bytes=manifest.coverage.iter().any(|id|id==SCRIPT_COMMANDS_ID)
         .then(||read_bounded(&path.join(SCRIPT_COMMANDS_FILE),MAX_SCRIPT_COMMANDS_FILE_BYTES)).transpose()?;
+    let script_archive_bytes=manifest.coverage.iter().any(|id|id==SCRIPT_ARCHIVE_ID)
+        .then(||read_bounded(&path.join(SCRIPT_ARCHIVE_FILE),MAX_SCRIPT_ARCHIVE_FILE_BYTES)).transpose()?;
+    let script_text_bytes=manifest.coverage.iter().any(|id|id==SCRIPT_TEXT_ID)
+        .then(||read_bounded(&path.join(SCRIPT_TEXT_FILE),MAX_SCRIPT_TEXT_FILE_BYTES)).transpose()?;
+    let script_coordinates_bytes=manifest.coverage.iter().any(|id|id==SCRIPT_COORDINATES_ID)
+        .then(||read_bounded(&path.join(SCRIPT_COORDINATES_FILE),MAX_SCRIPT_COORDINATES_FILE_BYTES)).transpose()?;
+    let ui_choice_lists_bytes=manifest.coverage.iter().any(|id|id==UI_CHOICE_LISTS_ID)
+        .then(||read_bounded(&path.join(UI_CHOICE_LISTS_FILE),MAX_UI_CHOICE_LISTS_FILE_BYTES)).transpose()?;
+    let unit_obj_initial_pose_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_INITIAL_POSE_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_INITIAL_POSE_FILE),MAX_UNIT_OBJ_INITIAL_POSE_FILE_BYTES)).transpose()?;
+    let color_mode_palettes_bytes=manifest.coverage.iter().any(|id|id==COLOR_MODE_PALETTES_ID)
+        .then(||read_bounded(&path.join(COLOR_MODE_PALETTES_FILE),MAX_COLOR_MODE_PALETTES_FILE_BYTES)).transpose()?;
+    let unit_obj_equipment_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_EQUIPMENT_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_EQUIPMENT_FILE),MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES)).transpose()?;
+    let unit_obj_normal_battle_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_NORMAL_BATTLE_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_NORMAL_BATTLE_FILE),MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES)).transpose()?;
+    let unit_obj_alternate_battle_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_ALTERNATE_BATTLE_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_ALTERNATE_BATTLE_FILE),MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES)).transpose()?;
+    let map_raster_palettes_bytes=manifest.coverage.iter().any(|id|id==MAP_RASTER_PALETTES_ID)
+        .then(||read_bounded(&path.join(MAP_RASTER_PALETTES_FILE),MAX_MAP_RASTER_PALETTES_FILE_BYTES)).transpose()?;
+    let auxiliary_commands_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_COMMANDS_ID)
+        .then(||read_bounded(&path.join(AUXILIARY_COMMANDS_FILE),MAX_AUXILIARY_COMMANDS_FILE_BYTES)).transpose()?;
+    let auxiliary_archive_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_ARCHIVE_ID)
+        .then(||read_bounded(&path.join(AUXILIARY_ARCHIVE_FILE),MAX_AUXILIARY_ARCHIVE_FILE_BYTES)).transpose()?;
     check_dataset_budget(
         manifest_bytes.len(),
         obj_bytes.len(),
@@ -913,6 +1091,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         task_descriptors_bytes.as_ref().map_or(0, Vec::len),
         effect_event_directories_bytes.as_ref().map_or(0, Vec::len),
         script_commands_bytes.as_ref().map_or(0, Vec::len),
+        script_archive_bytes.as_ref().map_or(0, Vec::len),
+        script_text_bytes.as_ref().map_or(0, Vec::len),
+        script_coordinates_bytes.as_ref().map_or(0, Vec::len),
+        ui_choice_lists_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_initial_pose_bytes.as_ref().map_or(0, Vec::len),
+        color_mode_palettes_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_equipment_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_normal_battle_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_alternate_battle_bytes.as_ref().map_or(0, Vec::len),
+        map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
+        auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
+        auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
     )?;
     let dimensions = parse(&obj_bytes, "OBJ dimensions")?;
     let background = parse_background(&bg_bytes)?;
@@ -958,6 +1148,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let task_descriptors=task_descriptors_bytes.as_deref().map(parse_task_descriptors).transpose()?;
     let effect_event_directories=effect_event_directories_bytes.as_deref().map(parse_effect_event_directories).transpose()?;
     let script_commands=script_commands_bytes.as_deref().map(parse_script_commands).transpose()?;
+    let script_archive=script_archive_bytes.as_deref().map(parse_script_archive).transpose()?;
+    let script_text=script_text_bytes.as_deref().map(parse_script_text).transpose()?;
+    let script_coordinates=script_coordinates_bytes.as_deref().map(parse_script_coordinates).transpose()?;
+    let ui_choice_lists=ui_choice_lists_bytes.as_deref().map(parse_ui_choice_lists).transpose()?;
+    let unit_obj_initial_pose=unit_obj_initial_pose_bytes.as_deref().map(parse_unit_obj_initial_pose).transpose()?;
+    let color_mode_palettes=color_mode_palettes_bytes.as_deref().map(parse_color_mode_palettes).transpose()?;
+    let unit_obj_equipment=unit_obj_equipment_bytes.as_deref().map(parse_unit_obj_equipment).transpose()?;
+    let unit_obj_normal_battle=unit_obj_normal_battle_bytes.as_deref().map(parse_unit_obj_normal_battle).transpose()?;
+    let unit_obj_alternate_battle=unit_obj_alternate_battle_bytes.as_deref().map(parse_unit_obj_alternate_battle).transpose()?;
+    let map_raster_palettes=map_raster_palettes_bytes.as_deref().map(parse_map_raster_palettes).transpose()?;
+    let auxiliary_commands=auxiliary_commands_bytes.as_deref().map(parse_auxiliary_commands).transpose()?;
+    let auxiliary_archive=auxiliary_archive_bytes.as_deref().map(parse_auxiliary_archive).transpose()?;
     Ok(Dataset {
         manifest,
         dimensions,
@@ -1020,6 +1222,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         task_descriptors,
         effect_event_directories,
         script_commands,
+        script_archive,
+        script_text,
+        script_coordinates,
+        ui_choice_lists,
+        unit_obj_initial_pose,
+        color_mode_palettes,
+        unit_obj_equipment,
+        unit_obj_normal_battle,
+        unit_obj_alternate_battle,
+        map_raster_palettes,
+        auxiliary_commands,
+        auxiliary_archive,
         metadata16_bytes,
         metadata52_bytes,
         metadata4_bytes,
@@ -1046,6 +1260,18 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         task_descriptors_bytes,
         effect_event_directories_bytes,
         script_commands_bytes,
+        script_archive_bytes,
+        script_text_bytes,
+        script_coordinates_bytes,
+        ui_choice_lists_bytes,
+        unit_obj_initial_pose_bytes,
+        color_mode_palettes_bytes,
+        unit_obj_equipment_bytes,
+        unit_obj_normal_battle_bytes,
+        unit_obj_alternate_battle_bytes,
+        map_raster_palettes_bytes,
+        auxiliary_commands_bytes,
+        auxiliary_archive_bytes,
         text_catalogs,
         text_catalog_bytes,
     })
@@ -1097,6 +1323,18 @@ fn check_dataset_budget(
     task_descriptors: usize,
     effect_event_directories: usize,
     script_commands: usize,
+    script_archive: usize,
+    script_text: usize,
+    script_coordinates: usize,
+    ui_choice_lists: usize,
+    unit_obj_initial_pose: usize,
+    color_mode_palettes: usize,
+    unit_obj_equipment: usize,
+    unit_obj_normal_battle: usize,
+    unit_obj_alternate_battle: usize,
+    map_raster_palettes: usize,
+    auxiliary_commands: usize,
+    auxiliary_archive: usize,
 ) -> Result<(), String> {
     if manifest as u64 > MAX_MANIFEST_FILE_BYTES
         || obj as u64 > MAX_FILE_BYTES
@@ -1142,6 +1380,18 @@ fn check_dataset_budget(
         || task_descriptors as u64 > MAX_TASK_DESCRIPTORS_FILE_BYTES
         || effect_event_directories as u64 > MAX_EFFECT_EVENT_DIRECTORIES_FILE_BYTES
         || script_commands as u64 > MAX_SCRIPT_COMMANDS_FILE_BYTES
+        || script_archive as u64 > MAX_SCRIPT_ARCHIVE_FILE_BYTES
+        || script_text as u64 > MAX_SCRIPT_TEXT_FILE_BYTES
+        || script_coordinates as u64 > MAX_SCRIPT_COORDINATES_FILE_BYTES
+        || ui_choice_lists as u64 > MAX_UI_CHOICE_LISTS_FILE_BYTES
+        || unit_obj_initial_pose as u64 > MAX_UNIT_OBJ_INITIAL_POSE_FILE_BYTES
+        || color_mode_palettes as u64 > MAX_COLOR_MODE_PALETTES_FILE_BYTES
+        || unit_obj_equipment as u64 > MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES
+        || unit_obj_normal_battle as u64 > MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES
+        || unit_obj_alternate_battle as u64 > MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES
+        || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
+        || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
+        || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
         || text_catalogs as u64 > MAX_TEXT_CATALOGS_FILE_BYTES
     {
         return Err("Resource file exceeds its size budget".into());
@@ -1190,6 +1440,18 @@ fn check_dataset_budget(
         .saturating_add(task_descriptors)
         .saturating_add(effect_event_directories)
         .saturating_add(script_commands)
+        .saturating_add(script_archive)
+        .saturating_add(script_text)
+        .saturating_add(script_coordinates)
+        .saturating_add(ui_choice_lists)
+        .saturating_add(unit_obj_initial_pose)
+        .saturating_add(color_mode_palettes)
+        .saturating_add(unit_obj_equipment)
+        .saturating_add(unit_obj_normal_battle)
+        .saturating_add(unit_obj_alternate_battle)
+        .saturating_add(map_raster_palettes)
+        .saturating_add(auxiliary_commands)
+        .saturating_add(auxiliary_archive)
         .saturating_add(text_catalogs)
         > MAX_DATASET_BYTES
     {
@@ -1308,6 +1570,42 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.script_commands {
         eprintln!("ROM_DATA runtime=decoded resource={SCRIPT_COMMANDS_ID} file={} records={}",dataset.manifest.resources[43].sha256,data.commands.len());
+    }
+    if let Some(data)= &dataset.script_archive {
+        eprintln!("ROM_DATA runtime=decoded resource={SCRIPT_ARCHIVE_ID} file={} records={}",dataset.manifest.resources[44].sha256,data.programs.iter().map(|p|p.instructions.len()).sum::<usize>()+data.keys.len());
+    }
+    if let Some(data)= &dataset.script_text {
+        eprintln!("ROM_DATA runtime=decoded resource={SCRIPT_TEXT_ID} file={} records={}",dataset.manifest.resources[45].sha256,data.languages.iter().flat_map(|l|&l.banks).map(|b|b.programs.len()).sum::<usize>());
+    }
+    if let Some(data)= &dataset.script_coordinates {
+        eprintln!("ROM_DATA runtime=decoded resource={SCRIPT_COORDINATES_ID} file={} records={}",dataset.manifest.resources[46].sha256,data.paths.len());
+    }
+    if let Some(data)= &dataset.ui_choice_lists {
+        eprintln!("ROM_DATA runtime=decoded resource={UI_CHOICE_LISTS_ID} file={} records={}",dataset.manifest.resources[50].sha256,data.lists.len());
+    }
+    if let Some(data)= &dataset.unit_obj_initial_pose {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_INITIAL_POSE_ID} file={} records={}",dataset.manifest.resources[51].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.color_mode_palettes {
+        eprintln!("ROM_DATA runtime=decoded resource={COLOR_MODE_PALETTES_ID} file={} records={}",dataset.manifest.resources[52].sha256,data.spans.len());
+    }
+    if let Some(data)= &dataset.unit_obj_equipment {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_EQUIPMENT_ID} file={} records={}",dataset.manifest.resources[53].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.unit_obj_normal_battle {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_NORMAL_BATTLE_ID} file={} records={}",dataset.manifest.resources[54].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.unit_obj_alternate_battle {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_ALTERNATE_BATTLE_ID} file={} records={}",dataset.manifest.resources[55].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.map_raster_palettes {
+        eprintln!("ROM_DATA runtime=decoded resource={MAP_RASTER_PALETTES_ID} file={} records={}",dataset.manifest.resources[49].sha256,data.programs.len());
+    }
+    if let Some(data)= &dataset.auxiliary_commands {
+        eprintln!("ROM_DATA runtime=decoded resource={AUXILIARY_COMMANDS_ID} file={} records={}",dataset.manifest.resources[47].sha256,data.commands.len());
+    }
+    if let Some(data)= &dataset.auxiliary_archive {
+        eprintln!("ROM_DATA runtime=decoded resource={AUXILIARY_ARCHIVE_ID} file={} records={}",dataset.manifest.resources[48].sha256,data.banks.iter().flat_map(|b|&b.programs).map(|p|p.instructions.len()).sum::<usize>());
     }
     if let Some(links)= &dataset.item_links {
         eprintln!("ROM_DATA runtime=decoded resource={ITEM_LINKS_ID} file={} records={}",dataset.manifest.resources[17].sha256,links.records.len());
@@ -1458,6 +1756,42 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(i)=resources.script_commands_stats() {
             eprintln!("ROM_DATA_USE resource={SCRIPT_COMMANDS_ID} dataset={} bus_reads={} source_bytes={} advance_bytes={} callback_bytes={} commands_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.advance_bytes,i.callback_bytes,i.commands_used);
+        }
+        if let Some(i)=resources.script_archive_stats() {
+            eprintln!("ROM_DATA_USE resource={SCRIPT_ARCHIVE_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} opcode_bytes={} parameter_bytes={} key_bytes={} padding_bytes={} banks_used={} programs_used={} key_records_used={} padding_spans_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.opcode_bytes,i.parameter_bytes,i.key_bytes,i.padding_bytes,i.banks_used,i.programs_used,i.key_records_used,i.padding_spans_used);
+        }
+        if let Some(i)=resources.script_text_stats() {
+            eprintln!("ROM_DATA_USE resource={SCRIPT_TEXT_ID} dataset={} bus_reads={} source_bytes={} top_index_bytes={} variant_index_bytes={} bank_index_bytes={} header_bytes={} encoded_control_bytes={} glyph_bytes={} command_bytes={} operand_bytes={} terminator_bytes={} decoded_tail_bytes={} alignment_bytes={} decoded_program_bytes={} languages_used={} banks_used={} programs_used={} variant_records_used={} alignment_spans_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.top_index_bytes,i.variant_index_bytes,i.bank_index_bytes,i.header_bytes,i.encoded_control_bytes,i.glyph_bytes,i.command_bytes,i.operand_bytes,i.terminator_bytes,i.decoded_tail_bytes,i.alignment_bytes,i.decoded_program_bytes,i.languages_used,i.banks_used,i.programs_used,i.variant_records_used,i.alignment_spans_used);
+        }
+        if let Some(i)=resources.script_coordinates_stats() {
+            eprintln!("ROM_DATA_USE resource={SCRIPT_COORDINATES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} count_bytes={} coordinate_bytes={} alignment_bytes={} paths_used={} alignment_spans_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.count_bytes,i.coordinate_bytes,i.alignment_bytes,i.paths_used,i.alignment_spans_used);
+        }
+        if let Some(i)=resources.ui_choice_lists_stats() {
+            eprintln!("ROM_DATA_USE resource={UI_CHOICE_LISTS_ID} dataset={} bus_reads={} source_bytes={} identifier_bytes={} coordinate_bytes={} opaque_bytes={} navigation_bytes={} lists_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.identifier_bytes,i.coordinate_bytes,i.opaque_bytes,i.navigation_bytes,i.lists_used);
+        }
+        if let Some(i)=resources.unit_obj_initial_pose_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_INITIAL_POSE_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
+        if let Some(i)=resources.color_mode_palettes_stats() {
+            eprintln!("ROM_DATA_USE resource={COLOR_MODE_PALETTES_ID} dataset={} bus_reads={} source_bytes={} unit_base_bytes={} companion_bytes={} supplemental_bytes={} shared_color_bytes={} special_unit_bytes={} selector_bytes={} fragments_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.unit_base_bytes,i.companion_bytes,i.supplemental_bytes,i.shared_color_bytes,i.special_unit_bytes,i.selector_bytes,i.fragments_used);
+        }
+        if let Some(i)=resources.unit_obj_equipment_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_EQUIPMENT_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
+        if let Some(i)=resources.unit_obj_normal_battle_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_NORMAL_BATTLE_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
+        if let Some(i)=resources.unit_obj_alternate_battle_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_ALTERNATE_BATTLE_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
+        if let Some(i)=resources.map_raster_palettes_stats() {
+            eprintln!("ROM_DATA_USE resource={MAP_RASTER_PALETTES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
+        }
+        if let Some(i)=resources.auxiliary_commands_stats() {
+            eprintln!("ROM_DATA_USE resource={AUXILIARY_COMMANDS_ID} dataset={} bus_reads={} source_bytes={} advance_bytes={} callback_bytes={} commands_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.advance_bytes,i.callback_bytes,i.commands_used);
+        }
+        if let Some(i)=resources.auxiliary_archive_stats() {
+            eprintln!("ROM_DATA_USE resource={AUXILIARY_ARCHIVE_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} opcode_bytes={} parameter_bytes={} alignment_bytes={} banks_used={} programs_used={} alignment_spans_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.opcode_bytes,i.parameter_bytes,i.alignment_bytes,i.banks_used,i.programs_used,i.alignment_spans_used);
         }
         if let Some(i)=resources.item_link_stats() {
             eprintln!("ROM_DATA_USE resource={ITEM_LINKS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} selector_bytes={} value_bytes={} opaque_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.selector_bytes,i.value_bytes,i.opaque_bytes);
@@ -1614,6 +1948,18 @@ fn write_dataset(
     let task_descriptors_data=source.task_descriptors.as_ref().map(|catalog|encode_task_descriptors(&catalog.decoded)).transpose()?;
     let effect_event_directories_data=source.effect_event_directories.as_ref().map(|catalog|encode_effect_event_directories(&catalog.decoded)).transpose()?;
     let script_commands_data=source.script_commands.as_ref().map(|catalog|encode_script_commands(&catalog.decoded)).transpose()?;
+    let script_archive_data=source.script_archive.as_ref().map(|catalog|encode_script_archive(&catalog.decoded)).transpose()?;
+    let script_text_data=source.script_text.as_ref().map(|catalog|encode_script_text(&catalog.decoded)).transpose()?;
+    let script_coordinates_data=source.script_coordinates.as_ref().map(|catalog|encode_script_coordinates(&catalog.decoded)).transpose()?;
+    let ui_choice_lists_data=source.ui_choice_lists.as_ref().map(|catalog|encode_ui_choice_lists(&catalog.decoded)).transpose()?;
+    let unit_obj_initial_pose_data=source.unit_obj_initial_pose.as_ref().map(|catalog|encode_unit_obj_initial_pose(&catalog.decoded)).transpose()?;
+    let color_mode_palettes_data=source.color_mode_palettes.as_ref().map(|catalog|encode_color_mode_palettes(&catalog.decoded)).transpose()?;
+    let unit_obj_equipment_data=source.unit_obj_equipment.as_ref().map(|catalog|encode_unit_obj_equipment(&catalog.decoded)).transpose()?;
+    let unit_obj_normal_battle_data=source.unit_obj_normal_battle.as_ref().map(|catalog|encode_unit_obj_normal_battle(&catalog.decoded)).transpose()?;
+    let unit_obj_alternate_battle_data=source.unit_obj_alternate_battle.as_ref().map(|catalog|encode_unit_obj_alternate_battle(&catalog.decoded)).transpose()?;
+    let map_raster_palettes_data=source.map_raster_palettes.as_ref().map(|catalog|encode_map_raster_palettes(&catalog.decoded)).transpose()?;
+    let auxiliary_commands_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_commands(&catalog.commands)).transpose()?;
+    let auxiliary_archive_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_archive(&catalog.decoded)).transpose()?;
     let mut files: Vec<&[u8]> = vec![data.as_bytes(), &bg_data, &palette_data, &alternate_palette_data, &packet_program_data];
     if let Some(bytes) = &main_graphic_data { files.push(bytes); }
     if let Some(bytes) = &transfer_data { files.push(bytes); }
@@ -1654,6 +2000,18 @@ fn write_dataset(
     if let Some(bytes) = &task_descriptors_data {files.push(bytes);}
     if let Some(bytes) = &effect_event_directories_data {files.push(bytes);}
     if let Some(bytes) = &script_commands_data {files.push(bytes);}
+    if let Some(bytes) = &script_archive_data {files.push(bytes);}
+    if let Some(bytes) = &script_text_data {files.push(bytes);}
+    if let Some(bytes) = &script_coordinates_data {files.push(bytes);}
+    if let Some(bytes) = &auxiliary_commands_data {files.push(bytes);}
+    if let Some(bytes) = &auxiliary_archive_data {files.push(bytes);}
+    if let Some(bytes) = &map_raster_palettes_data {files.push(bytes);}
+    if let Some(bytes) = &ui_choice_lists_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_initial_pose_data {files.push(bytes);}
+    if let Some(bytes) = &color_mode_palettes_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_equipment_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_normal_battle_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_alternate_battle_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -1703,6 +2061,18 @@ fn write_dataset(
         task_descriptors_data.as_ref().map_or(0, Vec::len),
         effect_event_directories_data.as_ref().map_or(0, Vec::len),
         script_commands_data.as_ref().map_or(0, Vec::len),
+        script_archive_data.as_ref().map_or(0, Vec::len),
+        script_text_data.as_ref().map_or(0, Vec::len),
+        script_coordinates_data.as_ref().map_or(0, Vec::len),
+        ui_choice_lists_data.as_ref().map_or(0, Vec::len),
+        unit_obj_initial_pose_data.as_ref().map_or(0, Vec::len),
+        color_mode_palettes_data.as_ref().map_or(0, Vec::len),
+        unit_obj_equipment_data.as_ref().map_or(0, Vec::len),
+        unit_obj_normal_battle_data.as_ref().map_or(0, Vec::len),
+        unit_obj_alternate_battle_data.as_ref().map_or(0, Vec::len),
+        map_raster_palettes_data.as_ref().map_or(0, Vec::len),
+        auxiliary_commands_data.as_ref().map_or(0, Vec::len),
+        auxiliary_archive_data.as_ref().map_or(0, Vec::len),
     )?;
     write(&path.join(OBJ_DIMENSIONS_FILE), data.as_bytes())?;
     write(&path.join(BG_DESCRIPTORS_FILE), &bg_data)?;
@@ -1748,6 +2118,18 @@ fn write_dataset(
     if let Some(bytes) = &task_descriptors_data {write(&path.join(TASK_DESCRIPTORS_FILE),bytes)?;}
     if let Some(bytes) = &effect_event_directories_data {write(&path.join(EFFECT_EVENT_DIRECTORIES_FILE),bytes)?;}
     if let Some(bytes) = &script_commands_data {write(&path.join(SCRIPT_COMMANDS_FILE),bytes)?;}
+    if let Some(bytes) = &script_archive_data {write(&path.join(SCRIPT_ARCHIVE_FILE),bytes)?;}
+    if let Some(bytes) = &script_text_data {write(&path.join(SCRIPT_TEXT_FILE),bytes)?;}
+    if let Some(bytes) = &script_coordinates_data {write(&path.join(SCRIPT_COORDINATES_FILE),bytes)?;}
+    if let Some(bytes) = &ui_choice_lists_data {write(&path.join(UI_CHOICE_LISTS_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_initial_pose_data {write(&path.join(UNIT_OBJ_INITIAL_POSE_FILE),bytes)?;}
+    if let Some(bytes) = &color_mode_palettes_data {write(&path.join(COLOR_MODE_PALETTES_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_equipment_data {write(&path.join(UNIT_OBJ_EQUIPMENT_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_normal_battle_data {write(&path.join(UNIT_OBJ_NORMAL_BATTLE_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_alternate_battle_data {write(&path.join(UNIT_OBJ_ALTERNATE_BATTLE_FILE),bytes)?;}
+    if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
+    if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
+    if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
     write(&path.join(MANIFEST_FILE), manifest.as_bytes())?;
     verify(path, source)?;
     Ok(())
@@ -2016,6 +2398,17 @@ mod tests {
             task_descriptors: None,
             effect_event_directories: None,
             script_commands: None,
+            script_archive: None,
+            script_text: None,
+            script_coordinates: None,
+            ui_choice_lists: None,
+            unit_obj_initial_pose: None,
+            color_mode_palettes: None,
+            unit_obj_equipment: None,
+            unit_obj_normal_battle: None,
+            unit_obj_alternate_battle: None,
+            map_raster_palettes: None,
+            auxiliary_scripts: None,
             font_bank: None,
         }
     }
@@ -2341,8 +2734,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

@@ -30,8 +30,8 @@ RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/regi
 COPY scripts/extract_rom_data.py scripts/
 ENTRYPOINT ["python3", "/workspace/scripts/extract_rom_data.py", "--recomp", "/opt/ffta/recomp"]
 
-# Metadata-only atlas: no runtime/translation build, packaging or game execution.
-FROM source AS coverage
+# Atlas plus automatic offline data preparation; no translation or game execution.
+FROM extract AS coverage
 RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,id=ffta-linux-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=ffta-linux-target-amd64,target=/workspace/target,sharing=locked \
@@ -41,7 +41,8 @@ RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/regi
 COPY scripts/rom_coverage.py scripts/rom_coverage.html scripts/
 COPY docs/changes/ docs/changes/
 COPY docs/development/rom-coverage/evidence.json docs/development/rom-coverage/
-ENTRYPOINT ["python3", "/workspace/scripts/rom_coverage.py", "--analyzer", "/opt/ffta/rom_code_ranges"]
+COPY docs/development/rom-coverage/code-seeds.json docs/development/rom-coverage/
+ENTRYPOINT ["python3", "/workspace/scripts/rom_coverage.py", "--analyzer", "/opt/ffta/rom_code_ranges", "--extractor", "/opt/ffta/recomp"]
 
 FROM source AS build
 # Source, game data and Docker sockets are never bind-mounted into the build.

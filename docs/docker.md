@@ -145,20 +145,30 @@ bash scripts/linux/rom_coverage_docker.sh
 ```
 
 Both build the `coverage` target in `Dockerfile.linux`, then generate
-`docs/development/rom-coverage/index.html` and `coverage.json`. Only the metadata
-helper is compiled; runtime builds, packaging, translation and gameplay are not
-run. ROM, retained ELF translation and the existing authenticated dataset stay
-outside the image and are mounted read-only, along with the evidence JSON.
-Generation runs with `--network none`; Linux forwards the caller's UID/GID.
-BuildKit reuses the native Cargo caches and may need network on a cold build.
+`docs/development/rom-coverage/index.html` and `coverage.json`. The default
+requires only the EUR ROM: the container prepares the reviewed dataset under
+`target/rom-data/coverage/<ROM-SHA>/e61-d60/`, authenticates/reuses it on later
+runs and analyzes the versioned address-only code seeds. The old local ELF
+translation and private validation dataset path are no longer prerequisites.
+The image compiles the extraction CLI and metadata helper; it executes no game,
+GUI, native translation or packaging campaign. The ROM/evidence remain read-only;
+only the private cache and report output are writable. No private input enters
+the image. Generation runs offline and Linux preserves host UID/GID.
 
-Defaults reproduce the frozen EUR e37-d36 atlas and require its local inputs;
-this wrapper does not extract a newer dataset or update the evidence baseline.
+The report now reviews EUR e61-d60:56runtime families/52ordinary-positive, with
+source-only data separately labeled. The terminal prints the reviewed generation,
+output HTML/JSON and an explicit unchanged-content message when appropriate.
+Both launchers retain every run/error under `target/build-logs/rom-coverage-*.log`;
+PowerShell `-OpenReport` opens the resulting HTML. Failed validation leaves the
+existing report intact. Updating runtime code alone does not invent new ordinary
+coverage: the evidence registry still needs explicit review for a new generation.
+
 Override `-RomPath/-DatasetDir/-TranslationPath/-OutputDir/-EvidencePath` in
-PowerShell or `--rom/--dataset/--translation/--output/--evidence` in Bash. All
-relative paths start at the repository root; spaces are accepted, commas,
-double quotes and newlines are rejected. Use a separate output directory for
-previews. See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
+PowerShell or `--rom/--dataset/--translation/--output/--evidence` in Bash.
+Explicit datasets and optional retained ELF inputs are mounted read-only and
+must match the reviewed baseline; a stale e37 dataset reports the expected
+revision and the automatic-preparation remedy. All relative paths start at the
+repository root. See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
 
 ## Environment and compatibility
 

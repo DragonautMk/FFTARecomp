@@ -482,7 +482,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   target/build-logs/ and waits for Enter on interactive failure, retaining
   the original exit status for noninteractive automation.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
-  The [overall ROM coverage atlas](ROM_COVERAGE.md) freezes EUR e37-d36 as
+  The [overall ROM coverage atlas](ROM_COVERAGE.md) reviews EUR e61-d60 as
   metadata-only interactive HTML/JSON, with exact interval unions and separate
   code-candidate/data/runtime-availability/ordinary-use/sharing/unknown layers.
   Aggregate source counters do not establish distinct bytes read; candidate
@@ -490,8 +490,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   `scripts/windows/rom_coverage_docker.ps1` or
   `scripts/linux/rom_coverage_docker.sh` after reviewing the baseline/evidence
   registry. Docker bundles Python/Cargo/nm and the metadata helper; only the
-  existing ROM/dataset/ELF inputs are mounted read-only at run time. The host
-  needs Docker, without Python or Rust. The direct Python entry remains optional.
+  ROM/evidence and optional existing datasets/ELF inputs are read-only. The
+  default prepares a private cached dataset and uses versioned address seeds;
+  only Docker and the EUR ROM are needed. Both launchers keep error/run logs;
+  PowerShell can open the report. The direct Python entry remains optional.
   EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
   roots reference66lists/160objects. Source-authenticated JSON fields now feed
   original CPU/DMA/native and host descriptor readers without changing guest

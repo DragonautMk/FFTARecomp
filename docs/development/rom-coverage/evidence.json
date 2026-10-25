@@ -1,11 +1,11 @@
 {
-  "schema": 1,
-  "date": "2026-10-23",
+  "schema": 2,
+  "date": "2026-10-25",
   "translation_sha256": "ab7aa1808c4c14550c46ec2410f18ef47e301dbcf07a6ed021dbd015cf8f38ca",
   "baseline": [
     "8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632",
-    37,
-    36
+    61,
+    60
   ],
   "resources": {
     "graphics.obj-dimensions": {
@@ -13,196 +13,224 @@
       "note": "Boot-to-battle: tabella diretta e alias copiato osservati, non tutti gli sprite.",
       "references": [
         "docs/changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json"
-      ]
+      ],
+      "decoded_sha256": "2110b7e44ddcc2e468d2c5874edc487226ccd269faec255f8cf851944aad2e00"
     },
     "graphics.bg-descriptors": {
       "ordinary_positive": true,
       "note": "Transizione: 53 letture BG, scene stabili negative. Non tutti i 162 descrittori.",
       "references": [
         "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
-      ]
+      ],
+      "decoded_sha256": "22506708efe6bce768196fc15bd9b3a5e73a3c6ce4b917ebc3d9823b8598d019"
     },
     "graphics.bg-base-palettes": {
       "ordinary_positive": true,
       "note": "Transizione: un palette decoded da 160 B, non tutto il catalogo.",
       "references": [
         "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
-      ]
+      ],
+      "decoded_sha256": "c6d80140dde930d77b3af4736ba80dea636d8832e984cf43f9db2de599eac420"
     },
     "graphics.bg-alternate-palettes": {
       "ordinary_positive": true,
       "note": "Pub LCD/TV positivi; precondizioni globali e descrittori FF limitati.",
       "references": [
         "docs/changes/2026-10-21-validate-alternate-palette-scenes.json"
-      ]
+      ],
+      "decoded_sha256": "7f9caff47b59c54807e98e291c61dc1181ae4868e9afa970f13a4d95a602b959"
     },
     "graphics.bg-packet-programs": {
       "ordinary_positive": true,
       "note": "397 frame: 12 source B e 2640 typed HLE B. Byte letti ed espansi non sono sommabili.",
       "references": [
         "docs/changes/2026-10-22-consume-european-background-packet-programs.json"
-      ]
+      ],
+      "decoded_sha256": "79e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc"
     },
     "graphics.bg-main-graphics": {
       "ordinary_positive": true,
       "note": "397 frame: 16209 source B, incluse riletture, non byte distinti.",
       "references": [
         "docs/changes/2026-10-22-consume-european-main-background-graphics.json"
-      ]
+      ],
+      "decoded_sha256": "8dd0bb6f09bd293b3c5ff68ea3990d5c4b09f978ccaada5346980efd090fc00c"
     },
     "graphics.bg-transfer-programs": {
       "ordinary_positive": true,
       "note": "397 frame: 1203 control B e 21504 tile B, incluse riletture.",
       "references": [
         "docs/changes/2026-10-22-consume-european-background-transfer-programs.json"
-      ]
+      ],
+      "decoded_sha256": "051e0eee7412a24e1b0ce51a79736e4d8488f26593254e2cee907aa53eea71e8"
     },
     "text.short-strings": {
       "ordinary_positive": false,
       "note": "Oracle e native mirati positivi; accettazione in scena ordinaria ancora aperta.",
       "references": [
         "docs/changes/2026-10-22-consume-european-short-texts-and-referenced-font.json"
-      ]
+      ],
+      "decoded_sha256": "a422d06951e78d1ac10ce7be3ece0a84a17a1308d91f6b47ba0ff6fb10b054fa"
     },
     "text.catalogs": {
       "ordinary_positive": true,
       "note": "397 frame: 8427 source B. Programma raw positivo, controlli encoded zero in questa scena.",
       "references": [
         "docs/changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json"
-      ]
+      ],
+      "decoded_sha256": "d43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f"
     },
     "font.complete-bank": {
       "ordinary_positive": true,
       "note": "397 frame: 8064 glyph B e 93 metric B, non tutto il font.",
       "references": [
         "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
-      ]
+      ],
+      "decoded_sha256": "0f81628b663c14ee4505b5c6188351e1e9bcd49e541e68670d3a5b4c4098c18c"
     },
     "text.name-keyboard": {
       "ordinary_positive": false,
       "note": "Oracle e fixture mouse positivi; Pub con zero byte tastiera. Inserimento nome ordinario aperto.",
       "references": [
         "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
-      ]
+      ],
+      "decoded_sha256": "fc194fc4bbdde49f8e40eca28d5e755dcfaf966775431f1d87a0f92d8728d411"
     },
     "graphics.obj-static-lists": {
       "ordinary_positive": true,
       "note": "Transizione ordinaria positiva, language-screen separata. Altri riferimenti indiretti aperti.",
       "references": [
         "docs/changes/2026-10-22-consume-european-static-obj-lists.json"
-      ]
+      ],
+      "decoded_sha256": "511b70107619ebfbf155a930a3c79a32d9b1e2eb1d5799531084a2f6b61edecd"
     },
     "graphics.obj-animation-banks": {
       "ordinary_positive": true,
       "note": "Menu, Party ed Engage positivi in prove distinte. Contratti vuoti e altri linguaggi aperti.",
       "references": [
         "docs/changes/2026-10-22-consume-european-language-selected-obj-banks.json"
-      ]
+      ],
+      "decoded_sha256": "ea0b5e3e890d883ee2dd2a2d2557ef7893aae87739c69211c03037314fec0cb1"
     },
     "graphics.obj-custom-banks": {
       "ordinary_positive": true,
       "note": "400 frame Engage: 1194 source B e 4 selector B.",
       "references": [
         "docs/changes/2026-10-22-consume-european-obj-custom-graphics.json"
-      ]
+      ],
+      "decoded_sha256": "4ba51bc46b75c06b136c57a65631178e45924c4c93e456906cf9c4b7ba549e30"
     },
     "graphics.ui-raw-palettes": {
       "ordinary_positive": true,
       "note": "Boot 240 frame: 130 source B. Inizializzatori codice e RAM dinamica restano originali.",
       "references": [
         "docs/changes/2026-10-22-consume-european-raw-ui-palettes.json"
-      ]
+      ],
+      "decoded_sha256": "12e65de32adc0db422cd430d73a2966197d34bc3ad2a50a0352b2fa3c00a15cb"
     },
     "graphics.ui-custom-banks": {
       "ordinary_positive": true,
       "note": "Clan e intro inglese positivi; intro 2347 nuovi source B e 4 selector B. Altre lingue aperte.",
       "references": [
         "docs/changes/2026-10-23-extend-european-localized-ui-graphics.json"
-      ]
+      ],
+      "decoded_sha256": "a612150574e7651353404a0cf0df72ab4166612697936ae8666bb646c6e3e174"
     },
     "gameplay.item-records": {
       "ordinary_positive": true,
       "note": "Unit 320 frame: 40 signed B. Prefisso e coda ordinari non validati.",
       "references": [
         "docs/changes/2026-10-23-consume-european-static-item-records.json"
-      ]
+      ],
+      "decoded_sha256": "c151e82d6fac0c171414451623142c77aaf29f6a66ccb25495d652a37324ffc7"
     },
     "gameplay.item-links": {
       "ordinary_positive": true,
       "note": "Inventory 560 frame: 574 B count/selector/value; opaque zero.",
       "references": [
         "docs/changes/2026-10-23-consume-european-item-linked-pairs.json"
-      ]
+      ],
+      "decoded_sha256": "c6817d93fe8e808c13487037c9f780448011091537c9b95e06baf2053af6ec6f"
     },
     "gameplay.linked-metadata16": {
       "ordinary_positive": true,
       "note": "520 frame: 6 display B. Alias/flag/value/opaque zero in questa scena.",
       "references": [
         "docs/changes/2026-10-23-consume-european-sixteen-byte-linked-metadata.json"
-      ]
+      ],
+      "decoded_sha256": "29c983faa4389293fea7a3f526f08236dc5c27e99bfbe25a213b92f43150a2c1"
     },
     "gameplay.linked-metadata52": {
       "ordinary_positive": true,
       "note": "540 frame: 664 B header/routing/packed; tail/opaque zero.",
       "references": [
         "docs/changes/2026-10-23-consume-european-fifty-two-byte-linked-metadata.json"
-      ]
+      ],
+      "decoded_sha256": "6ac18b39995e6677bf5d80e830ab17d7b442d36171cfb90a45b6ea8a231d2fbd"
     },
     "gameplay.linked-metadata4": {
       "ordinary_positive": true,
       "note": "540 frame: 38 B selector/value.",
       "references": [
         "docs/changes/2026-10-23-consume-european-four-byte-linked-pairs.json"
-      ]
+      ],
+      "decoded_sha256": "172f858a68236d78adca393004e431230f19a88f9a20d4bce8cb1172e82bb594"
     },
     "gameplay.linked-metadata2": {
       "ordinary_positive": true,
       "note": "1840 frame: 4 value B; key zero.",
       "references": [
         "docs/changes/2026-10-23-consume-european-two-byte-forward-inverse-map.json"
-      ]
+      ],
+      "decoded_sha256": "ff95d762868b257f84da4d37b6c7ed36515608c1d999af814c6f66693bf412ba"
     },
     "gameplay.default-constructor-template": {
       "ordinary_positive": true,
       "note": "397 frame: 96 source B da una risorsa di 48 B. Le riletture non sono byte distinti.",
       "references": [
         "docs/changes/2026-10-23-consume-european-default-constructor-template.json"
-      ]
+      ],
+      "decoded_sha256": "23a5c3e13f680223d223700b1a7cc01d87919e9479fbeec00e11214ab26bf6ca"
     },
     "gameplay.constructor-alternate-templates": {
       "ordinary_positive": true,
       "note": "3600 frame: 45 source B inclusi 4 pointer B. Una sola variante ordinaria.",
       "references": [
         "docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json"
-      ]
+      ],
+      "decoded_sha256": "8222c0241c198aab55f8b3014d7082cbf25a7d224bc46693a88a239063c89e49"
     },
     "gameplay.linked-metadata14": {
       "ordinary_positive": true,
       "note": "397 frame: 27 B da due record, non tutta la tabella.",
       "references": [
         "docs/changes/2026-10-23-consume-european-fourteen-byte-special-unit-metadata.json"
-      ]
+      ],
+      "decoded_sha256": "b9f66ba25c3fb1308b92372c251ace8180ad5594cef59e9d6f295b987f72fc0e"
     },
     "gameplay.linked-metadata12": {
       "ordinary_positive": true,
       "note": "2200 frame: 44 primary B, un record; secondary zero.",
       "references": [
         "docs/changes/2026-10-23-consume-european-twelve-byte-packed-pair-banks.json"
-      ]
+      ],
+      "decoded_sha256": "732081be5a06ad089e16358eef40e9ab126ab239e28c0c07830179b47bc969ba"
     },
     "gameplay.global-pair-flags": {
       "ordinary_positive": false,
       "note": "Tutti gli 11 B verificati nei test mirati. Locator ordinario 2200 frame: 0 nuovi B, nessuna accettazione positiva.",
       "references": [
         "docs/changes/2026-10-23-consume-european-global-packed-pair-flags.json"
-      ]
+      ],
+      "decoded_sha256": "618dd9c1e358597d76aa90feaec7d9e86a6006340f278096e9504114855685ee"
     },
     "gameplay.evaluation-parameters": {
       "ordinary_positive": true,
       "note": "400 frame Yes/fee: 16 source B inclusa una threshold; opaque zero.",
       "references": [
         "docs/changes/2026-10-23-validate-european-evaluation-threshold-acceptance.json"
-      ]
+      ],
+      "decoded_sha256": "a327d9f5d294c1906ef0ecf27b71e0a11487538b815f8bda528a8edf47ae772e"
     },
     "gameplay.progression-rewards": {
       "ordinary_positive": true,
@@ -210,14 +238,16 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-progression-reward-and-price-records.json",
         "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
-      ]
+      ],
+      "decoded_sha256": "028fc280ae67a623e9807e6af959bb5352abb1ba102aa55e012fc0d27b43aeaf"
     },
     "gameplay.progression-gates": {
       "ordinary_positive": true,
       "note": "1000 frame ritorno dispatch: 209 requirement B. Return/output/unused zero; prove mirate distinte.",
       "references": [
         "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
-      ]
+      ],
+      "decoded_sha256": "da7ddb4779899c248f441306d3bf1525af42b592519a6e4a46dd4f7b2af8e41c"
     },
     "gameplay.progression-selection-gates": {
       "ordinary_positive": true,
@@ -235,19 +265,532 @@
         "source_bytes_including_repeats": 277,
         "physical_records_observed": 26,
         "exit": 0
-      }
+      },
+      "decoded_sha256": "ee8788a94c71ef521c38c259dde68e5f63e1002251c1c8cbfea3b2d61a7bc59c"
+    },
+    "gameplay.aggregate-flag-keys": {
+      "ordinary_positive": true,
+      "note": "Spedizione 1000 frame: 1204 B riletti, 300 chiavi e terminatore; non entrambe le entrypoint ordinarie.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-aggregate-flag-keys.json"
+      ],
+      "decoded_sha256": "5145b63554139712cf7277c734d86e894e55c8c2fd20f23a60093cd61cd94105"
+    },
+    "gameplay.trade-parameters": {
+      "ordinary_positive": true,
+      "note": "Accettazione costo 400 frame: 14 B, markup-low e alias 41, solo record fisico 2.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-trade-parameters.json"
+      ],
+      "decoded_sha256": "38930f37b2292043a8f94b56f578e14a0c1a7ff73b78bda721bb7b54cc5f2b2c"
+    },
+    "gameplay.item-effect-parameters": {
+      "ordinary_positive": true,
+      "note": "Banca 400 frame: 3 B, indice osservato; non ogni effetto/oggetto.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-item-effect-parameters.json"
+      ],
+      "decoded_sha256": "7612bf7a86ba820731c725c7f9fb08caf49fcff055967ab5b0ed22e84b20787e"
+    },
+    "audio.m4a-directory": {
+      "ordinary_positive": true,
+      "note": "Scena 400 frame: 179 B fra directory/header/track; player non letti nella prova.",
+      "references": [
+        "docs/changes/2026-10-23-consume-european-m4a-directory.json"
+      ],
+      "decoded_sha256": "de172b68926c16cc8b7a009e3d292518ad1dbf609625ce0f74f7c4dc18350075"
+    },
+    "audio.m4a-tones": {
+      "ordinary_positive": true,
+      "note": "Scena 400 frame: 516956 B guest e 3093208 B shadow host, inclusi riletture PCM; CGB ordinario 0.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-m4a-tones.json"
+      ],
+      "decoded_sha256": "afa5e45a23857710fc629bba01532f225f7047bd72e8e278c9572217b9c645cd"
+    },
+    "audio.m4a-sequences": {
+      "ordinary_positive": true,
+      "note": "Scena 400 frame: 819 B fra opcode/operandi/clock, 185 record inclusi lookahead; tabelle estese non osservate.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-m4a-sequences.json"
+      ],
+      "decoded_sha256": "1a1c09bf67a0537ee2e51dd8414d1fcf9093110f68cf6a165d4db73bd2bd789c"
+    },
+    "audio.m4a-driver-tables": {
+      "ordinary_positive": true,
+      "note": "Scena 400 frame: 756 B, 67 entry PCM/CGB key-base; samplecount/noise/volume ordinari 0.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-m4a-driver-tables.json"
+      ],
+      "decoded_sha256": "da1aa4a25be85187bba19ef08c7db3624169b01c75d312666b2abdbe8d14ab25"
+    },
+    "graphics.palette-effect-dispatch": {
+      "ordinary_positive": true,
+      "note": "Transizione English 1000 frame: 5944 B riletti, solo kind 1; callback restanti/null mirati.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-palette-effect-dispatch.json"
+      ],
+      "decoded_sha256": "7852f482cdba51746f1c07363874bd26f68c516be467d8e0649c2257942c6b60"
+    },
+    "graphics.palette-programs": {
+      "ordinary_positive": true,
+      "note": "Richiamo/Pecorelle 1000 frame: 170 B, 4 programmi, 0 producer; altri 226 programmi mirati.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-palette-programs.json"
+      ],
+      "decoded_sha256": "b70eb0fc7b380958d89e423535677d8b11049eed19db0eb08f03463fe0ac06d6"
+    },
+    "graphics.blend-programs": {
+      "ordinary_positive": true,
+      "note": "Richiamo/Pecorelle 1000 frame: 18 B, 1 programma; altri 159 programmi/tabelle mirati.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-blend-programs.json"
+      ],
+      "decoded_sha256": "a996f6369680e9a35ef6f1b914fd85b47ba29a7a7466a7b4a72f6914c58efd9e"
+    },
+    "engine.task-descriptors": {
+      "ordinary_positive": true,
+      "note": "Richiamo/Pecorelle 1000 frame: 28 B, 4 record e 2 cataloghi; non ogni task/ABI.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-task-descriptors.json"
+      ],
+      "decoded_sha256": "024fac1c34f2b795629df1f0fc6e4ec08ce475dea6d944b7793387ce7e1ebfca"
+    },
+    "engine.effect-event-directories": {
+      "ordinary_positive": true,
+      "note": "Libro 1800 frame: 5 B, 1 selector e 1 dispatch; righe evento ordinarie 0, altreentry mirate.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-effect-event-directories.json",
+        "docs/changes/2026-10-24-verify-ordinary-european-effect-selector.json"
+      ],
+      "decoded_sha256": "a90fd94aa09e3bca9a286af25dc6e2ee23b4c10c77beaf10d60e384c25a69277"
+    },
+    "engine.script-command-directory": {
+      "ordinary_positive": true,
+      "note": "Suspendboot-to-battle 8476 frame: 42 B, 7 comandi; non l’intero interprete/ABI.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-script-command-directory.json"
+      ],
+      "decoded_sha256": "9ecf6349e32e051d54172345d0dee1ec19e39d6ca8e2ca77e7f5c3a07db584b2"
+    },
+    "engine.script-archive": {
+      "ordinary_positive": true,
+      "note": "Suspendboot-to-battle 8476 frame: 27 B, 1 banca/programma/chiave, 0 fill; non 35048 comandi.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-script-archive.json"
+      ],
+      "decoded_sha256": "29e61d5ddec422d21b92ff795ef931e51b85d5a129316bb8f1873264f7d3330f"
+    },
+    "text.script-archives": {
+      "ordinary_positive": true,
+      "note": "Scuola 3000 frame: 289 B, 1 lingua/banca, 2 programmi; varianti/operandi/tails ordinari 0.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-script-localized-text.json"
+      ],
+      "decoded_sha256": "cbc6cec1c974b4066ddc0fee2b6294c0f2bbc7963083c6d85d8034cb35d7ab79"
+    },
+    "engine.script-coordinate-paths": {
+      "ordinary_positive": true,
+      "note": "Neve 6000 frame: 28 B, 1 percorso, 0 alignment; non tutte le coordinate.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-script-coordinate-paths.json"
+      ],
+      "decoded_sha256": "b86d6b4eb0e9f6b9a37440066c2ccb7279b3a7616d9b4ae452f7c8f35b3100c0"
+    },
+    "engine.auxiliary-script-command-directory": {
+      "ordinary_positive": true,
+      "note": "Neve 6000 frame: 96 B directory, 6 comandi; archivio ausiliario 82 B nella stessa prova.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-auxiliary-script-archive.json"
+      ],
+      "decoded_sha256": "b8ba30cd6f52a97da7cde1b464b8184c2cb54157843c348cd09ceffab8080544"
+    },
+    "engine.auxiliary-script-archive": {
+      "ordinary_positive": true,
+      "note": "Neve 6000 frame: 82 B, 2 banche/programmi, 0 alignment; directory 96 B nella stessa prova.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-auxiliary-script-archive.json"
+      ],
+      "decoded_sha256": "bd410f3fde23fb68bec936da0ac5bed89dde2897a640c2e008d6b920351907b3"
+    },
+    "graphics.map-raster-palettes": {
+      "ordinary_positive": true,
+      "note": "Boot 1500 frame: letture/copie palette e HBlank; crossing finale 31/indice alternativo non ordinario.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-map-raster-palettes.json"
+      ],
+      "decoded_sha256": "d263f1a538fa9bd8c02225c4a6c41b6931b1c85f0e13d886f66a437e22abe9e8"
+    },
+    "engine.ui-choice-lists": {
+      "ordinary_positive": true,
+      "note": "Party 320 frame: 32 B, 1 lista; widget/altre liste non interamente verificati.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-ui-choice-lists.json"
+      ],
+      "decoded_sha256": "95f7ccb90cb1d48595f1ace3826d417d3ec2aef5b93f3686ae03444f5fd8abfb"
+    },
+    "graphics.unit-obj-initial-pose": {
+      "ordinary_positive": true,
+      "note": "Party 320 frame: 10962 B, 3520 pixelB, 2 sequenze; altre 119 sequenze non ordinarie.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-unit-obj-initial-pose.json"
+      ],
+      "decoded_sha256": "f26afe300dd906b06ffeb048f5c1d88d0ed02744f0d91be645e263acd2474bd7"
+    },
+    "graphics.color-mode-palettes": {
+      "ordinary_positive": true,
+      "note": "Party 1700 frame: 1102 B, 277 accessi, 4 frammenti; non tutti i colori/mode.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-color-mode-palettes.json"
+      ],
+      "decoded_sha256": "98068136afc44d24640c2c27027ccc34954aa0d92a01a603db767b07cfaab382"
+    },
+    "graphics.unit-obj-equipment": {
+      "ordinary_positive": true,
+      "note": "Polly verso Hildegard 500 frame: 4477 B, 1408 pixelB, 2 sequenze; altre 256 sequenze non ordinarie.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-unit-obj-equipment.json"
+      ],
+      "decoded_sha256": "23391d28a69a1bb728353d267a6080e47f6a741846c0c72ad7b631d887fb701c"
+    },
+    "graphics.unit-obj-normal-battle": {
+      "ordinary_positive": true,
+      "note": "Battaglia 3530 frame: uso positivo e confronto completo; non tutte le 2581 sequenze.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-normal-battle-obj-poses.json"
+      ],
+      "decoded_sha256": "33d0c76b2a254cb565733c53317950531bf9b8fc0604eb6f1905d98e5c019d53"
+    },
+    "graphics.unit-obj-alternate-battle": {
+      "ordinary_positive": false,
+      "note": "Managed/native/CLI positivi;0 uso nel controllo di attachment, nessuna scena ordinaria positiva.",
+      "references": [
+        "docs/changes/2026-10-24-consume-european-alternate-battle-obj-poses.json"
+      ],
+      "decoded_sha256": "cad7771dbddf3d92b93c6a9df6a62fa430b775b9e7e2932253207d71dff35580"
     }
   },
-  "source_only": [],
+  "source_only": [
+    {
+      "id": "graphics.unit-obj-script-special-normal",
+      "ranges": [
+        [
+          3653144,
+          3653152
+        ],
+        [
+          3653156,
+          3653164
+        ],
+        [
+          3653908,
+          3653932
+        ],
+        [
+          3654172,
+          3654196
+        ],
+        [
+          3655256,
+          3655264
+        ],
+        [
+          3655268,
+          3655276
+        ],
+        [
+          3655300,
+          3655324
+        ],
+        [
+          3655496,
+          3655504
+        ],
+        [
+          3655508,
+          3655516
+        ],
+        [
+          3655520,
+          3655528
+        ],
+        [
+          3655532,
+          3655540
+        ],
+        [
+          3657076,
+          3657100
+        ],
+        [
+          3658352,
+          3658360
+        ],
+        [
+          3658364,
+          3658372
+        ],
+        [
+          3663656,
+          3663664
+        ],
+        [
+          3663668,
+          3663676
+        ],
+        [
+          3680744,
+          3680752
+        ],
+        [
+          3680756,
+          3680764
+        ],
+        [
+          3683216,
+          3683224
+        ],
+        [
+          3683228,
+          3683236
+        ],
+        [
+          3685616,
+          3685624
+        ],
+        [
+          3685628,
+          3685636
+        ],
+        [
+          9815488,
+          9817408
+        ],
+        [
+          9826400,
+          9827680
+        ],
+        [
+          9857888,
+          9858656
+        ],
+        [
+          9889920,
+          9891200
+        ],
+        [
+          11106752,
+          11106876
+        ],
+        [
+          11106880,
+          11107004
+        ],
+        [
+          11107456,
+          11107560
+        ],
+        [
+          11107568,
+          11107672
+        ],
+        [
+          11112160,
+          11112404
+        ],
+        [
+          11120976,
+          11121100
+        ],
+        [
+          11121104,
+          11121228
+        ]
+      ],
+      "sources": [
+        {
+          "offset": 3653144,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3653156,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3653908,
+          "length": 24,
+          "sha256": "6ebfc98ab1a912cf26715e7a2856f6b8f4b654bcd5e4a98d9ddacd6c4a462f48"
+        },
+        {
+          "offset": 3654172,
+          "length": 24,
+          "sha256": "2588360d59b011b8be7dbf0f1c711b37bbfdc94fdd1092463b2b8d209382428a"
+        },
+        {
+          "offset": 3655256,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3655268,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3655300,
+          "length": 24,
+          "sha256": "f12e022d181878a9f278b6b355a905bc3291d8afe9da5848d109f87a0dc0a2d6"
+        },
+        {
+          "offset": 3655496,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3655508,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3655520,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3655532,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3657076,
+          "length": 24,
+          "sha256": "87775003814f44fcb459843ce01f7e4c0facf343683b1ac39379c67d231886a0"
+        },
+        {
+          "offset": 3658352,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3658364,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3663656,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3663668,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3680744,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3680756,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3683216,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3683228,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3685616,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 3685628,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        {
+          "offset": 9815488,
+          "length": 1920,
+          "sha256": "af5a70594c0eb54dce764f9f9b386b18d61a253b3fe50461e8ecc992b562a42a"
+        },
+        {
+          "offset": 9826400,
+          "length": 1280,
+          "sha256": "72e1f0a97c741bd513bfe7c650aef21ba2aeae809619aac1a8f8763cc832c1cb"
+        },
+        {
+          "offset": 9857888,
+          "length": 768,
+          "sha256": "050e0601730d2992f14aa339350bd5e0fa7b216d94d9af47d41407dd7735b801"
+        },
+        {
+          "offset": 9889920,
+          "length": 1280,
+          "sha256": "e171dd97e0a7010a63c3298cc76bbfd9bc383d8daf1f52f506ad62d857c1d2a8"
+        },
+        {
+          "offset": 11106752,
+          "length": 124,
+          "sha256": "ef06aa2d4b3341f078c3e6f6610d475e0d322485970e1e5cf0b593ee6c44cb41"
+        },
+        {
+          "offset": 11106880,
+          "length": 124,
+          "sha256": "05b60408d2a423f9f74a82dbab177419a86b06cc2939c49e639d094dbca4c73b"
+        },
+        {
+          "offset": 11107456,
+          "length": 104,
+          "sha256": "e40e7fdf24f96724da8553c32fdf06052c18471dd9615875ee8be0c0d6ee60e2"
+        },
+        {
+          "offset": 11107568,
+          "length": 104,
+          "sha256": "b11761cfe986341e1d08609fe70f80636ebc1b3feeb5e46efadbcdc9a461a925"
+        },
+        {
+          "offset": 11112160,
+          "length": 244,
+          "sha256": "48bc18b2be50f19e1a230de8caf23e8d86d6bcbc9c34d69087120457ff2b56af"
+        },
+        {
+          "offset": 11120976,
+          "length": 124,
+          "sha256": "6ac31290197bbd9d0a724202fdb309d83d85de3f9a04442b79ed4a795b92cf7a"
+        },
+        {
+          "offset": 11121104,
+          "length": 124,
+          "sha256": "3de793b85b63f732a4588eb833ab14cbfca482b89c6cd2ff86a8859985456096"
+        }
+      ],
+      "note": "Modello sorgente normale condizionale: 33 nuovi intervalli 6436 B;151 riferimenti script/20 witness metadata. Managed/runtime non pubblicati.",
+      "references": [
+        "docs/changes/2026-10-25-inventory-european-script-special-normal-poses.json",
+        "docs/changes/2026-10-25-decode-european-script-special-normal-poses.json"
+      ]
+    }
+  ],
   "limits": [
-    "Baseline congelata EUR e37-d36 del 23 ottobre 2026; non applicabile a USA, AndroidPort o generazioni future. Cambiamenti successivi richiedono nuova estrazione e revisione delle prove.",
+    "Fotografia EUR e61-d60 del 25 ottobre 2026: 56 famiglie runtime e una proiezione solo sorgente. Gli aggiornamenti richiedono revisione delle prove; non è una misura USA/Android.",
     "Codice: unione esatta degli intervalli di istruzioni scoperti dall’analizzatore attuale dai punti di ingresso ROM della cache conservata. Include candidati speculativi, non certifica ogni byte come codice o eseguito. RAM/BIOS esclusi; codice copiato in RAM non ricondotto automaticamente alla sorgente ROM.",
-    "Dati identificati: unione dei source span autenticati del manifest. Eventuali cataloghi source-only devono essere dichiarati separatamente; nessuno extra nella baseline e37. Header tecnico 0x4..0xc0 separato. Puntatori o nomi senza estensioni provate non classificano intere regioni.",
-    "Disponibilità runtime e uso effettivo sono distinti. Le prove ordinarie sono storiche per famiglia, a volte su generazioni precedenti con file mantenuti. Non certificano una singola sessione e37 che tocchi tutte le famiglie.",
+    "Dati identificati: unione degli intervalli autenticati del manifest e di 33 intervalli / 6.436 B del modello script-special-normal. Header tecnico 0x4..0xc0 separato; puntatori senza estensioni provate non classificano intere regioni.",
+    "Disponibilità runtime e uso effettivo sono distinti. Prove ordinarie storiche per 52 delle 56 famiglie, anche su generazioni precedenti con file invariati; nessuna singola sessione tocca tutte le famiglie. La proiezione solo sorgente non è disponibile al runtime.",
     "Non esiste qui una traccia ordinaria completa degli indirizzi letti: byte distinti consumati N/D. source_bytes include riletture; decoded_body_bytes e literal bytes non sono addendi della copertura ROM. Nessuna percentuale di byte effettivamente consumati viene inventata.",
-    "Condivisione: più riferimenti allo stesso intervallo nei modelli esaminati. Minimo limitato a descrittori/packet/transfer BG e alias manifest. Grafi testuali/audio/altri riferimenti non censiti possono ampliarlo. Copie uguali a offset diversi non sono condivisione di indirizzo.",
+    "Condivisione: minimo verificato da descrittori/packet/transfer BG, alias manifest, song-header e riferimenti tone-wave audio. Copie uguali a offset diversi non sono condivisioni; altri grafi restano non censiti.",
     "Sovrapposizione tra risorse: stessi byte rivendicati da famiglie distinte, inclusi font/glyph e OBJ condivisi. Livello separato dai riferimenti condivisi. Sovrapposizione codice/dati: conflitto o interleaving da esaminare, non byte da contare due volte.",
     "Non classificato: complemento dell’unione dati/header/candidati codice. Non significa spazio libero, inutilizzato o indecifrabile. Falsi candidati codice potrebbero aumentare questa quota.",
     "Wine non equivale a Windows nativo. Il report non ripete runtime build, scene, benchmark o fixture accettati, né misura performance, correttezza completa o progresso di decompilazione."
-  ]
+  ],
+  "code_seeds_sha256": "6be05e8aa3c7ba3f81d4b15b0a7ae0470a112b0c0a0e6a4fa47f8cf687a42e3f"
 }

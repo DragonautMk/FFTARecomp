@@ -3,14 +3,16 @@
 set -euo pipefail
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 rom_path='rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba'
-dataset_dir='target/rom-data-rank-gates/windows-managed-europe/offline dataset'
-translation_path='out/1194 - Final Fantasy Tactics Advance (E)(Surplus).dll'
+dataset_dir=''
+translation_path=''
 output_dir='docs/development/rom-coverage'
 evidence_path='docs/development/rom-coverage/evidence.json'
 usage() {
     printf 'Usage: %s [--rom FILE] [--dataset DIR] [--translation FILE] [--output DIR] [--evidence FILE]\n' "$0"
-    printf 'Defaults use the frozen EUR e37-d36 inputs; all relative paths start at the project root.\n'
+    printf 'Default: prepare the reviewed dataset automatically and use versioned code-entry metadata.\n'
+    printf 'All relative paths start at the project root. Logs: target/build-logs/rom-coverage-*.log\n'
 }
+main() {
 while (( $# )); do
     case "$1" in
         --help|-h) usage; exit 0 ;;
@@ -39,32 +41,76 @@ resolve_path() {
     printf '%s' "$value"
 }
 rom_path=$(resolve_path "$rom_path")
-dataset_dir=$(resolve_path "$dataset_dir")
-translation_path=$(resolve_path "$translation_path")
 output_dir=$(resolve_path "$output_dir")
 evidence_path=$(resolve_path "$evidence_path")
-for path in "$rom_path" "$translation_path" "$evidence_path" "$dataset_dir/manifest.toml"; do
+inputs=("$rom_path" "$evidence_path")
+if [[ -n "$dataset_dir" ]]; then
+    dataset_dir=$(resolve_path "$dataset_dir")
+    inputs+=("$dataset_dir/manifest.toml")
+fi
+if [[ -n "$translation_path" ]]; then
+    translation_path=$(resolve_path "$translation_path")
+    inputs+=("$translation_path")
+fi
+for path in "${inputs[@]}"; do
     if [[ ! -f "$path" ]]; then printf 'Required input file does not exist: %s\n' "$path" >&2; exit 2; fi
 done
 command -v docker >/dev/null || { printf 'Docker with Buildx is required.\n' >&2; exit 1; }
 mkdir -p -- "$output_dir"
 # Canonical paths also catch CSV-unsafe characters introduced by symlinks.
 rom_path=$(resolve_path "$(cd -- "$(dirname -- "$rom_path")" && pwd -P)/$(basename -- "$rom_path")")
-translation_path=$(resolve_path "$(cd -- "$(dirname -- "$translation_path")" && pwd -P)/$(basename -- "$translation_path")")
 evidence_path=$(resolve_path "$(cd -- "$(dirname -- "$evidence_path")" && pwd -P)/$(basename -- "$evidence_path")")
-dataset_dir=$(resolve_path "$(cd -- "$dataset_dir" && pwd -P)")
 output_dir=$(resolve_path "$(cd -- "$output_dir" && pwd -P)")
+mounts=(--mount "type=bind,source=$rom_path,target=/input/source.gba,readonly"
+    --mount "type=bind,source=$evidence_path,target=/input/evidence.json,readonly"
+    --mount "type=bind,source=$output_dir,target=/output")
+args=(--rom /input/source.gba --evidence /input/evidence.json --output /output)
+if [[ -n "$dataset_dir" ]]; then
+    dataset_dir=$(resolve_path "$(cd -- "$dataset_dir" && pwd -P)")
+    mounts+=(--mount "type=bind,source=$dataset_dir,target=/input/dataset,readonly")
+    args+=(--dataset /input/dataset)
+else
+    cache_dir=$(resolve_path "$repo_dir/target/rom-data/coverage")
+    mkdir -p -- "$cache_dir"
+    cache_dir=$(resolve_path "$(cd -- "$cache_dir" && pwd -P)")
+    mounts+=(--mount "type=bind,source=$cache_dir,target=/cache")
+    args+=(--dataset-cache /cache)
+fi
+if [[ -n "$translation_path" ]]; then
+    translation_path=$(resolve_path "$(cd -- "$(dirname -- "$translation_path")" && pwd -P)/$(basename -- "$translation_path")")
+    mounts+=(--mount "type=bind,source=$translation_path,target=/input/translation.dll,readonly")
+    args+=(--translation /input/translation.dll)
+fi
 image=ffta-rom-coverage:local
+printf 'Building ROM coverage tools inside Docker...\n'
 docker buildx build --platform linux/amd64 \
     --file "$repo_dir/Dockerfile.linux" --target coverage \
     --load --tag "$image" --progress plain "$repo_dir"
 docker run --rm --platform linux/amd64 --network none \
     --user "$(id -u):$(id -g)" --env HOME=/tmp \
-    --mount "type=bind,source=$rom_path,target=/input/source.gba,readonly" \
-    --mount "type=bind,source=$dataset_dir,target=/input/dataset,readonly" \
-    --mount "type=bind,source=$translation_path,target=/input/translation.dll,readonly" \
-    --mount "type=bind,source=$evidence_path,target=/input/evidence.json,readonly" \
-    --mount "type=bind,source=$output_dir,target=/output" \
-    "$image" --rom /input/source.gba --dataset /input/dataset \
-    --translation /input/translation.dll --evidence /input/evidence.json --output /output
+    "${mounts[@]}" "$image" "${args[@]}"
+for path in "$output_dir/index.html" "$output_dir/coverage.json"; do
+    if [[ ! -s "$path" ]]; then printf 'No report produced: %s\n' "$path" >&2; return 1; fi
+done
 printf '\nROM coverage on host: %s/index.html\n' "$output_dir"
+printf 'JSON data on host: %s/coverage.json\n' "$output_dir"
+}
+
+log_dir="$repo_dir/target/build-logs"
+mkdir -p -- "$log_dir"
+log_file=$(mktemp -- "$log_dir/rom-coverage-$(date +%Y%m%d-%H%M%S)-XXXXXX.log")
+printf 'ROM coverage log: %s\n' "$log_file"
+set +e
+(
+    set -e
+    main "$@"
+) 2>&1 | tee -- "$log_file"
+statuses=("${PIPESTATUS[@]}")
+set -e
+status=${statuses[0]}
+if (( status == 0 )); then status=${statuses[1]}; fi
+if (( status != 0 )); then
+    printf '\nROM coverage failed (exit %s). Log: %s\n' "$status" "$log_file" | tee -a -- "$log_file" >&2
+    if [[ -t 0 && -t 2 ]]; then read -r -p 'Premi Invio per chiudere...' _ || true; fi
+fi
+exit "$status"

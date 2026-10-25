@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """Build a metadata-only ROM coverage atlas. Python 3.11+, standard library.
 
-Inputs are read-only. No ROM bytes, instructions, text or decoded assets enter
-the report. Static candidate code, runtime availability and ordinary positive
-resource use are deliberately separate measurements.
+ROM and provided datasets are read-only; automatic preparation writes only to
+the selected cache. No ROM bytes, instructions, text or decoded assets enter the
+report. Code candidates, runtime availability and ordinary use remain separate.
 """
 import argparse
 import collections
 import hashlib
 import json
+import os
 import pathlib
 import re
 import sqlite3
 import subprocess
+import sys
 import tempfile
 import tomllib
 
@@ -94,11 +96,36 @@ def checked_span(start, end, size):
     return [start, end]
 
 
-def code_ranges(rom_path, translation, analyzer, rom, work):
-    symbols = subprocess.check_output(["nm", "--defined-only", str(translation)], text=True)
-    entries = {(int(addr, 16) | (mode == "t")) for addr, mode in
-               re.findall(r"\bb_([0-9a-fA-F]{8})_([ta])\b", symbols)}
-    seeds = sorted(key for key in entries if 0x08000000 <= (key & ~1) < 0x08000000 + len(rom))
+def retained_seeds(path, evidence, rom):
+    if sha(path) != evidence["code_seeds_sha256"]:
+        raise ValueError("retained code-seed metadata differs from reviewed evidence")
+    metadata = json.loads(path.read_text())
+    if metadata["schema"] != 1 or metadata["rom_sha256"] != hashlib.sha256(rom).hexdigest():
+        raise ValueError("code-seed metadata/ROM identity mismatch")
+    seeds = [int(value, 16) for value in metadata["entries"]]
+    if not seeds or seeds != sorted(set(seeds)) or any(
+            not 0x08000000 <= (key & ~1) < 0x08000000 + len(rom) for key in seeds):
+        raise ValueError("invalid retained ROM entry seeds")
+    text = "".join(f"{key:08x}\n" for key in seeds)
+    if hashlib.sha256(text.encode()).hexdigest() != metadata["seeds_sha256"]:
+        raise ValueError("retained code-seed list checksum mismatch")
+    if metadata["translation_sha256"] != evidence["translation_sha256"]:
+        raise ValueError("code-seed provenance differs from reviewed translation")
+    return seeds, metadata
+
+
+def code_ranges(rom_path, translation, analyzer, rom, work, seed_path, evidence):
+    if translation is not None:
+        symbols = subprocess.check_output(["nm", "--defined-only", str(translation)], text=True)
+        entries = {(int(addr, 16) | (mode == "t")) for addr, mode in
+                   re.findall(r"\bb_([0-9a-fA-F]{8})_([ta])\b", symbols)}
+        seeds = sorted(key for key in entries if 0x08000000 <= (key & ~1) < 0x08000000 + len(rom))
+        excluded = len(entries) - len(seeds)
+        translation_digest = sha(translation)
+    else:
+        seeds, metadata = retained_seeds(seed_path, evidence, rom)
+        excluded = metadata["excluded_non_rom_entries"]
+        translation_digest = metadata["translation_sha256"]
     if not seeds:
         raise ValueError("no native ROM entry symbols in translation")
     seed_file = work / "seeds.txt"
@@ -110,7 +137,7 @@ def code_ranges(rom_path, translation, analyzer, rom, work):
         # Match recomp_core::fnv64, including its existing multiplier.
         fnv = ((fnv ^ byte) * 0x1_0000_01b3) & 0xffffffffffffffff
     expected = f"# rom_bytes={len(rom)} rom_fnv64={fnv:016x} seeds={len(seeds)}"
-    if lines[0] != expected or lines[1] != "start\tend\tmode\tinstructions\tretained_entry":
+    if len(lines) < 2 or lines[0] != expected or lines[1] != "start\tend\tmode\tinstructions\tretained_entry":
         raise ValueError("analyzer/ROM identity mismatch")
     spans, by_mode, retained, instruction_visits = [], collections.defaultdict(list), 0, 0
     for line in lines[2:]:
@@ -128,11 +155,12 @@ def code_ranges(rom_path, translation, analyzer, rom, work):
         raise ValueError("retained entry missing from analysis")
     return union(spans), {
         "method": "Current recursive analyzer seeded by retained native ROM block symbols; speculative candidates, not executed-byte coverage or semantic function coverage.",
-        "retained_rom_entries": len(seeds), "excluded_non_rom_entries": len(entries) - len(seeds),
+        "retained_rom_entries": len(seeds), "excluded_non_rom_entries": excluded,
         "discovered_blocks": len(spans), "instruction_visits_with_overlap": instruction_visits,
         "arm_bytes": length(by_mode["arm"]), "thumb_bytes": length(by_mode["thumb"]),
         "arm_thumb_overlap_bytes": length(intersection(by_mode["arm"], by_mode["thumb"])),
-        "translation_sha256": sha(translation), "analyzer_executable_sha256": sha(analyzer),
+        "translation_sha256": translation_digest, "analyzer_executable_sha256": sha(analyzer),
+        "entry_source": "native ELF" if translation is not None else "reviewed address metadata",
         "analyzer_source_sha256": sha(ROOT / "crates/recomp-core/src/analyze.rs"),
         "seeds_sha256": sha(seed_file),
     }
@@ -190,6 +218,21 @@ def collect_sharing(dataset, manifest):
                 for field, records in (("control", "controls"), ("tiles", "tiles")):
                     source = transfers[records][entry[field]]["relative_source"]
                     link("graphics.bg-transfer-programs", root + source, f"descriptor/{i}/transfer/{j}/{field}")
+    if "audio.m4a-directory" in resources:
+        audio = load("audio.m4a-directory")
+        headers = {h["id"]: h for h in audio["headers"]}
+        for song in audio["songs"]:
+            link("audio.m4a-directory", headers[song["header_id"]]["source_offset"],
+                 f"song/{song['id']}/header")
+    if "audio.m4a-tones" in resources:
+        audio = load("audio.m4a-tones")
+        waves = {0x08000000 + w["source_offset"]: w for w in audio["pcm_waves"]}
+        for tone in audio["tones"]:
+            wave = waves.get(tone["word04"])
+            if wave is not None:
+                for start in [wave["source_offset"], wave["source_offset"] + 16]:
+                    if ("audio.m4a-tones", start) in starts:
+                        link("audio.m4a-tones", start, f"tone/{tone['id']}/wave")
     result = []
     for key in sorted(refs):
         if len(refs[key]) >= 2:
@@ -202,6 +245,46 @@ def collect_sharing(dataset, manifest):
     return result
 
 
+def check_baseline(manifest, evidence, digest):
+    actual = [digest, manifest["extractor_revision"], manifest["decoder_revision"]]
+    if actual != evidence["baseline"]:
+        expected = evidence["baseline"]
+        raise ValueError(f"Dataset e{actual[1]}-d{actual[2]} does not match reviewed "
+                         f"e{expected[1]}-d{expected[2]}/ROM. Omit --dataset/-DatasetDir "
+                         "to prepare the reviewed dataset automatically.")
+
+
+def source_only_spans(extra, rom):
+    spans = []
+    for source in extra["sources"]:
+        a, b = checked_span(source["offset"], source["offset"] + source["length"], len(rom))
+        if hashlib.sha256(rom[a:b]).hexdigest() != source["sha256"]:
+            raise ValueError(f"source-only authentication failed: {extra['id']}")
+        spans.append([a, b])
+    if union(spans) != union(extra["ranges"]):
+        raise ValueError(f"source-only ranges differ from authenticated spans: {extra['id']}")
+    return union(spans)
+
+
+def prepare_dataset(args):
+    if args.dataset is not None:
+        return
+    evidence = json.loads(pathlib.Path(args.evidence).read_text())
+    digest, extractor_rev, decoder_rev = evidence["baseline"]
+    if sha(args.rom) != digest:
+        raise ValueError("ROM differs from reviewed evidence; no dataset was created")
+    dataset = pathlib.Path(args.dataset_cache) / digest / f"e{extractor_rev}-d{decoder_rev}"
+    if not (dataset / "manifest.toml").is_file():
+        if not args.extractor:
+            raise ValueError("automatic dataset preparation requires --extractor")
+        dataset.parent.mkdir(parents=True, exist_ok=True)
+        print(f"Preparazione dataset e{extractor_rev}-d{decoder_rev}: {dataset}", flush=True)
+        subprocess.run([args.extractor, "rom-data", "extract", args.rom, str(dataset)], check=True)
+    else:
+        print(f"Dataset conservato e{extractor_rev}-d{decoder_rev}: verifica e riuso", flush=True)
+    args.dataset = str(dataset)
+
+
 def build(args):
     rom_path, dataset = pathlib.Path(args.rom), pathlib.Path(args.dataset)
     rom = rom_path.read_bytes()
@@ -211,10 +294,11 @@ def build(args):
     digest = hashlib.sha256(rom).hexdigest()
     if digest != manifest["source_rom_sha256"] or len(rom) != manifest["source_rom_size"]:
         raise ValueError("manifest/ROM identity mismatch")
-    if [digest, manifest["extractor_revision"], manifest["decoder_revision"]] != evidence["baseline"]:
-        raise ValueError("evidence is for a different baseline; review it before regeneration")
-    if sha(args.translation) != evidence["translation_sha256"]:
+    check_baseline(manifest, evidence, digest)
+    if args.translation is not None and sha(args.translation) != evidence["translation_sha256"]:
         raise ValueError("translation differs from the retained evidence baseline")
+    print(f"Verifica e{manifest['extractor_revision']}-d{manifest['decoder_revision']}: "
+          f"{len(manifest['resources'])} risorse e relativi intervalli ROM", flush=True)
     records, owners, all_data, ordinary = [], {}, [], []
     for resource in manifest["resources"]:
         rid = resource["id"]
@@ -228,6 +312,8 @@ def build(args):
                 raise ValueError(f"source authentication failed: {rid}")
             spans.append([a, b])
         note = evidence["resources"][rid]
+        if resource["sha256"] != note["decoded_sha256"]:
+            raise ValueError(f"decoded resource differs from reviewed evidence: {rid}")
         if not note["references"] or any(not (ROOT / ref).is_file() for ref in note["references"]):
             raise ValueError(f"missing evidence record {rid}")
         spans = union(spans)
@@ -240,16 +326,18 @@ def build(args):
                         "decoded_sha256": resource["sha256"], **note})
     runtime = union(all_data)
     for extra in evidence["source_only"]:
-        spans = [checked_span(a, b, len(rom)) for a, b in extra["ranges"]]
+        spans = source_only_spans(extra, rom)
         if any(not (ROOT / ref).is_file() for ref in extra["references"]):
             raise ValueError("missing source-only evidence")
         all_data.extend(spans)
         records.append({**extra, "ranges": spans, "source_bytes": length(spans),
                         "runtime_available": False, "ordinary_positive": False})
     data = union(all_data)
+    print("Analisi statica del codice dai punti di ingresso conservati", flush=True)
     with tempfile.TemporaryDirectory() as work:
-        code, code_info = code_ranges(rom_path, pathlib.Path(args.translation),
-                                      pathlib.Path(args.analyzer), rom, pathlib.Path(work))
+        code, code_info = code_ranges(rom_path, pathlib.Path(args.translation) if args.translation else None,
+                                      pathlib.Path(args.analyzer), rom, pathlib.Path(work),
+                                      pathlib.Path(args.code_seeds), evidence)
     db_path = ROOT / "gamedb.sqlite"
     with sqlite3.connect(db_path.as_uri() + "?mode=ro", uri=True) as db:
         code_info["gamedb_functions_for_rom"] = db.execute(
@@ -270,6 +358,7 @@ def build(args):
                    "runtime_families": len(manifest["resources"]),
                    "ordinary_positive_families": sum(r["ordinary_positive"] for r in records),
                    "ordinary_distinct_read_bytes": None,
+                   "source_only_data": length(data) - length(runtime),
                    "identified_union_with_header": length(data + header),
                    "shared_records": len(shared_records)})
     return {"schema": 1, "date": evidence["date"], "profile": manifest["profile"],
@@ -284,21 +373,45 @@ def build(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rom", required=True)
-    parser.add_argument("--dataset", required=True)
-    parser.add_argument("--translation", required=True, help="retained native ELF with block symbols; never rebuilt")
+    dataset_group = parser.add_mutually_exclusive_group(required=True)
+    dataset_group.add_argument("--dataset", help="existing dataset, read-only")
+    dataset_group.add_argument("--dataset-cache", help="prepare/reuse reviewed data in this cache directory")
+    parser.add_argument("--extractor", help="recomp CLI for automatic dataset preparation")
+    parser.add_argument("--translation", help="optional original retained ELF; default uses versioned seed metadata")
+    parser.add_argument("--code-seeds", default=str(ROOT / "docs/development/rom-coverage/code-seeds.json"))
     parser.add_argument("--analyzer", required=True, help="rom_code_ranges executable")
     parser.add_argument("--evidence", default=str(ROOT / "docs/development/rom-coverage/evidence.json"))
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
+    try:
+        return generate(args)
+    except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
+        print(f"ROM coverage failed: {error}", file=sys.stderr, flush=True)
+        return 1
+
+
+def generate(args):
+    prepare_dataset(args)
     report = build(args)
     output = pathlib.Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(report, ensure_ascii=False, separators=(",", ":"))
-    (output / "coverage.json").write_text(payload + "\n")
     template = pathlib.Path(__file__).with_name("rom_coverage.html").read_text()
-    (output / "index.html").write_text(template.replace("__ROM_COVERAGE_DATA__", payload.replace("<", "\\u003c")))
+    previous = (output / "coverage.json").read_text() if (output / "coverage.json").is_file() else None
+    with tempfile.TemporaryDirectory(dir=output) as staging:
+        staging = pathlib.Path(staging)
+        (staging / "coverage.json").write_text(payload + "\n")
+        (staging / "index.html").write_text(template.replace("__ROM_COVERAGE_DATA__", payload.replace("<", "\\u003c")))
+        os.replace(staging / "coverage.json", output / "coverage.json")
+        os.replace(staging / "index.html", output / "index.html")
+    print(f"Rapporto {report['generation']} · prove del {report['date']} · "
+          f"{report['totals']['runtime_families']} famiglie runtime", flush=True)
+    if previous == payload + "\n":
+        print("Contenuto invariato: il rapporto era già aggiornato alla generazione verificata.", flush=True)
     print(json.dumps(report["totals"], indent=2))
+    print(f"HTML: {output / 'index.html'}\nJSON: {output / 'coverage.json'}", flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

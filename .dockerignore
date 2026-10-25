@@ -31,6 +31,7 @@
 !docs/development/
 !docs/development/rom-coverage/
 !docs/development/rom-coverage/evidence.json
+!docs/development/rom-coverage/code-seeds.json
 !docs/portable.md
 !docs/docker.md
 !docs/fps_overlay.md

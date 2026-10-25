@@ -7,52 +7,48 @@ Aprire il file HTML in un browser; funziona offline, senza server o dipendenze.
 I [dati JSON](rom-coverage/coverage.json) contengono gli intervalli esatti,
 mentre il colore delle celle ne riassume la densità.
 
-La fotografia del **23 ottobre 2026 è congelata su EUR e37-d36**:
+La fotografia del **25 ottobre 2026 è aggiornata a EUR e61-d60**:
 SHA-256 ROM `8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632`,
-manifest `51b89fe76fcdca0c08535b131623f76f8695e0ff6634d81a8fe293ebb408a80e`.
-Non descrive automaticamente successive integrazioni e38 o l'immagine USA.
+manifest `6bfbbed6fdb12a81438537de07004c6338a814b683c68eadb32d772f4bb95714`.
+Le prove sono state rilette dai risultati conclusi, senza ripetere scene o test
+runtime. La precedente e37-d36 aveva 31 famiglie runtime e 3.972.680 B di dati.
 
-- **Codice candidato:** 260.472 B, **1,55%**. Unione esatta degli intervalli
-  decodificati dall'analizzatore corrente, usando i 28.455 ingressi ROM della
-  cache nativa conservata; 404 ingressi RAM esclusi. Non è una percentuale di
-  codice eseguito, di funzioni comprese o di decompilazione completata.
-- **Dati identificati:** 3.972.680 B, **23,68%**. Comprendono 31 risorse
-  autenticate del manifest, incluso
-  `gameplay.progression-selection-gates` da 1.024 B. Ogni intervallo del
-  manifest viene ricontrollato contro la ROM; tutti i file decoded vengono
-  verificati per hash senza esportarne il contenuto.
-- **Disponibili al runtime:** 3.972.680 B, **23,68%**, nelle 31 risorse della
-  baseline. Questa è la capacità delle viste tipizzate, distinta dall'uso
-  effettivamente osservato. L'attivazione rimane opt-in tramite `--rom-data`.
-- **Consumo ordinario positivo:** **28 delle 31 famiglie runtime** hanno una
-  prova storica positiva circoscritta. Testi brevi, tastiera del nome e flag
-  globali hanno prove mirate ma non una scena ordinaria positiva accettata.
-  I byte distinti effettivamente letti nelle scene sono **N/D**: i contatori
-  disponibili includono riletture e non costituiscono una traccia di indirizzi.
-- **Dati condivisi per riferimento:** almeno 610.710 B, **3,64%**, in 198
-  intervalli censiti. Più riferimenti allo stesso indirizzo nei descrittori BG,
-  negli indici packet/transfer e negli alias manifest. Sono una sovrapposizione
-  ai dati identificati. Copie uguali a indirizzi diversi non vengono confuse
-  con condivisioni di indirizzo.
-- **Non classificato nella mappa:** 12.597.392 B, **75,09%**, dopo aver escluso
-  dati, header e candidati codice. Include possibili ulteriori codice, mappe,
-  audio, tabelle e risorse compresse; non significa spazio libero o inutilizzato.
+- **Codice candidato:** 260.472 B, **1,55%**. Stessi 28.455 ingressi ROM
+  conservati, ora distribuiti come soli indirizzi in `code-seeds.json`;
+  404 ingressi RAM esclusi all'origine. L'analizzatore rilegge la ROM, senza
+  usare istruzioni o codice nativo precompilato nel report. Non è codice eseguito
+  né una percentuale di decompilazione completata.
+- **Dati identificati:** 10.207.348 B, **60,84%**. Unione autenticata delle
+  56 risorse del manifest e di **33 intervalli / 6.436 B** del modello
+  `unit-obj-script-special-normal`, ancora senza pubblicazione runtime.
+  Sono inclusi ora audio, script/testi localizzati e grafica delle unità.
+- **Disponibili al runtime:** 10.200.912 B, **60,80%**, in **56 famiglie**.
+  Il modello non integrato resta escluso da questa misura. Ogni file decoded e
+  intervallo ROM è verificato per hash; l'attivazione runtime resta opt-in.
+- **Consumo ordinario positivo:** **52 delle 56 famiglie runtime** hanno una
+  prova storica positiva circoscritta. Restano mirate soltanto: testi brevi,
+  tastiera del nome, flag globali e pose alternative di battaglia. I byte
+  distinti effettivamente letti sono **N/D**: i contatori includono riletture.
+- **Dati condivisi per riferimento:** almeno 1.359.934 B, **8,11%**, in
+  **294 intervalli**. Il censimento aggiunge gli header richiamati da più brani
+  e le wave richiamate da più tone ai precedenti riferimenti BG e alias manifest.
+  Copie uguali a indirizzi diversi restano distinte.
+- **Non classificato:** 6.370.688 B, **37,97%**, dopo dati, header e candidati
+  codice. Non significa spazio libero o inutilizzato.
 
-Le categorie **non vanno sommate**. Sono inoltre visibili 24.120 B con più
-famiglie proprietarie del medesimo intervallo e **53.516 B di sovrapposizione
-fra dati identificati e candidati codice**. Questi ultimi sono un conflitto di
-classificazione da verificare: l'analizzatore segue anche puntatori plausibili
-e può interpretare dati come istruzioni. Il database distribuito contiene zero
-funzioni per questa immagine EUR. Non si deducono estensioni dal simbolo
-successivo. ARM/Thumb sovrapposti sono contati una sola volta nell'unione.
-I 188 B dell'header tecnico `0x4..0xc0` sono separati dal branch iniziale.
+Le categorie **non vanno sommate**. Restano 24.120 B con più famiglie proprietarie
+ed emergono **61.480 B di sovrapposizione codice/dati**, da esaminare come
+conflitti di classificazione. L'analizzatore può interpretare dati come
+istruzioni. Il database distribuito contiene zero funzioni per questa ROM;
+non si deducono estensioni dal simbolo successivo. I 188 B dell'header tecnico
+`0x4..0xc0` restano separati dal branch iniziale.
 
 ## Interpretazione delle prove
 
 [evidence.json](rom-coverage/evidence.json) associa ogni famiglia ai record
 versionati e conserva i limiti sui campi realmente osservati. Le prove possono
 appartenere a generazioni precedenti i cui file sono stati mantenuti: non viene
-inventata una singola sessione e37 con tutte le famiglie attive. Ad esempio, il
+inventata una singola sessione e61 con tutte le famiglie attive. Ad esempio, il
 template di 48 B registra 96 source B in una scena: sono riletture, non una
 copertura di 96 byte distinti. Anche output decompressi e byte encoded hanno
 unità diverse e non sono addendi della copertura ROM.
@@ -68,7 +64,8 @@ non dimostra lettura di tutti i 1.024 B o dei 64 record.
 La condivisione censita è un minimo. Le sovrapposizioni di proprietà tra font,
 glyph o banche OBJ sono calcolate separatamente; non dimostrano da sole quanti
 consumer le leggano. Non sono ancora enumerati tutti i riferimenti testuali,
-audio, dinamici e indiretti. I blocchi copiati in RAM non vengono interamente
+dinamici e indiretti. Il nuovo censimento audio resta limitato ai collegamenti
+song/header e tone/wave: non esaurisce sequenze, banche o altri grafi. I blocchi copiati in RAM non vengono interamente
 colorati come codice ROM solo perché ne è noto il contenitore misto.
 
 ## Rigenerazione
@@ -86,49 +83,57 @@ Su Linux, con Docker e Buildx:
 bash scripts/linux/rom_coverage_docker.sh
 ```
 
-Entrambi usano il target `coverage` di `Dockerfile.linux`: tutti gli strumenti
-sono nel container, compreso l'esportatore di metadati compilato dal sorgente.
-Non ricompilano la traduzione, non costruiscono il runtime e non eseguono il
-gioco. Restano necessari gli input locali della baseline **EUR e37-d36**:
+Entrambi usano il target `coverage` di `Dockerfile.linux`. Per il percorso
+predefinito basta la **ROM EUR**: il container compila il CLI di estrazione e
+l'analizzatore, prepara il dataset della generazione revisionata e lo conserva in
+`target/rom-data/coverage/<SHA-ROM>/e61-d60/`. Alle esecuzioni successive lo
+verifica e riusa senza riscriverlo. Nessuna GUI, traduzione nativa o gioco viene
+eseguito. Python e Rust non servono sull'host.
 
-- ROM: `rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba`.
-- Dataset già estratto: `target/rom-data-rank-gates/windows-managed-europe/offline dataset`.
-- Cache ELF conservata: `out/1194 - Final Fantasy Tactics Advance (E)(Surplus).dll`.
-- Prove: `docs/development/rom-coverage/evidence.json` e record versionati.
+I 28.455 punti d'ingresso sono metadati versionati, legati per hash alla ROM,
+alla lista conservata e alla cache da cui furono estratti. **Non serve più la
+vecchia `.dll` locale**. ROM e prove sono montate in sola lettura; solo cache
+locale e cartella di output sono scrivibili. Gli asset estratti restano fuori
+dall'immagine e da Git. La generazione usa la rete disabilitata; la prima build
+può scaricare le dipendenze. Su Linux i file appartengono all'utente chiamante.
 
-L'estensione `.dll` non cambia il formato ELF della cache. ROM, dataset,
-cache e file delle prove vengono montati **in sola lettura**, solo durante
-l'esecuzione. La build non riceve dati privati. Il container di generazione
-usa la rete disabilitata; la prima build può scaricare le dipendenze.
-L'output predefinito è `docs/development/rom-coverage/{index.html,coverage.json}`.
-Su Linux i file appartengono all'utente che avvia lo script.
-
-Per percorsi diversi o una cartella di output separata:
+Output: **`docs/development/rom-coverage/index.html`** e **`coverage.json`**.
+Il terminale indica revisione, data delle prove, conteggi e percorsi finali.
+Se il JSON coincide con il precedente compare **“Contenuto invariato”**.
+Ogni avvio conserva anche un log in **`target/build-logs/rom-coverage-*.log`**,
+inclusi gli errori. Un errore di validazione non sostituisce il report esistente.
+Su PowerShell, `-OpenReport` apre il risultato nel browser:
 
 ```powershell
-.\scripts\windows\rom_coverage_docker.ps1 -DatasetDir 'D:\FFTA dati\e37' -OutputDir 'target/coverage-preview'
+.\scripts\windows\rom_coverage_docker.ps1 -OpenReport
+```
+
+Per usare un dataset esistente o un output separato:
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1 -DatasetDir 'D:\FFTA dati\e61' -OutputDir 'target/coverage-preview'
 ```
 
 ```bash
-bash scripts/linux/rom_coverage_docker.sh --dataset '/dati/FFTA e37' --output target/coverage-preview
+bash scripts/linux/rom_coverage_docker.sh --dataset '/dati/FFTA e61' --output target/coverage-preview
 ```
 
-Le altre opzioni sono `-RomPath`, `-TranslationPath`, `-EvidencePath` in
-PowerShell e `--rom`, `--translation`, `--evidence` in Bash. Tutti i percorsi
-relativi partono dalla radice del progetto, anche avviando il launcher da
-un'altra cartella. Gli spazi sono supportati; virgole, doppi apici e ritorni
-a capo nei percorsi non sono supportati dalla sintassi dei mount.
-Docker deve poter accedere ai percorsi host (condivisione file in Docker Desktop).
+Il dataset esplicito resta in sola lettura e deve corrispondere a **e61-d60**;
+un vecchio e37 viene segnalato con revisione attesa e rimedio. `-RomPath`,
+`-EvidencePath` e `-OutputDir` corrispondono a `--rom`, `--evidence`, `--output`.
+`-TranslationPath` / `--translation` rimane un controllo facoltativo sulla
+cache ELF originale conservata; non è richiesto dal percorso normale.
+Tutti i percorsi relativi partono dalla radice del progetto. Gli spazi sono
+supportati; virgole, doppi apici e ritorni a capo non sono supportati nei mount.
+Docker deve poter accedere ai percorsi host.
 
-L'alternativa per sviluppatori con Python 3.11+, Rust/Cargo e `nm` già installati
-rimane disponibile:
+Alternativa per sviluppatori con Python 3.11+ e Rust/Cargo:
 
 ```sh
 cargo build --release --locked --offline -p recomp-core --example rom_code_ranges
 python3 scripts/rom_coverage.py \
   --rom 'rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba' \
-  --dataset 'target/rom-data-rank-gates/windows-managed-europe/offline dataset' \
-  --translation 'out/1194 - Final Fantasy Tactics Advance (E)(Surplus).dll' \
+  --dataset 'target/rom-data/coverage/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/e61-d60' \
   --analyzer target/release/examples/rom_code_ranges \
   --output docs/development/rom-coverage
 python3 -m unittest discover -s scripts -p test_rom_coverage.py -v
@@ -147,10 +152,8 @@ benchmark, registrazione o test runtime accettato è stato ripetuto per la mappa
 La validazione del report comprende conteggi contro un modello indipendente
 di insiemi di byte, generazione reale autenticata e controlli del browser.
 
-Il percorso Docker è verificato con una generazione reale EUR su Linux:
-conteggi/intervalli/report coincidono con la fotografia, salvo l'hash
-dell'eseguibile analizzatore compilato nel container. Tutti i 38 file protetti
-(input e fotografia pubblicata) restano invariati. Cinque controlli Bash passano
-senza Python/Cargo/`nm` nel PATH del launcher; sette casi PowerShell 7.4 passano
-con Docker simulato su Linux. Windows nativo/PowerShell 5.1 e Docker Desktop
-non sono stati verificati direttamente. Le prove non aggiornano la baseline.
+Il percorso Docker aggiornato è verificato con estrazione e generazione reali
+EUR su Linux, confronto con i 57 file già accettati di e61 e controlli sui nuovi
+seed portabili, intervalli source-only, condivisioni audio e messaggi di errore.
+Il launcher PowerShell è verificato con Docker simulato su Linux; Windows
+nativo/PowerShell 5.1/Docker Desktop restano non provati direttamente.

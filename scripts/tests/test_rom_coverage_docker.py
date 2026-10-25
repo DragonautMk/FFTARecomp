@@ -35,12 +35,21 @@ class DockerCoverageTests(unittest.TestCase):
         self.bin = self.directory / 'bin'
         self.bin.mkdir()
         # The child PATH deliberately contains no Python, Cargo or nm.
-        for name in ('dirname', 'basename', 'mkdir', 'id'):
+        for name in ('dirname', 'basename', 'mkdir', 'id', 'mktemp', 'date', 'tee'):
             (self.bin / name).symlink_to(shutil.which(name))
         docker = self.bin / 'docker'
         docker.write_text('''#!/bin/bash
 printf '%s\\0' "$@" > "$DOCKER_TEST_LOG/$1.args"
 if [[ "$1" == buildx ]]; then exit "${DOCKER_TEST_BUILD_STATUS:-0}"; fi
+if [[ "${DOCKER_TEST_NO_OUTPUT:-0}" == 0 && "${DOCKER_TEST_RUN_STATUS:-0}" == 0 ]]; then
+    for arg in "$@"; do
+        if [[ "$arg" == type=bind,source=*,target=/output ]]; then
+            path=${arg#type=bind,source=}; path=${path%,target=/output}
+            printf 'report fixture' > "$path/index.html"
+            printf '{"generation":"fixture"}' > "$path/coverage.json"
+        fi
+    done
+fi
 exit "${DOCKER_TEST_RUN_STATUS:-0}"
 ''')
         docker.chmod(0o755)
@@ -62,9 +71,12 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         self.assertEqual(build[build.index('--target') + 1], 'coverage')
         self.assertEqual(build[build.index('--file') + 1], str(self.repo / 'Dockerfile.linux'))
         self.assertEqual(build[-1], str(self.repo))
-        for key, target in [('rom', '/input/source.gba'), ('dataset', '/input/dataset'),
-                            ('translation', '/input/translation.dll'), ('evidence', '/input/evidence.json')]:
+        for key, target in [('rom', '/input/source.gba'), ('evidence', '/input/evidence.json')]:
             self.assertIn(f'type=bind,source={self.repo / self.defaults[key]},target={target},readonly', run)
+        self.assertIn(f'type=bind,source={self.repo / "target/rom-data/coverage"},target=/cache', run)
+        self.assertIn('--dataset-cache', run)
+        self.assertNotIn('--translation', run)
+        self.assertNotIn('--dataset', run)
         output = self.repo / 'docs/development/rom-coverage'
         self.assertIn(f'type=bind,source={output},target=/output', run)
         self.assertEqual(run[run.index('--network') + 1], 'none')
@@ -97,9 +109,10 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
             data = path.read_bytes()
             path.unlink()
             with self.subTest(key=key):
-                result = self.run_script()
+                args = ['--' + key, self.defaults[key]] if key in ('dataset', 'translation') else []
+                result = self.run_script(*args)
                 self.assertEqual(result.returncode, 2)
-                self.assertIn(str(path), result.stderr)
+                self.assertIn(str(path), result.stdout + result.stderr)
                 self.assertIsNone(self.call('buildx'))
             path.write_bytes(data)
 
@@ -112,6 +125,16 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         self.assertEqual(result.returncode, 23)
         self.assertIsNotNone(self.call('run'))
         self.assertNotIn('ROM coverage on host:', result.stdout)
+        logs = list((self.repo / 'target/build-logs').glob('rom-coverage-*.log'))
+        self.assertTrue(any('exit 23' in p.read_text() for p in logs))
+
+    def test_success_without_report_is_an_error_with_persistent_log(self):
+        result = self.run_script(DOCKER_TEST_NO_OUTPUT='1')
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('No report produced:', result.stdout)
+        self.assertNotIn('ROM coverage on host:', result.stdout)
+        logs = list((self.repo / 'target/build-logs').glob('rom-coverage-*.log'))
+        self.assertTrue(any('No report produced:' in p.read_text() for p in logs))
 
     def test_bad_arguments_and_csv_paths_stop_before_docker(self):
         for args in [('--unknown',), ('--output',), ('--rom', ''),

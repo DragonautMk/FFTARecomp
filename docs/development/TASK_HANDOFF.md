@@ -6,6 +6,30 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **ROM-COVERAGE-REFRESH — complete (2026-10-25).** Latest user report fixed:
+  previous launcher regenerated frozen e37/private defaults. Current atlas now
+  reviews e61-d60:10207348identified B/10200912runtime B,56runtime families/
+  52ordinary-positive,6436B/33spans source-model-only,1359934shared B/294records,
+  6370688unknown B/61480code-data conflict B. No new ordinary byte-trace claim.
+  Default Docker route needs only EUR ROM: prepares/caches57data files, all
+  byte-identical to accepted e61;28455versioned ROM-address seeds replace the
+  old required ELF. Optional supplied datasets/ELF remain read-only/strict.
+  Both launchers log every run/error, check actual output, show generation and
+  explicit unchanged feedback; PowerShell -OpenReport opens result. Stale e37
+  error names expected e61/remedy and preserves existing reports.
+  Actual Docker preparation/publication/read-only reuse pass60protected hashes/
+  57cache hash-mtime guards/private-image probe. Ten generator,6Bash,8PS7.4.6
+  mock-Docker checks pass; syntax/ShellCheck, independent9layer byte maps,
+  code/seed preservation,61evidence refs/152doc links and desktop/mobile/dark
+  Chrome interactions/screenshots pass. First private browser probe used last
+  valid byte as invalid; corrected input only, product boundary unchanged.
+  Evidence target/rom-coverage-refresh/; olde37snapshot kept there. Canonical
+  docs/development/rom-coverage/{index.html,coverage.json,evidence.json} current.
+  Native Windows/PS5.1/DockerDesktop unverified; old Wine/gameplay/oracle/build
+  campaigns and full ROM_DATA goal not reopened. No live unit job or remaining
+  coverage action, personal-save mutation, commit or push. Memory/whitespace
+  checks pass. [Record](../changes/2026-10-25-refresh-rom-coverage-and-prepare-inputs.json).
+
 - **ROM-DATA-FULL-EUR — active (2026-10-25).** Execute the full ROM_DATA_TODO;
   EUR focus, new functional tests Wine only; Linux/USA/nativeWindows/new32:9
   pending, no performance/storage measurements or space-budget optimization.

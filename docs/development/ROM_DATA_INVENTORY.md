@@ -8,7 +8,7 @@ Do not apply a regional offset to another image or infer language coverage
 from a shared rendering format.
 
 The [overall ROM coverage map](ROM_COVERAGE.md) provides an offset atlas and
-reproducible metadata-only JSON/HTML for the frozen EUR e37-d36 baseline. It
+reproducible metadata-only JSON/HTML for the reviewed EUR e61-d60 baseline. It
 separates speculative code, authenticated data, typed runtime availability,
 ordinary positive resource use, shared references and unclassified regions.
 Overlapping layers are not additive; ordinary distinct-read-byte coverage is

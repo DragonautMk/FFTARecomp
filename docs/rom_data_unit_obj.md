@@ -2034,3 +2034,52 @@ the production executable remain unchanged; managed/runtime/actualCLI/ordinary
 use and new Linux/USA/nativeWindows/new32:9 checks remain pending. No fixture,
 navigation, private payload edit or performance/storage measurement occurs.
 Evidence:`target/rom-data-unit-obj-property-words-model/`.
+
+
+## Managed actor property words and typed runtime reads
+
+EUR e67-d66adds `graphics.unit-obj-property-words` /
+`unit-obj-property-words.json`. The dataset has63files/62resources and actual
+metadata52/metadata14producer dependencies. All61previous decoded files and
+resource records remain identical; e66is retained and USA stays e8-d7.
+
+The immutable owner serves exactly the four source ranges/364B from182typed
+u16records. It derives each returned byte from its word, retains398producer
+witnesses and uses three64-bit masks indexed by record. The original getter,
+allocation, task reuse, scheduler and bus behavior remain guest work. Source
+page394only enables lookup: previous directory bytes, omitted112/117words and
+the two FFFFreader fields totaling6Bretain their old owner or mutable raw ROM.
+No live sprite cap, word-value cap, pointer correction or raw overlay is added.
+
+One affected Windows core/frontend build passes without warnings. The first
+two exact Wine filters pass17attach guards, four full-set/dependency guards,
+publication failure/create-reuse-repair-move, retained older files, transactional
+failed-attach state/owner isolation and load/Undo/backup/restart with the attached
+directory unavailable. All364typed bytes and182usage-mask records pass; four
+old alternate-directory bytes retain that owner and the6BFFFFreads remain raw.
+
+Sixteen original/interpreter/compiled paths preserve complete states and clocks
+with all364raw source bytes altered. They cover the getter, two partial actor
+prefixes, fullword inputs, omitted words, dynamic RAM and compiled typed reads
+(21aggregate property bytes). All four range boundaries pass byte/halfword/word
+reads, three ROM mirrors and both real-BIOS bus modes. Mixed API windows retain
+2new/2old or2new/2edited-raw bytes. CpuSet transfers4new/2old bytes, FastSet28new/
+4old, and DMA4new/2old, preserving complete states/clocks. These checks do not
+claim a full allocator/actor ABI or ordinary gameplay reachability.
+
+Dataset SHA-256 is
+`dfd7f3e3e4cbf7d3cc9f7b5c3b0d74bb95e0179de01c8936878329b364000d57`,
+manifest file `5203bc861fe0c24047aa42bab40cac0d91170e5828fd9facd48e2e290b955442`.
+The model file remains `be429aaf9073f5dc811a0272d8d76da35badbc8d6b40ff08f727c2f276ca7bb7`.
+Frozen frontend is
+`130752e50e10aaa608e0a5fb03517b4a0a6e2f2990e5c3f98759c33e8404f04d`;
+core compile-only `d2848fadf413a13141f18030dad49f55c5158a0467959ec1506673e79914c097`.
+All84build/86Wine active hash-modification-time guards and20compiled inputs
+remain exact. The closed source/model oracle and earlier family acceptances
+are reused without replay.
+
+Actual production CLI and ordinary positive use remain pending, as do raw6B
+migration, unknown/changed-actor/globalregistry conditions and new Linux/USA/
+nativeWindows/new32:9 validation. No gameplay fixture, navigation, private
+payload edit or performance/storage measurement occurs. Evidence:
+`target/rom-data-unit-obj-property-words-runtime/`.

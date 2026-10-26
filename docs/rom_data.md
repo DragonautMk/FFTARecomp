@@ -1,5 +1,17 @@
 # Decoded ROM resources
 
+EUR e67-d66 adds [actor property words](rom_data_unit_obj.md#managed-actor-property-words-and-typed-runtime-reads):
+63 files/62 resources with actual metadata52/metadata14 dependencies. All61prior
+files/records and e66are retained; USA stays e8-d7. The immutable owner serves
+four ranges/364B from182u16records, preserving raw holes, previous owners and
+original allocation/task reuse. First two focused Wine filters pass17attach+
+4full-set guards/lifecycle/all364typedB and16original/interpreter/compiled
+complete-state-clock paths with raw sources altered. Four range boundaries,
+widths/mirrors/real-BIOS bus, CpuSet/FastSet/DMA and mixed old/new/raw reads pass.
+Actual production CLI and ordinary positive use remain pending, along with
+new Linux/USA/nativeWindows/new32:9 checks. Source/model/earlier proofs stay
+closed; no gameplay fixture, navigation or performance/storage measurement.
+
 EUR e66-d65adds [registry generic direct-job poses](rom_data_unit_obj.md#managed-registry-generic-direct-job-poses-and-typed-guest-reads):
 62files61resources, actual metadata52/archive and six previous typed-view
 dependencies, all60prior resources/e65retained/USAe8-d7. The new owner serves

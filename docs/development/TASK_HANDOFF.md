@@ -9018,3 +9018,146 @@ work selected; ordinary sourcepositive/raw6Bmigration/globalregistryidentity/
 unknown-changedactor/otherfamilies/Linux-USA-nativeWindows-new32:9 remainopen.
 Recordselection checkpoint beforemutation/expensivecommand; localnormalcheckpoint
 authorization stillpersists but no checkpointderivation selected here.
+
+
+**Selection checkpoint — ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS (2026-10-26).**
+Previousgoalturn progress:01source/02losslessmodel/firstWinegetter-prefixoracle
+closed/PASS, final376sourcehashes exact/no livejobs. LatestfullTODO/EUR/Wine-only/
+no performance-space constraints unchanged. CurrentHEAD87fc705/e66-d65verified;
+alluncommitted model/docs work preserved, no coverage regeneration/review or
+oldproof replay selected. Missing managedpublication andtypedruntimeownership.
+Next immutable typedowner ONLY4spans364B/182records, graphics.unit-obj-property-
+words/fileunit-obj-property-words.json, actualmetadata52and14dependencies; EUR
+expectede67-d66/63files62resources/all61old unchanged/e66retained, USAe8-d7.
+Threeu64words index182records (notcapliveIDs); byteownership preservesrawholes,
+FFF6B andalloldowners. Deriveexactpages/mixednew-old-raw paths before tests.
+Selectedfive sharedfiles coremodelhub/runtimehub/frontendhub/bgpackettestarity/
+extractor description withpreimages, newruntime module+two-focused-filter test
+module. OneaffectedWindowscore/frontend build thennewmanaged+native Wineonly,
+fullstate-clock/typedbytes/edges/BIOS-SWI-DMA/lifecycle/coherent-tamper guards.
+No sourceoraclereplay/hostgetter-task-allocator replacement/fixture/navigation/
+privatepayload/performance/storage/package/commit selected. ActualCLI/ordinary
+newsource-positivecriterion after03. Fullgoalactive/othergates open.
+Evidence target/rom-data-unit-obj-property-words-runtime/.
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS — wiring/prebuild review closed.**
+Selectedfive sharedfiles andnewruntime/two-filtertestmodule wired; e67-d66/
+63files62resources/twoactualmetadata52-14dependencies, old61resourceorder retained.
+Allother376baseline implementation hashes unchanged; preimages preserved.
+Functional4span pageunion isexactly394, alreadyanoldtypedpage; byteownershiponly
+182u16records/3maskwords, raw112/117holes andFFFF6B untouched. Staticoldmanifest
+SHA6d039fda.. verifies394C10/C12oldalternate ownership; C14new, CF4/CFErawgap,
+CF6/D00new. NewoldAPI2/2, SWI4/2and28/4, DMA4/2 expectedauthenticated before tests.
+Newmodulesrustfmt/CRLFwhitespace pass. UserHEADnowf425fc6commits earlier02model
+work; contents preserved/notreplayed. Next firstaffectedWindowscore/frontend
+build then two newactualWinefilters only; build-script/result locators under
+runtimeevidence dir. No livejobyet/oldoracle/fixture/navigation/performance work.
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS — build running.**
+First affectedWindowscore/frontend test build live exec30233, START observed.
+No second build selected; inspect samehandle/result/log before retry. Buildfiles
+windows-managed-build.{jsonl,log,json} under runtimeevidence dir, frozen core+
+frontend exe on success; no productexe mutation. Newmanaged17attachguards plus
+fullsetdependency/lifecycle/364typedB/182maskrecords/FFF6Braw isolation; native
+getter/partialactor/rawholes/fullword/bus/width-mirror-BIOS-SWI-DMA comparisons
+planned with364rawB altered. Onlytwo newWinefilters afterbuildterminal; noold
+source/model/metadata/scene acceptance replay/fixture/navigation/performance.
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS — build terminalPASS/closed.**
+30233firstaffectedWindowscore/frontend tests build exit0/warning-free. Frozen
+frontend130752e50e10aaa608e0a5fb03517b4a0a6e2f2990e5c3f98759c33e8404f04d,
+corecompile-onlyd2848fadf413a13141f18030dad49f55c5158a0467959ec1506673e79914c097.
+Allactivebuildhash-mtimeguards andcompiledinputs exact, no productexe mutation.
+No failedbuild/retry/newsourceoraclereplay. Buildchildclosed/no unchangedrebuild;
+nextfirstactualWine managed→native newpropertywordfilters, per-filterlogs/result
+inruntimeevidence dir. No fixture/navigation/privatepayload/performance work.
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS — terminalPASS/managed-native closed.**
+53311firstactualWine managed→native filters both exit0/PASS; no failedbuild/test
+retry/no livejobs.17attach+4fullsetdependencyguards/create-reuse-repair-move/
+all61priorfiles-records/e66retained/twoactualmetadata52-14deps/lifecycle/unavailable
+load-Undo-backup-restart/whole364typedB/182wordmask records/FFF6Braw isolation pass.
+Nativeoriginal/interpreter/compiled complete-state-clock cases with364rawB altered
+plusallfourrange boundaries/widths/mirrors/realBIOSbus/CpuSet/FastSet/DMA/
+partialactor/rawfullword/rawholes/liveRAM pass. Oldalternate directoryownership
+retained; mixedAPI2new2old/2new2raw, SWI4new2oldand28new4old, DMA4new2old exact.
+Source/model/oracle/build and03managed-runtime childrenclosed/no unchangedreplay;
+no fullallocator/wholeactor/ordinary claim. e67-d66/63files62resources/USAe8-d7,
+canonicalproductionexe unchanged. Actualresults/accepted-dataset.json under
+runtimeevidence dir. Next coherentmemory/preservation then04newactualproductionCLI;
+no fixture/navigation/privatepayload/performance/storage work selected. Fullgoal
+active/incomplete/ordinaryandremaining source-otherplatform criteria open.
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS — memory/preservation closed.**
+Coherent consume record/unitOBJ/STATE/TODO/inventory/fourfeatureheaders/CHANGELOG
+updated.376baseline hashes showexisting implementation delta onlyfive selected
+files, allfivepreimages/20compiledinputs/84build86Wineactivehash-mtimeguards exact;
+newruntime/testmodule formatted.550decodedlinks/newmodulerustfmt/default+
+basef425fc6memory/CRLFwhitespace pass. Source/model02/newsource61owner/private
+proofs reused, no11256legacyartifact campaign. Datasetdfd7f3e3../manifest5203bc86../
+modelbe429aaf../sourcead328c8e..;63files62resources/e67-d66/USAe8-d7. Native16
+fullstate-clock paths/21compiledpropertyB/twoactorprefixes and17attach+4fullset
+managedguards pass. No livejobs/no failedbuild-test retry/fullgoalactive/incomplete.
+Userf425fc6commitof completedmodel preserved/notreplayed; coverage task remains
+closed/outside selection. Finalmaps target/rom-data-unit-obj-property-words-runtime/.
+
+Next **ROMDATA-04-UNIT-OBJ-PROPERTY-WORDS-ACTUAL-CLI**: one new Windowsproduction
+CLIbuild/frozenexe/exactcanonicalhash+mtime restoration/maincontentunchanged-
+mtime-onlyCargoinvalidation, following closedpreviousfamily actualCLI protocol.
+Currentcanonicalf3e277db.. muststayexact; verifyguard fromaccepted03beforebuild.
+ActualWineprepare/reuse-no-write fromunrelatedcwd, all63generationfiles match
+accepted03dataset/twoactualmetadata52-14deps/65managedfiles expected, thenoneframe
+fromauthenticimmutableEURF09witholdnativecache attachment smoke. Useexisting
+state/input/cache only/privatecart-copy arguments, no newfixture/navigation.
+Oneframeallnewusage0is compatible smoke, not ordinary-positive; ifnonzero keep
+scopeexact. Do not replay01/02/03checks, oldaccepted3530Waitscene/source/metadata/
+previousfamily checks, createfixtures or measureperformance/RSS/storage budgets.
+AfterCLI, select newordinary sourcepositivecriterion usingexisting knowninputs
+and fresh frozennewbuild; oldsceneinput mayserve newfamily criterion butnot as
+context recreation. Fullgoal stillincludes remainingfamilies/ordinary/global
+registryidentity/unknown-changedactor/rawFFFF6Bmigration andotherplatformgates.
+NewLinux/USA/nativeWindows/new32:9 staypending; no packaging/Android/commit/push.
+Readlatesthandoff/STATE/status/terminalproofs andrecordselection checkpoint
+beforemutation/expensivecommands; localnormalcheckpoint permission persists.
+
+
+**Selection checkpoint — ROMDATA-04-UNIT-OBJ-PROPERTY-WORDS-ACTUAL-CLI (2026-10-26).**
+Previousgoalturn progress:03managed-runtime firstPASS/memoryclosed,16native-
+interpreter complete-state-clock paths/17attach+4fullsetguards;379sourcehashes
+exact/no livejobs. LatestfullTODO/EUR/Wine-only/no performance-space unchanged.
+CurrentHEADf425fc6/e67-d66 verified; usercommitted02model preserved, uncommitted
+runtime/docs kept. MissingactualproductionCLInewresource. NextoneWindowsproduction
+build/frozenexe, exactcanonicalf3e277db.. hash+mtime restoration/maincontent
+unchanged-mtime-onlyCargo invalidation. ActualWineprepare/reusefromunrelatedcwd/
+all63filesaccepted/twoactualmetadata52-14deps/65managedno-write, then1framefrom
+existingauthenticEURF09witholdnativecache asattachmentsmoke. Preservealloriginal
+privateROM/cache/state/input/cart viaexistingprotocol andfreshactiveguards.
+No oldsource/model/runtime/3530scene acceptance replay/newfixture/navigation/
+privatepayload/performance/storage/package/Android/commit selected. Oneframe
+usagescopeexact/no ordinary-equivalence claim. Evidence target/rom-data-unit-
+obj-property-words-cli/. Fullgoalactive/ordinary-and-othercriteria pending.
+
+
+**ROMDATA-04-UNIT-OBJ-PROPERTY-WORDS-ACTUAL-CLI — production build running.**
+First newproduction build live exec16397/START observed; canonicalbackup/candidate/
+windows-build.{log,json} locators under CLIevidence dir. Inspect samehandle/result
+before any retry; no other build selected. Finally restorescanonicalexacthash+
+mtime/maincontentunchanged-mtime-onlyCargo invalidation. Source-model-runtime
+children closed/no replay; nextfirstactualWineCLIprepare/reuse/all63matchaccepted/
+65managed/no-write/authenticF09oldcache1frame smoke. No newfixture/navigation/
+privatepayload/performance/storage work; fullgoalactive/ordinarypending.
+
+
+**ROMDATA-04-UNIT-OBJ-PROPERTY-WORDS-ACTUAL-CLI — build terminalPASS/closed.**
+16397firstproductionWindowsbuild exit0/warning-free; frozenCLI
+2ce56e03d4ad675bbb41315a29e61bbc62f03a20ee825b4531f67a919a80e4ad.
+Canonicalf3e277db.. exacthash+mtime1792570130397888519restored; maincontent
+unchanged-mtime-onlyCargo invalidation. Activeprivateguards/20runtimecompiled
+inputs exact. Buildchildclosed/no unchangedrebuild; nextfirstactualWineCLI
+prepare/reusefromunrelatedcwd/all63accepted/65managed/no-write/oldcache1frame.
+No oldsource/model/runtime/scene/fixture/navigation/performance work selected.

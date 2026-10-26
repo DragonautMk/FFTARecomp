@@ -71,8 +71,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 66;
-pub const DECODER_REV: u32 = 65;
+pub const EXTRACTOR_REV: u32 = 67;
+pub const DECODER_REV: u32 = 66;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -233,6 +233,10 @@ pub const UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID: &str = "graphics.unit-obj-script-
 pub const UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE: &str = "unit-obj-script-registry-generic.json";
 pub const UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FORMAT: &str = "unit-obj-script-registry-generic-v1-json";
 pub const MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const UNIT_OBJ_PROPERTY_WORDS_ID: &str = "graphics.unit-obj-property-words";
+pub const UNIT_OBJ_PROPERTY_WORDS_FILE: &str = "unit-obj-property-words.json";
+pub const UNIT_OBJ_PROPERTY_WORDS_FORMAT: &str = "unit-obj-property-words-v1-json";
+pub const MAX_UNIT_OBJ_PROPERTY_WORDS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const MAP_RASTER_PALETTES_ID: &str = "graphics.map-raster-palettes";
 pub const MAP_RASTER_PALETTES_FILE: &str = "map-raster-palettes.json";
 pub const MAP_RASTER_PALETTES_FORMAT: &str = "map-raster-palettes-v1-json";
@@ -474,6 +478,7 @@ pub struct Extraction {
     pub unit_obj_script_override: Option<unit_obj_script_override::Catalog>,
     pub unit_obj_script_registry_special: Option<unit_obj_script_registry_special::Catalog>,
     pub unit_obj_script_registry_generic: Option<unit_obj_script_registry_generic::Catalog>,
+    pub unit_obj_property_words: Option<unit_obj_property_words::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -541,6 +546,7 @@ pub struct BaseFiles<'a> {
     pub unit_obj_script_override: Option<(&'a unit_obj_script_override::UnitObjScriptOverride, &'a [u8])>,
     pub unit_obj_script_registry_special: Option<(&'a unit_obj_script_registry_special::UnitObjScriptRegistrySpecial, &'a [u8])>,
     pub unit_obj_script_registry_generic: Option<(&'a unit_obj_script_registry_generic::UnitObjScriptRegistryGeneric, &'a [u8])>,
+    pub unit_obj_property_words: Option<(&'a unit_obj_property_words::UnitObjPropertyWords, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1014,6 +1020,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![METADATA52_ID.into(), SCRIPT_ARCHIVE_ID.into(), UNIT_OBJ_INITIAL_POSE_ID.into(), UNIT_OBJ_EQUIPMENT_ID.into(), UNIT_OBJ_NORMAL_BATTLE_ID.into(), UNIT_OBJ_ALTERNATE_BATTLE_ID.into(), UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_ID.into(), UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_ID.into()], sources: metadata.sources.clone(),
             });
             result.unit_obj_script_registry_generic = Some(metadata);
+            let metadata = unit_obj_property_words::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(UNIT_OBJ_PROPERTY_WORDS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: UNIT_OBJ_PROPERTY_WORDS_ID.into(), path: UNIT_OBJ_PROPERTY_WORDS_FILE.into(), format: UNIT_OBJ_PROPERTY_WORDS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![METADATA52_ID.into(), METADATA14_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.unit_obj_property_words = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1109,6 +1122,7 @@ impl Extraction {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1205,6 +1219,7 @@ impl Extraction {
             || self.unit_obj_script_override.is_some() && (self.unit_obj_alternate_battle.is_none() || self.script_archive.is_none() || self.unit_obj_normal_battle.is_none())
             || self.unit_obj_script_registry_special.is_some() && (self.metadata14.is_none() || self.script_archive.is_none() || self.unit_obj_initial_pose.is_none() || self.unit_obj_equipment.is_none() || self.unit_obj_normal_battle.is_none() || self.unit_obj_alternate_battle.is_none() || self.unit_obj_script_special_normal.is_none() || self.unit_obj_script_special_alternate.is_none())
             || self.unit_obj_script_registry_generic.is_some() && (self.metadata52.is_none() || self.script_archive.is_none() || self.unit_obj_initial_pose.is_none() || self.unit_obj_equipment.is_none() || self.unit_obj_normal_battle.is_none() || self.unit_obj_alternate_battle.is_none() || self.unit_obj_script_special_alternate.is_none() || self.unit_obj_script_registry_special.is_none())
+            || self.unit_obj_property_words.is_some() && (self.metadata52.is_none() || self.metadata14.is_none())
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
             || self.manifest.resources.len() != self.resource_count()
@@ -1745,6 +1760,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected unit_obj_script_registry_generic resource".into()),
         }
+        match (&self.unit_obj_property_words, files.unit_obj_property_words) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_UNIT_OBJ_PROPERTY_WORDS_FILE_BYTES { return Err("UnitObjPropertyWords file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[61].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected unit_obj_property_words resource".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2082,6 +2106,12 @@ impl Extraction {
             decoded.owned_spans(initial,equipment,normal,alternate,low_alternate,known_special)?;
             if decoded != &expected.decoded {return Err("Decoded unit_obj_script_registry_generic differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.unit_obj_property_words, files.unit_obj_property_words) {
+            let jobs=files.metadata52.ok_or("Missing actor propertyword metadata52 dependency")?.0;
+            let special=files.metadata14.ok_or("Missing actor propertyword metadata14 dependency")?.0;
+            decoded.validate_producers(jobs,special)?;
+            if decoded != &expected.decoded {return Err("Decoded unit_obj_property_words differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2154,6 +2184,7 @@ impl Extraction {
             + usize::from(self.unit_obj_script_override.is_some())
             + usize::from(self.unit_obj_script_registry_special.is_some())
             + usize::from(self.unit_obj_script_registry_generic.is_some())
+            + usize::from(self.unit_obj_property_words.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2269,6 +2300,7 @@ mod tests {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2337,6 +2369,7 @@ mod tests {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2415,6 +2448,7 @@ mod tests {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2482,6 +2516,7 @@ mod tests {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

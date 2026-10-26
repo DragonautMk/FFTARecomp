@@ -1598,7 +1598,12 @@ flagbitfield o unitàVRAM dedotti. Sourcechild e modello lossless/oracoloWine or
 chiusi:20guards/tutti182getters364B/3rawfullword/quattronewtaskprefixes/duereuse/
 quattrosetteru16/wholeRAMguards passano. I task esistenti mantengono il proprio+16.
 Primo buildWindowsfrontend senza warning,82build83Wineguards11compiledinputs
-invariati; nessun fullallocator/native-clock/ordinary claim. Managed/runtime/CLI/
-ordinary ancora da fare; e66/USAe8invariati. FFFFraw6B/altri input/changedactor/
+invariati; nessun fullallocator/native-clock/ordinary claim per02. EUR e67-d66ora
+pubblica63file62risorse/metadata52-14dipendenze/all61precedenti-e66preservati.
+Primi dueWine passano17attach+4fullsetguards/lifecycle/364typedB/182maskrecord e
+16percorsi original-interpreter-compiled fullstate-clock con364rawBalterati.
+Quattrobordi/width-mirrors/realBIOSbus/SWI-DMA/mixednew-old-raw passano;84build/
+86Wineguards20compiledinputs invariati. CLI/ordinary ancora aperti, USAe8invariato.
+FFFFraw6B/altri input/changedactor/
 globalidentity separati, nessuna ripetizione oldproof/fixture/navigazione/misure.
 [Fonte e limiti](../rom_data_unit_obj.md#actor-property-words-from-known-sprite-assignments).

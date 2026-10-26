@@ -3181,3 +3181,20 @@ produzione invariati, managed-runtime-CLI-ordinary ancora aperti. Nessuna fixtur
 navigazione/privatepayload/misura performance/spazio; Linux/USA/nativeWindows/
 new32:9 e FFFFraw6B/unknown/changedactor/globalregistry separati.
 [Modello e limiti](../rom_data_unit_obj.md#typed-actor-property-words-and-original-reader-validation).
+
+
+**ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS completato managed/runtime EUR (2026-10-26).**
+e67-d66pubblica63file62risorse con metadata52/14dipendenze reali e tutti61file/
+record precedenti-e66preservati. Ownerimmutabile solo4span364B/182word,398witnesses,
+3u64mask perrecord; vecchiowner/buchi112-117/FFFFraw6B e lavoro guest preservati.
+Un buildWindowscore/frontend senza warning, primi dueWine passano17attach+
+4fullsetdependencyguards/lifecycle/all364typedB182maskrecord e16percorsi
+original-interpreter-compiled fullstate-clock con364rawB alterati. Quattrobordi/
+width-mirrors/realBIOSbus/rawfullword/liveRAM/SWI-DMA passano; API2new2old/2new2raw,
+CpuSet4new2old/FastSet28new4old/DMA4new2old esatti.84build86Winehash-mtimeguards/
+20compiledinputs invariati, nessun vecchio source/model/familyproof ripetuto o
+fullallocator/wholeactor/ordinary claim. CLIproduzione/ordinarypositivo, raw6B/
+unknown-changedactor/globalidentity e Linux/USA/nativeWindows/new32:9 aperti.
+USAe8-d7invariato, nessuna gameplayfixture/navigazione/privatepayload o misura
+performance/spazio.
+[Consumo e limiti](../rom_data_unit_obj.md#managed-actor-property-words-and-typed-runtime-reads).

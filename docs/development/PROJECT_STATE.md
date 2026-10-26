@@ -523,8 +523,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   tworeuseprefixes/fourisolatedsetters/wholeRAMoutside declaredscratch-destinations.
   Existingtask keeps its own+16word; newtask receives newproperty. Windowsfrontend
   firstbuildwarning-free/82build83Wineguards11compiledinputs exact. No fullallocator/
-  native-clock/ordinary claim; managed-runtime-CLI-ordinary pending, e66/USAe8
-  unchanged. No oldproof replay/fixture/navigation/performance measurement;
+  native-clock/ordinary claim for02. EUR e67-d66nowpublishes63files62resources with
+  actualmetadata52/14dependencies/all61priorfiles-records/e66retained. Twofirst
+  exactWinefilters pass17attach+4fullsetdependencyguards/lifecycle/364typedB/
+  182recordmask and16original-interpreter-compiled fullstate-clock paths with
+  all364rawB altered. Fourrangeedges/widths-mirrors/realBIOSbus/SWI-DMA/mixed
+  new-old-raw pass;84build86Wineguards20compiledinputs exact. CLI/ordinary pending,
+  USAe8unchanged. No oldproof replay/gameplayfixture/navigation/performance measurement;
   FFFFraw6B/globalidentity/changedactor separate.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant

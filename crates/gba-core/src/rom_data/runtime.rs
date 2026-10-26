@@ -137,6 +137,9 @@ pub use unit_obj_script_registry_special::UnitObjScriptRegistrySpecialStats;
 mod unit_obj_script_registry_generic;
 use unit_obj_script_registry_generic::UnitObjScriptRegistryGenericResources;
 pub use unit_obj_script_registry_generic::UnitObjScriptRegistryGenericStats;
+mod unit_obj_property_words;
+use unit_obj_property_words::UnitObjPropertyWordsResources;
+pub use unit_obj_property_words::UnitObjPropertyWordsStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -260,6 +263,7 @@ pub struct RuntimeResources {
     unit_obj_script_override: Option<Box<UnitObjScriptOverrideResources>>,
     unit_obj_script_registry_special: Option<Box<UnitObjScriptRegistrySpecialResources>>,
     unit_obj_script_registry_generic: Option<Box<UnitObjScriptRegistryGenericResources>>,
+    unit_obj_property_words: Option<Box<UnitObjPropertyWordsResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -502,6 +506,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.unit_obj_script_registry_generic {
             resources.unit_obj_script_registry_generic = Some(Box::new(UnitObjScriptRegistryGenericResources::new(data.clone(), &source.unit_obj_script_registry_generic.as_ref().unwrap().sources, files.unit_obj_initial_pose.unwrap().0, files.unit_obj_equipment.unwrap().0, files.unit_obj_normal_battle.unwrap().0, files.unit_obj_alternate_battle.unwrap().0, files.unit_obj_script_special_alternate.unwrap().0, files.unit_obj_script_registry_special.unwrap().0)?));
         }
+        if let Some((data,_))= files.unit_obj_property_words {
+            resources.unit_obj_property_words = Some(Box::new(UnitObjPropertyWordsResources::new(data.clone(), &source.unit_obj_property_words.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -588,6 +595,7 @@ impl RuntimeResources {
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
             unit_obj_script_registry_generic: None,
+            unit_obj_property_words: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -675,6 +683,7 @@ impl RuntimeResources {
             + self.unit_obj_script_override.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_script_registry_special.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_script_registry_generic.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_property_words.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -787,6 +796,7 @@ impl RuntimeResources {
     pub fn unit_obj_script_override_stats(&self) -> Option<UnitObjScriptOverrideStats> {self.unit_obj_script_override.as_ref().map(|m|m.stats())}
     pub fn unit_obj_script_registry_special_stats(&self) -> Option<UnitObjScriptRegistrySpecialStats> {self.unit_obj_script_registry_special.as_ref().map(|m|m.stats())}
     pub fn unit_obj_script_registry_generic_stats(&self) -> Option<UnitObjScriptRegistryGenericStats> {self.unit_obj_script_registry_generic.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_property_words_stats(&self) -> Option<UnitObjPropertyWordsStats> {self.unit_obj_property_words.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1084,7 +1094,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.unit_obj_script_registry_generic {
+            let prior = match &self.unit_obj_script_registry_generic {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.unit_obj_property_words {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1274,6 +1288,7 @@ impl crate::MemMap {
             || UnitObjScriptOverrideResources::source_page(index)
             || UnitObjScriptRegistrySpecialResources::source_page(index)
             || UnitObjScriptRegistryGenericResources::source_page(index)
+            || UnitObjPropertyWordsResources::source_page(index)
             || MapRasterPaletteResources::source_page(index)
             || AuxiliaryScriptResources::source_page(index)
     }

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "date": "2026-10-26",
+  "slug": "consume-european-unit-obj-property-words",
+  "title": "Consume European actor property words from managed decoded files",
+  "kind": "added",
+  "platforms": [
+    "Windows"
+  ],
+  "changes": [
+    "Publish graphics.unit-obj-property-words/unit-obj-property-words.json in EUR e67-d66 with actual metadata52andmetadata14producer dependencies:63files62resources, all61previous decoded files/resource records and e66retained, USAe8-d7unchanged.",
+    "Add one immutable typed runtime owner for exactly four ranges/364B/182u16records and398producer witnesses. Three u64masks index records; original getter/allocation/task reuse remain guest work. Preserve earlier owners, omitted112/117words, rawFFFF6B and fullword inputs without a live cap, pointer correction or raw overlay."
+  ],
+  "validation": [
+    "First affected Windows core/frontend test build passes warning-free. Frozen frontend130752e50e10aaa608e0a5fb03517b4a0a6e2f2990e5c3f98759c33e8404f04d; core compile-onlyd2848fadf413a13141f18030dad49f55c5158a0467959ec1506673e79914c097. No previous source/model/family test replay or failedbuild/test retry.",
+    "First two exact Wine filters pass17attach and4full-set/dependency guards; publication failure/create-reuse-repair-move, all61priorfiles-records/e66retained, failed-attach state/owner isolation, unavailable-directory load/Undo/backup/restart and all364typedB/182usage-mask records. Oldalternate-directory4B retain that owner and6BFFFFreads remain mutable raw ROM.",
+    "Sixteen original/interpreter/compiled paths preserve complete states/clocks with all364raw source bytes altered, including getter, two partial actor prefixes, rawfullword/holes/liveRAM and21aggregatecompiled propertywordB. Allfourrange boundaries/widths/mirrors/realBIOS bus pass; mixedAPI2new2old and2new2editedraw, CpuSet4new2old, FastSet28new4old andDMA4new2old exact. No full allocator/actor ABI or ordinary claim.",
+    "DatasetSHA256dfd7f3e3e4cbf7d3cc9f7b5c3b0d74bb95e0179de01c8936878329b364000d57; manifest5203bc861fe0c24047aa42bab40cac0d91170e5828fd9facd48e2e290b955442; accepted modelbe429aaf9073f5dc811a0272d8d76da35badbc8d6b40ff08f727c2f276ca7bb7.84build/86Wine activehash-mtimeguards and20compiled input preimages remain exact. Functional source-page union394and oldalternate/raw/new mixed windows authenticated before tests.",
+    "Final376baseline source review limits existing implementation changes to five selected shared files, with five retained preimages and two new modules. All20compiled inputs and84build/86Wineguards remain exact;550decoded local feature links pass. Reuse closed02/newsource/earlier private proof without a whole11256artifact campaign. Concurrent user commitf425fc6of completed model work preserved; no assistant commit or coverage regeneration."
+  ],
+  "limitations": [
+    "Managed/runtime acceptance closed; actual productionCLI and ordinary positive use remain pending. RawFFFF6Bmigration, unknown/changedactor/globalregistry reachability, broader families and full allocator/actor ABI remain separate.",
+    "NewLinux/USA/nativeWindows/new32:9 validation pending; USAe8-d7 and canonical production executable unchanged. No performance/storage measurement or optimization, gameplayfixture/navigation/privatepayload edit, Android change, packaging, commit or push."
+  ],
+  "files": [
+    "crates/gba-core/src/rom_data.rs",
+    "crates/gba-core/src/rom_data/runtime.rs",
+    "crates/gba-core/src/rom_data/runtime/unit_obj_property_words.rs",
+    "crates/recomp/src/rom_data.rs",
+    "crates/recomp/src/rom_data/unit_obj_property_words_runtime_tests.rs",
+    "crates/recomp/src/rom_data/bg_packet_managed_tests.rs",
+    "scripts/extract_rom_data.py"
+  ],
+  "references": [
+    "docs/rom_data_unit_obj.md",
+    "docs/rom_data_runtime.md",
+    "docs/development/ROM_DATA_TODO.md"
+  ]
+}

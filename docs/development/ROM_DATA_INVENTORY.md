@@ -1516,3 +1516,14 @@ Exactsix-target override ordinarylead:81snapshotEURautenticati, nessun taskenabl
 dormant corrispondente a42/32-33-40-41 o230/32-33, inputinvariati. Leadchiuso negativo,
 no guest/build/retry/fullpair; ordinarynewpixel/equivalence ancora aperto, fonti
 highregistry/currentactor restano indipendenti.
+
+
+Highregistry-knownspecial script49ha un nuovo contratto fonte condizionato sui
+16riferimenti/sevenpairs effettivi e93logicalunitrowsmetadata14con assegnazione
+currentoriginale/override20clear.1302witnesses/2220logicalkeys1908cells/373842B;
+shared358566Bda6owner, nuovi272span15276B (2392index84header1920frame10880pixel),
+21seq96op1frames/37pixelrequests. Tutti59e64owner e41halfword4literal8BLpins passano,
+nessun targetroot/mixeditem/conflict/extentvariabile. Modello/runtime/Wine/CLI/
+ordinary pending, e64/USAe8invariati; registryidentity/genericjob/outofcatalog/
+redirect/currentchanged rimangono separati. Nessuna misura o nuova fixture.
+[Contratto](../rom_data_unit_obj.md#registry-selectors-and-known-special-unit-source-projection).

@@ -454,6 +454,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   no guest/build/fullpair/retry.
   This does not close highregistry/liveactor identity; no metrics/newfixtures,
   newLinux/USA/nativeWindows/32:9 pending.
+- [Registry-knownspecial script source projection](../rom_data_unit_obj.md#registry-selectors-and-known-special-unit-source-projection)
+  authenticates16high refs/seven pairs/93knownmetadata14rows under same-unit
+  retainednormal-or-alternateassignment/override20clear, before targets; no fixed
+  registry identity.1302witnesses/2220keys1908cells/373842sourceB share358566B
+  across six priorowners; new272spans15276B include598cells567nulls/21seq96op1
+  frames/37pixelrequests10880B. All59e64owners/41halfword4literal8BLpins pass,
+  no root-target/role/extent/mixed-item conflict. Model/Wine/runtime/CLI/ordinary
+  pending, e64/USAe8unchanged; genericjob/outofcatalog/redirect/currentchanged
+  source cases remain separate, no metrics/newfixtures or newotherplatform tests.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

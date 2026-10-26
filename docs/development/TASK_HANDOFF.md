@@ -90,10 +90,11 @@ An open parent never reopens completed children or rejected experiments.
   no-write/oneframeoldcacheattachment(zero newuse/smokeonly), canonical restored.
   New exactsix-override-sequence81snapshot scan finds no enabled/dormant task;
   locator closed/no guest/build/retry, all oldtarget locators stay closed.
-  Next independent highregistry source projection can start from the16exact
-  refs/seven registry-selector-base pairs and knownmetadata14 conditional
-  unitassignment; no fixed registry identity/all-sprite product. Source/model/
-  96cell/sourceDMA/03build/
+  New highregistry-knownspecial source contract now closes16refs/93rows/1302
+  conditionalwitnesses/2220keys/272newspans15276B; model/runtime stillpending.
+  No fixed registry identity/genericjob/all-sprite product inferred. Next02
+  lossless model with six independentlyvalidated previous typed views and one
+  focused newWine sourceoracle; no oldsource/96cell/sourceDMA/03build/
   native/actualCLI/oldscene proofs stay closed/no unchanged replay.
   Ordinarynewpixel/fullscene/currentactor/highregistry/other source cases and
   otherplatform gates remain open. UserDS20/Godotassessment/coverage stayclosed.
@@ -7932,3 +7933,85 @@ nulls/sequences, extents/roles/aliases/ownership before model/build/guest. No
 rowpruning/countcap/guessed bankends or fixture/scene/performance work. Evidence
 target/rom-data-script-registry-special-poses/. Prior proofchildren andnegative
 locators stayclosed/no unchanged replay; fullTODOactive/ordinarynewpixelpending.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-SPECIAL-PAIRS — producer-domain proof closed.**
+Before target inspection exactEUR/archive16refs/sevenselector-basepairs/93logical
+metadata14rows and41halfword/fourliteral/eightBLfingerprints pass. CBAD4reads
+unit+4>1; CF144/CF180index sameunitbyte4×14and half04/06, 9B734assignment with
+override20clear and registry→unitpointer→actorcontext chain preserved.1302
+conditional mode/selector/unitlogical/base witnesses2976refs emitted under
+preselected known2..94domain, no fixed registry identity/genericjob/redirect/
+outofcatalog/everyunit reachability claim. Callback9CC94→9E275literal pinned.
+Next physical audit all59e64owners/knownroots/null-seq/roles-extents. This is
+source-onlynewfamily, not rerunning oldlookup/census/guest proofs.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-SPECIAL-PAIRS — source contract closed.**
+Producer proof before targets41halfword/fourliteral/eightBLpins/16refs/93rows
+passes; all59e64owner file+source hashes authenticated.1302conditional mode/
+registryselector/unitlogical/base witnesses2976refs→74sprites/370sprite-base
+pairs/2220logicalqueries1908physicalcells/1784logicalnulls1537physicalnulls,
+353proper sequences2081frames/60OBJlists279objects/841pixelrequests321088B.
+No knownindexroot target/internal-role/mixeditem/varyingextent conflict; root
+registry spans allseven currentunitOBJmodels, no countthreshold/pruning.
+Full373842Bhash1151b354.., shared358566Bacross six oldowners. New272spans15276B=
+2392index84header1920frame10880pixel:598cells567nulls/21seq96op1frames/37pixel
+requests/no newOBJ. Sourcehasheef259d8.. . No code/model/build/guest/revision
+change. Genericjob/outofcatalog/redirect/staleactor/highregistryidentity and
+ordinarynewpixel remainopen; this closes only predeclared knownspecial branch.
+Next coherentmemory/source checks, reuse04privateasset preservation for this
+read-onlysourceaudit; no repeated10200artifact campaign. Then02losslessmodel/
+one focusedWineoracle with six independentlyvalidated prior typed views.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-SPECIAL-PAIRS — memory/source closure.**
+Exactnewproducer/target/owner/source contracts closed, no model/build/guest job.
+All360source checks confirm code unchanged, only six existing docs and one new
+26Octoberinventory record.372local feature links/default+baseac34c8amemory/CRLF-
+whitespace pass; existing04privateassetproof10117hashes/1362CLI guards/18compiled
+inputs reused, no repeated10200artifact campaign for read-onlywork. Newaudit
+authenticates all59e64owner file/source hashes and originalROM/codepath.
+Record/unitOBJ/STATE/TODO/inventory/CHANGELOG/HANDOFF updated; final361source/
+expectedprivateguard maps under target/rom-data-script-registry-special-poses/.
+Sourcecontracteef259d8../full1151b354.. retained; e64/USAe8/canonical intact,
+private0tracked/no livejobs. Fullgoalactive/incomplete, ordinarynewpixelpending.
+
+Next **ROMDATA-02-SCRIPT-REGISTRY-SPECIAL**: lossless offline producer graph
+1302mode/registryselector/unitlogical/base witnesses2976refs/74roots/2220logical
+bindings1908cells/353seq2081frames/60OBJlists/841pixelrequests. Keepallrows and
+original0-3/1-2facingaliases, no static registry identity/guestcap/rowpruning.
+New272spans15276B(2392index84header1920frame10880pixel), 598physicalnewcells567null,
+21newproperseq96op1frames/37newpixelDMArequests. Six previous full typed views
+(initial/equipment/normal/alternate/low-scriptnormal/low-scriptalternate) overlap
+and EACH must be validated independently before union subtraction; override
+shares0and is not artificial source dependency. Producerdeps scriptarchive/
+metadata14. Model source_spans must coalesce exact logical physical aliases
+(2220→1908), strictJSON/source/ref/type guards; no shared-indexroot targets here.
+One affected Windows frontend testbuild andoneexactnewWine source oracle may
+cover1196newcell facingalias prefixes/567null+21proper resets/37actualDMAuploads
+all10880newpixelB/entireVRAM. Newframesallop1, old2/8/6/0proofs stayclosed; no
+fullnative/clock/ordinary/wholeABI claim at02. Selectcheckpoint before edits.
+Managed/runtime/actualCLI/ordinary and genericjob/outofcatalog/redirect/changed
+actor/highregistry identity andLinux/USA/nativeWindows/new32:9 remain pending;
+no performance/storage/fixture/navigation work implicitly selected.
+
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-REGISTRY-SPECIAL (2026-10-26).**
+Previous goalturn is progress: newconditional source contract/1302witnesses/
+2976refs/272newspans15276B closed, final361source10212expectedguards/no livejobs.
+All361source hashes match final; HEAD7718663 contains prior e64runtime. Existing
+source docs/record and independent userrom-coverage JSON/HTML edits preserved,
+not selected/rebuilt. LatestfullTODO/EUR/reducedWine/no performance-space/Linux-
+USA pending unchanged. Missing lossless model2220keys1908cells/353seq andsource
+oracle fornew598cells/21seq96op1/37pixelDMA10880B. Next one offline module and
+one ignored focusedWinefilter, two shared-hub declarations only; e64/USAe8stay.
+Keep1302mode/selector/unitlogical/base witnesses2976refs; independently validate
+six overlapping prior typed views (initial/equipment/normal/alternate/low-script
+normal/low-scriptalternate) before union subtraction. Sourceformula/exactalias
+coalescing, strictJSON/producer/metadata/archive/source guards. One affected
+Windowsfrontend testbuild andoneexactWine1196constructor aliases/567null+21proper
+resets/37actualDMAuploads/all10880pixelB/wholeVRAM only. No oldcommand/guest/
+source/runtime/CLI/scene/census replay, no fullnative/clock/ordinary/reachability
+claim, no liveIDcap/pruning/ROMshadow/fixture/navigation/metrics. Evidence
+target/rom-data-script-registry-special-model/. FullTODOactive/incomplete.

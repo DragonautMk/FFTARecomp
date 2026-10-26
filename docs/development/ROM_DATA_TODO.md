@@ -2984,3 +2984,17 @@ settenormal/duealternate, non ripetuti. Nessun guest/build/navigazione/checkpoin
 payloadedit/fullpair, non riprovareunchanged. Ordinarynewsequence/pixel/equivalence
 resta aperto mentre prosegue fontehighregistry/currentactor indipendente.
 [Lead e limiti](../rom_data_unit_obj.md#forced-script-override-actual-production-cli).
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-SPECIAL-PAIRS completato come contratto fonte EUR
+condizionato (2026-10-26).**16high49refs/sevenexactselector-basepairs, unitbyte4
+nelle93righemetadata14note/sameunitcurrentCF144-CF180assignment/override20clear/
+facing0..3 scelti prima dei target.1302witnesses2976refs/74sprite370sprite-base/
+2220logicalqueries1908cells1537null/353sequenze2081frame/60OBJlists279objects/
+841pixelrequests321088B. Tutti59owner e41halfword/fourliteral/eightBLpins passano,
+nessun knownindexroot/conflict/mixeditem/varyingextent o querypruning. Nuovi272span
+15276B=2392index84header1920frame10880pixel:598cells567null/21seq96op1frames/37pixel
+requests, zero nuoviOBJ. Fonteonly/modello-Wine-managed-runtime-CLI-ordinary da
+fare, e64/USAe8invariati. Nessuna identità statica registry/genericjob/redirect/
+outofcatalog/currentactor inventata, nessuna misura o guest/fixture/navigazione.
+[Contratto e limiti](../rom_data_unit_obj.md#registry-selectors-and-known-special-unit-source-projection).

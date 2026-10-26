@@ -1514,3 +1514,55 @@ in its scope, without newgameplay, navigation, payload edits, build or fullpair.
 Ordinary newsequence/pixel/fullscene evidence remains open while independent
 highregistry/currentactor source contracts can advance. Private evidence is
 `target/rom-data-script-override-ordinary/`.
+
+
+## Registry selectors and known special-unit source projection
+
+The sixteen retained high-selector decimal49instructions have seven exact
+selector/base pairs:128→8/48/136,129→0/140,132→136,133→136. The registry/fallback
+continues to resolve a live unit and the actor lookup compares unit pointers;
+no immediate sprite or fixed unit/class identity is encoded in those selectors.
+The new source domain is chosen before inspecting targets: the resolved nonnull
+unit has byte4in knownmetadata14logical IDs2..94, the actor retains that same
+unit's original normalCF144/alternateCF180assignment under the actual mode
+branch, override20is clear and facing is0..3. OriginalCBAD4reads unit+4>1; the
+getters read half04/06from14×that same logicalID, with actor assignment unchanged.
+Forty-one halfword/fourliteral/eightBLfingerprints and the exact archive/93row
+catalog authenticate that path before any animation target is parsed.
+
+Those source fields produce1302conditional mode/registryselector/unitlogical/
+base witnesses and2976reference witnesses. They collapse to74sprites/370sprite-
+base pairs,2220logical body/part queries and1908physical cells:1784logical nulls,
+1537physical nulls,353proper counted sequences2081frames,60OBJlists279objects and
+841indexed4bpp requests321088B. All59e64owner file/source hashes are checked.
+Known indexroots from all seven current unitOBJmodels are classified before
+counted sequences; this projection has none. There are no internal role overlaps,
+mixed typed items or varying pixel extents, and no selected key is discarded.
+Counts and original shape/size DMA arithmetic establish extents, without a
+count threshold or neighboring pointer used to decide a target type.
+
+The full373842Bsource graph SHA-256 is
+`1151b354c92613f2020980b5825090d205d99b0646dc4da6ac3fe81d1a0ceef9`.
+Shared358566Bretain their previous owners:74006initial/254186normal/3792low-script-
+normal/25650alternate/80low-script-alternate/852equipment. The new272spans15276B
+are2392index/84sequence-header/1920frame/10880pixel bytes:598cells567nulls,
+21sequences96operation1frames and37pixel requests, with no newOBJlist. New-source
+SHA-256 is`eef259d8b369d5c9e1e8dccf82f6d125a8bb405580e2abd750242fd9fca85169`.
+Logical sprite/root aliases remain explicit; they do not duplicate ownership.
+
+This closes the conditional source contract only. The lossless model must keep
+all1302witnesses/2220keys and independently validate each of the six previous
+typed views, including overlapping fields, before subtracting their union.
+One focused new Wine source oracle should target1196new physical-cell facing
+aliases/567null+21proper resets/37newpixel actualDMAuploads10880B, without
+replaying old command/previous-owner source acceptance. Model/build/guest/runtime
+and actualCLI/ordinary checks are not performed here. EUR e64-d63/USAe8-d7stay
+unchanged; no gameplay fixture, navigation, payload edit, performance or storage
+measurement occurs. Private static evidence is under
+`target/rom-data-script-registry-special-poses/`.
+
+This domain is conditional on known special-unit rows, without completing
+highregistry identity, genericunit0/1, out-of-catalog/redirect/forcedoverride or
+changed/stale actor sources. It is not an every-unit/action reachability promise
+or a live input cap. Ordinary newpixel/fullscene and Linux/USA/nativeWindows/
+new32:9 remain pending while those independent source branches continue.

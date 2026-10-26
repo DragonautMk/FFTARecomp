@@ -58,6 +58,33 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_game
 
 [Change record](docs/changes/2026-10-26-extract-european-script-special-alternate-poses.json)
 
+## 2026-10-26 — Extract European forced42 and230script poses from exact original assignments
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Project all167authentic decimal49instructions/13groups through only original9B734flag20normal42/alternate230current assignments under explicit retained same-unit assignment/facing0..3conditions. Keep26mode-base witnesses/334conditional source references; do not infer low/high selector unit identities, universal reachability or a scripts×all-sprite product.
+- Add a strict offline typed model for156physical cells126nulls/28counted sequences140frames/eight OBJlists27objects/42indexed4bpp requests8000B. Preserve all words and tails, require mirrored script-group references across modes and independently validate both older normal/alternate views before subtracting their union.
+- New40spans1050Binclude96cells90nulls/six sequences18frames(16operation1/twooperation2)/one OBJlist4objects/two pixel requests256B. Managed/runtime/revision changes remain a separate unit; EUR e63-d62/USAe8-d7 unchanged.
+
+**Validation**
+
+- New static EUR/archive/manifest/all58owner file-source authentication passes, including known index-root registry from all six current unit OBJmodels.19halfword/twoBL/five producer-code fingerprints pin forced constants/current assignment and original script/body/extra-part behavior; no new target is classified as an index root.
+- Full11722Bsource SHA2566d0850006ab9c7225eb5930af6cd5f0d9f8737c84024239ff251c04ca6d8e323; shared6252normal+4420alternateBonly, no internal role conflict/mixed typed item/varying pixel extent or pruned query. New384index24header360frame26OBJ256pixelB/sourceSHAe47c73e8b278c7894b5f6fa2fb875850ef91474fa0e1a9779bf72ad7a2d5488a.
+- One affected Windowsfrontendtest build90834passes without warnings, frozen5c3a9ae9dde8d944141d272960be3effb1f2b864b071ba56c246fbe046a79ef4. Single new exactWine86320filter firstPASS19JSON/mode/reference/source/two-old-view guards/all156keys11722fullgraphB/40newspans1050B,192newcell original constructor aliases/90null+6proper resets/bothnewoperation2argument copies/two actualDMA3uploads/all256newpixelB/entireVRAM exact.167scriptrefs/334conditionalreferences/26mode-base witnesses retained, no prior acceptance replay.458observed nonpixelB/482PC/12422instructions are coverage only.
+- Accepted offline model-file SHA25627d6d0e0683f9cceb17155fbbac8c35fce9db1aceffde8c144ec66f00d1f8698. EUR e63-d62/USAe8-d7runtime and prior actualproduction executable/cache remain unchanged.
+- Final preservation passes9750prior artifact hashes/1295build+1296Wine exacthash-mtime guards/all11compiled source-preimages/two shared-hub preimages with only the selected module declarations.362local feature links, new-module rustfmt, project-memory default+base1e738db and CRLF-aware whitespace pass. No unrelated implementation change, live process, ROM/cart/state/input/cache/TCC/canonical/dataset mutation or private tracked artifact.
+
+**Limitations**
+
+- Source/model and reduced original-reader Wine criteria closed. Managed publication/runtime/actualCLI/ordinary newpixel/fullscene verification remain pending; no whole actor/allocator/scheduler ABI or native complete-state-clock claim.
+- Current low/high selector binding, flag20clear metadata/registry paths and changed/stale assignment remain open; this conditional constant branch does not close highregistry identity. Linux/USA/nativeWindows/new32:9 pending; no performance/storage measurement, new gameplay fixture/navigation/payload edit, Android change, packaging, commit or push.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scripts.md](docs/rom_data_scripts.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-extract-european-script-override-poses.json)
+
 ## 2026-10-26 — Publish and consume European conditional normal script poses with authenticated producer witnesses
 
 Type: added. Platforms: Windows.
@@ -91,6 +118,37 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-consume-european-script-special-normal-poses.json)
+
+## 2026-10-26 — Publish and consume conditional European alternate script poses as typed resources
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add EUR schema1/extractor63/decoder62 unit-obj-script-special-alternate.json, resource graphics.unit-obj-script-special-alternate, with actual metadata14/scriptarchive/initialpose/normalbattle/alternatebattle dependencies. Preserve the accepted source model and all earlier resource/data records; USA stays e8-d7.
+- Read only the20new spans816B from immutable typed roots/index cells/sequence headers/frame fields/indexed4bpp tiles. Existing initial/normal/alternate owners and mutable raw holes compose per byte; guest selection, scheduling, commands, DMA, VRAM, save state and native ABI remain original.
+- Add two focused ignored Wine managed/lifecycle and original-interpreter/compiled complete-state-clock filters for the changed owner. The previous source/model and54cell/source-DMA oracle remain closed, with no unchanged repeats.
+
+**Validation**
+
+- Implementation selected from clean HEAD1e738db; all351previous source hashes matched the accepted final map before mutation. Only five selected integration files plus two new runtime/test modules change.
+- Single affected Windows core/frontend test build77460passes without warnings. Core compiled only SHA42a6a5cb05b68eb1e2dcf72c6051c8020d8041689be181aecf4073b48d13bb18; frozenfrontend38d207c59262a94b883cc42b6f5bc909a262c02fd8af7ec80df985ff5f85598f. No unchanged rebuild or source/oldfilter replay.
+- Two new exactWine62612filters pass on first executions with required localserver access. Managed59files58resources preserve all57prior data files/resource records/coverage/e62; accepted model96ce4c28..unchanged.24attachment+7dependency guards, interruptedpublication/create-reuse-repair-move/failedattach fullstate-owner transactional/unavailable Load-Undo-backup-Restart lifecycle pass; all816typedB=[0dir216index8header80frame0OBJ512pixel]/two sequences and priorinitial4normal4alternate4Bexact.
+- Native24original-interpreter-compiled complete-state-clock paths pass part0proper/parts1-2null/twoorientations/fullwordrawID/liveRAMframe/two uploads+DMA/all20edges/mirrors/realBIOSbus/SWI-DMA/mixed2new4alternate and2new2editedrawAPI. All9048fullgraphBpoisoned includingoldshares; compiled aggregate newroles[0,36,6,43,0,1], actualDMA checked separately.1842instructions/496PC/105dispatch coverage only. No oldcommand2/8/source-model oracle or ordinary/wholeABI inference.
+- DatasetSHA2564ff51b24688cf1badef741c6b48619a7e20a0b781e8f62f2781453f2375cd3ec; manifestfileSHA256cab6ea47dcf77ed81275f693bc921825458afc9fe0c772f98d3e61d55bf6401c; acceptedmodelSHA25696ce4c28cb19366fbb8804e3784782a1a4682551926b12315ae88fafed5ad035. Newowned20spans816B retain sourceSHA256029ff8a0282346c25be4b436f7b5ea3e219e167d5639d497f7d495b0127a5e2c.
+- Final preservation passes9324prior artifact hashes/1223build+1225Wine exacthash-mtime guards/all18compiled source-preimages/five selected integration preimages; accepted source model unchanged, only selected implementation changes.506local feature links, new-module rustfmt, project-memory default+base1e738db and CRLF-aware whitespace pass. Canonical executable/ROMs/cart/states/inputs/datasets/cache/TCC remain intact; no private artifacts tracked or live task process.
+- Single changed-implementation Windows production build13863passes warning-free, frozen36cba67d8e4094f2620a99aa97a055d3b004927f5167ee6e9f66653c35060ee9. Canonicalf3e277db..exacthash/mtime1792570130397888519restored in finally; main.rs content unchanged/mtime-onlyCargo invalidation. ActualWine76684productionCLIcreate/reuse59generation61managed/all59matchaccepted from unrelatedcwd/oldcache exits0 with no protected file hash/mtime rewrites. Oneframe immutableF09attachment haszero newsource usage, compatibilitysmokeonly; no ordinarypositive/scene proof or old acceptance replay.
+- ActualCLI final preservation passes9660prior artifact hashes/1287CLI exacthash-mtime guards/all18runtime compiled source-preimages and allimplementation hashes unchanged.356local feature links/project-memory default+base1e738db/CRLF-aware whitespace pass; canonical exacthash+mtime restored. No live process; private artifacts remain ignored.
+- New read-only81authenticated EURsnapshot check for exactly the two new proper AD4950/AD4980sequences (188/32-33/part0) finds zero enabled or dormant matching bodytasks. Every snapshot hash/mtime remains unchanged before/after; old606alternate/sevennormal scans are not rerun. No guest/build/navigation/checkpoint/fullpair selected from this negative lead, and ordinary newpixel/equivalence remains open.
+
+**Limitations**
+
+- Managed publication/targeted runtime-lifecycle-native state-clock and actual productionCLI criteria closed. Ordinary newpixel/fullscene equivalence remains separate and pending; no wholeallocator/task/actor ABI or universal reachability/current-sprite claim.
+- High16registry/42-230override/changed-currentactor source cases and newLinux/USA/nativeWindows/new32:9 remain pending; no performance or storage measurement, optimization, gameplay checkpoint/navigation/private payload edit, Android change, packaging, commit or push.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-script-special-alternate-poses.json)
 
 ## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
 

@@ -2894,3 +2894,58 @@ Comandi2/8già coperti non ripetuti. Managed/runtime/
 actualCLI/ordinary e high16/override/currentstate restano aperti; e62/USAe8
 invariati, Linux/nativeWindows/new32:9da fare, nessuna misura performance/spazio.
 [Contratto e modello](../rom_data_unit_obj.md#conditional-alternate-script-special-source-and-typed-model).
+
+
+**ROMDATA-03/04-SCRIPT-OBJ-SPECIAL-ALTERNATE managed/runtime completati nel
+perimetro EUR/Wine mirato (2026-10-26).** e63-d62pubblica59file58risorse con
+metadata14/scriptarchive/initial/normal/alternate effettive, tutti57precedenti
+filedati/resource records/coverage invariati/e62conservato/USAe8-d7invariato.
+Ownerimmutabile serve solo20nuovi span816B da campi tipizzati; vecchiowner e
+rawholes compongono ogni lettura. BuildWindows core/frontend senza avvisi,
+core compilato soltanto; due nuovi filtriWine primoPASS24attach+7dependency
+checks/lifecycle/all816typedB/two sequences e24percorsi original-interpreter-
+compiled stato-completo/clock, part0proper/parts1-2null/facing/fullwordrawID/
+liveRAMframe/uploads-DMA/all20edges/mirrors/BIOS-SWI-DMA/mixed2new4alternate+
+2new2raw. Tutto9048Bgraph alterato, compresi owner condivisi; prove fonte/modello/
+54celle/DMAfonte/comandi2-8precedenti non ripetute. ActualproductionCLI/ordinary
+newpixel/equivalence e high16/42-230/currentactor restano aperti; nuoveLinux/
+USA/nativeWindows/new32:9da fare, nessuna misura performance/spazio/nuova fixture.
+[Pubblicazione e runtime](../rom_data_unit_obj.md#conditional-script-special-alternate-managed-runtime).
+
+
+**ROMDATA-04-SCRIPT-OBJ-SPECIAL-ALTERNATE-CLI completato EUR/Wine (2026-10-26).**
+Buildproduction Windows unico/senza avvisi/frozen36cba67d.., canonico ripristinato
+hash+mtime esatti/maincontentunchanged. CLIreale Wine crea/riusa59generation/
+61managedfiles, tutti59byte-identici al datasetaccettato, nessun hash/mtime
+riscritto da cwd estranea. Oneframe autenticoF09/caricamento cachevecchia passa
+conzero nuovi usi: compatibilitàsoltanto. Fonte/modello/managed/native/actualCLI
+chiusi/no repeat. Ordinarynewpixel/fullscene, high16/42-230/currentactor e nuove
+Linux/USA/nativeWindows/32:9da fare; nessuna misura performance/spazio/nuovafixture.
+[CLI e limiti](../rom_data_unit_obj.md#conditional-script-special-alternate-actual-production-cli).
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-ALTERNATE-TWO-SEQUENCE-LEAD chiuso negativo
+(2026-10-26):**81snapshotEURautenticati, zero taskenabled/dormant per le due
+nuove sequenze AD4950/AD4980/18832-33, hash+mtimeoriginali invariati. Target
+diversi dalle vecchie scansioni606alternate/settenormal, non ripetute. Nessun
+Winegame/build/navigazione/nuovocheckpoint/fullpair selezionato; non riprovare
+unchanged. Ordinarynewsequence/pixel/equivalence resta aperto; prossimo contratto
+fonte indipendente override42/230o highregistry con witnessoriginali concreti.
+[Lead e limiti](../rom_data_unit_obj.md#conditional-script-special-alternate-actual-production-cli).
+
+
+**ROMDATA-01-SCRIPT-OBJ-OVERRIDE-PAIRS completato come contratto fonte EUR
+condizionato (2026-10-26).** Original9B734flag20forza42normal/230alternate;
+solo questi due ID e13gruppi effettivi da167script49refs:26mode-base witnesses/
+334riferimenti condizionati/156celle126null/28sequenze140frame/8OBJlists27oggetti/
+42pixelrequests8000B. Condizioni currentassignment originale/flag20set/facing0..3
+prima dei target, nessuna identità staticalow/highregistry o allspriteproduct.
+Tutti58owner e19halfword/twoBL/five code fingerprints passano, zero conflitti/
+mixeditem/sharedroot/varyingextent. Nuovi40span1050B=384index24header360frame26OBJ
+256pixel;96celle90null/six sequences18frames(16op1/twoop2)/one list4objects/two
+pixelrequests. **ROMDATA-02-SCRIPT-OBJ-OVERRIDE completato EUR/Wine mirato:** modellooffline,
+buildWindows senza avvisi e unico nuovo filtroWine primoPASS19guardie/all156keys/
+192constructor aliases/90null+6proper resets/two newop2argumentcopies/two actual
+DMAuploads256B/interaVRAM. e63/USAe8/runtime invariati.03managed/runtime/CLI/ordinary e highregistry/
+currentactor/NewLinux-USA-nativeWindows-32:9aperti, nessuna misura performance.
+[Contratto e modello](../rom_data_unit_obj.md#conditional-forced42-and230script-pose-source-model).

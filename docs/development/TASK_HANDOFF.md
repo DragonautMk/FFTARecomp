@@ -78,20 +78,20 @@ An open parent never reopens completed children or rejected experiments.
   pending, no performance/storage measurements or space-budget optimization.
   Explicit private copied-EURcheckpoint authorization persists, originals/cart
   unchanged; historical equipment refusal is superseded. Conditional normal
-  source/model/e62managed-runtime/actualCLI and equipmentFight500 fullpair stay
-  closed. New Snow6000observes48typednullindexB; RIVER618zero newuse/81newsequence
-  snapshot reads negative, all closed/no unchanged retry. Ordinary newsequence/
-  pixel/fullscene gate remains open. Independent alternate script-special
-  source/model now closed:151refs/20logical witnesses/84keys/20new spans816B,
-  one new Winefilter19guards/108constructor aliases/52null+2proper resets/two
-  DMAuploads512pixelB/wholeVRAM exact; initial sandbox startup failed before the
-  test, same frozen binary then passes. Preservation/memory/finalmaps closed,
-  no livejobs. Next select03managed/runtime for this accepted model, actual five
-  source dependencies; no source/model/original54cell/DMA acceptance replay.
-  Productione62-d61/58files57resources and USAe8-d7 unchanged; high16/42-230/
-  changed-currentactor and other ordinary criteria remain open. Completed user
-  DS20/Godot assessment/coverage tasks remain closed. See tail and
-  [record](../changes/2026-10-26-extract-european-script-special-alternate-poses.json).
+  and alternate script source/model/e62/e63managed-runtime/actualCLI and
+  equipmentFight500fullpair stay closed. All negative source-use/snapshot
+  locators closed; ordinary newsequence/pixel/fullscene gates remain open.
+  New forced42/230script source/model closed:167refs/13groups/26mode-base and
+  334conditional witnesses/156keys/40newspans1050B. One new Winefilter firstPASS
+  19guards/192newcell aliases/90null+6proper resets/bothnewop2argument copies/
+  two actualDMAuploads256B/wholeVRAM exact. No static highregistry/liveactor
+  identity claim.9750prior hashes/1295build+1296Wine guards/11compiled inputs/
+  memory/finalmaps closed/no livejobs; e63/USAe8/canonical unchanged. Next select
+  03managed/runtime EUR e64-d63for exactaccepted override model with actual
+  scriptarchive/normalbattle/alternatebattle dependencies. No source/model/
+  96cell/sourceDMA/oldcommand/scene acceptance repeat. Ordinarynewpixel/high16/
+  currentactor/other source cases and otherplatform gates remain open. User
+  DS20/Godot assessment/coverage tasks stay closed. [Record](../changes/2026-10-26-extract-european-script-override-poses.json).
 
 - **ROM-COVERAGE-DOCKER — complete (2026-10-24).** Latest request implemented:
   Bash/PowerShell launchers build/run Dockerfile.linux coverage target, bundling
@@ -7425,3 +7425,293 @@ closed source oracle and later actualCLI/ordinary gates. Select checkpoint
 before edits/build; no scene/fullpair/performance work implicit. Fullgoalactive,
 ordinary newpixel/high16/42-230/currentactor andLinux/USA/nativeWindows/new32:9
 remain explicitlypending. No blocker or new approval needed for03.
+
+
+**Selection checkpoint — ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE (2026-10-26).**
+Previous goalturn is progress: new conditional alternate source/model/19guards/
+108newcell aliases/52null+2proper resets/two DMAuploads closed, final351source/
+9324protected/no livejobs. HEAD1e738dbclean, all351source hashes match accepted
+final; no preexisting uncommitted work. Latest fullTODO/EUR/reducedWine/no
+performance-space/Linux-USA pending unchanged; copiedEURcheckpoint approval
+persists but no fixture selected. Missing managedpublication and typed runtime
+for exact accepted model96ce4c28../20new spans816B. Next EUR e63-d62 adds file/
+resource with actual metadata14/scriptarchive/initial/normal/alternate deps,
+retains all58e62files/resource records/e62 andUSAe8. Immutable typed byte owner
+onlynewspans, sharedowners/raw holes compose; no ROMshadow/liveIDcap/task rewrite.
+One affected Windows core/frontend testbuild (core compiledonly), two exact
+newWine managed/lifecycle and original-interpreter-native fullstate-clock
+filters; no oldsource/model/54cell/DMA/ordinary acceptance replay, production
+CLI/ordinary selected later. Evidence target/rom-data-script-special-alternate-
+runtime/. Preserve canonical/ROMs/cart/states/input/cache/TCC/datasets.
+
+
+**ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE — build child closed.**
+77460single affected Windows core/frontend testbuild terminalPASS/no warnings;
+core compiledonly42a6a5cb05b68eb1e2dcf72c6051c8020d8041689be181aecf4073b48d13bb18,
+frozenfrontend38d207c59262a94b883cc42b6f5bc909a262c02fd8af7ec80df985ff5f85598f.
+All guardedinputs and18selected compiledsources intact; no source/oldfilter/
+production build run. Do not rebuild unchanged. Next the two alreadyselected
+new exactWine managed/native filters with required localserver filesystem
+access (known prior sandbox startup failure), no Linux/performance/scene run.
+
+
+**ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE — live Wine62612.**
+Frozen newfrontend38d207c5.., two exactnewfilters running sequentially via
+target/rom-data-script-special-alternate-runtime/run-managed.py. Last confirmed
+live handle62612 after build77460terminalPASS; pollsame handle/result/logs, do
+not restart from missing conversational context. Initial managed output under
+windows-managed.log, later windows-native.log/windows-managed-results.json.
+Source/modeloracle remains closed; no otherbuild/gameprocess selected.
+
+
+**ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE — managed child closed.**
+Wine62612first managedfilter PASS:59generationfiles58resources/all57prior
+resource records/coverage and57decodedfiles byte-identical/e62retained.
+Accepted96ce4c28.. model unchanged, actualfive dependencies/20spans816B.
+24attachment+7dependency guards/publication failure/create-reuse-repair-move/
+failedattach owner+fullstate transactional/unavailable Load-Undo-backup-Restart
+sharedowner pass; all816typedB[0dir216index8header80frame0OBJ512pixel]/2seq,
+oldinitial4normal4alternate4B retainowners. No source oracle replay or ordinary
+claim. Nativefilter now live same62612, pollsame handle/windows-native.log;
+managedcriterion terminal/no repeat, no rebuild.
+
+
+**ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE — native child closed.**
+Wine62612both new exactfilters terminalPASS first executions/no livejobs;
+no compile/test retry. Native24original-interpreter-compiled complete-state/
+clock paths pass part0proper/parts1-2realnull/twoorientations/fullwordrawID/
+liveRAMframe/two uploads+DMA/all20edges/mirrors/realBIOSbus/SWI-DMA/mixed2new4
+alternate and2new2editedrawAPI. All9048fullgraphBpoisoned includingoldshares.
+Source/model/original54cell/sourceDMA/oldcommand2-8proofs not replayed.
+No ordinary/fullallocator/actor ABI inference. Exactresult/identities under
+target/rom-data-script-special-alternate-runtime/. Next coherentmemory and
+9324prior artifact/compiled-input/preservation closure, then04actualproductionCLI
+selection; do not rebuild/replay accepted03or source/model. FullTODOactive.
+
+
+**ROMDATA-03-SCRIPT-OBJ-SPECIAL-ALTERNATE — memory/preservation closure.**
+9324prior artifact hashes/1223build+1225Wine hash-mtime guards/all18compiled
+source-preimages/five selected integration preimages pass; source model stays
+unchanged and no unrelated implementation files change.506local feature links,
+new-module rustfmt/default+base1e738dbmemory/CRLF-whitespace pass. Canonical/ROMs/
+cart/states/input/cache/TCC/datasets unchanged, private artifacts0tracked.
+Coherent26Octoberconsume record/unitOBJ/TODO/inventory/STATE/four featureheads/
+CHANGELOG/HANDOFF updated; final354source/protected maps under target/rom-data-
+script-special-alternate-runtime/. BothnewWinefilters terminalPASS/no livejobs;
+03source/model/managed/native/boundary children closed/no unchanged repeat.
+Dataset4ff51b24../manifestcab6ea47../model96ce4c28../newsource029ff8a0.. retained.
+
+Next04actualproductionCLI needs its own one changed-code Windowsproduction
+build frozen privately, exactcanonical hash+mtime restore/maincontentunchanged
+Cargo invalidation as establishedworkflow. ActualWine create/reuse59generation
+61managedfiles/all59matchaccepted/currente63+olde62retained/oneframe authentic
+F09oldcacheattachment only. Selectcheckpoint first. No old3530/500/6000negative/
+source/native proof replay, broadscene/fullpair, newfixture/navigation or metrics.
+Only positive ordinary newpixel use can select later fullscene equivalence;
+newnormal/alternate ordinary/high16/42-230/currentactor andLinux/USA/nativeWindows/
+new32:9 remain open. FullTODOactive/incomplete, no blocker/approval needed.
+
+
+**Selection checkpoint — ROMDATA-04-SCRIPT-OBJ-SPECIAL-ALTERNATE-CLI (2026-10-26).**
+Previous goalturn is progress: e63managed/runtime/31guards/24native complete-
+state-clock paths+memory closed, final354source9660protected/no livejobs. All354
+current source hashes match final; existing uncommitted03work preserved. Latest
+fullTODO/EUR/reducedWine/no performance-space/Linux-USA pending unchanged.
+Missing actuale63productionCLIcreate/reuse59generation61managed/all59byteequal
+accepted/no-write andoldcacheattachment. Next one changed-code Windowsproduct
+build, freeze under target/rom-data-script-special-alternate-cli, restore exact
+canonical hash+mtime in finally/maincontentunchanged Cargo invalidation. Then
+actualWine create/reuse from unrelatedcwd/oneframeimmutableF09oldcache attach
+only, with serverfilesystem access established by previous sandbox failure.
+Keep existinge62generation/ROM/cart/states/input/cache/TCC/canonical protected;
+no oldsource/model/03build/managed-native/3530/500/negative6000/scene proof replay,
+no navigation/newfixture/ordinarypositive inference or metrics. This changed
+binary/dataset needs its own compatibility criterion, not an unchanged rerun.
+
+
+**ROMDATA-04-SCRIPT-OBJ-SPECIAL-ALTERNATE-CLI — productionbuild closed.**
+13863single changed-implementation production build terminalPASS/no warnings,
+frozen36cba67d8e4094f2620a99aa97a055d3b004927f5167ee6e9f66653c35060ee9.
+Canonical exacthash/mtime restored in finally/maincontentunchanged withmtime-
+onlyCargo invalidation; all1225prior runtimeguards intact. Do notrebuild.
+Next actualWineCLIcreate/reuse59generation61managed/all59matchaccepted from
+unrelatedcwd andoneframeoldcacheF09attachmentonly; no ordinarypositive/pixel/
+scene inference or source/native/oracle replay.
+
+
+**ROMDATA-04-SCRIPT-OBJ-SPECIAL-ALTERNATE-CLI — actualCLI child closed.**
+Wine76684actuale63CLIprepare/reuse/oneframeoldcache all exit0;59generation/
+61managedfiles/all59byte-identical acceptedmanaged dataset, no hash/mtime
+rewrites from unrelatedcwd. Dataset4ff51b24../manifestcab6ea47../model96ce4c28..
+retained. OneframeimmutableF09oldcache attaches newowner butzero allnewusage,
+compatibilitysmokeonly, no ordinary/pixel/fullscene claim. Frozenproduction
+36cba67d.., canonical exacthash/mtime restored; no livejobs/rebuild/oldproof
+repeat. Next coherentmemory/preservation/finalmaps closure, then05newsource
+ordinarylead or independent remaining source contract. Two newproper188/(32,33)
+sequences differ from old606alternate and sevennormal scans; exact read-only
+existing-fixture lead inspection can be selected without rerunning them.
+
+
+**ROMDATA-04-SCRIPT-OBJ-SPECIAL-ALTERNATE-CLI — memory/preservation closure.**
+ActualCLIterminalPASS/no livejobs;9660prior hashes/1287CLI hash-mtime guards/all18
+runtime compiled source-preimages preserved, allimplementation files unchanged
+from accepted03.356local feature links/default+base1e738dbmemory/CRLF-whitespace
+pass. Canonical exacthash+mtime restored, maincontentunchanged. Record26October
+consume/unitOBJ/STATE/inventory/TODO/four featureheads/CHANGELOG/HANDOFF updated;
+finalmaps in target/rom-data-script-special-alternate-cli/,354source files.
+Generation-acY57A/4ff51b24dataset/cab6ea47manifest/96ce4c28model has59files58resources,
+61managedfiles no-write; e62+USAe8retained. Source/model/managed/native/actualCLI
+closed/no repeat, fullTODOactive/incomplete. Newproduction36cba67d.. frozen.
+
+Next unfinished ordinary newsequence/pixel criterion has exactly two new
+proper sequences AD4950/AD4980, binding188/(32,33)/part0 from selector3/group8
+four authentic scriptrefs. Prior81snapshot606alternate and sevennormal scans
+addressed other targets, so an exact read-only check using their frozen filelist
+is new work, not a rerun. Requires header/payload/ROM/currentframe/bodytask links;
+any match remains candidate until actualWineusage. No guest/build/fullpair until
+positive lead/use, no unchanged negative probes or blindnavigation. Alternatively
+select independent42/230override or highregistry source contract from original
+instructions. Ordinary high16/override/currentactor/Linux-USA-nativeWindows-new32:9
+remain explicitlypending; no performance/storage measurement or newfixture
+implicitly selected. NormalcopiedEURcheckpoint authorization persists.
+
+
+**Selection checkpoint — ROMDATA-05-SCRIPT-SPECIAL-ALTERNATE-TWO-SEQUENCE-LEAD.**
+04actualCLI+memory terminalPASS/final354source9738protected/no livejobs, no
+unchanged repeats. Missing ordinary newsequence/pixel use of AD4950/AD4980
+(188/32-33part0, selector3/group8fourrefs). Next one read-only check of81already
+authenticated EURsnapshots using frozen filelist, exacttwo targets/current
+frame/header/payload/bodytask-context links; different from old606alternate/
+sevennormal scans, which stayclosed. Any enabled task is onlycandidate until
+actualWine typedusage. No gameprocess/build/newfixture/navigation/rawpayload
+edit/fullpair/performance or otherplatform test selected. Source/model/managed/
+native/actualCLI criteria remain closed; fullTODOactive. Evidence target/rom-data-
+script-special-alternate-ordinary/.
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-ALTERNATE-TWO-SEQUENCE-LEAD — terminalnegative/closed.**
+12462new read-only81snapshot check finds zero enabled OR dormant matchingtasks
+for exactly AD4950/AD4980/18832-33, authenticated envelopes/payloads/ROM and each
+input hash+mtime unchanged before/after. Old606alternate/sevennormal scans were
+not rerun. No guest/build/navigation/checkpoint/fullpair selected, no need blind
+wait/retry. Ordinary newsequence/pixel/equivalence remains open. Next close this
+read-only result in coherentmemory; reuse completed04preservation, only fresh
+source/lead-input checks needed (no repeated9738artifact hash campaign). Then
+independent42/230override source projection can progress original167references/
+13groups under exact original forcedcurrentassignment/flag20conditions; no
+arbitrary scripts×all-sprites product or highregistry staticunit assumption.
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-ALTERNATE-TWO-SEQUENCE-LEAD — memory closure.**
+Negativelead result81inputs/zero tasks recorded in coherentconsume record/unitOBJ/
+STATE/TODO/inventory/CHANGELOG/HANDOFF; cheap354source checks confirm all code
+unchanged, default+base1e738dbmemory/CRLF-whitespace pass. Completed04preservation
+9660priorhashes/1287CLI guards/18compiled inputs reused; no repeated9738artifact
+hash/build/game campaign for this read-only unit. All81fixture hashes+mtimes
+were checked unchanged before/after by the new lead helper. Final354source/
+expected-private-guard maps under target/rom-data-script-special-alternate-
+ordinary/; no livejobs, source/model/runtime/actualCLI+negative locator closed.
+
+Next independent **ROMDATA-01-SCRIPT-OBJ-OVERRIDE-PAIRS** can use original
+9B734's exact flag20 normal42/alternate230 constants and all167real script49
+instructions/13groups. Conditions must precede target inspection: resolved
+nonnull live actor retains original forcedcurrentassignment/flag20set under
+actual normal-or-alternate branch, facing0..3; no metadata14or highregistry
+staticunit identity inferred. Only the two source constants may pair with
+exact script groups, no script×all-sprite product, pruning/countcap/guessed
+extent. Audit against all58e63owners/explicitnull-sequence-sharedroot targets
+and source fingerprints before any model/build/guest. Selectcheckpoint first.
+Ordinarynewpixel/equivalence and other pending cases remain open; fullTODOactive,
+EUR/Wine-only/Linux-USApending/no performance-space constraints unchanged.
+
+
+**Selection checkpoint — ROMDATA-01-SCRIPT-OBJ-OVERRIDE-PAIRS (2026-10-26).**
+Previous goalturn is progress: actuale63CLI59files/no-write/oldcacheclosed and
+new81two-sequence lead terminalnegative;354source9742expected guards/no livejobs.
+All354source hashes still match final, existing uncommittede63work preserved.
+LatestfullTODO/EUR/reducedWine/no performance-space/Linux-USA pending unchanged.
+Missing source contract for original9B734flag20forces42normal/230alternate.
+Conditions BEFORE target inspection: resolvednonnull actor retains same-unit
+original forcedcurrentassignment withflag20set under actual normal/alternate
+branch, facing0..3; no static low/highselector unit identity/reachability claim.
+Next exact167real script49refs/13groups paired only with the two original
+forced constants (conditional26mode/base witnesses), querybody+extra parts by
+originalformula; audit all58e63owner file/source hashes, known indexroot target
+classification, extents/alias/role/ownership, newbyte plan and codefingerprints.
+No scripts×all-sprite product, rowpruning/countcap/neighbor-derived extent,
+newmodel/build/guest/scene/fixture/navigation/metrics selected yet. Evidence
+target/rom-data-script-override-poses/. Source/model/runtime/CLIpriorproofs and
+allnegative locators stayclosed. FullTODOactive, ordinarynewpixel remains open.
+
+
+**ROMDATA-01-SCRIPT-OBJ-OVERRIDE-PAIRS — source child closed.**
+Exact conditional audit/19halfword/twoBL/five producer-code fingerprints pass,
+all58e63owners authenticated;167refs/13groups/twoforcedconstants yield26mode-base
+witnesses334conditionalreferences/156physicalcells126nulls/28sequences140frames/
+8OBJlists27objects/42pixelrequests8000B. Full11722Bhash6d085000..; shares6252normal+
+4420alternateBonly. No known indexroot target/internal-role/mixed-item/varying-
+extent conflict. New40spans1050B=384index24header360frame26OBJ256pixel:96cells
+90nulls/six sequences18frames(16op1/twoop2)/one list4objects/two pixelrequests.
+Sourcehashe47c73e8.. . No build/guest/revision change or oldproof repeat.
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-OBJ-OVERRIDE.**
+Missing strict typed conditional26mode-base witnesses/334references/156keys and
+original-reader oracle for newly owned sources. Next offline module+one ignored
+Winefilter, two shared-hub module declarations only; productione63/USAe8 unchanged.
+Actualdependencies scriptarchive+normalbattle+alternatebattle, no metadata14
+identity inferred for highregistry/currentactor. Original constants and live
+assignment/flag20conditions remain explicit, no guestcap/rowpruning/ROMshadow.
+Test new96cell aliasprefixes/90null+6proper resets/two newop2argument cases/
+two newpixel DMAuploads256B/strict source/JSON/mode/reference/sharedview guards.
+Other oldcommands/proofs remainclosed. One affected Windowsfrontend testbuild
+andoneexactnewWinefilter only; no Linux/USA/nativeWindows/new32:9/ordinary/
+fullnative/scene/performance/fixture work. Evidence target/rom-data-script-
+override-model/. Sourcechildclosed, fullTODOactive/ordinarynewpixelpending.
+
+
+**ROMDATA-02-SCRIPT-OBJ-OVERRIDE — build child closed.**
+90834single affected Windowsfrontendtest build terminalPASS/no warnings, frozen
+5c3a9ae9dde8d944141d272960be3effb1f2b864b071ba56c246fbe046a79ef4.
+Productione63/canonical/source/runtimee63implementation unchanged excepttwo
+module declarations+newmodel/oracle. No oldfilter run; do not rebuild unchanged.
+Next one alreadyselected exactWine source oracle, with required localserver
+filesystem access established by prior sandbox startup failure. No newscene/
+fullnative/ordinary/performance/otherplatform test or fixture selected.
+
+
+**ROMDATA-02-SCRIPT-OBJ-OVERRIDE — source/model/Wine child closed.**
+Wine86320single new exactfilter firstPASS/frozen5c3a9ae9../no retry/no livejobs.
+19JSON/mode/reference/source/two-old-view guards/all156keys/11722fullgraphB/
+40newspans1050B,192original constructor aliases over96newcells/90null+6proper
+resets, bothnewoperation2argument-copy frames/two actualDMA3uploads/all256new
+pixelB/entireVRAM pass.167scriptrefs/334conditionalwitnesses/26pairs preserved,
+no low/highstaticunit identity inferred.458observed nonpixelB/482PC/12422
+instructions coverage only; no wholeABI/native-clock/ordinary claim. Prior
+source/native/scene/othercommands not replayed. Next coherentmemory/preservation
+closure then03managed/runtime exactacceptedmodel/scriptarchive+normal+alternate
+actualdeps; do not rebuild/replay01/02or new96cell/sourceDMAacceptance.
+
+
+**ROMDATA-02-SCRIPT-OBJ-OVERRIDE — memory/preservation closure.**
+9750prior artifact hashes/1295build+1296Wine exacthash-mtime guards/all11compiled
+source-preimages/two shared-hub preimages pass; only the selected module
+additions change existing code, prior e63work/source models stay intact.
+362local feature links/new-module rustfmt/default+base1e738dbmemory/CRLF-whitespace
+pass. Newsourcee47c73e8../model27d6d0e0../frozen5c3a9ae9.. retained, ROM/cart/states/
+input/cache/TCC/canonical/datasets unchanged, private0tracked/no livejobs.
+Coherent26Octoberextract record/unitOBJ/STATE/TODO/inventory/CHANGELOG/HANDOFF
+updated; final357source/protected maps in target/rom-data-script-override-model/
+cover the static source evidence too.01/02children closed/no unchanged repeat.
+
+Next03managed/runtime selection: EUR e64-d63 adds unit-obj-script-override.json /
+graphics.unit-obj-script-override, exactaccepted27d6d0e0.., actual scriptarchive/
+normalbattle/alternatebattle dependencies; all59e63generation files/resource
+records/e63 andUSAe8retained. Immutable typed owner only40newspans1050B, including
+26newOBJ and two op2frame arguments; no ROMshadow/liveIDcap/task/nativeABI rewrite.
+New targeted managed/lifecycle and original-interpreter-compiled fullstate-clock
+checks must cover both new operation2arguments plus proper/null constructors,
+new uploads/DMA/boundaries/mixed oldnormal-alternate/raw owners. Sourceoracle
+192prefixes/90null6proper/two sourceDMA proofs stay closed. ActualCLI/ordinary
+selected separately afterward. Selectcheckpoint before edit/build; no blind
+navigation, negativeprobe retry, broadscene/fullpair or metrics. Fullgoalactive/
+incomplete, ordinary newpixel/currentactor/highregistry and otherplatforms pending.

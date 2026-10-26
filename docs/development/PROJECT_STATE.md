@@ -425,9 +425,27 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   offline model:84keys68null/14sequences64frames,20new spans816B over three
   prior owners. One focused Wine source oracle passes19guards/108newcell
   constructor aliases/52null+2proper resets/two actualDMAuploads512pixelB with
-  wholeVRAM equality. Managed/runtime/actualCLI/ordinary gates remain pending,
-  productione62-d61/USAe8-d7unchanged; high16/42-230/currentactor and newLinux/
+  wholeVRAM equality. EUR e63-d62now publishes/consumes59files58resources with
+  five actual dependencies/all57prior records+data/e62retained/USAe8unchanged.
+  Two new Winefilters pass31guards/lifecycle/all816typedB and24original-
+  interpreter-compiled complete-state-clock paths/20edges/BIOS-SWI-DMA/
+  mixed2new4alternate+2new2raw; oldowners unchanged, no task/save/nativeABI
+  rewrite. ActualproductionCLIcreate/reuse59generation61managed/all59accepted
+  files/no-write andoneframeoldcacheattachment pass(zero newuse/smokeonly).
+  Read-only81snapshot search for exactly two new sequences finds no matching
+  enabled/dormant task; locator closed/no guest/fullpair/retry. Ordinarynewpixel/
+  equivalence remains pending; high16/42-230/currentactor and newLinux/
   nativeWindows/32:9 remain separate. No performance/storage measurement.
+- [Forced42/230script pose sources](../rom_data_unit_obj.md#conditional-forced42-and230script-pose-source-model)
+  now project167exact refs/13groups through original flag20forced current
+  normal42/alternate230assignments under explicit retained actor conditions.
+  26mode-base/334conditional witnesses/156keys126nulls/28sequences140frames;
+  new40spans1050B over oldnormal/alternate views. Strict offline model and one
+  new Winefilter pass19guards/192newcell aliases/90null+6proper resets/bothnew
+  operation2argument copies/two actualDMAuploads256pixelB/wholeVRAM equality.
+  Managed/runtime/actualCLI/ordinary remain pending; e63-d62/USAe8unchanged.
+  This does not close highregistry/liveactor identity; no metrics/newfixtures,
+  newLinux/USA/nativeWindows/32:9 pending.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

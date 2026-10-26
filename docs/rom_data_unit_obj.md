@@ -1254,7 +1254,168 @@ complete-state/native-clock or ordinary reachability claims. Private evidence is
 `target/rom-data-script-special-alternate-poses/` and
 `target/rom-data-script-special-alternate-model/`.
 
-Managed publication/runtime/actualCLI and ordinary newpixel/fullscene gates
-remain pending. The production revision stays e62-d61, USAe8-d7; newLinux,
+At this source/model boundary managed/runtime/actualCLI and ordinary newpixel/
+fullscene gates were pending, with production e62-d61 and USAe8-d7. Managed/
+runtime and actualCLI are now closed below; ordinary and newLinux,
 nativeWindows/32:9 tests remain pending. No game fixture, navigation, payload
 edit, performance or storage measurement is selected for this source unit.
+
+
+## Conditional script-special alternate managed runtime
+
+EUR schema1/extractor63/decoder62 adds `unit-obj-script-special-alternate.json`,
+resource `graphics.unit-obj-script-special-alternate`. Its direct dependencies
+are metadata14, scriptarchive, initialpose, normalbattle and alternatebattle;
+there is no artificial dependency on conditionalnormal. The new59generation
+files/58resources retain all57earlier resource/coverage records and57earlier
+decoded files, while e62remains available and USA stays schema1/e8-d7. The
+accepted model is unchanged, file SHA-256
+`96ce4c28cb19366fbb8804e3784782a1a4682551926b12315ae88fafed5ad035`.
+
+The [immutable runtime owner](../crates/gba-core/src/rom_data/runtime/unit_obj_script_special_alternate.rs)
+serves only20new spans816B, reconstructing typed index words, sequence counts/
+opaque headers, command fields and indexed4bpp tiles. All initial/normal/
+alternate shares retain their existing owners. Candidate pages386/391/89D/AD4
+only select a possible reader; exact per-byte segments establish ownership,
+including mixed reads through older owners and mutable raw holes. Temporary
+source reconstruction buffers are dropped after authentication. One64bit
+sequence-use bitset covers the14full model sequences; counters remain transient.
+No raw ROM shadow, liveIDcap, task/animation rewrite, save-state or native ABI
+change is introduced. Original selection, RAM task pools, scheduling, commands,
+DMA, VRAM and palettes stay active.
+
+The [new runtime oracle](../crates/recomp/src/rom_data/script_special_alternate_runtime_tests.rs)
+implements two focused ignored Winefilters: publication/authentication/lifecycle
+and original-interpreter/compiled complete-state-clock paths. One affected
+Windows core/frontend test build passes without warnings, core compiled only
+SHA-256`42a6a5cb05b68eb1e2dcf72c6051c8020d8041689be181aecf4073b48d13bb18`,
+frozenfrontend`38d207c59262a94b883cc42b6f5bc909a262c02fd8af7ec80df985ff5f85598f`.
+Both new exactWinefilters pass on their first executions with required access
+to the local Wine server.24attachment+7dependency guards, interrupted
+publication/create-reuse-repair-move, failed-attach owner/fullstate isolation
+and unavailable Load-Undo-backup-Restart/sharedowner lifecycle pass. Every816
+newtypedB reconstructs directly:0directory/216index/8header/80frame/0OBJ/512pixel
+bytes, two sequences. Earlier initial/normal/alternate probes each charge4Bto
+their existing owner, without charging the new owner.
+
+Twenty-four original-interpreter-compiled paths match complete machine states
+and guestclocks with all9048graph bytes altered, including shared older owners.
+Part0proper sequences, parts1/2realnulls, two orientations, fullwordrawID, live
+RAMframe, two uploads+DMA and all20boundaries/widths/mirrors/realBIOSbus/SWI/DMA
+pass. Mixed copies charge2new+4alternateB; the unaligned API preserves2edited
+rawBbeside2newB. Compiled aggregate newrole bytes are`[0,36,6,43,0,1]`; actual
+DMA is checked separately.1842instructions/496PCs/105dispatches are coverage
+counts, with no whole allocator/scheduler/actor ABI claim. Source/model/old54cell/
+source-DMA and shared command2/8acceptance are not replayed.
+
+Dataset SHA-256 is
+`4ff51b24688cf1badef741c6b48619a7e20a0b781e8f62f2781453f2375cd3ec`;
+manifest-file SHA-256 is
+`cab6ea47dcf77ed81275f693bc921825458afc9fe0c772f98d3e61d55bf6401c`. Actual productionCLI and ordinary newpixel/fullscene
+coverage stay separate, as do high16/42-230/currentactor contexts and newLinux/
+USA/nativeWindows/new32:9. No performance/storage measurements or gameplay
+checkpoint/navigation/payload changes are selected. Private evidence is under
+`target/rom-data-script-special-alternate-runtime/`.
+
+
+## Conditional script-special alternate actual production CLI
+
+One new changed-implementation Windows production build is warning-free, frozen
+SHA-256`36cba67d8e4094f2620a99aa97a055d3b004927f5167ee6e9f66653c35060ee9`.
+The canonical executable is restored in finally with exact hash/mtime; main.rs
+content stays unchanged and only its mtime invalidates Cargo's restored-output
+assumption. The accepted source model and runtime implementation are unchanged
+from their successful tests; no source/native/scene test is replayed.
+
+ActualWine productionCLIprepare/reuse and one-frame oldcacheattachment all exit0
+from unrelatedcwd. The new e63generation has59files/58resources and61managed
+files including current/lock; every generation file is byte-identical to the
+accepted managed dataset. Reuse and attachment preserve all protected hashes
+and timestamps, including the previously retained e62generation, ROM, cartridge
+saves, authentic states/input, nativecache/TCC and canonical executable.
+
+The dataset remains`4ff51b24688cf1badef741c6b48619a7e20a0b781e8f62f2781453f2375cd3ec`,
+manifestfile`cab6ea47dcf77ed81275f693bc921825458afc9fe0c772f98d3e61d55bf6401c`,
+model`96ce4c28cb19366fbb8804e3784782a1a4682551926b12315ae88fafed5ad035`.
+One immutableF09frame attaches the new owner but reads zero new source bytes;
+this is compatibility smoke, without ordinary source/sequence/pixel or fullscene
+equivalence evidence. Positive ordinary newpixel use remains pending and must
+be observed before selecting a complete-scene comparison. Source/model/managed/
+native/actualCLI children stay closed without unchanged retries. Private evidence
+is under `target/rom-data-script-special-alternate-cli/`, including build/
+process/no-write/summary JSONs, logs and the one-frame endpoint image.
+Linux/USA/nativeWindows/new32:9, high16/42-230/changed-currentactor cases and other
+ordinary gates remain pending. No performance or storage measurements occur.
+
+
+A new read-only search of81existing authenticated EURsnapshots for exactly the
+two new proper sequences AD4950/AD4980(binding188/32-33/part0) finds no enabled
+or dormant matching bodytask. This checks different targets from the closed
+606alternate/sevennormal scans; neither is rerun. Every snapshot envelope/core/
+payload/ROM and before/after hash+mtime is checked, without guest execution,
+navigation, new checkpoint or payload edit. The source producer remains exact
+selector3/group8/four archive references; current snapshots supply no replay
+lead. The locator is terminalnegative in its scope, with no unchanged retry or
+guardbuild/fullpair. Ordinary newsequence/pixel/equivalence remains open while
+independent remaining override/highregistry source contracts can advance.
+Private evidence is `target/rom-data-script-special-alternate-ordinary/`.
+
+
+## Conditional forced42 and230script pose source model
+
+Original9B734stores a normal/alternate sprite into actor+34, then flag20forces
+normal42or alternate230at9B830/9B818. The source projection selects its conditions
+before targets: a resolved nonnull actor retains that same unit's original
+forced currentassignment under the actual mode branch, flag20is set and facing
+is0..3. It does not assign a static unit identity to low/high script selectors,
+assert every actor/action reachable, invent a terrain name or change a live
+selector cap. Flag20clear/current changed/stale/highregistry source cases remain
+separate.
+
+The167authentic decimal49references supply13exact group bases. Pairing those
+with only the two original forced constants produces26conditional mode/base
+witnesses and334reference witnesses over156physical body/extra-part cells.
+There are126realnulls,28proper counted sequences140frames, eight OBJlists27objects
+and42pixel requests8000B. Every key remains; known indexroot targets from all six
+current unitOBJmodels are classified before parsing sequences. No shared-root
+target, role conflict, mixed old/new typed item or varying pixel extent occurs.
+All58e63owner file/source hashes,19halfword/twoBL/five producer-code fingerprints
+pass; prior producer evidence is read, without its old guest campaign replay.
+
+The full11722Bgraph has SHA-256
+`6d0850006ab9c7225eb5930af6cd5f0d9f8737c84024239ff251c04ca6d8e323`.
+Previous ownership is6252normal-battle+4420alternate-battleBonly. New40spans1050B
+comprise384index/24header/360frame/26OBJ/256pixel bytes:96cells90nulls/six sequences/
+18frames(16operation1/twooperation2), one list4objects/two pixel requests.
+New-source SHA-256 is
+`e47c73e8b278c7894b5f6fa2fb875850ef91474fa0e1a9779bf72ad7a2d5488a`.
+Extents follow counts and original shape/size DMA arithmetic, without neighboring
+pointer guesses, count-based target classification or removed queries.
+
+The [offline model](../crates/gba-core/src/rom_data/unit_obj_script_override.rs)
+uses a strict Normal/Alternate mode tag and exact original assignment provenance.
+Both modes mirror the same actual group/reference sets; each mode covers all167
+script references. It preserves typed frame words/tails/OBJattributes/indexed
+tiles, validates shared normal/alternate views independently and subtracts their
+union. Dependencies are the script archive and two actual prior pose views;
+metadata14/unit identity is not an invented producer dependency. Production
+revision stays e63-d62/USAe8-d7at this source/model boundary.
+
+One [focused source oracle](../crates/recomp/src/rom_data/script_override_model_tests.rs)
+is implemented for192new physical-cell constructor aliases/90null+6proper reset/
+two newoperation2argument copies/two newpixel realDMAuploads256B and strict
+mode/reference/JSON/source/sharedview guards. One affected Windows frontend
+build passes without warnings, frozen SHA-256
+`5c3a9ae9dde8d944141d272960be3effb1f2b864b071ba56c246fbe046a79ef4`.
+The single new exactWinefilter passes on first execution:19guards/all156keys/
+all11722Bfullgraph/40newspans1050B,192original constructor aliases over96new
+cells/90null+6proper resets/bothnewoperation2argument copies/two actualDMA3uploads/
+all256newpixelB/entireVRAM. The458observed nonpixelB/482PCs/12422instructions are
+coverage only, without whole allocator/task/native-clock or ordinary proof.
+Accepted model-file SHA-256 is
+`27d6d0e0683f9cceb17155fbbac8c35fce9db1aceffde8c144ec66f00d1f8698`. No prior command/source/native/scene acceptance, gameplay fixture,
+navigation, private payload edit or performance/storage measurement is repeated.
+Private evidence is under `target/rom-data-script-override-poses/` and
+`target/rom-data-script-override-model/`. Managed/runtime/actualCLI/ordinary and
+newLinux/USA/nativeWindows/new32:9 remain pending, without wholeallocator/task ABI
+or universal currentactor reachability claims.

@@ -1459,3 +1459,38 @@ originale alternate corrente con override20clear.84celle/68null/14sequenze64fram
 interaVRAM esatti; avvioWine sandbox iniziale prima del test conservato, retry
 stessabinaryPASS. e62-d61runtime invariato. Ordinarynewpixel/high16/override/currentstate
 restano espliciti. [Contratto](../rom_data_unit_obj.md#conditional-alternate-script-special-source-and-typed-model).
+
+
+EUR e63-d62pubblica/consuma il modello script-special alternate:59file58risorse,
+metadata14/scriptarchive/initial/normal/alternate effettive,57precedenti dati/
+record/coverage invariati/e62retained/USAe8. Nuovoowner serve solo20span816B;
+31guardie/lifecycle/all816typedB e24percorsi Wine original-interpreter-compiled
+stato-completo/clock/all20boundaries/BIOS-SWI-DMA/mixedowners/raw passano. CLI
+reale/ordinary/high16/override/currentactor e nuoveLinux/USA/nativeWindows/32:9
+restano da verificare, senza performance/spazio/nuovefixture.
+[Contratto e prove](../rom_data_unit_obj.md#conditional-script-special-alternate-managed-runtime).
+
+
+CLIproductionEUR e63-d62ora verificata su Wine: create/reuse59generation61managed,
+all59matchaccepted/no-write, canonicalexactrestore/oldcacheoneframePASS. Zero
+newalternate-script use nel singolo frame, nessuna prova ordinary/pixel/fullscene.
+Fonte/modello/managed/native/CLI chiusi; prossimi ordinary/high16/override/current-
+actor e nuoveLinux/USA/nativeWindows/32:9restano aperti. Nessuna misura performance.
+[CLI e limiti](../rom_data_unit_obj.md#conditional-script-special-alternate-actual-production-cli).
+
+
+Lettura mirata81snapshotEURper le due nuove sequenze alternate-script188/32-33:
+nessun taskenabled/dormant corrispondente, inputinvariati. Leadchiuso negativo,
+nessun retry/guest/fullpair; ordinarynewpixel/equivalence ancora aperto mentre
+proseguono contratti fonte override/highregistry indipendenti.
+
+
+Script override42/230ha un contratto fonte separato:167scriptrefs/13gruppi con
+assegnazione originale forcedcurrent/flag20set/facing0..3,26mode-base witnesses/
+156celle/11722B. Shared6252normal+4420alternate; nuovi40span1050B=384index24header
+360frame26OBJ256pixel, sei sequenze18frame incluse due nuove copieargomentiop2.
+Modellooffline/buildWindows senza avvisi/unico nuovo Winefilter primoPASS19guardie/
+192constructor aliases/90null+6proper resets/two op2argumentcopies/two DMAuploads
+256pixelB/interaVRAM. e63/USAe8/runtime invariati; nessuna identità statica
+highregistry inventata.
+[Contratto e limiti](../rom_data_unit_obj.md#conditional-forced42-and230script-pose-source-model).

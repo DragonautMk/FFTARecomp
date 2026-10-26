@@ -1,14 +1,16 @@
 # Direct decoded resource consumption
 
-EUR e62-d61adds [conditional normal script-special poses](rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime):
-58files57resources, four actual dependencies, all56prior records/e61retained/
-USAe8-d7. Typed owner serves only33newspans6436B with shared initial/normal owners
-preserved. Two new Wine filters pass29guards/lifecycle/allnewbytes and23original-
-interpreter-compiled fullstate-clock paths/33edges/BIOS-SWI-DMA/mixednew-prior-raw.
-ActualproductionCLI58generation60managed/all58matchaccepted/no-write reuse and
-oneframeoldcacheattachment pass(zero newuse/smokeonly). Ordinarysource/newpixel/
-Linux-USA-nativeWindows-32:9 remain pending; source/model/oldproofs not replayed,
-no performance measurements.
+EUR e63-d62adds [conditional alternate script-special poses](rom_data_unit_obj.md#conditional-script-special-alternate-managed-runtime):
+59files58resources, five actual dependencies, all57prior records+decoded files/
+e62retained/USAe8-d7. Typed owner serves only20newspans816B with shared initial/
+normal/alternate owners and rawholes preserved. Two new Wine filters pass31guards/
+lifecycle/all816typedB and24original-interpreter-compiled fullstate-clock paths/
+20edges/BIOS-SWI-DMA/mixed2new4alternate+2new2raw. ActualproductionCLIcreate/reuse
+59generation61managed/all59matchaccepted/no-write and oneframeoldcacheattachment
+pass(zero newuse/smokeonly). Ordinarynewpixel/equivalence and newLinux/USA/native
+Windows/32:9 remain pending.
+Source/model/previous54cell/sourceDMA/oldcommands2-8proofs stay closed; no
+performance/storage measurements.
 
 EUR e60-d59 adds the [normal-mode battle pose owner](rom_data_unit_obj.md#normal-battle-managed-publication-and-runtime-reads):
 6021new spans1455474B, with exact shared initial/equipment views retaining their

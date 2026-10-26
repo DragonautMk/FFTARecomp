@@ -300,6 +300,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_EXTRA_OBJ_SCENE frames={frames} guest_and_host_sources={touched:x?}");
         assert!(!touched.is_empty(), "this scene must consume a newly added OBJ list through guest and host readers");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_PROPERTY_OBJ_LIST").is_some() {
+        let used = decoded.bus.rom_resources().unwrap().obj_list_source_used(0x3950a4);
+        assert_eq!(used, Some((true, true)), "this scene must consume the new UI property OBJ list through guest and host readers");
+        eprintln!("ROM_DATA_UI_PROPERTY_OBJ_SCENE frames={frames} source=003950a4 guest=true host=true");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBJ_ANIMATION").is_some() {
         let a = decoded.bus.rom_resources().unwrap().obj_animation_stats().expect("decoded EUR OBJ animation banks");
         eprintln!("ROM_DATA_OBJ_ANIMATION_SCENE frames={frames} bus_reads={} source_bytes={} index_bytes={} count_bytes={} attribute_bytes={} sequence_header_bytes={} frame_list_bytes={} duration_bytes={} host_reads={}",

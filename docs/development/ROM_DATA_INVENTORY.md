@@ -1720,4 +1720,34 @@ prefisso0578EE assegnaanimation24 al preview umano. Percorso completo e witness
 ordinaryA4guest-host/fullscene ancora aperti; leggere controllo prima di altroinput.
 Vecchi oracoli/CFG/scene chiusi, nessun nuovo build/fixturegiocata/misura; Linux/
 USA/nativeWindows/new32:9 da fare.
-[Locator e prossimo criterio](../rom_data_obj.md#ordinary-ui-property-list-location-remains-open).
+[Locator e prossimo criterio](../rom_data_obj.md#ordinary-ui-property-list-locators).
+
+
+**ROMDATA-05-UI-PROPERTY-OBJ-LIST-HUMAN-ANIMATION completato per la scena dichiarata EUR (2026-10-26).**
+Join originale25halfword/6switchword: valutatoreD2D44→6375C→1092→063230/02AF14
+imposta24 per risultati1/2, tag1+proprietà16 seleziona A4. Primo CLI WineDispatch1840
+positivo A4guest-host/15evaluationB;1400negativo conservato perché fermava prima
+dell'evento1600, confine corretto giustificato da prova originale1840 già positiva.
+Primo buildWindows test senza warning/frozen427845f2..; solo5righe guard/report
+opzionale A4 nel validator, runtimeprodotto invariato. Primo fullpairWine1840 passa
+tutti stati-clock/central-wide/OAM/dispatch/tutti audio e nuovo gateA4guest-host;
+5stream con campioni reali.152guard/29compiledinput esatti; originali/input/copia
+privata autentici, nessun cartedit o checkpoint derivato nuovo. Due preflightprivati
+corretti prima di Wine, nessun guestretry. 01/02/03/04/05 dichiarati chiusi; vecchi
+oracoli/scene e locatornegativi non ripetuti. Linux/USA/nativeWindows/new32:9,
+fullUI/indiretti globali/altre famiglie restano aperti; nessuna misura performance-
+spazio. [Scena e limiti](../rom_data_obj.md#positive-dispatch-use-and-scene-equivalence).
+
+
+**ROMDATA-02-UNIT-OBJ-FFFF-READER-FIELDS completato modello EUR (2026-10-26).**
+Nuovo modello lossless: query65535, wordu16proprietà+wordu32directory encoded,
+due range6B,980witnesscondizionali/2240riferimenti (196diretti784redirect) con
+dipendenze metadata52/archive49. Modelli validi precedenti e aliasbyte invariati;
+nessun root/sequenza/puntatore corretto/cap interpretato. Primo buildWindows senza
+warning/frozen83ffcd75.. e primo singolo filtroWine passano13guard/3numericroundtrip/
+980record/6B e due lettori originali completi28istruzioni, registri/RAMguard.
+156build157Wineguard/35compiledinput esatti. Classificazione71pin/60query e vecchie
+prove A4/modello/runtime/scene chiuse senza replay. Pubblicazione/ownerruntime03,
+nativeclock/ordinary pendenti; produzione e69-d68/64file63risorse e USAe8-d7 invariati.
+Linux/USA/nativeWindows/new32:9 da fare, nessuna fixture/navigazione/misura performance-
+spazio. [Modello e limiti](../rom_data_unit_obj.md#typed-model-for-known-ffff-reader-fields).

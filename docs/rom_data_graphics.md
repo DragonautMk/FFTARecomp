@@ -8,7 +8,9 @@ There are still 64 files/63 resources, with all 73 previous list records and
 authentication/lifecycle, original/interpreter/compiled state-clock, host decode
 and mixed-source bus/SWI/DMA checks. Actual CLI create/no-write reuse now passes
 64 generation/66 managed files, all64 accepted, plus old-cache one-frame attach.
-Ordinary A4 scene equivalence remains pending. USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+One Dispatch1840 Wine pair now passes every full state/clock, central/wide image,
+OAM, dispatch and audio stream, with positive A4 guest/host use. USA stays e8-d7;
+Linux/native Windows/new32:9 checks remain to be done.
 No performance or storage measurements.
 
 EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):

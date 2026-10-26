@@ -8,7 +8,9 @@ There are still 64 files/63 resources, with all 73 previous list records and
 authentication/lifecycle, original/interpreter/compiled state-clock, host decode
 and mixed-source bus/SWI/DMA checks. Actual CLI create/no-write reuse now passes
 64 generation/66 managed files, all64 accepted, plus old-cache one-frame attach.
-Ordinary A4 scene equivalence remains pending. USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+One Dispatch1840 Wine pair now passes every full state/clock, central/wide image,
+OAM, dispatch and audio stream, with positive A4 guest/host use. USA stays e8-d7;
+Linux/native Windows/new32:9 checks remain to be done.
 No performance or storage measurements.
 
 EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):
@@ -695,8 +697,8 @@ B2 alias add three provenance records. The extended e69-d68 catalog now has
 e68 totals 123/73/173/1184. All 73 previous list records remain identical.
 
 This source contract is closed. The coupled model/publication/runtime extension
-below is also closed. Actual CLI is recorded below; ordinary A4 scene equivalence
-remains pending.
+below is also closed. Actual CLI and the declared ordinary Dispatch scene are
+closed below.
 Original comparisons, draw capacity, output stride, OAM and live task state stay
 guest work. No full UI or global indirect catalog claim follows. Source evidence:
 `target/rom-data-ui-property-obj-lists/`.
@@ -739,9 +741,8 @@ All 77 build guards, 79 Wine guards and 29 compiled inputs remain exact. Dataset
 identity `104bd6d55188ceca65b3c6cc4cebdf843971f614c3519b9896737a0fa9b49cbd`, manifest SHA-256
 `e6f64d77d4ff7de25df6ff4c3ac4348b423c59c97628c770998dfc9eaa8be6ed`, static-list JSON SHA-256
 `a29eca5e912b00c65ca4bcfbffff9340887724b881f078238d50b62a3807d456`.
-Actual production CLI is recorded below; ordinary A4 scene equivalence remains
-pending. No previous
-73-list/bitfield/512-prefix/CFG/scene acceptance is replayed; no fixture/navigation
+Actual production CLI and the declared ordinary scene are recorded below.
+No previous 73-list/bitfield/512-prefix/CFG/scene acceptance is replayed; no fixture/navigation
 or performance/storage work is done. Linux, USA, native Windows and new32:9 remain
 pending. Evidence: `target/rom-data-ui-property-obj-lists-runtime/`.
 
@@ -762,8 +763,9 @@ no managed hash or modification time. All 148 active guards and
 29 compiled input hashes remain exact.
 
 The new A4 source is not reported as consumed through both guest and host in
-this one-frame attachment smoke check. Ordinary positive-use location and full
-scene equivalence remain pending; aggregate old-list usage is not new A4 proof.
+this one-frame attachment smoke check. Positive A4 use and full scene equivalence
+are subsequently established in Dispatch below; aggregate old-list usage does
+not count as new A4 proof.
 
 This does not reopen closed source/model/runtime or previous scene checks.
 No fixture/navigation/private gameplay payload edit or performance/storage
@@ -771,7 +773,7 @@ campaign occurs. Linux, USA, native Windows and new32:9 remain pending.
 Evidence: `target/rom-data-ui-property-obj-lists-cli/`.
 
 
-## Ordinary UI property-list location remains open
+## Ordinary UI property-list locators
 
 The first F09 one-frame attachment check is A4-negative. A single new 320-frame
 worldmap→Party-unit locator also reports no new A4 source. It reuses the existing
@@ -799,12 +801,62 @@ This is a concrete source lead; its full control route and ordinary execution
 are still unproved. It does not reopen the earlier broad CFG, five getter
 callers, 512 UI prefixes or closed scene acceptances.
 
-Ordinary A4 guest/host positive use and complete scene equivalence remain open.
-Next establish the original control route to the animation24 call before
-selecting another gameplay input; the retained Change Jobs input is available
-if that route is relevant. No new fixture navigation is needed merely to
-reconstruct earlier Party context. The only new state file so far is an exact
-copy; cartridge saves and originals remain untouched. No build, extra guest
-oracle, Linux/USA/native Windows/new32:9 test or performance/storage campaign is
-run for this location work. Evidence:
+These negative locators remain closed. The declared ordinary child is now closed
+by the Dispatch scene below; the fee-path caller does not require a separate
+fixture. Originals and cartridge saves remain intact. No old source/oracle/scene
+acceptance is reopened. Negative-locator evidence:
 `target/rom-data-ui-property-obj-lists-ordinary/`.
+
+## Positive Dispatch use and scene equivalence
+
+New narrow inspection separates the original state setter02AF5C from the
+input/animation/tag updater02AE70 and animation setter02AF14. All four direct
+updaters pass animation0. The233A8 output argument is the palette fromCF08C;
+constructor animation is a separate stack argument. The0578EE animation24 call
+lies behind a fee check and unit counter/flag clearing, so no Change Jobs route
+or ordinary execution is inferred for it.
+
+The concrete Dispatch route uses the selected mission at[020020D0] and the live
+unit pointer. Original6375C maps D2D44 evaluation results1/2 to animation24,
+3/4 to0 and0/5 to12; values above5 keep0. The task stores that result at1092.
+Once child state1 is ready and its countdown expires,063230 passes it to02AF14,
+which writes1086. The existing tag1/property16 path therefore selects A4 for24.
+Twenty-five new halfword pins and six switch words authenticate this join,
+reusing the closed getter/model/UI-prefix proofs. No table extent, live getter
+cap or complete indirect graph is inferred.
+
+The original EUR pub checkpoint and retained Dispatch input authenticate against
+their original actual-CLI hashes and mtimes. An authorized exact local copy is
+used; there is no new gameplay-derived checkpoint or cartridge save edit. A
+1400-frame locator stops before the script's1600 input and reads no evaluation
+bytes. That negative is retained. The original1840-frame evidence already shows
+the evaluator executing, so the corrected boundary is chosen for that concrete
+reason. The first new1840 Wine CLI positively reads A4 through both guest and
+host; its15 evaluation bytes confirm the selected route. No further CLI replay
+is needed. Two private setup assertions were corrected before any Wine/game
+execution: source-preimage membership and a separate result filename. Their
+failed preflights and the unmodified previous results are retained.
+
+Only a five-line optional gate/report is added to the generic scene worker:
+`FFTA_STATE_TEST_REQUIRE_UI_PROPERTY_OBJ_LIST` requires the new A4 source to have
+both guest and host flags. Existing gates/defaults and product runtime are
+unchanged. The first affected Windows frontend test build passes warning-free,
+frozen SHA-256
+`427845f245f5889bdcb4c93b176799933a37bd0425cb833983350388c3a6edbc`.
+
+The first exact Wine full pair passes all1840 frames from14349 through16189 on
+the actual e69-d68 CLI dataset `generation-AUj9iY`, with16:9 and the original UI
+setting. Every complete serialized Machine state, guest clock, central/wide
+buffer, OAM, native/fallback dispatch result and mixed/PSG/FIFO/bitwise-HLE audio
+sample agrees. The decoded arm independently passes the A4 guest+host gate.
+All five audio streams contain actual samples, with counts
+`[4037880, 4037880, 485760, 485760, 4037804]`.
+All152 active scene guards and29 compiled inputs remain exact.
+
+Source01, coupled model/publication/runtime02/03, actualCLI04 and the declared
+positive ordinary05 child are closed. This does not claim all UI actions,
+allocator/actor ABI, full bank/indirect catalogs or new32:9 coverage. Linux, USA
+and native Windows remain pending. No source/model/runtime/oldscene oracle,
+benchmark, startup/RSS or storage campaign is repeated. The selected worker has
+no host timing or residency calls. Evidence:
+`target/rom-data-ui-property-obj-lists-human-animation/`.

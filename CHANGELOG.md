@@ -30,6 +30,31 @@ Documentation: [debug saves.md](docs/development/debug saves.md), [extended_save
 
 [Change record](docs/changes/2026-10-26-validate-user-failed-dispatch-snapshot.json)
 
+## 2026-10-26 — Model European FFFF numeric OBJ reader fields losslessly
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict u16 property/u32 encoded-directory model for the known full-width FFFF query, two source spans/six bytes and980 conditional metadata52/archive49 producer witnesses with2240 references. Existing valid asset/property models stay unchanged.
+- Expose the independent model and one private Wine test; production extraction/publication and e69-d68/64files63resources/USAe8-d7 remain unchanged until versioned runtime integration.
+
+**Validation**
+
+- First Windows frontend build warning-free, frozen83ffcd75ef4644a6aed6e90b84d29645fb6b4153a82584403693706281f0b602. One first exact Wine filter passes independent980producer/2240reference/six-byte comparison, strictJSON/source/dependency13guards andthree full-bitnumeric roundtrips.
+- Two complete original numeric readers execute28instructions/readall6B; zeroextension/encodedpointer+12 preserved, callee andfullRAMoutsideoriginal4Bstack/VRAM/OAM/palette guards pass. All156build157Wineguards/35compiledinputs exact; earlier A4guard/accepted evidence preserved. Closed71pin/60query/classification/old model-runtime-scene proofs notreplayed.
+- Closure: all387sourcepreimages show only two moduledeclarations/two newmodules plusdocs; all157activeguards/35compiledpreimages/593localfeaturelinks exact. Existing A4validator/oldmodels/runtime/production revisions unchanged. Model JSON SHA256 4985d84c90180c30aeceff37be1e3c2482714238fec87f65b2189d4d6b070d84. Private output ignored/untracked;12670priorprivateproof reused withoutlegacyrehash.
+- Project-memory render/default/basee4c7d48, rustfmt for the two new modules and CRLF-aware whitespace checks pass. Model child closed; versioned publication/runtime/native-clock/ordinary criteria remain explicit next work.
+
+**Limitations**
+
+- Model child only: managed publication/typedbus ownership/native-clock/ordinary use remain pending. No unmapped target is decoded and no null/pointerfix/liveinputcap is introduced; globalregistry/changedactor/unknown inputs remain separate.
+- Linux/USA/nativeWindows/new32:9 checks remain pending. No fixture/navigation/privategameplaypayload edit, performance/storage measurement, Android/package/assistantcommit/push; full ROM_DATA goal remains active.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-model-european-ffff-reader-fields.json)
+
 ## 2026-10-26 — Decode European actor property words with original-reader validation
 
 Type: added. Platforms: Windows.
@@ -207,7 +232,7 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scri
 
 [Change record](docs/changes/2026-10-26-extract-european-script-override-poses.json)
 
-## 2026-10-26 — Extend European property-selected UI OBJ lists with typed runtime consumption
+## 2026-10-26 — Extend European property-selected UI OBJ lists through runtime and Dispatch
 
 Type: changed. Platforms: Windows.
 
@@ -217,6 +242,7 @@ Type: changed. Platforms: Windows.
 - Integrate one14B/two-object A4list using the existing lossless List/Object format and B2shared owner. Three extra references give126references/74lists175objects1198B.
 - Couple Catalog root expansion with EUR e69-d68. Reuse existing resource identity/file/format/dimension dependency and runtime owner/handlers, with64files63resources; all73previous lists/62other files and records/e68generation retained. USAe8-d7 unchanged.
 - Validate actual EUR e69-d68production CLIcreate/no-write reuse/oldcache attachment, preserving the canonical executable and all64accepted generation files.
+- Close the declared ordinary A4 criterion with the retained EUR Dispatch scene and a five-line optional positive source gate in the generic validator; product runtime, existing gates/defaults and dataset version remain unchanged.
 
 **Validation**
 
@@ -234,11 +260,17 @@ Type: changed. Platforms: Windows.
 - Ordinary-location work only: authentic F09oneframe and retained Partyunit320 areA4negative; one source-grounded authorized exactcopy EURbank120 ordinaryDown/16:9 isB2guest-hostpositive butA4negative, endpoint inspected. All150Party/151bankguards and29compiledinputs exact. No fullpair/longerrepeat/other-slot campaign. Original EURcheckpoint hash preserved; no cartridge save or sourcepayload edit.
 - Four existing bank snapshots parsed readonly withheader/body/source checksums; two original fixedcontext projections and firstseven visible species rows giveproperty24. No banktableextent or globalunreachability claim. First narrow static setter inspection distinguishes02AF5Cstate/02AE70input-animation-tag/02AF14animation; exact two-targetBLcandidate census4updater8setter andeightnarrowprefixes produce0578EEhumanpreviewanimation24 lead. Controlroute/ordinarywitness remain unproved; earlier CFG/getter/oracle/scene children remain closed.
 - Locator closure: all387sourcepreimages confirm implementation unchanged; all153unionactiveguards/29compiledinputs/fouroriginalsnapshot hashes/587localfeaturelinks pass, authorizedcopyexact/Downinputonly. Private evidence ignored/untracked;12559priorprivateproof reused withoutlegacyrehash. OrdinaryA4positive/fullscene remains open.
+- New static control join passes25halfword/sixswitchword pins:6375C maps original selectedmission/unit D2D44results1/2→24,3/4→0,0/5→12 andabove5→0;063230ready/countdown→02AF14writes1086→tag1/property16→A4. Four live updaters passanimation0;233A8outparamCF08C ispalette.0578EEfee/counter-clear path isnotassumedChangeJobs or selected forordinaryexecution. Existing CFG/getter/model/UIprefix oracles reused.
+- First Dispatch1400locator isA4/evaluationnegative because it misses script1600event. Retained original1840actualCLI proof has15evaluationB, justifying corrected1840scope; first new1840WineCLI isA4guest-hostpositive/15evaluationB. Two private setup assertions correctedbeforeWine/gameexecution (missingunionmapmembership authenticatedagainst originalCLIpreimages, isolated1840resultpath), with previousresults preserved; no guestretry or newrecording.
+- First affected Windows frontend testbuild passes warning-free, frozen427845f245f5889bdcb4c93b176799933a37bd0425cb833983350388c3a6edbc. First exact WineDispatch1840fullpair passes everycomplete state/guestclock/central-widebuffer/OAM/native-fallbackdispatch/mixed-PSG-FIFO-bitwiseHLEsample from14349through16189 onactuale69generation-AUj9iY/16:9/originalUI0; decodedarm A4guest-hostgatepasses. All5audiostreams actualsamplecounts [4037880, 4037880, 485760, 485760, 4037804]. All152activeguards/29compiledinputs exact. Selectedworker hasno timing/residencycalls.
+- Original pubEURcheckpoint87b28603../mtime1792614156671128900 andretainedinputce24d901.. authenticateagainst originalactualCLI evidence; authorizedexactlocalcopy only, no newlyderivedcheckpoint/forcedstate/cartedit. Source01/model-runtime02/03/actualCLI04/declaredordinary05 nowclosed; earliernegativelocators andoldacceptances notrerun.
+- Ordinary closure: all387sourcepreimages show only5lineoptionalA4validatorgate plusdocs; all152activeguards/29compiledpreimages/590localfeaturelinks exact. Originalcheckpoint/input hashes-mtimes andauthorizedexactcopy pass; all64actualgenerationhashes/independentdatasetidentity exact. Private output ignored/untracked,12591priorproof reused withoutlegacyrehash. No livejob or required A4child remains.
+- Final memory render/default/basee4c7d48/base5713f22/basec41f969 and CRLF-aware whitespace checks pass. User committed the earlier e69 source/runtime/CLI phase as e4c7d48 during this continuation; that work is preserved. This continuation adds only the optional ordinary A4 gate and its coherent evidence/docs; no assistant commit/push/package. Full ROM_DATA goal remains active.
 
 **Limitations**
 
-- Source01/coupledmodel-runtime02/03/actualproductionCLI04 closed. Ordinary05A4guest-hostpositive/fullscene remains open after closed negative F09/Party/bank locators. Establish0578EEanimation24 original control route before selecting a new input. No fullUI/globalindirect/catalogextent/liveguestcap/globalunreachability claim; USAe8-d7 unchanged.
-- Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. User5713f22 preserved; no Android/package/assistantcommit/push/coverage work.
+- Declared A4 source/model/runtime/actualCLI/positiveordinary criteria closed. BroaderUI/allocator/actorABI/globalindirect/catalogextent/liveguestcaps and ordinary use beyond thisDispatchscene remain unproved; USAe8-d7 unchanged. F09/Party/bank/earlyDispatch1400negatives stayclosed.
+- Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. User commits through e4c7d48 preserved; no Android/package/assistantcommit/push/coverage work.
 
 Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 

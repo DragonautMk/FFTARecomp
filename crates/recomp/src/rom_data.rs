@@ -228,6 +228,8 @@ mod unit_obj_property_words_model_tests;
 #[cfg(test)]
 mod unit_obj_byte_property_words_model_tests;
 #[cfg(test)]
+mod unit_obj_ffff_reader_fields_model_tests;
+#[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]
 mod color_mode_palette_model_tests;

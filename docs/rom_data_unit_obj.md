@@ -1952,16 +1952,66 @@ from live`bios_open`. This is state-dependent bus behavior, with no authenticate
 ROM sequence header. It does not establish a constant null result or universal
 nonreturning path.
 
-The two original ROM reads total6B and have no current typed owner. Their raw
-fallback remains; migration of those bytes is explicitly pending. They are not
+The two original ROM reads total6B. Their strict typed model is verified below;
+publication and runtime ownership are still pending, so their raw fallback
+remains. They are not
 modeled as a new sprite root or counted sequence, and no pointer correction,
 sprite-ID cap or host fallback is introduced. The reader-classification child
 is closed, while ordinary reachability, ownership of these6B, unknown inputs
-and global registry/changed-actor conditions remain separate. e66-d65and USAe8-d7
-are unchanged. No new build, guest/fixture/navigation run, private payload edit
+and global registry/changed-actor conditions remain separate. At this source
+classification boundary e66-d65 and USAe8-d7 were unchanged. No new build, guest/fixture/navigation run, private payload edit
 or performance/storage measurement occurs; Linux/USA/nativeWindows/new32:9
 validation remains pending. Evidence:
 `target/rom-data-script-registry-ffff-read/`.
+
+
+## Typed model for known FFFF reader fields
+
+`unit_obj_ffff_reader_fields` models the two source reads as one unsigned16-bit
+property word and one full encoded32-bit directory word, with exact source
+offsets and query identity65535. This preserves high bits, zero values and low
+pointer bits. Structural validation assigns no ROM target or sequence meaning
+to the directory value. The existing property-word, byte-input alias and valid
+animation/root models keep their previous domains and bytes.
+
+The model records980 conditional producer witnesses/2240 reference witnesses:
+196 direct and784 alternate-job redirects. It derives them from the actual
+metadata52 and archive49 data, reusing the existing seven-pair parser and joint
+job classification. Direct rows leave the live alternate byte unrestricted;
+FF redirects retain the effective returning row. These are conditional
+provenance records, with no fixed global registry/actor identity, live sprite
+cap or blanket treatment of nonreturning redirects.
+
+Strict JSON, source spans, byte lookup, source authentication and metadata/
+archive dependency validation preserve exactly two ranges/six bytes, disjoint
+from all63 current e69 resource owners. Canonical source hashes remain
+`f3baef64..` for the property word and `5ee0214f..` for the directory word.
+No raw-ROM shadow or invented sprite root/header/pixel data is retained.
+The serialized model is private validation output, SHA-256
+`4985d84c90180c30aeceff37be1e3c2482714238fec87f65b2189d4d6b070d84`.
+
+The first affected Windows frontend test build passes warning-free, frozen
+`83ffcd75ef4644a6aed6e90b84d29645fb6b4153a82584403693706281f0b602`.
+One new exact Wine filter passes independent comparison of all980 producers/
+2240 references and six reconstructed bytes,13 structural/dependency/source
+rejections and three full-bit numeric roundtrips. Two complete original readers
+execute28 instructions and read all six bytes. The property result is
+zeroextended; the directory result preserves its encoded value and original
+12-byte selector addition. Callee registers and all declared RAM/VRAM/OAM/palette
+outside the original helper's four-byte LR stack write remain intact.
+
+All156 build/157 Wine hash/mtime guards and35 compiled input preimages
+remain exact, including the earlier A4 ordinary guard and its accepted evidence.
+The closed71-pin/60-query source classification and old model/runtime/scene
+acceptances are reused without replay. This filter does not execute the selected
+unmapped index load, a native-clock pair or an ordinary scene.
+
+The model child is closed. Managed publication and typed bus ownership still
+need versioned integration; production remains e69-d68/64files63resources and
+USAe8-d7. Live unmapped0x14 BIOS/open-bus/unaligned behavior stays guest work.
+Linux, USA, native Windows and new32:9 validation remain pending. No fixture,
+navigation, private gameplay payload edit or performance/storage measurement
+occurs. Evidence: `target/rom-data-unit-obj-ffff-reader-fields-model/`.
 
 
 ## Actor property words from known sprite assignments
@@ -2383,5 +2433,7 @@ existing typed view. Three additional conditional references are authenticated.
 The coupled e69-d68 model/publication/runtime extension now passes two reduced
 Wine filters, including typed guest/host draws and mixed boundaries.
 [Runtime evidence](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption).
-Actual CLI create/reuse/old-cache attachment also passes; ordinary A4 scene
-equivalence remains pending. Property-word acceptances stay closed.
+Actual CLI create/reuse/old-cache attachment and one Dispatch1840 Wine pair
+now pass, including every full state/clock/image/OAM/dispatch/audio and positive
+A4 guest/host gate. [Ordinary scope](rom_data_obj.md#positive-dispatch-use-and-scene-equivalence).
+Property-word acceptances stay closed.

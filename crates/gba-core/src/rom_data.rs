@@ -65,6 +65,7 @@ pub mod unit_obj_script_override;
 pub mod unit_obj_script_registry_special;
 pub mod unit_obj_script_registry_generic;
 pub mod unit_obj_property_words;
+pub mod unit_obj_ffff_reader_fields;
 pub mod unit_obj_byte_property_words;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;

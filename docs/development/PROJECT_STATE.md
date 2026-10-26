@@ -538,6 +538,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   new32:9claim. Ordinarydeclaredsceneclosed,
   USAe8unchanged. No oldproof replay/gameplayfixture/navigation/performance measurement;
   FFFFraw6B/globalidentity/changedactor separate.
+- The [known FFFF numeric reader fields](../rom_data_unit_obj.md#typed-model-for-known-ffff-reader-fields)
+  now have a strict lossless model: u16property/u32encoded directory/query65535,
+  two spans6B and980conditionalmetadata52/archive49witnesses2240refs. Existing
+  property/byte-alias/valid-sequence models remain unchanged; no asset target,
+  pointer fix or index cap is inferred. FirstWindowsfrontendbuild warning-free/
+  frozen83ffcd75.. and one firstWinefilter pass13guards/3numericroundtrips/
+  independent980records+6B/twooriginalreaders28instructions/callee-fullRAMguards.
+  156build157Wineguards35compiledinputs exact, all63current owners disjoint.
+  Modelclosed; versionedpublication/runtimeownership/nativeclock/ordinary remain
+  pending. e69-d68/64files63resources/USAe8-d7 unchanged, unmapped0x14 live bus
+  semantics retained. Closed71pin/60query/A4/oldoracles/scenes notreplayed; no
+  fixture/navigation/performance-space work. Otherplatforms remain pending.
 - The [additional property getter callers](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window)
   have a source contract for all five retained direct calls. Two additional u16
   paths update the task property while retaining allocation; their known concrete
@@ -582,12 +594,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   77build79Wineguards29compiledinputs exact. ActualproductionCLI firstprepare/
   no-write reuse64generation66managed/all64accepted/63resources/74sources and
   authenticF09oneframeoldcacheattach pass; 148activeCLIguards/29inputs exact.
-  OrdinaryA4guest-host/fullscene remains pending. F09oneframe/Party320 and one
-  authorizedcopyEURbank120Down areA4negative (bankB2positive/151guards29inputs);
-  nofullpair/longerrepeat. Fourreadonlybankcontexts/first7visibleproperty24 rows
-  give noA4witness. Newstatic02AE70/02AF14animation setters and0578EEanimation24
-  humanpreviewlead need originalcontrolroute beforeanotherinput; no global
-  unreachability claim. Oldsource/model/CFG/scene proofs stayclosed/no perfwork.
+  Declaredordinary05nowclosed: firstDispatch1840actualCLI A4guest-hostpositive/
+  15evaluationB; firstexactWinepair passes all1840fullstate-clock-central-wide-
+  OAM-dispatch-allaudio, all5streams actualsamples. Five-lineoptionalA4gateonly,
+  firstWindowsfrontendbuild warning-free/frozen427845f2../152guards29inputs exact.
+  New25halfword/sixswitchword join6375C/D2D44→1092→063230/02AF14→animation24→A4
+  explainsordinaryroute. F09/Party/bank andearlyDispatch1400negative stayclosed;
+  1400missed1600input, original1840positiveevaluationproof justifiedcorrectedbound.
+  Sourcecheckpoint/input hashes-mtimes exact/authorizedcopyonly/no cartedit.
+  No oldsource/model/CFG/scene replay, performance/storage or fullUI/globalclaim.
   USAe8-d7/Linux/nativeWindows/new32:9 and broader indirect sources remain open.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant

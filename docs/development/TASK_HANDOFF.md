@@ -9871,83 +9871,112 @@ otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration
 mod gates andnewLinux-USA-nativeWindows-new32:9 remainopen.
 
 
-## Current ROM data handoff — UI property-selected static OBJ extension (2026-10-26)
+## Current ROM data handoff — UI property OBJ extension closed (2026-10-26)
 
 Latest fullROMTODO/EUR/Wine-only/no performance-space request remains active.
-User explicitly authorizes local checkpoints derived by ordinary game commands
-from copies; originals/cart saves stay intact and private outputs outside Git.
-User HEAD5713f22 preserves e68 work/source01. No assistantcommit/push/package/Android.
+Local checkpoints from ordinary commands on copies are explicitly authorized;
+originals/cart saves stay intact, private outputs outside Git. User HEAD now
+ e4c7d48 (earlier e69source/runtime/CLI phase committed during continuation).
+Preserve it; no assistantcommit/push/package/Android or subagents.
 
-**ROMDATA-01-UI-PROPERTY-OBJ-LIST-SOURCES remains closed** (committed evidence).
-No source/old73-list/bitfield/512UIprefix/CFG/oldscene acceptance replay selected.
+**ROMDATA-01 / ROMDATA-02-03 / ROMDATA-04 UI-PROPERTY-OBJ-LIST children closed.**
+EUR e69-d68:126refs/74lists175objects1198B/A4new14Btwoobjects/B2shared. Same
+64files63resources/format/dimension dependency/runtime handlers;73oldlists/62other
+files+records/e68retained/USAe8-d7. Source48halfword4literal4BL/oldgetter-UIproofs
+reused. CorrectedWindowscore/frontend build59977PASS warning-free/b16c9235..;
+firsttest-onlyconstant failure archived. FirsttwoWine14035managed-native-host
+filters PASS/eightguards/lifecycle/twodraws/allboundaries-SWI-DMA/mixedflags.
+FirstactualCLIbuild17786/frozen17488009.. andWine68455create-reuse-no-write/
+oneframeoldcache PASS. Canonicalf3e277db/hash+mtime exactrestored/maincontentexact.
+Runtime/CLI final-summary in target/rom-data-ui-property-obj-lists-{runtime,cli}/.
+No source/model/runtime/old73-list/bitfield/512prefix/CFG/CLI acceptance replay.
 
-**ROMDATA-02-03-UI-PROPERTY-OBJ-LIST-EXTENSION closed/PASS.**
-EUR e69-d68:126refs/74lists175objects1198B, A4new14B/twoobjects/B2shared.
-Same64files63resources/format/dimension dependency/runtime handlers; all73oldlists/
-62otherfiles+records/e68retained/USAe8-d7. Codeonlytwo revision constants/three
-RootReferences/frontend testmodule declaration/newobj_ui_property_tests.rs.
-12705firstbuild failed test-only missingconstant; failure+29preimages archived
-before-test-dependency-id-fix. Qualifiedconstant fixed;59977correctedbuild PASS,
-warning-free/frozenb16c9235.. frontend/cd6e0be3..corecompileonly.14035firsttwoWine
-filters PASS: source/model/eightguards/publication/repair/move/lifecycle andtwo
-original-interpreter-compiled draws/fullstate-clock/709instructions4dispatches/
-36compiledB/twohostpublicationchecks/boundaries-width-mirrors-BIOS-SWI-DMA/mixed
-new-old-source flags.77build79Wineguards29compiledinputs/583links exact.
-Dataset104bd6d5../manifeste6f64d77../staticJSONa29eca5e.. authenticate.
-Evidence target/rom-data-ui-property-obj-lists-runtime/{final-summary.json,
-windows-managed-results.json,windows-managed-europe/*-result.json}; no livejob.
+**ROMDATA-05-UI-PROPERTY-OBJ-LIST-HUMAN-ANIMATION closed/PASS.**
+Newsourcejoin25halfword/sixswitchwords: selectedmission[020020D0]/unit→D2D44→
+6375C maps1/2→24,3/4→0,0/5→12,above5→0;store1092→ready/countdown063230→02AF14
+writes1086→tag1/non0-12-16/property16→A4. Four02AE70updaters passanimation0;
+233A8outparamCF08C ispalette, constructoranimationSP+8 separate.0578EE fee/unit
+counter-clear path wasnotassumedChangeJobs andwasnotselectedforordinaryrun.
+F09oneframe/Party320/bank120 stayterminalA4negative (bankB2guest-hostpositive).
+NewDispatch1400negative: script1600event notexecuted/evaluationB0; original1840
+actualCLIproof alreadyhas15evaluationB, concretelyjustifyingcorrectedboundary.
+FirstactualnewDispatch1840CLI28537 PASS/A4guest-hostpositive/evaluation15B.
+Two private preflightassertions failedbeforeWine/game (sourceunionmembership and
+isolatedresultpath); correctedwithoriginalCLIpreimages/previousresults preserved.
+No failedguest/buildretry or newgameplay-derivedcheckpoint. Exactcopy ofEURpub
+slot5 SHA87b28603../mtime1792614156671128900, inputce24d901.. originalhash-mtime
+unchanged. Copy/input/state/dataset details in locator-source-authentication.json.
+Only5lineoptionalFFTA_STATE_TEST_REQUIRE_UI_PROPERTY_OBJ_LIST gate/report added
+in validation_tests.rs; runtimeproduct/oldgates/defaults/stateformats unchanged.
+FirstWindowsfrontendtestbuild32794PASS warning-free/frozen427845f245f5889bdcb4c93
+b176799933a37bd0425cb833983350388c3a6edbc. FirstexactWine21983Dispatch1840fullpair
+PASS everyfullstate-clock/central-wide/OAM/native-fallbackdispatch/allaudio from
+14349through16189; decodedA4guest=truehost=true gate passes. Allfiveactualaudio
+samplecounts[4037880,4037880,485760,485760,4037804].16:9/originalUI0/new32:9pending.
+No hosttiming/residencycalls inselectedworker, no performance/storage campaign.
+Evidence target/rom-data-ui-property-obj-lists-human-animation/{source-routing-
+contract.json,windows-dispatch-1840-locator.json,windows-scene-build.json,
+windows-scene-result.json,preservation-result.json,final-summary.json}.
+151build152sceneguards29compiledpreimages/387sourcebaseline/590links exact;
+only5linevalidator+docsdelta, otherimplementationunchanged. All64actualgeneration
+hashes/sourceidentity exact: generation-AUj9iY, dataset104bd6d5../manifeste6f64d77../
+staticJSONa29eca5e... Earlier12591privateproof reused withoutlegacyrehash; new
+final-source-hashes/final-protected maps underhuman-animationunitdir. No livejobs.
+Record docs/changes/2026-10-26-extend-european-ui-property-obj-lists.json and
+feature docs/rom_data_obj.md#positive-dispatch-use-and-scene-equivalence coherent.
+Memoryrender/default/basee4c7d48/base5713f22/basec41f969/CRLFwhitespace PASS;
+newOBJtestmodule rustfmt priorPASS/unchanged. A4declared01-through05closed/no replay.
 
-**ROMDATA-04-UI-PROPERTY-OBJ-LIST-CLI closed/PASS.**
-17786productionbuild warning-free/frozen17488009..; canonicalf3e277db../mtimeexact
-restored/maincontentexact.68455firstWineprepare/reuse/oldcacheoneframe allPASS:
-64generation66managedfiles/63resources/74sources1198B/all64accepted/no-write.
-F09oneframeA4absent, aggregate46Bhost0oldlists isattachment smokeonly.
-148CLIguards29inputs/585links exact;387sources/12559expectedprivatefiles.
-Actual generation target/rom-data-ui-property-obj-lists-cli/windows-cli/resources/
-8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e69-d68/
-generation-AUj9iY. CLIunit final-summary/build/summary authoritative; no replay.
+**ROMDATA-02-UNIT-OBJ-FFFF-READER-FIELDS closed/PASS (2026-10-26).**
+Previousgoalturnprogress A4allselectedcriteria closed; thisturn addsindependent
+strictlosslessmodel forknownFFFFu16property/u32encoded directory/query65535.
+Two source spans6B:003B4C12/2 and003D4830/4, SHA f3baef64../5ee0214f..; all63
+currente69owners remain disjoint. Directoryvalue retainsunmapped0x14/lowbits2;
+no validROMroot/header/sequence/pointerfix/null/indexcap isfabricated. Existing
+propertyword/byte-alias/initial-pose/generic models andruntime remainunchanged.
+Newcoremodule unit_obj_ffff_reader_fields.rs andfrontend modeltest, plusonlytwo
+moduledeclarations.980conditionalproducers2240refs (196direct784FFredirect) derive
+fromactualmetadata52/archive49 viaexistingseven-pairparser/classification. No
+fixedglobalregistry/actoridentity ornonreturningredirectnormalization inferred.
+Independentexpectedmodel comesfromclosedFFproducer/sourcecontracts; source01
+71halfword/2literal/3blocks/60queryclassification remainsclosed/no rerun.
+FirstWindowsfrontendtestbuild44516PASS warning-free/frozen83ffcd75ef4644a6aed6e90
+b84d29645fb6b4153a82584403693706281f0b602. FirstexactWine17733PASS: all980records/
+2240refs/sixbytes/strictJSON-source-dependency13guards/3fullbitnumericroundtrips.
+Two completeoriginalnumericreaders221C4/22174 execute28instructions/readall6B;
+zeroextendedu16 andencodedu32+12 preserved, callee/fullRAMoutsideoriginal4BLRstack/
+VRAM-OAM-paletteguards pass. No selectedunmappedword/nativeclock/ordinary claim.
+156build157Wineguards35compiledpreimages exact; currentA4ordinaryvalidator/evidence
+preserved. e69-d68/64files63resources andUSAe8-d7 remainunchanged: modelnotyet
+registeredwithExtraction. No productionbuild/newdataset/owner/fixture/navigation/
+performance-space/oldsource-model-runtime-CLI-scene replay. No livejobs.
+Evidence target/rom-data-unit-obj-ffff-reader-fields-model/{model-selection.json,
+independent-model.json,windows-model-build.json,windows-model-result.json,
+windows-model-europe/result.json,preservation-result.json,final-summary.json}.
+ModelJSONSHA4985d84c90180c30aeceff37be1e3c2482714238fec87f65b2189d4d6b070d84.
+387sourcebaseline only2moduledeclarations+2newmodules+docs;593localfeaturelinks
+pass. Old12670privateproof reused/no wholelegacyrehash, finalsource/protectedmaps
+inmodelunitdir. Memoryrender/default/basee4c7d48/newmodulesrustfmt/CRLFwhitespace PASS.
+Record docs/changes/2026-10-26-model-european-ffff-reader-fields.json; feature
+ docs/rom_data_unit_obj.md#typed-model-for-known-ffff-reader-fields.
+Duringclosure coverage.json/index.html Atlas changed e65→e69. Read-onlydiff
+inspected/preserved/out-of-scope, no atlas regeneration command selected; do not
+revert or attribute those concurrent changes to this model work.
 
-**ROMDATA-05-UI-PROPERTY-OBJ-LIST-ORDINARY remains open. Locators terminal negative.**
-64052Partyunit320 A4absent;67219bank-empty120 A4absent/B2guest-hostpositive. Both
-exit0, no fullpair/longerrepeat/other-slot replay. Bank uses authorized exactcopy
-open-monster-3.ffstate plusDown8..20 input,16:9/patchSPR1. Original/card saves
-intact; no new gameplay-derived checkpoint yet. Four oldbank snapshots parsed
-readonly/checksums; two fixedcontexts andfirst7visible rowsproperty24 give noA4
-witness. Endpoint inspected; no banktableextent/globalunreachability claim.
-Newstaticsetterinspection distinguishes02AF5Cstate1089/02AE70input-animation-tag/
-02AF14animation1086. Firstexacttwo-target BLcandidatecensus:4updater8settercalls;
-eightnarrowprefixes include0578EE settinganimation24 onhumanpreview
-[0200F428]+1C58. Its completecontrolroute/ordinaryexecution remain unproved.
-Evidence target/rom-data-ui-property-obj-lists-ordinary/{windows-party-locator.json,
-windows-bank-locator.json,bank-context-inspection.json,first-seven-bank-rows.json,
-animation-setter-callers.json,call-0578ee-prefix.txt,preservation-result.json}.
-387sourcepreimages implementationunchanged/153unionguards29compiledinputs/four
-originalsnapshot hashes/587links exact. Private outputs ignored/untracked;
-12559priorprivateproof reused/nolegacyrehash. Memoryrender/default/base5713f22/
-basec41f969 andCRLFwhitespace PASS; newtest rustfmt previouslyPASS/no codechanges.
-Final maps/summary inordinaryunitdir; no livejobs. Coherent record:
-docs/changes/2026-10-26-extend-european-ui-property-obj-lists.json.
-
-**Next open selection: ROMDATA-05-UI-PROPERTY-OBJ-LIST-HUMAN-ANIMATION.**
-Before mutation/expensivecommand checkpoint latestrequest/status/missingcriterion.
-First establish0578EE original controlroute (humananimation24) withcheapreads,
-then selectone concrete ordinaryinput andfullpair onlyifnewA4guest-hostpositive.
-Retained worldmap-change-jobs.input under target/rom-data-metadata52/ isavailable
-ifroute relevant; do not recreate earlier Party context for orientation or guess
-menu actions. Check actualoutputs before trusting older next-actions. Do not
-replayclosedF09/Party/bank negatives or source/model/runtime/CLI oracles.
-No performance/storage/coverage work; Linux/USA/nativeWindows/new32:9 pending.
-WholeROMTODO/otherfamilies/FFFFraw6Bmigration/unknownchangedactor/globalidentity/
-computedindirect/mod prerequisites remain open; fullgoalactive/incomplete.
-
-
-**Selection checkpoint — ROMDATA-05-UI-PROPERTY-OBJ-LIST-HUMAN-ANIMATION (2026-10-26).**
-Previousgoalturn progress: source/model-runtime/actualCLI e69closed; two newordinary
-locators terminalnegative andtwo newanimation setters/0578EE24 lead authenticated,
-recorded387source/12591privateexpected. LatestfullTODO/EUR/Wine-only/no performance-
-space/localcheckpointcopy authorization unchanged. CurrentHEAD5713f22/diffpreserved.
-Missingoriginalcontrolroute tohumanpreviewanimation24 andordinaryA4guest-host/fullpair.
-Nextcheapfunctionboundary/nearbycode/caller inspection for0578EE; no newguestbuild,
-fixture/navigation or replay untilconcretecontrolroute. EarlierF09/Party/banknegative
-locators andoldsource/getter/CFG/model/runtime/CLI/sceneacceptances stayclosed.
-Evidence target/rom-data-ui-property-obj-lists-human-animation/. Fullgoalactive.
+**Next open selection — ROMDATA-03-UNIT-OBJ-FFFF-READER-FIELDS.**
+Before mutation/expensivecommand checkpoint latestrequest/existingclosed02/
+missingpublication-consumption/nextaction. Integrateversioned EURresource and
+immutabletwo-fieldbusowner, actualdependenciesmetadata52+scriptarchive. New
+resource/file canreuse strictmodel withoutchangingvalidasset models; expected
+e70-d69/65generationfiles64resources withall63olddecodedfiles/e69retained,USA8/7.
+Servetyped2B/4B addresses only, preserveneighborraw/oldowners; add3B4/3D4pagegates.
+Keepunmapped0x14livebios_open/CPUalignedLDRrotate16 and originalguestcontrolpath;
+no targetheader decode/cap/null/pointerfix. Reduced newmanaged+lifecycle/native-
+clock/bus-SWI-DMA checks must proveactualfileconsumption withonlynew6Brawpoisoned,
+includingliveunmappedselected-word prefixes/zeroearlyreturn; two02originalreaders
+andclosedsource71pin/60query/A4proofs areevidence, not tests torepeat forcontext.
+ReusemodelJSON/35compiledpreimages/guardmaps; oldA4validator staysunchanged. Actual
+productionCLI andordinaryreachability remainlatercriteria after03. No newfixture/
+navigation/benchmark/space/coverage workselected. WholeROMTODO/unknownchangedactor/
+globalidentity/computedindirect/mod prerequisites andLinux/USA/nativeWindows/new32:9
+remainopen. Fullgoalactive/unbounded; userlocalcheckpointcopy authorization persists.

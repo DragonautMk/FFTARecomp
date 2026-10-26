@@ -568,16 +568,27 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   fullUI/allocator andotherplatforms separate. USAe8-d7/FFFFraw6B unchanged. No fixture/navigation/performance measurement or old
   acceptance replay. Unknown u16, changed actors and computed
   indirect calls remain open.
-- The [property-selected static UI OBJ lists](../rom_data_obj.md#property-selected-ui-list-source-extension)
-  now have a separate source contract. Four conditional A4/B2 references flow
-  through1F6Cto1500;48halfword/fourliteral/fourBL pins and closed producer/UI
-  oracles establish count2/stride6. All63owners authenticate before targets.
-  A4adds one unowned14B/two-object list; B2exactlyaliases existingtyped14B.
-  Three extra references project126refs/74lists175objects1198B; currente68catalog
-  remains123refs/73lists173objects1184B. Model+versionedpublication/runtime/CLI/
-  ordinary integration is pending; reuse existing List/Object/owner/format.
-  No broadCFG/oracle/scene replay, newbuild/guest/fixture/navigation/performance
-  work. USA/Linux/nativeWindows/new32:9 and broader indirect sources remain open.
+- The [property-selected static UI OBJ lists](../rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption)
+  now extend the existing catalog in EUR e69-d68:126refs/74lists175objects1198B.
+  Four conditional A4/B2 roots flow through1F6Cto1500; source proof is closed.
+  A4adds one14B/two-object list; B2retains its existing typed owner. Same64files/
+  63resources/format/dimension dependency/runtime handlers; all73oldtypedlists,
+  62otherfiles/records ande68 retained. Two first Wine filters pass model/source
+  roundtrip/eight negative guards/publication/repair/move/lifecycle plus two
+  original-interpreter-compiled draws/fullstate-clock/709instructions/4dispatches/
+  36compiledB/twohostpublication checks. Bothboundaries/widths/mirrors/realBIOSbus/
+  mixedAPI2new2B2/DMA-CpuSet14new2B2/FastSet4prior14new14B2 pass. CorrectedWindows
+  build warning-free; first failure was test-only constant qualification.
+  77build79Wineguards29compiledinputs exact. ActualproductionCLI firstprepare/
+  no-write reuse64generation66managed/all64accepted/63resources/74sources and
+  authenticF09oneframeoldcacheattach pass; 148activeCLIguards/29inputs exact.
+  OrdinaryA4guest-host/fullscene remains pending. F09oneframe/Party320 and one
+  authorizedcopyEURbank120Down areA4negative (bankB2positive/151guards29inputs);
+  nofullpair/longerrepeat. Fourreadonlybankcontexts/first7visibleproperty24 rows
+  give noA4witness. Newstatic02AE70/02AF14animation setters and0578EEanimation24
+  humanpreviewlead need originalcontrolroute beforeanotherinput; no global
+  unreachability claim. Oldsource/model/CFG/scene proofs stayclosed/no perfwork.
+  USAe8-d7/Linux/nativeWindows/new32:9 and broader indirect sources remain open.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

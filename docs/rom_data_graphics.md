@@ -1,5 +1,16 @@
 # Decoded graphics formats and source contracts
 
+EUR e69-d68 extends the [property-selected static UI OBJ lists](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption)
+within the existing resource: 126 references/74 lists/175 objects/1198 source bytes.
+The new list contributes 14 bytes; the B2 alias retains its previous owner.
+There are still 64 files/63 resources, with all 73 previous list records and
+62 other resource files retained. Two focused Wine filters pass publication,
+authentication/lifecycle, original/interpreter/compiled state-clock, host decode
+and mixed-source bus/SWI/DMA checks. Actual CLI create/no-write reuse now passes
+64 generation/66 managed files, all64 accepted, plus old-cache one-frame attach.
+Ordinary A4 scene equivalence remains pending. USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+No performance or storage measurements.
+
 EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):
 64 files/63 resources, with all 62 previous records and 63 files retained.
 The new owner serves only 72 words/144B; 184 shared words retain their actor-property

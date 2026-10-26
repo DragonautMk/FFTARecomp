@@ -2380,5 +2380,8 @@ The UI property's selected `3950A4`/`3950B2` lists now have a separate
 [counted OBJ source contract](rom_data_obj.md#property-selected-ui-list-source-extension).
 A4 contributes one unowned14-byte/two-object list; B2 is an exact alias of its
 existing typed view. Three additional conditional references are authenticated.
-Model/publication/runtime/CLI/ordinary integration of A4 remains pending; the
-property-word acceptances above stay closed.
+The coupled e69-d68 model/publication/runtime extension now passes two reduced
+Wine filters, including typed guest/host draws and mixed boundaries.
+[Runtime evidence](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption).
+Actual CLI create/reuse/old-cache attachment also passes; ordinary A4 scene
+equivalence remains pending. Property-word acceptances stay closed.

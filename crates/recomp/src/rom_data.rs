@@ -118,6 +118,8 @@ mod obj_list_runtime_tests;
 #[cfg(test)]
 mod obj_extra_tests;
 #[cfg(test)]
+mod obj_ui_property_tests;
+#[cfg(test)]
 mod obj_animation_tests;
 #[cfg(test)]
 mod obj_zero_count_tests;

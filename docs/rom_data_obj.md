@@ -1,5 +1,16 @@
 # European OBJ lists and animation banks
 
+EUR e69-d68 extends the [property-selected static UI OBJ lists](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption)
+within the existing resource: 126 references/74 lists/175 objects/1198 source bytes.
+The new list contributes 14 bytes; the B2 alias retains its previous owner.
+There are still 64 files/63 resources, with all 73 previous list records and
+62 other resource files retained. Two focused Wine filters pass publication,
+authentication/lifecycle, original/interpreter/compiled state-clock, host decode
+and mixed-source bus/SWI/DMA checks. Actual CLI create/no-write reuse now passes
+64 generation/66 managed files, all64 accepted, plus old-cache one-frame attach.
+Ordinary A4 scene equivalence remains pending. USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+No performance or storage measurements.
+
 EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):
 64 files/63 resources, with all 62 previous records and 63 files retained.
 The new owner serves only 72 words/144B; 184 shared words retain their actor-property
@@ -80,8 +91,8 @@ passes allstate-clock-image-OAM-dispatch-audio/4477equipmentB/1408pixelB/twosequ
 other256ordinary sequences targeted-only. No metrics.
 
 `rom_data::obj_lists` defines the next bounded sprite resource family after
-OBJ dimensions. The current catalog contains 73 static lists (173 objects, 1184 source bytes),
-independently rooted by 123 direct literal references to EUR draw wrappers.
+OBJ dimensions. The current catalog contains 74 static lists (175 objects, 1198 source bytes),
+independently rooted by 126 direct literal references to EUR draw wrappers.
 The original e14 catalog contained 66 lists; e16 adds seven lists and sixteen
 references without changing any original record.
 `obj_lists/roots.rs` records reader, literal, call, wrapper and source offsets;
@@ -679,17 +690,121 @@ by the existing AE10 reference. Its typed view reconstructs the independently
 read bytes exactly, SHA-256
 `d828f930fd443fbe842b1f7cdb76d736573c6ac8d08a5a6591d7cf204860b4ab`.
 It remains shared and needs no duplicate asset. Two A4 references and the AD90
-B2 alias add three provenance records. The proposed extended catalog is
-126 references/74 lists/175 objects/1198 source bytes, compared with the current
-123/73/173/1184. These are source-plan totals; production is still e68-d67.
+B2 alias add three provenance records. The extended e69-d68 catalog now has
+126 references/74 lists/175 objects/1198 source bytes, compared with the previous
+e68 totals 123/73/173/1184. All 73 previous list records remain identical.
 
-This source contract is closed. Catalog/model integration, versioned publication,
-runtime/host consumption, actual CLI and ordinary use of A4 remain pending.
-Because `Catalog::from_rom` directly feeds Extraction, changing its roots must
-be coupled with a revision bump rather than silently changing an e68 dataset.
-The existing typed List/Object/runtime can be extended; no new resource family
-or format is required. Original comparisons, draw capacity, output stride,
-OAM and live task state remain guest work. No full UI, global indirect catalog,
-new build/oracle/scene, fixture/navigation or performance/storage claim is made.
-Linux, USA, native Windows and new32:9 checks remain pending. Evidence:
+This source contract is closed. The coupled model/publication/runtime extension
+below is also closed. Actual CLI is recorded below; ordinary A4 scene equivalence
+remains pending.
+Original comparisons, draw capacity, output stride, OAM and live task state stay
+guest work. No full UI or global indirect catalog claim follows. Source evidence:
 `target/rom-data-ui-property-obj-lists/`.
+
+## Managed UI property list extension and typed consumption
+
+EUR `v1/e69-d68` integrates the three root references into the existing
+`Catalog::from_rom`, with a coupled extractor/decoder revision change. The public
+List/Object model, JSON format, `graphics.obj-static-lists` identity,
+`obj-static-lists.json`, dimension dependency and runtime owner are reused.
+No runtime handler changes or new resource family are needed. There are still
+64 generation files and 63 resources; only the manifest and static-list JSON
+change. All 73 previous typed lists and 62 other decoded files/resource records,
+including the complete e68 generation, remain exact. USA stays e8-d7.
+
+The first Windows test build failed on a missing test-only constant import;
+qualifying that reference corrected it. The corrected core/frontend compilation
+passes without warnings, frontend SHA-256
+`b16c92358917ac8ac499f9734ecb64845620521a9a3344a4e1be38e8edab4cd8`.
+Both new Wine filters pass on their first execution. The managed filter covers
+independent A4 fields/source/JSON roundtrip and B2 sharing, create/reuse/repair,
+move, interrupted publication and eight negative source/extent/offset/dependency/
+revision/truncation/omission guards. Failed attachments preserve the complete
+Machine and Arc owner. Combined unavailable-directory, slot Load/Undo, cartridge
+backup restore/restart checks retain the owner and positively read new count and
+attributes from typed data after altering only the new raw source.
+
+The second filter compares two original/interpreter/compiled A4 draws with all
+14 new raw bytes poisoned: complete serialized states and guest clocks match.
+It records 709 original instructions, four native dispatches and 36 compiled
+source bytes. Two actual host descriptor decode/publication checks also match
+active metadata; the new host flag becomes true while its guest flag stays
+false. Both source boundaries, all widths, three ROM mirrors and real BIOS bus
+behavior pass. A mixed API word reads two new bytes plus two existing B2 count
+bytes and sets both source flags. DMA/CpuSet read 14 new plus two B2 bytes;
+FastSet reads four preceding bytes, 14 new and all 14 B2 bytes, with complete
+state/clock equality. These targeted calls do not claim full UI reachability.
+
+All 77 build guards, 79 Wine guards and 29 compiled inputs remain exact. Dataset
+identity `104bd6d55188ceca65b3c6cc4cebdf843971f614c3519b9896737a0fa9b49cbd`, manifest SHA-256
+`e6f64d77d4ff7de25df6ff4c3ac4348b423c59c97628c770998dfc9eaa8be6ed`, static-list JSON SHA-256
+`a29eca5e912b00c65ca4bcfbffff9340887724b881f078238d50b62a3807d456`.
+Actual production CLI is recorded below; ordinary A4 scene equivalence remains
+pending. No previous
+73-list/bitfield/512-prefix/CFG/scene acceptance is replayed; no fixture/navigation
+or performance/storage work is done. Linux, USA, native Windows and new32:9 remain
+pending. Evidence: `target/rom-data-ui-property-obj-lists-runtime/`.
+
+
+## UI property lists in the actual production CLI
+
+One affected Windows production build passes without warnings, frozen SHA-256
+`17488009de747c30c15d3641fa3bd5b292718c32c14aa6acfd8d4c374b8a89a1`.
+The canonical executable is restored to its original hash and modification time;
+main source content stays exact, with only mtime changed for Cargo invalidation.
+
+The first three actual Wine CLI calls pass from an unrelated working directory:
+prepare, no-write reuse and one authentic F09 frame with the existing native
+cache. The CLI publishes 64 generation files/66 managed files and 63 resources.
+All 64 generation files equal the accepted e69-d68 runtime dataset, including
+the dimension dependency and 74 static source spans/1198 bytes. Reuse changes
+no managed hash or modification time. All 148 active guards and
+29 compiled input hashes remain exact.
+
+The new A4 source is not reported as consumed through both guest and host in
+this one-frame attachment smoke check. Ordinary positive-use location and full
+scene equivalence remain pending; aggregate old-list usage is not new A4 proof.
+
+This does not reopen closed source/model/runtime or previous scene checks.
+No fixture/navigation/private gameplay payload edit or performance/storage
+campaign occurs. Linux, USA, native Windows and new32:9 remain pending.
+Evidence: `target/rom-data-ui-property-obj-lists-cli/`.
+
+
+## Ordinary UI property-list location remains open
+
+The first F09 one-frame attachment check is A4-negative. A single new 320-frame
+worldmap→Party-unit locator also reports no new A4 source. It reuses the existing
+authentic checkpoint/input; old UI/initial-pose/list acceptance is not repeated.
+No full pair or longer repeat is run for either negative locator.
+
+Read-only checksums and typed fields from four existing EUR bank snapshots
+identify the original `[0200F428]+1BC0` preview context. The retained Goblin-list
+image shows following empty slots. `05B594` gives empty slots tag2, so one
+source-grounded locator uses an exact local copy of that EUR snapshot and an
+ordinary Down press, under the user's checkpoint-copy authorization. The original
+remains exact. The 120-frame Wine CLI in16:9 positively uses shared B2 through
+both guest and host, but does not use A4. Its endpoint is inspected. All151active
+bank guards/29compiled inputs remain exact; no full pair or other-slot replay
+follows. The first seven already-visible species rows independently map through
+D0568/CBEC8 and the typed tables to property24; no full bank-table extent or
+global A4 unreachability is inferred.
+
+New narrow static inspection distinguishes the state setter `02AF5C` (1089)
+from the live input/animation/tag updater `02AE70` and animation setter `02AF14`
+(1086). A first exact direct-BL candidate census finds four updater calls and
+eight animation-setter calls. Narrow prefixes include a human-preview
+`[0200F428]+1C58` call at `0578EE` with animation24, outside the0/12/16 skip set.
+This is a concrete source lead; its full control route and ordinary execution
+are still unproved. It does not reopen the earlier broad CFG, five getter
+callers, 512 UI prefixes or closed scene acceptances.
+
+Ordinary A4 guest/host positive use and complete scene equivalence remain open.
+Next establish the original control route to the animation24 call before
+selecting another gameplay input; the retained Change Jobs input is available
+if that route is relevant. No new fixture navigation is needed merely to
+reconstruct earlier Party context. The only new state file so far is an exact
+copy; cartridge saves and originals remain untouched. No build, extra guest
+oracle, Linux/USA/native Windows/new32:9 test or performance/storage campaign is
+run for this location work. Evidence:
+`target/rom-data-ui-property-obj-lists-ordinary/`.

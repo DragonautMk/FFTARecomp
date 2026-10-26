@@ -59,6 +59,27 @@ pub const REFERENCES: &[RootReference] = &[
         source_offset: 0x00394f20,
     },
     RootReference {
+        reader: 0x0002ad6a,
+        literal: 0x0002ad8c,
+        call: 0x0002ae26,
+        wrapper: 0x00001f6c,
+        source_offset: 0x003950a4,
+    },
+    RootReference {
+        reader: 0x0002ad90,
+        literal: 0x0002ada8,
+        call: 0x0002ae26,
+        wrapper: 0x00001f6c,
+        source_offset: 0x003950b2,
+    },
+    RootReference {
+        reader: 0x0002adfa,
+        literal: 0x0002ae0c,
+        call: 0x0002ae26,
+        wrapper: 0x00001f6c,
+        source_offset: 0x003950a4,
+    },
+    RootReference {
         reader: 0x0002ae10,
         literal: 0x0002ae2c,
         call: 0x0002ae26,

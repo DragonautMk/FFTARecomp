@@ -207,28 +207,38 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scri
 
 [Change record](docs/changes/2026-10-26-extract-european-script-override-poses.json)
 
-## 2026-10-26 — Authenticate European property-selected UI OBJ list sources
+## 2026-10-26 — Extend European property-selected UI OBJ lists with typed runtime consumption
 
-Type: docs. Platforms: Windows.
+Type: changed. Platforms: Windows.
 
 **Changes**
 
 - Authenticate the four conditional property==16/other UI list roots into2AE26/1F6C/1500. The existing AE10/B2 reference is retained; AD6A/A4,AD90/B2 andADFA/A4 add three provenance records. Reuse existing CFG discovery rather than claim or repeat discovery.
-- Define one unowned14B/two-object A4list in the existing static OBJ format. Reconstruct the existing B2two-object14B typed alias exactly without duplicating ownership. Proposed totals126references/74lists175objects1198B; e68-d67production remains unchanged.
-- Keep catalog/model and versioned publication/runtime coupled for the next increment, since Catalog::from_rom directly feeds Extraction. Reuse existing List/Object model, runtime owner, format and dimension dependency; no standalone duplicate family.
+- Integrate one14B/two-object A4list using the existing lossless List/Object format and B2shared owner. Three extra references give126references/74lists175objects1198B.
+- Couple Catalog root expansion with EUR e69-d68. Reuse existing resource identity/file/format/dimension dependency and runtime owner/handlers, with64files63resources; all73previous lists/62other files and records/e68generation retained. USAe8-d7 unchanged.
+- Validate actual EUR e69-d68production CLIcreate/no-write reuse/oldcache attachment, preserving the canonical executable and all64accepted generation files.
 
 **Validation**
 
 - Static producer authentication passes48halfword/fourliteral/fourBLpins for branches, rootloads, wrapper pointer preservation and original header/6Bsource-stride/8Boutput-stride/capacity paths. Closed680pin getterproducer and512originalUIprefix proofs reused without replay. Only one new narrow static draw-tail disassembly; no Linuxgame execution.
 - All63current resource files and source hashes authenticate before new target inspection. A4actualheader2 determines14B, SHA2561f9cfc55a363c69dcf8422d47641705427d4291a3801ff1c7646bfb8bc5daa64; zero owner overlap. Existing B2decoded view equals independent fields/bytes/SHA256d828f930fd443fbe842b1f7cdb76d736573c6ac8d08a5a6591d7cf204860b4ab. All coordinate/mode/transform/attribute bits roundtrip. No extent inferred from adjacency.
-- No old66/73-list/oracle/scene/broadCFG campaign, build, guest test, fixture/navigation/private payload edit or performance/storage measurement. The earlier conservative196caller CFG experiment and its truncations stay closed; this unit uses the newly authenticated concrete conditional flow.
 - Source closure: all385baseline source hashes show implementation unchanged; all74active input hashes/mtimes and576decoded local feature links pass. New private evidence ignored/untracked. Reuse12043closed private proof plus fresh all63owner authentication rather than a wholelegacyartifact campaign.
-- Project-memory default/basec41f969 and CRLF-aware whitespace checks pass. No implementation change or live task job; full ROM_DATA goal stays active.
+- Corrected Windows core/frontend test build passes warning-free after a test-only missing-constant qualification; failed first build and its inputs preserved. Frozen frontend b16c92358917ac8ac499f9734ecb64845620521a9a3344a4e1be38e8edab4cd8; no product change for correction. Both new Wine filters pass first execution.
+- Managed/model filter passes independent A4fields/source/JSON roundtrip/B2alias, create/reuse/two repairs/move/interruption, eight coherent edit/missing-source/extent/offset/dependency/revision/truncation/omission negatives and transactional attachment. Combined unavailable-dir/slotLoadUndo/backup-restore-restart lifecycle retains owner with positive typed new count/attribute use.
+- Native/host filter passes two original-interpreter-compiled draws with only14new raw bytes poisoned, fullstate/clock equality,709originalinstructions/4nativedispatches/36compiledsourceB; two actual host decode/publication checks pass with host-only newsource flag. Both boundaries/widths/three mirrors/realBIOSbus, mixedAPI2new2B2/DMA-CpuSet14new2B2/FastSet4prior14new14B2 pass.
+- All77build79Wineguards/29compiledinputs exact; all73oldtypedlists/62otherdecodedfiles+records ande68generation retained. No closed source/73-list/bitfield/512UIprefix/CFG/scene replay, fixture/navigation/private payload edit or performance/storage measurements.
+- Dataset SHA256 104bd6d55188ceca65b3c6cc4cebdf843971f614c3519b9896737a0fa9b49cbd; manifest SHA256 e6f64d77d4ff7de25df6ff4c3ac4348b423c59c97628c770998dfc9eaa8be6ed; static-list JSON SHA256 a29eca5e912b00c65ca4bcfbffff9340887724b881f078238d50b62a3807d456.
+- Runtime closure: all386source preimages show only three selected existing integration edits/new test plus docs; all79Wineguards/29compiledinputs/583localfeaturelinks exact. All64generation hashes/independent identity pass; private output ignored/untracked. Previous12056privateproof reused withoutwholelegacyrehash.
+- First affected Windows productionbuild passes warning-free, frozen17488009de747c30c15d3641fa3bd5b292718c32c14aa6acfd8d4c374b8a89a1; canonicalhash+mtimeexact/maincontentunchanged. First Wineprepare/reuse/oldcacheoneframe allPASS from/tmp;64generation66managed/63resources/dimensiondep/74sources1198B/all64equal03 andno-writehash-mtime reuse pass. All148CLIguards/29compiledinputs exact. NewA4per-source locator: none. Attachment smoke only/noordinaryfullsceneclaim; no source/model/runtime/oldscene replay.
+- CLI closure: all387baseline source hashes confirm implementation unchanged; all148activeCLIguards/29compiledinputs/585localfeaturelinks pass. Canonicalhash-mtime/maincontentexact, all64files matchaccepted e69-d68. Private output ignored/untracked; previous12475privateproof reused withoutwholelegacyrehash.
+- Ordinary-location work only: authentic F09oneframe and retained Partyunit320 areA4negative; one source-grounded authorized exactcopy EURbank120 ordinaryDown/16:9 isB2guest-hostpositive butA4negative, endpoint inspected. All150Party/151bankguards and29compiledinputs exact. No fullpair/longerrepeat/other-slot campaign. Original EURcheckpoint hash preserved; no cartridge save or sourcepayload edit.
+- Four existing bank snapshots parsed readonly withheader/body/source checksums; two original fixedcontext projections and firstseven visible species rows giveproperty24. No banktableextent or globalunreachability claim. First narrow static setter inspection distinguishes02AF5Cstate/02AE70input-animation-tag/02AF14animation; exact two-targetBLcandidate census4updater8setter andeightnarrowprefixes produce0578EEhumanpreviewanimation24 lead. Controlroute/ordinarywitness remain unproved; earlier CFG/getter/oracle/scene children remain closed.
+- Locator closure: all387sourcepreimages confirm implementation unchanged; all153unionactiveguards/29compiledinputs/fouroriginalsnapshot hashes/587localfeaturelinks pass, authorizedcopyexact/Downinputonly. Private evidence ignored/untracked;12559priorprivateproof reused withoutlegacyrehash. OrdinaryA4positive/fullscene remains open.
 
 **Limitations**
 
-- Source contract only. Catalog/model integration, revisioned publication/runtime/host, actualCLI and ordinary A4consumption remain pending. Current e68-d67/USAe8-d7 unchanged. No completeUI/globalindirect/catalogextent or liveguest cap claim.
-- Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. Userc41f969and uncommittede68runtime/ordinaryguard/docs preserved; no Android/package/assistantcommit/push/coverage work.
+- Source01/coupledmodel-runtime02/03/actualproductionCLI04 closed. Ordinary05A4guest-hostpositive/fullscene remains open after closed negative F09/Party/bank locators. Establish0578EEanimation24 original control route before selecting a new input. No fullUI/globalindirect/catalogextent/liveguestcap/globalunreachability claim; USAe8-d7 unchanged.
+- Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. User5713f22 preserved; no Android/package/assistantcommit/push/coverage work.
 
 Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 

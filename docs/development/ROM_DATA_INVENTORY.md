@@ -1680,3 +1680,44 @@ senza nuova famiglia/formato. Fonte chiusa, modello/pubblicazione/runtime/CLI/
 ordinary A4 pendenti; e68-d67/USAe8-d7 invariati. Nessuna vecchia campagna CFG/
 oracolo/scene ripetuta, build/guest/fixture/navigazione o misura.
 [Dettagli](../rom_data_obj.md#property-selected-ui-list-source-extension).
+
+
+**ROMDATA-02-03-UI-PROPERTY-OBJ-LIST-EXTENSION completato EUR (2026-10-26).**
+e69-d68 integra tre riferimenti nello stesso Catalog/List/Object/owner/formato,
+126refs/74liste175oggetti1198B; nuova A4 solo14B/twoobjects, B2 condivisa.
+Stessi64file/63risorse e dipendenza dimensioni; tutti73record precedenti,
+62altri file/record ed e68 invariati. Build Windows corretto senza warning
+(primo errore solo costante test non qualificata). Due primi filtri Wine passano:
+roundtrip/otto guard/gestione pubblicazione-riparazione-spostamento/lifecycle;
+due draw original-interpreter-compiled fullstate-clock/709istruzioni/4dispatch/
+36compiledB, due host publication, bordi-width-mirror-BIOS e mixedAPI2new2B2/
+DMA-CpuSet14new2B2/FastSet4prior14new14B2. Runtime handler invariati.
+77build79Wineguard/29compiledinput esatti. CLI reale04 e ordinaryA4guest-host05
+restano da fare; USAe8-d7/Linux/nativeWindows/new32:9 pendenti. Nessun replay
+vecchie prove/scene, fixture/navigazione o misura performance-spazio.
+[Integrazione e limiti](../rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption).
+
+
+**ROMDATA-04-UI-PROPERTY-OBJ-LIST-CLI completato EUR/Wine (2026-10-26).**
+Primo buildproduzione Windows senza warning/frozen17488009..; canonicale ripristinato
+hash+mtime, main contenuto invariato. Primi prepare/reuse/oldcacheoneframeWine da
+/tmp passano64generation66managed/63risorse/74span1198B/tutti64uguali al dataset03,
+riuso senza scritture. 148activeCLIguard/29compiledinput esatti.
+OrdinaryA4sceneequivalence ancora aperta; nessun vecchio oracolo/scena ripetuto,
+fixture/navigazione/privatepayload o misura performance-spazio. Altre piattaforme
+restano da fare.
+[CLI e limiti](../rom_data_obj.md#ui-property-lists-in-the-actual-production-cli).
+
+
+**ROMDATA-05-UI-PROPERTY-OBJ-LIST-LOCATORS: osservazioni negative chiuse, ordinary aperto (2026-10-26).**
+F09oneframe/Partyunit320 non usano A4. Un solo locator banca120 su copiaEUR
+esatta autorizzata più normaleDown usa B2guest-host, A4assente; endpoint ispezionato,
+151guard/29compiledinput esatti. Nessun fullpair o ripetizione allungata/altri slot.
+Quattro snapshot letti conchecksum e prime7righe visibili→proprietà24; nessuna
+portata globale inferita. Nuovi setter02AE70(input/animation/tag),02AF14(animation),
+02AF5C(solo stato) distinti. Prima censusBL per due nuovi target:4updater/8setter;
+prefisso0578EE assegnaanimation24 al preview umano. Percorso completo e witness
+ordinaryA4guest-host/fullscene ancora aperti; leggere controllo prima di altroinput.
+Vecchi oracoli/CFG/scene chiusi, nessun nuovo build/fixturegiocata/misura; Linux/
+USA/nativeWindows/new32:9 da fare.
+[Locator e prossimo criterio](../rom_data_obj.md#ordinary-ui-property-list-location-remains-open).

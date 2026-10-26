@@ -443,7 +443,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   new40spans1050B over oldnormal/alternate views. Strict offline model and one
   new Winefilter pass19guards/192newcell aliases/90null+6proper resets/bothnew
   operation2argument copies/two actualDMAuploads256pixelB/wholeVRAM equality.
-  Managed/runtime/actualCLI/ordinary remain pending; e63-d62/USAe8unchanged.
+  EUR e64-d63managed/runtime now passes60files59resources/threeactual deps/
+  all58prior data+records/e63retained/USAe8unchanged. Two newWinefilters pass
+  31guards/lifecycle/all1050typedB and27original-interpreter-compiled fullstate-
+  clock paths/bothnewop2/newOBJ/40edges/BIOS-SWI-DMA/mixedoldowners/raw.
+  ActualproductionCLIcreate/reuse60generation62managed/all60accepted/no-write/
+  oneframeoldcacheattach pass(zero newuse/smokeonly); ordinarynewpixel/equivalence
+  remain pending, no task/save/nativeABI rewrite. New read-only81snapshot scan
+  for allsixnewoverride sequences finds no enabled/dormant task; locatorclosed,
+  no guest/build/fullpair/retry.
   This does not close highregistry/liveactor identity; no metrics/newfixtures,
   newLinux/USA/nativeWindows/32:9 pending.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)

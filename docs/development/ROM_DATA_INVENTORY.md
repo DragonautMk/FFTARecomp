@@ -1494,3 +1494,25 @@ Modellooffline/buildWindows senza avvisi/unico nuovo Winefilter primoPASS19guard
 256pixelB/interaVRAM. e63/USAe8/runtime invariati; nessuna identità statica
 highregistry inventata.
 [Contratto e limiti](../rom_data_unit_obj.md#conditional-forced42-and230script-pose-source-model).
+
+
+EUR e64-d63ora pubblica/consuma script-override42/230:60file59risorse, tredeps
+scriptarchive/normalbattle/alternatebattle/tutti58precedenti/e63/USAe8invariati.
+Owner40span1050B;31guardie/lifecycle/alltypedB e27percorsiWine original-interpreter-
+compiled stato-completo/clock/bothnewop2/newOBJ/40edges/BIOS-SWI-DMA/mixedowners/raw
+passano. CLIproduzione/ordinary/highregistry-currentactor/newLinux-USA-nativeWindows/
+32:9restano pending, nessuna misura performance/spazio o nuova fixture.
+[Contratto e prove](../rom_data_unit_obj.md#forced-script-override-managed-runtime).
+
+
+CLIproductionEUR e64-d63ora verificata su Wine: create/reuse60generation62managed,
+all60matchaccepted/no-write/canonicalexactrestore/oneframeoldcachePASS. Zero new
+usooverride nello smoke, nessunordinarypixel/fullsceneclaim; precedente e63eUSAe8
+preservati. Proseguono ordinary/highregistry-currentactor, senza misure performance.
+[CLI e limiti](../rom_data_unit_obj.md#forced-script-override-actual-production-cli).
+
+
+Exactsix-target override ordinarylead:81snapshotEURautenticati, nessun taskenabled/
+dormant corrispondente a42/32-33-40-41 o230/32-33, inputinvariati. Leadchiuso negativo,
+no guest/build/retry/fullpair; ordinarynewpixel/equivalence ancora aperto, fonti
+highregistry/currentactor restano indipendenti.

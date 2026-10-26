@@ -2949,3 +2949,38 @@ buildWindows senza avvisi e unico nuovo filtroWine primoPASS19guardie/all156keys
 DMAuploads256B/interaVRAM. e63/USAe8/runtime invariati.03managed/runtime/CLI/ordinary e highregistry/
 currentactor/NewLinux-USA-nativeWindows-32:9aperti, nessuna misura performance.
 [Contratto e modello](../rom_data_unit_obj.md#conditional-forced42-and230script-pose-source-model).
+
+
+**ROMDATA-03/04-SCRIPT-OBJ-OVERRIDE managed/runtime completati nel perimetro
+EUR/Wine mirato (2026-10-26).** e64-d63aggiunge unit-obj-script-override.json /
+graphics.unit-obj-script-override con scriptarchive/normalbattle/alternatebattle
+effettive:60file59risorse/tutti58precedenti dati-record-coverage/e63conservato/
+USAe8-d7. Nuovoownerimmutabile solo40span1050B inclusi26OBJ e due nuove coppie
+argomentiop2; originali selector/flag20/task/command/DMA/VRAM/save/nativeABI attivi.
+Unica buildWindows core/frontend senza avvisi/core compilato soltanto; due nuovi
+filtriWine primoPASS26attach+5dependency guards/lifecycle/all1050typedB/sixseq e
+27percorsi original-interpreter-compiled stato-completo/clock/bothnewop2/newOBJ/
+null/proper/liveRAM/two uploads+DMA/40edges/mirrors/BIOS-SWI-DMA/mixed2new4alternate+
+2new2raw. Tutti11722graphB alterati; fonte/modello/192prefix/96cell/sourceDMA/
+vecchieprove non ripetuti. CLIreale/ordinarynewpixel/equivalence e highregistry/
+currentactor/newLinux-USA-nativeWindows-32:9aperti, nessuna misura o nuovafixture.
+[Pubblicazione e runtime](../rom_data_unit_obj.md#forced-script-override-managed-runtime).
+
+
+**ROMDATA-04-SCRIPT-OBJ-OVERRIDE-CLI completato EUR/Wine (2026-10-26).** Unica
+buildproductionWindows senzaavvisi/frozen8a987e99.., canonicalhash+mtime ripristinati/
+maincontentunchanged. CLIrealeWinecreate/reuse60generation62managed/all60byteuguali
+accettati/no-write da cwd estranea/vecchiacache passa. OneframeautenticoF09 legge
+zero nuovibyte, solosmokecompatibilità. Fonte/modello/managed/native/CLI chiusi/no
+repeat. Ordinarynewsequence/pixel/equivalence e highregistry-currentactor/newLinux-
+USA-nativeWindows-32:9aperti, nessuna misura o nuova fixture/navigazione/payload.
+[CLI e limiti](../rom_data_unit_obj.md#forced-script-override-actual-production-cli).
+
+
+**ROMDATA-05-SCRIPT-OVERRIDE-SIX-SEQUENCE-LEAD chiuso negativo (2026-10-26).**
+81snapshotEURautenticati/zero taskenabled o dormant per42/(32,33,40,41) e230/(32,33),
+tutti part0; hash+mtimeinput invariati. Targetdiversi dai vecchi606alternate/
+settenormal/duealternate, non ripetuti. Nessun guest/build/navigazione/checkpoint/
+payloadedit/fullpair, non riprovareunchanged. Ordinarynewsequence/pixel/equivalence
+resta aperto mentre prosegue fontehighregistry/currentactor indipendente.
+[Lead e limiti](../rom_data_unit_obj.md#forced-script-override-actual-production-cli).

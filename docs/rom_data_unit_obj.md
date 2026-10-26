@@ -1419,3 +1419,98 @@ Private evidence is under `target/rom-data-script-override-poses/` and
 `target/rom-data-script-override-model/`. Managed/runtime/actualCLI/ordinary and
 newLinux/USA/nativeWindows/new32:9 remain pending, without wholeallocator/task ABI
 or universal currentactor reachability claims.
+
+
+## Forced script override managed runtime
+
+EUR schema1/extractor64/decoder63 adds `unit-obj-script-override.json`, resource
+`graphics.unit-obj-script-override`, with actual scriptarchive/normalbattle/
+alternatebattle dependencies. The new60generationfiles/59resources retain all
+58earlier decoded files/resource records/coverage and e63; USA stays schema1/
+e8-d7. The accepted model remains byte-identical, SHA-256
+`27d6d0e0683f9cceb17155fbbac8c35fce9db1aceffde8c144ec66f00d1f8698`.
+No metadata14/highregistry actor identity is invented as a new dependency.
+
+The [immutable typed owner](../crates/gba-core/src/rom_data/runtime/unit_obj_script_override.rs)
+serves only40newspans1050B:384index/24header/360frame/26OBJ/256pixel bytes.
+Frame words/tails preserve both newoperation2argument pairs; OBJattributes and
+indexed tiles reconstruct their original bytes. Earlier normal/alternate owners
+and raw holes compose per byte; candidate pages37B/390/391/959/95A/A50/A95/AE1
+only select a possible reader, exact segments establish ownership. One64bit
+sequence-use bitset covers28full model sequences, counters remain transient and
+source reconstruction buffers are dropped. Original actor selection/flag20
+assignments, RAM task pools, scheduling, commands, DMA, VRAM, palettes, save
+state and native ABI stay active, with no rawROMshadow or liveIDcap.
+
+The [runtime oracle](../crates/recomp/src/rom_data/script_override_runtime_tests.rs)
+implements two focused ignored Winefilters: publication/authentication/lifecycle
+and original-interpreter-compiled complete-state/clock paths including bothnew
+operation2arguments and OBJreads. One affected Windows core/frontend testbuild
+passes without warnings, core compiled only, frozen core/frontend SHA-256
+`f5245f1747c20b69a884405501051f16bf07e6859664ee240aae4d7e1e818856` /
+`d07413a1f75d0263ebf9be25fd5415ca5a299b22c760066fae23c913f8dea9bc`.
+Both new exactWinefilters pass on their first executions.26attachment+5direct
+dependency guards, interrupted publication/create-reuse-repair-move, failed
+attachment owner/fullstate isolation and unavailable Load-Undo-backup-Restart/
+sharedowner lifecycle pass. All1050newtypedB and six newsequences reconstruct
+exactly; priornormal4B/alternate4Bretain their existing owners.
+
+Twenty-seven original-interpreter-compiled paths match complete machine states
+and guestclocks with all11722graphBpoisoned, including older shares. Proper/null
+constructors/bodyparts, two orientations/fullwordrawID/liveRAMframe, bothnew
+operation2argument pairs, newOBJ/two uploads+DMA/all40boundaries/widths/mirrors/
+realBIOSbus/SWI-DMA pass. Mixed copies charge2new+4alternateB; unaligned API
+preserves2editedrawBbeside2newB. Compiled aggregate newroles are
+`[0,36,6,53,56,1]`, actualDMAchecked separately.1755instructions/486PCs/110native
+dispatches describe coverage only; no wholeallocator/task/actor or ordinary
+claim. Source/model/192prefix/96cell/sourceDMA and oldcommand/scene acceptance
+remain closed without repeats.
+
+Dataset SHA-256 is
+`40a16bbce4c5f6f78329e389008c00b14ffc28150d349c7df38d3f2faa89659d`;
+manifest-file SHA-256 is
+`8ebf0ef0b6e6204adda36426dece399e7c0d4b2336bce2ea4467ce23228bf014`. ActualproductionCLI/
+ordinary and newLinux/USA/nativeWindows/new32:9 stay separate; no performance/
+storage measurement, gameplay fixture/navigation or private payload edit is
+selected. Evidence is under `target/rom-data-script-override-runtime/`.
+
+
+## Forced script override actual production CLI
+
+One changed-implementation Windows production build is warning-free, frozen
+SHA-256`8a987e992153db0b7d01ecea8e494f60b593c5944e3ce9fe815f0c3186e3d296`.
+The canonical executable is restored in finally with exact hash/mtime, main.rs
+content unchanged and mtime-onlyCargo invalidation. Source/runtime implementation
+and accepted model remain unchanged from their successful tests; none is replayed.
+
+ActualWine CLIprepare/reuse and one-frame oldcacheattachment all exit0 from an
+unrelated cwd. The e64generation has60files/59resources and62managed files with
+current/lock. Every generation file is byte-identical to accepted managed output;
+reuse/attachment preserve all protected hashes/mtimes, including previous e63,
+ROM/cart/snapshots/input/nativecache/TCC/canonical. Dataset remains
+`40a16bbce4c5f6f78329e389008c00b14ffc28150d349c7df38d3f2faa89659d`,
+manifest-file`8ebf0ef0b6e6204adda36426dece399e7c0d4b2336bce2ea4467ce23228bf014`,
+model-file`27d6d0e0683f9cceb17155fbbac8c35fce9db1aceffde8c144ec66f00d1f8698`.
+
+One authentic immutableF09frame attaches the new owner but reads zero newbytes,
+compatibility smoke only. Ordinary newsequence/pixel/fullscene equivalence
+remains open, requiring a positive case before a guardbuild/fullpair. Six new
+proper sequence targets are distinct from old606alternate/sevennormal/twoalternate
+script locator targets; any new existing-fixture check must remain read-only and
+candidate-only until actualWineusage. Source/model/managed/native/actualCLI
+children stay closed/no unchanged retry. Evidence is under
+`target/rom-data-script-override-cli/`, with build/process/no-write/summary JSONs,
+three Wine logs and the one-frame endpoint image. NewLinux/USA/nativeWindows/
+new32:9/highregistry/currentactor and other source cases remain pending, without
+performance/storage measurements, gameplay fixtures/navigation or payload edits.
+
+
+A new read-only81existing EURsnapshot scan for exactly the six new proper
+sequences42/(32,33,40,41) and230/(32,33), allpart0, finds no enabled or dormant
+matching bodytask. Header/core/payload/ROM and before/after hash+mtime remain
+authenticated. This is a different target set from the closed606alternate/
+sevennormal/twoalternate scans; none is repeated. The locator is terminalnegative
+in its scope, without newgameplay, navigation, payload edits, build or fullpair.
+Ordinary newsequence/pixel/fullscene evidence remains open while independent
+highregistry/currentactor source contracts can advance. Private evidence is
+`target/rom-data-script-override-ordinary/`.

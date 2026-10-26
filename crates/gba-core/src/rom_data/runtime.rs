@@ -128,6 +128,9 @@ pub use unit_obj_script_special_normal::UnitObjScriptSpecialNormalStats;
 mod unit_obj_script_special_alternate;
 use unit_obj_script_special_alternate::UnitObjScriptSpecialAlternateResources;
 pub use unit_obj_script_special_alternate::UnitObjScriptSpecialAlternateStats;
+mod unit_obj_script_override;
+use unit_obj_script_override::UnitObjScriptOverrideResources;
+pub use unit_obj_script_override::UnitObjScriptOverrideStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -248,6 +251,7 @@ pub struct RuntimeResources {
     unit_obj_alternate_battle: Option<Box<UnitObjAlternateBattleResources>>,
     unit_obj_script_special_normal: Option<Box<UnitObjScriptSpecialNormalResources>>,
     unit_obj_script_special_alternate: Option<Box<UnitObjScriptSpecialAlternateResources>>,
+    unit_obj_script_override: Option<Box<UnitObjScriptOverrideResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -481,6 +485,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.unit_obj_script_special_alternate {
             resources.unit_obj_script_special_alternate = Some(Box::new(UnitObjScriptSpecialAlternateResources::new(data.clone(), &source.unit_obj_script_special_alternate.as_ref().unwrap().sources, files.unit_obj_initial_pose.unwrap().0, files.unit_obj_normal_battle.unwrap().0, files.unit_obj_alternate_battle.unwrap().0)?));
         }
+        if let Some((data,_))= files.unit_obj_script_override {
+            resources.unit_obj_script_override = Some(Box::new(UnitObjScriptOverrideResources::new(data.clone(), &source.unit_obj_script_override.as_ref().unwrap().sources, files.unit_obj_normal_battle.unwrap().0, files.unit_obj_alternate_battle.unwrap().0)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -564,6 +571,7 @@ impl RuntimeResources {
             unit_obj_alternate_battle: None,
             unit_obj_script_special_normal: None,
             unit_obj_script_special_alternate: None,
+            unit_obj_script_override: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -648,6 +656,7 @@ impl RuntimeResources {
             + self.unit_obj_alternate_battle.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_script_special_normal.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_script_special_alternate.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_script_override.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -757,6 +766,7 @@ impl RuntimeResources {
     pub fn unit_obj_alternate_battle_stats(&self) -> Option<UnitObjAlternateBattleStats> {self.unit_obj_alternate_battle.as_ref().map(|m|m.stats())}
     pub fn unit_obj_script_special_normal_stats(&self) -> Option<UnitObjScriptSpecialNormalStats> {self.unit_obj_script_special_normal.as_ref().map(|m|m.stats())}
     pub fn unit_obj_script_special_alternate_stats(&self) -> Option<UnitObjScriptSpecialAlternateStats> {self.unit_obj_script_special_alternate.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_script_override_stats(&self) -> Option<UnitObjScriptOverrideStats> {self.unit_obj_script_override.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1042,7 +1052,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.unit_obj_script_special_alternate {
+            let prior = match &self.unit_obj_script_special_alternate {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.unit_obj_script_override {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1229,6 +1243,7 @@ impl crate::MemMap {
             || UnitObjAlternateBattleResources::source_page(index)
             || UnitObjScriptSpecialNormalResources::source_page(index)
             || UnitObjScriptSpecialAlternateResources::source_page(index)
+            || UnitObjScriptOverrideResources::source_page(index)
             || MapRasterPaletteResources::source_page(index)
             || AuxiliaryScriptResources::source_page(index)
     }

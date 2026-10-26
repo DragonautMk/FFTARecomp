@@ -1,16 +1,15 @@
 # Decoded ROM resources
 
-EUR e63-d62adds [conditional alternate script-special poses](rom_data_unit_obj.md#conditional-script-special-alternate-managed-runtime):
-59files58resources, five actual dependencies, all57prior records+decoded files/
-e62retained/USAe8-d7. Typed owner serves only20newspans816B with shared initial/
-normal/alternate owners and rawholes preserved. Two new Wine filters pass31guards/
-lifecycle/all816typedB and24original-interpreter-compiled fullstate-clock paths/
-20edges/BIOS-SWI-DMA/mixed2new4alternate+2new2raw. ActualproductionCLIcreate/reuse
-59generation61managed/all59matchaccepted/no-write and oneframeoldcacheattachment
-pass(zero newuse/smokeonly). Ordinarynewpixel/equivalence and newLinux/USA/native
-Windows/32:9 remain pending.
-Source/model/previous54cell/sourceDMA/oldcommands2-8proofs stay closed; no
-performance/storage measurements.
+EUR e64-d63adds [forced42/230script poses](rom_data_unit_obj.md#forced-script-override-managed-runtime):
+60files59resources, actual scriptarchive/normalbattle/alternatebattle dependencies,
+all58prior data/resource records/e63retained/USAe8-d7. Typed owner only40newspans
+1050B, older owners/rawholes/original tasks-DMA preserved. Two new Winefilters
+firstPASS31guards/lifecycle/allnewB/sixseq and27original-interpreter-compiled
+fullstate-clock paths/bothnewop2/newOBJ/40edges/BIOS-SWI-DMA/mixed2new4alternate+
+2new2raw. ActualproductionCLIcreate/reuse60generation62managed/all60matchaccepted/
+no-write/oneframeoldcacheattachment pass(zero newuse/smokeonly). Ordinarynewpixel/
+equivalence and newLinux-USA-nativeWindows-32:9 pending; source/model/oldproofs
+closed/no repeat, no performance or storage measurements.
 
 The separate [normal-mode battle pose source model](rom_data_unit_obj.md#normal-mode-battle-poses-source-projection-and-typed-model)
 now decodes2581sequences/17894frames over122normal-mode IDs, including real nulls,

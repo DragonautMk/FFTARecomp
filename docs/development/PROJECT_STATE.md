@@ -593,7 +593,37 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   dispatch/audio comparison after a warning-free build retry for a test import.
   23061unique requests/19984imageB include1146unownedB,542beyond prior nativeAPI
   sample;90new highbytes are source leads only.76actualinput+onecomparison guards
-  exact, oldacceptances not replayed. e71/USA8-7 unchanged; no newfixture or
+  exact, oldacceptances not replayed. Its90newhighB nowhave sourcecontracts:
+  two ordinaryindirectOBJlists64B/10objects,10parameterB and16IWRAMcontrolB.
+  One newproducerargumentWineframe plus295windowhalfwords/53pins/7literals/
+  reusedABIhashes identifiesactualreaders. No assumedwhole table/cap/allocator/
+  commandproducer ABI. Two-list isolatedtypedmodel nowpasses one Winefilter:
+  64B/10objects/14guards/sixoriginalROM-RAMreader paths, wholeoutput/matrix/callee/
+  RAMguards exact. One warning-freeWindowsfrontendbuild;75selectedguards exact,
+  oldCatalog74/e71unchanged during that isolated model milestone. Managed/runtime
+  integration now passes EUR e72-d71:76lists/185objects1262B,66files65resources,
+  126direct refs/all74oldlists/all64other records-files/dimension dependency/e71
+  retained. One warning-free Windows frontend build and two first Wine filters
+  pass12attachguards/publication/lifecycle, six original/interpreter/native
+  fullstate-clock paths with64rawB altered, sixSWI-DMA/sixhost checks and mixed
+  old-new/raw-new API reads.77selected guards/compiled code exact; required
+  artifact completion retires only disposable copies. Actual productionCLI now
+  firstPASS create/no-write reuse66generation68managed/all66accepted plus existing
+  F09oneframe/cache/input16:9; bothnew sources guest-host positive.143CLIguards/
+  implementation/canonicalhash-mtime exact, one warning-freeproductionbuild.
+  Declaredordinary firstF09frame8476→8477 now passes one Winefullpair withboth
+  newguest-host sources required: fullstate-clock-central/wide-OAM-dispatch-all
+  audio, actualsamples[2196,2196,264,264,2120], exactCLIaggregate147B/12hostreads.
+  Five optionalvalidator lines only; firstfrontendbuild warning-free,75guards
+  exact. Broaderordinary remains separate. The10parameterB now have an isolated
+  observed_task_parameters model:2phase1/2u8thresholds/fourindices4..7signed16
+  corrections,27guards/18originalprefix cases in one firstWinefilter after a
+  warning-freeWindowsfrontendbuild. Oldcounter compare/phasewrap/lowbitalias/
+  signedsubtraction/RAM-callee guards exact;79selectedinputs exact. Phase0/
+  correctionpriorowner/outsidequeries stayoutside model, no globalguest cap or
+  units inferred. Productione72pipeline unchanged; parameter managed/runtime/
+  CLI/ordinary remainopen, lower452B separate.
+  USA8-7 unchanged; Linux/nativeWindows/new32:9 pending, no newfixture or
   measurements. Other threads/scenes/readers/typed HLE bypasses remain separate.
 
 - The [following live-slot helpers](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup)

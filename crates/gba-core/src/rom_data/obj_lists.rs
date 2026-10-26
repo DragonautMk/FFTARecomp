@@ -1,4 +1,4 @@
-//! Bounded EUR static OBJ lists reached by independently located draw literals.
+//! Bounded EUR static OBJ lists from draw literals and two observed indirect roots.
 //! Animation state, OAM, matrices and lists constructed in RAM are not assets.
 use super::SourceRange;
 use crate::ffta_rom;
@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 mod roots;
 pub use roots::REFERENCES;
+pub mod observed;
 
 #[derive(Clone, Copy, Debug)]
 pub struct RootReference {
@@ -250,6 +251,13 @@ impl Catalog {
                 role: "static-obj-list".into(),
             });
         }
+        // The two additional identities have observed indirect provenance; do
+        // not pretend they are direct RootReferences or infer a whole archive.
+        let extra = observed::Catalog::from_rom(rom)?;
+        lists.extend(extra.decoded.lists);
+        sources.extend(extra.sources);
+        lists.sort_by_key(|list| list.source_offset);
+        sources.sort_by_key(|source| source.offset);
         let decoded = Lists { lists };
         decoded.validate()?;
         Ok(Self { decoded, sources })

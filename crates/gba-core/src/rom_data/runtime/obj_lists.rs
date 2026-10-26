@@ -34,7 +34,7 @@ impl ObjListResources {
     pub(super) fn source_page(index: usize) -> bool {
         matches!(
             index >> 12,
-            0x394 | 0x395 | 0x397 | 0x399 | 0x3ad | 0x3ae | 0x6df
+            0x394 | 0x395 | 0x397 | 0x399 | 0x3ad | 0x3ae | 0x40d | 0x6df
         )
     }
 

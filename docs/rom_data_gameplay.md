@@ -2472,3 +2472,50 @@ edit/performance-storage campaign/Android/package/assistant commit/push occurs.
 Static disassembly is not Linux runtime validation; Linux, USA, native Windows
 and new32:9 remain pending. Evidence:
 `target/rom-data-post-slot-lookup-readers/source-contract.json`.
+
+
+## Isolated model for observed task parameter fragments
+
+`rom_data::observed_task_parameters` models two independent EUR fragments in
+`ObservedTaskParameters`: two `PhaseThresholds` rows for phases1/2 at371065..67,
+and four `VerticalCorrections` rows for indices4..7 at394E14..1C. Entries retain
+their explicit phase/index, unsigned threshold or signed16 correction, plus
+fixed source identity. Strict structural validation, JSON and source-byte
+projection preserve all ten bytes over two disjoint spans. Exact EUR identity,
+the two existing authenticated reader windows/literals and source hashes bind
+the model; coherent edited fields fail source verification.
+
+The original018DCA..18DF2 prefix increments the RAM counter first, compares its
+OLD u16 value against the selected u8 threshold and advances/wraps the phase
+only after that comparison. No duration units or global prelookup phase cap are
+inferred. Phase0 and every other unmodeled byte remain outside this fragment.
+Original0264EA..F8 shifts the task byte right once and subtracts a signed16
+correction from projected r2. Both low-bit aliases are preserved. Earlier
+indices0..3 retain the existing byte-property owner; indices8..127 remain outside
+the model. The four-row fragment does not establish a physical-table extent or
+new guest cap.
+
+One first Windows frontend build passes without diagnostics; frozen hash
+is8ce94211f4b4469de4e5a0471eb09969ede481ddf6de998d6cb157985aba8122. One reduced
+Wine filter passes independent fields, all ten reconstructed bytes/two spans/
+boundaries, strict JSON/negative-signed roundtrip and27structural, coherent,
+unknown-field, range, source and truncation guards. Eighteen original prefixes
+pass: ten phase1/2 cases with old counters0/7/8/9/65535, and eight task bytes8..15
+for correction aliases and subtraction across signed/unsigned32 boundaries.
+The expected RAM counter/phase changes, all other RAM, OAM/VRAM/palette and
+callee/control registers agree with the model contract.
+
+The private canonical model hash is
+4b52c5f12f7633de0b1f790c5182ec5a727150a9460eb358eac3f41374788618.
+All79selected input/frozen-executable guards and compiled implementations stay
+exact. Both existing hubs differ only by module declarations. The production
+extraction/owner pipeline, EUR e72-d71/66files65resources/current76OBJlists and
+USAe8-d7 remain unchanged; these ten bytes are disjoint all current owners and
+are not yet published. Completion helper retires zero paths.
+
+Managed integration, typed runtime, actual CLI and ordinary new-owner checks
+remain pending for these parameter kinds. The closed source contract and two-
+list/source/model/runtime/CLI/scene proofs are reused without replay. The452
+lower audit bytes remain separate. Linux/USA/native Windows/new32:9 remain
+unverified; there is no new fixture/navigation or performance/storage campaign.
+Evidence: `target/rom-data-observed-task-parameters-model/`.

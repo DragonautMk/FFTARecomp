@@ -1,5 +1,19 @@
 # Decoded ROM resources
 
+EUR e72-d71 integrates [two observed indirect OBJ lists](rom_data_obj.md#managed-observed-indirect-lists-and-typed-consumption)
+into the existing resource: 76 lists, 185 objects and 1262 source bytes. There
+are still 66 files and 65 resources; all 74 earlier lists, the other 64 files/
+records and e71 are retained. Two focused Wine filters pass publication,
+authentication/lifecycle, six original/interpreter/native state-clock paths,
+host publication and mixed-source bus/SWI/DMA with all 64 new raw bytes altered.
+Actual production CLI create/no-write reuse now passes 66 generation/68 managed
+files, all 66 matching the runtime dataset. One F09 frame positively uses both
+new sources in guest and host. One firstF09frame Wine pair now passes complete
+state/clock/captured buffers/OAM/dispatch/all audio, requiring both new sources.
+Broader ordinary coverage remains separate.
+USA stays e8-d7; Linux, native Windows and new32:9 remain unverified.
+No performance/storage measurements.
+
 EUR e71-d70 adds the [twenty-slot job lookup](rom_data_gameplay.md#managed-twenty-slot-job-lookup-and-typed-bus-consumption):
 66files/65resources, all64prior decoded files/records and e70retained, actual
 metadata52dependency. Two focused Wine filters pass publication/lifecycle and

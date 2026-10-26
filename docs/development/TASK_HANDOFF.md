@@ -10386,17 +10386,192 @@ basec792afd report onlyparalleluserworkflow/coverage files awaitingtheirrecord;
 all11currentimplementationfiles covered. No livejobs. Preserve thoseedits and
 pendingrecord separately, no attribution. FullTODOactive/incomplete.
 
-**Next open selection — ROMDATA-01-BUS-HOST-HIGH-RESIDUE.**
-Priorcollector/F09nativeAPI/Bank/staticcodewitness children closed, do notreplay.
-Missing: authenticate originalreaders/domains for90newhigh observedB in6ranges
-above. StarttwoactualSpritePeek sources394F4C(2+24B)/40D89E(2+36B) as leads,
-notassumedlist identity: inspect originalsparseobj-list reader/model contracts,
-exactEUR singlepointerreferences, current65owner overlap/contexts beforevalues.
-No count/headeralone/globaltableextent/newasset inference. OriginalABI/source
-reader or ordinaryargumentevidence must establish format/domain beforedecoder.
-371065..67/394E14..1C/397F80..84+88..94 separate leads; lower452newB separate.
-Cheap existingevidence first/checkpoint beforemutation/expensivework. Reuse
-currentfeatureexe/reports; no newfixture/navigation/performance/space/censusAtlas.
-Keyboardcollectoractivation alone is not priority/newtest justification. Full
-inventory/FFFFordinary/otherfamilies/modprerequisites remainopen; Linux/USA/native
-Windows/new32:9 pending. Do notmarkwholegoalcomplete fromboundedobservation.
+**ROMDATA-01-BUS-HOST-HIGH-RESIDUE closed/PASS scopedsource (2026-10-26).**
+Previousgoalturnprogress/collectorclosedconfirmed; latestfullTODO/EUR/Wine-only/
+no performance-space/copyauthorization unchanged.90newhighB nowclassified:
+64BtwoOBJlists394F4C(count4,26B,SHA03df6410f4e051bdff4603ac5daea36c51c6acb95442d80c5b08c45a64a18477)
+and40D89E(count6,38B,SHAbc84a0ac1f2037a71f7e347f442a0ee909b5fdfffcf8bb209127a38e71daeb61),
+10Bparameters(2timingthresholdB/4signedcorrectionwords),16Bcontrolpointers.
+One newactualWine34164producer-argumentframe existingF09/e71CLI/cache/input,
+no build:2actualdrawheaders/10objects.394F4Cat030065A8LR08092469,40D89Eat
+08001500LR08001DBD/02E36C→01D28 fromlivetask+24. Secondrootnoabsolutewordref;
+NOTa directRootReference/completecommandproducerproof. First026464literal26524
+passesr1 via397F9C/145C10BXr2→03006B6D. Original0924E8CpuSet D968E8..D97728→
+03005F28..03006D68(3648B) provesctorROMD9752C storespointeratinstance+158;
+active+154 laterloadedat09241C andrenderedthrough397F90/BXr4. Nofullallocator/
+pendingtree/constructorordinaryABI inferred. EmptyROMdisatRAM03006B6C rejected,
+not source evidence; correct map followscopier, notadjacency. Reusedoriginal
+ROMdraw991e33b7.. andcopieddrawce5416f2.. hashes exact, no oldABIoracle rerun.
+295windowhalfwords/53semanticpins/7literals/copy-and-BLtargets exact. All64Blist
+spansdisjoint65owners; originalcountpositive/sixbyte-stride andactualarguments
+proveboundedformat, no archiveextent. Timing018DDA base371064/livephasebyte:
+compareOLDcounterthreshold afterstoringcounter+1, onadvanceincrementphase/
+wrapnew>2to0/counter0; conditional0..2 NOTglobalprelookupcap, observed1/2only.
+Vertical0264F6 source394E0C+2*(u8at(task+7)>>1), signedcorrection subtraction;
+originalquery0..127, observednew4..7; no128physicaltableextent or cap8inferred.
+397F80/88/8C/90 load→BXr1/r2/r4 originalThumbIWRAMcontrol, lattertwo visibility/
+draw, notassets. All90stillunowned:64lists+10params needmodel/runtime;16code
+support staysROMdependency. Lower452newB separate. e71-d70/66files65res/USA8-7
+unchanged, allimplementationunchanged, no newfixture/navigation/performance or
+oldcollector/F09-rawdecoded/Bank/source-model-runtime-CLI acceptance replay.
+Record docs/changes/2026-10-26-authenticate-european-observed-obj-lists-and-parameters.json;
+feature docs/rom_data_obj.md#observed-indirect-obj-list-sources-beyond-the-direct-catalog
+and docs/rom_data_runtime.md#high-bus-and-host-residue-source-contracts.
+Evidence target/rom-data-bus-host-high-residue/{source-contract.json,copy-map.json,
+control-cells.json,producer-one-frame-result.json,producer-one-frame.log,
+rejected-ram-address-rom-disassembly.json,active-inputs.json,final-summary.json}.
+Memoryrender/default/currentbasee2a1d37/metadata-only/CRLFwhitespace PASS.
+UserHEADadvancedexternallyc792afd→e2a1d37(Add European slot and ROM data handling
+improvements); allselectedimplementationhashesremainexact/noassistantcommit.
+Historicalbasec792afd stillreports10workflow/coveragepaths nowinusercommitwith
+missingownrecord; do notfabricate unrelatedcoverage. Currentworktreeonlythis
+sourceunitdocs/record uncommitted, defaultcheckgreen. No livejobs. FullTODOactive/
+Linux-USA-nativeWindows-new32:9pending. Priorcompletedcollector/proofs nowinHEAD,
+notreason torepeat; memoryhistoricalresults remainhistorical.
+
+**ROMDATA-02-OBSERVED-OBJ-LISTS-MODEL closed/PASS (2026-10-26).**
+LatestfullTODO/EUR/Wine-only/no performance-space/copyauthorization unchanged.
+Prior90Bsourcechild/295pins/copier/oneframeargs stayclosed; HEADe2a1d37, no commit.
+Newisolated publicobj_lists::observed::{Catalog,ObservedLists,ROOTS,Evidence}
+reusesList/Object for394F4C4objects26B/40D89E6objects38B. Root sourcehash/count/
+codehash/constructor-copybranch identity/strictJSON/sourceauth; spans/byte_at
+64B, no rawoverlay. EvidenceConstructorBoundvsOrdinaryTaskArgument explicit;
+40D89Enotdirectliteral/immutablecommandinitproof. ExistingCatalog74body and
+productionrevision/extraction/owner pipelineunchanged, onlypubmoddeclaration;
+frontendonlynewtestcfgdeclaration. Newmodule+newmodeltest, no otherimpldelta.
+FirstWindowsfrontendbuild15057warning-free/frozen91be83949bd4a9210f06836266eded416b6b4d27da26dd619c8854c0b0a873c0.
+FirstexactWine97794PASS onefilter:2lists10objects/64B/2spans/sourceedges/14guards/
+strictcoherent-unknownJSONroundtrip,6originalpaths (ROM1500/170C/copiedRAM65A8
+perasset), model-predictedwholebuffer/matrixpadding/callee/SP/fullRAMoutside
+output-cursor-stack/OAM-VRAM-palette exact. Originalcopiedbytes usedas auth
+in-memorysetup, no originalcopierexecution/checkpoint/newfixture/navigation.
+No old74/ABI/source/model/runtime/CLI/scenes acceptance replay or perfmeasure.
+PrivatecanonicalmodelSHA4530552b2209f51bed67a0cedf5e5b66fc78f9a83f7abc0ef8c80636551c0a03.
+75selectedinput-retainedartifacthash-mtimeguards/compiledsources exact. Accepted
+e71datasetall66files/65resources/old74lists175objects1198B andUSA8-7 unchanged.
+No managedpublication/newowner/revision/newordinaryequivalenceclaim. Required
+artifactcompletehelper0paths. Source10parameterB/lower452B remainseparate.
+Record docs/changes/2026-10-26-model-european-observed-indirect-obj-lists.json;
+feature docs/rom_data_obj.md#isolated-typed-model-for-the-two-observed-indirect-lists.
+Evidence target/rom-data-observed-obj-lists-model/{independent-model.json,
+windows-model-build.json,windows-model-result.json,windows-model-europe/decoded.json,
+windows-model-europe/result.json,preservation-result.json,artifact-cleanup.json,
+final-summary.json}. Memoryrender/default/basee2a1d37/metadata-only/
+newmodulesrustfmt/CRLFwhitespace PASS. No livejobs, goalactive/incomplete;
+Linux/USA/nativeWindows/new32:9 pending.
+
+**ROMDATA-03-OBSERVED-OBJ-LISTS-RUNTIME closed/PASS (2026-10-26).**
+Latest fullTODO/EUR/Wine-only/no performance-space/copy authorization persists.
+Prior source01/model02/old74/ABI/copier/collector/scene children stay closed.
+e72-d71 merges two observed roots into existing OBJ resource:76lists/185objects/
+1262B;126direct refs/66files65resources/dimension dependency/all74oldlists/all64
+other files-records/e71 retained, USA8-7 unchanged. Only4production/hub edits and
+newfocusedruntime test (earlier model files untouched). Candidatepage40D added.
+First Windows frontend build warning-free/frozen de7fc57cb2e8488d35cc5879caea3db09ea7c9e02d94b1d999991b7780fdcd55;
+first exact Wine managed/native filters PASS.12attachguards/publication/repair/
+move/lifecycle and six original/interpreter/native fullstate-clock paths with
+64rawB altered; sixSWI-DMA/sixhost, boundaries/mirrors/BIOS and API old2-new2/
+editedraw2-new2 pass.5571instructions/2418dispatch coverage only,265compiledB.
+RAM copied code reused as authenticated setup, no copier or model replay.
+Independent dataset8181591e6b23b7285bc42ecd05b7b356016564840b2fdf918ebe0e1d8e55d9cb,
+manifesta353c63941e5a02797873613d41f67df99631e2f4baac93e2167d2943b3df668,
+OBJ9e7d8a492f09164cd2605782528ad038a4d6c0ca25fecdcefb00f6e0621d430f;
+accepted model exact/all76source hashes/all64other records-files exact.
+77selectedinput-frozen hash/mtime guards/compiled sources exact. Requiredlocal
+artifact completion retires2disposable interrupted/moved copies; acceptedoffline
+and evidence/currentexe retained. No newfixture/navigation/measurement or old
+acceptance replay. Record docs/changes/2026-10-26-consume-european-observed-indirect-obj-lists.json;
+feature docs/rom_data_obj.md#managed-observed-indirect-lists-and-typed-consumption.
+Evidence target/rom-data-observed-obj-lists-runtime/{windows-runtime-build.json,
+windows-managed-result.json,windows-native-result.json,windows-managed-europe/
+{managed-result.json,lifecycle-result.json,native-result.json,offline dataset},
+preservation-result.json,artifact-cleanup.json,final-summary.json}. Finalmaps425
+sources/143activeguards. Memoryrender/default/basee2a1d37/newtestrustfmt/CRLF
+whitespace PASS; no live unit jobs. ActualCLI04 and ordinary05 are now closed
+below; ten parameterB/lower452B separate. Fullgoal active,
+Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.
+
+
+**ROMDATA-04-OBSERVED-OBJ-LISTS-ACTUAL-CLI closed/PASS (2026-10-26).**
+FullTODO/EUR/Wine-only/no performance-space/copy authorization unchanged.
+Source01/model02/runtime03/oldproducerargument/e71CLI/oldscene proofs stay closed.
+First Windowsproductionbuild warning-free/frozenCLI c6d674d76f5ae96cb62882580f8cd43a5f2245810709992e30c0990404ef2caf.
+Canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720/
+mtime1792570130397888519 restored exactly, maincontent unchanged/Cargo mtimeonly.
+Three first actual WineCLI calls from unrelatedcwd PASS create/reuse-no-write/
+existingF09oneframe/cache/input16:9.66generation68managed/all66accepted/65res/
+76OBJspans1262B/dimensiondep; allmanagedhashes-mtimes unchanged onreuse.
+Bothnew00394f4c/0040d89e guest=true host=true. AggregateOBJ147reads147B/14countB/
+133attributeB/12host reads. Positiveuse only, not ordinaryfullstate equivalence.
+143actualCLI input-output-frozen guards/implementation/canonical/originals exact.
+Acceptednewdataset target/rom-data-observed-obj-lists-cli/windows-cli/resources/
+8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e72-d71/
+generation-iG1vhI. Same8181591e..dataset/a353c639..manifest/9e7d8a49..OBJ as03.
+Requiredartifactcomplete0paths. No source/model/runtime/oldproducerargument/
+scene replay/newfixture/navigation/performance/space campaign.
+Same record docs/changes/2026-10-26-consume-european-observed-indirect-obj-lists.json
+extended; feature docs/rom_data_obj.md#actual-cli-for-the-observed-indirect-lists.
+Evidence target/rom-data-observed-obj-lists-cli/{windows-build.json,
+windows-cli-summary.json,windows-cli-no-write.json,preservation-result.json,
+artifact-cleanup.json,final-summary.json}. Final425source/143guard maps.
+Memoryrender/default/basee2a1d37/CRLFwhitespace PASS; no live unit jobs.
+Boundedordinary05 is now closed below; no oldscene replay/navigation/newfixture.
+Ten parameterB/lower452B separate; fullgoalactive,
+Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.
+
+
+**ROMDATA-05-OBSERVED-OBJ-LISTS-ORDINARY closed/PASS (2026-10-26).**
+FullTODO/EUR/Wine-only/no performance-space/copyauthorization unchanged.
+Only exactfive-line optional newboth-source guest-host positiveguard/report in
+validation_tests.rs, genericloop unchanged/preimageverified. Firstfrontendbuild
+warning-free/frozen810e19a324313356200715f32bbe35a63ed58af4d4c5b41fd287b2b24a9a22f9.
+One first exactWine F09oneframe8476→8477/currentactualCLI66dataset/originalstate-
+input-cache16:9 fullpair PASS: fullstateclock/central-wide capturedbuffers/OAM/
+dispatch/mixed-PSG-FIFO-HLEbitexact, bothnew394F4C/40D89Eguest-host required.
+Actualfiveaudio counts[2196,2196,264,264,2120];6803native/22849fallback coverageonly.
+AggregateOBJ147reads147B/14countB/133attributeB/12host exactlymatchesCLI04.
+75selectedinput-frozen hash-mtimeguards/otherimplementation/originals/canonical/
+currentdataset exact. Requiredartifactcomplete0paths. No old12/3530scene/source/
+model/runtime/CLI/producerargument replay/newfixture/navigation/measurements.
+Same docs/changes/2026-10-26-consume-european-observed-indirect-obj-lists.json
+extended; docs/rom_data_obj.md#ordinary-first-frame-equivalence-for-the-observed-lists.
+Evidence target/rom-data-observed-obj-lists-ordinary/{windows-scene-build.json,
+windows-scene-result.json,validation-tests-before.rs,preservation-result.json,
+artifact-cleanup.json,final-summary.json}. Final425source/75guard maps.
+Memoryrender/default/basee2a1d37/CRLFwhitespace PASS; no live unit jobs.
+All five bounded two-list children01/02/03/04/05 closed. Scopeoneframe only,
+broaderordinary/indirect/wholearchive/composedGUI/fullABI/new32:9 notclaimed.
+The next selected parameter model is now closed below. Lower452B separate;
+fullgoal active, Linux/USA/nativeWindows pending, no assistantcommit/push/package.
+
+
+**ROMDATA-02-OBSERVED-TASK-PARAMETERS-MODEL closed/PASS (2026-10-26).**
+Latest fullTODO/EUR/Wine-only/no performance-space/copyauthorization persists.
+New public observed_task_parameters::{Catalog,ObservedTaskParameters,
+PhaseThresholds,VerticalCorrections}: twoindependent fragments10B. Phase1/2
+thresholdsu8 at371065..67(SHA0b57459772db2f3f6986a135824545af8690c536a865454c3c664767dc2b73f0);
+correctionindices4..7signed16 at394E14..1C(SHA13f75c7ff789108645b9fc6e662298dd306b4175d247e4b7da985b5bea8f0f9d).
+Explicitindices/sourceidentity/strictJSON/losslessbyteprojection/codewindow-literal-
+sourceauth/coherentedit rejection. Phase0/otherphases remainoutside, correction
+0..3 oldbytepropertyowner/8..127outside; no globalcap/wholeextent/durationunits.
+FirstWindowsfrontendbuild warning-free/frozen8ce94211f4b4469de4e5a0471eb09969ede481ddf6de998d6cb157985aba8122;
+firstexactWine13805 PASS10B/twospans/27guards/18originalprefix cases: tenphase1/2
+oldcounter0/7/8/9/65535 tests(storeincrement thenOLDcompare/advance-wrap-reset),
+eighttaskbytes8..15(lowbit aliases/signedload/projectedr2 subtraction). Expected
+fullEWRAM effects/allotherRAM/OAM-VRAM-palette/callee-control bits exact.
+CanonicalmodelSHA4b52c5f12f7633de0b1f790c5182ec5a727150a9460eb358eac3f41374788618.
+79selectedinput-frozen hash-mtimeguards/compiledsources exact. Onlytwo hubmodule
+declarations, productionpipeline/e72-d71/66files65resources/current76OBJlists/
+USA8-7 unchanged. New10B disjoint all65owners, notyetpublished. Requiredartifact
+completion0paths. No source-dis/295pin/oldsource-model-ABI-runtime-CLI-scenecheck
+replay/newfixture/navigation/performance-storage campaign. Lower452B separate.
+Record docs/changes/2026-10-26-model-european-observed-task-parameters.json;
+feature docs/rom_data_gameplay.md#isolated-model-for-observed-task-parameter-fragments.
+Evidence target/rom-data-observed-task-parameters-model/{independent-model.json,
+windows-model-build.json,windows-model-result.json,windows-model-europe/
+{decoded.json,result.json},preservation-result.json,artifact-cleanup.json,
+final-summary.json}. Finalmaps428sources/82activeguards.
+Memoryrender/default/basee2a1d37/newmodulesrustfmt/CRLFwhitespace PASS; no livejobs. Next missing03managedpublication/
+typedruntime for these two parameter kinds, then actualCLI/ordinary. Do not
+reopen model/source or prior two-list01..05 children. Fullgoalactive/incomplete;
+Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.

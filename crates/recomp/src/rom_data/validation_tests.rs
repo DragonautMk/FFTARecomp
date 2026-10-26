@@ -300,6 +300,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_EXTRA_OBJ_SCENE frames={frames} guest_and_host_sources={touched:x?}");
         assert!(!touched.is_empty(), "this scene must consume a newly added OBJ list through guest and host readers");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBSERVED_OBJ_LISTS").is_some() {
+        let resources = decoded.bus.rom_resources().unwrap();
+        assert!([0x394f4c, 0x40d89e].into_iter().all(|at| resources.obj_list_source_used(at) == Some((true, true))), "this scene must consume both observed OBJ lists through guest and host readers");
+        eprintln!("ROM_DATA_OBSERVED_OBJ_SCENE frames={frames} sources=00394f4c,0040d89e guest=true host=true");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_PROPERTY_OBJ_LIST").is_some() {
         let used = decoded.bus.rom_resources().unwrap().obj_list_source_used(0x3950a4);
         assert_eq!(used, Some((true, true)), "this scene must consume the new UI property OBJ list through guest and host readers");

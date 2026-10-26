@@ -69,6 +69,7 @@ pub mod unit_obj_script_registry_generic;
 pub mod unit_obj_property_words;
 pub mod unit_obj_ffff_reader_fields;
 pub mod slot_job_lookup;
+pub mod observed_task_parameters;
 pub mod unit_obj_byte_property_words;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;
@@ -76,8 +77,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 71;
-pub const DECODER_REV: u32 = 70;
+pub const EXTRACTOR_REV: u32 = 72;
+pub const DECODER_REV: u32 = 71;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";

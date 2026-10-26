@@ -122,6 +122,10 @@ mod obj_extra_tests;
 #[cfg(test)]
 mod obj_ui_property_tests;
 #[cfg(test)]
+mod observed_obj_lists_model_tests;
+#[cfg(test)]
+mod observed_obj_lists_runtime_tests;
+#[cfg(test)]
 mod obj_animation_tests;
 #[cfg(test)]
 mod obj_zero_count_tests;
@@ -233,6 +237,8 @@ mod unit_obj_byte_property_words_model_tests;
 mod unit_obj_ffff_reader_fields_model_tests;
 #[cfg(test)]
 mod slot_job_lookup_model_tests;
+#[cfg(test)]
+mod observed_task_parameters_model_tests;
 #[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]

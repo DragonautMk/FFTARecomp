@@ -55,6 +55,55 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-26-model-european-slot-job-lookup.json)
 
+## 2026-10-26 — Model the European observed task parameter fragments
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add an isolated observed_task_parameters API with independent unsigned phase-threshold and signed vertical-correction fragments, explicit source identities/indices and lossless10byte/two-span projection. Authenticate existing reader windows/literals and source hashes; strict JSON/source verification rejects malformed or coherently edited models.
+- Keep phase0/other phase bytes, previous correction indices0..3 and queries8..127 outside the observed model, preserving earlier-owner/raw contracts. Infer no global guest cap, physical table extent, duration units or new task/allocator ABI. Production pipeline/revisions remain unchanged; existing hubs only declare new modules.
+
+**Validation**
+
+- First Windows frontend build succeeds without diagnostics; frozen8ce94211f4b4469de4e5a0471eb09969ede481ddf6de998d6cb157985aba8122. One first exact Winefilter passes independent fields/all10source bytes/two spans/boundaries/strict JSON/negative-signed roundtrip and27structural/coherent/unknown-field/range/source/truncation guards.
+- Eighteen original prefix cases pass: phase1/2 with oldcounter0/7/8/9/65535 verify store-increment then OLD-u16compare/phasewrap/counterreset; task bytes8..15 verify low-bit alias/source address/signed16 load/subtraction into projectedr2. Expected fullEWRAM effects, allotherRAM, OAM/VRAM/palette and preserved registers/control bits agree.
+- Canonical private model4b52c5f12f7633de0b1f790c5182ec5a727150a9460eb358eac3f41374788618.79selected input/frozen hash-mtime guards and compiled implementations exact. Two existing hubs differ only by declarations; accepted current66files/65resources/76OBJlists/e72-d71 andUSA8-7 unchanged, tennew bytes disjoint allcurrent owners.
+- Required artifact completion retires zero paths. No source-disassembly/295pin/oldABI/two-list/model/runtime/CLI/scene acceptance replay, new checkpoint/navigation or performance/storage campaign.
+
+**Limitations**
+
+- Isolated model only; new managed publication, typed runtime, actual production CLI and ordinary new-owner equivalence remain pending. Phase0 and all unobserved indices remain outside the bounded fragments; no complete physical-table/whole-game/task ABI claim.
+- Lower452audit bytes remain separate;16control bytes retain ROM/code dependency. Linux/USA/nativeWindows/new32:9 pending. No Android/package/assistantcommit/push; full ROM_DATA_TODO active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-model-european-observed-task-parameters.json)
+
+## 2026-10-26 — Model two European observed indirect OBJ lists
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add an isolated observed-list model for two authenticated EUR ROM sources,64B/10objects, reusing existing lossless OBJ fields. Preserve explicit constructor-bound versus ordinary-task-argument evidence and strict source/code/count/format identity without changing the current direct catalog or dataset revisions.
+
+**Validation**
+
+- One Windows frontend build succeeds without diagnostics. One first Wine filter passes independent10object expectations, all64reconstructed source bytes/two spans/boundaries, strict JSON roundtrip and14structural/coherent/source/unknown-field guards.
+- Six new original reader paths (ROM1500,ROM170C,copiedRAM030065A8 for each asset) match model-predicted complete output buffers, including matrix/padding words. Stack/callee and fullRAM outside output/cursor/stack, plus OAM/VRAM/palette guards, pass. Reuse authenticated copied-code bytes as in-memory setup, without executing the old copier or replaying old74-list/ABI/scene oracles.
+- Canonical private model JSON SHA2564530552b2209f51bed67a0cedf5e5b66fc78f9a83f7abc0ef8c80636551c0a03.75selected input/retained-artifact hash-mtime guards and compiled sources remain exact; hubs differ only by two module declarations.
+- Old productionCatalog74lists/175objects1198B, extraction/owner path, e71-d70/66files65resources/USA8-7 and all66accepted dataset files remain unchanged. Required artifact completion helper succeeds with zero disposable paths. No new checkpoint/navigation/performance/storage campaign.
+
+**Limitations**
+
+- Source-model step only; new managed publication, typed runtime consumption, actual production CLI and ordinary new-owner equivalence remain pending. No complete indirect archive, all-selector/caller or immutable command initializer claim.
+- The observed40D89Eargument is not modeled as a direct literal.10parameter bytes and452lower source bytes are separate; Linux/USA/nativeWindows/new32:9 remain pending.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-model-european-observed-indirect-obj-lists.json)
+
 ## 2026-10-26 — Model European FFFF numeric OBJ reader fields losslessly
 
 Type: added. Platforms: Windows.
@@ -589,6 +638,39 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-26-consume-european-registry-generic-poses.json)
 
+## 2026-10-26 — Publish and consume two European observed indirect OBJ lists
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Merge the two authenticated observed roots into graphics.obj-static-lists in EUR e72-d71:76lists/185objects/1262source bytes, retaining126direct references, all74prior lists, all64other files/records,66generation files/65resources, the dimension dependency and e71. Preserve indirect provenance and USA8-7.
+- Extend existing typed OBJ candidate-page routing with40D. Reuse source-authenticated typed fields, guest/host handlers and old-owner/raw composition without changing guest ABI, mutable state or save format.
+- Verify actual e72production CLI create/no-write reuse and one authentic F09frame with the existing native cache; both newly owned source identities are positive through guest and host. Preserve canonical executable hash/mtime and implementation content.
+- Add five optional positive-guard/report lines to the generic scene validator, requiring both new OBJ source identities through guest and host. Close the bounded ordinary child with one firstF09frame, using existing original checkpoint/input/cache and current actualCLI dataset.
+
+**Validation**
+
+- First affected Windows frontend build succeeds without diagnostics; frozen executable de7fc57cb2e8488d35cc5879caea3db09ea7c9e02d94b1d999991b7780fdcd55. Two first exact Wine filters pass; no old source/model/copier/74-list/scene acceptance replay.
+- Managed publication interruption/create/reuse/repair/move and12transactional attach guards pass. Coherent edits/omissions of either new list, bad source plans/hashes/revisions/dependencies preserve the active owner and complete guest state. Directory-unavailable Load/Undo/backup/restart retains owner and positive use of both sources.
+- All64new raw bytes altered: six original/interpreter/native paths (ROM1500/170C and copiedIWRAM030065A8 per asset) pass complete-state/clock equality. Native API serves265typed bytes;5571original instructions/2418native dispatches are coverage only. Both edges/all widths/three mirrors/real-BIOS bus and six DMA/CpuSet/FastSet transfers pass. Mixed API2old+2new and2editedraw+2new pass; six host decode/publication checks match.
+- Independent identity/file/source checks pass: dataset8181591e6b23b7285bc42ecd05b7b356016564840b2fdf918ebe0e1d8e55d9cb, manifesta353c63941e5a02797873613d41f67df99631e2f4baac93e2167d2943b3df668, OBJ9e7d8a492f09164cd2605782528ad038a4d6c0ca25fecdcefb00f6e0621d430f. Accepted isolated model exact, all76source hashes/64other resource files-records exact;77selected input/frozen guards and compiled implementations preserved.
+- Required local artifact completion retires only interrupted/moved copies, preserving accepted offline dataset, current executable, source preimages and logs/results. No new checkpoint/navigation/performance/storage-budget campaign.
+- First affected Windows production build passes without warnings, frozen c6d674d76f5ae96cb62882580f8cd43a5f2245810709992e30c0990404ef2caf. Canonical f3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720/mtime1792570130397888519 restored exactly; main content unchanged with mtime-only Cargo invalidation.
+- Three first actual WineCLI commands from unrelated cwd pass create/reuse/oldcache-oneframe:66generation/68managed files/65resources/76OBJspans/dimension dependency, all66files match accepted runtime dataset. Reuse preserves every managed hash/mtime. ExistingF09state/input/16:9 yield guest=true host=true for both00394f4c and0040d89e. Aggregate147OBJbus reads/147sourceB/14countB/133attributeB/12host reads; positive use only, ordinary full-state equivalence remains pending.
+- All143actual CLI input/output/frozen guards and implementation content stay exact. Completion helper retires zero paths. No old source/model/runtime/producerargument/scene oracle, fixture/navigation or performance/storage campaign replay.
+- First affected Windows frontend test build passes without diagnostics, frozen810e19a324313356200715f32bbe35a63ed58af4d4c5b41fd287b2b24a9a22f9. One first exact Winefilter passes F09frame8476to8477: complete state/guest clock, central/wide captured buffers, OAM, native/fallback dispatch and mixed/PSG/FIFO/HLE-bitwise audio agree. Bothnew sources guest=true/host=true are required. Allfive audio streams contain samples[2196,2196,264,264,2120].6803native/22849fallback dispatches describe coverage only.
+- New pair aggregateOBJ147reads/147sourceB/14countB/133attributeB/12hostreads exactly matches the positive CLI frame. All75selected input/frozen guards and original state/input/cache/currentCLI66dataset/canonical remain exact. Exact five-line validator delta verified against retained preimage; all other implementation unchanged. Artifact completion helper retires zero paths. No old scene/model/runtime/CLI/source proof, fixture/navigation or performance campaign replay.
+
+**Limitations**
+
+- Source/model/managed/runtime/actualproductionCLI and the declared ordinary firstF09frame child closed. Coverage is bounded to that frame; broader scenes/indirect sources remain open. No complete archive, immutable command initializer, allocator/constructor ABI, final composed GUI or whole-game coverage claim.
+- Ten parameter bytes and452lower audit bytes remain separate. Linux/USA/nativeWindows/new32:9 remain pending; no Android/package/assistant commit/push. Full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-observed-indirect-obj-lists.json)
+
 ## 2026-10-26 — Publish and consume European FFFF numeric reader fields
 
 Type: added. Platforms: Windows.
@@ -749,6 +831,31 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-authenticate-european-registry-job-redirects.json)
+
+## 2026-10-26 — Authenticate European observed indirect OBJ lists and parameter readers
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish scoped source contracts for90new high-offset bus/host ROM bytes: two ordinary indirect OBJ lists64B, timing/signed correction parameters10B and IWRAM control pointers16B. Preserve original ROM dependencies and pending model/runtime work.
+
+**Validation**
+
+- Static exact EUR295window halfwords/53semantic pins/7literals/copy arithmetic/original branch targets and two reused original-reader ABI hashes pass. Original0924E8 CpuSet maps3648B D968E8..D97728to03005F28..03006D68, establishing constructor03006B6D sourceD9752C rather than guessed adjacency. Empty ROM-only RAM-address disassembly explicitly rejected.
+- One new Wine producer-argument frame from existing F09 state/input with retained e71 CLI/cache/dataset positively records394F4C at030065A8/LR08092469 and40D89E at08001500/LR08001DBD, with ten object rows. The first constructor stores source at instance+158; the second caller forwards live task+24 through02E36C/01D28. No old observer/resource-equivalence or ABI oracle replay.
+- After original reader/argument proof, count4/6 and26/38Bextents match prior host requests; both lists are disjoint from all65owners. Four new signed correction words index4..7 from a byte>>1originaldomain0..127; timing phases1/2 witness raw thresholds compared to OLDcounter, without inventing durations or a prelookup3cap.
+- All actual selected input hash/mtime guards pass. No source implementation/build/new checkpoint/navigation/performance/storage campaign; e71-d70/66files65resources/USA8-7 unchanged.
+
+**Limitations**
+
+- Two lists64B and parameter bytes10B remain to be modeled/published/consumed from managed files. Control16B remain original ROM/code support; lower452new bytes from the audit are separate.
+- The40D89Eordinary live pointer is not an immutable direct literal or a reconstructed command initializer. No complete indirect archive, whole physical tables, all-use/caller graph, fullallocator/tree/scheduler/callback ABI or global input caps inferred.
+- Linux/USA/nativeWindows/new32:9 pending; full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-authenticate-european-observed-obj-lists-and-parameters.json)
 
 ## 2026-10-26 — Decode European UI byte property words with original caller validation
 

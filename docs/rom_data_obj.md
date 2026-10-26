@@ -870,3 +870,190 @@ and native Windows remain pending. No source/model/runtime/oldscene oracle,
 benchmark, startup/RSS or storage campaign is repeated. The selected worker has
 no host timing or residency calls. Evidence:
 `target/rom-data-ui-property-obj-lists-human-animation/`.
+
+
+## Observed indirect OBJ list sources beyond the direct catalog
+
+The feature-gated bus/host audit identified two ROM ranges not owned by the
+then-current74-list catalog. A separate, single Wine frame from the existing F09
+checkpoint/input used the retained e71 CLI/cache/dataset with producer logging.
+This new criterion records original list/PC/LR arguments; it is not a repeat of
+closed observer or resource-equivalence acceptance. It positively identifies:
+
+- Source394F4C,26B/four objects, at verified copied reader030065A8,
+  LR08092469. Original026464loads the source pointer from026524 into r1;
+  026468branches through397F9C/145C10/BXr2. The callback03006B6D is supplied by
+  original0924E8 CpuSet: D968E8..D97728→03005F28..03006D68,3648B. Its ROM body
+  D9752C stores r1 at instance+158. The render path reads the active pointer at
+  instance+154 and branches via397F90/145C18/BXr4 to030065A8. Full allocator,
+  pending-to-active tree and callback ABI are not inferred from this bridge.
+- Source40D89E,38B/six objects, at original08001500, LR08001DBD. Its caller
+  02E324 takes a live pointer from task+24, passes it through02E36C/01D28 to
+  the original draw ABI. There is no exact absolute ROM pointer word for this
+  source. The actual ordinary argument proves the bounded source identity;
+  immutable command/initial-producer provenance and all other selectors remain
+  separate. It must not be represented as a newly discovered direct literal.
+
+The existing original readers' exact ROM hashes match their closed ABI proofs.
+The copied reader explicitly combines the two count bytes, accepts positive
+signed counts, starts records at+2 and steps6bytes. The new frame logs exactly
+ten object rows across the two calls. After reader/argument authentication,
+headers4/6 and the64B total source extents match the earlier successful raw
+host requests. All attributes fit the existing lossless OBJ model. Both spans
+are disjoint from every current65owner; their concatenated/individual bytes are
+still read from the original image, not a new published dataset.
+
+Static source validation checks295window halfwords,53semantic pins,7literals,
+copy arithmetic and original branch targets, alongside the two reused reader
+hashes. A ROM-only disassembly attempt at03006B6C produced an empty file and is
+explicitly rejected; it is not RAM source evidence. The correct mapping follows
+the authenticated copier, rather than code adjacency or a guessed relocation.
+
+The same90B audit also supplies two timing threshold bytes, four signed vertical
+correction words and four IWRAM control pointers; their scoped contracts are in
+[the runtime residue notes](rom_data_runtime.md#high-bus-and-host-residue-source-contracts).
+No decoder/model/runtime/revision changes occur in this source step: e71-d70,
+66generation files/65resources and USAe8-d7 remain. Publication of these two
+observed indirect lists (and separate parameter work) is pending. This is not
+a complete OBJ archive or ordinary coverage of every list. Linux/USA/native
+Windows/new32:9 remain pending; no build, new fixture, navigation, performance
+or storage-budget campaign. Local evidence: `target/rom-data-bus-host-high-residue/`.
+
+
+## Isolated typed model for the two observed indirect lists
+
+`obj_lists::observed` now models exactly394F4C/26B/four objects and40D89E/38B/six
+objects, reusing the established lossless `List`/`Object` fields. Its separate
+`ObservedLists` type validates the two ordered source identities, canonical
+counts, field widths and available shapes; source spans/byte projection restore
+all64bytes. Strict JSON rejects unknown fields and malformed input, and exact
+EUR source verification rejects coherent model edits. Root metadata explicitly
+distinguishes constructor-bound evidence from an ordinary task argument. It
+neither invents a direct literal for40D89E nor proves that command initializer.
+
+The source builder authenticates the original reader code hashes, constructor
+bridge/copy literals, branch targets and per-list source hashes. The existing
+74-list `Catalog` body and publication path are unchanged. No new file is
+published, owner attached or revision advanced in this model phase: accepted
+e71-d70still contains66files/65resources and the original74lists/175objects/
+1198source bytes. Managed integration of the two additional lists is next.
+
+One Windows frontend model-test build succeeded without diagnostics. One Wine
+filter passed on its first execution: independent10object field expectations,
+all64reconstructed bytes/two spans/boundaries, strict JSON roundtrip,14structural/
+coherent/source/unknown-field guards, and six new original reader paths. Each
+asset runs through ROM1500,ROM170C and copiedRAM030065A8; model-driven output
+matches complete destination buffers including untouched matrix/padding words.
+Callee registers, stack restoration and all RAM outside declared output/cursor/
+stack areas, plus hardware OAM/VRAM/palette guards, pass. The copied-code bytes
+are authenticated in-memory test setup; the old copier,74-list oracles, producer
+frame, runtime and scene acceptances are not rerun. No new game checkpoint or
+navigation is involved. This is source-model/original-reader coverage, not full
+managed/native/ordinary-scene equivalence or a complete OBJ archive.
+
+Canonical private model JSON SHA-256:
+`4530552b2209f51bed67a0cedf5e5b66fc78f9a83f7abc0ef8c80636551c0a03`.
+All75selected input/retained-artifact hash/mtime guards and compiled sources
+remain exact. Existing hubs differ only by two module declarations; normal
+extraction, revisions and all66accepted dataset files remain unchanged. Required
+local-artifact completion finds zero disposable paths. Linux, USA, native
+Windows, new32:9, managed publication/consumption and ordinary new-owner use
+remain pending. No performance or storage-budget measurement. Local results:
+`target/rom-data-observed-obj-lists-model/`.
+
+
+## Managed observed indirect lists and typed consumption
+
+EUR e72-d71 merges the two authenticated observed lists into the existing
+`graphics.obj-static-lists` resource: 76 lists, 185 objects and 1262 source bytes.
+The 126 direct literal references remain unchanged; the two indirect identities
+retain their separate constructor/task-argument provenance. There are still
+66 generation files and 65 resources, with the same dimension dependency. All
+74 earlier lists, the other 64 resource records/files and the e71 generation are
+retained. USA remains e8-d7. The existing typed owner serves the two additional
+spans; candidate-page routing adds40D without widening either source interval.
+
+One warning-free Windows frontend build and two focused Wine filters validate
+this integration. Managed checks cover interrupted publication, create/reuse,
+repair of damaged/missing OBJ data, relocation and 12 transactional attach guards.
+Coherent attribute edits in either new list, omitted identities, bad source
+plans/hashes and revision/dependency failures preserve the active owner and
+complete guest state. Load/Undo/backup/restart retain the owner after its
+temporary dataset directory becomes unavailable.
+
+With all 64 new raw ROM bytes altered, six original/interpreter/native paths
+(two ROM draw entries and copied IWRAM030065A8 per list) have equal complete
+Machine states and guest clocks. The copied code is authenticated in-memory
+setup; copier/constructor/source proofs are reused without replay. The original
+5571 instructions and 2418 native dispatches describe coverage only; native API
+reads serve 265 typed source bytes. Both span edges, widths1/2/4, three mirrors
+and real-BIOS bus selection pass. DMA, CpuSet and FastSet pass for each source,
+including neighbouring previous-owner and raw bytes. One native API read
+combines two old-list bytes with two new-list bytes; another combines two edited
+raw bytes with the second new list. Six host decode/publication checks also
+agree, using each original reader's output.
+
+The accepted file exactly matches the earlier isolated model. Dataset identity
+is8181591e6b23b7285bc42ecd05b7b356016564840b2fdf918ebe0e1d8e55d9cb;
+manifest SHA256a353c63941e5a02797873613d41f67df99631e2f4baac93e2167d2943b3df668;
+OBJ file SHA2569e7d8a492f09164cd2605782528ad038a4d6c0ca25fecdcefb00f6e0621d430f.
+All 77 selected input/frozen-executable guards and compiled implementations stay
+exact. The required completion helper retires only interrupted/moved fixture
+copies, retaining the accepted offline dataset and result/log/source evidence.
+
+Actual production CLI validation and the bounded ordinary first-frame comparison
+are now closed as described below. The old source/model/74-list oracles and
+completed scenes are not replayed.
+No new fixture/navigation or performance/storage measurements occur. The ten
+parameter bytes and 452 lower audit bytes remain separate. Linux, USA, native
+Windows and new32:9 are still unverified. Local evidence:
+`target/rom-data-observed-obj-lists-runtime/`.
+
+
+## Actual CLI for the observed indirect lists
+
+The first e72 production Windows build passes without warnings. Its retained
+CLI hash isc6d674d76f5ae96cb62882580f8cd43a5f2245810709992e30c0990404ef2caf;
+the canonical executable's original hash/mtime are restored exactly. Only main
+source mtime changes to invalidate Cargo after restoration; content is unchanged.
+
+Three actual Wine commands from an unrelated directory pass dataset creation,
+reuse and a single authentic F09 frame using its existing input/native cache at
+16:9. All 66 generation files match the accepted runtime dataset, with 68 managed
+files, 65 resources, 76 OBJ spans and the same dimension dependency. Reuse leaves
+all managed file hashes and mtimes unchanged. Both00394f4c and0040d89e report
+guest=true and host=true. Aggregate OBJ use is147bus reads/147source bytes,
+14count bytes/133attribute bytes/12host reads. This establishes use; the bounded
+ordinary complete-state comparison is recorded below. All143selected CLI input/output and
+frozen-executable guards, implementation content, original state/input/cache and
+canonical binary remain exact. Completion helper retires zero paths.
+No producer logging, old acceptance, new fixture/navigation or performance/storage
+campaign is repeated. Evidence: `target/rom-data-observed-obj-lists-cli/`.
+
+
+## Ordinary first-frame equivalence for the observed lists
+
+The declared ordinary child uses just the first F09 frame, guest8476→8477,
+because the actual CLI already positively locates both new lists in that bound.
+Only five optional guard/report lines are added to the existing generic scene
+validator, requiring guest and host use for both394F4C and40D89E. The first
+changed Windows frontend build passes without diagnostics; its frozen hash
+is810e19a324313356200715f32bbe35a63ed58af4d4c5b41fd287b2b24a9a22f9.
+
+One exact Wine filter using the actual e72 CLI dataset, existing original
+checkpoint/input/cache and16:9 passes the complete serialized state and guest
+clock, central/wide captured buffers, OAM, native/fallback dispatch and every
+mixed/PSG/FIFO/bitwise-HLE audio sample. All five streams have actual samples:
+`[2196, 2196, 264, 264, 2120]`. Both source-use guards pass. Aggregate OBJ use
+exactly matches the CLI:147reads/147source bytes/14count bytes/133attribute bytes/
+12host reads.6803native and22849fallback dispatches describe coverage only.
+All75selected input/frozen-executable guards remain exact. The retained preimage
+confirms the exact five-line validator addition and no other implementation
+change. Required artifact completion retires zero paths.
+
+Source/model/publication/runtime/actual CLI and this declared ordinary child
+are closed. The proof is bounded to one frame; broader scenes, indirect sources,
+final composed GUI, full actor/allocator ABI and new32:9 remain open. Prior12/
+3530frame acceptances are not replayed. Linux/USA/native Windows remain pending;
+there is no new fixture/navigation or performance/storage campaign. Evidence:
+`target/rom-data-observed-obj-lists-ordinary/`.

@@ -1369,3 +1369,61 @@ input and canonical executable are unchanged. e71-d70/65resources/USAe8-d7 remai
 no new fixture, navigation, previous acceptance replay or performance/storage
 campaign. New Linux/USA/native Windows/new32:9 remain pending. Local results:
 `target/rom-data-host-rom-read-residue/`.
+
+
+## High bus and host residue source contracts
+
+All90new high-offset bytes from the F09 bus/host audit have scoped original
+reader contracts.64B are two [ordinary indirect OBJ lists](rom_data_obj.md#observed-indirect-obj-list-sources-beyond-the-direct-catalog)
+whose later model, publication and bounded ordinary validation are closed
+below. The remaining bytes are:
+
+- Timing thresholds at371065/66, witnessed by018DDA. The source base is371064;
+  a live phase byte indexes it before any normalization. Original code stores
+  counter+1 but compares the OLD u16counter with the u8threshold; on advance it
+  increments the phase, resets a new phase above2 to0 and clears the counter.
+  Conditional phases0..2 follow that update, not a global prelookup3cap or a
+  whole physical-table extent. Only phases1/2 were observed. Threshold bytes
+  are not converted into invented frame-duration units.
+- Four signed16corrections at394E14..1C. Original0264EC..F8 reads a byte at
+  task+7, clears its low bit for addressing and subtracts the selected signed
+  word at394E0C+2*(byte>>1) from projected r2. The original query range is0..127;
+  only new indices4..7 are declared here, following existing typed indices0..3.
+  This is no new guest cap, whole-table or all-use/dynamic-PC claim.
+- Four words at397F80/88/8C/90. Original loads branch through145C0C/10/18
+  (`BX r1/r2/r4`) to Thumb IWRAM entries. The last two select the existing
+  visibility/draw readers030062EC/030065A8. They are executable control support,
+  not pointers to exported graphics payloads. No whole vtable or full tree,
+  allocator, scheduler or callback ABI is inferred.
+
+At this source milestone, the ten parameter bytes were unmodeled and all90bytes
+were outside the e71owner plans. Later64bytes become typed OBJ lists in e72 as
+recorded below. The ten parameter bytes now have an
+[isolated typed model](rom_data_gameplay.md#isolated-model-for-observed-task-parameter-fragments),
+with27guards/18original prefixes in one Wine filter, and remain unpublished.
+The16control bytes retain their explicit original ROM/code dependency. The
+lower452new audit bytes remain separate. No resource, owner or revision was
+introduced by the source milestone. One bounded producer-argument Wine frame was
+needed to identify the64B list readers, with all selected inputs preserved;
+old collectors/Bank/F09 equivalence and ABI oracles were not rerun. Static
+disassembly is not Linux game validation. No build/new fixture/navigation or
+performance/storage measurement; Linux/USA/native Windows/new32:9 remain pending.
+
+
+## Observed indirect OBJ runtime extension
+
+The existing static-list owner now serves two additional authenticated source
+spans in EUR e72-d71, totalling 64 bytes. Its candidate pages add40D; the prior
+394 page already covers the first span. Typed field reconstruction and earlier
+owner/raw composition retain the existing handlers, counters and source-use
+tracking. No guest ABI, state schema or mutable machine fields change.
+Two Wine filters pass managed lifecycle, six full-state/clock original versus
+interpreter/native paths with raw sources altered, boundaries/mirrors/BIOS,
+six SWI/DMA transfers and six host publication checks. See the
+[OBJ integration evidence](rom_data_obj.md#managed-observed-indirect-lists-and-typed-consumption).
+Actual production CLI create/no-write reuse/oneframe old-cache attachment now
+passes, with both new source identities positive through guest and host. One
+bounded firstF09frame Wine pair now passes full state/clock/captured buffers/OAM/
+dispatch/all audio and requires both new sources. Source/model/managed/runtime/
+CLI/declaredordinary children are closed; broader scenes and Linux/USA/native
+Windows/new32:9 remain pending. Prior scene results stay closed.

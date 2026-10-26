@@ -3607,3 +3607,105 @@ confrontohash-mtime esatti, nessuna vecchia prova/fixture/navigazione/misura.
 e71-d70/USA8-7 invariati; KeyboardWidthsnonattivo/altrethread-scene/accessihost/
 fastpathHLEtipizzati fuori scope; Linux/USA/nativeWindows/new32:9 pendenti.
 [Collector, prova e limiti](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit).
+
+
+**ROMDATA-01-BUS-HOST-HIGH-RESIDUE completato per contratti sorgente EUR
+(2026-10-26).**90Bnuovi classificati:64Bdue listeOBJ indirette394F4C/26B/4oggetti e
+40D89E/38B/6oggetti;10Bparametri (2thresholdphase,4wordverticali signed);16Bpuntatori
+ThumbIWRAM di controllo.295halfwordfinestra/53pin/7literal+hashABIriusati. Copia
+originale0924E8 provaD968E8..D97728→03005F28..03006D68, costruttoreD9752C scrive
+lista+158; rawROMdis aRAMtargetvuoto rifiutato. Un solo frame Wineproducerargs
+esistenteF09 conferma2lettori/10oggetti, nessuna equivalenzavecchia ripetuta.
+40D89Eda task+24 è osservazioneindiretta, nonliteralinventato; creazionecomando
+nonricostruita. TimingconfrontaOLDcounter, fasepostupdate0..2 nonglobalcap;
+correzionequerybyte>>1 ha128possibiliindici, solo4..7nuovi qui.64Blist+10Bparametri
+ancora da modellare/pubblicare;16Bcontrollo restano dipendenzaROM/codice;452B
+lower separati. e71-d70/65owner/USA8-7 invariati, nessun build/fixture/navigazione/
+misura. Linux/USA/nativeWindows/new32:9 pendenti.
+[Liste indirette e prove](../rom_data_obj.md#observed-indirect-obj-list-sources-beyond-the-direct-catalog),
+[parametri e controllo](../rom_data_runtime.md#high-bus-and-host-residue-source-contracts).
+
+
+**ROMDATA-02-OBSERVED-OBJ-LISTS-MODEL completato per due liste EUR
+(2026-10-26).** API isolataobj_lists::observed riusaList/Object:2liste/10oggetti/
+64B, identità/count/shape/fieldwidth/JSONstrict/sourcecoerente autenticati, root
+constructor-bound distinto da ordinary-task-argument. Primo buildfrontendWindows
+senzaavvisi e un filtro Wine:64B/2span/14guardie/6percorsi originali ROM1500/170C/
+copiedRAM030065A8, output/matrici/stack/callee/RAMesterna/OAM-VRAM-palette esatti.
+JSONcanonico4530552b..;75guardieinput-artefatti e codicecompilato invariati.
+Solo2dichiarazioni nei fileesistenti; vecchioCatalog74/175oggetti1198B/e71-d70/
+66file65risorse/USA8-7 invariati. Nessuna pubblicazione/owner/revisione o prova
+ordinary da dedurre; modellochiuso, managedruntime/CLI/nuovo uso dafile ancora
+aperti. Nessun vecchio74/ABI/copier/scenecheck ripetuto, nuova fixture/navigazione/
+misura.10Bparametri e452Blower separati; Linux/USA/nativeWindows/new32:9 pendenti.
+[Modello e verifiche](../rom_data_obj.md#isolated-typed-model-for-the-two-observed-indirect-lists).
+
+
+**ROMDATA-03-OBSERVED-OBJ-LISTS-RUNTIME completato per due liste EUR
+(2026-10-26).** e72-d71 integra le due identità indirette nella risorsa OBJ
+esistente: 76 liste, 185 oggetti e 1262 byte sorgente. Restano 126 riferimenti
+diretti, 66 file/65 risorse, stessa dipendenza dimensioni, tutte le 74 liste
+precedenti, gli altri 64 file/record ed e71. USA8-7 invariata. Primo build
+Windows senza avvisi e due filtri Wine passano pubblicazione/riparazione/move,
+12 guardie di attivazione e Load/Undo/backup/restart; sei percorsi originali/
+interprete/nativo hanno stato completo e clock uguali con tutti i 64 nuovi byte
+ROM alterati. Bordi/larghezze/mirror/BIOS, sei trasferimenti DMA-CpuSet-FastSet,
+letture API 2B vecchi+2B nuovi e 2B raw modificati+2B nuovi, sei pubblicazioni
+host passano. 5571 istruzioni/2418 dispatch sono solo copertura; 265 byte typed
+serviti da API native. File esattamente uguale al modello accettato, 77 guardie
+input/eseguibile e codice compilato invariati; completamento artefatti elimina
+solo copie interrupted/moved. CLI di produzione e nuova equivalenza ordinary
+restano aperte; dieci byte parametri e 452 byte lower separati. Nessun vecchio
+modello/ABI/scena ripetuto, nuova fixture/navigazione/misura. Linux, USA, Windows
+nativo e nuovo32:9 da verificare.
+[Integrazione e prove](../rom_data_obj.md#managed-observed-indirect-lists-and-typed-consumption).
+
+
+**ROMDATA-04-OBSERVED-OBJ-LISTS-ACTUAL-CLI completato EUR (2026-10-26).**
+Primo build Windows di produzione senza avvisi; CLI separata c6d674d7..,
+eseguibile canonico hash/mtime ripristinati esattamente, contenuto main invariato
+con sola invalidazione Cargo via mtime. Tre primi comandi Wine da cwd estranea
+passano create/reuse/oldcache-oneframe: 66 file generazione/68 managed, tutti i
+66 uguali al dataset runtime, 65 risorse/76 span OBJ/dipendenza dimensioni.
+Riuso senza modifiche hash/mtime. F09/input/cache originali a16:9: entrambe le
+nuove liste00394f4c/0040d89e guest=true host=true; totali OBJ147letture/147B/
+14B count/133B attributi/12letture host. Uso positivo, equivalenza ordinary
+completa ancora aperta. Tutte143guardie CLI e implementazione/canonico/originali
+esatti; helper artefatti zero percorsi. Nessun vecchio source/model/runtime/
+producer logging/scenario ripetuto, nuova fixture/navigazione o misure.
+Linux/USA/Windows nativo/nuovo32:9 da verificare; dieci byte parametri e452lower
+separati. [CLI e prove](../rom_data_obj.md#actual-cli-for-the-observed-indirect-lists).
+
+
+**ROMDATA-05-OBSERVED-OBJ-LISTS-ORDINARY completato per il primo frame F09 EUR
+(2026-10-26).** Solo cinque righe opzionali al validatore esistente richiedono
+entrambe le nuove liste guest+host. Primo build Windows senza avvisi e un solo
+filtro Wine: frame8476→8477, stato completo/clock/immagini centrale-larga/OAM/
+dispatch e tutti gli audio uguali. Cinque flussi con campioni reali
+[2196,2196,264,264,2120]; contatori OBJ147letture/147B/14count/133attributi/
+12host esattamente uguali alla CLI. 6803native/22849fallback solo copertura;
+75guardie input/eseguibile, originali/cache/dataset/canonico esatti. Delta di
+cinque righe verificato sul preimage, altre implementazioni invariate; helper
+artefatti zero percorsi. Source/model/managed/runtime/CLI e ordinary dichiarato
+chiusi; altre scene/indiretti/composedGUI/ABI/nuovo32:9 aperti. Nessun vecchio
+12/3530/scenario/modello/runtime ripetuto, nuova fixture/navigazione o misure.
+Dieci byte parametri/452lower e Linux/USA/Windows nativo separati o da verificare.
+[Equivalenza e limiti](../rom_data_obj.md#ordinary-first-frame-equivalence-for-the-observed-lists).
+
+
+**ROMDATA-02-OBSERVED-TASK-PARAMETERS-MODEL completato EUR (2026-10-26).**
+API isolata observed_task_parameters per due frammenti indipendenti: soglie u8
+fasi1/2 a371065..67 e quattro correzioni signed16 indici4..7 a394E14..1C.
+Identità/indici/JSONstrict/ricostruzione10B/due span/code-literal-source hash;
+nessuna durata/cap globale/estensione fisica dedotta. Fase0/altri byte fuori
+modello; correzioni0..3 conservano l'owner precedente,8..127 restano esterne.
+Primo build Windows senza avvisi e un filtro Wine:27guardie e18prefissi originali
+(10old-counter/phase-wrap,8alias-bitbasso/signed-sub), RAM/callee/OAM-VRAM-palette
+esatti. Modello canonico4b52c5f1..;79guardie input/eseguibile e implementazione
+esatte. Solo due dichiarazioni nei vecchi hub; pipeline/e72-d71/66file65risorse/
+76listeOBJ/USA8-7 invariati. Nuovi10B disgiunti da tutti gli owner e non ancora
+pubblicati; managed/runtime/CLI/ordinary dei parametri aperti. Helper artefatti
+zero percorsi. Nessun source/295pin/vecchio modello-ABI-runtime-CLI-scena
+ripetuto, nuova fixture/navigazione/misura.452lower separati;
+Linux/USA/Windows nativo/nuovo32:9 da verificare.
+[Modello e limiti](../rom_data_gameplay.md#isolated-model-for-observed-task-parameter-fragments).

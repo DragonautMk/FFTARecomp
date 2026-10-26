@@ -8870,3 +8870,151 @@ source plan before a typed model/originalWine check. No unchanged e66/metadata52
 script/ordinary proof replay; no fixture/navigation/performance/storage selected.
 Record next selection checkpoint before mutation/audit. Ordinarynewpixels/scene,
 raw6Bmigration and remainingfamilies/otherplatformgates remainopen.
+
+
+**Selection checkpoint — ROMDATA-01-UNIT-OBJ-PROPERTY-WORDS (2026-10-26).**
+Previousgoalturn progress: knownrouteFFproducer alias andFFFFreader classification
+closed withsourcecontracts/memory;373sourcehashes unchanged/no livejobs. Latest
+fullTODO/EUR/Wine-only/no performance-space and localnormalcheckpoint permission
+persist. e66runtime/CLI andoldfamily locators closed/no repeat; concurrentcoverage
+report/generator/record edits preserved/outside selection. Missing original221C4
+rawpropertyword sourceprojection. Select domain before targets: sameunit actor
+retains known normalCF144/alternateCF180concrete metadata52direct ormetadata14
+logical2..94assignment, plus originalmode overrides42/230; knownrouteFFconcrete
+aliases quotient tosameknownfields. No equipment/body pair assumption/livecap/
+248adjacency bound or unknown/staleactor/globalregistry claim. Firstauthenticate
+metadata sources/CF-233A8-233D8-9B734assignment/actor+34/9AD0E221C4literal394C14/
+rawu16zeroextension/r8→constructor r3. Derive entireknownspritequeryset before
+word reads; authenticate61currentowners then audit exact2Bfields/overlap/values
+and necessary downstreamflaguses. Ifnewbytes, sourceplan beforemodel/original
+Wine; ifallowned, closealias. FFFFraw6B remainseparate. Evidence target/rom-data-
+unit-obj-property-words/. No guest/build/fixture/navigation/privatepayload/
+performance/storage/package/commit selected; fullgoalactive/ordinarygatesopen.
+
+
+**ROMDATA-01-UNIT-OBJ-PROPERTY-WORDS — terminalPASS/source plan closed.**
+First producer/word audit exit0.398witnesses (110normaljob100alternatejob/
+93specialeachmode/twooverrides) derive182spriteIDs/182exacthalfwords BEFORE
+wordinspection.98halfword15BL/onepropertyliteral/fourexactcodeblocks authenticate
+assignment/221C4fullwordindex/u16return/9AD0E→r8→22788arg3/r7→22E00and22DF4task+16.
+All61currentresourcefile/source hashes beforewords; no owner overlaps. New
+4ranges364B/sourceSHAad328c8ebccfc43091dc878c06dab33b22521d7b617d4b11232e4a532ffc2208;
+139words16/43words24, allrawu16bits retained. New narrow original2254Cdisassembly
+(static tool, no guest/Linuxgamecheck) shows valueusedasrangeallocation request/
+retainedtask+16, no provedflagbitfield or VRAMunit label. No248extent/IDcap,
+equipmentbodypairing/globalidentity inference or sentinelpruning. FFFFraw6B
+remainseparate/unowned. No build/guest/fixture/navigation/performance/storage;
+e66-d65/USAe8-d7unchanged. Evidence target/rom-data-unit-obj-property-words/
+producer-contract.json/source-contract.json/trace-02254c.txt. Selectionclosed;
+coherentsource memory next then02strictmodel+one newWineoriginalreader check.
+Fullgoalactive/managed-runtime-CLI-ordinary/otherplatformgates pending/no livejobs.
+
+
+**ROMDATA-01-UNIT-OBJ-PROPERTY-WORDS — memory/preservation closed.**
+Coherent inventoryrecord/unitOBJ/STATE/TODO/inventory/CHANGELOG updated.373source
+checks confirmimplementationunchanged;66activeinputhash-mtime guards/542decoded
+featurelinks/default+baseb06ac66memory/CRLFwhitespace pass. Freshall61file-source
+owner proof plusclosedFFF/redirect/05/04/03-02privatepreservation reused; no11217
+legacyartifact/build/game campaign. Finalmaps target/rom-data-unit-obj-property-
+words/. New364Bsource plan closed/no unchangedrepeat; next02strictlosslessmodel/
+one new original-readerWinefilter withonly affectedWindowsfrontend build.
+Preserve398producer witnesses/182words/fourranges/allu16bits; literal/source/
+JSON/dependency/raw-fullword guardcoverage andconstructor propagation beyond
+getter should be distinct. No newresource/runtime/CLI/ordinary claim at02.
+No livejobs/fullgoalactive/e66-d65/USAe8-d7unchanged. Concurrentcoverage preserved.
+
+
+**Selection checkpoint — ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS (2026-10-26).**
+LatestfullTODO/EUR/Wine-only/no performance-space unchanged.01sourceplanclosed/
+firstPASS/374sourcehashes exact; sourceclosure counttypo corrected67→66active
+inputs from actualpreservationresult, no source/guest repeat. Fourranges364B/
+182words/398producerwitnesses authenticatedbeforetargets/disjoint61owners.
+Missing strictlosslessmodel and original-readerWineoracle. Next newcoremodule+
+one frontendtest and onlytwo shareddeclarations withpreimages preserved; no
+extractor/resource/runtime revision at02. Modelretainsallwitnesses/rawu16/holes/
+actualmetadata52-14dependencies; no livecap/word16-24valuecap/flagunit label.
+One newaffectedWindowsfrontend build/frozenexe, one exactWinefilter: independent
+sourceplan/all182originalgetter reads/strictJSON-source-dependencyguards/rawfullword
+getter aliases/two selected originalactor→constructor allocation prefixes and
+rawtask+16 propagation, withfresh syntheticMachineABIseeds only. No private
+statefixture/edit/navigation/oldacceptance replay/performance/storage selected.
+Evidence target/rom-data-unit-obj-property-words-model/; concurrentcoverage and
+alle66uncommittedruntime work preserved/outside selectedimplementation. Fullgoal
+active/03managed-runtime-CLI-ordinary/otherplatformgates pending/no livejobs.
+
+
+**ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS — build running.**
+First new affectedWindowsfrontend test build started, live exec56216 (returned
+START; inspect samehandle/artifact before retry). Logs/build-result under target/
+rom-data-unit-obj-property-words-model/. Newlosslessmodule/test andexacttwohub
+inserts validatedagainstpreimages; allother374baseline implementation unchanged,
+newmodulesrustfmt. Beforebuild review uses actual221C4full16Bfingerprint and
+retains constructorreuse branch: existingtask reloads own+16instead ofusingnew
+propertyword; testcoversnew/reuse separately. No production/resource/runtime
+revision or oldtest/guest/fixture/navigation/performance work. Once buildterminal,
+run first new exactWinepropertywordfilter only, onefrozenexe/uniqueoutputroot.
+
+
+**ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS — build terminalPASS/closed.**
+56216firstaffectedWindowsfrontend test build exit0/warning-free. Frozenexe
+63f029a71393f1cbd2789eacdb14a5303f5c40b990b361151a45d8d85b4001b8;
+allbuildactiveguards and11compiledsourcepreimages exact. No productionexe or
+resource/revision change. Newsource/modelbuildchildclosed/no unchangedrebuild;
+nextfirstactualexactWinepropertywordfilter only. Existingtaskreusebranch retained,
+syntheticrawhighword andfullwordgetter inputs are freshMachine seeds, no private
+statefixture or oldoracle replay. Testartifact/result locators under modeldir.
+
+
+**ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS — terminalPASS/model-oracle closed.**
+95792firstactualexactWinefilter exit0/PASS;20guards/all398producerwitnesses182
+wordfields/fourranges364B/independentplan+sourcehashes/all364originalgetterB pass.
+182originalgetters/3rawfullword getter cases/fouractor-newtask prefixes(twooriginal
+plus twofreshsynthetichighwords)/twoexistingtask prefixes/fourisolatedoriginal
+u16setters preserve wholeRAMoutside declaredstack/destinations, VRAM/OAM/palette.
+Existingtask reloads its own+16; newpropertyword affects newallocation argument,
+no false replace/reinit claim.1783instructions148PCarecoverageonly, no timing/
+fullallocator-constructor-native-clock-ordinary proof. Build82/Wine83active
+hash-mtimeguards/11compiled inputs exact; frozen63f029a7.. . ModelJSONSHAbe429aaf9073f5dc811a0272d8d76da35badbc8d6b40ff08f727c2f276ca7bb7.
+No failedbuild/testretry/no livejobs. Source/model/oraclechildrenclosed/no replay;
+next coherentmemory and03managed-runtime plan. e66-d65/USAe8-d7unchanged, no
+productionexe/revision/fixture/navigation/privatepayload/performance work.
+
+
+**ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS — memory/preservation closed.**
+Coherent inventory/model record/unitOBJ/STATE/TODO/inventory/CHANGELOG updated.
+374baseline hashes showimplementation delta onlytwoexacthub inserts plus new
+coremodel/frontendtest; both preimages/all11compiledinputs/82build83Wineactive
+hash-mtimeguards exact.545decodedlinks/newmodulerustfmt/default+base87fc705memory/
+CRLFwhitespace pass. Usercommit87fc705of earlier e66/coverage work preserved;
+no assistantcommit or attribution ofcoverage. ModelJSONbe429aaf../frozen63f029a7..
+accepted, no livejobs/no failedbuild-test retry. Source/model/firstWinechildren
+closed/no unchangedreplay; e66-d65/USAe8-d7andcanonicalproductionexe unchanged.
+Finalmaps target/rom-data-unit-obj-property-words-model/. Reuse newsource61owner/
+closedFFF-redirect-05-04-03-02privateproof, no11227legacyartifactcampaign. Fullgoal
+active/incomplete, managed-runtime-CLI-ordinary/otherplatform gates remainopen.
+
+Next **ROMDATA-03-UNIT-OBJ-PROPERTY-WORDS**: integrate acceptedmodel as one
+immutable typedowner forONLY4spans364B/182words, expectedresource graphics.unit-
+obj-property-words/fileunit-obj-property-words.json withactualmetadata52and14
+producer dependencies. Checkcurrent revisions first; from e66-d65expectednew
+EUR e67-d66/63files62resources/all61previous unchanged/e66retained, USAe8-d7.
+Readcurrentruntime publication/paged-byte ownership andnewsource spans before
+selecting edits; no hostgetter/allocator/task replacement or u16word cap. Preserve
+398witnesses/rawgaps/fullwordIDs/FFF6Brawpath, allpriorowners. Usagewordmask should
+cover182actualrecords (threeu64words sufficient ifindexed byrecord, not spriteID)
+without livecaps; exactpageunion mustbe derived functionally, no RSS/timing.
+OneaffectedWindowscore/frontend build thenonlynewmanaged+native Winefilters:
+source/source-dependency/coherent-tamper/transactional isolation/create-reuse-
+repair-move/load-Undo-backup-restart, all364typedB; nativeoriginal/interpreter/
+compiled complete-state-clock paths with364rawB altered, getter/rawfullword/
+realbus-BIOS-SWI-DMA/fourrange edges and mixedold-new-raw. Concrete crossing
+candidate394C12includes2old sprite247directoryB+2newpropertyB; CF2includeslast
+newhalfword thenrawCF4(gap sprite112), analogousCFEmissing117. Authenticateexact
+currentowners before selectingmixedexpectations; sourceplanholesremainraw.
+Do not replay02original-oracle/metadata or previousfamily checks. Actualproduction
+CLI andnewordinary-positivecriterion after03, not a repeatofacceptedscene to
+reconstruct context. No fixture/navigation/privatepayload/performance/storage
+work selected; ordinary sourcepositive/raw6Bmigration/globalregistryidentity/
+unknown-changedactor/otherfamilies/Linux-USA-nativeWindows-new32:9 remainopen.
+Recordselection checkpoint beforemutation/expensivecommand; localnormalcheckpoint
+authorization stillpersists but no checkpointderivation selected here.

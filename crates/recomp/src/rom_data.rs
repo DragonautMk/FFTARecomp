@@ -220,6 +220,8 @@ mod script_registry_special_model_tests;
 #[cfg(test)]
 mod script_registry_generic_model_tests;
 #[cfg(test)]
+mod unit_obj_property_words_model_tests;
+#[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]
 mod color_mode_palette_model_tests;

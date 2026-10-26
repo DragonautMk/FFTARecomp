@@ -1962,3 +1962,75 @@ are unchanged. No new build, guest/fixture/navigation run, private payload edit
 or performance/storage measurement occurs; Linux/USA/nativeWindows/new32:9
 validation remains pending. Evidence:
 `target/rom-data-script-registry-ffff-read/`.
+
+
+## Actor property words from known sprite assignments
+
+Original221C4reads an unsigned halfword at`08394C14 + 2 * sprite_id`, using the
+fullword input without a live index cap. Actor code9ACF8loads sprite+34as u16,
+calls the getter at9AD0E, zeroextends the result into r8and passes it to22788as
+argument r3. For a new task, the constructor keeps it in r7, supplies it to22E00
+for allocation and writes it to task+16through22DF4. An existing task instead
+reloads its own task+16word, preserving that value. The inspected2254Cpath uses it as
+an allocation request in a range check; no flag-bitfield or VRAM-unit meaning
+is assigned to the raw value.
+
+The source domain is chosen before reading words: retained same-unit original
+normalCF144/alternateCF180 assignments from known concrete metadata52rows and
+metadata14logical IDs2..94, plus the original mode overrides42/230. The110normal
+and100alternate direct job fields,93special fields per mode and two overrides
+retain398producer witnesses. Known concrete job redirects produce the same
+effective fields through the closed redirect contract. Equipment-to-body
+pairing, changed actors, unknown indices and global registry identity are not
+inferred. The known FFFFraw6B remain separate.
+
+Ninety-eight halfword/fifteen BLfingerprints, four exact original code blocks
+and the property-base literal authenticate the producer before target reads.
+The witnesses derive182sprite IDs and182exact two-byte queries. All61current
+resource file/source hashes authenticate before inspecting words. Every word
+is unowned: four disjoint source ranges total364B, with SHA-256
+`ad328c8ebccfc43091dc878c06dab33b22521d7b617d4b11232e4a532ffc2208`.
+There are139words equal0x0010and43equal0x0018; every u16bit remains explicit. Gaps stay
+raw, and no248-entry catalog extent is inferred from nearby roots.
+
+This source-contract child is closed. The strict model and reduced Wine oracle
+below also pass; managed/runtime/CLI/ordinary use remains next. EUR e66-d65and
+USAe8-d7are unchanged. No build, guest test, fixture,
+navigation, private payload edit or performance/storage measurement occurs in
+this source phase. New Linux/USA/nativeWindows/new32:9 validation remains
+pending. Private evidence:`target/rom-data-unit-obj-property-words/`.
+
+
+## Typed actor property words and original-reader validation
+
+The [lossless model](../crates/gba-core/src/rom_data/unit_obj_property_words.rs)
+retains all398mode/kind/logical-ID/source witnesses and182unsigned word records.
+Actual metadata52andmetadata14views determine producer coherence. Each word keeps
+its exact sprite/source identity, gaps remain raw and the four source ranges
+reconstruct all364B. Parsing rejects unknown fields, bad enums, duplicate/order/
+identity/source/dependency mismatches. Word values retain every u16bit; the
+observed16/24values do not become a format limit.
+
+One affected Windows frontend build passes without warnings. The first exact
+[Wine source oracle](../crates/recomp/src/rom_data/unit_obj_property_words_model_tests.rs)
+passes20guards, all independent producer/word/source/hash comparisons and all182
+original getter calls/364read bytes. Three raw fullword-input calls verify the
+getter's LSL1behavior: bit31is dropped and higher index bits are not truncated
+to a u16sprite ID.
+
+Four original actor-to-new-task prefixes pass the exact word through r8/r3/r7
+into the allocation argument, including two fresh synthetic high-bit values.
+Two existing-task prefixes preserve their stored task+16word. Four isolated
+original22DF4setter calls retain the entire u16value in the destination. Whole
+EWRAM and IWRAM outside declared scratch/destinations, VRAM, OAM and palette
+guards pass. These are partial constructor prefixes and isolated setters;
+there is no full allocator/constructor/native/fullstate-clock/ordinary claim.
+
+All82build/83Wine active hash-modification-time guards and11compiled input
+preimages remain exact. Frozen test executable is
+`63f029a71393f1cbd2789eacdb14a5303f5c40b990b361151a45d8d85b4001b8`.
+No previous metadata/animation acceptance is replayed. EUR e66-d65/USAe8-d7and
+the production executable remain unchanged; managed/runtime/actualCLI/ordinary
+use and new Linux/USA/nativeWindows/new32:9 checks remain pending. No fixture,
+navigation, private payload edit or performance/storage measurement occurs.
+Evidence:`target/rom-data-unit-obj-property-words-model/`.

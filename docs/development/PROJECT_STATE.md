@@ -512,6 +512,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   bios_open/CPUrotation rather than a proved ROMsequence/null result.71readerpins/
   threecodeblocks/twoliterals pass. Both ROMreads total6Bcurrently unowned/raw;
   their migration and ordinaryreachability remainpending, no cap/pointerfix.
+- [Actor property words](../rom_data_unit_obj.md#actor-property-words-from-known-sprite-assignments)
+  have a separate source contract:221C4reads394C14+2*sprite, unsignedu16 through
+  actor9AD0E/r8/constructor r3into allocation/task+16.398knownnormal/alternate
+  job-special-override witnesses derive182words before targets;98halfword15BL/
+  fourcodeblocks/oneliteral andall61currentowner hashes pass. Fourunownedranges/
+  364B/sourceSHAad328c8e.. retain139words16/43words24 andrawholes, no248extent/livecap
+  or flag/VRAM-unit interpretation. Strictlosslessmodel andfirstWineoracle now
+  pass20guards/all182originalgetters364B/3rawfullwordcases/fournewtaskprefixes/
+  tworeuseprefixes/fourisolatedsetters/wholeRAMoutside declaredscratch-destinations.
+  Existingtask keeps its own+16word; newtask receives newproperty. Windowsfrontend
+  firstbuildwarning-free/82build83Wineguards11compiledinputs exact. No fullallocator/
+  native-clock/ordinary claim; managed-runtime-CLI-ordinary pending, e66/USAe8
+  unchanged. No oldproof replay/fixture/navigation/performance measurement;
+  FFFFraw6B/globalidentity/changedactor separate.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

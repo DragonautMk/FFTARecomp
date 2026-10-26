@@ -3152,3 +3152,32 @@ preservato, migrazione6B e ordinaryreachability ancora aperti. e66-d65/USAe8-d7
 invariati, nessun build/guest/fixture/navigazione/privatepayload/misura performance
 o spazio. Linux/USA/nativeWindows/new32:9 e globalidentity/unknown/changedactor aperti.
 [Classificazione e limiti](../rom_data_unit_obj.md#known-generic-job-ffff-results-and-raw-bus-reads).
+
+
+**ROMDATA-01-UNIT-OBJ-PROPERTY-WORDS completato contratto fonte EUR (2026-10-26).**
+221C4legge394C14+2*sprite e restituisce u16;9AD0Elo passa via r8al costruttore,
+allocazione e task+16. Dominio prima dei target:398witnessnormal/alternate
+metadata52/14concreti e override42/230,182sprite/query; redirectsconcreti già
+equivalenti, nessuna equipment/body/globalidentity inferita.98halfword15BL/
+fourcodeblocks/oneliteral e tutti61owner/file/source passano prima dei word.
+Quattro intervalli364Bnon posseduti, SHAad328c8e..,139word16/43word24; rawu16/
+buchi preservati, nessuna estensione248/IDcap/flagbitfield o unitàVRAM inventata.
+Fontechiusa, modello/oracoloWine/managed-runtime-CLI-ordinary aperti; e66-d65/
+USAe8-d7invariati. FFFFraw6B/unknown/changedactor/globalidentity e nuoviLinux-USA-
+nativeWindows-new32:9 separati. Nessun build/guest/fixture/navigazione/misure.
+[Contratto e limiti](../rom_data_unit_obj.md#actor-property-words-from-known-sprite-assignments).
+
+
+**ROMDATA-02-UNIT-OBJ-PROPERTY-WORDS completato modello/oracolo EUR/Wine (2026-10-26).**
+Modello lossless398witness/182word/4range364B, dipendenze metadata52/14effettive,
+rawu16/buchi/identità preservati senza cap16/24. Primo buildWindowsfrontend senza
+warning e primoWineesatto passano20guards/all182getters364B/3rawfullwordgetter,
+quattroprefissi actor→newtask (dueoriginali/duehighword sintetici), duereuseprefixes
+e quattrosetter originali u16. Tasknuovi ricevono proprietà, esistenti conservano
+proprio+16; interaRAM fuori scratch/destinazioni e VRAM/OAM/palette passano.
+82build83Winehash-mtimeguards/11compiledinputs invariati; nessun vecchio oracolo
+ripetuto/fullallocator-constructor/native-clock/ordinary claim. e66-d65/USAe8-d7/
+produzione invariati, managed-runtime-CLI-ordinary ancora aperti. Nessuna fixture/
+navigazione/privatepayload/misura performance/spazio; Linux/USA/nativeWindows/
+new32:9 e FFFFraw6B/unknown/changedactor/globalregistry separati.
+[Modello e limiti](../rom_data_unit_obj.md#typed-actor-property-words-and-original-reader-validation).

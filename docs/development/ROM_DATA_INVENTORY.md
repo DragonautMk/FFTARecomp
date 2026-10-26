@@ -1587,3 +1587,18 @@ Le due lettureROM totalizzano6Bsenza owner tipizzato; rawfallback preservato,
 migrazione6B/ordinaryreachability ancora aperti. Nessun IDcap/pointerfix/finto
 countedasset o build/guest/fixture/navigazione/misure, e66/USAe8invariati.
 [Letture e limiti](../rom_data_unit_obj.md#known-generic-job-ffff-results-and-raw-bus-reads).
+
+Il lettore proprietà attore221C4ha ora un contratto fonte distinto:394C14+2*sprite,
+u16→9AD0E/r8→costruttorer3→richiesta allocazione/task+16.398witnessnormal/alternate
+job-special-override derivano182queryprima dei target;98halfword15BL/fourcodeblocks/
+oneliteral e61owner/file/source passano. Quattro intervalli364Bnuovi/disgiunti,
+SHAad328c8ebccfc43091dc878c06dab33b22521d7b617d4b11232e4a532ffc2208;
+139word16/43word24, tutti bit u16conservati, buchi raw. Nessun catalogo248/IDcap,
+flagbitfield o unitàVRAM dedotti. Sourcechild e modello lossless/oracoloWine ora
+chiusi:20guards/tutti182getters364B/3rawfullword/quattronewtaskprefixes/duereuse/
+quattrosetteru16/wholeRAMguards passano. I task esistenti mantengono il proprio+16.
+Primo buildWindowsfrontend senza warning,82build83Wineguards11compiledinputs
+invariati; nessun fullallocator/native-clock/ordinary claim. Managed/runtime/CLI/
+ordinary ancora da fare; e66/USAe8invariati. FFFFraw6B/altri input/changedactor/
+globalidentity separati, nessuna ripetizione oldproof/fixture/navigazione/misure.
+[Fonte e limiti](../rom_data_unit_obj.md#actor-property-words-from-known-sprite-assignments).

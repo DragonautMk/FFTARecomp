@@ -460,9 +460,34 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   registry identity.1302witnesses/2220keys1908cells/373842sourceB share358566B
   across six priorowners; new272spans15276B include598cells567nulls/21seq96op1
   frames/37pixelrequests10880B. All59e64owners/41halfword4literal8BLpins pass,
-  no root-target/role/extent/mixed-item conflict. Model/Wine/runtime/CLI/ordinary
-  pending, e64/USAe8unchanged; genericjob/outofcatalog/redirect/currentchanged
+  no root-target/role/extent/mixed-item conflict. Strictlossless model and one
+  focused Wineoracle pass26guards/1196newcell facingaliases/567null+21proper
+  resets/37actualDMAuploads/all10880newpixelB/wholeVRAM; six previous typed
+  views validated independently, physical aliases coalesced exactly. Corrected
+  frontend build warning-free. EUR e65-d64nowpublishes61files60resources with
+  actual metadata14/archive+sixpreviousview dependencies. Two focusedWinechecks
+  firstPASS33attach+10dependency guards/lifecycle/all15276typedB21seq and25
+  original-interpreter-compiled fullstate-clock paths/272edges/BIOS-SWI-DMA/
+  mixedold-raw-new. Six previous owners retain sharedbytes. ActualproductionCLI
+  create/reuse61generation63managed/all61accepted/no-write/oneframeoldcache
+  attach firstPASS(allnewusage0/smokeonly); ordinarynewpixel/equivalence
+  pending. New read-only81snapshot/21newsequence locator finds no enabled or
+  dormant task, closed/no guest-build-fixture-fullpair or unchangedretry.
+  USAe8unchanged; genericjob/outofcatalog/redirect/currentchanged
   source cases remain separate, no metrics/newfixtures or newotherplatform tests.
+- [Registry generic direct-job source projection](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection)
+  authenticates high16refs/sevenpairs, nonnullunit+4=0/1/currentjob+5/alternate+7/
+  retainedsameunit originalassignment/override20clear before targets. All116rows
+  classified:110normal100alternate concrete/2normal12alternateFFFF/4routeFF;
+  2940witnesses6720refs,83halfword6literal-dispatch11BLpins. All60e65owners checked
+  before targets.107sprites535pairs3210cells2420null/777properseq5093frames and12
+  explicit initialindexroot48..59views. Full796992B shares697168B withsixowners;
+  new659spans99824B include1386cells1260null/126seq588op1/268pixelrequests82016B.
+  No mixeditem/role/extentconflict; initialjoint110count corrected beforetargets,
+  no hidden sentinel/redirect pruning or u16FFFFfallback. Sourcecontractclosed,
+  model/Wine/runtime/CLI/ordinary pending, e65/USAe8unchanged. No guest/build/
+  fixture/navigation/metrics or newotherplatform tests; globalregistryidentity/
+  outofcatalog/redirect/currentchanged remain separate.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

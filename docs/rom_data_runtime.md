@@ -1,15 +1,18 @@
 # Direct decoded resource consumption
 
-EUR e64-d63adds [forced42/230script poses](rom_data_unit_obj.md#forced-script-override-managed-runtime):
-60files59resources, actual scriptarchive/normalbattle/alternatebattle dependencies,
-all58prior data/resource records/e63retained/USAe8-d7. Typed owner only40newspans
-1050B, older owners/rawholes/original tasks-DMA preserved. Two new Winefilters
-firstPASS31guards/lifecycle/allnewB/sixseq and27original-interpreter-compiled
-fullstate-clock paths/bothnewop2/newOBJ/40edges/BIOS-SWI-DMA/mixed2new4alternate+
-2new2raw. ActualproductionCLIcreate/reuse60generation62managed/all60matchaccepted/
-no-write/oneframeoldcacheattachment pass(zero newuse/smokeonly). Ordinarynewpixel/
-equivalence and newLinux-USA-nativeWindows-32:9 pending; source/model/oldproofs
-closed/no repeat, no performance or storage measurements.
+EUR e65-d64adds [registry-knownspecial script poses](rom_data_unit_obj.md#managed-registry-knownspecial-poses-and-typed-guest-reads):
+61files60resources, actual metadata14/archive and six previous typed-view
+dependencies, all59prior resources/e64retained/USAe8-d7. The new owner serves
+272newspans15276B; previous owners/rawholes/original tasks-DMA remain intact.
+Two focused Winefilters firstPASS33attach+10dependency guards/lifecycle/allnewB/
+21newseq and25original-interpreter-compiled complete-state-clock paths/272edges/
+BIOS-SWI-DMA/mixed2new4alternate+2new2raw. Six prior owners retain shared reads.
+ActualproductionCLIprepare/reuse61generation63managed/all61matchaccepted/no-write/
+oneframeoldcacheattach firstPASS(allnewusage0/smokeonly). Ordinarynewpixel/
+fullscene and global registryidentity/
+genericjob/outofcatalog/redirect/changedactor remain separate. NewLinux-USA-
+nativeWindows-32:9 pending; source/model/oldproofs closed/no repeat, no
+performance or storage measurements.
 
 EUR e60-d59 adds the [normal-mode battle pose owner](rom_data_unit_obj.md#normal-battle-managed-publication-and-runtime-reads):
 6021new spans1455474B, with exact shared initial/equipment views retaining their

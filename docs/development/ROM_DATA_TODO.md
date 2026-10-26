@@ -2994,7 +2994,76 @@ facing0..3 scelti prima dei target.1302witnesses2976refs/74sprite370sprite-base/
 841pixelrequests321088B. Tutti59owner e41halfword/fourliteral/eightBLpins passano,
 nessun knownindexroot/conflict/mixeditem/varyingextent o querypruning. Nuovi272span
 15276B=2392index84header1920frame10880pixel:598cells567null/21seq96op1frames/37pixel
-requests, zero nuoviOBJ. Fonteonly/modello-Wine-managed-runtime-CLI-ordinary da
-fare, e64/USAe8invariati. Nessuna identità statica registry/genericjob/redirect/
+requests, zero nuoviOBJ. Fonteonly chiuso; modello/Wine chiusi come sotto.
+Managed-runtime-CLI-ordinary da fare, e64/USAe8invariati. Nessuna identità statica registry/genericjob/redirect/
 outofcatalog/currentactor inventata, nessuna misura o guest/fixture/navigazione.
 [Contratto e limiti](../rom_data_unit_obj.md#registry-selectors-and-known-special-unit-source-projection).
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-SPECIAL completato modello/oracolo EUR (2026-10-26).**
+Modello lossless conserva1302witnesses2976refs/2220logicalkeys1908physicalcells/
+353sequenze2081frame e tutti272nuovispan15276B. Sei visteprecedenti validate
+indipendentemente prima della sottrazioneunione; aliasfisici identici coalesciati,
+conflitti rifiutati. Buildfrontend iniziale E0308 test-only corretto con lookup
+nel tipoinitial; retry warning-free. Primo filtroWine passa26guards/1196alias
+costruttore/567null+21properreset/37scheduler-DMAuploads10880B/interaVRAM. Nessun
+vecchio comando/source/managed/native/scene replay.03managed/runtime, CLIreale,
+ordinarynewpixel/fullscene e genericjob/outofcatalog/redirect/changedactor/global
+registryreachability restano aperti; Linux/USA/nativeWindows/new32:9 da verificare.
+Nessuna misura performance/spazio o nuova fixture/navigazione/payload edit.
+[Modello e limiti](../rom_data_unit_obj.md#typed-registry-knownspecial-script-pose-model).
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL completato managed/runtime EUR (2026-10-26).**
+e65-d64pubblica61file60risorse,59precedenti/e64preservati; metadata14/archive e
+sei visteprecedenti sono dipendenze reali. Owner tipizzato solo272nuovispan15276B,
+byte condivisi/holes/raw/originaltasks-DMA preservati. Un buildWindowscore/frontend
+warning-free e primi dueWine mirati passano33attach+10dependencyguards/lifecycle/
+15276typedB21seq e25percorsi original-interpreter-compiled fullstate-clock con
+373842Brawgraph alterati.272bordi/width-mirrors/realBIOS-bus/SWI-DMA/liveRAM e
+mixed2new4alternate+2new2editedraw passano; shared4B per ognuno dei6owner, nessun
+oldcommand/source/previousacceptance replay. CLIreale/ordinarynewpixel/fullscene
+restano separati, nessun wholeactor/allocatorABI. Genericjob/outofcatalog/redirect/
+changedactor/globalregistryreachability e Linux/USA/nativeWindows/new32:9 aperti;
+nessuna misura performance/spazio o fixture/navigazione/payload edit.
+[Consumo e limiti](../rom_data_unit_obj.md#managed-registry-knownspecial-poses-and-typed-guest-reads).
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI completato EUR (2026-10-26).**
+Buildproduzione una volta warning-free/frozen661c5af7..; canonicale ripristinato
+hash+mtime esatti/maincontenutoinvariato-mtime-onlyCargoinvalid. Primi CLIWine
+prepare/reuse da cwddiversa:61generation63managed/60risorse/eightdeps/all61file
+ugualiaccepted/reusehash-mtimeinvariati. OneframeauthenticF09oldcacheattach passa,
+nuovoconsumo0/smokeonly; ordinarynewsequence/pixel/fullsceneequivalence aperti.
+Nessuna vecchia scena/prova source-runtime/fixture/navigazione ripetuta, nessuna
+misura performance/spazio. Linux/USA/nativeWindows/new32:9 e globalregistry/
+genericjob/outofcatalog/redirect/changedactor rimangono da verificare.
+[CLI e limiti](../rom_data_unit_obj.md#registry-knownspecial-actual-production-cli).
+
+
+**ROMDATA-05-SCRIPT-REGISTRY-SPECIAL-21-SEQUENCE-LEAD chiuso negativo (2026-10-26).**
+Nuovo scanreadonly81snapshot autenticati/21nuovesequenze (nuovibindingtuttipart0)
+trova0taskoriginali attivi o dormienti; header/payload/ROM e hash+mtime di tutti81
+input prima/dopo passano. Vecchi606alternate/sevennormal/twoalternate/sixoverride
+scan non ripetuti. Nessun guest/build/fixture/navigazione/payloadedit/fullpair;
+leadchiuso/no retryinvariato. Ordinarynewsequence/pixel/fullscene resta aperto
+mentre prosegue la fonte indipendente highregistry generic-currentassignment.
+[Lead e limiti](../rom_data_unit_obj.md#registry-knownspecial-actual-production-cli).
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT completato contratto fonte EUR (2026-10-26).**
+16highrefs/sevenpairs, unit+4=0/1/sameunitcurrentassignment/override20clear/facing0..3,
+jobunit+5/alternate+7/property4-5/directroute0 autenticati prima dei target con
+83halfword/6literal-dispatch/11BLpins. Tutte116righe conservate:100bothconcrete/
+10normalonly/2bothFFFF/4routeFF;110normal100alternateconcrete→2940witnesses6720refs.
+Ipotesi110joint iniziale corretta prima di leggere target;2normal12alternateFFFF
+zeroextendu16 senza fallback inventato. All60e65owner autenticati prima rootaudit.
+107sprite535pairs/3210keys3210cells2420null/777properseq5093frames/45OBJlists231objects/
+1895pixelrequests677280B.12target sono indiciinitial48..59con witnesses exactdirectory/
+firstcell, nessuncountheuristic. Full796992B/shared697168B/nuovi659span99824B=
+5544index504header11760frame82016pixel:1386cells1260null/126newseq588op1/268newpixel,
+no nuoviOBJ/mixeditem/roleconflict/extentvariabile. Modello/Wine/managed-runtime/
+CLI/ordinary da fare; e65/USAe8invariati. RedirectFFFFoutofcatalog/currentchanged/
+registryidentity e Linux/USA/nativeWindows/new32:9 separati. Nessun guest/build/
+fixture/navigazione o misura performance/spazio.
+[Contratto e limiti](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection).

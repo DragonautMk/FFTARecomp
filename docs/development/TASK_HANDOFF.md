@@ -8015,3 +8015,383 @@ resets/37actualDMAuploads/all10880pixelB/wholeVRAM only. No oldcommand/guest/
 source/runtime/CLI/scene/census replay, no fullnative/clock/ordinary/reachability
 claim, no liveIDcap/pruning/ROMshadow/fixture/navigation/metrics. Evidence
 target/rom-data-script-registry-special-model/. FullTODOactive/incomplete.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-SPECIAL — build failure/correction selected.**
+31054terminalexit101 frontendE0308 in neworacle line333: initialpose::Sequence
+is distinct from equipment::Sequence expected by the shared sequence-position
+closure. Core/model compiled, no Winefilter ran. Original build log/JSONL/result/
+13source-preimages retained. Next narroworacle-only fix: find initial sequence
+position in its own typed array, keep remaining common-view helper. Newmodel/
+source contracts unchanged. Retry same affected frontend build with separate
+retry artifacts/preimages; this actual uncovered compiler failure authorizes
+repeat, not oldproof/context replay. No guest/navigation/metrics selected.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-SPECIAL — corrected build child closed.**
+2095retry affected Windowsfrontend build terminalPASS/no warnings, frozen
+e55e7b3f60e69e22f8d7496c3bdd1fc99a9eed86293c14631292cedf30b168ce.
+Initial31054E0308was oracle-onlySequence-type mismatch/no guest; its artifacts
+retained separately. Only initial sequence-position guard was corrected,
+source/modelplan unchanged; fresh compiled-preimages-retry retain final13inputs.
+Do not rebuild unchanged. Next firstactualexactWine source filter with required
+localserver filesystem access, no oldproof/native/clock/scene/fixture work.
+
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-REGISTRY-SPECIAL memory closure (2026-10-26).**
+Latest request remains fullTODO/EUR/Wine-only/no performance-space, authorized
+normal local checkpoint derivation retained but unused here. Cheap terminal
+reads establish firstactual source Wine exit0/testPASS/e55e7b3f..; result includes
+26guards/1196constructor prefixes/567null+21proper resets/37DMA/all10880pixelB/
+wholeVRAM. No job needs restarting. Corrected build and source/model children
+closed; missing coherent memory and final preservation maps only. Next update
+same uncommitted record/feature/STATE/TODO/inventory, verify prior10212expected
+private guards plus1378Wineguards/13finalcompiled inputs/shared-hub declarations,
+render/check memory and close02. No build/oracle/fixture/oldproof replay. Current
+gitstatus has no atlas edits; preserve all other user/concurrent work. Fullgoal
+active/incomplete; runtime/publication/CLI/ordinary remain separate.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-SPECIAL — terminalPASS/model-Wine-memory closed.**
+Firstactual exactWine filter exit0/e55e7b3f.. passes26guards/1196newcell aliases/
+567null+21proper resets/37actual scheduler-DMAuploads10880pixelB/wholeVRAM.
+Full373842B/owned272spans15276B lossless; all1302witnesses2976refs/2220keys,
+1908physicalcells coalesced consistently; six overlapping priorviews checked
+independently. Newsource/module/oracle closed/no unchanged rebuild/replay.
+Final10212priorprivate hashes/1378Winehash-mtimeguards/13finalcompiled inputs/
+two sharedhubs exactdeclarations pass. Linkparser initially lacked percentdecode
+on preexistingdebug%20saves.md after allpreservation checks passed; 369decoded
+links nowpass without repeating priorhash campaign. Default+base7718663memory/
+newmodulerustfmt/CRLF-whitespace pass. Coherent record/unitOBJ/STATE/TODO/
+inventory/CHANGELOG updated; finalmaps under target/rom-data-script-registry-
+special-model/. No livejobs; e64/USAe8unchanged/fullgoalactive/incomplete.
+Next03managed-runtime selects actualproducerdeps metadata14/archive and sixold
+sharedviews, immutable272newspans15276B, e65-d64; reduced twoWinechecks only.
+ActualCLI/ordinarynewpixel and genericjob/outofcatalog/redirect/changedactor/
+globalregistryreachability/Linux-USA-nativeWindows-new32:9 remain pending.
+No performance/storage/fixture/navigation work selected by this closure.
+
+
+**Selection checkpoint — ROMDATA-03-SCRIPT-REGISTRY-SPECIAL (2026-10-26).**
+LatestfullTODO/EUR/Wine-only/no performance-space request unchanged; authorized
+normal checkpoint derivation unused.02terminalPASS source/model/firstWine and
+memory closed, final363sources10259expectedguards/no livejobs; cheap all363
+sourcehash checks match. Missing managed publication/immutable typedbus/native
+consumption of exactly272newspans15276B. Next e65-d64 newresource with actual
+metadata14/archive and sixoldtypedviews dependencies, source-page union/exactbyte
+ownership/hole composition/counters/lifecycle and two focused newWine filters.
+One affectedWindowscore/frontend compile, no production/source-oracle/oldtests/
+ordinary/fixture/navigation selected yet. Keepall1302conditional witnesses,
+2220keys1908cells/353seq; new21seq96op1/37pixelrequests. Native targeted paths
+compare complete states/clocks with raw graph altered, mixed previous/raw,
+widths/mirrors/BIOS-SWI-DMA/liveRAM remain original. No registry fixedidentity/
+livecap/pruning/hosttask emulation. Evidence target/rom-data-script-registry-
+special-runtime/; fullgoalactive, actualCLI/ordinary/globalreachability and
+Linux-USA-nativeWindows-new32:9 remain separate.
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL — implementation/build live.**
+New typed owner/revisione65-d64/core/frontend/extractor wiring and two newignored
+Winefilters implemented; no production/source/previous-family oracle execution.
+AffectedWindowscore/frontend no-run build session37833 launched once; last
+observed compilinggba-core, result/log/JSONL under target/rom-data-script-registry-
+special-runtime/windows-managed-build.*. Six previousowner fields +metadata14/
+archive authenticated;33possible attachguards/10dependencyguards/all15276typedB/
+21newseq/targetedfullstate-clock and272boundary cases planned, actualcounts/
+execution pending. Check this livehandle/result before any retry; source/model
+children remainclosed. No fixture/navigation/performance/storage work.
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL — build child closed.**
+37833terminalPASS/warning-free affected Windowscore/frontend compile. Frozen
+corec2da0c37a1e544ad674a985aa509448119efe9eccbca9f6c40a53a5abfab773c
+(compileonly), frontend904aede2247e973b34a65ff0ea2ad34dc7809bf6bf6592392bba3fab1cbe95bc.
+No compiler correction/retry or previous test execution. Next firstactual two
+exactnew Winefilters managed→native using frozenfrontend and e64actualCLIprior,
+requiredlocal Wine server access; no product/source/oldtest/fixture work. Do not
+rebuild unchanged; results windows-managed-results.json/logs in same directory.
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL — first Wine execution live.**
+24947runs managed→native exactfilters once/frozen904aede2..; managed log confirms
+one test entered and isolated offline/interrupted/managed directories created.
+A D-Bus library startup diagnostic appears on stderr; no terminalfailure orPASS
+yet. Observe handle/result/log before deciding anything; do not infer failure
+or restart from diagnostic/timeout alone. Nativefilter not started at lastread.
+Evidence windows-managed-results.json/windows-managed.log/windows-native.log;
+no build/source/oldproof retry selected.
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL — terminalPASS/two Wine children closed.**
+24947managed+native firstactualexactfilters both exit0/PASS.33attach+10dependency
+guards/publicationcreate-reuse-repair-move/retained59priorresources-e64/lifecycle/
+all15276typedB21newseq pass; each six previousowner gets4sharedB/no newcounter.
+Native25original-interpreter-compiled complete-state-clock paths pass with entire
+373842Brawgraph altered,272boundaries/widths/mirrors/realBIOS-bus/SWI-DMA/liveRAM/
+rawfullword IDs, mixed2new4alternate and2new2editedraw. Newcompiledroles
+[0,36,6,43,0,1]; DMA separately covered, no newOBJ/oldcommand proof replay.
+No build/test failure/retry; D-Bus startup stderr did not affect results.
+An intermediate read-only identity probe hit a manifest being intentionally
+mutated by the live guard loop; no artifact/test was changed or repeated.
+After terminal restoration identity collection passes. Allbuild/Wine protected
+hash-mtime inputs andcompiledsources unchanged. No livejobs/no unchanged repeat.
+Next only memory/integration preservation closure, then separate04actualCLI;
+ordinarynewpixel/globalregistry-genericjob-outofcatalog-redirect-changedactor/
+Linux-USA-nativeWindows-new32:9 remain pending/fullgoalactive.
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-SPECIAL — memory/integration closure.**
+Source/model+03managed/runtime children closed/no unchanged rebuild/replay.
+Coherentconsume record/unitOBJ/STATE/TODO/inventory/fourfeatureheaders/CHANGELOG
+updated.363baseline sourcechecks show implementation changes onlyfive selected
+files; fivepreimages/23compiled inputs/newmodulerustfmt/528decodedlocal links/
+default+base916b4f9memory/CRLFwhitespace pass. Reuse02fresh10212priorprivatehash
+proof; activebuild/Wine1379/1381before-after hash-mtimeguards passed by runners,
+no repeatedwholelegacy-artifactcampaign. Dataset9bfe0d6e../manifest7ec5b72c../
+modelfded7e60../ownedsourceeef259d8.. . Finalmaps under target/rom-data-script-
+registry-special-runtime/. No livejobs/fullgoalactive/incomplete/USAe8-d7.
+Next **ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI**: newproductionWindowsCLI
+build once, exactcanonicalrestore/mainmtime-onlyCargo invalidation; actualWine
+prepare/reuse/no-write/all61generation matchaccepted plus oneframeauthenticF09
+oldcacheattach smoke, no ordinarypositive claim or acceptedscene replay. Code
+source/model/runtime tests stayclosed. Ordinarynewpixel/globalregistryidentity/
+genericjob/outofcatalog/redirect/changedactor andLinux-USA-nativeWindows-new32:9
+remain open; no fixture/navigation/performance/storage work selected.
+
+
+**Selection checkpoint — ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI (2026-10-26).**
+LatestfullTODO/EUR/Wine-only/no performance-space unchanged;02source/model and
+03managed/runtime firstactualWine closed, final366sources10611expectedguards/no
+livejobs. Cheap366sourcehashes match; HEAD916b4f9/userwork preserved. Missing
+actualproductionCLInewresource. Next one Windowsproductionbuild to frozenexe,
+exactcanonicalhash+mtime restore/maincontentunchanged-mtime-onlyCargo invalidation;
+actualWineprepare/reuse-no-write/all61generationbytesmatchaccepted61files60resources
+and oneauthenticF09oldcacheframeattachsmoke. No ordinarypositive/equivalence
+claim, acceptedscene/source/runtimeoldproof replay, newfixture/navigation/private
+payload edit, metrics/storage/package/commit selected. Evidence target/rom-data-
+script-registry-special-cli/. Fullgoalactive/ordinarynewpixel/globalregistry-
+genericjob-outofcatalog-redirect-changedactor/Linux-USA-nativeWindows-new32:9 open.
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI — production build closed.**
+80508terminalPASS/warning-free once. FrozenCLI661c5af78e16f41101aafa33bfb863b2a720296ebe5d36e2616200f46e1da9bb;
+canonicalexacthash+mtime restored/maincontentunchanged-mtime-onlyCargoinvalid.
+No sourcecontent/fixture/navigation/performance mutation; artifact windows-build
+JSON/log/backup retained. Do not rebuild unchanged. Next firstactualWine CLI
+prepare/reuse-no-write/oneframeauthenticF09oldcacheattach;02/03stayclosed/fullgoal
+active/incomplete.
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI — prepare child closed/reuse live.**
+2348actualWineprepare firstexit0/actioncreated; generation-J0yWi0/e65-d64has61
+files60resources/all61matchacceptedmanaged/eightactualdependencies,63managedfiles.
+Runner advanced to firstreuse; oldcacheoneframe follows. Observe2348/windows-
+cli-processes.json andsummary/logs before retry; do not repeatprepare/build.
+No ordinarypositive claim/newfixture/navigation/performance measurement.
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI — terminalPASS/all CLI children closed.**
+2348actualWineprepare/reuse/oneframeoldcache firstexit0.61generation/63managed
+files60resources/eightactualdeps/all61matchaccepted; reuse allhash+mtimeunchanged
+from unrelatedcwd. generation-J0yWi0/dataset9bfe0d6e.. . OldauthenticF09oneframe
+loads existingnativecache and attaches e65; newowner allcounters0/smokeonly,
+no ordinarynewpixel/equivalence claim. Frozenproduction661c5af7.., exactcanonical
+hash+mtime restored/maincontentunchanged-mtime-onlyCargoinvalid.02/03/04build-
+source-runtime-actualCLIchildren closed/no unchangedreplay, no livejobs. Next
+coherentconsume record/feature/STATE/TODO/inventory/CHANGELOG memoryclosure and
+cheapall366sourcechecks/reuse03privateproof+freshCLIguards, no10611legacyartifact
+campaign. Then independent05read-onlyexisting81snapshot locator for21new registry
+sequences, not oldsix42/230/sevennormal/twoalternate/606alternate targets. No
+fixture/navigation/performance/storage work; ordinary/globalreachability and
+Linux-USA-nativeWindows-new32:9 remain open/fullgoalactive/incomplete.
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-SPECIAL-ACTUAL-CLI — memory/preservation closed.**
+Coherentconsume record/unitOBJ/STATE/TODO/inventory/fourheaders/CHANGELOG updated.
+All366source hashes show noimplementation change;23runtimecompiled inputs/
+canonicalexacthash-mtime/1445activeCLIhash-mtimeguards/529decodedlinks/default+
+base916b4f9memory/CRLF-whitespace pass. Reuse03/02privatepreservation, no repeated
+10611legacyartifactcampaign. Finalmaps under target/rom-data-script-registry-
+special-cli/; no livejobs, all01/02/03/04childrenclosed/fullgoalactive/incomplete.
+Next05read-only81existingimmutablecheckpoint locator for21newproperregistry
+sequences fromaccepted source-plan, exacthash+mtime/header/payload/ROMchecks;
+look for enabled OR dormant originaltask fields, no guest/build/navigation/
+fixture selected. This is newtarget coverage, not reopening oldsixoverride/
+sevennormal/twoalternate/606alternate negatives. Ordinarynewsequence/pixel/fullscene
+remainsopen; genericjob/outofcatalog/redirect/changedactor/globalregistryidentity
+andotherplatformgates remain separate, no metrics/storage work.
+
+
+**Selection checkpoint — ROMDATA-05-SCRIPT-REGISTRY-SPECIAL-21-SEQUENCE-LEAD (2026-10-26).**
+LatestfullTODO/EUR/Wine-only/no performance-space request unchanged.01source/02
+model/03runtime/04actualCLI children terminalPASS closed, final366sources10692
+expectedguards/no livejobs/all366cheap sourcehashes match. Missing ordinarynew
+sequence/pixel scene, not another source/build/test. Next read-onlysame81existing
+immutable snapshots with NEW21propersequence targets authenticated fromaccepted
+modelfded7e60../sourceeef259d8..; allnewbindingspart0, actual21sprite-animation
+pairs across44/45/50/51/52/54/55/86/87/109/110 at136-137. Parse verifiedheader/
+payload/ROM/EWRAM and originaltask first-current-frame/count/sprite-animation
+index formula, enabled OR dormant/bodycontext; hash+mtime before/after. No guest/
+nativebuild/navigation/newfixture/privatepayload/performance/storage work.
+This newtargetdomain was not scanned in priorclosed606alternate/sevennormal/
+twoalternate/six42-230negative locators; no reopeningthose. Onnegativecloselead
+only, ordinarynewpixel/globalreachability remainsopen; onpositive selectspecific
+acceptedstate/inputplan before anyguest. Evidence target/rom-data-script-registry-
+special-ordinary/. Fullgoalactive, otherplatform/genericjob-outofcatalog-redirect-
+changedactor-registryidentity remain separate.
+
+
+**ROMDATA-05-SCRIPT-REGISTRY-SPECIAL-21-SEQUENCE-LEAD — terminalnegative/closed.**
+29984newread-only81snapshot/21newpropersequence scan finds zero enabled OR
+dormant matching originalbody tasks; all21newbindingspart0. Header/payload/ROM
+and each81inputhash+mtime beforeafter authenticated, alloriginalsunchanged.
+No guest/build/fixture/navigation/privatepayload/fullpair performed or selected;
+old606alternate/sevennormal/twoalternate/six42-230locators not repeated. Close
+this locator/no unchangedretry; ordinarynewsequence/pixel/fullscene stillopen.
+Next coherentconsume memory+cheap366source checks, reuse04assetproof+fresh81
+inputchecks, no repeated10692artifactcampaign. Then new highregistry generic
+currentassignment sourcebranch can advance after exact producerpath is verified.
+
+
+**ROMDATA-05-SCRIPT-REGISTRY-SPECIAL-21-SEQUENCE-LEAD — memory closure.**
+Negative81input/21newtarget/zeroenabled-dormant result recorded in coherentconsume
+record/unitOBJ/STATE/TODO/inventory/CHANGELOG.366sourcechecks show allcodeunchanged;
+530decodedlinks/default+base916b4f9memory/CRLF-whitespace pass. Fresh81inputheader-
+payload-ROM/hash-mtime checks plus reused04CLI1445guards/23compiled/03-02private
+proofs; no repeated10692artifact/hash/build/game campaign for read-onlyunit.
+Final366source/expectedprivateguard maps under target/rom-data-script-registry-
+special-ordinary/. No livejobs; allregistryknownspecial01/02/03/04andnegative05
+closed/no unchangedrepeat, fullgoalactive/incomplete; e65-d64/USAe8-d7.
+
+Next candidate **ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT**: remaining high16refs/
+sevenactual selector-basepairs resolve live unitbyte4=0/1 instead of the just-
+closedknownspecial2..94domain. Low151actualrefs resolve matching byte4>1 and
+are already in their separate special domain; do not use arbitraryall167×jobs.
+Before targets, inspect/reuse authenticated original CF144/CF180 non-special
+branches and exact effectivejob lookup/property4-5 routing/redirect/signedFFFF
+propagation from knownmetadata52source. Decide explicit conditional known-direct-
+job domain under sameunitretained originalnormal/alternateassignment/override20
+clear/facing0..3; no static registryidentity/job or liveIDcap, no silentlydropped
+sentinel/redirect rows. Establish producerwitness/sourcefield contracts BEFORE
+any physicaltargetaudit/model/build/guest. Reuse prior lookup/getter/ABI facts,
+no oldcensus/source-reader acceptance replay. If producer path contradicts the
+candidate, close/revise it from evidence rather than invent a target projection.
+Selectcheckpoint before mutations/expensivecommands. Current e65all60owners/
+knownroot registry then support any new independent sourceaudit. Ordinarynewpixel/
+fullscene for registry/low-special/override/alternate and other pending cases
+remain separate; Linux-USA-nativeWindows-new32:9/performance work staysdeferred.
+No fixture/navigation work is implicitly selected; authorized normal local
+checkpoint derivation remains available when a concrete gameplay lead needs it.
+
+
+**Selection checkpoint — ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT (2026-10-26).**
+Previousgoalturn is progress: EUR e65knownspecialsource/model/runtime/actualCLI
+and negative21target81inputlead closed, final366source10698expectedguards/no
+livejobs/all366currentcheap sourcehashes match. Latest fullTODO/EUR/Wine-only/
+no performance-space unchanged; user/concurrentwork preserved. Missing independent
+high16refs/sevenpairs conditional genericunit+4=0/1 sourceprojection. Domain
+chosen BEFORE animation targets: resolvednonnull registryunit generic, actor
+retains sameunit originalnormalCF144/alternateCF180assignment/override20clear/
+facing0..3; knownmetadata52directroute0job rows with concrete property4/5 output.
+Retain whole116row producerclassification, keepFFFF and livealternate redirect
+rows explicit/separate, no local guestcap or target-driven pruning. First verify
+CF144/180→CCC48 exact effectivejob bytepath/route0/property4-5/u16 truncation/
+assignment and live registry→unitpointer→actorcontext contract. Source contracts
+and raw metadata/scriptfields BEFORE any root/index/sequence audit. Low151refs
+byte4match>1 belong toclosedlow-specialprojection, no arbitrary167×jobs. Reuse
+oldgetter/lookup/ABI facts without rerunning their guestacceptance/census. Then
+if justified audit all60e65owners/knownroot-target kinds/extents/roles/aliases;
+no build/model/guest/fixture/navigation/performance/storage currently selected.
+Evidence target/rom-data-script-registry-generic-poses/. Fullgoalactive;
+ordinarynewpixel/globalregistryidentity/outofcatalog/redirect/changedactor and
+Linux-USA-nativeWindows-new32:9 remain separate.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT — producer classification corrected.**
+Firsthelper stops BEFORE target reads on actualmetadata assertion:110concrete
+rows is normalmode only; alternatehas100concrete and12FFFF (0/1plus46-50/64-65/
+69-71), while4routeFFrows redirect. Jointclassification had wrongly assumed both
+modesconcrete for110rows. Rejectedhelper and failureJSON retained; no contract/
+audit/model/build/guest output. Concrete reopeningreason for helper-only retry:
+field-specific metadata contradicts inferred jointcount. Next preserveall116row
+normal+alternate values/classifications, choose concrete perselectedmode (110
+normal100alternate), bothunitkind0/1/sevenpairs =>2940witnesses6720refs. FFFF
+zeroextendsu16 through CFgetters/233D8 and actorstore; no null/signednegative
+normalization/fallback invented, separate unresolvedtarget branch. No query/
+rowpruning within original mode-specificconcrete domain; no oldproof replay.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT — producer-domain child closed.**
+Correctedmode-specific contract PASS before animationtargets:2940mode/unitkind/
+selector/currentjob/base witnesses6720conditionalrefs,110normal/100alternate
+concrete directjobfields; all116rows retained as100bothconcrete/10normalonly/
+2bothFFFF/4livealternate-routeFF.83halfword/6literal-dispatch/11BLpins authenticate
+CCC48unit+5/+7path/property4-5/directroute0/CFu16zeroextension/assignment/registry-
+unitcontext; alternatebyte arbitrary onroute0, property0RAMoverridebypassed.
+Sixteenactualhighrefs/sevenpairs exact;151lowrefs selectors>1never producegeneric
+0/1through matchingbyte4path. No staticregistry/job identity/livecap or silently
+pruned sentinel/redirectcase. Original2normal/12alternateFFFFoutputszeroextend,
+no null/signedfallback inferred. Rejectedjoint110count retained asactualpre-target
+inference correction/no targetaudit executed duringretry. Next physicalaudit all60
+e65ownerfile/sourcehashes BEFORE known8unitOBJroot classification/targets, all
+selectedquerykeys/roles/extents/aliases. No build/guest/oldacceptance replay.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT — source contract closed.**
+After producercontract2940witnesses6720refs/110normal100alternate concrete rows,
+all60e65ownerfile/source hashes authenticated BEFORE targets.107sprites535pairs/
+3210logicalqueries3210physicalcells2420nulls/777properseq5093frames/45OBJlists231
+objects/1895pixelrequests677280B.12targets are authentic initialindexroots48..59
+fromsprite247animation136/137/140/141parts0..2; exactdirectory/index/firstsequence
+witnesses checked, no countheuristic/nullpruning or fabricated sequences. No
+internalrole/mixeditem/varyingextent conflict; full796992Bhash78b1f978.. shares
+697168Bwithsixphysicalowners. New659spans99824B=5544index504header11760frame82016
+pixel;1386cells1260null/126newseq588op1frames/268pixelrequests/no newOBJ.
+Sourcehash44033ff6.. . Producerinitialjoint-count assertion corrected BEFORE
+animationreads; all116rowclassifications retained/2normal12alternateFFFF and
+4routeFFcases separate, u16zeroextension preserved. No code/model/build/guest/
+revisionchange. Next coherentmemory/sourceclosure, reuse04actualCLIprivateasset
+proof1445guards/23compiled plusfresh60owner sourceproof; no whole10698campaign.
+Then02typedmodel explicit sharedrootTarget and independent sixsharedowner views,
+one focusedWine new2772cell facingaliases/1260null126proper/268DMA82016B. No
+oldcommand/source/runtime/CLI/scene/fixture/navigation/performance work selected.
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-GENERIC-DIRECT — memory/source closure.**
+Contract2940witnesses6720refs/659newspans99824B and12explicit initialrootviews
+closed, no model/build/guest job.366baseline sourcechecks confirm allcodeunchanged;
+onlysixcoherentexistingdocs+new26Octoberinventory record.533decodedlinks/default+
+base916b4f9memory/CRLF-whitespace pass. Existing04assetproof1445hash-mtimeguards/
+23compiled and03-02privateproof reused; newsourceaudit authenticates all60e65
+ownerfile/source hashes BEFORE targets. No repeated10698legacyartifactcampaign.
+Record/unitOBJ/STATE/TODO/inventory/CHANGELOG/HANDOFF updated; final367source/
+expectedprivateguard maps target/rom-data-script-registry-generic-poses/.
+Source44033ff6../full78b1f978.. retained/e65-d64/USAe8-d7/canonical unchanged,
+no livejobs/private0tracked/fullgoalactive/incomplete. Sourcechild01closed/no
+unchangedaudit/rejectedjoint110count retry; ordinarynewpixel remainsopen.
+
+Next **ROMDATA-02-SCRIPT-REGISTRY-GENERIC**: strictlossless offline model2940
+mode/unitkind0-1/registryselector/currentjob/base witnesses6720refs, explicit
+110normal100alternate directroute0concrete fields/all116row classification retained
+in sourcecontract. Keep107roots/3210keys3210cells/777seq5093frames/45OBJlists231
+objects/1895pixelrequests. Reuse alternate::Binding/Target or equivalent explicit
+Null/Sequence/SharedIndexRoot; preserve12sprite247136-137-140-141parts0-2 targets
+as initialroot48..59 with exactdirectory/index/firstcell witnesses, never counted
+sequence/null replacement. Normal2/alternate12FFFF+4routeFF/outofcatalog/changed
+actor/globalidentity remain separate, no livecap/fixedregistryjob/rowpruning.
+New659spans99824B (5544index504header11760frame82016pixel),1386newcells1260null/
+126propernewseq588op1frames/268newpixelDMArequests. Six priorowner full typed
+views initial/equipment/normal/alternate/low-scriptalternate/registry-knownspecial
+MUST EACH validate independently before unionsubtraction; low-scriptnormal and
+override have0physicalowned overlap and are not artificialnewsource deps.
+Newproducerdeps metadata52/archive; no metadata14producer invented. Validate
+new12initialroot views and inheritedalternate initialviews; preserveallrawfield
+words/tails/OBJattributes/pixelnibbles. Physicalkeys unique here; do not rerun
+oldlogicalalias/othercommand/source/managed/native proofs. One affectedWindows
+frontend testbuild andoneexactnewWine sourcefilter may cover2772newcell facing
+aliases/1260null+126proper resets/268actualscheduler-DMAuploads82016B/wholeVRAM,
+plus strictJSON/source/producer/metadata/archive/6independentoldview/12rootview
+guards. Allnewframesop1, old2/8/0/6stayclosed. No nativecomplete-stateclock/
+ordinary/fullactorABI claim at02, no gamefixture/navigation/privatepayload/metrics.
+Selectcheckpoint beforeediting. Runtime/actualCLI/ordinary andLinux-USA-native
+Windows-new32:9 remain pending; authorizednormal localcheckpointderivationunused.

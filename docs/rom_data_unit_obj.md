@@ -1550,13 +1550,11 @@ are2392index/84sequence-header/1920frame/10880pixel bytes:598cells567nulls,
 SHA-256 is`eef259d8b369d5c9e1e8dccf82f6d125a8bb405580e2abd750242fd9fca85169`.
 Logical sprite/root aliases remain explicit; they do not duplicate ownership.
 
-This closes the conditional source contract only. The lossless model must keep
-all1302witnesses/2220keys and independently validate each of the six previous
-typed views, including overlapping fields, before subtracting their union.
-One focused new Wine source oracle should target1196new physical-cell facing
-aliases/567null+21proper resets/37newpixel actualDMAuploads10880B, without
-replaying old command/previous-owner source acceptance. Model/build/guest/runtime
-and actualCLI/ordinary checks are not performed here. EUR e64-d63/USAe8-d7stay
+This source-contract child is closed. The completed typed model and focused
+Wine oracle below retain all1302witnesses/2220keys and independently validate
+each of the six previous typed views before subtracting their union. The
+source-only audit itself performs no model/build/guest/runtime or actualCLI/
+ordinary check. EUR e64-d63/USAe8-d7stay
 unchanged; no gameplay fixture, navigation, payload edit, performance or storage
 measurement occurs. Private static evidence is under
 `target/rom-data-script-registry-special-poses/`.
@@ -1566,3 +1564,197 @@ highregistry identity, genericunit0/1, out-of-catalog/redirect/forcedoverride or
 changed/stale actor sources. It is not an every-unit/action reachability promise
 or a live input cap. Ordinary newpixel/fullscene and Linux/USA/nativeWindows/
 new32:9 remain pending while those independent source branches continue.
+
+
+## Typed registry-knownspecial script pose model
+
+The [offline model](../crates/gba-core/src/rom_data/unit_obj_script_registry_special.rs)
+retains all1302mode/registryselector/unitlogical/base witnesses/2976conditional
+references and2220logical query keys. An explicit Normal/Alternate tag selects
+metadata14half04/06for the exact93logical rows and seven actual high-selector/
+base pairs. It keeps74roots/353sequences2081frames/60OBJlists279objects/841indexed
+pixel blocks. No fixed registry unit/class identity, live input cap or removed
+query is introduced. Genericunit0/1/out-of-catalog/redirect/changed-currentactor
+and global reachability remain separate.
+
+Source reconstruction coalesces only byte-identical logical aliases to1908
+physical cells. Contradictory bindings sharing one cell fail, and six previous
+full typed views are each checked independently before their union is excluded:
+initial, equipment, normal, alternate, low-scriptnormal and low-scriptalternate.
+An unchanged overlapping view cannot hide a mismatch in another dependency.
+Only272newspans15276B form its owned-source fingerprint; the373842Bfull graph and
+all original frame words/tails/OBJattributes/indexed4bpp pixels remain lossless.
+
+The [focused source oracle](../crates/recomp/src/rom_data/script_registry_special_model_tests.rs)
+passes1196new physical-cell facing-alias prefixes/567null+21proper resets and
+37real scheduler/DMAuploads10880pixelB with entireVRAM equality. Its26guards
+cover strict JSON/metadata/archive/conditional-reference/six-old-view/alias
+conflicts. The initial Windows
+frontend build found a test-only type mismatch: initialpose::Sequence is distinct
+from equipment::Sequence. Its log/source preimages are retained; only the initial
+sequence-position lookup is corrected, model/source plan unchanged. Separate
+retry build passes without warnings; frozen frontend SHA-256 is
+`e55e7b3f60e69e22f8d7496c3bdd1fc99a9eed86293c14631292cedf30b168ce`.
+The first actual exact Wine filter passes. No previous command/source/managed/
+native/scene acceptance is rerun.
+
+Production e64-d63/USAe8-d7remain unchanged, managed/runtime/actualCLI/ordinary
+newpixel/fullscene criteria remain pending; no native complete-state-clock or
+wholeallocator/actor ABI claim is made at this source stage. Evidence is under
+`target/rom-data-script-registry-special-model/`. Linux/USA/nativeWindows/new32:9
+remain pending, no gameplay fixture/navigation/private payload edit, performance
+or storage measurement.
+
+
+## Managed registry-knownspecial poses and typed guest reads
+
+EUR e65-d64 adds `graphics.unit-obj-script-registry-special` /
+`unit-obj-script-registry-special.json`, with actual metadata14/archive producer
+dependencies and six shared typed views: initial, equipment, normal, alternate,
+low-scriptnormal and low-scriptalternate. All1302conditional witnesses/2976refs/
+2220keys and1908physical cells are retained. The immutable typed owner serves
+only272newspans15276B (2392index/84header/1920frame/10880pixel); other bytes
+retain their earlier owner or mutable raw ROM. Sequence use spans all353model
+identities while only21newproper sequences belong to this owner. Animations,
+live facing, task allocation, commands, scheduler, DMA and VRAM stay guest work.
+
+One affected Windows core/frontend build passes without warnings. Both first
+actual focused Wine filters pass:33attach+10dependency guards/create-reuse-repair-
+move/59prior resources and e64 retained/all15276typedB/21newsequences, plus
+load/Undo/backup/restart with the attached directory unavailable. Failed attaches
+retain the previous owner and complete machine state. Four shared bytes read
+through each of the six prior owners do not increment this new owner.
+
+Twenty-five original/interpreter/compiled paths preserve complete states and
+clocks with all373842directgraphB altered. They cover new index/header/frame/
+pixel fields, realnull parts1/2/two orientations/raw fullwordIDs/liveRAM frames,
+272source boundaries/widths/mirrors/realBIOS-bus/CpuSet/FastSet/DMA and mixed
+2new4alternate or2new2editedraw windows. Compiled category counts are
+[0directory,36index,6header,43frame,0OBJ,1pixel]; DMA is checked separately.
+No previous command/source acceptance is repeated; no wholeactor/allocator ABI
+claim. The source owner remains the only replacement for the selected bytes.
+
+Dataset SHA-256 is
+`9bfe0d6e8ded8e31ee33c2bb962adc2b08159518451a869a188498273ed33e26`,
+manifest file `7ec5b72ccbd4abc40bb69ecb26a6a0eb7ee086194f43c56435e501253b8841c8`,
+model file `fded7e60e6ecbe3b904899b1e6d00a9ed06c85608589f1c7057aaefdc164384b`.
+Frozen frontend is
+`904aede2247e973b34a65ff0ea2ad34dc7809bf6bf6592392bba3fab1cbe95bc`;
+core compile-only `c2da0c37a1e544ad674a985aa509448119efe9eccbca9f6c40a53a5abfab773c`.
+Build/Wine1379/1381hash-mtime guards and23compiled inputs remain unchanged.
+The justclosed source-model stage's10212prior privatehash proof is reused,
+without a repeated whole legacy-artifact campaign.
+
+ActualCLI is closed below; ordinarynewpixel/fullscene/globalregistryidentity and genericjob/
+outofcatalog/redirect/changedactor remain separate; Linux/USA/nativeWindows/
+new32:9 pending, no performance/storage measurement or fixture/navigation/
+private payload edit. Private evidence:
+`target/rom-data-script-registry-special-runtime/`.
+
+
+## Registry-knownspecial actual production CLI
+
+A single warning-free Windows production build freezes
+`661c5af78e16f41101aafa33bfb863b2a720296ebe5d36e2616200f46e1da9bb`.
+The canonical executable is restored with its exact hash and modification time;
+only the main source modification time invalidates Cargo's output assumption,
+without a content change. Actual Wine CLI preparation from an unrelated working
+directory creates61generation files/63managed files in EUR e65-d64, with all61
+files identical to the accepted managed dataset and all eight actual dependencies.
+The next preparation reuses the same generation without changing any file hash
+or modification time.
+
+One frame loaded from the authentic immutable EURF09checkpoint attaches e65
+and loads the existing native cache. Every new registry-special source counter
+is zero. This is an attachment/compatibility smoke check; ordinary newsequence/
+pixel/fullscene equivalence remains open. No accepted scene/source/runtime
+proof is replayed or gameplay fixture created. Original checkpoints, cartridge
+saves, cache, loader and recordings retain their protected hash/modification time.
+Private evidence: `target/rom-data-script-registry-special-cli/`, generation
+`generation-J0yWi0`, accepted dataset `9bfe0d6e..`. Linux/USA/nativeWindows/
+new32:9/globalregistryidentity/genericjob/outofcatalog/redirect/changedactor remain
+separate, without performance/storage measurements or private payload edits.
+
+
+The new read-only locator examines the same81authenticated immutable local
+snapshots against exactly21newproper registry sequences (all newbindingspart0).
+It finds no enabled or dormant matching original body task. It checks the task's
+first/current frame pointer/count/sprite/animation against the original index
+formula and validates header/payload/ROM plus each input hash and modification
+time before/after. Previous606alternate/sevennormal/twoalternate/sixoverride
+target scans are not repeated. This locator is closed without a guest run, new
+fixture, navigation, payload edit or fullpair; ordinarynewpixel/fullscene remains
+open. Evidence: `target/rom-data-script-registry-special-ordinary/`.
+
+
+## Registry selectors and generic direct-job source projection
+
+The same16high-selector decimal49references/seven exact selector-base pairs
+now have a separate conditional generic-unit source contract. The registry
+resolves a nonnull unit with byte4equal0or1; its actor retains that same unit's
+original normalCF144/alternateCF180assignment under the actual mode branch,
+with override20clear/facing0..3. The151low-selector references have selectors
+greater than1and resolve units with matching byte4, so they cannot form this
+generic branch. No static registry unit/job identity or every-actor reachability
+is assumed.
+
+For properties4and5, CF144/CF180 call CCC48, which reads currentjob unit+5and
+alternatejob unit+7. These nonzero property IDs bypass the property0RAMoverride
+at unit+100. CBEC8truncates job/property inputs to bytes, applies the original
+52-byte stride and routing, then assembles property4from row+7/+8 or property5
+from row+9/+10. A direct route0row does not consult the alternatejob value. The
+getters and233D8zeroextend their result to16bits; there is no signed-negative/
+null guard or fallback here.
+
+All116known metadata52rows are classified before animation targets:100have
+concrete normal and alternate fields,10have a concrete normal field and alternate
+FFFF,2have both FFFF, and4use livealternate routeFF. The normal concrete domain
+has110rows; the alternate one has100. The first helper's joint110row assumption
+failed on that metadata classification before any target was read; the corrected
+contract keeps mode-specific fields and every excluded sentinel/redirect
+observation. Normal job0/1FFFF and alternate job0/1/46-50/64-65/69-71FFFF remain
+separate source cases, as do the four livealternate redirects. No row is pruned
+from the declared mode-specific concrete domain.
+
+The resulting2940mode/unitkind/registryselector/currentjob/base witnesses retain
+6720conditional reference witnesses. Both unit kinds0/1and every actual high
+selector/base pair remain explicit; the alternatejob is unrestricted on route0.
+Eighty-three halfword/six literal-or-dispatch/elevenBLfingerprints and exact
+metadata/archive fields authenticate this producer before target parsing. All
+60e65owner file/source hashes are authenticated before trusting the eight
+existing unitOBJmodels' known roots.
+
+The projection has107sprites/535sprite-base pairs/3210logical queries and3210
+physical cells,2420real nulls,777proper counted sequences5093frames,45OBJlists
+231objects and1895indexed4bpp requests677280B. Twelve further nonnull pointers
+are explicit shared index-root views: sprite247animations136/137/140/141parts
+0/1/2read exactly the initial-pose directory cells for sprite48..59. Each target
+is that sprite's authenticated index root and its first word matches the
+authenticated initial sequence field. These are not sequence headers; no count
+threshold, neighboring bank end or null replacement chooses their type.
+
+The full796992Bsource graph SHA-256 is
+`78b1f978d4f97e3b1b842998124703d4488b2992ecf9fa232782d37fdec4d3ab`.
+Previous owners retain697168B:72476initial/436910normal/185458alternate/
+16low-scriptalternate/40registry-knownspecial/2268equipment. There is no internal
+role overlap, mixed old/new typed item or varying pixel extent. The new659spans
+99824B comprise5544index/504header/11760frame/82016pixel bytes:1386newcells/
+1260nulls,126newproper sequences588operation1frames and268newpixel requests,
+with no newOBJlist. New-source SHA-256 is
+`44033ff6d5c52eb5ce768cf725db2b1c5bd906fe98a36be7082874304921cdd9`.
+
+This closes the source contract. A lossless model must preserve all witnesses,
+queries and the12explicit initial-root target views, independently validate six
+previous full typed owner views before subtracting their union, and keep all
+original words/tails/OBJattributes/indexed pixels. The focused new Wine source
+oracle may cover2772newcell facing aliases/1260null+126proper resets/268actual
+DMAuploads82016B/wholeVRAM; the new frames contain only operation1, so previous
+operation2/8/0/6acceptance stays closed. Model/build/Wine/managed/runtime/CLI/
+ordinary checks are not performed at this static stage; EUR e65-d64/USAe8-d7
+remain unchanged. No guest, fixture/navigation/private payload edit, performance
+or storage measurement occurs. Private evidence:
+`target/rom-data-script-registry-generic-poses/`.
+
+Livealternate redirects, FFFF/out-of-catalog/changedcurrentactor/globalregistry
+identity and ordinary newpixel/fullscene remain separate. Linux/USA/native
+Windows/new32:9 remain pending.

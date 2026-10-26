@@ -1523,7 +1523,33 @@ Highregistry-knownspecial script49ha un nuovo contratto fonte condizionato sui
 currentoriginale/override20clear.1302witnesses/2220logicalkeys1908cells/373842B;
 shared358566Bda6owner, nuovi272span15276B (2392index84header1920frame10880pixel),
 21seq96op1frames/37pixelrequests. Tutti59e64owner e41halfword4literal8BLpins passano,
-nessun targetroot/mixeditem/conflict/extentvariabile. Modello/runtime/Wine/CLI/
-ordinary pending, e64/USAe8invariati; registryidentity/genericjob/outofcatalog/
+nessun targetroot/mixeditem/conflict/extentvariabile. Modello lossless e primo
+Wine mirato passano26guards/1196aliascostruttore/567null+21reset/37DMA10880B/
+interaVRAM, sei visteprecedenti validate indipendentemente/aliasfisici coerenti.
+Buildfrontend corretto senza warning; EUR e65-d64pubblica61file60risorse con
+metadata14/archive e6visteprecedenti reali. DueWine mirati firstPASS33attach+
+10dependencyguards/lifecycle/tutti15276typedB21seq e25percorsi original-interp-
+compiled fullstate-clock/272bordi/BIOS-SWI-DMA/mixedold-raw-new. CLIreale Wine
+prepare/reuse61generation63managed/all61accepted/no-write/oneframeoldcacheattach
+firstPASS(tutti nuovi contatori0/smokeonly); ordinarynewpixel/equivalence pending,
+USAe8invariato. Nuovo locatorreadonly81snapshot/21nuovesequenze trova0task
+attivi o dormienti; leadchiuso/no guest-build-fixture-fullpair o retryinvariato.
+Registryidentity/genericjob/outofcatalog/
 redirect/currentchanged rimangono separati. Nessuna misura o nuova fixture.
 [Contratto](../rom_data_unit_obj.md#registry-selectors-and-known-special-unit-source-projection).
+
+
+Highregistry genericunit0/1ha un contratto separato per16highrefs/sevenpairs e
+metadata52route0con campo concreto per modalità. CCC48legge job+5/alternate+7,
+property4-5saltano overrideRAMproperty0; CFgetterszeroextendu16.116righe tutte
+classificate:100bothconcrete/10normalonly/2bothFFFF/4routeFF,110normal100alternate
+→2940witnesses6720refs; inizialeipotesi110joint corretta prima dei target.
+83halfword6literal-dispatch11BLpins e tutti60e65owner autenticati prima dei target.
+107sprite535pairs3210keys/cells2420null/777properseq5093frames/45OBJlists231objects/
+1895pixelrequests677280B;12targetindexrootinitial48..59con witnesses exactfields.
+Full796992B/shared697168B, nuovi659span99824B (5544index504header11760frame82016pixel),
+1386newcells1260null/126newseq588op1/268pixelrequests. No nuoviOBJ/mixeditem/role/
+extentconflict. Fontechiusa, modello-Wine-managed-runtime-CLI-ordinary pending,
+e65/USAe8invariati. FFFF/redirect/outofcatalog/changedactor/globalidentity e altre
+piattaforme separati; nessun guest/build/fixture/navigazione/misure.
+[Contratto](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection).

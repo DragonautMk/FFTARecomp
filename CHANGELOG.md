@@ -30,32 +30,62 @@ Documentation: [debug saves.md](docs/development/debug saves.md), [extended_save
 
 [Change record](docs/changes/2026-10-26-validate-user-failed-dispatch-snapshot.json)
 
-## 2026-10-26 — Bound European registry script poses through known special-unit assignments
+## 2026-10-26 — Decode European registry script poses with exact special-unit witnesses
 
-Type: docs. Platforms: Windows.
+Type: added. Platforms: Windows.
 
 **Changes**
 
 - Authenticate the conditional producer domain before inspecting targets:16actual high-selector decimal49references/seven selector-base pairs, resolved unitbyte4in the93known metadata14rows2..94, retained same-unit original normalCF144/alternateCF180assignment, override20clear/facing0..3. Preserve1302mode/registryselector/unitlogical/base witnesses2976conditional references without fixed registry identity or an allscript-all-sprite product.
 - Define2220logicalqueries/1908physical cells/1537physical nulls/353proper counted sequences2081frames/60OBJlists279objects/841indexed4bpp requests321088B. Audit known indexroots from all seven current unitOBJmodels, preserving every selected key with count/shape-derived extents.
-- Identify272new spans15276B=2392index84header1920frame10880pixel,598cells567nulls/21sequences96operation1frames/37pixelrequests; retain358566Bunder six earlier owners. Source contract only, EUR e64-d63/USAe8-d7/model/runtime unchanged.
+- Identify272new spans15276B=2392index84header1920frame10880pixel,598cells567nulls/21sequences96operation1frames/37pixelrequests; retain358566Bunder six earlier owners. EUR e64-d63/USAe8-d7managed-runtime unchanged.
+- Add a strict lossless typed model retaining all1302conditional witnesses/2976references/2220logical keys and exact1908physical cells. Independently validate initial/equipment/normal/alternate/low-scriptnormal/low-scriptalternate views before union subtraction, reject conflicting alias values, retain original frame words/tails/OBJattributes/indexed4bpp pixels.
 
 **Validation**
 
 - ExactEUR/archive/metadata14authentication and41halfword/fourliteral/eightBLfingerprints verify the source domain before target reads, including CBAD4unit+4predicate/getter table indexing/current assignment/registry-unit-context path. All16references match accepted original projection; all93metadata rows retain their exact logical IDs and source fields.
 - All59e64resource file/source hashes pass. Full373842BsourceSHA2561151b354c92613f2020980b5825090d205d99b0646dc4da6ac3fe81d1a0ceef9; shared74006initial254186normal3792scriptnormal25650alternate80scriptalternate852equipmentBonly. No target classified as indexroot, internal role overlap, mixed old/new typed item or varying pixel extent.
-- New272spans15276B/sourceSHA256eef259d8b369d5c9e1e8dccf82f6d125a8bb405580e2abd750242fd9fca85169. All21new sequences contain96operation1frames, 37entirely newpixel requests cover10880B. No guest/build/model or oldacceptance campaign executed.
-- Cheap360source hash checks confirm allimplementation files unchanged; only six coherent memory/feature files plus this new record change.372local feature links, project-memory default+baseac34c8a and CRLF-aware whitespace pass. Reuse the already closed04privateasset preservation10117hashes/1362CLI hash-mtime guards/18compiled inputs; no repeated10200artifact/build/game campaign for this read-onlysource unit.
+- New272spans15276B/sourceSHA256eef259d8b369d5c9e1e8dccf82f6d125a8bb405580e2abd750242fd9fca85169. All21new sequences contain96operation1frames, 37entirely newpixel requests cover10880B. During the source-contract child no guest/build/model or oldacceptance campaign was executed.
+- During the read-only source-contract child, cheap360source hash checks confirm allimplementation files unchanged; only six coherent memory/feature files plus this new record change.372local feature links, project-memory default+baseac34c8a and CRLF-aware whitespace pass. Reuse the already closed04privateasset preservation10117hashes/1362CLI hash-mtime guards/18compiled inputs; no repeated10200artifact/build/game campaign for this read-onlysource unit.
+- The initial Windows frontend build failed with E0308 in the oracle-only initialpose::Sequence position helper. A narrow typed lookup correction preserves the model/source plan; separate retry build passes without warnings. Frozen frontend SHA256e55e7b3f60e69e22f8d7496c3bdd1fc99a9eed86293c14631292cedf30b168ce; first actual exact Wine source filter passes26guards/1196newcell facing-alias prefixes/567null+21proper resets/37real scheduler-DMA uploads covering all10880newpixelB/entireVRAM. No previous command/source/managed/native/scene acceptance is replayed.
+- Final meaningful-code preservation passes10212prior private hashes/1378Wine hash-mtime guards/13finalcompiled inputs; both shared hubs equal preimages plus exact declarations only. 369decoded local feature links, new-module rustfmt, project-memory default+base7718663 and CRLF-aware whitespace pass. No unrelated implementation change, private0tracked; productione64-d63/USAe8-d7unchanged.
 
 **Limitations**
 
-- Conditional knownspecial-unit highregistry source contract only. Lossless model/original-reader Wine/managed-runtime/actualCLI/ordinary newpixel/fullscene criteria pending, with six previous typed views requiring independent validation.
+- Source contract/lossless model/new focused Wine oracle are closed. Managed-runtime/actualCLI/ordinary newpixel/fullscene criteria remain separate; no native complete-state-clock or wholeactor/allocator ABI claim.
 - No static registry unit/class identity or every-actor/action reachability. Generic0/1/out-of-catalog/redirect/forcedoverride/changed-currentactor paths stay separate; no pruning within the predeclared93row domain or local liveIDcap.
 - Linux/USA/nativeWindows/new32:9 remain pending; no performance/storage measurement or optimization, gameplay fixture/navigation/private payload edit, Android change, packaging, commit or push.
 
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scripts.md](docs/rom_data_scripts.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-inventory-european-registry-special-poses.json)
+
+## 2026-10-26 — Identify European registry script poses from direct generic-job fields
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Authenticate the conditional generic unitbyte4=0/1 directjob producer domain before animation targets:16actual highselector49refs/sevenpairs, unitcurrentjob+5/alternate+7/property4-5 and retainedsameunit originalnormal-or-alternate assignment/override20clear/facing0..3. Preserve2940mode-unitkind-selector-job-base witnesses6720refs.
+- Classify all116metadata52rows without target-driven pruning:100bothconcrete/10normalonly/2bothFFFF/4routeFF;110normal100alternate concretefields. Correct the rejected initialjoint110count before reading animationtargets, retain2normal12alternateFFFFu16zeroextension and livealternate redirects as separate source cases.
+- Define107sprites/3210physicalcells/777propersequences5093frames plus12explicit initialindexroot targetviews; identify659newspans99824B with1386cells1260null/126newseq588op1frames/268pixelrequests82016B, while697168B retain six earlier owners. Productione65-d64/USAe8-d7unchanged.
+
+**Validation**
+
+- ExactEURROM/metadata52/archive authentication and83halfword/sixliteral-dispatch/11BLpins verify CCC48currentjob/alternatebyte/property branch/directroute0/fieldassembly/u16truncation/currentassignment/registry-unit-context. All116raw52Brows match original sources, no target inspection occurs before the producer contract.
+- All60e65resource file/source hashes authenticated before roots/targets. Twelve sprite247animation136/137/140/141parts0/1/2cells equal initialsprite48..59directory fields and their targets match initialindexroot/firstsequence fields; no sequencecount heuristic or nullreplacement.
+- Full796992B/sourceSHA25678b1f978d4f97e3b1b842998124703d4488b2992ecf9fa232782d37fdec4d3ab. Shared72476initial436910normal185458alternate16low-scriptalternate40registry-knownspecial2268equipmentB. No internal role overlap, mixedold-newtypeditem or varyingpixel extent.
+- New659spans99824B=5544index504header11760frame82016pixel/sourceSHA25644033ff6d5c52eb5ce768cf725db2b1c5bd906fe98a36be7082874304921cdd9.126newseq588frames alloperation1,268entirely newpixelrequests82016B/no newOBJ. Static source-only work; no code/model/build/guest or oldacceptance campaign executed.
+- Cheap366baseline sourcehash checks confirm allimplementation files unchanged; only six coherent memory/feature files plus this new record change.533decoded local links, project-memory default+base916b4f9 and CRLF-aware whitespace pass. Reuse closed04actualCLI1445hash-mtimeguards/23compiled inputs and03-02private preservation; new audit authenticates all60e65owners independently before targets, without a repeated10698legacyartifact/build/game campaign.
+
+**Limitations**
+
+- Lossless model/newfocused Wineoracle/managed-runtime/actualCLI/ordinarynewpixel-fullscene remain pending. No globalregistryidentity/everyunit reachability, FFFF/redirect/out-of-catalog/changedcurrentactor or wholeactor/allocator ABI claim.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage measurement or optimization, gameplayfixture/navigation/privatepayload edit, Android change, packaging, commit or push.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scripts.md](docs/rom_data_scripts.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-inventory-european-registry-generic-poses.json)
 
 ## 2026-10-26 — Extract conditional European alternate script poses with exact selector witnesses
 
@@ -207,6 +237,36 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data.md](docs/rom_data.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-consume-european-script-override-poses.json)
+
+## 2026-10-26 — Publish and consume European registry script poses for known special units
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add EUR e65-d64 managed publication and strict authenticated loading of the conditional registry-special typed model, with actual metadata14/archive and six previous typed-view dependencies. Keep all1302witnesses2976refs/2220keys1908cells; USAe8-d7 unchanged.
+- Serve exactly272new spans15276B through immutable typed directory/index/sequence/OBJ/pixel fields and compose holes with previous owners or raw ROM. Original facing, commands, allocation, scheduler, DMA and VRAM remain guest work; source counters expose functional coverage only.
+
+**Validation**
+
+- Source/model and its first focused Wine oracle remain closed without replay. One affected Windows core/frontend build passes warning-free; core compile-only SHA256c2da0c37a1e544ad674a985aa509448119efe9eccbca9f6c40a53a5abfab773c, frozen frontend904aede2247e973b34a65ff0ea2ad34dc7809bf6bf6592392bba3fab1cbe95bc.
+- Both firstactual exact Wine filters pass. Managed publication retains all59prior resources/e64 and all59prior decoded resource files, with33attach+10dependency guards, create/reuse/repair/move, failed-attach state-owner isolation, unavailable-directory load/Undo/backup/restart, all15276typedB/21newsequences and4sharedB through each of six earlier owners.
+- 25original-interpreter-compiled complete-state-clock paths pass with all373842directgraphB altered, including new index/header/frame/pixels, realnull parts1/2/two orientations/raw fullwordIDs/liveRAM frames.272source boundaries/widths/mirrors/realBIOS-bus/CpuSet/FastSet/DMA and mixed2new4alternate plus2new2editedraw pass. Compiled category bytes[0,36,6,43,0,1], DMA separately checked; no oldcommand or previous acceptance replay.
+- Dataset9bfe0d6e8ded8e31ee33c2bb962adc2b08159518451a869a188498273ed33e26; manifest7ec5b72ccbd4abc40bb69ecb26a6a0eb7ee086194f43c56435e501253b8841c8; model filefded7e60e6ecbe3b904899b1e6d00a9ed06c85608589f1c7057aaefdc164384b, owned-sourceeef259d8b369d5c9e1e8dccf82f6d125a8bb405580e2abd750242fd9fca85169. Build/Wine1379/1381hash-mtime guards and23compiled inputs verified unchanged. Reuse the justclosed model-stage10212prior privatehash proof; no repeated whole legacy artifact campaign.
+- Final integration preservation passes all363baseline source checks with changes confined to five selected implementation files, their preimages and23compiled inputs.528decoded local links, new-module rustfmt, project-memory default+base916b4f9 and CRLF-aware whitespace pass. Source/model/oracle unchanged; private0tracked, no livejobs.
+- Actual production Windows CLI661c5af78e16f41101aafa33bfb863b2a720296ebe5d36e2616200f46e1da9bb builds once warning-free; canonical executable exacthash+mtime restored/maincontentunchanged-mtime-onlyCargo invalidation. Wineprepare/reuse/oneframeoldcache firstPASS from unrelatedcwd:61generation/63managed files/all61equalaccepted/eightactualdependencies/reusehash-mtime unchanged. AuthenticF09oldcache oneframe attaches e65 with allnewusage0, smokeonly; no ordinarypositive claim.
+- Actual CLI closure confirms all366baseline source hashes with every implementation file unchanged, all23runtime compiled inputs unchanged, canonical exacthash-mtime restored and1445active CLI hash-mtime guards checked after commands.529decoded local links, project-memory default+base916b4f9 and CRLF-aware whitespace pass; reuse03/02private preservation without repeating10611legacy-artifact campaign.
+- A new read-only81existing-snapshot locator for exactly21newregistry sequences finds zero enabled or dormant matching originalbody tasks. Source-model hash, snapshot header/payload/ROM and each81input hash-mtime beforeafter authenticate; originals unchanged. Old606alternate/sevennormal/twoalternate/sixoverride scans not repeated; no guest/build/fixture/navigation or fullpair selected. This locator is closed, ordinary newpixel/equivalence remains open.
+- Read-only21-target lead closure confirms all366source hashes with every implementation file unchanged,530decoded feature links/project-memory default+base916b4f9/CRLFwhitespace. Fresh81input header-payload-ROM/hash-mtime checks supplement closed04/03/02private proofs; no repeated10692legacyartifact campaign. No livejobs; full ROM_DATA_TODO remains active/incomplete.
+
+**Limitations**
+
+- Managed publication/typed guest and compiled consumption are closed for the selected conditional source graph. Actual production CLI is closed; ordinary newpixel/fullscene and global registry identity/genericjob/outofcatalog/redirect/changed-currentactor remain separate; no wholeactor/allocator ABI claim.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage measurement or optimization, gameplay fixture/navigation/private state edit, Android change, packaging, commit or push.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-registry-special-poses.json)
 
 ## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
 

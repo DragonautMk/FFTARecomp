@@ -1,5 +1,15 @@
 # Decoded ROM resources
 
+EUR e62-d61adds [conditional normal script-special poses](rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime):
+58files57resources, four actual dependencies, all56prior records/e61retained/
+USAe8-d7. Typed owner serves only33newspans6436B with shared initial/normal owners
+preserved. Two new Wine filters pass29guards/lifecycle/allnewbytes and23original-
+interpreter-compiled fullstate-clock paths/33edges/BIOS-SWI-DMA/mixednew-prior-raw.
+ActualproductionCLI58generation60managed/all58matchaccepted/no-write reuse and
+oneframeoldcacheattachment pass(zero newuse/smokeonly). Ordinarysource/newpixel/
+Linux-USA-nativeWindows-32:9 remain pending; source/model/oldproofs not replayed,
+no performance measurements.
+
 The separate [normal-mode battle pose source model](rom_data_unit_obj.md#normal-mode-battle-poses-source-projection-and-typed-model)
 now decodes2581sequences/17894frames over122normal-mode IDs, including real nulls,
 parts1/2 and command-dependent fields. New6021spans1455474B exclude byte-identical

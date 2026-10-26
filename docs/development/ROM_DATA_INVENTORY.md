@@ -1426,3 +1426,17 @@ model closed; managed/runtime/CLI/ordinary and alternative/override/highregistry
 current-state coverage pending. e61/USAe8unchanged; newLinux-USA-nativeWindows-
 32:9pending, no performance/storage measurements.
 [Model and scope](../rom_data_unit_obj.md#typed-normal-script-special-pose-model).
+
+
+The conditional normal script-special owner now publishes/consumes EUR e62-d61:
+58files57resources/fouractual metadata14-scriptarchive-initial-normal dependencies,
+all56prior decoded files/resources/coverage and e61 retained, USAe8 unchanged.
+One warning-free Windows core/frontend build(core compiledonly) and two new Wine
+filters firstPASS29guards/lifecycle/all6436newtypedB/seven sequences and23original-
+interpreter-compiled fullstate-clock paths/33edges-mirrors-BIOS-SWI-DMA. Shared
+initial/normal owners stay intact under41802graphB poisoning; new-role bytes
+0dir240index28header920frame0OBJ5248pixel, nativeAPI0/36/6/43/0/1. Mixed2new4normal
+transfers and2new2rawAPI preserve exact charges. No oldcommands/source/census/
+scene repeat. ActualproductionCLI58generation60managed/all58matchaccepted/no-write
+reuse and oneframeoldcacheattachment pass; zero newuse/smokeonly. Ordinarysource/
+newpixel and newLinux-USA-nativeWindows-32:9pending, without measurements. [Managed runtime](../rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime).

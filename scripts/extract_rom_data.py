@@ -40,6 +40,7 @@ DESCRIPTIONS = {
     'auxiliary-script-command-directory.json': 'European typed auxiliary script advance and Thumb callback directory; original guest dispatch retained',
     'auxiliary-script-archive.json': 'European typed u16-relative auxiliary archive with interior instruction entries; original predicates and cursors retained',
     'ui-choice-lists.json': 'European typed immutable choice entries and filtered templates; original RAM copies, input and cursor tasks retained',
+    'unit-obj-script-special-normal.json': 'European conditional normal script-special poses with exact logical metadata and script witnesses; previous owners, original tasks and DMA retained',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-equipment.json': 'European item/action-rooted equipment poses, null cells, commands, OAM and decoded indexed tiles; original live tasks and DMA retained',

@@ -1075,3 +1075,89 @@ source/model/managed/native/actualCLI and earlier families' scenes stay closed.
 Private evidence is under `target/rom-data-equipment-ordinary/`. e61/USAe8remain;
 newLinux/USA/nativeWindows/new32:9 and other ordinary sequences remain pending,
 without performance/storage measurements.
+
+
+## Conditional script-special normal managed runtime
+
+The new integration wires `unit-obj-script-special-normal.json` as EUR
+`graphics.unit-obj-script-special-normal` in schema1/e62-d61. Its direct declared
+dependencies are metadata14, scriptarchive, initial-pose and normal-battle;
+producer witnesses are authenticated against the logical metadata IDs and exact
+script references, and shared bytes remain with their prior owners. USA stays
+e8-d7. The new immutable owner serves only33newspans6436B, reconstructing typed
+index/header/frame/4bpp pixel bytes without retaining a raw ROM shadow. The
+original live actor selection, animation commands, scheduling, queue and DMA
+remain guest work; no IDcap/save/native ABI change is introduced.
+
+One affected Windows core/frontend test build passes without warnings; core is
+compiled only. Two reduced new Wine filters pass first attempt. The source/model
+oracle remains closed.
+The managed filter covers prior-file/resource retention, dependencies, coherent
+edits, transactional failed attach, publication lifecycle and unavailable-file/
+load/Undo/backup/restart ownership. The native filter compares original raw-ROM,
+typed interpreter and real compiled guest reads with complete states/clocks,
+new null/sequence paths, two representative uploads+DMA, live RAM frames, all33
+edges/widths/mirrors/BIOS and mixed new/prior/raw reads. All41802direct graph bytes
+are poisoned to exercise shared owners, while only6436belong to the new owner.
+Old commands2/6/8and prior source/census/native/ordinary proofs are not replayed.
+Actual productionCLI now passes below. Ordinary use for this family and Linux/
+USA/nativeWindows/new32:9 remain pending, without performance/storage measurements.
+
+
+Managed EUR e62-d61verification publishes58files57resources, preserving all56
+prior file/resource records and coverage plus retained e61/USAe8-d7.23attachguards
+and6dependencyguards pass, including coherent edits and failed-attach owner/state
+isolation. Interrupted publication/create/reuse/repair/move and unavailable-file
+Load/Undo/backup/restart preserve the typed owner. Reading all6436newbytes under
+complete41802graph poisoning gives exactly240index/28header/920frame/5248pixelB,
+seven new sequences and no new directory/OBJ charges. Shared initial/normal
+reads remain independently charged to those owners.
+
+The new native filter passes23original-interpreter-compiled fullstate-clock
+paths: part0proper sequences, part1/2realnulls, both orientations, fullword rawID,
+live RAM frame, two uploads+realDMA, all33source edges/widths/mirrors/realBIOSbus,
+CpuSet/FastSet/DMA and mixed reads. Native API new-role bytes are
+[0directory,36index,6header,43frame,0OBJ,1pixel]; DMA is compared separately.
+The mixed transfer has2new+4normal bytes with exact owner charges; unaligned
+API source has2new+2deliberately modified raw bytes. New frames alloperation1;
+old command acceptance is not repeated.1841instructions/496PCs/104dispatches
+are functional coverage only. No fullallocator/actor/ordinary claim follows.
+
+Dataset SHA-256 `f131b439ee62dc55ab0383c985f9c1c936a85088106bc4e16c3fab80ed4e69a2`,
+manifest-file SHA-256 `2b84c40c03b0c4d81aa80b414f1d2271fd825093bcf94e68275883d89a464499`,
+model-file SHA-256 `02e7362e2bb2bea7dad84bf769d5cb0c88b3e6efd3cc59fe77eb911da97e37c5`.
+Frozen Windows frontend tests are `b47e885085e927959c388b065301e594f08a1b849c3ce42b291c7852defdaaac`;
+core `b47c085aa25b4f588eb38052905997042dfcce27c78fba9356236b5613ca4e00` is compiled
+only. Private evidence: `target/rom-data-script-special-runtime/`, managed/native
+result JSONs, Windows build and two Wine logs. ActualproductionCLI passes below;
+ordinary use remains pending, prior source/model/census/scene proofs not replayed.
+Linux/USA/nativeWindows/new32:9 remain pending, with no performance/storage work.
+
+
+## Conditional script-special normal actual production CLI
+
+One changed-code Windows production build is warning-free, frozen SHA-256
+`6455958ed9616b269d225a7f9da28f726cbb6624021c461baf567571f1c1c5d0`.
+Canonical executable hash and nanosecondmtime1792570130397888519 are restored
+exactly. Cargo invalidation touches only main.rs's mtime, preserving its contents.
+
+Actual WineCLIcreate/reuse from an unrelated working directory verifies58files
+against the accepted managed dataset; all60managed file hashes/mtimes remain
+unchanged on reuse and attachment. Actual generation `generation-SHz1vX` keeps
+datasetf131b439.. /manifest-file2b84c40c.. /model-file02e7362e.. identities listed
+above, with all four dependencies. The unchanged authentic EURF09snapshot loads
+oneframe with the retained native cache and new owner attached. That frame
+reads zero new script-special bytes: compatibility smoke only, not an ordinary
+source/pixel use or complete-scene equivalence claim. Earlier3530/500/census6000/
+source-model/native/CLI/scene acceptances are not replayed.
+
+Actual productionCLI criterion is closed. The retained Snow6000census observed
+two new realnull cells37C760/37C764, providing an ordinary source-use lead. It
+does not prove ordinary use of the seven new sequences/pixels; choose that
+criterion explicitly before a new scene/fullpair. No new fixture, navigation,
+privatepayload edit, performance/space campaign or otherplatform test occurs.
+Private CLI evidence is under `target/rom-data-script-special-cli/`: build,
+processes/no-write/summary JSONs, threeWine logs and one-frame endpoint image.
+Linux/USA/nativeWindows/new32:9 and alternate/override/highregistry/current-actor
+source cases remain open. Source/model/managed/native/actualCLI children stay
+closed, with no unchanged repeats.

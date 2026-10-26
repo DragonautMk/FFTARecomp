@@ -2820,5 +2820,39 @@ nessun replay dei comandi2/6/8già provati; vecchie accettazioni/censimento6000c
 Solo registrazioni moduli e nuovi file, e61/USAe8invariati. Restano managed/runtime/
 actualCLI/ordinary e condizioni alternate/42-230/high16/statoattore; nuoveLinux/
 USA/nativeWindows/32:9da fare. Nessuna misura performance/spazio. Dopo la chiusura
-memoria, prossima derivazione ordinary equipment esplicitamente autorizzata.
+memoria, derivazione ordinary equipment poi conclusa con autorizzazione esplicita
+ed unica coppiaFight500positiva; pipeline03script-special prosegue sotto.
 [Modello e prove](../rom_data_unit_obj.md#typed-normal-script-special-pose-model).
+
+
+**ROMDATA-03/04-SCRIPT-OBJ-SPECIAL-NORMAL managed/runtime completati nel
+perimetro EUR/Wine mirato (2026-10-26).** e62-d61pubblica58file57risorse con
+metadata14/scriptarchive/initial/normal,151refs20testimoni logici autentici;
+tutti56record/file/coperture precedenti ed e61 conservati, USAe8-d7. Ownerimmutabile
+serve solo33span6436B typed, condivisi initial/normal agliowner precedenti, senza
+ROMshadow/capID/riscrittura task/ABI-save-native. Unica buildWindowscore/frontend
+warning-free(core solo compilato); due nuovi filtriWine firstPASS23attachguardie+
+6dipendenze/lifecycle/tutti6436typedB/sequenze7 e23percorsi originali-interprete-
+compilato con stato-clock completo uguale. Part0proper/part1-2null/twoorientations/
+fullwordrawID/liveRAM/two uploads-DMA/all33edges/mirror/BIOS/SWI-DMA passano;
+nuoviAPI[0dir36index6header43frame0OBJ1pixel]B, misto2new4normal esatto e API
+2new2raweditati. Tutti41802graphB avvelenati, vecchi comandi2-6-8/source/censimento/
+scene non ripetuti. Datasetf131b439../manifestfile2b84c40c../modelfile02e7362e..
+con identità distinte.04CLIproduzione reale poi concluso sotto; restano05ordinary
+source/nuovepixel della famiglia e condizioni alternate/override/highregistry/
+statoattore; Linux-USA-
+nativeWindows-new32:9 da fare. Nessuna misura performance/spazio/nuovafixture.
+[Pubblicazione e runtime](../rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime).
+
+
+**ROMDATA-04-SCRIPT-OBJ-SPECIAL-NORMAL-CLI completato EUR/Wine (2026-10-26).**
+Unica buildproduzioneWindows warning-free/frozen6455958e..; canonico esattamente
+ripristinato(hash+mtime), maincontent invariato/mtime-onlyCargoinvalidation.
+ActualWine26817create/reuse58generation60managed/all58ugualiaccettati/no rewrite,
+cwdestranea, generation-SHz1vX/f131b439.. . Un frameF09immutabile/vecchiacache
+caricaowner mazero nuovibyte: solosmokecompatibilità, nessun05ordinary/nuovipixel/
+fullpairclaim. Vecchieprove3530/500/census6000/source/native/CLI/scene non ripetute.
+05source-use/newsequence/pixelordinary ancora aperto: Snow6000ha due celle nulle
+nuove effettive, è un lead e non prova nuovipixel. Linux-USA-nativeWindows-new32:9/
+altri casi fonte restano da fare; nessuna misura o nuova fixture/navigazione.
+[CLI e limiti](../rom_data_unit_obj.md#conditional-script-special-normal-actual-production-cli).

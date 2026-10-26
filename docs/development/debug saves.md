@@ -1,11 +1,12 @@
 # TODO — Debug saves
 
-Aggiornato il 23 ottobre 2026. Numerazione stabile **DS-01…DS-26**, nello stesso
+Aggiornato il 26 ottobre 2026. Numerazione stabile **DS-01…DS-26**, nello stesso
 ordine della lista originale. Il nome breve è riportato in ciascuna voce.
 
-Ricognizione aggiornata: **17 casistiche validate, 6 parziali, 3 non coperte**.
+Ricognizione aggiornata: **18 casistiche validate, 6 parziali, 2 non coperte**.
 La ripresa aggiunge **DS-04/05/06/09/10/11/13/14/23/24/25**
-alle precedenti DS-01/02/16/18/19/22. DS-26 ha ora un punto postgame parziale. La prima ricognizione
+alle precedenti DS-01/02/16/18/19/22. DS-26 ha ora un punto postgame parziale. Il nuovo file utente EUR completa
+**DS-20** il 26 ottobre. La prima ricognizione
 rimane conservata nel suo record: 3 validate, 10 parziali, 13 non coperte.
 Una spunta vale soltanto per lo scenario e la prova indicati. Le verifiche già
 concluse sono riutilizzate; non sono stati rifatti build, benchmark o confronti
@@ -21,8 +22,8 @@ interprete e BIOS HLE, su copie isolate.
 
 La nuova raccolta **`debug_saves/ready/`** contiene `README.local.md` e
 `catalog.json`, cartelle regionali **USA/** e **EUR/**, i 27 salvataggi standard
-estratti, la precedente base EUR e **31 checkpoint numerati per casistica**
-(13 EUR esistenti, 18 USA), tre nuovi standard GEN-30/31/33 e la cartuccia
+estratti, la precedente base EUR e **32 checkpoint numerati per casistica**
+(14 EUR, 18 USA), tre nuovi standard GEN-30/31/33 e la cartuccia
 vuota NEW-32 per le scene del nome. L'intera `debug_saves/` è esclusa da Git con
 `/debug_saves/`; nessun file della cartella è tracciato. Nessun push eseguito.
 
@@ -44,7 +45,10 @@ Le **14 varianti negli slot 51…64** sono già selezionabili dal menu USA:
 55 tre leggi Prison Break, 56 schieramento Decision Time, 57 dialogo breve,
 58 due missioni attive, 59 White Magic assegnata, 60 bersaglio Firaga,
 61 prima Auto-Life, 62 ricompense, 63 inventario pieno, 64 requisito mancante.
-Gli altri file in `variants/` vanno importati in uno slot libero.
+Inoltre **EUR slot 65** è la variante DS-20 già dopo la fuga, prima del
+rientro fallito. `EUR/variants/` ne conserva la copia descrittiva; i 25 punti
+precedenti sotto `USA/variants/` restano invariati. Gli altri file vanno
+importati in uno slot libero.
 Le copie standard sono esatte; gli snapshot derivano da input ordinari,
 senza modificare RAM, flag o inventario. Le anteprime aggiunte ai checkpoint
 del replay non alterano il payload core. Gli originali restano invariati.
@@ -420,15 +424,19 @@ Ambito restante: Valida per questo percorso del pub; non per ogni missione o req
 
 ### DS-20 — Spedizione fallita
 
-- [ ] **NON COPERTA** — `spedizione_fallita`.
+- [x] **VALIDATA** — `spedizione_fallita`.
 
 Richiesta: Spedizione fallita: poco prima del rientro o della comunicazione del risultato.
 
-Fonte: Nessun rientro fallito individuato.
+Fonte: nuovo `slot-4.ffstate` fornito nella root, ROM **EUR**, formato 1 e BIOS HLE. Rinominato e spostato, con byte e SHA-256 invariati, in **`debug_saves/DS-20-spedizione-fallita-EUR.ffstate`**. Copia pronta in **Save states slot 20 EUR**.
 
-Riscontro: La spedizione disponibile è riuscita e non copre questo esito.
+Riproduzione: la conferma «Vuoi fuggire dalla battaglia?» parte su **No**. Premere **Sinistra → A** per scegliere Sì e attendere la sequenza **SCONFITTA**, la dissolvenza e il ritorno alla mappa. **Polly** comunica «Mi dispiace, davvero. Ho fatto un pasticcio». Confermare con A: compare il rapporto **«Rientrata unità in trasferta»**. Segue anche un rapporto negativo di Sigmund. La generica intestazione «Missione Completata» nel riepilogo non è stata usata come prova di successo: il rientro fallito è verificato dal dialogo di Polly e dalla notifica di trasferta.
 
-Ambito restante: Serve un punto prima del rientro o della comunicazione del fallimento.
+Riscontro: caricamento e ricaricamento dei checkpoint nel helper Windows già disponibile; ramo No annullato, ramo Sì seguito fino alla mappa e ai rapporti. Anche la GUI Windows/Wine carica effettivamente lo **slot 20**, mostra il messaggio di Polly e il rapporto, poi termina normalmente **exit0**. Nessun build o modifica a payload, RAM o salvataggi cartuccia originali. Prove in `target/debug-saves-expansion/ds20-user-{yes,after-defeat,frontend}/` e `target/debug-saves-ds20/`.
+
+Variante **slot 65 EUR**: già dopo la fuga/sconfitta, prima del passaggio alla mappa e del messaggio di Polly; basta attendere. Master locale `EUR/variants/DS-20-prima-del-rientro.ffstate`. L'originale utente resta conservato integralmente.
+
+Ambito restante: validato questo rientro fallito; altri partecipanti/missioni e tutte le possibili cause di fallimento restano fuori campione. Il solo banner SCONFITTA non sarebbe bastato a chiudere DS-20.
 
 ### DS-21 — Oggetti missione e utilizzo
 
@@ -552,12 +560,12 @@ da quella sessione. Nessuna nuova prova su Windows nativo, controller fisico,
 Linux o Android. Le verifiche finali conservano hash degli originali e fonti,
 checksum anteprime/payload, ROM/versione e assenza di file tracciati in Git.
 
-Ricognizione complessiva **parziale**: **17 validati, 6 parziali, 3 non coperti**.
+Ricognizione complessiva **parziale**: **18 validati, 6 parziali, 2 non coperti**.
 Restano parziali DS-07 folla/varietà, DS-08 riproduzione del turno lento,
 DS-12 percorso tra quote/occlusioni, DS-17 descrizioni lunghe/categorie,
 DS-21 consumo di un oggetto richiesto e DS-26 conclusione/finale.
-Non coperti DS-03 premio di soglia, DS-15 obiettivo alternativo e DS-20
-rientro fallito. Il tentativo Girl In Love si ferma al requisito mancante;
+Non coperti DS-03 premio di soglia e DS-15 obiettivo alternativo. DS-20 è ora
+validato dal nuovo punto EUR e dal rientro fallito osservato di Polly. Il tentativo Girl In Love si ferma al requisito mancante;
 Prison Break ha obiettivo DEFEAT ALL ENEMIES e nessun oggetto obbligatorio.
 Le anteprime Bind a 0% restano tentativi negativi, distinti dalla scena con
 icone DS-10. Non ripetere le validazioni concluse per ricostruire il contesto.

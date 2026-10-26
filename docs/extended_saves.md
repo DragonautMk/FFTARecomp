@@ -24,8 +24,11 @@ Master copies remain under ignored `debug_saves/generated/`, separately from
 the numbered working family. **NEW-32** is factory-empty memory for naming
 snapshots: select standard slot32 before loading DS-23 or variants53/54.
 Loading snapshots restores SRAM and may flush it to the active standard file.
-The guide lists **17 validated, 6 partial, 3 uncovered cases**, plus menu-ready
-variant snapshots51–64, keeping those variant numbers distinct from DS IDs.
+The guide lists **18 validated, 6 partial, 2 uncovered cases**, plus menu-ready
+variant snapshots 51–64 for USA plus 65 for EUR. The new user-provided EUR DS-20
+checkpoint loads in slot 20 and reaches a failed dispatched-unit return through
+the flee/Defeat/map transition; its original bytes are retained under a
+descriptive ignored filename. Variant numbers stay distinct from DS IDs.
 
 ## Snapshot slots
 

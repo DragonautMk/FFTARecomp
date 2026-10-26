@@ -35,6 +35,7 @@ use gba_core::rom_data::{
     unit_obj_equipment::UnitObjEquipment, UNIT_OBJ_EQUIPMENT_ID, UNIT_OBJ_EQUIPMENT_FILE, MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES,
     unit_obj_normal_battle::UnitObjNormalBattle, UNIT_OBJ_NORMAL_BATTLE_ID, UNIT_OBJ_NORMAL_BATTLE_FILE, MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES,
     unit_obj_alternate_battle::UnitObjAlternateBattle, UNIT_OBJ_ALTERNATE_BATTLE_ID, UNIT_OBJ_ALTERNATE_BATTLE_FILE, MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES,
+    unit_obj_script_special_normal::UnitObjScriptSpecialNormal, UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_ID, UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE, MAX_UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE_BYTES,
     map_raster_palettes::MapRasterPalettes, MAP_RASTER_PALETTES_ID, MAP_RASTER_PALETTES_FILE, MAX_MAP_RASTER_PALETTES_FILE_BYTES,
     auxiliary_scripts::AuxiliaryCommands, AUXILIARY_COMMANDS_ID, AUXILIARY_COMMANDS_FILE, MAX_AUXILIARY_COMMANDS_FILE_BYTES,
     auxiliary_scripts::AuxiliaryArchive, AUXILIARY_ARCHIVE_ID, AUXILIARY_ARCHIVE_FILE, MAX_AUXILIARY_ARCHIVE_FILE_BYTES,
@@ -276,6 +277,8 @@ mod unit_obj_equipment_runtime_tests;
 mod unit_obj_normal_battle_runtime_tests;
 #[cfg(test)]
 mod unit_obj_alternate_battle_runtime_tests;
+#[cfg(test)]
+mod script_special_normal_runtime_tests;
 #[cfg(test)]
 mod map_raster_palette_runtime_tests;
 #[cfg(test)]
@@ -622,6 +625,11 @@ fn parse_unit_obj_alternate_battle(bytes:&[u8])->Result<UnitObjAlternateBattle,S
     value.validate()?;Ok(value)
 }
 fn encode_unit_obj_alternate_battle(value:&UnitObjAlternateBattle)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_alternate_battle: {e}"))}
+fn parse_unit_obj_script_special_normal(bytes:&[u8])->Result<UnitObjScriptSpecialNormal,String> {
+    let value:UnitObjScriptSpecialNormal=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_script_special_normal: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_script_special_normal(value:&UnitObjScriptSpecialNormal)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_script_special_normal: {e}"))}
 fn parse_map_raster_palettes(bytes:&[u8])->Result<MapRasterPalettes,String> {
     let value:MapRasterPalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid map_raster_palettes: {e}"))?;
     value.validate()?;Ok(value)
@@ -802,6 +810,7 @@ struct Dataset {
     unit_obj_equipment: Option<UnitObjEquipment>,
     unit_obj_normal_battle: Option<UnitObjNormalBattle>,
     unit_obj_alternate_battle: Option<UnitObjAlternateBattle>,
+    unit_obj_script_special_normal: Option<UnitObjScriptSpecialNormal>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -840,6 +849,7 @@ struct Dataset {
     unit_obj_equipment_bytes: Option<Vec<u8>>,
     unit_obj_normal_battle_bytes: Option<Vec<u8>>,
     unit_obj_alternate_battle_bytes: Option<Vec<u8>>,
+    unit_obj_script_special_normal_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -904,6 +914,7 @@ impl Dataset {
             unit_obj_equipment: self.unit_obj_equipment.as_ref().zip(self.unit_obj_equipment_bytes.as_deref()),
             unit_obj_normal_battle: self.unit_obj_normal_battle.as_ref().zip(self.unit_obj_normal_battle_bytes.as_deref()),
             unit_obj_alternate_battle: self.unit_obj_alternate_battle.as_ref().zip(self.unit_obj_alternate_battle_bytes.as_deref()),
+            unit_obj_script_special_normal: self.unit_obj_script_special_normal.as_ref().zip(self.unit_obj_script_special_normal_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1039,6 +1050,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(UNIT_OBJ_NORMAL_BATTLE_FILE),MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES)).transpose()?;
     let unit_obj_alternate_battle_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_ALTERNATE_BATTLE_ID)
         .then(||read_bounded(&path.join(UNIT_OBJ_ALTERNATE_BATTLE_FILE),MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES)).transpose()?;
+    let unit_obj_script_special_normal_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE),MAX_UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE_BYTES)).transpose()?;
     let map_raster_palettes_bytes=manifest.coverage.iter().any(|id|id==MAP_RASTER_PALETTES_ID)
         .then(||read_bounded(&path.join(MAP_RASTER_PALETTES_FILE),MAX_MAP_RASTER_PALETTES_FILE_BYTES)).transpose()?;
     let auxiliary_commands_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_COMMANDS_ID)
@@ -1100,6 +1113,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_equipment_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_normal_battle_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_alternate_battle_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_script_special_normal_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1157,6 +1171,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let unit_obj_equipment=unit_obj_equipment_bytes.as_deref().map(parse_unit_obj_equipment).transpose()?;
     let unit_obj_normal_battle=unit_obj_normal_battle_bytes.as_deref().map(parse_unit_obj_normal_battle).transpose()?;
     let unit_obj_alternate_battle=unit_obj_alternate_battle_bytes.as_deref().map(parse_unit_obj_alternate_battle).transpose()?;
+    let unit_obj_script_special_normal=unit_obj_script_special_normal_bytes.as_deref().map(parse_unit_obj_script_special_normal).transpose()?;
     let map_raster_palettes=map_raster_palettes_bytes.as_deref().map(parse_map_raster_palettes).transpose()?;
     let auxiliary_commands=auxiliary_commands_bytes.as_deref().map(parse_auxiliary_commands).transpose()?;
     let auxiliary_archive=auxiliary_archive_bytes.as_deref().map(parse_auxiliary_archive).transpose()?;
@@ -1231,6 +1246,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_equipment,
         unit_obj_normal_battle,
         unit_obj_alternate_battle,
+        unit_obj_script_special_normal,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1269,6 +1285,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_equipment_bytes,
         unit_obj_normal_battle_bytes,
         unit_obj_alternate_battle_bytes,
+        unit_obj_script_special_normal_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1332,6 +1349,7 @@ fn check_dataset_budget(
     unit_obj_equipment: usize,
     unit_obj_normal_battle: usize,
     unit_obj_alternate_battle: usize,
+    unit_obj_script_special_normal: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1389,6 +1407,7 @@ fn check_dataset_budget(
         || unit_obj_equipment as u64 > MAX_UNIT_OBJ_EQUIPMENT_FILE_BYTES
         || unit_obj_normal_battle as u64 > MAX_UNIT_OBJ_NORMAL_BATTLE_FILE_BYTES
         || unit_obj_alternate_battle as u64 > MAX_UNIT_OBJ_ALTERNATE_BATTLE_FILE_BYTES
+        || unit_obj_script_special_normal as u64 > MAX_UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1449,6 +1468,7 @@ fn check_dataset_budget(
         .saturating_add(unit_obj_equipment)
         .saturating_add(unit_obj_normal_battle)
         .saturating_add(unit_obj_alternate_battle)
+        .saturating_add(unit_obj_script_special_normal)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -1597,6 +1617,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.unit_obj_alternate_battle {
         eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_ALTERNATE_BATTLE_ID} file={} records={}",dataset.manifest.resources[55].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.unit_obj_script_special_normal {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_ID} file={} records={}",dataset.manifest.resources[56].sha256,data.bindings.len());
     }
     if let Some(data)= &dataset.map_raster_palettes {
         eprintln!("ROM_DATA runtime=decoded resource={MAP_RASTER_PALETTES_ID} file={} records={}",dataset.manifest.resources[49].sha256,data.programs.len());
@@ -1784,6 +1807,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.unit_obj_alternate_battle_stats() {
             eprintln!("ROM_DATA_USE resource={UNIT_OBJ_ALTERNATE_BATTLE_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
         }
+        if let Some(i)=resources.unit_obj_script_special_normal_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
         if let Some(i)=resources.map_raster_palettes_stats() {
             eprintln!("ROM_DATA_USE resource={MAP_RASTER_PALETTES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
         }
@@ -1957,6 +1983,7 @@ fn write_dataset(
     let unit_obj_equipment_data=source.unit_obj_equipment.as_ref().map(|catalog|encode_unit_obj_equipment(&catalog.decoded)).transpose()?;
     let unit_obj_normal_battle_data=source.unit_obj_normal_battle.as_ref().map(|catalog|encode_unit_obj_normal_battle(&catalog.decoded)).transpose()?;
     let unit_obj_alternate_battle_data=source.unit_obj_alternate_battle.as_ref().map(|catalog|encode_unit_obj_alternate_battle(&catalog.decoded)).transpose()?;
+    let unit_obj_script_special_normal_data=source.unit_obj_script_special_normal.as_ref().map(|catalog|encode_unit_obj_script_special_normal(&catalog.decoded)).transpose()?;
     let map_raster_palettes_data=source.map_raster_palettes.as_ref().map(|catalog|encode_map_raster_palettes(&catalog.decoded)).transpose()?;
     let auxiliary_commands_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_commands(&catalog.commands)).transpose()?;
     let auxiliary_archive_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_archive(&catalog.decoded)).transpose()?;
@@ -2012,6 +2039,7 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_equipment_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_normal_battle_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_alternate_battle_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_script_special_normal_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2070,6 +2098,7 @@ fn write_dataset(
         unit_obj_equipment_data.as_ref().map_or(0, Vec::len),
         unit_obj_normal_battle_data.as_ref().map_or(0, Vec::len),
         unit_obj_alternate_battle_data.as_ref().map_or(0, Vec::len),
+        unit_obj_script_special_normal_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2127,6 +2156,7 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_equipment_data {write(&path.join(UNIT_OBJ_EQUIPMENT_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_normal_battle_data {write(&path.join(UNIT_OBJ_NORMAL_BATTLE_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_alternate_battle_data {write(&path.join(UNIT_OBJ_ALTERNATE_BATTLE_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_script_special_normal_data {write(&path.join(UNIT_OBJ_SCRIPT_SPECIAL_NORMAL_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -2407,6 +2437,7 @@ mod tests {
             unit_obj_equipment: None,
             unit_obj_normal_battle: None,
             unit_obj_alternate_battle: None,
+            unit_obj_script_special_normal: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -2734,8 +2765,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

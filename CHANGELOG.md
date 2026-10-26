@@ -3,6 +3,64 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-26 — Validate and organize the user EUR failed-dispatch snapshot as DS-20
+
+Type: added. Platforms: Windows/Wine.
+
+**Changes**
+
+- Rename/move the supplied root slot-4.ffstate to ignored debug_saves/DS-20-spedizione-fallita-EUR.ffstate, preserving every byte and its original SHA-256. Publish an identical copy in the EUR Save states slot20 family and record original name, relocation, ROM/BIOS identity and evidence scope in the local catalog.
+- Validate DS-20 through the actual failed dispatched-unit return after fleeing the battle, rather than counting the Defeat banner alone. Update the stable26-case checklist and catalog to18validated/6partial/2uncovered; only DS03clan-threshold prize and DS15alternative objective remain uncovered.
+- Add one ordinary nearer precursor after flee/Defeat and before map/Polly return, under EUR/variants and direct EUR slot65. Keep all133previous ready artifacts unchanged, including existing USA variants51–64; all game/save data remains ignored and outside packages.
+
+**Validation**
+
+- The new preview envelope, raw-core payload checksum, format1, exact EUR ROM SHA and zero-BIOS/HLE identity pass. Frozen replay helper SHA52e8e5ed... matches retained build evidence; no application/helper build or unrelated accepted scene test is repeated.
+- Four selected replay runs complete exit0 and export/reload their ordinary checkpoints. No cancels the flee prompt; Left/A confirms Yes, then Defeat/fade/map lead to Polly reporting failure. Confirming shows the dispatched-unit-return report; a separate unsuccessful Sigmund mission report is observed. The generic completed-mission report heading is not interpreted as success or rewards.
+- Isolated frozen Windows/Wine GUI loads the exact user snapshot from numeric slot20, confirms flee through normal keyboard controls, reaches the Polly failure message and returned-unit report, then closes normally exit0. Only its working copied cartridge may be flushed; imported IN07 scratch source, ROM, executable and original snapshot hashes are preserved. Diagnostic temporary GUI slot21 remains local test evidence, not a published fixture.
+- Final collection verification passes136artifact hashes including104snapshot envelope/core checks, all133prior artifacts unchanged,28original container hashes, exact moved-source/main-slot20 identity,26catalog/TODO statuses and9local feature links. All171debug_saves files are ignored and zero are tracked. The user source original path is absent exactly through the authorized move; its descriptive master has the same SHA.
+- Project-memory coverage and whitespace checks pass. Concurrent script-special-normal runtime implementation and its handoff selection remain separate work; no new ROM-coverage generation, gameplay campaign, performance/audio/equivalence acceptance, commit or push is performed.
+
+**Limitations**
+
+- This validates the observed failed return of Polly, not every dispatch, participant or failure condition. The snapshot starts at a flee confirmation defaulting to No; choose Left/A and wait through Defeat and map transition. Slot65 omits that lead-in.
+- Native Windows hardware, physical controllers, Linux/Android gameplay, complete-state/audio equivalence and performance are not established. Snapshot loads restore SRAM, so GUI validation uses a private working cartridge; no new standard save is published.
+
+Documentation: [debug saves.md](docs/development/debug saves.md), [extended_saves.md](docs/extended_saves.md), [2026-10-23-audit-imported-debug-saves.json](docs/changes/2026-10-23-audit-imported-debug-saves.json).
+
+[Change record](docs/changes/2026-10-26-validate-user-failed-dispatch-snapshot.json)
+
+## 2026-10-26 — Publish and consume European conditional normal script poses with authenticated producer witnesses
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Wire EUR schema1/e62-d61 managed publication and typed loading of unit-obj-script-special-normal.json/graphics.unit-obj-script-special-normal with actual metadata14/scriptarchive/initial/normal dependencies. Preserve151script references/20logical metadata producer witnesses and prior initial/normal source ownership; USA stays e8-d7.
+- Add an immutable typed runtime owner for only33new spans6436B. Compose new index/header/frame/indexed-pixel bytes with retained prior owners/raw holes; original actor choices, commands, scheduler, DMA and guest tasks remain unchanged. No ROM shadow, live ID cap or save/native ABI change.
+- Add two reduced new Wine filters for managed authentication/lifecycle and original-interpreter-compiled complete-state-clock reads of new typed data. Poison complete41802B graph including shared views while measuring only functional coverage. New frames are alloperation1; old command/source/census/scene acceptances stay closed.
+- Complete actual e62productionCLI creation/no-write reuse of58generation files/60managed files with all58byte-identical to accepted managed output, plus one-frame old native-cache attachment from unchanged authentic EURF09snapshot. Leave ordinary source/pixel use open because this smoke reads zero new bytes.
+
+**Validation**
+
+- One affected Windows core/frontend no-run build70758passes without warnings. Core compiled only, frozenb47c085a..; frontendb47e885085e927959c388b065301e594f08a1b849c3ce42b291c7852defdaaac.16selectedsource/preimage hashes and1150buildguards unchanged; no old test or production build execution.
+- Two exact new EUR Wine filters69270pass first attempt. Managed checks23attachguards+6dependencyguards, failedattach owner/state isolation, interrupted publication/create/reuse/repair/move, retained e61/all56prior decoded files/resource records/coverage, unavailable-file Load/Undo/backup/restart and all6436newtypedB/sevennewsequences. Shared initial/normal owners retain4B each without newowner charges.
+- Native checks23original-interpreter-compiled complete-state-clock paths with all41802graph bytes poisoned: part0proper sequences/part1-2realnulls/twoorientations/fullwordrawID/liveRAMframe/two uploads+DMA, all33edges/widths/mirrors/realBIOSbus/SWI-DMA. Compiled new fields[0directory36index6header43frame0OBJ1pixel]B; mixed2new4normal SWI/DMA and2new2deliberately edited rawAPI bytes preserve exact charges. Old commands2/6/8notreplayed, newframesallop1;1841instructions/496PCs/104native dispatches are coverage only.
+- Dataset SHA256 f131b439ee62dc55ab0383c985f9c1c936a85088106bc4e16c3fab80ed4e69a2; manifest-file SHA256 2b84c40c03b0c4d81aa80b414f1d2271fd825093bcf94e68275883d89a464499; model-file SHA256 02e7362e2bb2bea7dad84bf769d5cb0c88b3e6efd3cc59fe77eb911da97e37c5. New-owned source33spans6436B keeps SHA6c3ef9c987b02ad1c06492ac245484b1574a45666cba90bff097c7e1e5cf5027.
+- Final preservation passes8842prior artifact hashes/1150build+1152Wine hash-mtime guards/all16compiled source-preimages/five integration preimages,340local feature links, new-module rustfmt, project-memory default+baseea17e92 and CRLF-aware whitespace. Prior user commits/documentation remain preserved; private artifacts0tracked.
+- Single changed-code Windows production build28835warning-free/frozen6455958ed9616b269d225a7f9da28f726cbb6624021c461baf567571f1c1c5d0; canonicalf3e277db.. exacthash/mtime1792570130397888519 restored, main.rs content unchanged/mtime-onlyCargo invalidation. ActualWine26817CLIcreate/reuse-no-write58generation60managed/all58matchaccepted from unrelatedcwd/oldcache, generation-SHz1vX/datasetf131b439.. . One-frame immutableF09attachment exits0/zero newsource use, compatibility smoke only; no oldscene or ordinary-positive inference.
+- ActualCLI final preservation passes9175prior artifact hashes/1213CLI hash-mtime guards/all16runtime compiled source-preimages,341local feature links and allimplementation sources unchanged from accepted runtime. Canonical executable exacthash/mtime restored; project-memory default+baseea17e92 and CRLF-aware whitespace pass.
+
+**Limitations**
+
+- Managed publication, targeted runtime/reader/lifecycle and actualproductionCLI criteria closed. Ordinary source/newsequence/pixel acceptance remains separate and pending; source/model, previous families and equipmentFight500 stay closed. No wholeallocator/task/actor ABI or ordinary reachability claim.
+- Conditional same-unit current normal assignment/override20clear/facing0..3projection only. Alternate/42-230/highregistry/current actor-state reachability remain open.
+- New Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage measurements, new gameplay fixture/private payload edit, Android/package/agent commit/push; prior8842protected artifacts retained.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-script-special-normal-poses.json)
+
 ## 2026-10-25 — Refresh EUR ROM coverage to e61 and make Docker generation self-contained
 
 Type: fixed. Platforms: Linux/Docker, Windows/PowerShell tooling.

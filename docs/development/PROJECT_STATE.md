@@ -400,9 +400,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   one literal/three BL pins closed. Typed model/151refs20witnesses and single new
   sourceWine oracle pass18guards/120constructor aliases/53null7proper resets/
   17realDMAuploads/all5248newpixelB; overlapping initial/normal dependency views
-  independently validated. Managed/runtime/CLI/ordinary and alternate/override/
-  high16/current-state cases pending;
-  e61/USAe8unchanged, no newLinux/nativeWindows/32:9 or performance work.
+  independently validated. Managed/runtime now EUR e62-d61/58files57resources,
+  actual metadata14/scriptarchive/initial/normal dependencies/all56prior records/
+  retained e61/USAe8. Two new Winefilters firstPASS29guards/lifecycle/all6436typedB
+  and23original-interpreter-compiled fullstate-clock paths/33edges/mirrors/BIOS/
+  SWI-DMA/mixed2new4normal and2new2raw; original tasks/commands remain guest work.
+  Newdirectory/OBJ bytes are zero, sharedowners retained. ActualproductionCLI
+  create/reuse58generation60managed/all58matchaccepted passes, canonical exact
+  restored; oneframeoldcacheF09attachment haszero newusage/smokeonly. Ordinary
+  source/newpixel and alternate/override/high16/current-state cases pending;
+  newLinux/nativeWindows/USA/32:9 remain pending, no performance work.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.
@@ -1421,6 +1428,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   catalog distinguishes wrapper region hints, verified runtime region, payload
   duplicates and untested internal game File No.2 entries. Original containers,
   converted SRAM, screenshots and snapshots remain outside Git/packages.
+  Additional user snapshots retain their original bytes under descriptive
+  ignored names; the local catalog records relocation, ROM/BIOS and proof scope.
+  DS20 now has a verified EUR failed-dispatch return at slot20, with a nearer
+  precursor at EUR65.
   Derived standards use GEN IDs:30/31 for map progress,33 for an ordinary
   Save Now suspended battle verified through Resume Battle. Retained masters
   live outside the working family in ignored `debug_saves/generated/`.

@@ -1,5 +1,15 @@
 # Direct decoded resource consumption
 
+EUR e62-d61adds [conditional normal script-special poses](rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime):
+58files57resources, four actual dependencies, all56prior records/e61retained/
+USAe8-d7. Typed owner serves only33newspans6436B with shared initial/normal owners
+preserved. Two new Wine filters pass29guards/lifecycle/allnewbytes and23original-
+interpreter-compiled fullstate-clock paths/33edges/BIOS-SWI-DMA/mixednew-prior-raw.
+ActualproductionCLI58generation60managed/all58matchaccepted/no-write reuse and
+oneframeoldcacheattachment pass(zero newuse/smokeonly). Ordinarysource/newpixel/
+Linux-USA-nativeWindows-32:9 remain pending; source/model/oldproofs not replayed,
+no performance measurements.
+
 EUR e60-d59 adds the [normal-mode battle pose owner](rom_data_unit_obj.md#normal-battle-managed-publication-and-runtime-reads):
 6021new spans1455474B, with exact shared initial/equipment views retaining their
 older owners.56files55resources preserve all54previous decoded records and e59;

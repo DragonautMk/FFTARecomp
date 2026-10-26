@@ -3082,3 +3082,73 @@ FFFF/redirect/outofcatalog/changedactor/globalidentity aperti; Linux/USA/native
 Windows/new32:9 da verificare. Nessuna misura performance/spazio o nuova fixture/
 navigazione/privatepayload edit; e65/USAe8invariati.
 [Modello e limiti](../rom_data_unit_obj.md#typed-registry-generic-direct-job-model).
+
+
+**ROMDATA-03-SCRIPT-REGISTRY-GENERIC completato managed/runtime EUR (2026-10-26).**
+e66-d65pubblica62file61risorse/all60precedenti-e65preservati. Metadata52/archive e
+sei visteprecedenti sono dipendenze reali; owner tipizzato solo659newspan99824B,
+12initialrootviews/sharedbytes/holes/raw/originaltasks-DMA preservati. Un build
+Windowscore/frontend firstPASSwarning-free e primi dueWine passano36attach+
+10dependencyguards/lifecycle/99824typedB126seq e25percorsi original-interpreter-
+compiled fullstate-clock con796992Brawgraphalterati.659bordi/width-mirrors/realBIOS-
+bus/SWI-DMA/liveRAM/mixed2new4alternate+2new2editedraw passano;4sharedB per ognuno
+seiowner, nessun oldcommand/source/previousacceptance replay. CLIreale/ordinary
+newpixel/fullscene, FFFF/redirect/outofcatalog/changedactor/globalregistryidentity
+restano aperti; nessun wholeactor/allocatorABI. Linux/USA/nativeWindows/new32:9
+da verificare, nessuna misura performance/spazio o fixture/navigazione/payloadedit.
+[Consumo e limiti](../rom_data_unit_obj.md#managed-registry-generic-direct-job-poses-and-typed-guest-reads).
+
+
+**ROMDATA-04-SCRIPT-REGISTRY-GENERIC-ACTUAL-CLI completato EUR (2026-10-26).**
+Primo buildproduzioneWindows warning-free/frozend5092be6..; canonicale ripristinato
+hash+mtimeesatti/maincontenutoinvariato-mtime-onlyCargoinvalid. Primi CLIWine
+prepare/reuse da cwddiversa:62generation64managed/61risorse/eightdeps/all62file
+ugualiaccepted/reusehash-mtimeinvariati. OneframeauthenticF09oldcacheattach passa,
+nuovoconsumo0/smokeonly; ordinarynewsequence/pixel/fullsceneequivalence aperti.
+Nessun oldsource/model/runtime/sceneproof replay, fixture/navigazione/privatepayload
+edit o misura performance/spazio. Linux/USA/nativeWindows/new32:9 e FFFF/redirect/
+outofcatalog/changedactor/globalregistryidentity rimangono da verificare.
+[CLI e limiti](../rom_data_unit_obj.md#registry-generic-direct-job-actual-production-cli).
+
+
+**ROMDATA-05-SCRIPT-REGISTRY-GENERIC-126-SEQUENCE-LEAD chiuso negativo (2026-10-26).**
+Nuovo scanreadonly81snapshot autenticati/126nuovepropersequenze (nuovibindingtutti
+part0/bodylink+44) trova0taskbody originali attivi o dormienti. Currentpointer
+inside/atend/outside/misaligned conservato senza filtro/fineframe pruning. Modello/
+fonte/bodylinkcode e header-payload-ROM/hash+mtime di tutti81input prima/dopo passano.
+Vecchi21knownspecial/sixoverride/sevennormal/twoalternate/606alternate scans non
+ripetuti. Nessun guest/build/fixture/navigazione/privatepayload/fullpair; leadchiuso/
+no retryinvariato. Ordinarynewsequence/pixel/fullscene resta aperto, proseguono
+contratti indipendenti highregistry routeFF/altjob e altri casi rimasti. Nessuna
+misura performance/spazio, Linux/USA/nativeWindows/new32:9 pending.
+[Lead e limiti](../rom_data_unit_obj.md#registry-generic-direct-job-actual-production-cli).
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-REDIRECT-KNOWN-JOB completato come alias fonte EUR (2026-10-26).**
+I quattro currentjob80/81/82/85routeFF reindirizzano alla riga alternatejob+7
+concreta route0per property4normal/5alternate; non usano il campo sprite primario.
+Dominio scelto prima dei target:16highrefs/sevenpairs/unitkind0-1/sameunit original
+assignment/actualmode/override20clear/facing0-3. Tutte116righe/928classificazioni
+effettive conservate:840concrete56FFFF32loop;110normal100alternate producono11760
+witnesses26880refs.98halfword6literal11BLpins passano; r4resta il job alternativo,
+CC35Aritorna alla stessa property. Tutte61risorse/fonti correnti autenticate prima
+dei target, ogni2940witnessdiretto ha quattro preimmagini: stesse3210celle/777seq/
+12initialrootviews/full796992B/setteowner, zero nuovi byte/risorse/revisioni.
+Metadata52/e66Wine proofs riusate, nessun build/guest/fixture/navigazione o misura
+performance/spazio. e66-d65/USAe8-d7invariati; ordinary/globalregistryidentity/
+FFFF/nonreturning/outofcatalog/changedactor e Linux/USA/nativeWindows/new32:9 aperti.
+[Contratto e limiti](../rom_data_unit_obj.md#registry-generic-jobs-redirected-to-a-known-alternate-job).
+
+
+**ROMDATA-01-SCRIPT-REGISTRY-FFFF-READ completato come classificazione lettore EUR (2026-10-26).**
+196witnessdiretti+784routeFF/2240refs conservano i risultatiFFFFnormal0/1 e
+alternate0/1/46-50/64-65/69-71; dominio scelto prima dei target.71readerpins/
+treblocchicodice/twoliterals verificano zeroextension/actoru16/fullworddirectory
+senza guardFFFF. Proprietà083B4C12=DC86, directory083D4830=14AE3F1E:60query/
+30word nella regione14unmapped, CPUallinea/ruota16 e MemMap dipende da livebios_open.
+Nessuna sequenzaROM/nullcostante/nonritornouniversale, cap/fallback/pointerfix o
+estensione inventati. Queste due lettureROM sono6Bsenza owner: rawfallback
+preservato, migrazione6B e ordinaryreachability ancora aperti. e66-d65/USAe8-d7
+invariati, nessun build/guest/fixture/navigazione/privatepayload/misura performance
+o spazio. Linux/USA/nativeWindows/new32:9 e globalidentity/unknown/changedactor aperti.
+[Classificazione e limiti](../rom_data_unit_obj.md#known-generic-job-ffff-results-and-raw-bus-reads).

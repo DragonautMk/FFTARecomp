@@ -1790,3 +1790,175 @@ newpixel/fullscene and FFFF/redirect/out-of-catalog/changedactor/globalidentity
 remain separate. Linux/USA/nativeWindows/new32:9 pending, no fixture/navigation/
 privatepayload/performance/storage work. Evidence:
 `target/rom-data-script-registry-generic-model/`.
+
+
+## Managed registry generic direct-job poses and typed guest reads
+
+EUR e66-d65adds `graphics.unit-obj-script-registry-generic` /
+`unit-obj-script-registry-generic.json`, with actual metadata52/archive producer
+dependencies and six shared typed views: initial, equipment, normal, alternate,
+low-scriptalternate andregistry-knownspecial. All2940witnesses6720refs/3210keys/
+777sequences and12explicit initial-root targets are retained. The immutable
+owner serves only659newspans99824B (5544index/504header/11760frame/82016pixel);
+previous owners/raw ROM retain all other bytes. Thirteen64-bit words cover all
+777sequence identities, with only126newproper sequences owned here. Facing,
+tasks, commands, scheduler, DMA and VRAM remain guest work.
+
+One affected Windowscore/frontend build passes firstattempt without warnings.
+Both firstactual exact Winefilters pass:36attach+10dependency guards/create-
+reuse-repair-move/all60prior resources/e65retained/all99824typedB126newseq, plus
+load/Undo/backup/restart with the attached directory unavailable. Failed attaches
+retain the previous owner and complete machine state. Four shared bytes read
+through each of the six prior owners do not increment this new owner.
+
+Twenty-five original/interpreter/compiled paths preserve complete states and
+clocks with all796992directgraphB altered. They cover new index/header/frame/
+pixel fields, realnull parts1/2/two orientations/raw fullwordIDs/liveRAM frames,
+659source boundaries/widths/mirrors/realBIOS-bus/CpuSet/FastSet/DMA and mixed
+2new4alternate or2new2editedraw windows. Compiled category counts are
+[0directory,36index,6header,43frame,0OBJ,1pixel]; DMA is checked separately.
+No previous command/source acceptance is repeated; no wholeactor/allocator ABI
+claim. Only the selected original source bytes change their runtime owner.
+
+Dataset SHA-256 is
+`e31fcad69734c355161e78984e1ef7377408e9b2a72541851ccc3af5580c9df3`,
+manifest file `6d039fda52185403b61c5e2b3fcd32c519889b94dd9fd0027e77a2cfa2a016a0`,
+model file `3bd5b90a5796af349f97a178f4ff9004214f3b2d02d5735b1ceabfdf66ac1fd2`.
+Frozen frontend is
+`6a853cba672f0e14266e661dee24e968a14c07edea0efcbb7b207935909f7f31`;
+core compile-only `cfafc96e349dbb1a99714245fa1339475a75525f6d10e92d882e0aac86992a2c`.
+All1463build/1465Wine activehash-mtimeguards and26compiled inputs are unchanged;
+closed02/newsource/privateasset proofs are reused without another whole10746
+legacy-artifact campaign. Static newsource review proved190mixedalternate index
+windows before selecting the runtime boundary case.
+
+ActualproductionCLI is closed below; ordinarynewpixel/fullscene and FFFF/redirect/out-of-catalog/
+changedactor/globalregistryidentity remain separate; Linux/USA/nativeWindows/
+new32:9 pending. No performance/storage measurement or gameplayfixture/navigation/
+privatepayload edit. Concurrent coverage work stays outside this change. Evidence:
+`target/rom-data-script-registry-generic-runtime/`.
+
+
+## Registry generic direct-job actual production CLI
+
+One warning-free Windows production build freezes
+`d5092be662f5a16c6fe22e2b0ec82913511a770a982336bf850435c0046ee40b`.
+The canonical executable is restored with its exact hash and modification time;
+only the main source modification time invalidates Cargo's output assumption,
+with no content change. Actual Wine CLI preparation from an unrelated working
+directory creates62generation files/64managed files in EUR e66-d65. All62files
+match the accepted managed dataset and all eight actual dependencies; the next
+preparation reuses the same generation without changing any hash or modification
+time.
+
+One frame from the authentic immutable EURF09checkpoint attaches e66and loads
+the existing native cache. Every new generic-registry source counter is zero.
+This closes an attachment/compatibility smoke check; ordinarynewsequence/pixel/
+fullscene equivalence remains open. No accepted scene/source/model/runtime
+proof is replayed or gameplay fixture created. Protected original checkpoints,
+cartridge saves, cache, loader and recordings retain their hash/modification time.
+Evidence: `target/rom-data-script-registry-generic-cli/`, generation
+`generation-ljTnRy`, accepted dataset `e31fcad6..`. FFFF/redirect/out-of-catalog/
+changedactor/globalregistryidentity/Linux/USA/nativeWindows/new32:9 remain
+separate, without performance/storage measurements or private payload edits.
+
+
+The new read-only locator compares exactly126newproper generic-registry sequences
+with the81existing authenticated immutable local snapshots. All newbindingsare
+part0, so the original actor bodytask link+44applies. It checks first frame/
+count/sprite/animation against the original index formula and retains every
+currentpointer position: inside, at-end, outside or misaligned. No enabled or
+dormant matching bodytask is found; terminal-frame positions are not discarded.
+Model/source/bodylink fingerprints and each input's header/payload/ROM/hash/
+modification time pass before/after. Prior21knownspecial/sixoverride/sevennormal/
+twoalternate/606alternate target scans are not repeated. This locator is closed
+without a guest run, newfixture, navigation, privatepayload edit or fullpair;
+ordinarynewpixel/fullscene remains open. Evidence:
+`target/rom-data-script-registry-generic-ordinary/`.
+
+
+## Registry generic jobs redirected to a known alternate job
+
+The high-registry contract also covers current jobs80,81,82 and85 when the
+unit's alternate job has a concrete selected field in a known route0metadata52
+row. These four current rows have routing byteFF. CCC48reads current job at
+unit+5 and alternate job at unit+7; CBEC8keeps the alternate byte in r4 and the
+property in r5. For properties4/5, the FFbranch reaches CC35A, selects
+`metadata52_base + 52 * r4`, and returns to the same property dispatch at CBEE2.
+The selected alternate row supplies the sprite field, followed by the original
+u16zeroextension. The primary FFrow's stored sprite fields do not supply it.
+
+The domain is chosen before target inspection: the exact16high decimal49script
+references/seven selector-base pairs, nonnull unit byte4equal0/1, retained
+same-unit original normalCF144/property4 or alternateCF180/property5 assignment,
+the actual mode branch, override20clear and facing0..3. No fixed registry
+identity, live job cap or universal actor reachability is inferred.
+
+All116rows remain classified. The110normal and100alternate concrete effective
+rows yield11760conditional producer witnesses and26880reference witnesses.
+Across four primary jobs and both modes, all928effective-job classifications
+are retained:840concrete,56u16FFFF and32routeFFself-loops. Normal effective jobs0/1
+and alternate jobs0/1/46-50/64-65/69-71 retain their FFFFresult; an alternate row
+with routeFF selects itself repeatedly because r4does not change. These cases
+are outside this concrete graphics projection, without a host fallback.
+
+Ninety-eight halfword, six literal/dispatch and eleven BLfingerprints authenticate
+the producer path before targets. All61current resource files and their source
+hashes are then authenticated. Each of the2940accepted direct-job witnesses has
+exactly four primary-job preimages. Their6420facing queries collapse through the
+original aliases to the same3210canonical cells:2420null,778proper-sequence
+bindings referencing777unique sequences, and12explicit initial-index-root views.
+The107sprites/535sprite-base pairs/5093frames/45OBJlists/1895pixel requests and
+entire796992Bsource graph retain the accepted SHA-256`78b1f978..` and seven current
+owners. The generic resource still owns99824B; newly owned bytes are zero.
+
+This closes additional producer provenance using existing typed metadata52and
+generic graphics resources. EUR stays e66-d65with62files/61resources; no duplicate
+asset, decoder change or revision is needed. The closed metadata52Wine source
+oracle (6369original/294synthetic returning cases and six nonreturning probes),
+75native metadata52paths and e66source/model/runtime/CLI proofs are reused.
+No unchanged build, guest test, fixture or navigation run is repeated.
+
+Ordinary scene use, global registry identity, FFFF/nonreturning/out-of-catalog
+and changed-actor cases remain open. Linux, USA, native Windows and new32:9
+validation remain pending; USA stays e8-d7. No private payload edits or
+performance/storage measurements occur. Private evidence:
+`target/rom-data-script-registry-redirect-known-job/producer-contract.json` and
+`source-contract.json`.
+
+
+## Known generic-job FFFF results and raw bus reads
+
+The remaining known FFFFfields have a separate conditional reader contract.
+Direct normal jobs0/1 and alternate jobs0/1/46-50/64-65/69-71, plus the four
+primary routeFFjobs selecting those alternate rows, yield196direct and784
+redirected witnesses/2240reference witnesses. The same16high script references,
+seven pairs, unit kinds0/1, retained original assignment and override20clear
+apply. Effective facing0..3 is measured after the original property40override;
+script49uses bodyflag0and the same base for parts0/1/2.
+
+Seventy-one reader halfwords, three exact original code blocks and two literals
+authenticate the path before target reads. The getters return zeroextended
+65535and the actor stores/loads the sprite as u16. The original directory helper
+22174shifts the fullword ID by two without a sentinel, sign or range guard.
+A zero selected index word triggers the early-1return at227AE; FFFFis not checked
+as a sprite-ID sentinel there.
+
+The earlier actor-property read at083B4C12returns DC86. The directory read at
+083D4830returns14AE3F1E. All60facing queries/30distinct selected-word addresses
+remain in the unmapped14region, with low address bits2. Current CPU LDR aligns
+the address then rotates the word16bits; current MemMap obtains unmapped bytes
+from live`bios_open`. This is state-dependent bus behavior, with no authenticated
+ROM sequence header. It does not establish a constant null result or universal
+nonreturning path.
+
+The two original ROM reads total6B and have no current typed owner. Their raw
+fallback remains; migration of those bytes is explicitly pending. They are not
+modeled as a new sprite root or counted sequence, and no pointer correction,
+sprite-ID cap or host fallback is introduced. The reader-classification child
+is closed, while ordinary reachability, ownership of these6B, unknown inputs
+and global registry/changed-actor conditions remain separate. e66-d65and USAe8-d7
+are unchanged. No new build, guest/fixture/navigation run, private payload edit
+or performance/storage measurement occurs; Linux/USA/nativeWindows/new32:9
+validation remains pending. Evidence:
+`target/rom-data-script-registry-ffff-read/`.

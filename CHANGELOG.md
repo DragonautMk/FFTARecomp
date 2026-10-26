@@ -90,6 +90,40 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scri
 
 [Change record](docs/changes/2026-10-26-inventory-european-registry-generic-poses.json)
 
+## 2026-10-26 — Make ROM coverage follow committed extraction and show report freshness
+
+Type: fixed. Platforms: Linux/Docker, Windows/PowerShell tooling.
+
+**Changes**
+
+- Fix successful atlas runs silently reusing e61-d60 because the automatic cache version came from the historical evidence registry. Read the revision from the frozen extractor source compiled into the image; use a generation-keyed cache independent of ordinary-proof review.
+- Build default coverage tools with Dockerfile.coverage from a fixed Git HEAD archive plus current public tools/evidence. Exclude uncommitted extraction work and private data, keep the normal executable/host Cargo output untouched, and refresh archive mtimes before Cargo uses its warm container cache.
+- Inherit ordinary-use proofs only when both decoded content and canonical source-map hashes match the reviewed resource. Include new/changed authenticated families as review pending, permit explicitly selected historical snapshots with a visible warning, and remove migrated source-only extents from the separate layer.
+- Always regenerate HTML/JSON with a real UTC timestamp, source commit, dataset and separate evidence revisions. Print byte/family deltas or unchanged-coverage feedback independent of analyzer binary rebuilds. Preserve reports on validation failure; PowerShell opens a timestamped escaped file URL.
+- Publish EUR e65-d64:60runtime families/52historically ordinary-positive/4new proof reviews pending,10224490identified/runtime B,6353546unclassified B. Compared with e61:17142new identified B and23578new runtime B, including6436Bformerly source-only. Code260472B, shared1359934B, conflicts61480B and ordinary extents unchanged.
+
+**Validation**
+
+- Actual staged-source Docker builds and EUR extraction pass. The first c8c165f run prepares61files, byte-identical to the accepted e65CLI dataset; fresh-mtime rebuild performs real compilation and keeps coverage identical. Canonical publication from fixed b06ac66 succeeds with expected e61-to-e65 deltas and new HTML timestamp.
+- Two actual read-only-cache runs succeed, produce different HTML/timestamps and explicit unchanged-coverage feedback. Explicit e61 remains labeled historical with6436source-only B. Wrong-generation cache fails before publication and preserves previous output hashes. All118e61/e65cache hash-mtime guards remain unchanged; unmounted image has no game/save/input/retained DLL files or host target directory.
+- Twelve ROM-free generator checks and six Bash launcher checks pass, including cache-version selection independent of evidence, matching source-map evidence, new/changed proof handling, partial/full source-only migration, tampered payload rejection, historical labeling, timestamp refresh, interval accounting and failure preservation. Bash tests inspect a real Git archive to confirm committed rather than dirty runtime content and current public tools, with no Python/Cargo/nm in child PATH. Bash syntax passes.
+- Ten PowerShell7.4.6/mock-Docker checks pass in Linux, covering paths/spaces, fixed source revision/staged context cleanup, readonly mounts/offline run, failures/logs/missing inputs, Git resolution failure and versioned file URL. First URL test exposed relative URI inference on Unix; explicit UriKind.Absolute fixes it and the full affected suite passes.
+- Independent full-ROM byte maps verify all nine layers, unknown complement and code/data intersection. Code candidates and ordinary extents match the previous report;59evidence references and167local documentation links resolve, all61dataset files match accepted output, and metadata privacy checks pass. Root Cargo.toml/lock, normal Windows recomp executable and ROM hashes remain unchanged. Concurrent extraction-script description addition is inspected and preserved rather than misreported as this task modification.
+- Chrome headless1400/620screenshots inspected; both pass generation/freshness,60rows/60runtime/52ordinary/4pending, new total, offset boundary/family lookup, colors and no page overflow. No gameplay, fixture, Wine oracle or benchmark is rerun.
+- Final metadata-only project-memory and whitespace checks pass. Full workspace/base checks run and report only the parallel e66generic-runtime implementation still awaiting its own memory record; coverage files have no missing-record diagnostic. Preserve those concurrent files instead of documenting unfinished runtime work as completed.
+- Final cached Docker publication includes the same-ID partial-source-only guard: semantic e65coverage unchanged, timestamp refreshed, all118cache guards unchanged; no additional Cargo compilation or gameplay.
+
+**Limitations**
+
+- Automatic refresh follows committed extraction. Uncommitted e66generic-runtime work is deliberately excluded. Four new e62-e65resources remain pending ordinary-proof review; four earlier reviewed families are targeted-only. Distinct ordinary read-byte coverage stays unavailable; candidate code and bounded sharing remain scoped as before.
+- PowerShell is checked on Linux with simulated Git/Docker; native Windows/PowerShell5.1/Docker Desktop and physical browser launching are unverified. New GUI/runtime/native dispatch, USA/Android, Godot implementation and performance remain outside this change.
+- An external session committed in-progress coverage edits in b06ac66 during validation; that commit and subsequent concurrent extraction edits are preserved. This task performs no commit or push.
+- Full project-memory Git coverage is not clean while parallel e66generic-runtime files await their separate change record; metadata validation passes. This does not affect coverage generation.
+
+Documentation: [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [2026-10-25-refresh-rom-coverage-and-prepare-inputs.json](docs/changes/2026-10-25-refresh-rom-coverage-and-prepare-inputs.json).
+
+[Change record](docs/changes/2026-10-26-follow-committed-extractor-for-rom-coverage.json)
+
 ## 2026-10-26 — Extract conditional European alternate script poses with exact selector witnesses
 
 Type: added. Platforms: Windows.
@@ -270,6 +304,66 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-consume-european-registry-special-poses.json)
+
+## 2026-10-26 — Publish and consume European registry poses from direct generic-job fields
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add EUR e66-d65 managed publication/strict authenticated loading of the registry-generic typed model with actual metadata52/archive and six shared typed owner dependencies. Keep2940conditional witnesses6720refs/3210keys/777sequences and12initial-root target views; retain prior60resources/e65/USAe8-d7.
+- Serve exactly659newspans99824B via immutable typed index/header/frame/pixel fields, with13sequencebit words and exact sourcepage lookup. Original facing/tasks/commands/scheduler/DMA/VRAM remain guest work; holes compose earlier typed owners or raw ROM. Functional counters retain category and sequence coverage.
+
+**Validation**
+
+- Source/model and first sourceWineoracle remain closed without replay. One affected Windowscore/frontend build passes firstattempt/warning-free; frozen corecompile-onlycfafc96e349dbb1a99714245fa1339475a75525f6d10e92d882e0aac86992a2c and frontend6a853cba672f0e14266e661dee24e968a14c07edea0efcbb7b207935909f7f31.
+- Both firstactual exact Winefilters pass. Managed publication retains all60prior resources/60prior decoded resource files/e65, with36attach+10dependencyguards/create-reuse-repair-move/failed-attach owner-state isolation/unavailable-directory load-Undo-backup-restart/all99824typedB126seq. Four sharedbytes read through each of six previous owners do not increment the new owner.
+- 25original-interpreter-compiled complete-state-clock paths pass with all796992directgraphB altered; new index/header/frame/pixel fields, nullparts1/2/two orientations/raw fullwordIDs/liveRAM frames,659boundaries/widths/mirrors/realBIOS-bus/CpuSet/FastSet/DMA and mixed2new4alternate plus2new2editedraw. Compiled category bytes[0,36,6,43,0,1], DMA separately checked; no oldcommand/source/previous-family acceptance replay.
+- Datasete31fcad69734c355161e78984e1ef7377408e9b2a72541851ccc3af5580c9df3; manifest6d039fda52185403b61c5e2b3fcd32c519889b94dd9fd0027e77a2cfa2a016a0; model file3bd5b90a5796af349f97a178f4ff9004214f3b2d02d5735b1ceabfdf66ac1fd2, owned-source44033ff6d5c52eb5ce768cf725db2b1c5bd906fe98a36be7082874304921cdd9.1463build/1465Wine activehash-mtimeguards and26compiled inputs unchanged; reuse closed02/newsource/private proofs without another10746legacyartifact campaign.
+- Final integration preservation passes369baseline sourcechecks with implementationdelta confined to five selected files, five preimages and26compiled inputs.537decoded links/new-module rustfmt/project-memory default+basec8c165f/CRLFwhitespace pass. Concurrent coverage report/evidence/generator/Docker/handoff selection preserved and excluded; no livejobs, source/model unchanged.
+- One Windows production CLIbuild firstPASS/warning-free/frozend5092be662f5a16c6fe22e2b0ec82913511a770a982336bf850435c0046ee40b; canonical exacthash+mtime restored/maincontentunchanged-mtime-onlyCargo invalidation. FirstactualWineprepare/reuse/oneframeoldcache from unrelatedcwd pass62generation/64managed files/all62equalaccepted/eightactualdependencies/reusehash-mtime unchanged. AuthenticF09oneframe attaches e66 with allnewusage0, smokeonly; no ordinarypositive claim.
+- ActualCLIclosure confirms all372baseline sourcehashes/every implementation unchanged,26runtime compiled inputs unchanged, canonical exacthash-mtime restored and1530active CLIhash-mtimeguards verified after commands.538decodedlinks/project-memory default+baseb06ac66/CRLFwhitespace pass. Reuse03/02/newsource/private preservation; no whole11107legacyartifact campaign. Concurrent coverage changes remain outside the selected work.
+- A new read-only81existing-snapshot locator for exactly126newgeneric propersequences (allnewbindingspart0) finds0enabled or dormant matching bodytasks. Currentpointer inside/atend/outside/misaligned cases are retained without filtering; source/model/bodylink code and each81input header-payload-ROM/hash-mtime beforeafter authenticate. Originals unchanged, old21knownspecial/sixoverride/sevennormal/twoalternate/606alternate locators not repeated; no guest/build/fixture/navigation/fullpair selected. Locatorclosed, ordinarynewpixel/equivalence remainsopen.
+- Read-only126target lead closure confirms all372source hashes/every implementation unchanged,539decoded links/project-memory default+baseb06ac66/CRLFwhitespace. Fresh81input model-source-bodylink/header-payload-ROM/hash-mtime checks supplement closed04/03/02private proofs, without a11189legacyartifact campaign; no livejobs/fullTODOactive.
+
+**Limitations**
+
+- Managed publication/typedguest and compiled consumption are closed for the selected conditional directjob source graph. Actual productionCLI closed; ordinarynewpixel-fullscene and FFFF/redirect/outofcatalog/changedactor/globalregistryidentity remain separate; no wholeactor/allocator ABI claim.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage measurement or optimization, gameplayfixture/navigation/privatepayload edit, Android change, packaging, commit or push. Concurrent usercoverage generation work preserved/outside this change.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-registry-generic-poses.json)
+
+## 2026-10-26 — Classify European registry job redirects and sentinel reads
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Authenticate the additional conditional high-registry producer path for current metadata52 jobs80/81/82/85 with routeFF and a known concrete alternate job. Preserve primary routing-source and effective job-field provenance; the primary stored sprite field does not supply the result.
+- Retain11760producer witnesses26880reference witnesses over16high decimal49refs/seven pairs/unit kinds0-1 and mode-specific110normal/100alternate effective jobs. All116metadata rows and928effective classifications remain explicit:840concrete/56FFFF/32nonreturning routeFF self-loops.
+- Close this source alias using existing typed metadata52 and generic graphics resources. Each of2940direct witnesses has four primary-job preimages; the complete796992Bgraph retains seven owners and zero newly owned bytes. EUR e66-d65/62files61resources and USAe8-d7 remain unchanged.
+- Classify known FFFFsprite-result readers separately:196direct+784redirected conditional witnesses2240refs preserve u16zeroextension and unmasked directory lookup. Actor-property083B4C12returnsDC86 and directory083D4830returns14AE3F1E; no false null/counted-sequence or pointer-fix interpretation.
+
+**Validation**
+
+- First new static producer authentication and target comparison pass.98halfword/sixliteral-dispatch/elevenBLfingerprints verify CCC48unit+5/+7, CBEC8cached alternate r4/property r5, property4/5FFbranch to CC35A and return to the same dispatch, followed by original u16zeroextension. Domain authenticated before targets.
+- All61current resource file/source hashes authenticate before target types. Same107sprites/535sprite-base pairs/6420facing queries/3210canonicalcells/2420null/778sequence bindings777unique sequences5093frames/12initialrootviews/45OBJlists/1895pixel requests. Full source SHA25678b1f978d4f97e3b1b842998124703d4488b2992ecf9fa232782d37fdec4d3ab; existing generic owner retains99824B.
+- Reuse closed metadata52 Wine6369original and294synthetic returning cases/six nonreturning probes/75native paths, and e66source/model/runtime/actualCLI acceptance. No unchanged build, guest, fixture, navigation or previous-family acceptance replay.
+- Closure checks pass: all372baseline source hashes show implementation unchanged, all70active input hashes/mtimes remain exact,536decoded feature links exist, project-memory default and baseb06ac66 pass, and CRLF-aware whitespace passes. Reuse closed05/04/03-02private proofs without a whole11195artifact campaign; concurrent coverage-generator/report work remains outside the selection.
+- First new FFFFproducer/reader scripts pass71readerhalfwords/threeexactcodeblocks/twoliterals before targets. All60facingqueries/30distinctword addresses remain in unmapped region14withlowbits2; currentCPUalign/rotate16 and MemMap livebios_open semantics are inspected in unchanged source. These two ROMreads total6Bhave0typedowner; rawfallback retained and6Bownership migration explicitly pending. No new guest/build/fixture/navigation or previous acceptance replay.
+- FFFFreader closure:373baseline source hashes confirm implementation unchanged, all12active input hashes/mtimes stay exact and539decoded local feature links exist. Reuse the immediately preceding all61owner authentication plus closed05/04/03-02private proofs; no11206legacyartifact/build/game campaign. Concurrent coverage work remains preserved/outside scope.
+
+**Limitations**
+
+- Conditional source provenance does not establish ordinary gameplay use, global registry identity or every actor reachability. FFFF/nonreturning redirects/out-of-catalog/changed-current-actor cases remain open.
+- Linux/USA/nativeWindows/new32:9 validation remains pending. No source-model-runtime change, duplicate asset or revision, performance/storage measurement, private payload edit, Android change, packaging, commit or push.
+- KnownFFFFreader classification is closed, while ordinary reachability and typed ownership of its6rawROMreaderB remain open. Unmapped read values depend on live Machine state; neither unconditional null nor universal nonreturning behavior is claimed.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-authenticate-european-registry-job-redirects.json)
 
 ## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
 

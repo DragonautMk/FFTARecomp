@@ -104,7 +104,7 @@ Write-Host "ROM coverage on host: $output/index.html"
 Write-Host "JSON data on host: $output/coverage.json"
 if ($OpenReport) {
     $reportFile = Get-Item -LiteralPath (Join-Path $output 'index.html')
-    $reportUri = ([Uri]$reportFile.FullName).AbsoluteUri + '?v=' + $reportFile.LastWriteTimeUtc.Ticks
+    $reportUri = ([Uri]::new($reportFile.FullName, [UriKind]::Absolute)).AbsoluteUri + '?v=' + $reportFile.LastWriteTimeUtc.Ticks
     Start-Process -FilePath $reportUri
 }
 } catch {

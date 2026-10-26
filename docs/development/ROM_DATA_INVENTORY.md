@@ -1554,7 +1554,36 @@ Full796992B/shared697168B, nuovi659span99824B (5544index504header11760frame82016
 extentconflict. Modello lossless e primoWine mirato passano34guards/2772newcell
 alias/1260null126proper resets/268DMA82016B/interaVRAM/12initialrootviews; sei
 precedenti viste validate indipendentemente. Primo buildfrontendWindows senza
-warning; managed-runtime-CLI-ordinary pending, e65/USAe8invariati. FFFF/redirect/
+warning; EUR e66-d65pubblica62file61risorse/metadata52-archive+6visteprecedenti.
+Primi dueWine mirati passano36attach+10dependencyguards/lifecycle/tutti99824typedB/
+126newseq e25percorsi original-interpreter-compiled fullstate-clock/659bordi/
+BIOS-SWI-DMA/mixedold-raw-new. CLIrealeWinecreate/reuse62generation64managed/
+all62accepted/no-write/oneframeoldcacheattach firstPASS(tutti nuovi contatori0/
+smokeonly); ordinarynewpixel/equivalence pending/USAe8invariato. Nuovo locator
+readonly81snapshot/126nuovesequenze trova0taskbody attivi/dormienti senza filtro
+currentpointer/fineframe; leadchiuso/no guest-build-fixture-fullpair o retryinvariato. FFFF/redirect/
 outofcatalog/changedactor/globalidentity e altre piattaforme separati; nessun
 oldproof replay/fixture/navigazione/misure.
 [Contratto](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection).
+
+Il contratto highregistry copre anche currentjob80/81/82/85routeFF con alternatejob
+conosciuto route0/campo concreto:110normal100alternate →11760witnesses26880refs.
+La fonte primaria è il routingFF, il campo sprite proviene dalla riga alternativa;
+98halfword6literal11BLpins verificano CC35A/r4immutato/ritorno stessa property.
+Tutte116righe e928classificazioni effettive conservate (840concrete56FFFF32loop).
+Tutte61risorse/fonti correnti autenticate prima dei target: ogni2940witnessdiretto
+ha quattro preimmagini, stesse3210celle/777sequenze/12rootviews/full796992B/sette
+owner. Zero byte o risorse nuove; e66-d65invariato, proveWine metadata52/e66riusate
+senza build/guest/fixture/navigazione. Ordinary/globalidentity/FFFF/nonreturning/
+outofcatalog/changedactor e Linux/USA/nativeWindows/new32:9 rimangono aperti.
+[Reindirizzamento e limiti](../rom_data_unit_obj.md#registry-generic-jobs-redirected-to-a-known-alternate-job).
+
+I risultati FFFFconosciuti hanno ora classificazione del lettore separata:
+196witnessdiretti+784reindirizzati/2240refs,71readerpins/trecodeblocks/twoliterals.
+La lettura proprietà083B4C12restituisceDC86, directory083D4830restituisce14AE3F1E;
+60query/30word restano nella regione14unmapped. CPUallinea/ruota16, MemMap usa
+livebios_open: nessuna sequenzaROM/nullcostante o nonritornouniversale provato.
+Le due lettureROM totalizzano6Bsenza owner tipizzato; rawfallback preservato,
+migrazione6B/ordinaryreachability ancora aperti. Nessun IDcap/pointerfix/finto
+countedasset o build/guest/fixture/navigazione/misure, e66/USAe8invariati.
+[Letture e limiti](../rom_data_unit_obj.md#known-generic-job-ffff-results-and-raw-bus-reads).

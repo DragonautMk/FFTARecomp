@@ -39,6 +39,7 @@ use gba_core::rom_data::{
     unit_obj_script_special_alternate::UnitObjScriptSpecialAlternate, UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_ID, UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_FILE, MAX_UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_FILE_BYTES,
     unit_obj_script_override::UnitObjScriptOverride, UNIT_OBJ_SCRIPT_OVERRIDE_ID, UNIT_OBJ_SCRIPT_OVERRIDE_FILE, MAX_UNIT_OBJ_SCRIPT_OVERRIDE_FILE_BYTES,
     unit_obj_script_registry_special::UnitObjScriptRegistrySpecial, UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_ID, UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE, MAX_UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE_BYTES,
+    unit_obj_script_registry_generic::UnitObjScriptRegistryGeneric, UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID, UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE, MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES,
     map_raster_palettes::MapRasterPalettes, MAP_RASTER_PALETTES_ID, MAP_RASTER_PALETTES_FILE, MAX_MAP_RASTER_PALETTES_FILE_BYTES,
     auxiliary_scripts::AuxiliaryCommands, AUXILIARY_COMMANDS_ID, AUXILIARY_COMMANDS_FILE, MAX_AUXILIARY_COMMANDS_FILE_BYTES,
     auxiliary_scripts::AuxiliaryArchive, AUXILIARY_ARCHIVE_ID, AUXILIARY_ARCHIVE_FILE, MAX_AUXILIARY_ARCHIVE_FILE_BYTES,
@@ -296,6 +297,8 @@ mod script_special_alternate_runtime_tests;
 mod script_override_runtime_tests;
 #[cfg(test)]
 mod script_registry_special_runtime_tests;
+#[cfg(test)]
+mod script_registry_generic_runtime_tests;
 #[cfg(test)]
 mod map_raster_palette_runtime_tests;
 #[cfg(test)]
@@ -662,6 +665,11 @@ fn parse_unit_obj_script_registry_special(bytes:&[u8])->Result<UnitObjScriptRegi
     value.validate()?;Ok(value)
 }
 fn encode_unit_obj_script_registry_special(value:&UnitObjScriptRegistrySpecial)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_script_registry_special: {e}"))}
+fn parse_unit_obj_script_registry_generic(bytes:&[u8])->Result<UnitObjScriptRegistryGeneric,String> {
+    let value:UnitObjScriptRegistryGeneric=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_script_registry_generic: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_script_registry_generic(value:&UnitObjScriptRegistryGeneric)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_script_registry_generic: {e}"))}
 fn parse_map_raster_palettes(bytes:&[u8])->Result<MapRasterPalettes,String> {
     let value:MapRasterPalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid map_raster_palettes: {e}"))?;
     value.validate()?;Ok(value)
@@ -846,6 +854,7 @@ struct Dataset {
     unit_obj_script_special_alternate: Option<UnitObjScriptSpecialAlternate>,
     unit_obj_script_override: Option<UnitObjScriptOverride>,
     unit_obj_script_registry_special: Option<UnitObjScriptRegistrySpecial>,
+    unit_obj_script_registry_generic: Option<UnitObjScriptRegistryGeneric>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -888,6 +897,7 @@ struct Dataset {
     unit_obj_script_special_alternate_bytes: Option<Vec<u8>>,
     unit_obj_script_override_bytes: Option<Vec<u8>>,
     unit_obj_script_registry_special_bytes: Option<Vec<u8>>,
+    unit_obj_script_registry_generic_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -956,6 +966,7 @@ impl Dataset {
             unit_obj_script_special_alternate: self.unit_obj_script_special_alternate.as_ref().zip(self.unit_obj_script_special_alternate_bytes.as_deref()),
             unit_obj_script_override: self.unit_obj_script_override.as_ref().zip(self.unit_obj_script_override_bytes.as_deref()),
             unit_obj_script_registry_special: self.unit_obj_script_registry_special.as_ref().zip(self.unit_obj_script_registry_special_bytes.as_deref()),
+            unit_obj_script_registry_generic: self.unit_obj_script_registry_generic.as_ref().zip(self.unit_obj_script_registry_generic_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1099,6 +1110,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(UNIT_OBJ_SCRIPT_OVERRIDE_FILE),MAX_UNIT_OBJ_SCRIPT_OVERRIDE_FILE_BYTES)).transpose()?;
     let unit_obj_script_registry_special_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_ID)
         .then(||read_bounded(&path.join(UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE),MAX_UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE_BYTES)).transpose()?;
+    let unit_obj_script_registry_generic_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE),MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES)).transpose()?;
     let map_raster_palettes_bytes=manifest.coverage.iter().any(|id|id==MAP_RASTER_PALETTES_ID)
         .then(||read_bounded(&path.join(MAP_RASTER_PALETTES_FILE),MAX_MAP_RASTER_PALETTES_FILE_BYTES)).transpose()?;
     let auxiliary_commands_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_COMMANDS_ID)
@@ -1164,6 +1177,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_special_alternate_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_script_override_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_script_registry_special_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_script_registry_generic_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1225,6 +1239,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let unit_obj_script_special_alternate=unit_obj_script_special_alternate_bytes.as_deref().map(parse_unit_obj_script_special_alternate).transpose()?;
     let unit_obj_script_override=unit_obj_script_override_bytes.as_deref().map(parse_unit_obj_script_override).transpose()?;
     let unit_obj_script_registry_special=unit_obj_script_registry_special_bytes.as_deref().map(parse_unit_obj_script_registry_special).transpose()?;
+    let unit_obj_script_registry_generic=unit_obj_script_registry_generic_bytes.as_deref().map(parse_unit_obj_script_registry_generic).transpose()?;
     let map_raster_palettes=map_raster_palettes_bytes.as_deref().map(parse_map_raster_palettes).transpose()?;
     let auxiliary_commands=auxiliary_commands_bytes.as_deref().map(parse_auxiliary_commands).transpose()?;
     let auxiliary_archive=auxiliary_archive_bytes.as_deref().map(parse_auxiliary_archive).transpose()?;
@@ -1303,6 +1318,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_special_alternate,
         unit_obj_script_override,
         unit_obj_script_registry_special,
+        unit_obj_script_registry_generic,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1345,6 +1361,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_special_alternate_bytes,
         unit_obj_script_override_bytes,
         unit_obj_script_registry_special_bytes,
+        unit_obj_script_registry_generic_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1412,6 +1429,7 @@ fn check_dataset_budget(
     unit_obj_script_special_alternate: usize,
     unit_obj_script_override: usize,
     unit_obj_script_registry_special: usize,
+    unit_obj_script_registry_generic: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1473,6 +1491,7 @@ fn check_dataset_budget(
         || unit_obj_script_special_alternate as u64 > MAX_UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_FILE_BYTES
         || unit_obj_script_override as u64 > MAX_UNIT_OBJ_SCRIPT_OVERRIDE_FILE_BYTES
         || unit_obj_script_registry_special as u64 > MAX_UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE_BYTES
+        || unit_obj_script_registry_generic as u64 > MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1537,6 +1556,7 @@ fn check_dataset_budget(
         .saturating_add(unit_obj_script_special_alternate)
         .saturating_add(unit_obj_script_override)
         .saturating_add(unit_obj_script_registry_special)
+        .saturating_add(unit_obj_script_registry_generic)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -1697,6 +1717,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.unit_obj_script_registry_special {
         eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_ID} file={} records={}",dataset.manifest.resources[59].sha256,data.bindings.len());
+    }
+    if let Some(data)= &dataset.unit_obj_script_registry_generic {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID} file={} records={}",dataset.manifest.resources[60].sha256,data.bindings.len());
     }
     if let Some(data)= &dataset.map_raster_palettes {
         eprintln!("ROM_DATA runtime=decoded resource={MAP_RASTER_PALETTES_ID} file={} records={}",dataset.manifest.resources[49].sha256,data.programs.len());
@@ -1896,6 +1919,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.unit_obj_script_registry_special_stats() {
             eprintln!("ROM_DATA_USE resource={UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
         }
+        if let Some(i)=resources.unit_obj_script_registry_generic_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID} dataset={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);
+        }
         if let Some(i)=resources.map_raster_palettes_stats() {
             eprintln!("ROM_DATA_USE resource={MAP_RASTER_PALETTES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
         }
@@ -2073,6 +2099,7 @@ fn write_dataset(
     let unit_obj_script_special_alternate_data=source.unit_obj_script_special_alternate.as_ref().map(|catalog|encode_unit_obj_script_special_alternate(&catalog.decoded)).transpose()?;
     let unit_obj_script_override_data=source.unit_obj_script_override.as_ref().map(|catalog|encode_unit_obj_script_override(&catalog.decoded)).transpose()?;
     let unit_obj_script_registry_special_data=source.unit_obj_script_registry_special.as_ref().map(|catalog|encode_unit_obj_script_registry_special(&catalog.decoded)).transpose()?;
+    let unit_obj_script_registry_generic_data=source.unit_obj_script_registry_generic.as_ref().map(|catalog|encode_unit_obj_script_registry_generic(&catalog.decoded)).transpose()?;
     let map_raster_palettes_data=source.map_raster_palettes.as_ref().map(|catalog|encode_map_raster_palettes(&catalog.decoded)).transpose()?;
     let auxiliary_commands_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_commands(&catalog.commands)).transpose()?;
     let auxiliary_archive_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_archive(&catalog.decoded)).transpose()?;
@@ -2132,6 +2159,7 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_script_special_alternate_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_script_override_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_script_registry_special_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_script_registry_generic_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2194,6 +2222,7 @@ fn write_dataset(
         unit_obj_script_special_alternate_data.as_ref().map_or(0, Vec::len),
         unit_obj_script_override_data.as_ref().map_or(0, Vec::len),
         unit_obj_script_registry_special_data.as_ref().map_or(0, Vec::len),
+        unit_obj_script_registry_generic_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2255,6 +2284,7 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_script_special_alternate_data {write(&path.join(UNIT_OBJ_SCRIPT_SPECIAL_ALTERNATE_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_script_override_data {write(&path.join(UNIT_OBJ_SCRIPT_OVERRIDE_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_script_registry_special_data {write(&path.join(UNIT_OBJ_SCRIPT_REGISTRY_SPECIAL_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_script_registry_generic_data {write(&path.join(UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -2539,6 +2569,7 @@ mod tests {
             unit_obj_script_special_alternate: None,
             unit_obj_script_override: None,
             unit_obj_script_registry_special: None,
+            unit_obj_script_registry_generic: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -2866,8 +2897,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

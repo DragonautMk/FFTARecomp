@@ -174,7 +174,7 @@ class CoverageRefreshTests(unittest.TestCase):
             evidence = dict(baseline=[coverage.sha(root/'rom'),61,60],date='2026-10-25',limits=[],
                             resources={'reviewed':dict(decoded_sha256=resources[0]['sha256'],
                             sources_sha256=coverage.sources_sha256(resources[0]),ordinary_positive=True,
-                            references=['proof.json'],note='accepted')},source_only=[dict(id='projection',
+                            references=['proof.json'],note='accepted')},source_only=[dict(id='new',
                             sources=[source(208,240)],ranges=[[208,240]],references=['proof.json'],note='model')])
             (root / 'evidence.json').write_text(json.dumps(evidence))
             manifest = dict(source_rom_sha256=coverage.sha(root/'rom'),source_rom_size=256,
@@ -191,6 +191,7 @@ class CoverageRefreshTests(unittest.TestCase):
                 self.assertEqual(report['pending_review'], ['new'])
                 self.assertEqual(report['layers']['ordinary_resource_extents'], [[192,208]])
                 self.assertEqual(report['resources'][-1]['ranges'], [[224,240]])
+                self.assertEqual(report['resources'][-1]['id'], 'new/source-only')
                 resources[1]['sources'] = [source(208,240)]
                 report = coverage.build(args)
                 self.assertEqual(report['totals']['source_only_data'], 0)

@@ -358,7 +358,8 @@ def build(args):
         if not spans:
             continue  # Already migrated into authenticated runtime resources.
         all_data.extend(spans)
-        records.append({**extra, "ranges": spans, "source_bytes": length(spans),
+        extra_id = extra["id"] + "/source-only" if extra["id"] in owners else extra["id"]
+        records.append({**extra, "id": extra_id, "ranges": spans, "source_bytes": length(spans),
                         "runtime_available": False, "ordinary_positive": False})
     data = union(all_data)
     print("Analisi statica del codice dai punti di ingresso conservati", flush=True)
@@ -437,6 +438,8 @@ def generate(args):
     if (output / "coverage.json").is_file():
         try:
             previous = json.loads((output / "coverage.json").read_text())
+            if not isinstance(previous, dict) or not isinstance(previous.get("totals"), dict):
+                previous = None
         except ValueError:
             pass  # A malformed old report must not prevent replacing it.
     with tempfile.TemporaryDirectory(dir=output) as staging:

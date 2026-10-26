@@ -487,10 +487,31 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   no hidden sentinel/redirect pruning or u16FFFFfallback. Strictlosslessmodel
   and firstfocusedWineoracle pass34guards/2772newcell aliases/1260null126proper
   resets/268DMA82016pixelB/wholeVRAM/all12initialroot views; sixpriorviews checked
-  independently. AffectedWindowsfrontend firstbuild warning-free, e65/USAe8
-  unchanged; managed/runtime/CLI/ordinary pending. No previous acceptance replay,
+  independently. EUR e66-d65nowpublishes62files61resources withactual metadata52/
+  archive+sixpreviousview dependencies. TwofocusedWinefilters firstPASS36attach+
+  10dependencyguards/lifecycle/all99824typedB126newseq and25original-interpreter-
+  compiled fullstate-clock paths/659edges/BIOS-SWI-DMA/mixedold-raw-new. Six
+  previous owners retain sharedbytes. ActualproductionCLIcreate/reuse62generation
+  64managed/all62accepted/no-write/oneframeoldcacheattach firstPASS(allnewusage0/
+  smokeonly); ordinarynewpixel/equivalence pending. New read-only81snapshot/
+  126newsequence locator finds0enabled/dormant bodytasks without currentpointer
+  filtering, closed/no guest-build-fixture-fullpair or unchangedretry. USAe8
+  unchanged; no previous acceptance replay,
   fixture/navigation/metrics or newotherplatform tests; globalregistryidentity/
-  outofcatalog/redirect/currentchanged remain separate.
+  outofcatalog/nonreturningredirect/currentchanged remain separate. The
+  [known alternate-job redirect contract](../rom_data_unit_obj.md#registry-generic-jobs-redirected-to-a-known-alternate-job)
+  closes currentjobs80/81/82/85routeFF to concrete known alternate rows:
+  11760conditional witnesses26880refs map exactly four-to-one onto all2940direct
+  witnesses. All116rows/928effective classifications retained;98halfword6literal
+  11BLpins and all61current resource/source hashes pass before targets. Same
+  3210cells/777sequences/full796992B/sevenowners, zero newbytes/resources/revision;
+  existing metadata52ande66Wine proofs reused without build/guest replay.
+  The [known FFFFreader contract](../rom_data_unit_obj.md#known-generic-job-ffff-results-and-raw-bus-reads)
+  classifies196direct+784redirected witnesses/2240refs: actorproperty083B4C12=DC86,
+  directory083D4830=14AE3F1E;60facingqueries/30words use unmapped14bus, with live
+  bios_open/CPUrotation rather than a proved ROMsequence/null result.71readerpins/
+  threecodeblocks/twoliterals pass. Both ROMreads total6Bcurrently unowned/raw;
+  their migration and ordinaryreachability remainpending, no cap/pointerfix.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

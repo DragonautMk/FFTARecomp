@@ -44,6 +44,7 @@ DESCRIPTIONS = {
     'unit-obj-script-special-alternate.json': 'European conditional alternate script-special poses with exact logical metadata and script witnesses; previous owners, original tasks and DMA retained',
     'unit-obj-script-override.json': 'European conditional forced42/230 script poses with exact original assignment and script-group witnesses; previous owners, original tasks and DMA retained',
     'unit-obj-script-registry-special.json': 'European conditional registry poses for exact known special-unit metadata and script witnesses; six previous owners, original tasks and DMA retained',
+    'unit-obj-script-registry-generic.json': 'European conditional registry poses from exact direct generic-job fields and script witnesses; six previous owners, original tasks and DMA retained',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-equipment.json': 'European item/action-rooted equipment poses, null cells, commands, OAM and decoded indexed tiles; original live tasks and DMA retained',

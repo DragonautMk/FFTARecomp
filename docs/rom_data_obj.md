@@ -1,18 +1,18 @@
 # European OBJ lists and animation banks
 
-EUR e65-d64adds [registry-knownspecial script poses](rom_data_unit_obj.md#managed-registry-knownspecial-poses-and-typed-guest-reads):
-61files60resources, actual metadata14/archive and six previous typed-view
-dependencies, all59prior resources/e64retained/USAe8-d7. The new owner serves
-272newspans15276B; previous owners/rawholes/original tasks-DMA remain intact.
-Two focused Winefilters firstPASS33attach+10dependency guards/lifecycle/allnewB/
-21newseq and25original-interpreter-compiled complete-state-clock paths/272edges/
-BIOS-SWI-DMA/mixed2new4alternate+2new2raw. Six prior owners retain shared reads.
-ActualproductionCLIprepare/reuse61generation63managed/all61matchaccepted/no-write/
+EUR e66-d65adds [registry generic direct-job poses](rom_data_unit_obj.md#managed-registry-generic-direct-job-poses-and-typed-guest-reads):
+62files61resources, actual metadata52/archive and six previous typed-view
+dependencies, all60prior resources/e65retained/USAe8-d7. The new owner serves
+659newspans99824B; previous owners/rawholes/original tasks-DMA remain intact.
+Two focused Winefilters firstPASS36attach+10dependencyguards/lifecycle/allnewB/
+126newseq and25original-interpreter-compiled complete-state-clock paths/659edges/
+BIOS-SWI-DMA/mixed2new4alternate+2new2raw. Six previous owners retain shared reads.
+ActualproductionCLIprepare/reuse62generation64managed/all62matchaccepted/no-write/
 oneframeoldcacheattach firstPASS(allnewusage0/smokeonly). Ordinarynewpixel/
-fullscene and global registryidentity/
-genericjob/outofcatalog/redirect/changedactor remain separate. NewLinux-USA-
-nativeWindows-32:9 pending; source/model/oldproofs closed/no repeat, no
-performance or storage measurements.
+fullscene and FFFF/redirect/outofcatalog/
+changedactor/globalregistryidentity remain separate. Linux-USA-nativeWindows-
+new32:9 pending; source/model/oldproofs closed/no repeat, no performance or
+storage measurements.
 
 The separate [normal-mode battle pose source model](rom_data_unit_obj.md#normal-mode-battle-poses-source-projection-and-typed-model)
 now decodes2581sequences/17894frames over122normal-mode IDs, including real nulls,

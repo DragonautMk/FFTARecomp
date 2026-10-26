@@ -38,7 +38,7 @@ RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/regi
     cargo build --locked --release -p recomp-core --example rom_code_ranges \
     && mkdir -p /opt/ffta \
     && cp target/release/examples/rom_code_ranges /opt/ffta/rom_code_ranges
-COPY scripts/rom_coverage.py scripts/rom_coverage.html scripts/
+COPY scripts/rom_coverage.py scripts/rom_coverage.html scripts/local_artifacts.py scripts/
 COPY docs/changes/ docs/changes/
 COPY docs/development/rom-coverage/evidence.json docs/development/rom-coverage/
 COPY docs/development/rom-coverage/code-seeds.json docs/development/rom-coverage/

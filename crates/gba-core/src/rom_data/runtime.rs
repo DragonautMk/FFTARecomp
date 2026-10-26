@@ -143,6 +143,12 @@ pub use unit_obj_property_words::UnitObjPropertyWordsStats;
 mod unit_obj_byte_property_words;
 use unit_obj_byte_property_words::UnitObjBytePropertyWordsResources;
 pub use unit_obj_byte_property_words::UnitObjBytePropertyWordsStats;
+mod unit_obj_ffff_reader_fields;
+use unit_obj_ffff_reader_fields::UnitObjFfffReaderFieldsResources;
+pub use unit_obj_ffff_reader_fields::UnitObjFfffReaderFieldsStats;
+mod slot_job_lookup;
+use slot_job_lookup::SlotJobLookupResources;
+pub use slot_job_lookup::SlotJobLookupStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -268,6 +274,8 @@ pub struct RuntimeResources {
     unit_obj_script_registry_generic: Option<Box<UnitObjScriptRegistryGenericResources>>,
     unit_obj_property_words: Option<Box<UnitObjPropertyWordsResources>>,
     unit_obj_byte_property_words: Option<Box<UnitObjBytePropertyWordsResources>>,
+    unit_obj_ffff_reader_fields: Option<Box<UnitObjFfffReaderFieldsResources>>,
+    slot_job_lookup: Option<Box<SlotJobLookupResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -516,6 +524,12 @@ impl RuntimeResources {
         if let Some((data,_))= files.unit_obj_byte_property_words {
             resources.unit_obj_byte_property_words = Some(Box::new(UnitObjBytePropertyWordsResources::new(data.clone(), &source.unit_obj_byte_property_words.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.unit_obj_ffff_reader_fields {
+            resources.unit_obj_ffff_reader_fields = Some(Box::new(UnitObjFfffReaderFieldsResources::new(data.clone(), &source.unit_obj_ffff_reader_fields.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.slot_job_lookup {
+            resources.slot_job_lookup = Some(Box::new(SlotJobLookupResources::new(data.clone(), &source.slot_job_lookup.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -604,6 +618,8 @@ impl RuntimeResources {
             unit_obj_script_registry_generic: None,
             unit_obj_property_words: None,
             unit_obj_byte_property_words: None,
+            unit_obj_ffff_reader_fields: None,
+            slot_job_lookup: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -693,6 +709,8 @@ impl RuntimeResources {
             + self.unit_obj_script_registry_generic.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_property_words.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_byte_property_words.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.unit_obj_ffff_reader_fields.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.slot_job_lookup.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -807,6 +825,8 @@ impl RuntimeResources {
     pub fn unit_obj_script_registry_generic_stats(&self) -> Option<UnitObjScriptRegistryGenericStats> {self.unit_obj_script_registry_generic.as_ref().map(|m|m.stats())}
     pub fn unit_obj_property_words_stats(&self) -> Option<UnitObjPropertyWordsStats> {self.unit_obj_property_words.as_ref().map(|m|m.stats())}
     pub fn unit_obj_byte_property_words_stats(&self) -> Option<UnitObjBytePropertyWordsStats> {self.unit_obj_byte_property_words.as_ref().map(|m|m.stats())}
+    pub fn unit_obj_ffff_reader_fields_stats(&self) -> Option<UnitObjFfffReaderFieldsStats> {self.unit_obj_ffff_reader_fields.as_ref().map(|m|m.stats())}
+    pub fn slot_job_lookup_stats(&self) -> Option<SlotJobLookupStats> {self.slot_job_lookup.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1112,7 +1132,15 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.unit_obj_byte_property_words {
+            let prior = match &self.unit_obj_byte_property_words {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.unit_obj_ffff_reader_fields {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.slot_job_lookup {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1198,10 +1226,15 @@ impl crate::MemMap {
     pub(crate) fn name_keyboard_row_widths(&self, root: usize, page: usize) -> Option<&[u8]> {
         if let Some(rows) = self.rom_resources.as_ref()
             .and_then(|resources| resources.name_keyboard_row_widths(root, page)) {
+            #[cfg(feature = "rom-data-read-audit")]
+            super::read_audit::record(super::read_audit::Reader::KeyboardWidths, 0x08000000 + (root + page * 6) as u32, 6);
             return Some(rows);
         }
         let start = root.checked_add(page.checked_mul(6)?)?;
-        self.rom.get(start..start.checked_add(6)?)
+        let rows = self.rom.get(start..start.checked_add(6)?)?;
+        #[cfg(feature = "rom-data-read-audit")]
+        super::read_audit::record(super::read_audit::Reader::KeyboardWidths, 0x08000000 + start as u32, 6);
+        Some(rows)
     }
     /// Transactional source binding. Base resources preserve the original image
     /// identity and guest bytes, so snapshots/native translations remain keyed
@@ -1237,10 +1270,15 @@ impl crate::MemMap {
     pub(crate) fn obj_source_table(&self, offset: usize) -> Option<&[u8]> {
         if let Some(resources) = &self.rom_resources {
             if let Some(bytes) = resources.source_table(offset) {
+                #[cfg(feature = "rom-data-read-audit")]
+                super::read_audit::record(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48);
                 return Some(bytes);
             }
         }
-        self.rom.get(offset..offset.checked_add(48)?)
+        let bytes = self.rom.get(offset..offset.checked_add(48)?)?;
+        #[cfg(feature = "rom-data-read-audit")]
+        super::read_audit::record(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48);
+        Some(bytes)
     }
 
     #[inline]
@@ -1304,6 +1342,8 @@ impl crate::MemMap {
             || UnitObjScriptRegistryGenericResources::source_page(index)
             || UnitObjPropertyWordsResources::source_page(index)
             || UnitObjBytePropertyWordsResources::source_page(index)
+            || UnitObjFfffReaderFieldsResources::source_page(index)
+            || SlotJobLookupResources::source_page(index)
             || MapRasterPaletteResources::source_page(index)
             || AuxiliaryScriptResources::source_page(index)
     }

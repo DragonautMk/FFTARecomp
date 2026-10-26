@@ -538,6 +538,72 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   new32:9claim. Ordinarydeclaredsceneclosed,
   USAe8unchanged. No oldproof replay/gameplayfixture/navigation/performance measurement;
   FFFFraw6B/globalidentity/changedactor separate.
+- The [twenty-slot job lookup source](../rom_data_gameplay.md#twenty-slot-job-lookup-source-contract)
+  now has a bounded EUR contract:20u8jobrefs/20B at399750, twenty distinct existing
+  metadata52rows, disjoint64currentowners. Original12CA98live20slot selection,
+  preservedr6 across CFF70clear andsixlookupwrappers prove the conditional domain
+  before data inspection;268halfwords/9literals/8BLs authenticated. No whole
+  physicaltable/globalinputcap/gameplayreachability or sprite target is inferred.
+  Sourcechild closed. Strictlossless20entrymodel andone firstWinefilter nowpass
+  independent20B/12guards/123originalpaths (21bare/81fullproperty/21nameIDprefix),
+  threehighinputaliases/all20originalLDRBsiteB/callee-fullRAMoutside20Bstack/
+  VRAM-OAM-palette; firstWindowsfrontendbuild warning-free. Onlytwo moduledecls,
+  The model phase left e70-d69/65files64resources/USA8-7 unchanged. Managed
+  e71-d70now publishes66files65resources/all64oldrecords-files/e70retained, actual
+  metadata52dependency/immutable20Bowner/page399/20bit mask. Two Winefilters after externalENOSPC/tmp recovery/
+  one warning-freeWindowscore/frontend build pass18attachguards/3dependencyguards/
+  unavailable lifecycle/all20rawB altered and16original-interpreter-native full
+  state-clock paths, including12CA98mode3slot19→clear/nameIDprefix/rawoutside/
+  boundaries-SWI-DMA. No globalguestcap introduced. ActualproductionCLI nowpasses
+  create/reuse-no-write/oldcache-F09oneframe:66generation68managed65resources/
+  all66accepted, canonicalhash-mtime exactrestored; privateTMPbacking avoids03
+  actualENOSPC withoutnewcleanup/buildretry. DeclaredBank120ordinary nowpasses
+  firstnewCLIpositive andoneWinefullpair120state-clock/capturedcentral-wide/OAM/
+  dispatch/allaudio,2jobB/1slot equalCLI; other19ordinaryslots targeted-only.
+  Only5lineoptionalnewguard/report, firstWindowsfrontendbuild warning-free;
+  rawCLI284x160Bankbackground has no UIpanels, no composedGUI/fullABI claim.
+  Source/model/runtime/CLI/declaredordinary children closed; no fixture/navigation/
+  measurements or oldmetadata52/FFFF/A4proof replay.
+
+- The [bounded native ROM API residue test](../rom_data_runtime.md#bounded-native-rom-api-residue-inventory)
+  wraps a test-only BlockTable/read8-16-32 API, leaving production dispatch/API
+  unchanged. First EUR Bank12 Wine filter/one warning-freeWindows frontend build
+  preserve every fullstate-clock/buffer/OAM/dispatch/audio comparison and73actual
+  input guards.3166context reads/3683imageB include676unownedB/79observedranges;
+  these are source leads, not asset boundaries/completeness. Interpreter/HLE/DMA/
+  native constants/other scenes remain outside this observer. Its five highwords
+  are now staticallyclassified: two bounded4entry DMAregister directories and
+  one ThumbIWRAM branch pointer viaBXr2;392halfwords/47pins/5literals/4BL exact.
+  Lower656B now have static original Thumb witnesses:158literalwords/184linear
+  context paths (507unique halfwords) and6words from5guarded switchtables
+  (82prefix halfwords). No exact dynamic instruction/mode attribution or all-use
+  claim. All676stilloutside owners; originalROM/code support dependency explicit.
+  No RAMbody/ABI/asset or whole-game completeness inference.
+  Samefrozenobserver nowpasses one WineF0912filter/fullstate-clock/buffers/OAM/
+  dispatch/audio, no rebuild or oldscene acceptance replay.13671contextreads/
+  13961imageB include604unownedB,584sharedwithBank+20newB/fivePCrelative static
+  witnesses.76actualinputguards exact. No newasset/revision/completeness claim.
+  No fixture or performance campaign; e71/USA8-7 unchanged, platforms pending.
+
+- The [optional bus/host ROM audit](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit)
+  Cargo feature is absent by default. Scoped TLS collects successful bus and
+  selected audio/sprite/table/keyboard source requests, suppressing interpreter
+  instruction fetch only; no Machine/API/save schema fields. One WineF0912filter
+  passes fetch/width/mirror/lifetime probes and every fullstate-clock/buffer/OAM/
+  dispatch/audio comparison after a warning-free build retry for a test import.
+  23061unique requests/19984imageB include1146unownedB,542beyond prior nativeAPI
+  sample;90new highbytes are source leads only.76actualinput+onecomparison guards
+  exact, oldacceptances not replayed. e71/USA8-7 unchanged; no newfixture or
+  measurements. Other threads/scenes/readers/typed HLE bypasses remain separate.
+
+- The [following live-slot helpers](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup)
+  D05E8/D0618test/count nonzero firstwords in20RAMslots at02002E78, whileD0650
+  increments livebyte02001F68onlywhenold<=98 (largervaluesunchanged). Exactthree
+  bodies/68halfwords/30criticalpins/6literals authenticateRAMstate, no newimmutable
+  asset/root/resource/revision or global20inputcap. Raw3/2/1caller candidates are
+  not whole-game/liveness proof; partialD0670separate. Sourcechildclosedstatic-only,
+  e71/USA8-7 unchanged, no newbuild/game/test/fixture/navigation/measurements.
+
 - The [known FFFF numeric reader fields](../rom_data_unit_obj.md#typed-model-for-known-ffff-reader-fields)
   now have a strict lossless model: u16property/u32encoded directory/query65535,
   two spans6B and980conditionalmetadata52/archive49witnesses2240refs. Existing
@@ -546,9 +612,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   frozen83ffcd75.. and one firstWinefilter pass13guards/3numericroundtrips/
   independent980records+6B/twooriginalreaders28instructions/callee-fullRAMguards.
   156build157Wineguards35compiledinputs exact, all63current owners disjoint.
-  Modelclosed; versionedpublication/runtimeownership/nativeclock/ordinary remain
-  pending. e69-d68/64files63resources/USAe8-d7 unchanged, unmapped0x14 live bus
-  semantics retained. Closed71pin/60query/A4/oldoracles/scenes notreplayed; no
+  Modelclosed. [Managed publication/typed bus](../rom_data_unit_obj.md#managed-ffff-reader-fields-and-typed-bus-consumption)
+  now passes e70-d69/65files64resources/all63oldrecords-files/e69retained, actual
+  metadata52/archive dependencies. Two first Wine filters/one warning-freeWindows
+  core/frontend build pass20attachguards/4dependencyguards/lifecycle/unavailable
+  directory/all6Bpoisoned and14original-interpreter-native fullstate-clock paths,
+  liveBIOSunmapped14/rotate16/zeroearlyreturn/boundaries-SWI-DMA. Only two numeric
+  fields are owned; no valid sprite target is inferred. ActualproductionCLI
+  create/reuse-no-write/oldcache-oneframe now passes65generation67managed/
+  64resources/all65accepted; canonicalhash-mtime and originalF09/cache exact.
+  Ordinarypositive/reachability/equivalence remain pending. Newreadonly81snapshot
+  locator finds159potentialFFFFcontexts/61snapshots (allkind0/job0/alt0),157null
+  bodypointers/twooutsideEWRAM/no livebodytask lead. It infers neither actorvalidity
+  nor globalunreachability; no guest/build/fixture replay. USAe8-d7 unchanged,
+  unmapped0x14 live bus semantics retained. Closed71pin/60query/A4/oldoracles/scenes notreplayed; no
   fixture/navigation/performance-space work. Otherplatforms remain pending.
 - The [additional property getter callers](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window)
   have a source contract for all five retained direct calls. Two additional u16
@@ -1758,6 +1835,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 - Local `target/` and `dist/` files are ignored build artifacts, not portable
   prerequisites. Discover installed toolchains and rebuild when absent. Never
   include ROMs, saves, recordings or test controller DLLs in release archives.
+  [Local artifact retention](LOCAL_ARTIFACTS.md) requires closing successful
+  managed/native units with `scripts/local_artifacts.py complete`: retire only
+  disposable interrupted/moved fixture copies after preservation/results, retain
+  accepted offline data and proof logs, and explicitly review old test binaries.
+  Refuse links/private/tracked content. Historical mutable-output maps are not
+  perpetual live-input requirements; cleanup receipts describe availability,
+  without reopening completed proofs. Coverage Docker launchers keep two owned
+  automatic cache generations after successful publication; explicit datasets
+  remain untouched and read-only direct generation defaults to no eviction.
 
 ## Native UI coordinate policy
 

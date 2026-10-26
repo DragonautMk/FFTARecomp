@@ -61,7 +61,7 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         self.environment = dict(os.environ, PATH=str(self.bin), DOCKER_TEST_LOG=str(self.directory))
         for name in ('Cargo.toml','Cargo.lock','crates/model.rs','assets/public','TinyCC/public',
                      'Licenses/public','gamedb.sqlite','docs/changes/proof.json',
-                     'scripts/rom_coverage.py','scripts/rom_coverage.html',
+                     'scripts/rom_coverage.py','scripts/rom_coverage.html','scripts/local_artifacts.py',
                      'docs/development/rom-coverage/code-seeds.json'):
             p = self.repo/name; p.parent.mkdir(parents=True,exist_ok=True); p.write_text('committed')
         for args in (['init','-q'],['add','Cargo.toml','Cargo.lock','crates','assets','TinyCC','Licenses','gamedb.sqlite'],
@@ -94,6 +94,7 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
             self.assertIn(f'type=bind,source={self.repo / self.defaults[key]},target={target},readonly', run)
         self.assertIn(f'type=bind,source={self.repo / "target/rom-data/coverage"},target=/cache', run)
         self.assertIn('--dataset-cache', run)
+        self.assertEqual(run[run.index('--cache-keep')+1], '2')
         self.assertNotIn('--translation', run)
         self.assertNotIn('--dataset', run)
         output = self.repo / 'docs/development/rom-coverage'

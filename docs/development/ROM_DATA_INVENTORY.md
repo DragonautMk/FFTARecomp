@@ -1751,3 +1751,213 @@ prove A4/modello/runtime/scene chiuse senza replay. Pubblicazione/ownerruntime03
 nativeclock/ordinary pendenti; produzione e69-d68/64file63risorse e USAe8-d7 invariati.
 Linux/USA/nativeWindows/new32:9 da fare, nessuna fixture/navigazione/misura performance-
 spazio. [Modello e limiti](../rom_data_unit_obj.md#typed-model-for-known-ffff-reader-fields).
+
+
+**ROMDATA-03-UNIT-OBJ-FFFF-READER-FIELDS completato managed/runtime EUR (2026-10-26).**
+e70-d69:65file64risorse, tutti63record/file decodificati precedenti ed e69
+conservati; USAe8-d7 invariato. Nuova risorsa numerica con dipendenze reali
+metadata52/scriptarchive, modello980witness2240refs invariato. Owner immutabile
+serve solo2Bproperty+4Bdirectory da campi tipizzati; gate3B4/3D4, contatori e due
+bitcampo. Puntatore completo, BIOSaperto vivo/unalignedLDRrotate16 e controllo
+guest preservati, nessuna sequenza/target/null/cap inventata. Primo buildWindows
+core/frontend senza warning e primi due nuovi filtri Wine PASS:20attachguard,
+quattro dependencyguard, publication/lifecycle directory-indisponibile, tutti6B
+raw alterati/duecampi e vecchioowner distinto. Original/interpreter/native14path
+stato completo/clock uguali: getter/directory/zeroearlyreturn/treBIOSprefix,
+liveRAM/mixed reads. Due bordi/width/mirrors/realBIOSbus; API2new2raw, CpuSet
+2new6raw/FastSet4new28raw/DMA4new4raw preservati. Source/modello/A4/oldproof chiusi
+senza replay. ProduzioneCLI04 e ordinary05 restano da fare, nessuna fullsprite/
+allocatorABI dichiarata. Linux/USA/nativeWindows/new32:9 pendenti. Nessuna fixture/
+navigazione/privatepayload/performance-spazio/Android/package/commit/push.
+[Consumo e limiti](../rom_data_unit_obj.md#managed-ffff-reader-fields-and-typed-bus-consumption).
+
+
+**ROMDATA-04-UNIT-OBJ-FFFF-READER-FIELDS-ACTUAL-CLI completato EUR/Wine (2026-10-26).**
+Primo buildproduzioneWindows senza warning/candidato congelato; canonicale hash+
+mtime esatti ripristinati/main contenuto invariato. Prime tre chiamate Wine
+prepare/reuse/oldcache-oneframe da cwd estranea passano65generation67managed/
+64risorse/tutti65uguali al dataset03/due dipendenze reali/riuso senza scritture.
+Checkpoint F09 originale e cache precedente integri: solo prova attachment,
+ordinarypositive/equivalenza non dichiarate. Source/modello/runtime/oldscene
+chiusi senza replay; USAe8-d7 e Linux/nativeWindows/new32:9 da verificare.
+Nessuna fixture/navigazione/privatepayload/performance-spazio/Android/package/
+commit/push. [CLI e limiti](../rom_data_unit_obj.md#actual-production-cli-for-ffff-numeric-fields).
+
+
+**ROMDATA-05-UNIT-OBJ-FFFF-READER-FIELDS-EXISTING-CONTEXT-LEAD chiuso, ordinary positivo aperto (2026-10-26).**
+Nuovo locator readonly sugli81checkpoint EUR esistenti: predicato actor+34FFFF/
+unitkind0-1/currentjob-alternatejob da980witness, entrambe modalità/override/
+null-dormant-outside conservati, senza richiedere targetsequenza inesistente.
+159candidati potenziali in61snapshot, tutti kind0/job0/alt0/override20clear:
+157bodypointer null e due01480168fuoriEWRAM. Nessun taskcorpo disponibile inEWRAM,
+nessuna identità registry/sameassignment/actorvalidity dedotta. Non è prova di
+irraggiungibilità globale e non fornisce scena positiva: ordinaryreader/fullpair
+restano aperti. Hash/mtime/header/payload/ROM/input/modello/closedcontract esatti.
+Source/modello/runtime/CLI/126sequence/oldscene chiusi senza replay; nessun nuovo
+build/Wine/gameplay/fixture/navigazione/privatepayload/performance-spazio.
+Linux/USA/nativeWindows/new32:9 pendenti. [Locator e limiti](../rom_data_unit_obj.md#existing-checkpoint-locator-for-ffff-numeric-readers).
+
+
+**ROMDATA-01-UI-JOB-LOOKUP-SOURCE completato per proiezione EUR20slot (2026-10-26).**
+Root399750 condiviso da sei lettori D0538/D0548/D0568/D0588/D05A8/D05C8: bytejob
+oppureCBEC8property1/4/6/9/0, troncamenti e namehelper165E8 originali. Dominio
+selezionato prima dei dati dal12CA98: lista indici dei20slotRAM02002E78/stride16,
+mode3massimo+5/tieinclusivo; un singolo slot occupato consente ogni0..19. R6
+preservato attraverso CFF70clear prima di D05C8.268halfword/27criticalpin/9literal/
+8BL autenticati. Nessun capglobale/extentfisicocompleto/adjacency/identitàdi gioco
+inventato; altricallermatch raw non automaticamente codicesemantico. Venti job
+u8/20B/unarange SHA969b2cd5.. distinti,20righemetadata52 ricostruite, disgiunti
+tutti64owner attuali. Nessun target sprite seguito. Sourcechild chiuso; modello/
+Wineoracle/managed/runtime/CLI/ordinary aperti. e70-d69/65file64risorse e USA8-7
+invariati; nessun build/guest/test/fixture/navigazione/privatepayload/performance-
+spazio/Android/package/commit/push. Linux/USA/nativeWindows/new32:9 pendenti.
+[Contratto e limiti](../rom_data_gameplay.md#twenty-slot-job-lookup-source-contract).
+
+
+**ROMDATA-02-SLOT-JOB-LOOKUP-MODEL completato modello EUR (2026-10-26).**
+Modello strict20(slot,u8job)/20B/sourcebase/hash/byte_at/metadata52diretto; Catalog
+verifica EUR/treblockproducer-reader. Due solemoduledecls, nessuna registrazione
+Extraction/runtime: e70-d69/65file64risorse/USA8-7 invariati. Primo buildWindows
+frontend senza warning e primo unico filtro Wine PASS:20entry indipendenti/20B/
+12guard JSON-shape-source-dependency/roundtrip/disgiuntitutti64owner.123percorsi
+originali:21barejob/81propertywrappercompleti/21property0prefix prima di165E8,
+trealiasinputhigh. Tutti20B ai sei LDRB originali, callee/fullRAMfuori20Bstack/
+VRAM-OAM-palette preservati. Nessun capguest20/null/hostfallback, codeparser268pin/
+metadata52/FFFF/A4/oldproof non ripetuti. Managed/runtime03/CLI04/ordinary05 aperti;
+nessuna nuova fixture/navigazione/privatepayload/performance-spazio/Android/
+package/commit/push. Linux/USA/nativeWindows/new32:9 pendenti.
+[Modello e limiti](../rom_data_gameplay.md#typed-twenty-slot-job-lookup-and-original-reader-proof).
+
+
+**ROMDATA-03-SLOT-JOB-LOOKUP-RUNTIME completato managed/runtime EUR (2026-10-26).**
+e71-d70:66file65risorse/gameplay.slot-job-lookup/slot-job-lookup.json, dipendenza
+reale metadata52; tutti64record/file precedenti ed e70 conservati, USA8-7 invariato.
+Owner immutabile20u8/20B/page399/maschera20record, originali inputlow8/slotselection/
+clear/properties/name/rawoutside preservati, nessun cap20guest. Primo buildWindows
+core/frontend senza warning e due nuovi filtri Wine PASS dopo stop ENOSPC e retry su filesystem temporaneo:18attachguard/3
+dependencyguard/publication/lifecycle directory-indisponibile/tutti20Brawalterati/
+tutti20bit/ownerFFFdistinto. Sedici percorsi original/interpreter/native fullstate-
+clock uguali: getter/properties/nameIDprefix/highinput/slot20raw/liveRAM e12CA98
+mode3slot19→CFF70clear→D05C8prima165E8. Bordi/width/mirrors/realBIOSbus; API2new2raw,
+CpuSet20new4raw/FastSet20new12raw/DMA20new4raw preservati. Vecchi64owner confermano
+rawneighbors. Source268pin/model123reader/oldproof chiusi senza replay. CLI04/
+ordinary05 aperti; Linux/USA/nativeWindows/new32:9 pendenti. Nessuna fixture/
+navigazione/privatepayload/performance-spazio/Android/package/commit/push.
+[Consumo e limiti](../rom_data_gameplay.md#managed-twenty-slot-job-lookup-and-typed-bus-consumption).
+
+
+**ROMDATA-04-SLOT-JOB-LOOKUP-ACTUAL-CLI completato EUR/Wine (2026-10-26).**
+Primo buildWindowsproduzione senza warning/candidato congelato; canonicale hash+
+mtime esatti ripristinati/main contenuto invariato. Prime tre chiamate Wine
+prepare/reuse/oldcache-oneframe da cwd estranea passano66generation68managed/
+65risorse/tutti66uguali al dataset03/dipendenzametadata52/riuso senza scritture.
+Rootprivato su filesystemtemporaneo mediante linkworkspace dopoENOSPC03, nessun
+ulteriorecleanup/formatobudget/buildretry. F09/cacheoriginali integri: sola
+provaattachment, ordinarypositivo/equivalenza aperti. Source/modello/runtime/
+oldproof chiusi senza replay; Linux/USA/nativeWindows/new32:9 da verificare.
+Nessuna fixture/navigazione/privatepayload/performance-spazio/Android/package/
+commit/push. [CLI e limiti](../rom_data_gameplay.md#actual-production-cli-for-the-twenty-slot-job-lookup).
+
+
+**ROMDATA-05-SLOT-JOB-LOOKUP-BANK-ORDINARY completato per scena EUR dichiarata (2026-10-26).**
+Primo nuovo CLIbank120positivo2read/2B/1slot, con checkpointcopiato/inputDown8..20
+esistenti e datasetproductione71generation-GmxCy2. Unicoscopo nuovojoblookup,
+vecchioA4negativo/B2positivo chiuso. Solo5lineoptionalguard/report nelvalidatore
+scene, runtime/prodotto/vecchiguard/stati invariati. Primo buildWindowsfrontend
+senza warning e primo filtro Wine esatto PASS:120fullstate-clock da3660a3780/
+central-wide/OAM/dispatchnative-fallback e mixed-PSG-FIFOleft-right-HLEbitexact.
+Tutti5samplecount[263340,263340,31680,31680,263264]positivi; nuovouso2B1slot uguale
+CLI. Altri19slot ordinari targeted-only. CatturaCLI284x160ispezionata:sfondoBank,
+pannelliUI assenti dalrawframebuffer; nessuna GUIcompositafinale/fullname-actor-
+allocatorABI/new32:9 dichiarata. Input/copia/originale/cache/dataset integri;
+nessuna fixture/navigazione/privatepayload/performance-spazio/oldproof replay.
+Source/model/03/04/05dichiarati chiusi, fullTODOattivo/Linux-USA-nativeWindows-
+new32:9pendenti. [Scena e limiti](../rom_data_gameplay.md#ordinary-bank-scene-use-of-the-twenty-slot-job-lookup).
+
+
+**ROMDATA-01-POST-SLOT-LOOKUP-READERS completato per tre API RAM EUR (2026-10-26).**
+D05E8anynonnull eD0618count leggono solo le primeword di20slotRAM02002E78/stride16;
+non validano puntatori/liveness, D05E8ritorna presto. D0650incrementa byte02001F68
+solo seold<=98, lascia99..255invariati (nessun clampglobale). Tutti ignorano arg
+entranti perquestiindirizzi; sei literal sono supporto eseguibile RAMbase/offset,
+nessuna nuova radice ROMasset.68halfword/30criticalpin/6literal/treblock completi
+verificati;3/2/1BLmatch raw restano candidati/non completezzasemantica. Nessun
+export diRAM viva/nuovadecoder-risorsa-owner/revisione/cap20tabellaROM. e71-d70/
+66file65risorse/USA8-7 invariati. ProssimoD0670parziale escluso. Sourcechildchiuso,
+vecchieprove/Bank non ripetute; nessun build/guest/test/fixture/navigazione/
+privatepayload/performance-spazio. Linux/USA/nativeWindows/new32:9 pendenti.
+[Stato vivo e limiti](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup).
+
+
+**ROMDATA-01-NATIVE-ROM-DATA-RESIDUE completato per il campione EUR Bank12
+(2026-10-26).** Un osservatore solo di test avvolge le API native read8/16/32 e
+sottrae i20756intervalli uniti dei65piani sorgente e71. Primo build Windows senza
+avvisi e un filtro Wine:3166letture di contesto/3683byte immagine;198letture
+includono676byte fuori piano,79intervalli osservati. Stato completo/clock,
+central-wide/OAM/dispatch e cinque flussi audio coincidono a ogni frame3660–3672.
+676byte sono indizi da autenticare, inclusi cinque word370E70/74/80/84/EB0;
+nessuna nuova risorsa/revisione o completezza globale. PC esportato può essere
+stale; interprete/HLE/DMA/costanti native e altre scene fuori campione.73input
+hash-mtime esatti; main/CAPI/vecchi validatori invariati, solo nuovo modulo test
+con dichiarazione cfg. Nessuna nuova fixture/navigazione/misura prestazioni.
+Le vecchie accettazioni Bank120/source/model/runtime/CLI restano chiuse.
+Linux/USA/nativeWindows/new32:9 da fare.
+[Contratto, trasparenza e limiti](../rom_data_runtime.md#bounded-native-rom-api-residue-inventory).
+
+
+**ROMDATA-01-NATIVE-RESIDUE-HIGH-WORD-READERS completato staticamente EUR
+(2026-10-26).** I cinque word osservati370E70/74/80/84/EB0 sono supporto di
+esecuzione: due directory di indirizzi registri DMA e un ingresso ThumbIWRAM
+passato aBXr2.392halfword/47pin/5literal/4BL in sei blocchi interi autenticati;
+loadreali0846/09B2/0D56/3A7E/11DA/11EE distinti dalPCesportato. I chiamanti
+originali provano due proiezioni4x4B370E68/78 e un word370EB0,36Bdisgiunti da65owner;
+20Bosservati classificati,656Blower ancora da classificare. Nessun capglobale,
+RAMbody/ABI/scheduler o nuovoasset/owner/revisione inferito; dipendenza ROM/codice
+esplicita e676Bancora fuori piani gestiti. Nessun build/guest/test/fixture/
+navigazione/misura/vecchia accettazione ripetuti. e71-d70/USA8-7 invariati;
+Linux/USA/nativeWindows/new32:9 pendenti.
+[Directory hardware e controllo di salto](../rom_data_runtime.md#high-offset-native-residue-is-hardware-and-branch-support).
+
+
+**ROMDATA-01-NATIVE-RESIDUE-LOWER-READERS completato per testimoni statici EUR
+(2026-10-26).**656Bosservati:158wordliteral/632B con184percorsi Thumblineari entro96B
+dai contestisalvati (507halfworddistinti), e6word/24B in5tabelle salto con82halfword
+di prefisso bounds/indice/load/MOVpc autenticati. Proiezioni8/35/69/48/5entry;
+solo0/0/27/4-6/1osservate. Non è una traccia dinamica istruzione/modo né prova di
+tutti gli usi. Insieme ai20Bhardware/branchhigh, tutti676Bfuori piano hanno riscontri
+statici di supporto codice; restano fuori dai65owner/dipendenzaROMoriginale.
+Nessuna nuova famiglia/radiceasset/owner/revisione/completa migrazione inferita.
+Nessun build/guest/test/fixture/navigazione/misura/vecchia accettazione ripetuti.
+e71-d70/USA8-7 invariati; interprete/HLE/DMA/costanti native/altre scene e
+Linux/USA/nativeWindows/new32:9 separati.
+[Literal e tabelle di salto](../rom_data_runtime.md#lower-native-residue-has-literal-and-switch-table-witnesses).
+
+
+**ROMDATA-01-NATIVE-ROM-DATA-RESIDUE-F09 completato per secondo campione EUR
+(2026-10-26).** Stesso eseguibile osservatore congelato, nessun build: un filtro
+Wine12frame8476→8488 da checkpoint/inputF09esistenti preserva stato/clock/buffer/
+OAM/dispatch e cinque audio.13671letture contesto/13961Bimmagine;604Bfuori piano,
+584condivisi conBank e20nuoviB/5word. Tutti5hanno testimoni ThumbPC-relative
+lineari (20halfword); fonte statica, non traccia dinamica/modo/tutti gli usi.
+Unione due campioni696Bancora fuori65owner, nessun asset/revisione inferiti.
+76inputhash-mtime e codice compilato esatti, helperretention0percorsi. Nessuna
+fixture/navigazione/misura o vecchia accettazione F09/Bank ripetuta. Altri percorsi
+interprete/HLE/DMA/costanti e Linux/USA/nativeWindows/new32:9 restano separati.
+[Secondo campione](../rom_data_runtime.md#second-native-api-sample-from-the-existing-f09-checkpoint).
+
+
+**ROMDATA-01-HOST-ROM-READ-RESIDUE completato per collector e campione EURF09
+(2026-10-26).** FeatureCargo opzionale non-default rom-data-read-audit: collector
+thread-local indirizzo/lettore/lunghezza su bus risolto e hostaudio/sprite/tabelle/
+keyboard selezionati; fetchistruzioni interprete escluso, esecuzione/clock/API/
+savestate invariati. Primo build corecompilato/frontendfallito per qualifica
+c_void mancante nel test; correzione solo test e buildincrementale senzaavvisi.
+Un filtro Wine: probeARM/Thumb/width/mirror/audio/lifecycle e12frame8476→8488
+stato-clock-buffer-OAM-dispatch-cinqueaudio identici.23061richieste/19984Bimmagine,
+1146Bfuori65owner; include tutti604Bfuoripiano del vecchioAPIreport e aggiunge542B.
+90nuoviBalti/6intervalli restano sorgenti da autenticare,64Banche daSpritePeek.
+Nessun formato/asset/extent/owner/revisione inferito.76inputesecuzione+1report
+confrontohash-mtime esatti, nessuna vecchia prova/fixture/navigazione/misura.
+e71-d70/USA8-7 invariati; KeyboardWidthsnonattivo/altrethread-scene/accessihost/
+fastpathHLEtipizzati fuori scope; Linux/USA/nativeWindows/new32:9 pendenti.
+[Collector, prova e limiti](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit).

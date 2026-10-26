@@ -1,5 +1,27 @@
 # Direct decoded resource consumption
 
+EUR e71-d70 adds the [twenty-slot job lookup](rom_data_gameplay.md#managed-twenty-slot-job-lookup-and-typed-bus-consumption):
+66files/65resources, all64prior decoded files/records and e70retained, actual
+metadata52dependency. Two focused Wine filters pass publication/lifecycle and
+complete-state/clock original/interpreter/native reads, live slot selection and
+mixed bus/SWI/DMA. The owner serves only20bytes; original getters and all outside
+inputs stay live. Actual production CLI create/no-write reuse/old-cache one-frame
+attachment now pass66generation/68managed files, all66matching the accepted dataset.
+One Bank120Winefullpair now passes complete state/clock/captured buffers/OAM/
+dispatch/all five audio streams, with2newjobbytes/one slot record matching CLI.
+Other19ordinary slots and Linux/USA/native Windows/new32:9remain pending.
+No performance/storage measurements.
+
+EUR e70-d69 adds the [two numeric FFFF reader fields](rom_data_unit_obj.md#managed-ffff-reader-fields-and-typed-bus-consumption):
+65 files/64 resources, all63 earlier decoded files/records and e69 retained.
+The immutable owner serves only six bytes; encoded addresses and original live
+unmapped BIOS/unaligned CPU behavior stay intact. Two focused Wine filters pass
+publication/lifecycle/authentication and complete-state/clock native/bus/SWI/DMA
+checks. Actual production CLI create/no-write reuse and old-cache one-frame
+attachment now pass65generation/67managed files, all65 equal the accepted dataset.
+Ordinary positive reachability/equivalence remain pending. USA remains e8-d7;
+Linux/native Windows/new32:9 remain to be checked. No performance/storage measurements.
+
 EUR e69-d68 extends the [property-selected static UI OBJ lists](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption)
 within the existing resource: 126 references/74 lists/175 objects/1198 source bytes.
 The new list contributes 14 bytes; the B2 alias retains its previous owner.
@@ -1138,3 +1160,212 @@ attachment passes with zero new alternate use. Positive ordinary alternate use,
 script/live reachability and new Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage campaign
 or new gameplay checkpoint.
 [Alternate runtime contract](rom_data_unit_obj.md#alternate-managed-publication-and-typed-runtime-reads).
+
+
+## Bounded native ROM API residue inventory
+
+`native_rom_data_residue_tests::native_api_rom_residue_preserves_bounded_scene`
+is an opt-in, ignored frontend test for finding native ROM API reads outside
+an accepted manifest's source plans. It replaces present entries in a test-only
+copy of `BlockTable` with a trampoline. The original table and library stay alive;
+only `RtApi.read8/read16/read32` are wrapped. The production dispatcher, normal
+API, resource owners, extraction revisions and save formats are unchanged.
+
+The observer records unique address/width/context tuples, physical ROM offsets,
+per-byte image and unowned masks, and the exported PC and outer dispatch key.
+It subtracts sorted merged source intervals from the authenticated manifest.
+No read values, durations, cost census, startup/RSS or storage budgets are
+collected. An exported PC can be stale, and an outer dispatch key can precede
+internally chained blocks; neither is automatically the load instruction.
+Interpreter fallback, host/HLE/direct DMA reads, folded native constants,
+requests beginning outside the physical ROM image and other scenes are outside
+this inventory. Adjacent observed bytes do not establish an asset's extent.
+
+The first EUR check used the existing Bank checkpoint/Down input for 12 frames
+(guest3660–3672), the accepted e71-d70 dataset/65resources and retained native
+cache. One Windows frontend build was warning-free. One Wine filter passed
+per-frame serialized Machine (including clock), central/wide buffers, OAM,
+native/fallback dispatch and mixed/PSG/FIFO-left/FIFO-right/HLE audio, including
+float bits. All five sample counts were positive. Dispatch totals19962/85770
+are execution coverage only. This is observer transparency, not a replay of
+the already closed Bank120 resource-equivalence acceptance.
+
+The observer saw3166 unique context reads over3683 physical image bytes;
+198context reads include676unowned bytes in79observed contiguous ranges.
+Five high-offset words at370E70/74/80/84/EB0 and lower executable-region reads
+are source leads requiring original reader/domain authentication. They are not
+new decoded assets or evidence that every other ROM byte is migrated.
+
+All73selected input hash/mtime guards, including source/copy checkpoint, input,
+ROM, native cache, canonical executable, TinyCC and66accepted dataset files,
+remain exact. Production hub changes are exactly one `cfg(test)` declaration;
+main, C API, existing validators and all resource revisions remain unchanged.
+Parallel documentation/artifact-retention work is preserved separately. The
+required local-artifact completion helper found no disposable copies in this
+unit. No new checkpoint, navigation, cartridge write or performance campaign
+was performed. Linux, USA, native Windows, other scenes and new32:9 remain
+pending. Local results: `target/rom-data-native-rom-data-residue/`.
+
+
+## High-offset native residue is hardware and branch support
+
+The five high-offset words from the Bank12 native API report now have a static
+source contract, authenticated against six complete EUR code blocks:392halfwords,
+47critical pins, five source-base literals and four BLtargets. Exported PCs
+were used only to locate the readers; actual loads are0846/09B2/0D56,3A7E and
+11DA/11EE. No additional game execution was required.
+
+The conditional source plans are two16Bdirectories at370E68 and370E78, plus
+one4Bword at370EB0. Original D40 and0918 loops prove indices0..3 for the first
+directory. Original0800selection also bounds its selected index0..3 and forwards
+it to3A6C; D40 forwards its bounded index too.3A6C itself has no input guard, so
+these callers do not impose a global cap on that routine or establish a whole
+physical table extent. The directories both contain four DMA register block
+addresses; original code writes base/+4/+8 or polls bit31 at base+8. These are
+hardware destinations, not pointers to ROM graphics or other asset payloads.
+The local bus register decoder independently identifies the four12B DMA blocks.
+
+11CC loads the firstword at370EB0 into r2 twice, then calls145C10. That exact
+helper is `BX r2`, establishing an indirect branch rather than a fill-value
+argument. The word selects Thumb IWRAM entry03005E79. This classification does
+not authenticate the mutable RAM body, its copy origin, full callback ABI or
+scheduler behavior. No RAM code or mutable state is exported as a base asset.
+
+The36B conditional plans are disjoint from all65existing owners; only20B/five
+words were actually observed in the Bank12 report. Those20B are now classified
+as executable hardware/branch support, while656observed lower bytes remain a
+separate source-classification task. All676bytes still lie outside exported
+owner plans: classification does not silently turn them into managed resources.
+The original ROM/code-support dependency stays explicit. No new gameplay,
+graphics, text or audio model/resource/revision follows from these pointers.
+
+Exact ROM, static tool and saved address-report hash/mtime guards pass. No
+build, game test, checkpoint, navigation, performance measurement or replay of
+closed acceptance occurred. Static disassembly is not Linux game validation.
+e71-d70/65resources and USAe8-d7 remain unchanged; Linux/USA/native Windows and
+new32:9 checks remain pending. Local source evidence:
+`target/rom-data-native-residue-high-word-readers/source-contract.json`.
+
+
+## Lower native residue has literal and switch-table witnesses
+
+All656lower observed bytes from the same Bank12 report now have bounded static
+reader witnesses. The raw candidate map was insufficient on its own: for each
+of158literal words (632B),184saved contexts were matched to an original Thumb
+PC-relative load within96B of the exported PC. Each intervening halfword was
+checked against the exact ROM, with no branch, call, return, PC-writing operation
+or trap before that load. The184paths contain507distinct instruction halfwords.
+These are static original-code witnesses consistent with the saved contexts;
+the observer did not capture a dynamic instruction/mode trace, so this does
+not establish exact dynamic load-site attribution or every use of each word.
+
+The six remaining observed words (24B) belong to five guarded switch tables.
+82prefix halfwords establish the bounds, index shift, original table-base
+literal, word load and `MOV pc,r0` for each. Conditional projections are8entries
+at022274,35at02540C,69at0CB818,48at0CBEF8 and5at125430. Only entry0,entry0,
+entry27,entries4/6 and entry1 respectively occurred in this report. The fourth
+reader truncates its selector to8bits; values above47 remain in the original
+compare/branch loop. The bounds establish conditional address plans, not
+whole-table identity, all callers or ordinary coverage of all165entries.
+Unused target values and branch bodies were not decoded into an asset model.
+
+Together with the separately authenticated high-offset hardware/branch support,
+all676observed unowned bytes have these scoped static code-support witnesses.
+They still remain outside the65managed owner plans, and the original ROM/code
+support dependency remains. No new game asset, decoder, resource, owner or
+revision is inferred; no whole-game/ROM completeness or coverage of interpreter,
+HLE, DMA, folded constants and other scenes is claimed.
+
+Exact source ROM, static tool and retained address-report/summary hash-mtime
+guards pass; implementation is unchanged. No build, guest execution, test,
+fixture, navigation or performance measurement was added. Prior Bank12/Bank120,
+source/model/runtime/CLI acceptances were not replayed. Static decoding is not
+Linux game validation; Linux, USA, native Windows and new32:9 remain pending.
+Local evidence: `target/rom-data-native-residue-lower-readers/`.
+
+
+## Second native API sample from the existing F09 checkpoint
+
+The same frozen observer executable was reused without a build for a second
+12frame sample: the authentic existing F09 checkpoint/original input, guest8476
+through8488, same accepted e71-d70dataset/native cache/16:9/zoom0 settings.
+One Wine filter passed every full Machine/clock, central/wide framebuffer, OAM,
+dispatch and all five audio comparisons. Samples were positive in all streams;
+dispatch88123/279744 is mixed execution coverage, not a performance measurement.
+No old F09resource-equivalence criterion or Bank acceptance was replayed.
+
+The observer recorded13671unique context reads over13961physical image bytes.
+184context reads include604unowned bytes in66observed contiguous ranges;
+584source bytes overlap the Bank report and20bytes/five words are additional:
+005B0C,0226F0/4/8 and023080. All five additional contexts have original Thumb
+straightline PC-relative load witnesses (20distinct halfwords) with the same
+static-versus-dynamic limits as the Bank witnesses. Existing source-address
+classification is reused as source evidence, not a proof of every current use.
+The combined two-scene unowned source-address union is696B, still outside
+managed plans. No new game asset/resource/revision is inferred.
+
+All76actual input hash/mtime guards and compiled implementation hashes remain
+exact, including the frozen executable and retained Bank classification reports.
+The required local-artifact completion helper succeeded with zero disposable
+paths. No build, new fixture, navigation, cartridge write, timing/cost/RSS or
+storage-budget campaign occurred. Interpreter/host-HLE/direct DMA/folded
+constants/exact dynamic instruction and mode attribution/other scenes remain
+outside this API inventory. Linux, USA, native Windows and new32:9 remain pending.
+Local results: `target/rom-data-native-rom-data-residue-f09/`.
+
+
+## Optional bus and host ROM read audit
+
+The `rom-data-read-audit` Cargo feature in `recomp` enables the matching
+`gba-core` diagnostic feature. It is absent from the default feature set, as
+confirmed by locked offline Cargo metadata. Its thread-bound `Capture` guard
+collects unique reader/address/length requests in a thread-local set and resets
+on finish or drop. It records no values, guest state, clocks or durations.
+There are no new Machine/MemMap fields, native C API or save-format changes.
+The default executable was not rebuilt for this diagnostic unit.
+
+Feature-gated hooks record successful physical-ROM reads through the normal
+bus (native APIs, interpreter data loads, BIOS and DMA), MP2K host values, sprite
+peek/typed lists and OBJ-table/keyboard-width helpers. Existing region/bounds/
+GPIO/EEPROM and typed-owner/raw-fallback choices are preserved. Only interpreter
+instruction fetch/decode is suppressed; execution and HLE are observed after
+the guard ends. Code/signature authentication, unselected direct host access,
+other threads/scenes, folded constants and managed typed HLE fast paths remain
+outside the collector. Reader tags identify access points, not exact guest
+instructions, actors or asset extents. The audit does not replace the source
+reader/domain proof required before a new decoder or owner is added.
+
+The focused ignored frontend test is
+`host_rom_read_audit_tests::bus_and_host_rom_reads_preserve_bounded_scene`.
+Compile the Windows frontend tests with `--features rom-data-read-audit`, then
+select only that test on Wine. It needs the existing ROM/native/state/input/
+accepted-dataset paths and a fresh `FFTA_ROM_READ_AUDIT_REPORT` path. All fixtures
+and reports remain private. Normal builds have no collection hooks; removing
+the feature blocks restores exact mem/exec/MP2K preimages. Getter return shapes
+retain equivalent typed/fallback behavior, and large hub formatting/CRLF stays.
+
+The first feature build compiled the collector but failed on a missing frontend
+test `c_void` qualification. After that test-only correction, the incremental
+Windows build succeeded without diagnostics. One Wine filter passed: actual
+original ARM/Thumb instruction-fetch exclusion in uncached/cold-cache paths,
+bus widths/three mirrors/audio tag/capture lifetime, and12existing F09frames
+8476–8488 comparing every serialized Machine/clock, central/wide framebuffer,
+OAM, dispatch and mixed/PSG/FIFO-left/FIFO-right/HLE-float-bit audio. All five
+sample counts were positive; dispatch88123/279744 is coverage only.
+
+The scene has23061unique requests over19984physical image bytes:
+15122Bus,7924AudioValue,1ObjSourceTable,6SpriteList and8SpritePeek. KeyboardWidths
+was not exercised.1146source bytes are outside65current manifest owners;64of
+them are also read by SpritePeek. All13961image bytes/604unowned bytes from the
+closed native API F09sample are included, adding542unowned bytes. This comparison
+uses the retained report without rerunning its acceptance.90new bytes at high
+offsets remain concrete source leads:371065–67,394E14–1C,394F4C–66,397F80–84,
+397F88–94 and40D89E–C4. They have no inferred format, table extent or new resource.
+
+All76execution input hash/mtime guards, frozen executable/compiled sources and
+one retained comparison-report guard pass. The artifact completion helper found
+zero disposable paths. Existing datasets, native cache, original checkpoints,
+input and canonical executable are unchanged. e71-d70/65resources/USAe8-d7 remain;
+no new fixture, navigation, previous acceptance replay or performance/storage
+campaign. New Linux/USA/native Windows/new32:9 remain pending. Local results:
+`target/rom-data-host-rom-read-residue/`.

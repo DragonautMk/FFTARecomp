@@ -1952,10 +1952,9 @@ from live`bios_open`. This is state-dependent bus behavior, with no authenticate
 ROM sequence header. It does not establish a constant null result or universal
 nonreturning path.
 
-The two original ROM reads total6B. Their strict typed model is verified below;
-publication and runtime ownership are still pending, so their raw fallback
-remains. They are not
-modeled as a new sprite root or counted sequence, and no pointer correction,
+The two original ROM reads total6B. Their strict typed model and versioned
+runtime ownership are recorded below; this classification phase left them raw.
+They are not modeled as a new sprite root or counted sequence, and no pointer correction,
 sprite-ID cap or host fallback is introduced. The reader-classification child
 is closed, while ordinary reachability, ownership of these6B, unknown inputs
 and global registry/changed-actor conditions remain separate. At this source
@@ -2006,9 +2005,9 @@ The closed71-pin/60-query source classification and old model/runtime/scene
 acceptances are reused without replay. This filter does not execute the selected
 unmapped index load, a native-clock pair or an ordinary scene.
 
-The model child is closed. Managed publication and typed bus ownership still
-need versioned integration; production remains e69-d68/64files63resources and
-USAe8-d7. Live unmapped0x14 BIOS/open-bus/unaligned behavior stays guest work.
+The model child is closed. Versioned publication and typed bus ownership are
+recorded below. This model phase left e69-d68/64files63resources and USAe8-d7
+unchanged. Live unmapped0x14 BIOS/open-bus/unaligned behavior stays guest work.
 Linux, USA, native Windows and new32:9 validation remain pending. No fixture,
 navigation, private gameplay payload edit or performance/storage measurement
 occurs. Evidence: `target/rom-data-unit-obj-ffff-reader-fields-model/`.
@@ -2437,3 +2436,121 @@ Actual CLI create/reuse/old-cache attachment and one Dispatch1840 Wine pair
 now pass, including every full state/clock/image/OAM/dispatch/audio and positive
 A4 guest/host gate. [Ordinary scope](rom_data_obj.md#positive-dispatch-use-and-scene-equivalence).
 Property-word acceptances stay closed.
+
+
+## Managed FFFF reader fields and typed bus consumption
+
+EUR e70-d69 publishes `graphics.unit-obj-ffff-reader-fields` in
+`unit-obj-ffff-reader-fields.json`, format `unit-obj-ffff-reader-fields-v1-json`.
+There are 65 generation files/64 resources. All 63 previous resource records and
+decoded files remain byte-identical, and the retained e69 generation is intact.
+Actual dependencies are `gameplay.linked-metadata52` and `engine.script-archive`.
+The canonical model remains unchanged; USA stays e8-d7.
+
+The [immutable owner](../crates/gba-core/src/rom_data/runtime/unit_obj_ffff_reader_fields.rs)
+serves exactly the property halfword and directory word from typed numeric
+fields, six source bytes across two ranges. Pages3B4/3D4 enter the shared typed
+bus path. Reads compose with prior owners and raw neighboring ROM bytes, with
+separate counters for each field and a two-bit unique-field mask. Full encoded
+pointer bits survive. The original helper still adds its selector offset, and
+following the resulting unmapped0x14 address still uses live `bios_open` plus
+the CPU's aligned LDR/rotate16 behavior. No asset root, sequence/header, null
+normalization, index cap, guest-control replacement or raw-ROM shadow is added.
+
+One affected Windows core/frontend test build passes warning-free. The core is
+compile-only. Two new exact Wine filters pass on their first execution in the
+[runtime tests](../crates/recomp/src/rom_data/unit_obj_ffff_reader_fields_runtime_tests.rs):
+
+- Interrupted publication/create/reuse/repair/move, all previous files/records
+  and retained generation,20 transactional attach rejections and four full-set
+  dependency rejections. Coherently changed JSON/source hashes still fail
+  canonical authentication. Every failure preserves the owner and full state.
+- Load/Undo, backup restore and restart keep the same immutable owner after its
+  source directory becomes unavailable. All six altered raw bytes still read
+  correctly from the file, reaching both field-mask bits. An old property read
+  retains its previous owner and does not charge the new counters.
+- Original, decoded interpreter and compiled paths agree on complete serialized
+  state and guest clock for the getter, two directory selectors, a complete
+  zero-selected-word early return, three live-BIOS selected-word prefixes,
+  direct/mixed reads and live EWRAM/IWRAM. Only the new six raw bytes are altered
+  in decoded arms; nonzero selected-word paths stop before following a bogus
+  sprite header or allocator.
+- Both source edges, widths1/2/4, three ROM mirrors and real-BIOS bus mode pass.
+  Three mixed API windows preserve edited raw neighbors and each charge two
+  new bytes. CpuSet charges2new+6raw, FastSet4new+28raw, DMA4new+4raw. SWI/DMA
+  comparisons also check complete state and guest clock.
+
+The native filter covers 14 paths and
+35 compiled source bytes. All 158 build/160 Wine hash/mtime guards
+and 37 compiled input preimages remain exact. The frozen frontend is
+`70ad043e701b8372d66f3f133ba5037ad228fbd58a320bca66f89a4a28573653`.
+Manifest SHA-256 is `9ba60adf7e1cb35f444c534b9542c70a6ea744633acb1b98386ccdddc381e311`;
+dataset identity is `19a996a5a4577baa6baeb0ab740a1f70dfa614fcfa1fe8e1bb2bf202b0812e6b`.
+
+Source/model and earlier families' acceptances remain closed without replay.
+This closes managed publication/typed consumption and declared partial reader
+paths. Actual production CLI is recorded below; ordinary reachability remains
+pending. No valid FFFF sprite asset or full allocator/actor ABI is claimed. Linux, USA, native
+Windows and new32:9 remain to be checked. No fixture/navigation, private game
+payload edit, performance/storage measurement, Android/package/commit/push work
+occurs. Evidence: `target/rom-data-unit-obj-ffff-reader-fields-runtime/`.
+
+
+## Actual production CLI for FFFF numeric fields
+
+One changed Windows production build passes warning-free. Its frozen executable
+is `e270d556193d5071c8b55bf657db2faf330caa7a9de184711bd26a506cb6b082`. The canonical executable's original content and
+mtime are restored exactly; main content is unchanged, with mtime-only Cargo
+invalidation after restoring the older binary. No test executable substitutes
+for the production CLI.
+
+The first actual Wine prepare/reuse/old-cache-one-frame calls pass from an
+unrelated working directory and isolated resource root. They create65generation
+files/67managed files/64resources with the actual metadata52/script-archive
+dependencies. Every generation file matches the accepted e70-d69 runtime dataset,
+including the unchanged canonical FFFF model. Reuse preserves every file hash
+and mtime. The authentic read-only F09 checkpoint loads with the previous native
+cache and attaches the new dataset; this one-frame check establishes production
+attachment only.
+
+Generation `generation-7IX8Oc`, dataset
+`19a996a5a4577baa6baeb0ab740a1f70dfa614fcfa1fe8e1bb2bf202b0812e6b`,
+manifest `9ba60adf7e1cb35f444c534b9542c70a6ea744633acb1b98386ccdddc381e311`.
+Observed new-owner counters: `bus_reads=0 source_bytes=0 property_bytes=0 directory_bytes=0 fields_used=0`.
+All 228 active input hash/mtime guards and 37 compiled input preimages
+remain exact. The ROM, checkpoint, recording, native cache, TinyCC, canonical
+binary and earlier accepted evidence stay unchanged.
+
+Source/model/runtime and prior families remain closed without replay. Ordinary
+positive reachability and scene equivalence of the two numeric fields remain
+pending. Linux, USA, native Windows and new32:9 remain to be verified. No
+performance/storage measurement, fixture/navigation, private gameplay edit,
+Android/package/assistant commit/push occurs. Evidence:
+`target/rom-data-unit-obj-ffff-reader-fields-cli/`.
+
+
+## Existing checkpoint locator for FFFF numeric readers
+
+A new read-only locator examines the81already authenticated EUR snapshots with
+a predicate independent of proper sprite-sequence targets: aligned potential
+actor context+34equalFFFF, a nonnull EWRAM unit with kind0/1, and the currentjob/
+alternatejob conditions of the accepted980producer records. Both possible modes,
+override states, dormant/null/outside body pointers remain eligible. This is an
+overinclusive lead search; it infers neither registry identity nor retention of
+the same original assignment. The earlier126proper-sequence locator and the
+closed source/model/runtime/CLI/scene proofs are not replayed.
+
+There are159potential contexts across61snapshots. All have kind0/currentjob0/
+alternatejob0/override20clear. Of their body pointers,157are null and two hold
+`01480168`, outside EWRAM. No candidate has an original body task available in
+EWRAM. These observations do not prove thatFFFFis unreachable during gameplay,
+that the raw candidates are all actors, or that a future command could not create
+one. They provide no positive ordinary reader scene to validate. The locator is
+closed; positive ordinary use and full scene equivalence remain open.
+
+Each input's hash/mtime and slot/header/payload/ROM binding pass before and after
+inspection. The model, closed producer contract, ROM bodylink and CLI dataset
+are authenticated. No game execution, new test/build, fixture, navigation or
+payload edit occurs. Linux/USA/native Windows/new32:9 remain pending; no
+performance/storage measurements. Evidence:
+`target/rom-data-unit-obj-ffff-reader-fields-ordinary/existing-context-leads.json`.

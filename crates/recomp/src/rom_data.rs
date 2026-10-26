@@ -42,6 +42,8 @@ use gba_core::rom_data::{
     unit_obj_script_registry_generic::UnitObjScriptRegistryGeneric, UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_ID, UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE, MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES,
     unit_obj_property_words::UnitObjPropertyWords, UNIT_OBJ_PROPERTY_WORDS_ID, UNIT_OBJ_PROPERTY_WORDS_FILE, MAX_UNIT_OBJ_PROPERTY_WORDS_FILE_BYTES,
     unit_obj_byte_property_words::UnitObjBytePropertyWords, UNIT_OBJ_BYTE_PROPERTY_WORDS_ID, UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE, MAX_UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE_BYTES,
+    unit_obj_ffff_reader_fields::UnitObjFfffReaderFields, UNIT_OBJ_FFFF_READER_FIELDS_ID, UNIT_OBJ_FFFF_READER_FIELDS_FILE, MAX_UNIT_OBJ_FFFF_READER_FIELDS_FILE_BYTES,
+    slot_job_lookup::SlotJobLookup, SLOT_JOB_LOOKUP_ID, SLOT_JOB_LOOKUP_FILE, MAX_SLOT_JOB_LOOKUP_FILE_BYTES,
     map_raster_palettes::MapRasterPalettes, MAP_RASTER_PALETTES_ID, MAP_RASTER_PALETTES_FILE, MAX_MAP_RASTER_PALETTES_FILE_BYTES,
     auxiliary_scripts::AuxiliaryCommands, AUXILIARY_COMMANDS_ID, AUXILIARY_COMMANDS_FILE, MAX_AUXILIARY_COMMANDS_FILE_BYTES,
     auxiliary_scripts::AuxiliaryArchive, AUXILIARY_ARCHIVE_ID, AUXILIARY_ARCHIVE_FILE, MAX_AUXILIARY_ARCHIVE_FILE_BYTES,
@@ -230,6 +232,8 @@ mod unit_obj_byte_property_words_model_tests;
 #[cfg(test)]
 mod unit_obj_ffff_reader_fields_model_tests;
 #[cfg(test)]
+mod slot_job_lookup_model_tests;
+#[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]
 mod color_mode_palette_model_tests;
@@ -314,6 +318,10 @@ mod unit_obj_property_words_runtime_tests;
 #[cfg(test)]
 mod unit_obj_byte_property_words_runtime_tests;
 #[cfg(test)]
+mod unit_obj_ffff_reader_fields_runtime_tests;
+#[cfg(test)]
+mod slot_job_lookup_runtime_tests;
+#[cfg(test)]
 mod map_raster_palette_runtime_tests;
 #[cfg(test)]
 mod aggregate_flag_key_runtime_tests;
@@ -366,6 +374,10 @@ mod palette_runtime_tests;
 mod preparation;
 #[cfg(test)]
 mod validation_tests;
+#[cfg(test)]
+mod native_rom_data_residue_tests;
+#[cfg(all(test, feature = "rom-data-read-audit"))]
+mod host_rom_read_audit_tests;
 pub use preparation::prepare_startup;
 
 fn read_bounded(path: &Path, limit: u64) -> Result<Vec<u8>, String> {
@@ -694,6 +706,16 @@ fn parse_unit_obj_byte_property_words(bytes:&[u8])->Result<UnitObjBytePropertyWo
     value.validate()?;Ok(value)
 }
 fn encode_unit_obj_byte_property_words(value:&UnitObjBytePropertyWords)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_byte_property_words: {e}"))}
+fn parse_unit_obj_ffff_reader_fields(bytes:&[u8])->Result<UnitObjFfffReaderFields,String> {
+    let value:UnitObjFfffReaderFields=serde_json::from_slice(bytes).map_err(|e|format!("Invalid unit_obj_ffff_reader_fields: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_unit_obj_ffff_reader_fields(value:&UnitObjFfffReaderFields)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode unit_obj_ffff_reader_fields: {e}"))}
+fn parse_slot_job_lookup(bytes:&[u8])->Result<SlotJobLookup,String> {
+    let value:SlotJobLookup=serde_json::from_slice(bytes).map_err(|e|format!("Invalid slot_job_lookup: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_slot_job_lookup(value:&SlotJobLookup)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode slot_job_lookup: {e}"))}
 fn parse_map_raster_palettes(bytes:&[u8])->Result<MapRasterPalettes,String> {
     let value:MapRasterPalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid map_raster_palettes: {e}"))?;
     value.validate()?;Ok(value)
@@ -881,6 +903,8 @@ struct Dataset {
     unit_obj_script_registry_generic: Option<UnitObjScriptRegistryGeneric>,
     unit_obj_property_words: Option<UnitObjPropertyWords>,
     unit_obj_byte_property_words: Option<UnitObjBytePropertyWords>,
+    unit_obj_ffff_reader_fields: Option<UnitObjFfffReaderFields>,
+    slot_job_lookup: Option<SlotJobLookup>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -926,6 +950,8 @@ struct Dataset {
     unit_obj_script_registry_generic_bytes: Option<Vec<u8>>,
     unit_obj_property_words_bytes: Option<Vec<u8>>,
     unit_obj_byte_property_words_bytes: Option<Vec<u8>>,
+    unit_obj_ffff_reader_fields_bytes: Option<Vec<u8>>,
+    slot_job_lookup_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -997,6 +1023,8 @@ impl Dataset {
             unit_obj_script_registry_generic: self.unit_obj_script_registry_generic.as_ref().zip(self.unit_obj_script_registry_generic_bytes.as_deref()),
             unit_obj_property_words: self.unit_obj_property_words.as_ref().zip(self.unit_obj_property_words_bytes.as_deref()),
             unit_obj_byte_property_words: self.unit_obj_byte_property_words.as_ref().zip(self.unit_obj_byte_property_words_bytes.as_deref()),
+            unit_obj_ffff_reader_fields: self.unit_obj_ffff_reader_fields.as_ref().zip(self.unit_obj_ffff_reader_fields_bytes.as_deref()),
+            slot_job_lookup: self.slot_job_lookup.as_ref().zip(self.slot_job_lookup_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1146,6 +1174,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(UNIT_OBJ_PROPERTY_WORDS_FILE),MAX_UNIT_OBJ_PROPERTY_WORDS_FILE_BYTES)).transpose()?;
     let unit_obj_byte_property_words_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_BYTE_PROPERTY_WORDS_ID)
         .then(||read_bounded(&path.join(UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE),MAX_UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE_BYTES)).transpose()?;
+    let unit_obj_ffff_reader_fields_bytes=manifest.coverage.iter().any(|id|id==UNIT_OBJ_FFFF_READER_FIELDS_ID)
+        .then(||read_bounded(&path.join(UNIT_OBJ_FFFF_READER_FIELDS_FILE),MAX_UNIT_OBJ_FFFF_READER_FIELDS_FILE_BYTES)).transpose()?;
+    let slot_job_lookup_bytes=manifest.coverage.iter().any(|id|id==SLOT_JOB_LOOKUP_ID)
+        .then(||read_bounded(&path.join(SLOT_JOB_LOOKUP_FILE),MAX_SLOT_JOB_LOOKUP_FILE_BYTES)).transpose()?;
     let map_raster_palettes_bytes=manifest.coverage.iter().any(|id|id==MAP_RASTER_PALETTES_ID)
         .then(||read_bounded(&path.join(MAP_RASTER_PALETTES_FILE),MAX_MAP_RASTER_PALETTES_FILE_BYTES)).transpose()?;
     let auxiliary_commands_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_COMMANDS_ID)
@@ -1214,6 +1246,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_registry_generic_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_property_words_bytes.as_ref().map_or(0, Vec::len),
         unit_obj_byte_property_words_bytes.as_ref().map_or(0, Vec::len),
+        unit_obj_ffff_reader_fields_bytes.as_ref().map_or(0, Vec::len),
+        slot_job_lookup_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1278,6 +1312,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let unit_obj_script_registry_generic=unit_obj_script_registry_generic_bytes.as_deref().map(parse_unit_obj_script_registry_generic).transpose()?;
     let unit_obj_property_words=unit_obj_property_words_bytes.as_deref().map(parse_unit_obj_property_words).transpose()?;
     let unit_obj_byte_property_words=unit_obj_byte_property_words_bytes.as_deref().map(parse_unit_obj_byte_property_words).transpose()?;
+    let unit_obj_ffff_reader_fields=unit_obj_ffff_reader_fields_bytes.as_deref().map(parse_unit_obj_ffff_reader_fields).transpose()?;
+    let slot_job_lookup=slot_job_lookup_bytes.as_deref().map(parse_slot_job_lookup).transpose()?;
     let map_raster_palettes=map_raster_palettes_bytes.as_deref().map(parse_map_raster_palettes).transpose()?;
     let auxiliary_commands=auxiliary_commands_bytes.as_deref().map(parse_auxiliary_commands).transpose()?;
     let auxiliary_archive=auxiliary_archive_bytes.as_deref().map(parse_auxiliary_archive).transpose()?;
@@ -1359,6 +1395,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_registry_generic,
         unit_obj_property_words,
         unit_obj_byte_property_words,
+        unit_obj_ffff_reader_fields,
+        slot_job_lookup,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1404,6 +1442,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         unit_obj_script_registry_generic_bytes,
         unit_obj_property_words_bytes,
         unit_obj_byte_property_words_bytes,
+        unit_obj_ffff_reader_fields_bytes,
+        slot_job_lookup_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1474,6 +1514,8 @@ fn check_dataset_budget(
     unit_obj_script_registry_generic: usize,
     unit_obj_property_words: usize,
     unit_obj_byte_property_words: usize,
+    unit_obj_ffff_reader_fields: usize,
+    slot_job_lookup: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1538,6 +1580,8 @@ fn check_dataset_budget(
         || unit_obj_script_registry_generic as u64 > MAX_UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE_BYTES
         || unit_obj_property_words as u64 > MAX_UNIT_OBJ_PROPERTY_WORDS_FILE_BYTES
         || unit_obj_byte_property_words as u64 > MAX_UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE_BYTES
+        || unit_obj_ffff_reader_fields as u64 > MAX_UNIT_OBJ_FFFF_READER_FIELDS_FILE_BYTES
+        || slot_job_lookup as u64 > MAX_SLOT_JOB_LOOKUP_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1605,6 +1649,8 @@ fn check_dataset_budget(
         .saturating_add(unit_obj_script_registry_generic)
         .saturating_add(unit_obj_property_words)
         .saturating_add(unit_obj_byte_property_words)
+        .saturating_add(unit_obj_ffff_reader_fields)
+        .saturating_add(slot_job_lookup)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -1774,6 +1820,12 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.unit_obj_byte_property_words {
         eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_BYTE_PROPERTY_WORDS_ID} file={} records={}",dataset.manifest.resources[62].sha256,data.words.len());
+    }
+    if let Some(data)= &dataset.unit_obj_ffff_reader_fields {
+        eprintln!("ROM_DATA runtime=decoded resource={UNIT_OBJ_FFFF_READER_FIELDS_ID} file={} fields=2 producers={}",dataset.manifest.resources[63].sha256,data.producers.len());
+    }
+    if let Some(data)= &dataset.slot_job_lookup {
+        eprintln!("ROM_DATA runtime=decoded resource={SLOT_JOB_LOOKUP_ID} file={} entries={}",dataset.manifest.resources[64].sha256,data.entries.len());
     }
     if let Some(data)= &dataset.map_raster_palettes {
         eprintln!("ROM_DATA runtime=decoded resource={MAP_RASTER_PALETTES_ID} file={} records={}",dataset.manifest.resources[49].sha256,data.programs.len());
@@ -1982,6 +2034,12 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.unit_obj_byte_property_words_stats() {
             eprintln!("ROM_DATA_USE resource={UNIT_OBJ_BYTE_PROPERTY_WORDS_ID} dataset={} bus_reads={} source_bytes={} words_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.words_used);
         }
+        if let Some(i)=resources.unit_obj_ffff_reader_fields_stats() {
+            eprintln!("ROM_DATA_USE resource={UNIT_OBJ_FFFF_READER_FIELDS_ID} dataset={} bus_reads={} source_bytes={} property_bytes={} directory_bytes={} fields_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.property_bytes,i.directory_bytes,i.fields_used);
+        }
+        if let Some(i)=resources.slot_job_lookup_stats() {
+            eprintln!("ROM_DATA_USE resource={SLOT_JOB_LOOKUP_ID} dataset={} bus_reads={} source_bytes={} slots_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.slots_used);
+        }
         if let Some(i)=resources.map_raster_palettes_stats() {
             eprintln!("ROM_DATA_USE resource={MAP_RASTER_PALETTES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
         }
@@ -2162,6 +2220,8 @@ fn write_dataset(
     let unit_obj_script_registry_generic_data=source.unit_obj_script_registry_generic.as_ref().map(|catalog|encode_unit_obj_script_registry_generic(&catalog.decoded)).transpose()?;
     let unit_obj_property_words_data=source.unit_obj_property_words.as_ref().map(|catalog|encode_unit_obj_property_words(&catalog.decoded)).transpose()?;
     let unit_obj_byte_property_words_data=source.unit_obj_byte_property_words.as_ref().map(|catalog|encode_unit_obj_byte_property_words(&catalog.decoded)).transpose()?;
+    let unit_obj_ffff_reader_fields_data=source.unit_obj_ffff_reader_fields.as_ref().map(|catalog|encode_unit_obj_ffff_reader_fields(&catalog.decoded)).transpose()?;
+    let slot_job_lookup_data=source.slot_job_lookup.as_ref().map(|catalog|encode_slot_job_lookup(&catalog.decoded)).transpose()?;
     let map_raster_palettes_data=source.map_raster_palettes.as_ref().map(|catalog|encode_map_raster_palettes(&catalog.decoded)).transpose()?;
     let auxiliary_commands_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_commands(&catalog.commands)).transpose()?;
     let auxiliary_archive_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_archive(&catalog.decoded)).transpose()?;
@@ -2224,6 +2284,8 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_script_registry_generic_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_property_words_data {files.push(bytes);}
     if let Some(bytes) = &unit_obj_byte_property_words_data {files.push(bytes);}
+    if let Some(bytes) = &unit_obj_ffff_reader_fields_data {files.push(bytes);}
+    if let Some(bytes) = &slot_job_lookup_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2289,6 +2351,8 @@ fn write_dataset(
         unit_obj_script_registry_generic_data.as_ref().map_or(0, Vec::len),
         unit_obj_property_words_data.as_ref().map_or(0, Vec::len),
         unit_obj_byte_property_words_data.as_ref().map_or(0, Vec::len),
+        unit_obj_ffff_reader_fields_data.as_ref().map_or(0, Vec::len),
+        slot_job_lookup_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2353,6 +2417,8 @@ fn write_dataset(
     if let Some(bytes) = &unit_obj_script_registry_generic_data {write(&path.join(UNIT_OBJ_SCRIPT_REGISTRY_GENERIC_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_property_words_data {write(&path.join(UNIT_OBJ_PROPERTY_WORDS_FILE),bytes)?;}
     if let Some(bytes) = &unit_obj_byte_property_words_data {write(&path.join(UNIT_OBJ_BYTE_PROPERTY_WORDS_FILE),bytes)?;}
+    if let Some(bytes) = &unit_obj_ffff_reader_fields_data {write(&path.join(UNIT_OBJ_FFFF_READER_FIELDS_FILE),bytes)?;}
+    if let Some(bytes) = &slot_job_lookup_data {write(&path.join(SLOT_JOB_LOOKUP_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -2640,6 +2706,8 @@ mod tests {
             unit_obj_script_registry_generic: None,
             unit_obj_property_words: None,
             unit_obj_byte_property_words: None,
+            unit_obj_ffff_reader_fields: None,
+            slot_job_lookup: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -2967,8 +3035,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

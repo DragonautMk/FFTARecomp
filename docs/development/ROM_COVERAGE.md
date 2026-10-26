@@ -95,7 +95,13 @@ Per il percorso predefinito basta la **ROM EUR**: il container compila CLI e
 analizzatore, legge la revisione dai medesimi sorgenti compilati, prepara il
 dataset e lo conserva in `target/rom-data/coverage/<SHA-ROM>/e<extractor>-d<decoder>/`.
 Alle esecuzioni successive lo autentica e riusa senza riscriverlo. Una nuova
-revisione committata sceglie una nuova cache, senza modificare quella vecchia.
+revisione committata sceglie una nuova cache.
+I launcher passano `--cache-keep 2`: dopo una pubblicazione riuscita conservano
+il dataset corrente e la più recente altra generazione per quella ROM, rimuovendo
+le cache automatiche superate. I dataset espliciti restano intatti. Il comando
+Python diretto lascia la pulizia disabilitata (`--cache-keep 0`); può abilitarla
+con un conteggio positivo. Una pulizia non riuscita non invalida il report già
+pubblicato. Vedi [conservazione degli artefatti](LOCAL_ARTIFACTS.md).
 Nessuna GUI, traduzione nativa o gioco viene eseguito. Python e Rust non servono
 sull’host. Il vecchio target diretto `Dockerfile.linux --target coverage` rimane
 un percorso per sviluppatori sui sorgenti della working tree, senza l’isolamento

@@ -7,6 +7,7 @@ description = "GBA machine model: ARM7TDMI interpreter, memory map, hardware"
 
 [features]
 parallel-ppu = ["dep:rayon"]
+rom-data-read-audit = []
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

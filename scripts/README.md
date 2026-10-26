@@ -55,3 +55,9 @@ paths remain relative to the calling directory. See
 The Linux Docker builder saves each run's output and errors under
 `target/build-logs/linux-*.log`. On failure it waits for Enter in an interactive
 terminal; noninteractive automation receives the original exit code immediately.
+
+After recording successful managed/native validation, retire disposable test
+copies with `python3 scripts/local_artifacts.py complete target/<unit> --apply`.
+Preview without `--apply`; retain the accepted offline dataset and proof logs.
+See [local artifact retention](../docs/development/LOCAL_ARTIFACTS.md) for safety
+checks, optional superseded-binary retirement and coverage cache limits.

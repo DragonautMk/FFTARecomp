@@ -341,6 +341,14 @@ coverage.
 
 ## Local generated files
 
+Follow [local artifact retention](development/LOCAL_ARTIFACTS.md) after successful
+managed/native validation: retire interrupted/moved test copies with
+`python3 scripts/local_artifacts.py complete target/<unit> --apply`, preserving
+accepted offline datasets and result/log evidence. The coverage launchers also
+retain only the current and newest other automatic cache generation after
+successful publication; explicit datasets remain untouched. This bounds local
+test leftovers without changing production resource retention.
+
 `target/` also holds local validation builds, Wine test prefixes and repeated
 extraction/lifecycle fixtures. Completed tests can leave `interrupted`,
 `offline dataset`, `moved resources` and CLI `resources` directories; those names

@@ -30,6 +30,31 @@ Documentation: [debug saves.md](docs/development/debug saves.md), [extended_save
 
 [Change record](docs/changes/2026-10-26-validate-user-failed-dispatch-snapshot.json)
 
+## 2026-10-26 — Model the European twenty-slot job lookup losslessly
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add strict20entry(slot,u8job) source/span/byte lookup and actual directmetadata52 reference validation, with exactEUR/source/threeproducer-reader fingerprint authentication. Keep the extraction projection distinct from guestinputlimits; original slot/property/name code remains live.
+- Expose the independent model and one private Wine source-reader test through onlytwo moduledeclarations. Production e70-d69/65files64resources/USA8-7 and allprevious resources remain unchanged until versioned runtimeintegration.
+
+**Validation**
+
+- First affected Windowsfrontend build passes warning-free/frozen110342c94d99d30ef88b3d9263b2e7fb29440d86e2d29ae1d39d0fcc95bcb7a5; first exact new Winefilter passes20independent entries/20B/JSONroundtrip/12structural-JSON-source-dependencyguards/all64ownerdisjoint.
+- 123originalreader paths pass:21barejoblookups/81complete low8property wrappers/21property0identifierprefixes before165E8, includingthreehighinputaliases. All20B observed atactualsixLDRBsites; callee/fullRAMoutsideoriginal20Bstack/VRAM-OAM-paletteguards pass. All231build/232Wineguards/39compiledpreimages exact.
+- ModelJSONSHA2562cea5e7cd140ce7cb19e179ce4997cf627cd514ee5410d5d6b86a9b9d7adfdb6. Closed268pin/source andoldmetadata52/FFFF/A4/managed/native/CLI/scene proofs reused withoutreplay; no fixture/navigation/privatepayload/performance-storage work.
+- Closure:394baseline source hashes confirm onlytwoexactmoduledeclarations/twonewmodules plusselectedmemory; allotherimplementation unchanged.231build232Wineguards/39compiledpreimages/399localfeaturelinks exact; canonical model2cea5e7cd140ce7cb19e179ce4997cf627cd514ee5410d5d6b86a9b9d7adfdb6. Project-memory render/default/basec792afd/newmodulesrustfmt/CRLFwhitespace PASS. No livejobs;13250priorprivateproof reused withoutlegacyrehash.
+
+**Limitations**
+
+- Model/source-reader child only. Versionedpublication/typedruntime/native-clock/actualCLI/ordinary remain pending. No global20cap/fullphysicaltable/wholeallocator-nameABI/gameplayreachability claimed.
+- Linux/USA/nativeWindows/new32:9 pending. No Android/package/assistantcommit/push; fullROMTODO remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-model-european-slot-job-lookup.json)
+
 ## 2026-10-26 — Model European FFFF numeric OBJ reader fields losslessly
 
 Type: added. Platforms: Windows.
@@ -142,6 +167,33 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scripts.md](docs/rom_data_scripts.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-inventory-european-registry-generic-poses.json)
+
+## 2026-10-26 — Inventory European native ROM API reads outside current source plans
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add an opt-in ignored frontend test that wraps a copied native block table and read8/read16/read32 API to record unique ROM address/context reads outside authenticated manifest source intervals. Keep production dispatcher, C API, owners, revisions and save formats unchanged.
+
+**Validation**
+
+- One Windows frontend test build succeeds without warnings; one Wine filter passes twelve existing Bank frames, guest3660 through3672, comparing every complete Machine/clock, central and wide framebuffer, OAM, native/fallback dispatch and all five audio streams including HLE float bits.
+- The accepted e71-d70/65-resource dataset yields20756 merged source intervals.3166 unique context reads cover3683 physical ROM bytes;198context reads include676unowned bytes in79observed contiguous ranges. Five high-offset words are leads requiring reader/domain authentication, not exported assets.
+- All73selected input hash/mtime guards pass. Exact hub delta is one cfg(test) module declaration; main, C API, old validators, ROM, original/copy checkpoints, input, cache, TinyCC, canonical executable and all66accepted dataset files remain unchanged. No previous acceptance replay or new fixture/navigation/performance measurement.
+- Required local artifact completion helper succeeds with zero disposable paths; accepted data, current executable, source preimages and proof logs remain available. Parallel user documentation/artifact-retention edits are preserved and not attributed to this change.
+- Second existing EUR F09sample reuses the same frozen executable without build: one Wine filter/12frames8476through8488 passes every fullstate-clock/buffer/OAM/dispatch/audio comparison.13671context reads/13961imageB include604unownedB;584overlap Bank,20newB/five words have static PC-relative Thumb witnesses/20halfwords.76actual input hash-mtime guards and compiled implementation hashes exact; retention helper succeeds zero paths. No old F09resource-equivalence acceptance, new fixture/navigation or performance measurement.
+
+**Limitations**
+
+- Native API requests beginning within the physical ROM image only; interpreter fallback, host/HLE/direct DMA, folded constants, cross-region requests starting outside ROM and other scenes are blind spots. Exported PC can be stale and outer dispatch is not a proven instruction site.
+- Unowned observed bytes and adjacent coverage are source leads only: no asset semantics, extent, reachability or whole-ROM migration completeness is inferred. No extractor/decoder revision change.
+- Linux, USA, native Windows and new32:9 remain pending. Full ROM_DATA_TODO remains active.
+- Two-scene unowned source-address union696B still outside managed source plans. Static source witnesses and reused address classification are not exact dynamic instruction/mode or all-use evidence.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-inventory-european-native-rom-read-residue.json)
 
 ## 2026-10-26 — Make ROM coverage follow committed extraction and show report freshness
 
@@ -344,6 +396,43 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-26-consume-european-ui-byte-property-words.json)
 
+## 2026-10-26 — Publish and consume the European twenty-slot job lookup
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish e71-d70/gameplay.slot-job-lookup with66files65resources/actualmetadata52dependency. Retain every64prior resource record/decoded file/e70generation and USA8-7; canonical twenty-entry model unchanged.
+- Serve exactly20typed u8job references with sharedpage399routing, record-mask/source counters and priorowner/raw composition. Preserve original inputcasts/slotselection-clear/metadata/name paths/outsideinput behavior and guest clocks.
+- Verify actualproduction e71CLIcreate/no-write reuse and immutableF09old-cache-oneframe attachment with66generation68managed65resources/all66accepted. Originalcanonicalhash-mtime restored; ordinarypositive/equivalence remains pending.
+- Add onlyfiveoptional new-owner positiveguard/report lines to the generic scene validator and close declaredEURBank120ordinary equivalence using existing authenticated checkpointcopy/Downinput. PreviousA4negative/B2positive staysclosed; runtime/product/defaults/stateformats unchanged.
+
+**Validation**
+
+- First affected Windowscore/frontend build warning-free/frozenfrontend5f80cdaaa0215b0935283cf801fe83f0ec4573eac25e28280b3154cde3c2e46a; core compile-only. Two exact new Winefilters pass after an actualStorageFull stop, with samefrozenbinaries/sources and separate temporaryfilesystem; all233build/235Wineguards/41compiledinputs exact.
+- Managed publication/create/reuse/repair/move/interruption, all64prior files-records/e70 retained,18transactional attachguards/threefullsetdependencyguards pass. Coherenteditedjob/sourcehash rejected; failedattachowner+fullstate isolated. Directory-unavailable Load/Undo/backup/restart shareowner; all20typedbytes/20maskbits read with raw altered, priorFFFFowner remains distinct.
+- Sixteen original/interpreter/native fullstate-clock paths/16compiledsourceB pass getters/properties/nameIDprefix/highinput/outside20raw/liveRAM and original12CA98mode3singleoccupiedslot19throughCFF70clear/D05C8before165E8. Both edges/widths/threemirrors/realBIOSbus/SWI-DMA pass; mixedAPI2new2raw/CpuSet20new4raw/FastSet20new12raw/DMA20new4raw, all20rawsources altered.
+- Accepted datasetaa4588755ddad92406d9082335f96ca125e4c0ebad9e9bdcee0978ed06bbf97c, manifest7ca7bef37999223b2475917c71c3cdbec164c5a6c5524c3119c2fa17a57356b7, model2cea5e7cd140ce7cb19e179ce4997cf627cd514ee5410d5d6b86a9b9d7adfdb6. Old64owner map confirms rawedges; closed268pin/source/model123/oldfamily proofs reused withoutreplay.
+- Closure: all397baseline source hashes confirm onlyfive selectedhubs/two newruntime-testmodules plusdocumentation; model/oldruntime/A4validator unchanged. All235activeguards/41compiledpreimages/540localfeaturelinks exact. All66generation files/sourcehashes/independentdatasetidentity pass. FirstStorageFullattempt retained;382relocatedunprotectedLinuxcompilerlibraries stillhash-mtimeexact. Privateoutput ignored/untracked;13307priorprivateproof reused withoutlegacyrehash.
+- Runtime-stage project-memory render/default/basec792afd, rustfmt on the two new runtime/test modules and CRLF-aware whitespace checks pass. No live build/Wine job; full goal active.
+- First changed Windowsproductionbuild warning-free, frozen720843b54da9089975c48ddc695cecf23c7670adc5d1f5ce3a03914a25c0c765. Canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720 hash/mtime1792570130397888519 exactrestored; maincontent unchanged withmtime-only Cargoinvalidation.
+- First three actualWineCLIcalls pass prepare/reuse/oldcacheoneframe fromunrelatedcwd:66generation68managed65resources/actualmetadata52dep/all66equal03/no-writehash-mtime reuse. OriginalF09/cache/TinyCC exact. Report: ROM_DATA_USE resource=gameplay.slot-job-lookup dataset=aa4588755ddad92406d9082335f96ca125e4c0ebad9e9bdcee0978ed06bbf97c bus_reads=0 source_bytes=0 slots_used=0. Attachment only/noordinarypositive-equivalence claim. All304activeguards/41compiledinputs exact. PrivateTMPbacking avoidsactual03ENOSPC; no newcleanup/buildretry or closedproof replay.
+- CLI closure: all401baseline source hashes confirm implementation unchanged. All304activeguards/41compiledpreimages/542localfeaturelinks exact; all66generation files matchaccepted71/70, canonicalhash-mtime/maincontent exact. PrivateTMPbacking behindworkspace link/ignoredoutputs,13882priorprivateproof reused withoutlegacyrehash; no runtime/source/model/oldscene acceptance replay.
+- CLI-stage project-memory render/default/basec792afd and CRLF-aware whitespace checks pass. No live unit process, cleanup/retry or source/model/runtime/oldscene acceptance replay; full goal active.
+- First newactuale71Bank120CLIpositive2busreads/2ownedB/one slot. First changed Windowsfrontendtestbuild warning-free/frozenf6c4291038785e3887677132e313a2a7b6f0a6313cf42180238c8d4f57553e03; first exact newWinefullpair passes every120fullstate/guestclock/central-wide capturedbuffer/OAM/dispatchnative-fallback/mixed-PSG-FIFOleft-right-HLEbitexact, frames3660through3780. Fiveactualsamples[263340, 263340, 31680, 31680, 263264]allpositive. Newrequiredusage2reads2B1slot exactlymatchesCLI.
+- All308scenehash-mtimeguards/41compiledpreimages exact; originalbank/copy/input/cache/dataset/canonical/TinyCC/oldproofs preserved. Exactfive-linevalidator delta verifiedagainst retainedpreimage; no source/model/runtime/oldscene acceptance replay.
+- CLIimage284x160Bankexterior background visuallyinspected; UIpanels absent fromthisrawframebuffer capture. No finalcomposedGUI/all20ordinaryrecords/fullname-actor-allocatorABI/new32:9 claim; other19slots retain targetedproof. No fixture/navigation/privatepayload/performance-storage campaign.
+- Ordinaryclosure:401baseline source hashes confirm onlyone exactfive-line optionalvalidator guard/report plusmemory; otherimplementation unchanged.307CLI/308scene inputguards/41compiledpreimages/545localfeaturelinks exact. Project-memory render/default/basec792afd/CRLFwhitespace PASS. Privateoutput ignored/untracked;13970priorprivateexpectedproof reused withoutlegacyrehash. No livejob or oldsource-model-runtime-CLI-scene replay.
+
+**Limitations**
+
+- Source/model/managed/runtime/actualproductionCLI anddeclaredBank120ordinary childclosed. Other19ordinary slotrecords targeted-only; no fullphysicaltable/global20guestcap/fullname-actor-allocatorABI/composedGUI/universalreachability/new32:9 claim.
+- Linux/USA/nativeWindows/new32:9 pending. Privatevalidationdataset currentlyuses a workspace link to a separate temporaryfilesystem after actualENOSPC; temporarycleanup can affect artifactavailability. No fixture/navigation/privatepayload/performance-storage campaign/Android/package/assistantcommit/push; fullROMTODO remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-slot-job-lookup.json)
+
 ## 2026-10-26 — Publish and consume European conditional normal script poses with authenticated producer witnesses
 
 Type: added. Platforms: Windows.
@@ -500,6 +589,137 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-26-consume-european-registry-generic-poses.json)
 
+## 2026-10-26 — Publish and consume European FFFF numeric reader fields
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish EUR e70-d69/65files64resources with actual metadata52/script-archive dependencies. Retain all63prior resource records/decoded files/e69 generation and USAe8-d7; canonical980producer/2240ref numeric model unchanged.
+- Serve exactly2Bproperty/4Bdirectory from immutable numeric fields with3B4/3D4page gates, field counters and composition with prior owners/raw neighbors. Preserve full encoded address, liveunmapped14 BIOS value, original CPUunalignedrotate16 and guest control path.
+- Verify actual e70productionCLIcreate/no-write reuse/oldcacheoneframe with authentic immutableEURF09; canonicalbinaryhash-mtime exactrestored. Ordinary positive reachability/equivalence remains pending.
+
+**Validation**
+
+- First affected Windows core/frontend build passes warning-free, frontend frozen70ad043e701b8372d66f3f133ba5037ad228fbd58a320bca66f89a4a28573653. Core compile-only. First two new exact Wine filters pass; all158build/160Wineguards/37compiledpreimages exact.
+- Managed interruptedpublication/create/reuse/repair/move/all63previous records-files/e69retained and20transactional attachguards/fourdependencyguards pass. CoherentchangedJSON/source hashes fail canonicalauthentication; owner+fullstate retained. Directory-unavailable Load/Undo/backup/restart shareowner. AllsixrawB altered/twofieldbits pass; oldproperty retains own counter.
+- Original/interpreter/native14fullstate-clock paths/35compiledsourceB pass getter/twodirectoryselectors/zeroearlyreturn/three liveBIOS selected-word prefixes/direct-mixed/liveRAM. Both sourceedges/widths/threemirrors/realBIOSbus/SWI/DMA pass. MixedAPI2new2raw, CpuSet2new6raw/FastSet4new28raw/DMA4new4raw preserve fullstates/clocks.
+- Accepted dataset19a996a5a4577baa6baeb0ab740a1f70dfa614fcfa1fe8e1bb2bf202b0812e6b, manifest9ba60adf7e1cb35f444c534b9542c70a6ea744633acb1b98386ccdddc381e311, model4985d84c90180c30aeceff37be1e3c2482714238fec87f65b2189d4d6b070d84. Closedsource/model/A4/otherfamily proofs reused without replay. No fixture/navigation/performance/storage measurement.
+- Closure: all390source baseline hashes show only five selected hubs and two new modules plus documentation. Every other implementation, oldmodel/A4validator/oldproofs unchanged. All160activeguards/37compiledpreimages/602localfeaturelinks exact. All65generation files/sourcehashes/independentdatasetidentity match. Privateoutput ignored/untracked;12725priorprivateproof reused withoutlegacyrehash.
+- Project-memory render/default/basec792afd, rustfmt for the two new modules and CRLF-aware whitespace checks pass. No live runtime/build job; full goal remains active.
+- First new Windowsproduction build warning-free, frozene270d556193d5071c8b55bf657db2faf330caa7a9de184711bd26a506cb6b082. Canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720 hash/mtime1792570130397888519 exactlyrestored; maincontent unchanged withmtime-only Cargoinvalidation.
+- First actualWineprepare/reuse/oldcache-oneframe all pass:65generation67managed64resources/twoactualdeps/all65equal03accepted/no-writehash-mtime reuse. AuthenticF09/cache/TinyCC unchanged; newowner report ROM_DATA_USE resource=graphics.unit-obj-ffff-reader-fields dataset=19a996a5a4577baa6baeb0ab740a1f70dfa614fcfa1fe8e1bb2bf202b0812e6b bus_reads=0 source_bytes=0 property_bytes=0 directory_bytes=0 fields_used=0. Oneframeattachment only, noordinarypositive/equivalence claim. All228activeguards/37compiledinputs exact; no closedsource-model-runtime-CLI-scene replay.
+- CLI closure: all393baseline source hashes confirm implementation unchanged; all228activeguards/37compiledinputs/604localfeaturelinks pass. Canonicalhash-mtime/maincontentexact, all65files matchaccepted e70-d69. Privateoutput ignored/untracked;13111priorprivateproof reused withoutwholelegacyrehash.
+- CLI-stage project-memory render/default/basec792afd and CRLF-aware whitespace checks pass. No live unit job; full goal remains active.
+- Newread-only existing81snapshot locator uses actor+34FFFF/nonnullgenericunit/currentjob-alternatejob conditions independent of sequence targets.159potential contexts/61snapshots allkind0/job0/alt0/overrideclear;157nullbodyptr andtwo01480168outsideEWRAM/noavailableoriginalbodytask. Bothmodes/override/null-dormant-outside retained; no fixedregistry/sameassignment/actorvalidity/globalunreachability inferred. Inputhash-mtime/slot-header-payload-ROM/model/closedcontract guards pass; no newWine/build/fixture/navigation/gameplay. Locator closed; ordinarypositive/equivalence remains pending.
+- Existing-context locator closure:393sourcebaseline/allimplementationunchanged,86freshinputhash-mtime guards plus228retainedCLIguards/37compiledinputs/436localfeaturelinks exact. Project-memory render/default/basec792afd/CRLFwhitespace pass; no livejob or additional build/gameplay/test.
+
+**Limitations**
+
+- Managed/runtime child closed; actual productionCLI closed; ordinary positive reachability/equivalence remain pending. No validFFFFsprite sequence/assettarget/null/pointerfix/indexcap/fullallocator-actorABI/globalregistry/changedactor claim.
+- Linux/USA/nativeWindows/new32:9 pending. No privategameplaypayload edit/Android/package/assistantcommit/push; fullROMTODO remains active.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-ffff-reader-fields.json)
+
+## 2026-10-26 — Classify European live slot and counter helpers
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Classify exactD05E8/D0618/D0650as liveRAM any/count/update helpers with fixed RAMbase/offset code literals; avoid creating immutable resources from mutable slot/counter state. Preserve exactconditionalcounter update and no globalclamp/pointer-liveness/tableextent inference.
+
+**Validation**
+
+- Static exactEURimage/threecompletecodeblocks/68halfwords/30criticalpins/sixliteralwords pass. D05E8any andD0618count inspect20firstwordwindows at02002E78+16*i; D0650increments02001F68onlyforold<=98, leaves99..255unchanged.
+- Narrow3/2/1rawThumbBLcandidate census retained, not everysemanticcaller/ordinaryreachability. PartialD0670excluded. No newROMasset/query/decoder/owner/revision: e71-d70/66files65resources/USA8-7 unchanged.
+- No build/game/test/fixture/navigation/privatepayload/performance-storage campaign or oldsource/model/runtime/CLI/Bank acceptance replay. Staticdisassembly notLinuxruntimevalidation.
+- Closure:401baseline source hashes confirm selectedmemory only/allimplementation unchanged. ThreefreshROM/tool/tracehash-mtimeguards plus308retainedscene guards/41compiledpreimages/411localfeaturelinks exact. Project-memory render/default/basec792afd/CRLFwhitespace pass;14033priorprivateexpectedproof reused withoutlegacyrehash, no livejobs.
+
+**Limitations**
+
+- DeclaredthreeROMentries only; no pointervalidity/actorliveness/globalinputcap/fullphysicaltable/wholecallergraph or nextD0670classification claim.
+- Linux/USA/nativeWindows/new32:9 pending; no Android/package/assistantcommit/push. Full ROM_DATA goal remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-classify-european-slot-live-state-helpers.json)
+
+## 2026-10-26 — Classify European native literal and switch-table source witnesses
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record bounded original-code reader witnesses for the656lower bytes outside current manifest source plans in the existing EUR Bank12 native API inventory. Preserve explicit original ROM/code dependencies without inventing asset families.
+
+**Validation**
+
+- 158literal words/632B have184matching original Thumb straightline context paths within96B of exported PCs,507distinct instruction halfwords. Exact ROM halfwords and PC-relative address calculation pass, with no branch/call/return/PCwrite/trap before each load.
+- Six other observed words/24B are switch-control entries in five bounded projections8/35/69/48/5entries.82original prefix halfwords prove bounds, index scale, table base, load and MOVpc. Only0/0/27/4-6/1entries respectively were observed; unused table values and target bodies are not decoded into assets.
+- Together with high hardware/branch words, all676observed unowned bytes have scoped static code-support witnesses; all remain outside65managed plans with e71-d70/USA8-7 unchanged.
+- Exact ROM/static-tool/saved-report and summary hash-mtime guards pass; implementation unchanged. No new build/game/test/fixture/navigation/performance measurement or previous acceptance replay.
+
+**Limitations**
+
+- Static original Thumb witnesses consistent with saved contexts are not an exact dynamic instruction/mode trace, all-use/caller proof, whole physical table extent or ordinary coverage of all165switch entries.
+- No new asset format, resource owner, complete migration or whole-ROM/game completeness inferred. Native API observer blind spots and other scenes remain separate. Linux/USA/nativeWindows/new32:9 pending.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-classify-european-native-literal-switch-residue.json)
+
+## 2026-10-26 — Classify European native hardware directories and branch support
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Classify the five high-offset native ROM residue words as hardware-register directory entries and an indirect Thumb IWRAM branch target, preserving original ROM/code support dependencies rather than inventing game asset roots.
+
+**Validation**
+
+- Static exact EUR six complete blocks/392halfwords/47critical pins/five base literals/four BLtargets pass. Actual loads and conditional0..3caller domains authenticate two16Bdirectories at370E68/78 and one4Bword at370EB0 before values are interpreted.
+- The two directories address four DMA register blocks, independently matching the local bus register decoder.11CC loads370EB0into r2 twice before145C10 BXr2: the word is ThumbIWRAM entry03005E79, not a fill value or immutable RAM payload.
+- All36conditional source bytes are disjoint from65current owners.20observed bytes/five words are classified;656lower observed bytes remain separate. All676observed unowned bytes remain outside exported plans, with e71-d70/USA8-7 unchanged.
+- Exact ROM/static-tool/saved-report hash-mtime guards pass. No build/game/test/new fixture/navigation/performance measurement or previous acceptance replay.
+
+**Limitations**
+
+- No global3A6Cinput cap, physical table extent, all callers or ordinary use of the other four directory entries is established.
+- IWRAM callback body/copy origin/full ABI, full DMA/scheduler behavior, lower observed bytes and whole-game completeness remain unverified. Linux/USA/nativeWindows/new32:9 pending.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-classify-european-native-hardware-branch-residue.json)
+
+## 2026-10-26 — Authenticate the European twenty-slot job lookup source
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Classify a separate20byte/u8job lookup projection at399750 shared by sixoriginalreaders. Derive indices0..19from original12CA98live20slot producer, preservedr6 across CFF70clear and originalmetadata/name helpers before inspecting source data.
+- Identify20distinct references to existingmetadata52rows and confirm disjointness from all64current owners. Keep fullphysicalextent/globalinputcap/otherrawcaller semantics/ordinaryreachability explicitly unproved; currentproduction e70-d69/USA8-7 unchanged.
+
+**Validation**
+
+- Static exactEURROM/traces authenticate threewholecodeblocks/268halfwords/27criticalpins/nineliterals/eightBLedges. Conditional singleoccupiedslot/mode3 selection provides each0..19index; original liveRAM/selection/RNG/bytecasts/uncappedoutside behavior unchanged.
+- Selected20B SHA256969b2cd56b835c15f5bec9d962d9f007a8746ea192857bf0ac25527a44019a38; all20referencedmetadata52full52Brows reconstruct exactly. Accepted e70manifest/CLI source-authentication reused; only new20B intersection with64currentowners evaluated, no olddecoder/oracle/build/scenes replay.
+- No build/game/test execution/fixture/navigation/privatepayload edit/performance-storage measurement. Staticdisassembly by existingtool is notLinuxruntimevalidation.
+- Closure: all393baseline source hashes confirm only selectedmemory changes/allimplementationunchanged.12newsource-tool-contract hash-mtimeguards/228retainedCLIguards/37compiledpreimages/395localfeaturelinks exact. Project-memory render/default/basec792afd/CRLFwhitespace pass. Previous13205privateexpectedhashes reused withoutlegacyrehash; no livejobs.
+
+**Limitations**
+
+- Sourcecontract only. Strictmodel/originalWine reader proof/versioned publication/typed consumption/actualCLI/ordinary remain pending. No completephysicaltable/global20guard/fixedslot meaning/allsemanticcallers or new sprite asset claimed.
+- Linux/USA/nativeWindows/new32:9 pending. No Android/package/assistantcommit/push. Full ROM_DATA goal remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-authenticate-european-slot-job-lookup.json)
+
 ## 2026-10-26 — Classify European registry job redirects and sentinel reads
 
 Type: docs. Platforms: Windows.
@@ -562,6 +782,31 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-authenticate-european-obj-property-getter-callers.json)
+
+## 2026-10-26 — Audit European bus and selected host ROM data reads
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add an opt-in Cargo diagnostic feature with thread-bound address/reader/length capture for successful ROM bus reads and selected audio/sprite/table/keyboard host paths. Exclude interpreter instruction fetch while preserving execution, typed/fallback behavior, guest state, clocks, native ABI and save schemas. Default builds omit collection hooks.
+
+**Validation**
+
+- Locked offline Cargo metadata confirms the feature is absent from defaults. Exact mem/exec/MP2K preimages are recovered after removing cfg hooks; source CRLF and all unrelated work are preserved. No default executable rebuild or performance measurement.
+- First feature build compiles the core collector but fails on a frontend test c_void qualification. Correct only that pointer type; incremental Windows frontend build succeeds without diagnostics. One Wine filter passes actual-original-ROM ARM/Thumb fetch exclusion in uncached/cold-cache paths, bus widths/three mirrors/audio tag/capture lifetime, then12existing F09frames8476through8488 with every fullstate-clock/central-wide/OAM/dispatch/five-audio comparison equal.
+- 23061unique requests/19984physical image bytes include1146unowned bytes.15122Bus/7924AudioValue/1ObjSourceTable/6SpriteList/8SpritePeek requests occur; KeyboardWidths is not exercised.64unowned bytes are also read by SpritePeek.
+- Retained native API report comparison proves all13961previous image bytes/604unowned bytes are included, adding542unowned bytes with90new high-offset source bytes in six ranges. These remain leads, not decoded assets or extent/completeness evidence. No old acceptance rerun.
+- All76execution input hash/mtime guards, frozen feature executable/compiled sources and one retained comparison-report guard pass. Required artifact completion succeeds zero disposable paths. e71-d70/65resources/USA8-7 and original ROM/cache/state/input/canonical executable/dataset remain unchanged.
+
+**Limitations**
+
+- Selected access points and current thread/scene only. Unselected direct host readers, managed typed HLE fast paths, folded constants, code/signature authentication and other scenes remain outside capture. Reader tags are not exact instruction/actor/format/extent evidence.
+- High-offset90Bsource leads and remaining lower source witnesses require authentication before any new decoder/model/owner; no complete ROM migration claim. Keyboard scene activation and new Linux/USA/nativeWindows/new32:9 remain pending.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-audit-european-bus-host-rom-reads.json)
 
 ## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
 

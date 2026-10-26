@@ -2202,3 +2202,273 @@ All original/SPS/SRAM/snapshot/cache/loader/canonical/candidate/dataset hashes
 and37managed CLI file mtimes remain unchanged. Other14item/20monster/cap>99UI
 ordinary paths/newLinux/USA/nativeWindows and the rest of the TODO remain
 pending; no performance/space/AndroidPort work is included.
+
+
+## Twenty-slot job lookup source contract
+
+The separate root `08399750` supplies one unsigned job byte per selected slot.
+Six original EUR readers share it: `0D0538` returns the byte directly;
+`0D0548/0D0568/0D0588/0D05A8/0D05C8` pass it as both job arguments to `0CBEC8`
+with metadata52 properties1/4/6/9/0. The first four property wrappers keep their
+low8result; the property0wrapper continues through the original name helper
+`0165E8`. This classifies the lookup without inventing game-specific slot names.
+The prior UI property-getter contract explicitly left this producer table out.
+
+The source domain is chosen before table inspection from original `12CA98`.
+It scans20live16-byte slots at `02002E78`, adding each nonnull slot's index to a
+20-byte stack list. Mode3 selects the maximum live slot+5 value, with inclusive
+ties; conditional on a single occupied slot, each index0..19can be selected.
+The chosen index stays in r6 across `0CFF70`, which clears the live slot while
+preserving r6. `12CB64/66` forwards that index to `0D05C8`. This is a declared
+producer projection, with no universal gameplay reachability, whole physical
+table extent, global20input cap, neighboring-root end or replacement of live
+selection/RNG/slot state inferred. The readers' other u8inputs remain outside
+this selected source domain.
+
+268halfwords across three complete original code blocks,27critical pins,
+nine literals and eight BL edges authenticate that source path. The original
+six shared-root references are explicit. Narrow raw Thumb BL candidates for
+other callers are retained separately; raw matches, including the one to the
+property9wrapper, are not automatically treated as authenticated semantic
+callers or universal input bounds.
+
+The selected range is `399750..399764`,20bytes in one span, SHA-256
+`969b2cd56b835c15f5bec9d962d9f007a8746ea192857bf0ac25527a44019a38`.
+All20job references are distinct and resolve to20rows in the authenticated
+`gameplay.linked-metadata52` resource. Each full row reconstructs its original
+52bytes. The new range is disjoint from all64current manifest owners, using the
+accepted e70-d69 dataset and its existing source-authentication evidence.
+No sprite/animation target is followed and no duplicate metadata is selected.
+
+This source-contract child is closed. The strict lossless model and focused
+original Wine reader proof are recorded below; managed publication and typed
+consumption remain pending. EUR remains e70-d69/65files64resources; USA remains e8-d7.
+These checks use static reads/disassembly only, with ROM/tool/contract/model/
+dataset hash/mtime guards. No build, game/test execution, fixture, navigation,
+private gameplay edit, performance/storage measurement, Android/package/
+assistant commit/push occurs. Linux, USA, native Windows and new32:9 checks
+remain pending. Evidence: `target/rom-data-ui-job-lookup-source/`.
+
+
+## Typed twenty-slot job lookup and original reader proof
+
+The [slot-job model](../crates/gba-core/src/rom_data/slot_job_lookup.rs) preserves
+exactly20ordered(slot,u8job)references at the authenticated source base. Strict
+JSON/source/span/byte lookup validation and direct metadata52row references keep
+lossless numeric values. The canonical Catalog authenticates the exact EUR ROM,
+three original producer/reader blocks, source hash and actual metadata52data.
+The twenty-entry structural projection is not a guest input limit; no original
+selection, slot mutation, redirect, property extraction or name reader is replaced.
+
+This model phase connected only two module declarations and left production
+e70-d69/65files64resources and USAe8-d7 unchanged. Versioned extraction/runtime
+ownership are recorded below; all earlier resource contents remain unchanged.
+
+The first affected Windows frontend build passes warning-free, frozen
+`110342c94d99d30ef88b3d9263b2e7fb29440d86e2d29ae1d39d0fcc95bcb7a5`.
+One new exact [Wine test](../crates/recomp/src/rom_data/slot_job_lookup_model_tests.rs)
+passes independent20entry/source comparison, JSON roundtrip, twelve structural/
+JSON/dependency/source rejections and disjointness from all64current owners.
+It executes123original reader paths:21bare job lookups,81complete low8property
+wrappers and21property0prefixes preserving the full identifier before `0165E8`.
+Three high-input aliases verify the original low8argument behavior. All20source
+bytes are observed at the six actual original LDRBsites. Callee registers,
+full EWRAM/IWRAM outside the original20-byte stack footprint, VRAM/OAM/palette
+remain equal to their guarded inputs. These are source/reader checkpoints,
+without a native-clock/full allocator/name-reader/ordinary equivalence claim.
+
+All 231 build/232 Wine hash/mtime guards and
+39 compiled input preimages remain exact. Canonical model JSON
+SHA-256 is `2cea5e7cd140ce7cb19e179ce4997cf627cd514ee5410d5d6b86a9b9d7adfdb6`.
+
+The closed268-pin/source contract and old metadata52/FFFF/A4/managed/native/CLI/
+scene acceptances are reused without replay. Publication/runtime/actualCLI/
+ordinary and Linux/USA/native Windows/new32:9 remain pending. No fixture,
+navigation, private gameplay edit or performance/storage measurement occurs.
+Evidence: `target/rom-data-slot-job-lookup-model/`.
+
+
+## Managed twenty-slot job lookup and typed bus consumption
+
+EUR e71-d70 publishes `gameplay.slot-job-lookup` in `slot-job-lookup.json`,
+format `slot-job-lookup-v1-json`, with the actual `gameplay.linked-metadata52`
+dependency. The generation has66files/65resources. All64previous resource
+records and decoded files remain byte-identical, and the retained e70generation
+is unchanged. The canonical twenty-entry model remains intact; USA stays e8-d7.
+
+The [immutable owner](../crates/gba-core/src/rom_data/runtime/slot_job_lookup.rs)
+serves exactly20u8job references at399750..399764from typed fields. Page399enters
+the shared source path; counters report owned bus bytes and twenty record-mask
+bits. Reads crossing either edge combine the file-derived bytes with prior
+owners or raw ROM. Source addresses outside the selected projection retain
+their original path. Original low8argument casts, metadata52properties/name
+identifier, live slot selection, clearing, RNG and guest clocks remain live.
+The twenty-entry projection introduces no guest input cap or host replacement.
+
+One affected Windows core/frontend test build passes warning-free; the core is
+compile-only. Two exact [Wine filters](../crates/recomp/src/rom_data/slot_job_lookup_runtime_tests.rs)
+pass after the external disk failure described below:
+
+- Interrupted publication/create/reuse/repair/move, all64prior records/files and
+  retained e70,18transactional attach rejections and three full-set dependency
+  rejections. Coherent changes to a job byte and source/file hashes still fail
+  canonical authentication. Every failed attach keeps the owner and full state.
+- Load/Undo, backup restore and restart share the immutable owner after its
+  source directory becomes unavailable. All20altered raw source bytes still read
+  correctly from the file and reach all20mask bits. Prior FFFFproperty reads keep
+  their own owner and do not charge the new counters.
+- Sixteen original/interpreter/compiled paths agree on complete state and guest
+  clock with all20new raw bytes altered. They cover getter/property/name-ID
+  prefixes, high-input alias, outside-slot20raw lookup, dynamic EWRAM/IWRAM, and
+  the original12CA98mode3/single-occupied-slot19selection through CFF70clear and
+  D05C8before165E8. The selected index and cleared live slot are checked; the
+  name helper and ordinary actor/allocator ABI are not claimed complete.
+- Both edges, widths1/2/4, three ROM mirrors and real-BIOS bus mode pass. The
+  old64owner map confirms the neighboring bytes are raw. Two mixed API windows
+  preserve edited raw neighbors and each charge2new bytes. CpuSet reads20new+
+  4raw, FastSet20new+12raw and DMA20new+4raw, with complete state/clock equality.
+
+The native filter observes 16 compiled job-source bytes.
+All 233 build/235 Wine input hash/mtime guards and
+41 compiled input preimages remain exact. Frozen frontend:
+`5f80cdaaa0215b0935283cf801fe83f0ec4573eac25e28280b3154cde3c2e46a`.
+Manifest SHA-256: `7ca7bef37999223b2475917c71c3cdbec164c5a6c5524c3119c2fa17a57356b7`;
+dataset identity: `aa4588755ddad92406d9082335f96ca125e4c0ebad9e9bdcee0978ed06bbf97c`.
+
+The first managed Wine attempt stopped with `StorageFull` while copying the
+retained e70generation; the native filter had not started. Regenerable Linux
+compiler libraries were relocated reversibly to a separate temporary filesystem,
+with hash/mtime preservation. The failed log/result/scratch remain archived.
+The two uncompleted filters then ran with the same frozen binaries, sources and
+inputs, using temporary dataset and scratch directories. No product change or
+rebuild was needed. A workspace link records the local validation root; these
+private artifacts remain local and can be unavailable after temporary cleanup.
+This recovery addresses an actual filesystem failure, not a storage-budget or
+performance measurement campaign.
+
+The closed source268-pin/model123-reader proof and previous families' results
+are reused without replay. This closes managed publication and declared typed
+bus/native paths. Actual production CLI is recorded below; ordinary positive
+use/equivalence remain pending. Linux, USA, native Windows and new32:9 remain to be checked.
+No fixture/navigation/private gameplay edit/performance-storage measurement/
+Android/package/assistant commit/push occurs. Evidence:
+`target/rom-data-slot-job-lookup-runtime/`.
+
+
+## Actual production CLI for the twenty-slot job lookup
+
+The first changed Windows production build passes warning-free, frozen
+`720843b54da9089975c48ddc695cecf23c7670adc5d1f5ce3a03914a25c0c765`. The canonical executable's original hash and mtime
+are restored exactly; main content is unchanged, with mtime-only Cargo
+invalidation. The actual CLI is used for these checks.
+
+The first three Wine calls pass prepare/create, no-write reuse and one-frame
+old-native-cache attachment from an unrelated working directory. The isolated
+resource root has66generation files/68managed files/65resources with the actual
+metadata52dependency. All66generation files match the accepted e71-d70runtime
+dataset, including its canonical twenty-entry job model. Reuse keeps each hash
+and mtime unchanged. A workspace link to a separate temporary filesystem avoids
+the actual ENOSPC encountered in the runtime stage; no further cleanup, format
+change, build retry or performance/storage campaign is introduced.
+
+The authentic read-only F09 checkpoint loads with the previous native cache and
+new dataset. This single-frame result proves production attachment; it does not
+establish positive ordinary use or full scene equivalence.
+
+Generation `generation-GmxCy2`, dataset
+`aa4588755ddad92406d9082335f96ca125e4c0ebad9e9bdcee0978ed06bbf97c`,
+manifest `7ca7bef37999223b2475917c71c3cdbec164c5a6c5524c3119c2fa17a57356b7`.
+Observed counters: `bus_reads=0 source_bytes=0 slots_used=0`.
+All 304 active input hash/mtime guards and 41 compiled
+input preimages remain exact, including the ROM/checkpoint/recording/native
+cache/TinyCC/canonical executable and accepted runtime evidence.
+
+Closed source/model/runtime and previous-family acceptances are not replayed.
+The declared Bank120ordinary result is recorded below. Linux, USA, native
+Windows and new32:9 remain pending. No fixture/navigation/private gameplay edit/Android/
+package/assistant commit/push occurs. Private temporary artifacts can become
+unavailable after cleanup; the recorded outcome remains separate from that
+availability. Evidence: `target/rom-data-slot-job-lookup-cli/`.
+
+
+## Ordinary Bank scene use of the twenty-slot job lookup
+
+The existing EURbank checkpoint copy and its original Down8..20input are reused
+for120frames,16:9/zoom0, with the actual e71production CLI and accepted dataset
+`generation-GmxCy2`. The copy still matches its protected source checkpoint;
+neither is rewritten, and cartridge saves are not selected. The prior A4negative/
+B2positive observation remains closed; the new criterion is file-derived job
+lookup use after the new owner was introduced.
+
+The first new Bank120CLI call is positive:2bus reads/2owned job bytes/one slot
+record. It selects the exact same input/state/dataset/frame range for one new
+Wine fullpair. Only a five-line optional
+`FFTA_STATE_TEST_REQUIRE_SLOT_JOB_LOOKUP` guard/report is added to the generic
+[scene validator](../crates/recomp/src/rom_data/validation_tests.rs). Runtime,
+production defaults, all previous guards, state formats and data remain intact.
+
+One first changed Windows frontend test build passes warning-free, frozen
+`f6c4291038785e3887677132e313a2a7b6f0a6313cf42180238c8d4f57553e03`.
+The first exact Wine filter passes every120complete serialized Machine states
+and guest clocks from frame3660through3780, central and wide framebuffers, OAM,
+per-frame native/fallback dispatch and mixed/PSG/FIFOleft/FIFOright/HLE audio.
+HLE floating samples are compared by bit pattern. Allfive actual sample counts
+are `[263340, 263340, 31680, 31680, 263264]`. Execution is mixed; this is not an all-native claim.
+The required new-owner report is2reads/2B/one slot, exactly matching the actual
+CLI lead. The other19slot records retain their targeted source/runtime proof.
+
+The CLI capture was inspected:284×160city/Bank exterior background; the bank
+UI panels are absent from that raw framebuffer capture. No fully composed GUI,
+whole actor/name/allocator ABI, all20ordinary slots or new32:9claim is inferred.
+The fullpair compares the declared captured buffers and complete state.
+
+All 308 active scene input hash/mtime guards and
+41 compiled input preimages remain exact. The e71dataset,
+checkpoint/copy/input/native cache/TinyCC/canonical executable and accepted
+source/model/runtime/CLI evidence stay unchanged.
+
+The declared ordinary child is closed. Source268-pin/model123-reader/managed/
+native/CLI/F09/A4/previous scene acceptances are not replayed for their old
+criteria. No new fixture/navigation/private gameplay edit/performance-storage
+campaign/Android/package/assistant commit/push occurs. Linux, USA, native Windows,
+new32:9 and the broader ROM TODO remain open. Evidence:
+`target/rom-data-slot-job-lookup-ordinary/`.
+
+
+## Live state helpers following the slot-job lookup
+
+The exact EURentries `0D05E8`, `0D0618` and `0D0650` have a separate live-memory
+classification. Their source code is authenticated independently of the preceding
+job lookup; code adjacency is a discovery locator, not a data-table boundary.
+
+- `0D05E8` returns1when any of the20first words at
+  `02002E78 + 16 * index`, index0..19, is nonzero; otherwise it returns0.
+  It stops at the first nonzero word. This tests nonnull words without validating
+  pointed objects or proving actor liveness.
+- `0D0618` counts nonzero first words of those same20live16-byte slots and
+  returns0..20. It reads twenty4-byte windows, not the entire320-byte slot region.
+- `0D0650` reads the live byte at `02001F68` and increments it only if its old
+  value is at most98. Existing99..255values remain unchanged. No blanket clamp99
+  or meaningful scalar return value is inferred.
+
+All three ROMentry bodies ignore incoming arguments for these addresses. Their
+six literal words supply fixed RAMbase/offset constants; those are executable
+context support, with no referenced immutable ROMasset root in these helpers.
+The mutable slot contents and counter remain guest state; exporting them into a
+base resource would freeze live behavior. No new decoder/resource/owner or
+revision is needed. The20loop bound does not establish the full physical extent
+of the preceding ROMjob table or a global getter input limit.
+
+68halfwords across three complete code blocks,30critical pins and six literal
+words pass against the exact EURimage. Narrow even-Thumb BLencodings below370000
+produce3/2/1caller candidates, retained as raw references; they are not assumed
+to be every semantic caller or proof of ordinary reachability. The partial next
+entry `0D0670` is outside this classification.
+
+The source child is closed for these three entries. e71-d70/66files65resources
+and USAe8-d7 remain unchanged. Existing source/model/runtime/CLI/Bank results stay
+closed without replay. No build/game/test/fixture/navigation/private payload
+edit/performance-storage campaign/Android/package/assistant commit/push occurs.
+Static disassembly is not Linux runtime validation; Linux, USA, native Windows
+and new32:9 remain pending. Evidence:
+`target/rom-data-post-slot-lookup-readers/source-contract.json`.

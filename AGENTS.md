@@ -49,6 +49,20 @@ The checker identifies changed implementation files without a changed memory
 record. Use `check --base <commit>` to cover a branch or commit range.
 The CI workflow runs the same check; it does not invent change descriptions.
 
+## Keep local validation output bounded
+
+Follow [local artifact retention](docs/development/LOCAL_ARTIFACTS.md). After a
+managed/native validation unit succeeds and its preservation checks/results are
+recorded, run `python3 scripts/local_artifacts.py complete target/<unit> --apply`.
+This retires only the disposable `interrupted` and `moved resources` copies;
+keep the accepted offline dataset, source preimages, logs/results and current
+executables. Failed or live units must retain their diagnostic fixtures.
+Retire old unit-local executables only after verifying they are superseded.
+Future preservation maps should guard the selected unit's real inputs, rather
+than require every historical mutable test copy to remain present forever.
+Cleanup receipts record local availability; missing retired payloads do not
+reopen completed acceptance or authorize rebuilding it merely to restore files.
+
 Prefer Windows for the current development focus unless the task specifies
 another platform. The root workspace and `AndroidPort/` are separate trees;
 do not assume a root change also updates that port. Keep game data, personal

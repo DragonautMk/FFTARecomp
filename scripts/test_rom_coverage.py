@@ -221,6 +221,30 @@ class CoverageRefreshTests(unittest.TestCase):
             self.assertEqual(coverage.length([r['range'] for r in records]), 28)
             self.assertTrue(all(r['references'] == 2 for r in records))
 
+    def test_cache_retention_runs_only_after_successful_automatic_publication(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            args = SimpleNamespace(dataset='kept',dataset_cache='cache',cache_keep=2,output=tmp)
+            report = dict(generation='e65-d64',generated_at='now',reviewed_generation='e61-d60',
+                          evidence_date='2026-10-25',pending_review=[],historical_dataset=False,
+                          totals=dict(runtime_families=60))
+            with mock.patch.object(coverage, 'prepare_dataset'), \
+                 mock.patch.object(coverage, 'prune_coverage_cache') as prune:
+                with mock.patch.object(coverage, 'build', side_effect=ValueError('failed validation')):
+                    with self.assertRaises(ValueError): coverage.generate(args)
+                prune.assert_not_called()
+                def cleanup(cache,current,keep):
+                    self.assertTrue((Path(tmp)/'index.html').is_file())
+                    self.assertEqual((cache,current,keep), ('cache','kept',2))
+                    raise PermissionError('read-only cache')
+                prune.side_effect = cleanup
+                with mock.patch.object(coverage, 'build', return_value=report), \
+                     contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(coverage.generate(args),0)
+                    self.assertEqual(prune.call_count,1)
+                    args.dataset_cache = None  # Explicit datasets have no eviction.
+                    coverage.generate(args)
+                    self.assertEqual(prune.call_count,1)
+
 
 if __name__ == '__main__':
     unittest.main()

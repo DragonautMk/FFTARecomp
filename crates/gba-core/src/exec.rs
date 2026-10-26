@@ -109,6 +109,8 @@ fn step_inner<B: Bus>(
 ) -> Instr {
     let pc = cpu.regs[PC as usize];
     bus.note_fetch(pc | cpu.thumb() as u32);
+    #[cfg(feature = "rom-data-read-audit")]
+    let fetch_audit = crate::rom_data::read_audit::InstructionFetch::enter();
     let instr = match cache {
         Some(c) => {
             if cpu.thumb() {
@@ -125,6 +127,9 @@ fn step_inner<B: Bus>(
             }
         }
     };
+
+    #[cfg(feature = "rom-data-read-audit")]
+    drop(fetch_audit);
 
     if cond_passed(cpu, instr.cond) {
         let handled = if hle {

@@ -55,7 +55,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Cannot archive the committed extraction source
 foreach ($directory in @('scripts', 'docs/changes', 'docs/development/rom-coverage')) {
     [IO.Directory]::CreateDirectory((Join-Path $contextDir $directory)) | Out-Null
 }
-foreach ($name in @('rom_coverage.py', 'rom_coverage.html')) {
+foreach ($name in @('rom_coverage.py', 'rom_coverage.html', 'local_artifacts.py')) {
     Copy-Item -LiteralPath (Join-Path $repoDir "scripts/$name") -Destination (Join-Path $contextDir 'scripts')
 }
 Get-ChildItem -LiteralPath (Join-Path $repoDir 'docs/changes') -Filter '*.json' -File |
@@ -85,7 +85,7 @@ if ($dataset) {
     $cache = Get-ProjectPath 'target/rom-data/coverage'
     [IO.Directory]::CreateDirectory($cache) | Out-Null
     $runArgs += @('--mount', "type=bind,source=$cache,target=/cache")
-    $generatorArgs += @('--dataset-cache', '/cache')
+    $generatorArgs += @('--dataset-cache', '/cache', '--cache-keep', '2')
 }
 if ($translation) {
     $runArgs += @('--mount', "type=bind,source=$translation,target=/input/translation.dll,readonly")

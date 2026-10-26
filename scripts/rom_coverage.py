@@ -19,6 +19,8 @@ import sys
 import tempfile
 import tomllib
 
+from local_artifacts import prune_coverage_cache
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
@@ -414,12 +416,16 @@ def main():
     dataset_group.add_argument("--dataset", help="existing dataset, read-only")
     dataset_group.add_argument("--dataset-cache", help="prepare/reuse the built extractor's generation in this cache directory")
     parser.add_argument("--extractor", help="recomp CLI for automatic dataset preparation")
+    parser.add_argument("--cache-keep", type=int, default=0,
+                        help="after success, keep this many automatic cache generations; 0 disables pruning")
     parser.add_argument("--translation", help="optional original retained ELF; default uses versioned seed metadata")
     parser.add_argument("--code-seeds", default=str(ROOT / "docs/development/rom-coverage/code-seeds.json"))
     parser.add_argument("--analyzer", required=True, help="rom_code_ranges executable")
     parser.add_argument("--evidence", default=str(ROOT / "docs/development/rom-coverage/evidence.json"))
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
+    if args.cache_keep < 0:
+        parser.error("--cache-keep must not be negative")
     try:
         return generate(args)
     except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
@@ -466,6 +472,14 @@ def generate(args):
                     print(f"  {key}: {delta:+d}", flush=True)
     print(json.dumps(report["totals"], indent=2))
     print(f"HTML: {output / 'index.html'}\nJSON: {output / 'coverage.json'}", flush=True)
+    if getattr(args, "dataset_cache", None) and getattr(args, "cache_keep", 0):
+        try:
+            removed = prune_coverage_cache(args.dataset_cache, args.dataset, args.cache_keep)
+            if removed:
+                print(f"Cache coverage: rimosse {len(removed)} generazioni superate; "
+                      f"conservate fino a {args.cache_keep}.", flush=True)
+        except (OSError, ValueError) as error:
+            print(f"Report aggiornato; pulizia cache non completata: {error}", file=sys.stderr)
     return 0
 
 

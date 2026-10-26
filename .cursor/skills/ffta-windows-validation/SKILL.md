@@ -43,6 +43,17 @@ Wine may initialize APPDATA itself; inspect the effective path rather than
 assuming an environment override isolated the config. Keep test controller
 DLLs and screenshots under ignored `target/`, outside deliverables.
 
+Keep validation output bounded using
+[local artifact retention](../../../docs/development/LOCAL_ARTIFACTS.md).
+After the managed/native unit passes and its preservation checks and results
+are recorded, run `python3 scripts/local_artifacts.py complete target/<unit> --apply`.
+The helper retires disposable interrupted/moved fixture copies, retaining the
+accepted offline dataset, source preimages and result/log evidence. Do not run
+it on a failed/live unit. Retire superseded unit-local executables explicitly,
+keeping the canonical runtime and current helpers. Guard actual inputs of the
+new check instead of rehashing every historical mutable output; cleanup receipts
+record availability and do not invalidate completed proofs.
+
 For performance comparisons, use the same translation, input, warm-up and
 settings; separate hash capture from timing. Reuse
 `scripts/benchmark_windows_runtime.py`. Wine timing is not native Windows

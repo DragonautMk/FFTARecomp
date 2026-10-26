@@ -75,7 +75,7 @@ else
     mkdir -p -- "$cache_dir"
     cache_dir=$(resolve_path "$(cd -- "$cache_dir" && pwd -P)")
     mounts+=(--mount "type=bind,source=$cache_dir,target=/cache")
-    args+=(--dataset-cache /cache)
+    args+=(--dataset-cache /cache --cache-keep 2)
 fi
 if [[ -n "$translation_path" ]]; then
     translation_path=$(resolve_path "$(cd -- "$(dirname -- "$translation_path")" && pwd -P)/$(basename -- "$translation_path")")
@@ -90,7 +90,8 @@ trap 'rm -rf -- "$context_dir"' EXIT
 git -C "$repo_dir" archive --format=tar --output "$context_dir/runtime.tar" "$source_revision" \
     Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
 mkdir -p -- "$context_dir/scripts" "$context_dir/docs/changes" "$context_dir/docs/development/rom-coverage"
-cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" "$context_dir/scripts/"
+cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" \
+    "$repo_dir/scripts/local_artifacts.py" "$context_dir/scripts/"
 cp -- "$repo_dir/docs/changes/"*.json "$context_dir/docs/changes/"
 cp -- "$repo_dir/docs/development/rom-coverage/evidence.json" \
     "$repo_dir/docs/development/rom-coverage/code-seeds.json" "$context_dir/docs/development/rom-coverage/"

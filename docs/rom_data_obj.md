@@ -1,5 +1,15 @@
 # European OBJ lists and animation banks
 
+EUR e70-d69 adds the [two numeric FFFF reader fields](rom_data_unit_obj.md#managed-ffff-reader-fields-and-typed-bus-consumption):
+65 files/64 resources, all63 earlier decoded files/records and e69 retained.
+The immutable owner serves only six bytes; encoded addresses and original live
+unmapped BIOS/unaligned CPU behavior stay intact. Two focused Wine filters pass
+publication/lifecycle/authentication and complete-state/clock native/bus/SWI/DMA
+checks. Actual production CLI create/no-write reuse and old-cache one-frame
+attachment now pass65generation/67managed files, all65 equal the accepted dataset.
+Ordinary positive reachability/equivalence remain pending. USA remains e8-d7;
+Linux/native Windows/new32:9 remain to be checked. No performance/storage measurements.
+
 EUR e69-d68 extends the [property-selected static UI OBJ lists](rom_data_obj.md#managed-ui-property-list-extension-and-typed-consumption)
 within the existing resource: 126 references/74 lists/175 objects/1198 source bytes.
 The new list contributes 14 bytes; the B2 alias retains its previous owner.

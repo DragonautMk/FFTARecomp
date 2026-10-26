@@ -1,5 +1,18 @@
 # European OBJ lists and animation banks
 
+EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):
+64 files/63 resources, with all 62 previous records and 63 files retained.
+The new owner serves only 72 words/144B; 184 shared words retain their actor-property
+and palette owners as actual dependencies. Two focused Wine filters pass managed
+lifecycle and original/interpreter/compiled state-clock checks, including mixed
+old/new/raw bus and SWI/DMA reads. Actual production CLI create/reuse now passes
+64 generation/66 managed files, all64 accepted and no-write reuse. One authentic
+F09 frame loads the old cache and uses1read/2B/oneword. A new F09Wait3530 Wine
+fullpair now passes everyframe state-clock-image-OAM-dispatch-allaudio, with
+476reads/952aggregateB/4words positive; other68words targeted-reader only.
+USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+No performance/storage measurement or previous acceptance replay.
+
 EUR e67-d66 adds [actor property words](rom_data_unit_obj.md#managed-actor-property-words-and-typed-runtime-reads):
 63 files/62 resources with actual metadata52/metadata14 dependencies. All61prior
 files/records and e66are retained; USA stays e8-d7. The immutable owner serves
@@ -628,3 +641,55 @@ attachment passes with zero new alternate use. Positive ordinary alternate use,
 script/live reachability and new Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage campaign
 or new gameplay checkpoint.
 [Alternate runtime contract](rom_data_unit_obj.md#alternate-managed-publication-and-typed-runtime-reads).
+
+
+## Property-selected UI list source extension
+
+The two UI property comparisons documented in the
+[getter caller contract](rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window)
+select counted OBJ lists for the original `01F6C` wrapper. This is a source
+extension of the existing static-list family, with its existing attribute
+format and dimension dependency.
+
+In `02AB98` state1/tag2, property u16==16 selects `3950A4` through reader
+`02AD6A`/literal `02AD8C`; the other branch selects `3950B2` through
+`02AD90`/`02ADA8`. State1/tag1, with the animation byte other than0/12/16,
+uses the same comparison and lists through `02ADFA`/`02AE0C` and
+`02AE10`/`02AE2C`. All four paths reach `02AE26` → `01F6C`.
+
+The previous CFG discovery already recorded these candidates and counts. The
+new source contract authenticates their actual conditional control flow,
+48 halfword/four literal/four BL fingerprints and the `01F6C` pointer flow to
+original `01500`. It reuses the closed 680-pin getter producer proof and the
+512 original UI branch prefixes, plus the existing static-list reader/model
+contract. Neither the broad CFG experiment nor the old 66/73-list oracle is
+repeated. One narrow static reader-tail disassembly checks the six-byte source
+stride; no guest program runs.
+
+All 63 current resource files and source hashes authenticate before new target
+inspection. The A4 header contains count2, and the reader's header+stride rule
+therefore owns exactly14 bytes/two objects. The end coincides with B2; adjacency
+is not the extent proof. Every signed coordinate, packed mode/transform bit and
+attribute halfword reconstructs exactly through the existing Object format.
+The new range has no current owner and SHA-256
+`1f9cfc55a363c69dcf8422d47641705427d4291a3801ff1c7646bfb8bc5daa64`.
+
+B2 is already a two-object/14-byte list in `graphics.obj-static-lists`, rooted
+by the existing AE10 reference. Its typed view reconstructs the independently
+read bytes exactly, SHA-256
+`d828f930fd443fbe842b1f7cdb76d736573c6ac8d08a5a6591d7cf204860b4ab`.
+It remains shared and needs no duplicate asset. Two A4 references and the AD90
+B2 alias add three provenance records. The proposed extended catalog is
+126 references/74 lists/175 objects/1198 source bytes, compared with the current
+123/73/173/1184. These are source-plan totals; production is still e68-d67.
+
+This source contract is closed. Catalog/model integration, versioned publication,
+runtime/host consumption, actual CLI and ordinary use of A4 remain pending.
+Because `Catalog::from_rom` directly feeds Extraction, changing its roots must
+be coupled with a revision bump rather than silently changing an e68 dataset.
+The existing typed List/Object/runtime can be extended; no new resource family
+or format is required. Original comparisons, draw capacity, output stride,
+OAM and live task state remain guest work. No full UI, global indirect catalog,
+new build/oracle/scene, fixture/navigation or performance/storage claim is made.
+Linux, USA, native Windows and new32:9 checks remain pending. Evidence:
+`target/rom-data-ui-property-obj-lists/`.

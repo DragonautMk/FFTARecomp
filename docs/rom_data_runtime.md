@@ -1,5 +1,18 @@
 # Direct decoded resource consumption
 
+EUR e68-d67 adds [UI byte property words](rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads):
+64 files/63 resources, with all 62 previous records and 63 files retained.
+The new owner serves only 72 words/144B; 184 shared words retain their actor-property
+and palette owners as actual dependencies. Two focused Wine filters pass managed
+lifecycle and original/interpreter/compiled state-clock checks, including mixed
+old/new/raw bus and SWI/DMA reads. Actual production CLI create/reuse now passes
+64 generation/66 managed files, all64 accepted and no-write reuse. One authentic
+F09 frame loads the old cache and uses1read/2B/oneword. A new F09Wait3530 Wine
+fullpair now passes everyframe state-clock-image-OAM-dispatch-allaudio, with
+476reads/952aggregateB/4words positive; other68words targeted-reader only.
+USA stays e8-d7; Linux/native Windows/new32:9 checks remain to be done.
+No performance/storage measurement or previous acceptance replay.
+
 EUR e67-d66 adds [actor property words](rom_data_unit_obj.md#managed-actor-property-words-and-typed-runtime-reads):
 63 files/62 resources with actual metadata52/metadata14 dependencies. All61prior
 files/records and e66are retained; USA stays e8-d7. The immutable owner serves

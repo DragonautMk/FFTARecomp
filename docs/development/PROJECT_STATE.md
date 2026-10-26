@@ -549,10 +549,35 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   filter pass14guards/512UIprefixes/all512readB/eightskips/fouru16comparisons/
   fourbytewriters/sixadditionalsetterprefixes/wholeRAMoutside destinations plus
   VRAM/OAM/palette guards.109build110Wineguards/13compiledinputs exact; no fullUI/
-  allocator/native-clock/ordinary claim. Runtime/CLI/ordinary remain pending;
-  e67-d66/USAe8-d7 and FFFFraw6B unchanged. No fixture/navigation/performance
-  measurement or old acceptance replay. Unknown u16, changed actors and computed
+  allocator/native-clock/ordinary claim for02. EUR e68-d67 now publishes64files/
+  63resources/all62oldrecords63files/e67retained withactualpropertyword+palette
+  dependencies. Newimmutableowner servesonly72words144B/fourspans/ordinalbitmap;
+  184sharedwords keeppriorowners. FirsttwoWine pass17attach+fourdependencyguards/
+  lifecycle/all144typedB72records plus original-interpreter-compiled fullstate-
+  clock getter/UIprefix/fullword/liveRAM/mixed paths. Fourrangeedges/width-mirrors/
+  realBIOSbus/SWI-DMA pass; API2new2property/2new2palette/2new2raw, CpuSet2new4property/
+  FastSet28new4property/DMA4new2palette. ActualproductionCLI firstprepare/reuse
+  nowpasses64generation66managedfiles/63resources/twodeps/all64accepted/no-write;
+  authenticF09oneframeoldcache attachesanduses1read2aggregateB/oneword, smokeonly/
+  nofullsceneequivalence.182activeguards/23compiledinputs exact; canonicalrestored.
+  NewordinaryF09Wait3530fullpair nowfirstPASS 476reads/952aggregateB/4words;
+  everyframe fullstate-clock-central-wide-OAM-dispatch-allaudio equal, allfiveaudio
+  streams nonzero. Other68words targetedreaderonly; 183guards/24compiledinputs
+  exact. Optionalfive-line positiveguard only, no duplicateCLI3530 or oldscene/
+  source/model/runtime replay. Declaredordinarychild closed; broadercoverage,
+  fullUI/allocator andotherplatforms separate. USAe8-d7/FFFFraw6B unchanged. No fixture/navigation/performance measurement or old
+  acceptance replay. Unknown u16, changed actors and computed
   indirect calls remain open.
+- The [property-selected static UI OBJ lists](../rom_data_obj.md#property-selected-ui-list-source-extension)
+  now have a separate source contract. Four conditional A4/B2 references flow
+  through1F6Cto1500;48halfword/fourliteral/fourBL pins and closed producer/UI
+  oracles establish count2/stride6. All63owners authenticate before targets.
+  A4adds one unowned14B/two-object list; B2exactlyaliases existingtyped14B.
+  Three extra references project126refs/74lists175objects1198B; currente68catalog
+  remains123refs/73lists173objects1184B. Model+versionedpublication/runtime/CLI/
+  ordinary integration is pending; reuse existing List/Object/owner/format.
+  No broadCFG/oracle/scene replay, newbuild/guest/fixture/navigation/performance
+  work. USA/Linux/nativeWindows/new32:9 and broader indirect sources remain open.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

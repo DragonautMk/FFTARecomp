@@ -1633,3 +1633,50 @@ Managed-runtime/CLI/ordinary pendenti, e67-d66 e USAe8-d7 invariati. FFFFraw6B/
 unknown/changedactor/globalidentity/computedindirect restano separati; nessun
 oldproof replay/fullUI-native-clock/fixture/navigazione/misura.
 [Dettagli](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window).
+
+
+Il complemento byte-input delle proprietà OBJ è ora gestito e consumato in
+EUR e68-d67:64file/63risorse, tutti62record/63file precedenti ed e67 conservati.
+Solo72word/144B nuovi;184word condivise restano ai due owner propertywords e
+colorpalettes, dipendenze reali. Due nuovi Wine passano17attach+quattro dependency
+check/lifecycle/tutti144B e72record, più equivalenza original/interpreter/compiled
+fullstate-clock su getter/UI-prefix/mixed/fullword/liveRAM. Quattro bordi/
+width-mirrors/realBIOSbus/SWI-DMA passano: API2new2property/2new2palette/2new2raw,
+CpuSet2new4property/FastSet28new4property/DMA4new2palette. Nessun source/model/
+oldscene replay o misura; CLIproduzione/ordinary restano pendenti, USAe8 invariato.
+[Consumo e limiti](../rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads).
+
+
+La CLIproduzione del complemento byte-property e68-d67 passa ora il primo
+prepare/reuse Wine:64generation66managedfile/63risorse/due dipendenze/tutti64uguali
+al dataset03, nessuna scrittura al riuso da cwdiversa. Primo buildWindows senza
+warning/frozen0c0f5082.. e canonicale hash+mtime ripristinati; main contenuto invariato.
+Un frame F09 autentico carica cache nativa precedente e usa1lettura/2B/1word nuova,
+positivo nel controllo di allegato; ordinaryfullscene ancora aperta.182activeguard/
+23compiledinput invariati; source/modello/runtime/vecchie scene chiusi senza replay.
+Nessuna fixture/navigazione/privatepayload/misura, altre piattaforme da verificare.
+[CLI](../rom_data_unit_obj.md#ui-byte-property-words-in-the-actual-production-cli).
+
+
+La scena dichiarata per il nuovo complemento byte-property è ora chiusa: un
+fullpairWine F09Wait3530 passa ogni frame fullstate-clock/central-wide/OAM/
+dispatch/tutti audio, 476letture/952Baggregati/4word nuove positive.
+Altre68word conservano prova lettore mirata. Un solo nuovo guard/report
+opzionale, primo buildWindows senza warning, 183activeguard/24compiledinput
+invariati. CLIoneframe già positiva, quindi nessun duplicatoCLI3530; vecchi
+normal/e67property scenechild e source/model/runtime/CLI chiusi senza replay.
+No fullUI/allocator/allwordordinary/new32:9 o altra piattaforma dichiarati;
+nessuna fixture/navigazione/privatepayload/misura performance-spazio.
+[Scena](../rom_data_unit_obj.md#ordinary-ui-byte-property-use-and-scene-equivalence).
+
+
+La lista UI selezionata dalla proprietà==16, `3950A4`, ha ora contratto fonte:
+48halfword/4literal/4BL e vecchie prove UI/lettore verificano quattro rami A4/B2,
+1F6C→1500 e stride6. Tutti63owner/fonti autenticati prima del payload. Un header2
+produce14B nuovi/twoobjects, SHA1f9cfc55a363c69dcf8422d47641705427d4291a3801ff1c7646bfb8bc5daa64;
+B2/14B già tipizzati sono alias esatto. Tre riferimenti aggiuntivi proiettano
+126refs/74liste175oggetti1198B nello stesso owner `graphics.obj-static-lists`,
+senza nuova famiglia/formato. Fonte chiusa, modello/pubblicazione/runtime/CLI/
+ordinary A4 pendenti; e68-d67/USAe8-d7 invariati. Nessuna vecchia campagna CFG/
+oracolo/scene ripetuta, build/guest/fixture/navigazione o misura.
+[Dettagli](../rom_data_obj.md#property-selected-ui-list-source-extension).

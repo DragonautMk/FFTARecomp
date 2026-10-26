@@ -2194,9 +2194,9 @@ Their 144 source bytes have SHA-256
 The words retain arbitrary u16 patterns; a 16/24-only interpretation would lose
 information. Shared bytes must keep their existing owners.
 
-This source contract is closed. The lossless model and focused Wine oracle are
-recorded below; managed/runtime integration, CLI and ordinary use remain pending.
-EUR e67-d66 and USA e8-d7 are unchanged. The known FFFF raw six bytes also remain
+This source contract is closed. The lossless model, focused Wine oracle and managed/runtime integration are
+recorded below, including actual CLI and declared ordinary scene validation.
+This source phase left EUR e67-d66 and USA e8-d7 unchanged. The known FFFF raw six bytes also remain
 unchanged. This source-only phase performs no build, guest test,
 fixture/navigation run, private payload edit or performance/storage measurement. Linux, USA, native Windows and new32:9 checks
 remain pending. Evidence:
@@ -2248,9 +2248,137 @@ source/model/runtime/ordinary acceptances are reused without replay. There was
 no failed build or test retry; a private runner syntax preflight was corrected
 before the first Wine launch.
 
-The model/oracle child is closed. Managed publication and typed runtime
-ownership, production CLI and ordinary use of the new complement remain
-pending. EUR e67-d66 and USA e8-d7 are unchanged. Linux, USA, native Windows
+The model/oracle child is closed. Managed publication, typed runtime ownership
+and actual CLI validation are recorded below. Equivalence for the declared
+ordinary scene is also recorded below; other ordinary coverage stays separate.
+This model phase left EUR e67-d66 and USA e8-d7 unchanged. Linux, USA, native Windows
 and new32:9 validation remain pending; no performance/storage measurement,
 fixture/navigation run or private gameplay payload edit occurs. Evidence:
 `target/rom-data-unit-obj-byte-property-words-model/`.
+
+
+## Managed UI byte property words and typed runtime reads
+
+EUR e68-d67 publishes `graphics.unit-obj-byte-property-words` in
+`unit-obj-byte-property-words.json`. The generation contains 64 files and
+63 resources, retaining all 62 previous resource records and 63 e67 files.
+Actual dependencies are `graphics.unit-obj-property-words` and
+`graphics.color-mode-palettes`. Their 184 shared words keep their existing
+owners; the new file owns only the four complementary ranges, 72 words/144B.
+USA remains e8-d7.
+
+The [immutable runtime owner](../crates/gba-core/src/rom_data/runtime/unit_obj_byte_property_words.rs)
+serves bytes from typed u16 fields. Its usage counters track bus reads, owned
+source bytes and unique word records; two u64 masks index the 72 record ordinals,
+not the sparse byte-input IDs. Page394 already belongs to the typed bus path.
+The original getters, comparisons, task setters, live inputs and clocks remain
+guest work. Reads crossing the new ranges combine with prior typed owners or
+raw ROM, and source addresses outside the four ranges retain their prior path.
+The width-derived byte window imposes no cap on the full-word getter. The
+separate known FFFF six-byte source classification remains unchanged.
+
+One affected Windows core/frontend test build passes without warnings. The core
+executable is compile-only; two new exact Wine filters pass on first execution
+in the [runtime tests](../crates/recomp/src/rom_data/unit_obj_byte_property_words_runtime_tests.rs):
+
+- Managed create/reuse/repair/move, interrupted publication, preservation of all
+  previous files/records and e67 generation, 17 transactional attach guards and
+  four full-set dependency guards. Failed attaches retain both the existing
+  owner and complete Machine state.
+- Load/Undo, backup recovery and restart retain the immutable owner after the
+  source directory becomes unavailable. Reading every altered raw source byte
+  still returns all 144 file-derived bytes and reaches all 72 mask records.
+  Shared actor-property and palette bytes keep their own counters.
+- Original, decoded interpreter and compiled paths produce equal complete
+  serialized state and guest clock for new getters, two UI caller prefixes,
+  mixed reads, full-word inputs and dynamic RAM. All 144 raw source bytes are
+  altered in the decoded arms, making accidental raw fallback observable.
+- Both edges of all four ranges pass byte/halfword/word reads, all three ROM
+  mirrors and real-BIOS bus mode. Mixed API reads count 2 new + 2 old property,
+  2 new + 2 palette and 2 new + 2 edited raw bytes. CpuSet counts 2 new + 4 old
+  property; FastSet 28 new + 4 old property; DMA 4 new + 2 palette bytes. The
+  SWI/DMA comparisons also check complete state and clocks.
+
+The native filter covers 22 paths and
+31 compiled source bytes. All 111 build and
+113 Wine input hash/mtime guards, with 23 compiled input preimages,
+remain exact. The frozen frontend is `d5ad2a0987d6b01095cdfe2d7905fd874c9309141737c45198ceb25185fad92e`.
+Manifest SHA-256 is `481120aa213bed9d6a1a2097423ce106ff5508b4cc362f9f59b9b34f6b7a6f24`;
+the dataset identity is `8df5077b9adb0032bdccd72c9457247b80346fbf3ca101c551a8f432b1b49320`.
+
+Source/model and previous-family acceptances remain closed without replay.
+These checks establish typed consumption and partial caller equivalence. Actual
+production CLI and declared ordinary scene validation are recorded below;
+full UI/allocator/actor ABI and broader ordinary coverage remain unproved. Linux, USA, native Windows and new32:9 remain pending. No
+performance/storage measurement, fixture/navigation run, private gameplay
+payload edit, Android change, packaging, commit or push occurs. Evidence:
+`target/rom-data-unit-obj-byte-property-words-runtime/`.
+
+
+## UI byte property words in the actual production CLI
+
+One changed Windows production build passes without warnings, frozen as
+`0c0f5082887fed66bd514d2084f8305b7dd60c50a9fa41ac04c02dd1a8d3a7a7`.
+The canonical executable is restored to its exact original hash and modification
+time. `main.rs` content stays unchanged; its modification time alone invalidates
+Cargo's cache after that restoration.
+
+The first actual Wine CLI prepare/reuse calls pass from an unrelated working
+directory. The CLI publishes 64 generation files/66 managed files and 63 resource
+records with the two actual dependencies. Every generation file equals the
+accepted runtime dataset. Reuse changes no managed file hash or modification
+time. The dataset is e68-d67, identity `8df5077b..`, generation `generation-HlcMpw`.
+All 182 active input-file hash/mtime guards and 23 compiled source inputs remain
+exact, including the original EUR F09 checkpoint, input and native cache.
+
+One frame from that authentic F09 checkpoint loads the existing native cache,
+attaches the new resource and observes 1 bus read/2 aggregate source bytes/1 word.
+This is positive use within an attachment smoke check. It does not establish
+complete ordinary scene equivalence or use of all 72 words; the separate declared
+scene comparison is recorded below. Source/model/runtime and prior scene acceptances remain closed
+without replay. No new fixture/navigation, private payload edit or performance/
+storage measurement occurs. Linux, USA, native Windows and new32:9 checks remain
+pending. Evidence: `target/rom-data-unit-obj-byte-property-words-cli/`.
+
+
+## Ordinary UI byte property use and scene equivalence
+
+The new ordinary criterion reuses authentic EUR F09, its existing input recording
+and native cache for 3530 frames spanning Wait and monster movement. Earlier
+normal-battle and e67 property scene children remain closed. These same inputs
+now address the newly migrated 144-byte owner, rather than repeat an accepted
+criterion for context. Actual production CLI first-frame use was already positive,
+so a duplicate 3530-frame CLI locator was unnecessary.
+
+Only a five-line optional positive-resource guard/report is added to the generic
+scene validator, under `FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_BYTE_PROPERTY_WORDS`.
+Existing guards/defaults and production code remain unchanged. The first changed
+Windows frontend test build passes warning-free, frozen
+`d320ef331d6b87a8125159170d8493f3417523db3e7a02031cec2d4b02470656`.
+The single new exact Wine fullpair passes all 3530 frames using e68-d67
+`generation-HlcMpw`, dataset `8df5077b..`.
+
+Every frame has equal complete serialized Machine state and guest clock,
+central/wide buffers, OAM, native/fallback dispatch counts and mixed/PSG/FIFO/HLE
+audio. All five audio streams have actual nonzero sample counts. The decoded arm
+observes 476 bus reads/952 aggregate source bytes/
+4 distinct words from the new owner. The other 68 words retain
+targeted reader coverage; this is not all-word ordinary coverage. All
+183 active scene input hash/mtime guards and 24 compiled input
+preimages remain exact.
+
+The declared ordinary positive-use/equivalence child is closed. Full UI/
+allocator/actor ABI, new32:9 and broader ordinary reachability remain separate.
+Linux, USA and native Windows checks remain pending. Source/model/runtime/CLI
+and old scene acceptances are reused without replay. The selected scene function
+has no timing/RSS cost calls; the cost test was not selected. No fixture/
+navigation, private gameplay payload edit or performance/storage measurement
+occurs. Evidence: `target/rom-data-unit-obj-byte-property-words-ordinary/`.
+
+
+The UI property's selected `3950A4`/`3950B2` lists now have a separate
+[counted OBJ source contract](rom_data_obj.md#property-selected-ui-list-source-extension).
+A4 contributes one unowned14-byte/two-object list; B2 is an exact alias of its
+existing typed view. Three additional conditional references are authenticated.
+Model/publication/runtime/CLI/ordinary integration of A4 remains pending; the
+property-word acceptances above stay closed.

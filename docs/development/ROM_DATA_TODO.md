@@ -3263,3 +3263,66 @@ Source/modello chiusi; managed-runtime/CLI/ordinary nuovi restano pendenti,
 e67-d66/USAe8-d7 invariati, Linux/USA/nativeWindows/new32:9 da verificare.
 Nessuna fixture/navigazione/privatepayload edit/misura performance-spazio.
 [Modello e limiti](../rom_data_unit_obj.md#typed-ui-byte-property-words-and-original-caller-validation).
+
+
+**ROMDATA-03-UNIT-OBJ-BYTE-PROPERTY-WORDS completato managed/runtime EUR (2026-10-26).**
+e68-d67 pubblica64file/63risorse, mantiene tutti62record/63file precedenti ed e67;
+USAe8-d7 invariato. Dipendenze reali propertywords/colorpalettes conservano184word
+condivise; nuovo owner solo72word/144B/quattro intervalli, bitmap per record.
+Un buildWindowscore/frontend senza warning; due nuovi filtri Wine al primo
+avvio passano17attachguard/quattro dependencyguard, create/reuse/repair/move/
+interruptedpublication, failed-attach owner+fullstate isolation e lifecycle con
+directory indisponibile. Tutti144B raw alterati restituiscono byte tipizzati,
+tutti72record usati. Original/interpreter/compiled: stato completo e clock uguali
+su getter, UI-prefix, fullword/liveRAM/mixed reads. Quattro bordi, width/mirrors/
+realBIOSbus/SWI/DMA verificati. API2new2property/2new2palette/2new2raw; CpuSet
+2new4property/FastSet28new4property/DMA4new2palette. Source/modello/oldproof chiusi
+senza replay; produzioneCLI e ordinary nuovi ancora da fare. Linux/USA/
+nativeWindows/new32:9 e fullUI/allocator/actorABI non dichiarati; nessuna fixture/
+navigazione/privatepayload/misura performance-spazio/Android/package/commit.
+[Runtime e limiti](../rom_data_unit_obj.md#managed-ui-byte-property-words-and-typed-runtime-reads).
+
+
+**ROMDATA-04-UNIT-OBJ-BYTE-PROPERTY-WORDS-ACTUAL-CLI completato EUR/Wine (2026-10-26).**
+Primo buildproduzioneWindows senza warning/frozen0c0f5082..; canonicale ripristinato
+hash+mtime esatti, main invariato nel contenuto/solo mtime per invalidare Cargo.
+Primi CLI Wine prepare/reuse da cwdiversa passano64generation66managedfile/
+63risorse/due dipendenze reali/tutti64 uguali al dataset03/riuso senza scritture.
+Un frame F09 autentico carica vecchiocachenativo e usa1lettura/2Baggregati/1word
+nuova: positivo nel controllo di allegato, equivalenza ordinary completa ancora
+aperta.182activehash-mtimeguard/23compiledinput invariati; nessun vecchio oracolo/
+scenechild ripetuto, fixture/navigazione/privatepayload/misura performance-spazio.
+e68-d67/USAe8-d7, Linux/USA/nativeWindows/new32:9 e altre famiglie separati.
+[CLI e limiti](../rom_data_unit_obj.md#ui-byte-property-words-in-the-actual-production-cli).
+
+
+**ROMDATA-05-UNIT-OBJ-BYTE-PROPERTY-WORDS-ORDINARY completato nel perimetro EUR/Wine dichiarato (2026-10-26).**
+F09Wait3530 riusa checkpoint/input/cache autentici per il nuovo owner e68; i
+vecchi scenechild normal/e67property restano chiusi. CLIoneframe già positiva:
+nessun secondo locatorCLI3530. Solo cinque righe di guard/report opzionale aggiunte
+al validatore generico; primo buildWindows senza warning e primo fullpairWine
+passano ogni frame stato completo/clock/central-widebuffer/OAM/dispatch/mixed-PSG-
+FIFO-HLEaudio, tutti cinque i flussi con campioni effettivi. Nuovo uso
+476letture/952Baggregati/4word; altre68word con prove lettore mirate.
+183sceneactiveguard/24compiledinput invariati. Nessuna ripetizione source/model/
+runtime/CLI/oldscene/costproof o fixture/navigazione/privatepayload/misura.
+Scenadichiarata chiusa; fullUI/allocator/actorABI/allwordordinary/new32:9 e
+Linux/USA/nativeWindows, unknown/changedactor/globalidentity/computedindirect/
+raw6B e altre famiglie restano aperti.
+[Scena e limiti](../rom_data_unit_obj.md#ordinary-ui-byte-property-use-and-scene-equivalence).
+
+
+**ROMDATA-01-UI-PROPERTY-OBJ-LIST-SOURCES completato contratto fonte EUR (2026-10-26).**
+Riutilizzati candidati CFG già registrati e prove getter/UI concluse. Quattro
+rami condizionali della proprietà u16==16 portano A4/B2→2AE26/1F6C→1500;
+48halfword/quattro literal/quattro BL verificano controllo, puntatore e stride6.
+Tutti63owner/file/fonti autenticati prima dei target: A4 conta2 oggetti e produce
+14B nuovi disgiunti, SHA1f9cfc55..; B2 conta2/14B e coincide col modello già posseduto,
+nessuna duplicazione. Bit packed/coordinate ricostruiti. Due riferimenti A4 e
+un alias B2 aggiungono tre record: proiezione126refs/74liste175oggetti1198B,
+produzione ancora123refs/73liste/e68-d67. Sourcechild chiuso; estensione modello e
+pubblicazione/runtime vanno accoppiate con cambio revisione perché Catalog alimenta
+Extraction direttamente. CLI/ordinary A4 ancora da fare, nessuna nuova famiglia
+necessaria. Nessun broadCFG/vecchio oracolo/build/guest/fixture/navigazione/misura.
+Linux/USA/nativeWindows/new32:9 e famiglie/indiretti globali restano aperti.
+[Contratto](../rom_data_obj.md#property-selected-ui-list-source-extension).

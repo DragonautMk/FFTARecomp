@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "date": "2026-10-26",
+  "slug": "extend-european-ui-property-obj-lists",
+  "title": "Authenticate European property-selected UI OBJ list sources",
+  "kind": "docs",
+  "platforms": [
+    "Windows"
+  ],
+  "changes": [
+    "Authenticate the four conditional property==16/other UI list roots into2AE26/1F6C/1500. The existing AE10/B2 reference is retained; AD6A/A4,AD90/B2 andADFA/A4 add three provenance records. Reuse existing CFG discovery rather than claim or repeat discovery.",
+    "Define one unowned14B/two-object A4list in the existing static OBJ format. Reconstruct the existing B2two-object14B typed alias exactly without duplicating ownership. Proposed totals126references/74lists175objects1198B; e68-d67production remains unchanged.",
+    "Keep catalog/model and versioned publication/runtime coupled for the next increment, since Catalog::from_rom directly feeds Extraction. Reuse existing List/Object model, runtime owner, format and dimension dependency; no standalone duplicate family."
+  ],
+  "validation": [
+    "Static producer authentication passes48halfword/fourliteral/fourBLpins for branches, rootloads, wrapper pointer preservation and original header/6Bsource-stride/8Boutput-stride/capacity paths. Closed680pin getterproducer and512originalUIprefix proofs reused without replay. Only one new narrow static draw-tail disassembly; no Linuxgame execution.",
+    "All63current resource files and source hashes authenticate before new target inspection. A4actualheader2 determines14B, SHA2561f9cfc55a363c69dcf8422d47641705427d4291a3801ff1c7646bfb8bc5daa64; zero owner overlap. Existing B2decoded view equals independent fields/bytes/SHA256d828f930fd443fbe842b1f7cdb76d736573c6ac8d08a5a6591d7cf204860b4ab. All coordinate/mode/transform/attribute bits roundtrip. No extent inferred from adjacency.",
+    "No old66/73-list/oracle/scene/broadCFG campaign, build, guest test, fixture/navigation/private payload edit or performance/storage measurement. The earlier conservative196caller CFG experiment and its truncations stay closed; this unit uses the newly authenticated concrete conditional flow.",
+    "Source closure: all385baseline source hashes show implementation unchanged; all74active input hashes/mtimes and576decoded local feature links pass. New private evidence ignored/untracked. Reuse12043closed private proof plus fresh all63owner authentication rather than a wholelegacyartifact campaign.",
+    "Project-memory default/basec41f969 and CRLF-aware whitespace checks pass. No implementation change or live task job; full ROM_DATA goal stays active."
+  ],
+  "limitations": [
+    "Source contract only. Catalog/model integration, revisioned publication/runtime/host, actualCLI and ordinary A4consumption remain pending. Current e68-d67/USAe8-d7 unchanged. No completeUI/globalindirect/catalogextent or liveguest cap claim.",
+    "Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. Userc41f969and uncommittede68runtime/ordinaryguard/docs preserved; no Android/package/assistantcommit/push/coverage work."
+  ],
+  "files": [
+    "docs/rom_data_obj.md",
+    "docs/rom_data_unit_obj.md",
+    "docs/development/ROM_DATA_TODO.md",
+    "docs/development/ROM_DATA_INVENTORY.md",
+    "docs/development/PROJECT_STATE.md"
+  ],
+  "references": [
+    "docs/rom_data_obj.md",
+    "docs/rom_data_unit_obj.md",
+    "docs/development/ROM_DATA_TODO.md"
+  ]
+}

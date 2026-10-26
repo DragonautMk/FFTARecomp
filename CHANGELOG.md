@@ -207,6 +207,33 @@ Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_scri
 
 [Change record](docs/changes/2026-10-26-extract-european-script-override-poses.json)
 
+## 2026-10-26 — Authenticate European property-selected UI OBJ list sources
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Authenticate the four conditional property==16/other UI list roots into2AE26/1F6C/1500. The existing AE10/B2 reference is retained; AD6A/A4,AD90/B2 andADFA/A4 add three provenance records. Reuse existing CFG discovery rather than claim or repeat discovery.
+- Define one unowned14B/two-object A4list in the existing static OBJ format. Reconstruct the existing B2two-object14B typed alias exactly without duplicating ownership. Proposed totals126references/74lists175objects1198B; e68-d67production remains unchanged.
+- Keep catalog/model and versioned publication/runtime coupled for the next increment, since Catalog::from_rom directly feeds Extraction. Reuse existing List/Object model, runtime owner, format and dimension dependency; no standalone duplicate family.
+
+**Validation**
+
+- Static producer authentication passes48halfword/fourliteral/fourBLpins for branches, rootloads, wrapper pointer preservation and original header/6Bsource-stride/8Boutput-stride/capacity paths. Closed680pin getterproducer and512originalUIprefix proofs reused without replay. Only one new narrow static draw-tail disassembly; no Linuxgame execution.
+- All63current resource files and source hashes authenticate before new target inspection. A4actualheader2 determines14B, SHA2561f9cfc55a363c69dcf8422d47641705427d4291a3801ff1c7646bfb8bc5daa64; zero owner overlap. Existing B2decoded view equals independent fields/bytes/SHA256d828f930fd443fbe842b1f7cdb76d736573c6ac8d08a5a6591d7cf204860b4ab. All coordinate/mode/transform/attribute bits roundtrip. No extent inferred from adjacency.
+- No old66/73-list/oracle/scene/broadCFG campaign, build, guest test, fixture/navigation/private payload edit or performance/storage measurement. The earlier conservative196caller CFG experiment and its truncations stay closed; this unit uses the newly authenticated concrete conditional flow.
+- Source closure: all385baseline source hashes show implementation unchanged; all74active input hashes/mtimes and576decoded local feature links pass. New private evidence ignored/untracked. Reuse12043closed private proof plus fresh all63owner authentication rather than a wholelegacyartifact campaign.
+- Project-memory default/basec41f969 and CRLF-aware whitespace checks pass. No implementation change or live task job; full ROM_DATA goal stays active.
+
+**Limitations**
+
+- Source contract only. Catalog/model integration, revisioned publication/runtime/host, actualCLI and ordinary A4consumption remain pending. Current e68-d67/USAe8-d7 unchanged. No completeUI/globalindirect/catalogextent or liveguest cap claim.
+- Linux/USA/nativeWindows/new32:9 checks remain pending. FullROMTODO/otherfamilies/unknownchangedactor/globalidentity/computedindirect/raw6Bmigration/mod prerequisites remain open. Userc41f969and uncommittede68runtime/ordinaryguard/docs preserved; no Android/package/assistantcommit/push/coverage work.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-extend-european-ui-property-obj-lists.json)
+
 ## 2026-10-26 — Consume European actor property words from managed decoded files
 
 Type: added. Platforms: Windows.
@@ -237,6 +264,43 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-consume-european-unit-obj-property-words.json)
+
+## 2026-10-26 — Publish and consume European UI byte property words
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish EUR e68-d67 with64files63resources and actual actor-property/colorpalette dependencies. Retain every62previous resource record/63files/e67generation and USAe8-d7. Export only72newwords144B;184shared words remain with their existing owners.
+- Serve immutable bytes from the typed u16 complement with72record-ordinal usage masks and source-aware composition of old/new/raw reads. Preserve original getter widths, comparisons, task setters, guest clocks and fallback outside the four declared spans.
+- Validate the actual EUR e68production CLI through create/reuse-no-write and authentic F09old-cache attachment; a first-frame1read/2B/oneword positive lead keeps ordinary scene equivalence explicitly pending.
+- Add only a five-line optional new-owner positive guard/report to the generic scene validator. Close declared F09Wait3530ordinary equivalence using existing authentic inputs; earlier normal/e67property scene children remain closed and actualCLIoneframepositive removes a duplicateCLI3530locator.
+
+**Validation**
+
+- First affected Windows core/frontend build passes warning-free. Core compile-only SHA2560a892f2cd5007cb871014d81afd4b4556c57b5a1e0ae93c492239d37ab744af4; frontendd5ad2a0987d6b01095cdfe2d7905fd874c9309141737c45198ceb25185fad92e. First two exact new Wine filters both pass;111build/113Wine hash-mtime guards/23compiled preimages exact. No failed build/test retry or accepted source/model/ordinary replay.
+- Managed create/reuse/repair/move/interrupted-publication,17transactional attachguards andfourfullsetdependencyguards pass. All62prior records/63files/e67 retained. Failed attach preserves owner+complete Machine state; directory-unavailable Load/Undo/backup/restart share owner. All144typed bytes/all72record mask indices pass with new raw sources altered; oldproperty andpalette owners retain shared reads.
+- Native/original/interpreter 22complete-state-clock paths pass,31compiled property bytes, all144rawB altered. FourUIprefixes/fullwordgetter/liveRAM/mixed reads andallfourrangeedges/widths/threemirrors/realBIOSbus pass. API2new2property/2new2palette/2new2editedraw; CpuSet2new4property/FastSet28new4property/DMA4new2palette, completeSWI/DMAstate-clock equal.
+- Accepted dataset8df5077b9adb0032bdccd72c9457247b80346fbf3ca101c551a8f432b1b49320, manifestSHA256481120aa213bed9d6a1a2097423ce106ff5508b4cc362f9f59b9b34f6b7a6f24; newmodelac6a296a97a3d27d77379086db8aecd61fc104d6f2dde6fda31a0e8bd53bf675 andsource9d1239cc29ec40185c1605aed84b4cf74cedbc21cc217c001efb8348407253f9 preserved. Source-plan ownership preflight verifies all new144B disjoint62oldowners and all mixed-width byte predictions.
+- Closure checks: all382baseline source hashes show only five selected integrations and two new modules; source/model/ordinary implementation unchanged. All113active Wine guards/23compiled preimages/567decoded local feature links pass. All64newgeneration files match manifest/source contract and independent dataset identity; new private output ignored/untracked. Reuse11550prior protected proof without wholelegacyrehash.
+- Project-memory default/basec41f969, rustfmt on the two new runtime/test modules only and CRLF-aware whitespace checks pass. Canonical production executable/cache/TinyCC remain unchanged under active guards. No live unit process or source/model/oldscene replay.
+- First new productionWindows build passes warning-free, frozen0c0f5082887fed66bd514d2084f8305b7dd60c50a9fa41ac04c02dd1a8d3a7a7. Canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720 exacthash/mtime1792570130397888519 restored; main content unchanged withmtime-only Cargo invalidation.
+- First actual Wine prepare/reuse/oldcacheoneframe calls all exit0 from unrelatedcwd.64generation/66managedfiles/63resources/twoactualdeps/all64equal03accepted/no-writehash-mtime reuse pass. Newgeneration-HlcMpw/dataset8df5077b.. attaches from authentic readonlyF09, uses1busread/2aggregateB/oneword; attachment smoke with positiveuse, no fullordinary/all72word claim. All182activeinput guards/23compiledsources exact; no source/model/runtime/oldscene replay or failedbuild-testretry.
+- CLI closure: all385baseline source hashes confirm implementation unchanged; all182activeCLI input hashes/mtimes/23compiledsources/569decoded local feature links pass. Main content/canonical hash+mtime exact, manifest481120aa../modelac6a296a.. match03. Earlier private/source/runtime/model proofs reused without11918legacyartifact campaign.
+- CLI-stage project-memory default/basec41f969 and CRLF-aware whitespace checks pass. No live job or implementation change; full goal remains active.
+- First changedguardWindowsfrontend build passes warning-free, frozensha256d320ef331d6b87a8125159170d8493f3417523db3e7a02031cec2d4b02470656. One new exact Wine fullpair passes every3530frame complete state/guestclock/central-widebuffer/OAM/native-fallbackdispatch/mixed-PSG-FIFO-HLEaudio; allfiveaudio streams nonzero. Newowner476busreads/952aggregateB/4words positive; other68words retain targetedreader coverage.
+- All183active scenehash-mtimeguards/24compiledpreimages exact. ExistingF09/input/cache/e68generation-HlcMpw preserved. Onlynewflag selected; no source/model/runtime/oldscene/costtest or CLI3530duplicate. Scene function has no Instant/elapsed/resident measurement calls; no fixture/navigation/privatepayload/performance/storage work.
+- Ordinary closure: all385baseline source hashes confirm only one exact five-line optional guard against retained preimage; every other implementation unchanged. All182CLI/183scene hash-mtime guards/24compiled input preimages/571decoded local feature links pass. New private evidence ignored/untracked;12003prior protected proof reused without wholelegacyrehash.
+- Ordinary-stage project-memory default/basec41f969 and CRLF-aware whitespace checks pass. No live unit job, failed build/test retry or source/model/runtime/CLI/oldscene acceptance replay. Full ROM_DATA goal remains active.
+
+**Limitations**
+
+- Source/model/managed/runtime/actualCLI and declaredF09ordinaryscene closed. Other68words retain targetedreader coverage only; no all72wordordinary/fullUI/allocator/actorABI/new32:9 or universalreachability claim. Generalgettercap/FFFFraw6B/unknownu16/changedactor/globalidentity/computedindirect remain separate.
+- Linux/USA/nativeWindows/new32:9 validation pending. No performance/storage measurement, gameplay fixture/navigation/private payload edit, Android change, packaging, assistantcommit or push. Userc41f969and earlier accepted work preserved.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-consume-european-ui-byte-property-words.json)
 
 ## 2026-10-26 — Publish and consume European conditional normal script poses with authenticated producer witnesses
 

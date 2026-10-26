@@ -504,6 +504,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         eprintln!("ROM_DATA_UNIT_OBJ_PROPERTY_WORDS_SCENE frames={} bus_reads={} source_bytes={} words_used={}",frames,i.bus_reads,i.source_bytes,i.words_used);
         assert!(i.source_bytes>0 && i.words_used>0,"ordinary scene must consume newly decoded actor property words");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_BYTE_PROPERTY_WORDS").is_some() {
+        let i=decoded.bus.rom_resources().unwrap().unit_obj_byte_property_words_stats().expect("decoded EUR UI byte property words");
+        eprintln!("ROM_DATA_UNIT_OBJ_BYTE_PROPERTY_WORDS_SCENE frames={} bus_reads={} source_bytes={} words_used={}",frames,i.bus_reads,i.source_bytes,i.words_used);
+        assert!(i.source_bytes>0 && i.words_used>0,"ordinary scene must consume newly decoded UI byte property words");
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UNIT_OBJ_INITIAL_POSE").is_some() {
         let i=decoded.bus.rom_resources().unwrap().unit_obj_initial_pose_stats().expect("decoded EUR unit OBJ initial pose");
         eprintln!("ROM_DATA_UNIT_OBJ_INITIAL_POSE_SCENE frames={} bus_reads={} source_bytes={} directory_bytes={} index_bytes={} sequence_header_bytes={} frame_bytes={} object_bytes={} pixel_bytes={} sequences_used={}",frames,i.bus_reads,i.source_bytes,i.directory_bytes,i.index_bytes,i.sequence_header_bytes,i.frame_bytes,i.object_bytes,i.pixel_bytes,i.sequences_used);

@@ -46,6 +46,7 @@ DESCRIPTIONS = {
     'unit-obj-script-registry-special.json': 'European conditional registry poses for exact known special-unit metadata and script witnesses; six previous owners, original tasks and DMA retained',
     'unit-obj-script-registry-generic.json': 'European conditional registry poses from exact direct generic-job fields and script witnesses; six previous owners, original tasks and DMA retained',
     'unit-obj-property-words.json': 'European raw actor property words from known normal/alternate metadata assignments; original allocation, task reuse and raw gaps retained',
+    'unit-obj-byte-property-words.json': 'European UI byte-input propertyword complement; existing actor-property and palette aliases retain their owners and original guest callers remain live',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-equipment.json': 'European item/action-rooted equipment poses, null cells, commands, OAM and decoded indexed tiles; original live tasks and DMA retained',

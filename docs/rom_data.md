@@ -8,9 +8,18 @@ original allocation/task reuse. First two focused Wine filters pass17attach+
 4full-set guards/lifecycle/all364typedB and16original/interpreter/compiled
 complete-state-clock paths with raw sources altered. Four range boundaries,
 widths/mirrors/real-BIOS bus, CpuSet/FastSet/DMA and mixed old/new/raw reads pass.
-Actual production CLI and ordinary positive use remain pending, along with
-new Linux/USA/nativeWindows/new32:9 checks. Source/model/earlier proofs stay
+Actual production CLI create/reuse63generation65managed/all63accepted/no-write
+and oneframeoldcacheattachment pass (newusage0/smokeonly). One new F09Wait3530
+ordinary CLI/fullpair now passes10reads/20aggregateB/twowords with everyframe
+state-clock-central-wide-OAM-dispatch-allaudio equality. Other180words retain
+targeted source-reader coverage; new Linux/USA/nativeWindows/new32:9 remain pending. Source/model/earlier proofs stay
 closed; no gameplay fixture, navigation or performance/storage measurement.
+
+The separate [UI byte property model](rom_data_unit_obj.md#typed-ui-byte-property-words-and-original-caller-validation)
+now covers the remaining72words/144B of the original LDRB input window, with
+184shared words from the two existing owners. One focused Wine caller-prefix
+oracle passes; managed/runtime/CLI/ordinary integration remains pending.
+The generation above is unchanged.
 
 EUR e66-d65adds [registry generic direct-job poses](rom_data_unit_obj.md#managed-registry-generic-direct-job-poses-and-typed-guest-reads):
 62files61resources, actual metadata52/archive and six previous typed-view

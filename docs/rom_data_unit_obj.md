@@ -1993,9 +1993,9 @@ is unowned: four disjoint source ranges total364B, with SHA-256
 There are139words equal0x0010and43equal0x0018; every u16bit remains explicit. Gaps stay
 raw, and no248-entry catalog extent is inferred from nearby roots.
 
-This source-contract child is closed. The strict model and reduced Wine oracle
-below also pass; managed/runtime/CLI/ordinary use remains next. EUR e66-d65and
-USAe8-d7are unchanged. No build, guest test, fixture,
+This source-contract child is closed. Model, managed/runtime, CLI and declared
+ordinary validation are recorded below. This source-only phase left EUR e66-d65
+and USAe8-d7unchanged. No build, guest test, fixture,
 navigation, private payload edit or performance/storage measurement occurs in
 this source phase. New Linux/USA/nativeWindows/new32:9 validation remains
 pending. Private evidence:`target/rom-data-unit-obj-property-words/`.
@@ -2029,9 +2029,10 @@ there is no full allocator/constructor/native/fullstate-clock/ordinary claim.
 All82build/83Wine active hash-modification-time guards and11compiled input
 preimages remain exact. Frozen test executable is
 `63f029a71393f1cbd2789eacdb14a5303f5c40b990b361151a45d8d85b4001b8`.
-No previous metadata/animation acceptance is replayed. EUR e66-d65/USAe8-d7and
-the production executable remain unchanged; managed/runtime/actualCLI/ordinary
-use and new Linux/USA/nativeWindows/new32:9 checks remain pending. No fixture,
+No previous metadata/animation acceptance is replayed. This model check left
+EUR e66-d65/USAe8-d7and the production executable unchanged. Managed/runtime,
+actualCLI and declared ordinary validation follow below; new Linux/USA/
+nativeWindows/new32:9 checks remain pending. No fixture,
 navigation, private payload edit or performance/storage measurement occurs.
 Evidence:`target/rom-data-unit-obj-property-words-model/`.
 
@@ -2078,8 +2079,178 @@ All84build/86Wine active hash-modification-time guards and20compiled inputs
 remain exact. The closed source/model oracle and earlier family acceptances
 are reused without replay.
 
-Actual production CLI and ordinary positive use remain pending, as do raw6B
+Actual production CLI and the declared ordinary scene are closed below. Raw6B
 migration, unknown/changed-actor/globalregistry conditions and new Linux/USA/
-nativeWindows/new32:9 validation. No gameplay fixture, navigation, private
+nativeWindows/new32:9 validation remain pending. No gameplay fixture, navigation, private
 payload edit or performance/storage measurement occurs. Evidence:
 `target/rom-data-unit-obj-property-words-runtime/`.
+
+
+## Actor property words in the actual production CLI
+
+One new Windows production build passes without warnings and freezes
+`2ce56e03d4ad675bbb41315a29e61bbc62f03a20ee825b4531f67a919a80e4ad`.
+The canonical executable retains its exact earlier hash and modification time;
+only the main source modification time invalidates Cargo's output assumption,
+with no content change.
+
+Actual Wine CLI preparation from an unrelated working directory creates63
+generation files/65managed files in EUR e67-d66. All63match the accepted managed
+dataset, including the two actual metadata52/metadata14dependencies. Preparation
+then reuses the same generation without changing any hash or modification time.
+The accepted dataset remains`dfd7f3e3..`, generation`generation-gpXTBA`.
+
+One frame from the authentic immutable EURF09checkpoint loads the existing
+native cache and attaches the new resource. Its bus/source/word counters are
+all zero: this is an attachment/compatibility smoke check. Declared ordinary
+positive use and scene equivalence are verified below. No earlier source/model/runtime
+or accepted scene is replayed, and no gameplay fixture is created. All154active
+CLI hash-modification-time guards and20compiled runtime inputs remain exact.
+
+Evidence:`target/rom-data-unit-obj-property-words-cli/`. Linux/USA/nativeWindows/
+new32:9, raw6Bmigration and the remaining unknown/changed-actor/globalregistry
+conditions stay pending. No performance/storage measurement or private payload
+edit occurs; USA stays e8-d7.
+
+
+## Ordinary actor propertyword use and scene equivalence
+
+The new propertyword criterion reuses the authentic EURF09snapshot, its existing
+Wait/movement recording and the old native cache. The earlier normal-battle
+scene remains closed; these inputs now exercise the newly migrated property
+owner in e67. No gameplay fixture, navigation or private payload edit is needed.
+
+One actual production CLI run over3530frames reads the new owner10times,
+20aggregate source bytes across two word records. The actual CLI generation is
+`generation-gpXTBA`, dataset`dfd7f3e3..`. A single optional positive-property
+guard/report is added to the shared scene validator; existing guards and default
+behavior are unchanged. One affected Windows frontend test build passes without
+warnings, frozen`a3e255e669b370852ab745cdb9678e8463cdff284db4ee6da37f505c18b9cb16`.
+
+The first exact Wine fullpair passes every one of the3530frames: complete
+serialized state and guest clock, central/wide framebuffer, OAM, native/fallback
+dispatch counts and mixed/PSG/FIFO/HLEaudio all match the original path. All five
+audio streams have nonzero samples. The decoded arm observes exactly the same
+10reads/20aggregate bytes/two words as the production CLI. All155active input-file
+hash-modification-time guards and21compiled input preimages remain exact.
+
+This closes ordinary positive use and equivalence for the declared scene. The
+other180words retain targeted source-reader coverage; this is not all-word
+ordinary coverage, a full allocator/actor ABI or a new32:9proof. Source/model/
+runtime and earlier-family acceptance are reused without replay. The cost test
+is separate and was not selected; the scene worker performs no timing/RSS cost
+capture. Linux/USA/nativeWindows, raw6Bmigration and unknown/changed-actor/global
+registry conditions remain pending. Evidence:
+`target/rom-data-unit-obj-property-words-ordinary/`.
+
+
+## Additional property getter callers and the UI byte-input window
+
+The retained direct-call census contains five calls to `080221C4`. The new
+source audit authenticates the four paths beyond the closed actor constructor
+path, with 680 halfword, 25 BL and 21 literal/control-flow fingerprints. It
+reuses that census instead of rebuilding it. No raw occurrence of the getter's
+ARM or Thumb address is found; this does not prove a complete computed indirect
+call graph.
+
+At `0A97A2`, `132B90` calls `233A8`, which obtains the normal `CF144` sprite;
+the output is stored and loaded as a halfword. At `0AA4B2`, `9B734` updates the
+actor using the already authenticated normal/alternate selection, and the
+caller loads actor+34 as a halfword. Both paths read the existing allocation
+through `22DFC` and supply the new property to `22DF4`. Thus these callers
+replace a task's property while retaining its allocation. The earlier
+`9ACF8` existing-task path instead retains its own property. Known concrete
+producer assignments alias the existing 182 words. Sentinel, unknown, changed
+actor and global reachability conditions remain separate.
+
+The other two calls are in `02AB98` state1. Both load context+1085 with `LDRB`.
+`02AD5E` requires context+1084 tag2; `02ADEE` requires tag1 and an animation byte
+other than 0, 12 or 16. They compare the unsigned property with 16 to select
+`083950A4` or `083950B2` for `01F6C`. This is a descriptor selection, separate
+from the actor allocation argument.
+
+The builder `02AAA0` stores the low byte of its second stack argument in that
+context field. Three direct builder callers obtain the normal `233A8` result
+and explicitly truncate it. The fourth uses `D0568`: a byte-indexed lookup at
+`08399750`, followed by `CBEC8` property4 and low-byte truncation. That producer
+lookup table and the two selected descriptors have no new source extent or
+export in this audit. Their further semantic domains remain separate.
+
+The two final `LDRB` operations independently bound their arguments to 0..255.
+The audit therefore selects the exact 256 halfword queries before target
+inspection. This covers the complete byte-input address window; it establishes
+neither a 256-entry sprite catalog nor ordinary gameplay reachability for every
+input. The general getter still accepts a full word without a new live cap.
+For example, byte truncation of FFFF selects input255, whereas the separate
+untruncated FFFF reader remains at `083B4C12`.
+
+All 62 current resource files and source hashes authenticate before the queries.
+There are 184 shared words: 182 from `graphics.unit-obj-property-words` and two
+from the four `graphics.color-mode-palettes` slice-offset bytes at `394E04`.
+Both typed views reconstruct their aliases exactly. The remaining 72 words
+need only four new ranges: `394CF4/2`, `394CFE/2`, `394D0C/128`, `394E08/12`.
+Their 144 source bytes have SHA-256
+`9d1239cc29ec40185c1605aed84b4cf74cedbc21cc217c001efb8348407253f9`.
+The words retain arbitrary u16 patterns; a 16/24-only interpretation would lose
+information. Shared bytes must keep their existing owners.
+
+This source contract is closed. The lossless model and focused Wine oracle are
+recorded below; managed/runtime integration, CLI and ordinary use remain pending.
+EUR e67-d66 and USA e8-d7 are unchanged. The known FFFF raw six bytes also remain
+unchanged. This source-only phase performs no build, guest test,
+fixture/navigation run, private payload edit or performance/storage measurement. Linux, USA, native Windows and new32:9 checks
+remain pending. Evidence:
+`target/rom-data-unit-obj-property-getter-callers/`.
+
+
+## Typed UI byte property words and original caller validation
+
+The [public model](../crates/gba-core/src/rom_data/unit_obj_byte_property_words.rs)
+stores only the 72-word complement of the authenticated byte-input window.
+Each record retains its input byte, source offset and complete u16 word. Strict
+JSON and validation reject unknown fields, missing fields, out-of-width values,
+wrong identities, count, order, source addresses and overlaps. The four ranges
+reconstruct all 144 new bytes. Structurally valid high words stay representable;
+source authentication rejects coherent edits to the base data.
+
+Shared validation requires the existing actor-property and Color-Mode palette
+models. Together the three owners cover exactly the 256 byte-input queries
+without overlap. The 184 shared word values are read from those dependencies,
+without duplicate stored copies. This is a byte-input address view, not an
+extension of the general getter's accepted ID range. The factory authenticates
+the exact EUR ROM, original getter/builder/UI code and source hash.
+
+One affected Windows frontend test build passes without warnings; the frozen
+executable is `627cd7f49daa71e593fa3fc472e750f4f51a0f97df1410fa728c6af7d1b83f5b`.
+One new exact [Wine filter](../crates/recomp/src/rom_data/unit_obj_byte_property_words_model_tests.rs)
+passes on its first execution:
+
+- All independent source fields, ranges and hashes, JSON roundtrip and 14
+  shape/source/shared-dependency guards. Shared value changes are resolved from
+  the dependency itself, demonstrating that the model has no duplicate copy.
+- Both original UI caller prefixes for every byte input: 512 prefixes read all
+  512 bytes of the window, including all 144 new and 368 shared bytes. The
+  selected descriptor matches the full unsigned comparison with 16.
+- Eight skip prefixes make no property read. Four synthetic u16 comparison
+  cases distinguish 16 from a high-bit word with the same low byte.
+- Four original builder writer prefixes preserve low-byte truncation. Six
+  prefixes of the two additional existing-task callers replace the property
+  while preserving the existing allocation word.
+- Entire EWRAM/IWRAM checks outside declared stack/context/task destinations,
+  with VRAM, OAM and palette guards.
+
+All 109 build and 110 Wine input hash/mtime guards, plus 13 compiled input
+preimages, remain exact. The accepted model JSON has SHA-256
+`ac6a296a97a3d27d77379086db8aecd61fc104d6f2dde6fda31a0e8bd53bf675`.
+These are partial original caller prefixes on fresh synthetic Machines, not a
+full UI/allocator/actor ABI, native clock or ordinary scene proof. Existing
+source/model/runtime/ordinary acceptances are reused without replay. There was
+no failed build or test retry; a private runner syntax preflight was corrected
+before the first Wine launch.
+
+The model/oracle child is closed. Managed publication and typed runtime
+ownership, production CLI and ordinary use of the new complement remain
+pending. EUR e67-d66 and USA e8-d7 are unchanged. Linux, USA, native Windows
+and new32:9 validation remain pending; no performance/storage measurement,
+fixture/navigation run or private gameplay payload edit occurs. Evidence:
+`target/rom-data-unit-obj-byte-property-words-model/`.

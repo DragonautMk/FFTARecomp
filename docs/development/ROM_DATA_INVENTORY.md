@@ -1603,7 +1603,33 @@ pubblica63file62risorse/metadata52-14dipendenze/all61precedenti-e66preservati.
 Primi dueWine passano17attach+4fullsetguards/lifecycle/364typedB/182maskrecord e
 16percorsi original-interpreter-compiled fullstate-clock con364rawBalterati.
 Quattrobordi/width-mirrors/realBIOSbus/SWI-DMA/mixednew-old-raw passano;84build/
-86Wineguards20compiledinputs invariati. CLI/ordinary ancora aperti, USAe8invariato.
+86Wineguards20compiledinputs invariati. CLIproduzionecreate/reuse63generation/
+65managed/all63accepted/no-write/oneframeoldcacheattach firstPASS(tutti nuovi
+contatori0/smokeonly),154activeguards invariati. Nuovo ordinaryF09Wait3530CLI/
+fullpair firstPASS10letture20Baggregati/dueword: ogniframestate-clock-central-wide-
+OAM-dispatch-allaudio uguale;155activeguards21compiledinputs invariati, altre180
+word ordinarytargetedonly. Guardpositivoopzionale, vecchioscenechild normal resta
+chiuso/nessun altroproof ripetuto. No fullallocator/new32:9claim, USAe8invariato.
 FFFFraw6B/altri input/changedactor/
 globalidentity separati, nessuna ripetizione oldproof/fixture/navigazione/misure.
 [Fonte e limiti](../rom_data_unit_obj.md#actor-property-words-from-known-sprite-assignments).
+
+
+Il contratto dei chiamanti aggiuntivi del getter proprietà OBJ copre ora anche
+l'intera finestra di input byte dei due LDRB UI:256 query scelte prima dei target,
+non un'estensione di catalogo o un limite del getter fullword. Builder e quattro
+percorsi mancanti autenticati con680halfword/25BL/21literal-controlflow pin.
+I due percorsi u16 aggiornano la proprietà conservando l'allocazione; per le
+assegnazioni concrete note riusano le182word. Tutti62 owner/file/fonti verificati:
+184 parole condivise (182 proprietà + due parole dai quattro offset palette),
+72 parole nuove/144B in394CF4/2,394CFE/2,394D0C/128,394E08/12,
+SHA9d1239cc29ec40185c1605aed84b4cf74cedbc21cc217c001efb8348407253f9.
+Nuovo complemento con source-contract e modello lossless/oracolo Wine chiusi:
+14guard,512prefissi UI/tutti512B,otto skip,quattro confronti high-u16,quattro writer
+byte e sei setter-prefix passano al primo tentativo. RAM fuori destinazioni e
+VRAM/OAM/palette verificate;109build110Wineguard/13compiledinput invariati.
+Le184word condivise provengono dalle due dipendenze senza copie duplicate.
+Managed-runtime/CLI/ordinary pendenti, e67-d66 e USAe8-d7 invariati. FFFFraw6B/
+unknown/changedactor/globalidentity/computedindirect restano separati; nessun
+oldproof replay/fullUI-native-clock/fixture/navigazione/misura.
+[Dettagli](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window).

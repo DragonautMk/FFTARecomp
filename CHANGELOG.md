@@ -215,6 +215,7 @@ Type: added. Platforms: Windows.
 
 - Publish graphics.unit-obj-property-words/unit-obj-property-words.json in EUR e67-d66 with actual metadata52andmetadata14producer dependencies:63files62resources, all61previous decoded files/resource records and e66retained, USAe8-d7unchanged.
 - Add one immutable typed runtime owner for exactly four ranges/364B/182u16records and398producer witnesses. Three u64masks index records; original getter/allocation/task reuse remain guest work. Preserve earlier owners, omitted112/117words, rawFFFF6B and fullword inputs without a live cap, pointer correction or raw overlay.
+- Add one optional positive actor-propertyword guard/report to the shared ordinary scene validator. Preserve existing guards/defaults and production runtime code; assert actual newfile consumption during the newly selected e67scene criterion.
 
 **Validation**
 
@@ -223,10 +224,14 @@ Type: added. Platforms: Windows.
 - Sixteen original/interpreter/compiled paths preserve complete states/clocks with all364raw source bytes altered, including getter, two partial actor prefixes, rawfullword/holes/liveRAM and21aggregatecompiled propertywordB. Allfourrange boundaries/widths/mirrors/realBIOS bus pass; mixedAPI2new2old and2new2editedraw, CpuSet4new2old, FastSet28new4old andDMA4new2old exact. No full allocator/actor ABI or ordinary claim.
 - DatasetSHA256dfd7f3e3e4cbf7d3cc9f7b5c3b0d74bb95e0179de01c8936878329b364000d57; manifest5203bc861fe0c24047aa42bab40cac0d91170e5828fd9facd48e2e290b955442; accepted modelbe429aaf9073f5dc811a0272d8d76da35badbc8d6b40ff08f727c2f276ca7bb7.84build/86Wine activehash-mtimeguards and20compiled input preimages remain exact. Functional source-page union394and oldalternate/raw/new mixed windows authenticated before tests.
 - Final376baseline source review limits existing implementation changes to five selected shared files, with five retained preimages and two new modules. All20compiled inputs and84build/86Wineguards remain exact;550decoded local feature links pass. Reuse closed02/newsource/earlier private proof without a whole11256artifact campaign. Concurrent user commitf425fc6of completed model work preserved; no assistant commit or coverage regeneration.
+- First Windows production CLI build passes warning-free, frozen2ce56e03d4ad675bbb41315a29e61bbc62f03a20ee825b4531f67a919a80e4ad; canonicalf3e277db.. hash andmtime1792570130397888519 restored exactly, main content unchanged withmtime-onlyCargo invalidation. FirstactualWineprepare/reuse from unrelatedcwd creates63generation/65managedfiles/62resources/twoactualmetadata52-14deps, all63equalaccepted; reuse changes no hash ormtime. AuthenticF09oldcacheoneframe attaches e67withnewbus/source/word usage0, smokeonly/no ordinary equivalence claim.154activeCLIhash-mtimeguards/20compiled runtime inputs exact; no oldsource/model/runtime/scene acceptance replay.
+- ActualCLIclosure confirms all379source hashes with implementation unchanged,154activeCLIhash-mtimeguards/20compiled runtime inputs/maincontent exact and551decoded local feature links. Reuse03/02/newsource/private proofs without a whole11363artifact campaign; no livejobs or oldacceptance replay.
+- First newordinary productionCLI F09Wait3530on existing authentic checkpoint/input/oldcache reads10times/20aggregateB/twowords. First changedguard Windows frontend test build passes warning-free/frozena3e255e669b370852ab745cdb9678e8463cdff284db4ee6da37f505c18b9cb16. First exact Winefullpair/newpropertyflagonly matches every3530complete-state/clock/central-widebuffer/OAM/dispatch/mixed-PSG-FIFO-HLEaudio frame, allfive audio streams nonzero, andexact10/20/2usage asactual2ce56e03.. CLI/generation-gpXTBA.155activeinputhash-mtimeguards/21compiledinputs exact; no failedbuild/testretry or newfixture/navigation. Oldnormal3530child remainsclosed; sameinputs serve newpropertycriterion, not context recreation or oldfamily/source/model/runtime/costproof replay.
+- Ordinaryclosure379source hashes show only one exact five-line optional propertyword guard/report against its preimage; allother implementation unchanged.154CLI/155scenehash-mtimeguards/21compiledinputs exact, all552decoded local feature links valid. Reuse closed04/03/02/newsource-private proofs without a whole11444artifact campaign. Usercommit4196542of completedruntime work preserved; no assistantcommit, fixture/navigation or coverage regeneration.
 
 **Limitations**
 
-- Managed/runtime acceptance closed; actual productionCLI and ordinary positive use remain pending. RawFFFF6Bmigration, unknown/changedactor/globalregistry reachability, broader families and full allocator/actor ABI remain separate.
+- Managed/runtime/actualproductionCLI and declared ordinary F09scene acceptance closed. Other180words retain targeted source-reader coverage; no all-word ordinary/full allocator-actor ABI/new32:9 claim. RawFFFF6Bmigration, unknown/changedactor/globalregistry reachability and broader families remain separate.
 - NewLinux/USA/nativeWindows/new32:9 validation pending; USAe8-d7 and canonical production executable unchanged. No performance/storage measurement or optimization, gameplayfixture/navigation/privatepayload edit, Android change, packaging, commit or push.
 
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
@@ -418,6 +423,39 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data.md](docs/rom_data.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-authenticate-european-registry-job-redirects.json)
+
+## 2026-10-26 — Decode European UI byte property words with original caller validation
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Authenticate the four remaining direct221C4caller argument flows alongside the retained9AD0Epath.0A97A2uses132B90/233A8/CF144u16;0AA4B2uses9B734/actor+34u16. Both supply new property through22DF4while retaining allocation, unlike9ACF8existing-task word reuse.
+- Authenticate two UI LDRB inputs, builder low-byte writes, actual tag/animation conditions and property==16 descriptor selection. Select all256byte-input halfword queries before targets without claiming a256spritecatalog, general getter cap or ordinary reachability.
+- Retain184shared words:182existing actor-property words and two words from the existing four palette slice-offset bytes. Define only the72-word/144B unowned complement in four disjoint ranges, with both existing owners as proposed model dependencies.
+- Add a strict lossless72word model of the unowned byte-input complement. Cross-validation with existing propertywords and colorpalettes closes exactly256queries without duplicate sources or copied shared values; original getter and task execution stay guest work.
+
+**Validation**
+
+- Static producer contract passes680halfword/25BL/21literal-controlflow pins, including original function entries, dispatch cells, widths and producer/consumer edges. Reuse completed five-call census SHA256d0adc2c28fdf84b70e981022f950edb0b97de364f9c4ba151b8385cb186dc297. No raw getter ARM/Thumb address occurrences; computed indirect call graph unproved.
+- All62current resource files and source hashes authenticate before256target queries. Existing property and palette models independently reconstruct all shared words. New ranges394CF4/2,394CFE/2,394D0C/128,394E08/12 total144B, SHA2569d1239cc29ec40185c1605aed84b4cf74cedbc21cc217c001efb8348407253f9; every rawu16 pattern retained.
+- Two private source-audit preconditions required correction: expected role spelling differed from accepted manifest, then the audit stopped for the existing palette owner at inputs248/249. Reviewed and retained both aliases rather than dropping queries or duplicating ownership. The preselected256-input domain did not change or depend on target word values.
+- No build, guest execution, fixture/navigation run, old acceptance replay or performance/storage measurement in this source-only unit. Original ROM, current resource generation and closed source/ordinary evidence remain read-only.
+- Source closure: all379baseline source hashes show implementation unchanged; all70active input hashes/mtimes and399decoded local feature links pass. Reuse closed ordinary/CLI/runtime/model/private proofs without an11481legacyartifact campaign. Project-memory default/base4196542and CRLF-aware whitespace checks pass.
+- First affected Windows frontend test build passes warning-free, frozen627cd7f49daa71e593fa3fc472e750f4f51a0f97df1410fa728c6af7d1b83f5b. First exact new Wine filter passes14shape/source/sharedguards,512originalUIbranchprefixes/all512readB, eightskip-prefixes with no property read, foursyntheticfull-u16comparisons, fourbuilderbytewriterprefixes andsixprefixes of the two additional existing-task setters. WholeRAMoutside declaredstack/context/task destinations plusVRAM/OAM/palette pass.
+- All109build/110Wineactive hash-mtime guards and13compiled input preimages remain exact. Accepted modelJSONSHA256ac6a296a97a3d27d77379086db8aecd61fc104d6f2dde6fda31a0e8bd53bf675. Existing182word/source/runtime/ordinary proof acceptances stay closed and are not replayed. No failed build/test retry; private Wine-runner syntax preflight corrected before the first guest launch.
+- Model closure: all380baseline source hashes confirm only two new modules and two exact hub insertions; the previous optional ordinary guard and all other implementation remain unchanged. All110active Wine guards/13compiled preimages/559decoded local feature links pass. New private evidence is ignored and untracked; earlier11481private proof is reused without a whole legacy rehash.
+- Project-memory default and base4196542, rustfmt on the two new modules only, and CRLF-aware whitespace checks pass. No live unit process, production executable/cache mutation, old acceptance replay or performance measurement.
+
+**Limitations**
+
+- Source contract and model/original Wine oracle closed for the new72words. Managed/runtime/CLI/ordinary consumption remain pending. EUR e67-d66 and USAe8-d7 unchanged. Prefixes do not prove fullUI/allocator/actorABI/native-clock or normal gameplay reachability.
+- The width-derived UI address window is not a sprite catalog extent or proof every byte input appears in normal gameplay. D0568producer table extent and selected descriptors remain separate sources. Unknown u16/sentinel/changedactor/globalidentity/computedindirect cases and knownFFFFraw6B remain separate.
+- Linux/USA/nativeWindows/new32:9 checks remain pending. No Android, packaging, private payload edit, commit or push. Concurrent user4196542and uncommitted ordinary guard/documentation preserved; coverage task stays closed.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-authenticate-european-obj-property-getter-callers.json)
 
 ## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
 

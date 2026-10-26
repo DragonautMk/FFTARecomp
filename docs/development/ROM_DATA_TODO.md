@@ -3198,3 +3198,68 @@ unknown-changedactor/globalidentity e Linux/USA/nativeWindows/new32:9 aperti.
 USAe8-d7invariato, nessuna gameplayfixture/navigazione/privatepayload o misura
 performance/spazio.
 [Consumo e limiti](../rom_data_unit_obj.md#managed-actor-property-words-and-typed-runtime-reads).
+
+
+**ROMDATA-04-UNIT-OBJ-PROPERTY-WORDS-ACTUAL-CLI completato EUR/Wine (2026-10-26).**
+Primo buildproduzioneWindows senza warning/frozen2ce56e03.., canonicale ripristinato
+hash+mtimeesatti/maincontenutoinvariato-mtime-onlyCargo invalidation. PrimiCLIWine
+prepare/reuse da cwdiversa:63generation65managed/62risorse/twodepsmetadata52-14/
+all63accepted/reusehash-mtimeinvariati. Un frame da F09autentico immutabile carica
+vecchiocachenativo e allega la risorsa, nuovi contatori bus/source/word tutti0:
+smokeonly, ordinarypositivo/fullsceneequivalence ancora aperti.154activeCLIguards/
+20compiledinputs invariati, nessuna ripetizione source/model/runtime/scene accettata,
+gameplayfixture/navigazione/privatepayload o misura performance/spazio. USAe8-d7,
+Linux/USA/nativeWindows/new32:9 e raw6B/unknown-changedactor/globalidentity separati.
+[CLI e limiti](../rom_data_unit_obj.md#actor-property-words-in-the-actual-production-cli).
+
+
+**ROMDATA-05-UNIT-OBJ-PROPERTY-WORDS-ORDINARY completato nel perimetro EUR/Wine dichiarato (2026-10-26).**
+Una nuova CLIordinary F09Wait3530sugli input/checkpoint/cache già autenticati usa
+10letture/20Baggregati/dueword del nuovoowner. Solo un guard/reportpositivo opzionale
+aggiunto al validatore generico; primo buildfrontendWindows senza warning/frozen
+a3e255e6.. . Primo fullpairWine con solonuovoflag passa ogniframestate-clock/
+central-widebuffer/OAM/dispatch/mixed-PSG-FIFO-HLEaudio; conteggi10/20/2 esatti come
+CLIproduzione2ce56e03../generation-gpXTBA/e67.155activehash-mtimeguards/21compiled
+inputs invariati, altre180word mantengono copertura source-reader mirata. Vecchio
+normal-battle3530child resta chiuso: stessiinput per nuovocriteriopropertyword,
+nessun source/model/runtime/oldfamily/costproof ripetuto o gameplayfixture/
+navigazione/privatepayload/misura performance-spazio. Scenadichiarata chiusa,
+non wholeallocator/actorABI/allwordordinary/new32:9; Linux/USA/nativeWindows,
+raw6B/unknown-changedactor/globalidentity e altre famiglie restano aperti.
+[Scena e limiti](../rom_data_unit_obj.md#ordinary-actor-propertyword-use-and-scene-equivalence).
+
+
+**ROMDATA-01-UNIT-OBJ-PROPERTY-GETTER-CALLERS completato come contratto fonte EUR (2026-10-26).**
+I cinque BL già censiti sono autenticati; ricostruiti i quattro percorsi mancanti
+con 680 halfword, 25 BL e 21 literal/control-flow pin. I due chiamanti u16 usano
+233A8/CF144 o 9B734 e aggiornano la proprietà con 22DF4 conservando l'allocazione;
+le assegnazioni concrete note riusano le 182 parole esistenti. I due chiamanti
+UI caricano context+1085 con LDRB e confrontano il risultato con 16 per scegliere
+un descrittore. Builder, troncamenti e condizioni tag/animazione sono verificati.
+Prima dei target è selezionata la finestra completa dei 256 argomenti byte,
+senza dedurre un catalogo256, un cap del getter o reachability ordinaria universale.
+Tutti62 owner/file/fonti autenticati:184 query alias (182 proprietà + due parole
+nei quattro byte palette) e72 parole/144B nuovi in quattro intervalli disgiunti,
+SHA9d1239cc.. . Entrambe le viste condivise sono ricostruite; nessuna query scartata
+o duplicazione. Sourcechild chiuso; modello lossless72word e oracolo Wine sono
+chiusi nel punto seguente. Runtime/CLI/ordinary restano da fare.
+Nessun build/guest/fixture/navigazione/misura; e67-d66/USAe8-d7 invariati.
+FFFFraw6B, u16 ignoti/changedactor/globalidentity/computedindirect e Linux/USA/
+nativeWindows/new32:9 restano separati e aperti.
+[Chiamanti e limiti](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window).
+
+
+**ROMDATA-02-UNIT-OBJ-BYTE-PROPERTY-WORDS completato modello/oracolo EUR/Wine (2026-10-26).**
+Nuovo modello lossless delle sole72word/144B; identità inputbyte/source/u16,
+quattro intervalli e JSON rigorosi. Le due dipendenze propertywords/colorpalettes
+forniscono184word senza copie duplicate: copertura esatta della finestra byte256.
+Un buildfrontendWindows senza warning e un nuovo filtro Wine al primo tentativo
+passano14guard,512prefissi UI originali/tutti512B letti,otto esclusioni senza
+getter,quattro confronti u16 sintetici,quattro writer lowbyte e sei prefissi dei
+due setter aggiuntivi. RAM intera fuori scratch/destinazioni e VRAM/OAM/palette
+verificati.109build110Wineguard/13compiledinput invariati, modelloSHAac6a296a..
+Nessun vecchio test ripetuto o fullUI/allocator/native-clock/ordinary claim.
+Source/modello chiusi; managed-runtime/CLI/ordinary nuovi restano pendenti,
+e67-d66/USAe8-d7 invariati, Linux/USA/nativeWindows/new32:9 da verificare.
+Nessuna fixture/navigazione/privatepayload edit/misura performance-spazio.
+[Modello e limiti](../rom_data_unit_obj.md#typed-ui-byte-property-words-and-original-caller-validation).

@@ -528,9 +528,31 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   exactWinefilters pass17attach+4fullsetdependencyguards/lifecycle/364typedB/
   182recordmask and16original-interpreter-compiled fullstate-clock paths with
   all364rawB altered. Fourrangeedges/widths-mirrors/realBIOSbus/SWI-DMA/mixed
-  new-old-raw pass;84build86Wineguards20compiledinputs exact. CLI/ordinary pending,
+  new-old-raw pass;84build86Wineguards20compiledinputs exact. ActualproductionCLI
+  create/reuse63generation65managed/all63accepted/no-write/oneframeoldcacheattach
+  firstPASS(allnewusage0/smokeonly),154activeCLIguards exact. One newordinary
+  F09Wait3530CLI/fullpair nowfirstPASS10reads/20aggregateB/twowords; everyframe
+  fullstate-clock-central-wide-OAM-dispatch-allaudio equal, remaining180words
+  targetedonly.155activeguards/21compiledinputs exact; optionalnewpositiveguard,
+  oldnormal-scenechild remainsclosed/no otherproof replay. No fullallocator or
+  new32:9claim. Ordinarydeclaredsceneclosed,
   USAe8unchanged. No oldproof replay/gameplayfixture/navigation/performance measurement;
   FFFFraw6B/globalidentity/changedactor separate.
+- The [additional property getter callers](../rom_data_unit_obj.md#additional-property-getter-callers-and-the-ui-byte-input-window)
+  have a source contract for all five retained direct calls. Two additional u16
+  paths update the task property while retaining allocation; their known concrete
+  assignments alias the existing182words. Two UI callers use a byte input to
+  select a descriptor. Their exact256-query width window shares182property words
+  and two palette-offset words, leaving72newwords/144B in four disjoint ranges.
+  All62current owners authenticate; no256catalog extent, livegettercap or universal
+  ordinary reachability is inferred. The new lossless72wordmodel and firstWine
+  filter pass14guards/512UIprefixes/all512readB/eightskips/fouru16comparisons/
+  fourbytewriters/sixadditionalsetterprefixes/wholeRAMoutside destinations plus
+  VRAM/OAM/palette guards.109build110Wineguards/13compiledinputs exact; no fullUI/
+  allocator/native-clock/ordinary claim. Runtime/CLI/ordinary remain pending;
+  e67-d66/USAe8-d7 and FFFFraw6B unchanged. No fixture/navigation/performance
+  measurement or old acceptance replay. Unknown u16, changed actors and computed
+  indirect calls remain open.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

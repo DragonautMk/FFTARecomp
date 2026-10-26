@@ -208,6 +208,8 @@ mod unit_obj_normal_battle_model_tests;
 #[cfg(test)]
 mod script_special_normal_model_tests;
 #[cfg(test)]
+mod script_special_alternate_model_tests;
+#[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]
 mod color_mode_palette_model_tests;

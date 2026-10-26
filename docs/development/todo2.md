@@ -10,7 +10,13 @@ save icon
 
 more saveslots
 
+more party slot
+
+new class: monster kid (riceving an attack from a monster unlock that transformation in that monster. In can learn transformation from blu mage, and can teach skill to blumage)
+
 cinema mod, every scene in order or selectable. with auto skip text
+
+let unit play animation during battles, for fun and other debug feature like sprite swap, name changer and other stuffs. (Secret character and classes usable or addable.)
 
 text effect to simulate speach
 

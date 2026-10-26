@@ -60,6 +60,7 @@ pub mod unit_obj_initial_pose;
 pub mod unit_obj_equipment;
 pub mod unit_obj_normal_battle;
 pub mod unit_obj_script_special_normal;
+pub mod unit_obj_script_special_alternate;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;
 mod custom_lz;

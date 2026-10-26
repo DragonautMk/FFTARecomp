@@ -1440,3 +1440,22 @@ transfers and2new2rawAPI preserve exact charges. No oldcommands/source/census/
 scene repeat. ActualproductionCLI58generation60managed/all58matchaccepted/no-write
 reuse and oneframeoldcacheattachment pass; zero newuse/smokeonly. Ordinarysource/
 newpixel and newLinux-USA-nativeWindows-32:9pending, without measurements. [Managed runtime](../rom_data_unit_obj.md#conditional-script-special-normal-managed-runtime).
+
+
+New actuale62ordinary locators distinguish typednull-source use from pixels:
+Snow6000reads48newindexB/zero sequences-pixels; retainedRIVERstart618reads0newB.
+No fullpair/guardbuild/oldcensus repeat. Newseven-sequence static81snapshot scan
+finds no matching task; program159contains a producer but actualtrigger remains
+unproven. Ordinarynewsequence/pixel/equivalence staysopen, original/cart inputs
+preserved and no performance/otherplatform work. [Evidence limits](../rom_data_unit_obj.md#script-special-ordinary-source-locators-and-remaining-pixel-gate).
+
+
+Il ramo script-special alternate ha ora una proiezione fonte separata sui
+medesimi151riferimenti/20witness lowselector, half06metadata14e assegnazione
+originale alternate corrente con override20clear.84celle/68null/14sequenze64frame,
+9048Btotali; nuovi20span816B=216index8header80frame512pixel, resto8142alternate+
+38initial+52normal. Modello offline/buildWindows warning-free/unico Winefilter passano19guardie,
+108constructor prefixes/52null+2proper resets/two realDMAuploads e512pixelB/
+interaVRAM esatti; avvioWine sandbox iniziale prima del test conservato, retry
+stessabinaryPASS. e62-d61runtime invariato. Ordinarynewpixel/high16/override/currentstate
+restano espliciti. [Contratto](../rom_data_unit_obj.md#conditional-alternate-script-special-source-and-typed-model).

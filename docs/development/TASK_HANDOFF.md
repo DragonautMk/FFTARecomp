@@ -6,16 +6,25 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- **GODOT-FRONTEND-ASSESSMENT — selected, plan only (2026-10-26).** Latest
-  user steering supersedes the prototype request: evaluate/document a TODO,
-  finish ROM extraction first, and identify prerequisites; no development now.
-  Initial own untracked Rust scaffold is being removed; no Godot install,
-  extension build or app/extraction mutation occurred. Next read current runtime
-  boundaries and produce a deferred evaluation/TODO with explicit blocking
-  versus adoption-only criteria. The existing core library is reusable, while
-  native dispatch and application lifecycle remain private binary modules.
-  Do not resume prototype implementation or perform builds/downloads/benchmarks.
-  Preserve concurrent extraction work and all earlier completed units.
+- **GODOT-FRONTEND-ASSESSMENT — planning complete, implementation deferred
+  (2026-10-26).** Latest user explicitly requested evaluation/TODO only and ROM
+  extraction first. docs/development/GODOT_FRONTEND_TODO.md records assessment,
+  GD00..GD05 prerequisites/gates and a later decision; linked from ROMTODO and
+  durable state. All five initial own scaffold files removed; no experimental
+  project/code remains. No Godot install/binary download/Cargo build/gameplay or
+  benchmark occurred. Machine is reusable, but full native dispatch/dataset/
+  application lifecycle still needs a shared boundary before native parity;
+  an interpreter-only transport proof is a different, smaller future scope.
+  Source/UI/clock/audio/save contracts and isolated build/storage must be
+  planned. Mods/all DS cases/USA/Android/ROM independence are not automatically
+  prerequisite gates for a first EUR proof. Development must be selected again
+  explicitly after ROM priority; do not resume from the superseded prototype
+  request or turn unchecked plan items into active extraction tasks.
+  All7protected Cargo/lock/extraction-script/executable/ROM/DS20 hashes unchanged,
+  8local plan links, project-memory and whitespace pass. No task job running,
+  implementation action, commit or push. Assessment-only baseline/check evidence
+  under ignored target/godot-frontend/. Concurrent extraction and prior DS20
+  work preserved. [Record](../changes/2026-10-26-assess-and-defer-godot-frontend.json).
 
 - **DEBUG-SAVES-DS20-USER — complete (2026-10-26).** New user root
   slot-4.ffstate is the wanted EUR failed-dispatch precursor: Left/A confirms
@@ -64,20 +73,25 @@ An open parent never reopens completed children or rejected experiments.
   coverage action, personal-save mutation, commit or push. Memory/whitespace
   checks pass. [Record](../changes/2026-10-25-refresh-rom-coverage-and-prepare-inputs.json).
 
-- **ROM-DATA-FULL-EUR — active (2026-10-25).** Execute the full ROM_DATA_TODO;
+- **ROM-DATA-FULL-EUR — active (2026-10-26).** Execute the full ROM_DATA_TODO;
   EUR focus, new functional tests Wine only; Linux/USA/nativeWindows/new32:9
   pending, no performance/storage measurements or space-budget optimization.
-  User explicitly authorizes private local checkpoints through normal game
-  commands from copiedEURstates, originals/cartridge saves unchanged; historical
-  equipment review refusal is superseded. Latest increment closes conditional
-  script-special normal source/model/single new sourceWine and equipment
-  ordinary-positive500fullpair (Polly→Hildegard copiedF09). No oldoracle/negative/
-  scene/build replay. Both latest work units and memory/preservation are closed;
-  no livejobs. Conditional script-special normal managed/runtime now passes
-  EUR e62-d61/58files57resources, prior e61 retained/USAe8-d7 unchanged. Next new
-  selection is05ordinary source/newsequence use for e62; actualproductionCLI
-  create/reuse58generation60managed and oldcacheattachment are now closed. Unrelated completed Debug-save/Docker work
-  remains closed. See tail for terminal evidence and next criterion.
+  Explicit private copied-EURcheckpoint authorization persists, originals/cart
+  unchanged; historical equipment refusal is superseded. Conditional normal
+  source/model/e62managed-runtime/actualCLI and equipmentFight500 fullpair stay
+  closed. New Snow6000observes48typednullindexB; RIVER618zero newuse/81newsequence
+  snapshot reads negative, all closed/no unchanged retry. Ordinary newsequence/
+  pixel/fullscene gate remains open. Independent alternate script-special
+  source/model now closed:151refs/20logical witnesses/84keys/20new spans816B,
+  one new Winefilter19guards/108constructor aliases/52null+2proper resets/two
+  DMAuploads512pixelB/wholeVRAM exact; initial sandbox startup failed before the
+  test, same frozen binary then passes. Preservation/memory/finalmaps closed,
+  no livejobs. Next select03managed/runtime for this accepted model, actual five
+  source dependencies; no source/model/original54cell/DMA acceptance replay.
+  Productione62-d61/58files57resources and USAe8-d7 unchanged; high16/42-230/
+  changed-currentactor and other ordinary criteria remain open. Completed user
+  DS20/Godot assessment/coverage tasks remain closed. See tail and
+  [record](../changes/2026-10-26-extract-european-script-special-alternate-poses.json).
 
 - **ROM-COVERAGE-DOCKER — complete (2026-10-24).** Latest request implemented:
   Bash/PowerShell launchers build/run Dockerfile.linux coverage target, bundling
@@ -7191,3 +7205,223 @@ any guardbuild/fullpair. Do not closepixelcriterion for null-only. No source/
 model/native/CLIprepare/oneframesmoke/3530/500 repeat, newnavigation, rawstate/
 HP/PC edits, metrics or otherplatform run. Evidence target/rom-data-script-special-
 ordinary/. Preserve alloriginalstate/input/cart/cache/TCC/canonical/datasets.
+
+
+**Snow locator live57605 — parallel cheap fixture-lead read selected.**
+Currente62ordinary6000locator still selected; no secondgame process/build planned.
+Missingordinarynewsequence/pixel evidence has a concrete new target: accepted
+model's sevennew proper bodysequences for43/(136,137,180,181),45/41,47/(136,137).
+Old81snapshot scan was for606alternate sequences, not these seven. Newread-only
+inspection may reuse that frozen filelist+authenticated envelopes/task-layout
+formulas against these exactsevennewtargets, validating bodytask/sprite/anim/
+header/currentframe/unit-context links. This is a different source-family lead,
+not rerunning unchanged alternateaudit or guestacceptance. No payload/state edits
+or newfixture; any enablednewtask is only candidate until actualWineconsumption.
+Preserveconcurrent Godot/DS20source and no old fullpair/censusrepeat.
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-SNOW-LOCATOR — declared locator closed.**
+Wine57605singleactuale62Snow6000terminalPASS/originalguardsintact:48newindexB,
+zero newheaders/frames/OBJ/pixels/sequences. Confirmsordinarytypednull-source use,
+not newsequence/pixelcriterion. No guardbuild/fullpair selected for thisnull-only
+case; do notrepeatunchanged6000. Newseven-sequence read-only81snapshot scan also
+terminalnegative(noenabledordormantmatchingtasks), old606alternate auditunchanged.
+No morecurrentgameprocess. Missingnewpixelordinary has a concreteproducerlead:
+metadata14selector2→43/group34and45,selector3→45/group10,selector4→47/group34,
+56archiveprograms contain these exactnewsequence witnesses. Nextcheapcandidate
+read of current scriptcontext(+0signedcursor/+8manager/+Cprogram, original1265cc/
+125ac8instructions) in retainedRIVERdeployment snapshots mayfind a future exact
+producer, rather than blindrecording or allspriteproduct. Candidateonlyuntil
+actualordinaryWineconsumption; no state/payload/PC edits, guesttest/build or
+accepted63boot-context/81alternate/6000census/scene repeat. ConcurrentGodot/DS20
+work preserved. FullTODOactive, newsequence/pixelordinary stillopen.
+
+
+**Selection checkpoint — ROMDATA-05-SCRIPT-SPECIAL-BATTLE-END-LEAD (2026-10-26).**
+Snowlocator48index/null-only and81newsequence taskchecks closed/no repeat; no
+newpixelordinary evidence yet. Cheapprogram mapping authenticates generic bank60
+slot8/key169/program159 with exactselector2group34face0sourceBAD829→43/base136/
+newsequenceA979C0; retainedRIVERdeploymentctxprogram158has no futureproducer, so
+no blinddeployment replay. Existing DS20No contact images show an ordinary EUR
+battle after canceling flee; this is a new potential ending path, not DS20
+failed-return acceptance. Select one copied normally-derived DS20No step7state
+(FFTA-ST1/EUR/payload checks pass) for short ordinary B/menu observation and
+possible normal completion. LatestuserexplicitnormalcopiedEURcheckpointapproval
+covers this derivation. No rawHP/status/PC/payload edits, no original/cartwrite/
+standardSave/cache rebuild; allnewstates/images privateunder selectedordinarydir.
+Frozen reviewed replay.exe52e8e5ed.. reused; do not touch concurrentGodot/DS20
+records or originals. Need actualending+typedpixel consumption before guardbuild/
+fullpair; program-key lead alone is not victory/reachability proof. No source/
+model/native/census/oldscene/performance/otherplatform test repeat. FullTODOactive.
+
+
+**Battle-end lead corrected/diagnostic child closed.**
+DS20copiedcancelled-state B44Wine56130exits0/two normalstates22902/22942, visual
+PollyMove/Action/Wait/Status; no source-use/pixelproof and no battlecompletion
+selected. Originals/cart guarded; do not resumeDS20acceptance or repeatBprobe.
+The earlier "ending" label forprogram159was provisional, not proven. Cheap
+retaineddeployment contact shows actualStart→"Vuoi iniziare la battaglia?"→
+"VITTORIA/SCONFIGGI TUTTI" intro→field across deploy-stage8/start0..5. Thusp158
+return4followedp159return5fits the **battle-start** transition, not a need to win.
+ExactnewproducerBAD829/group34inprogram159remainsproven; actualexecution pending.
+
+**Selection checkpoint — ROMDATA-05-SCRIPT-SPECIAL-RIVER-START-LOCATOR.**
+Missingordinarynewsequence/pixel use nowhasconcrete retainedbefore/afterstates+
+normalrecorded6step startscript, no blindnavigation/newfixture needed. Nextone
+actuale62CLI618frames from immutable river-deploy-stage8 with exactequivalent
+Start6/release150/A6/release150/A6/release300 (recorded script source frozen).
+Changedfamily/consumer criterion, not a repeat of oldpalette/otherfamily scene
+acceptance. Need positive newpixel+sequencecounts before guardbuild/fullpair;
+classifyzero honestlyotherwise, no unchangedretry. Frozen6455958e.. actuale62
+58filedataset/oldcache; originalstate/input/script/cart/TCC/canonical/datasets
+protected. No moreDS20gameplay/HP/status/PC edits/source/native/census/performance/
+otherplatform work. ConcurrentGodot andDS20memorypreserved; fullTODOactive.
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-RIVER-START-LOCATOR — terminalnegative/closed.**
+Wine31133exactretainedstart618exits0/allguardsintact, zero newsource/sequence/pixel.
+Primaryarchiveusage only5B/twoopcodes/oneprogram; itfinishes158deployment, not a
+proven159producer path. Read-onlyselectedkey2192 stays168through existing six
+first-turn snapshots, gate219C0/manager0 afterdeployment; no blindwait/retry.
+Program159"battle-start" interpretation was provisional and is not established;
+its49sourceBAD829is proven but actualtrigger remains unresolved. 12547A reads
+**selected**key2192, 09BE8queuesa key at2194; old queue-key report label does not
+prove a future169queue. AdditionalBL/literal inspection is a selection aid only,
+no new sourcecontract or guestexecution accepted. DS20copiedB44observation stays
+closed; no enabledselector2bodytask there. RIVER/F09do have currentnormal43/
+override20clear, but no currentnewsequence in frozenstates. No moregameprocess.
+
+Declared05increment delivers actualordinarynull-source use48indexB/Snow6000,
+not fullscene equivalence/newpixels. Do not lower remainingnewsequence/pixelgate
+or run broad/fullpair onzero/null-only cases. Next memory/preservation closure,
+then independent remaining low-selector **alternate** sourceproducer projection
+is available: same151archive refs/20selector-base witnesses, originalCF180half06
+underactualalternate-selection/currentassignment/override20clear conditions.
+Audit it against all57e62owners with exactrole/target/extent classification before
+model/build/guest. No allspritecrossproduct/pruning. This advances unfinished
+sourcecoverage while pixelordinary remains explicitlypending, notblocked or
+complete. ConcurrentGodot/DS20work stays untouched; all userconstraints unchanged.
+
+
+**Selection checkpoint — ROMDATA-05-SCRIPT-SPECIAL-ORDINARY-CLOSURE (2026-10-26).**
+Latest fullTODO/EUR/Wine-only/no performance-space request and explicit local
+checkpoint authorization persist. Snow6000/RIVER618/DS20B44 terminal results
+are already recorded; no guest/build rerun selected. CurrentHEAD f88cc84 now
+contains accepted e62 implementation and completed userDS20record; concurrent
+Godot work is now a deferred planning-only assessment, preserved as found.
+Missing deliverable is the final ordinary-increment preservation/source maps
+and cheap memory checks, whose previous output was truncated. Next compare
+9253 prior artifact hashes, three locator/navigation guards and 348 source
+preimages, then record exact outcomes/final maps. This closes documentation/
+preservation only; ordinary newsequence/pixel/equivalence remains open.
+
+
+**ROMDATA-05-SCRIPT-SPECIAL-ORDINARY-CLOSURE — closed.**
+9253prior artifact hashes/1213Snow+1214RIVER+1230navigation exacthash-mtime
+guards intact; all implementation sources unchanged across348baseline files.
+Default+baseea17e92memory and CRLF-whitespace pass. Final ordinary maps under
+target/rom-data-script-special-ordinary/ retain9286private artifact hashes; no
+livejobs. Only ordinary nullindex-use gate advanced; newsequence/pixel/fullscene
+equivalence remains open, all negative locators closed/no unchanged repeat.
+
+**Selection checkpoint — ROMDATA-01-SCRIPT-OBJ-SPECIAL-ALTERNATE-PAIRS.**
+Latest fullTODO/EUR/Wine-only/no performance-space request unchanged; explicit
+normalcopied checkpoint authorization persists but no fixture is selected.
+Missing independent source contract: same151low-script49 references/20logical
+selector-base witnesses projected through CF180 metadata14half06. Conditions
+selected BEFORE inspecting targets: resolvednonnull lowselector matches unit4;
+current actor retains same-unit actual alternate9B734/233D8/CF180assignment;
+override20clear; facing0..3 with original0/3and1/2aliases. No claim of everyactor
+reachability/currentassignment, no high16/42-230 or unrelated stream coverage.
+Next one new static exactprojection audit against all57e62owners, explicit
+null/sequence/shared-index-root classification/count-derived extents/role
+overlap and originalinstruction fingerprints. Reuse acceptednormal script
+reference evidence without rerunning its audit or guesttests. No allsprite
+product/countcap/pruning/terrainname inference. Source-only first; model/runtime/
+actualCLI/Wineoracle selected separately if new source exists. Concurrent
+Godot deferredassessment/userDS20docs preserved. Evidence target/rom-data-script-
+special-alternate-poses/. FullTODO and ordinarypixel criteria remain open.
+
+
+**ROMDATA-01-SCRIPT-OBJ-SPECIAL-ALTERNATE-PAIRS — source child closed.**
+New exact conditional audit and31halfword/one literal/sixBLfingerprints pass,
+all57e62owners authenticated. Same151refs/14logicalIDs/20producer witnesses
+yield14sprite-base pairs across188/231/232/234,84cells68nulls,14sequences64frames,
+4OBJlists20objects and26pixelrequests7232B. Full9048Bhash52ba9bc2..; shared
+8142alternate+38initial+52normalB, no mixed item/conflict/sharedroot target/
+varying extent. New20spans816B=216index8header80frame512pixel:54cells52nulls,
+2sequences/four op1frames/two pixelrequests. Sourcehash029ff8a0.. . No guest
+run/build/production revision changed; preserve outcome without redoing audit.
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE.**
+Missing lossless typed model for the accepted84conditional keys/816newbytes,
+exact three old-model dependency views and original reader/DMA source oracle.
+Next add one offline module and one ignored focused Winefilter, two module
+declarations only in shared hubs; keep e62/currentruntime unchanged. Test only
+new54physicalcell constructor aliases/52null+2proper reset/two realDMAuploads,
+strict JSON/source/producer/sharedview guards/allnewbytes. Existing commands2/8
+in shared sequences keep prior acceptance and are not replayed. One affected
+Windows frontend test build and one new exactWinefilter; no Linux/USA/native
+Windows/new32:9/ordinary/fullnative/performance/fixture work. Sourcecontract
+closed; no arbitrary spriteproduct, localguestcap, targetpruning or rawROMshadow.
+Evidence target/rom-data-script-special-alternate-model/.
+
+
+**ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE — build child closed.**
+Single affected Windows frontendtest build10174terminalPASS/no warnings, frozen
+3af29161ee386cf5a5e18ec3260032a14dbbca048151684af38c8db772fe38d2.
+Productione62/canonical unchanged, no oldfilter run; do not rebuild unchanged.
+One exact newWine source-model filter now selected; process/result locators
+under target/rom-data-script-special-alternate-model/. No runtime/publication/
+ordinary/fullnative/performance claim from build.
+
+
+**ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE — Wine startup failure/retry reason.**
+84032exits1before guest/test invocation: Wine cannot create /run/user/1000/wine
+server lock in sandbox read-only filesystem. No windows-model-europe output
+exists; no acceptance was executed. Initial log/result retained unchanged.
+Next same frozen3af29161.. and unchanged compiled sources/inputs/exactfilter,
+with required server filesystem access; separate windows-model-retry logs.
+This is an actual environment failure, not reopening an accepted oldcheck.
+No rebuild, suite expansion, navigation or performance run.
+
+
+**ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE — source/model/Wine child closed.**
+Wine66141same-executable retry terminalPASS; initial84032was environment startup
+only/no test. Frozen3af29161.. unchanged, no rebuild. One new exactfilter passes
+19JSON/source/producer/three-overlapping-dependency guards/all84keys/9048full
+sourceB/20new spans816B,108original constructor aliases over54newcells,52null
+resets/two properseq resets/two scheduler+actualDMA3uploads with entireVRAM
+and all512newpixelB exact. Existing sharedcommands2/8not replayed. 284observed
+nonpixelB/492PC/7422instructions are coverage only, not wholeABI/nativeclock or
+ordinaryreachability. No livejob. ModelJSON/result/logs under target/rom-data-
+script-special-alternate-model/. Newmodel/currentproductione62/USAe8unchanged.
+Next coherentmemory/preservation/finalmaps closure, then03managed/runtime with
+actual metadata14+scriptarchive+initial+normal+alternate dependencies; source/
+model/new54prefix+2DMAacceptance now closed/no unchanged repeat. FullTODOactive;
+ordinary newpixel/high16/42-230/currentstate and otherplatform gates remain open.
+
+
+**ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE — memory/preservation closure.**
+9294prior artifact hashes preserved;1221build/1222environment-startup/1222actual
+Wine hash-mtime guards/all11compiled source-preimages/two exact shared-hub
+preimages pass, no unrelated implementation changes.350local feature links,
+new-module rustfmt, default+baseea17e92memory and CRLF-whitespace pass. ModelJSON
+96ce4c28.., source029ff8a0.., frozen test3af29161.. retained; all ROM/cart/state/
+input/cache/TCC/canonical/datasets preserved. Coherent26October record, unitOBJ/
+inventory/TODO/STATE/CHANGELOG/HANDOFF updated; independent userGodot assessment/
+todo2/DS20work untouched. Source/model acceptance closed/no livejobs/no unchanged
+rebuild/filter/oracle repeat. Final consolidated351source/privateguard maps in
+target/rom-data-script-special-alternate-model/ also cover static source evidence.
+
+Next03managed/runtime selection should publish the exact accepted model as
+EUR e63-d62, resource graphics.unit-obj-script-special-alternate/file unit-obj-
+script-special-alternate.json, preserving all58e62files/e62 andUSAe8. Direct
+source dependencies are metadata14, scriptarchive, initialpose, normalbattle,
+alternatebattle; no artificial dependency on conditionalnormal. Immutable owner
+serves only20new spans816B, no rawROMshadow/liveIDcap/task rewrite. Its new tests
+must distinguish targeted managed/native complete-state/clock paths from the
+closed source oracle and later actualCLI/ordinary gates. Select checkpoint
+before edits/build; no scene/fullpair/performance work implicit. Fullgoalactive,
+ordinary newpixel/high16/42-230/currentactor andLinux/USA/nativeWindows/new32:9
+remain explicitlypending. No blocker or new approval needed for03.

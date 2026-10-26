@@ -5,6 +5,10 @@ inventario e contratto iniziale sono definiti. Le migrazioni runtime restano ape
 Ambito: workspace desktop, Windows come piattaforma principale di verifica;
 Linux come controllo aggiuntivo. `AndroidPort/` richiede lavoro separato.
 
+Il [frontend Godot](GODOT_FRONTEND_TODO.md) è soltanto una valutazione con TODO
+rinviato a dopo la conclusione dell'estrazione concordata. Non è un nuovo passo
+esecutivo di questo TODO e non va sviluppato durante la migrazione dei dati.
+
 ## Obiettivo e ordine di lavoro
 
 L'obiettivo principale è scompattare la ROM selezionata in file di risorse,
@@ -2856,3 +2860,37 @@ fullpairclaim. Vecchieprove3530/500/census6000/source/native/CLI/scene non ripet
 nuove effettive, è un lead e non prova nuovipixel. Linux-USA-nativeWindows-new32:9/
 altri casi fonte restano da fare; nessuna misura o nuova fixture/navigazione.
 [CLI e limiti](../rom_data_unit_obj.md#conditional-script-special-normal-actual-production-cli).
+
+
+**ROMDATA-05-SCRIPT-SPECIAL ordinary: locatornulli positivo, pixel ancora aperti
+(2026-10-26).** Actuale62WineSnow6000immutabile legge48nuoviindexB e0nuove
+sequenze/pixel; è usosorgente reale, non coppia completa o prova pixel. Nessun
+censimento/guardbuild/fullpair ripetuto. Nuova lettura statica81snapshotEUR per
+sette nuove sequenze non trova taskcompatibili. RIVERStart/A618già registrato
+sul nuovo consumer legge0nuovibyte: negativo terminale, non ripetere. Contesto
+attivo prima èprogram158/key168;159/key169contieneBAD829→2/group34 ma il trigger
+non è dimostrato, interpretazioni fine/inizio battaglia restano provvisorie.
+Un breve B44da copiaDS20EURautorizzata mostra solo menuPolly/duecheckpointprivati,
+non vittoria/nuovepixel/nuova accettazioneDS20. Originali/cart invariati.
+05nuovesequenze/pixel/equivalenza resta aperto; prossimo criterio indipendente
+può essere contratto fonte script-special alternate, mantenendo il gate aperto.
+NuoviLinux-USA-nativeWindows-32:9da fare, nessuna misura o codiceproduzione.
+[Locator e limiti](../rom_data_unit_obj.md#script-special-ordinary-source-locators-and-remaining-pixel-gate).
+
+
+**ROMDATA-01-SCRIPT-OBJ-SPECIAL-ALTERNATE-PAIRS completato come contratto fonte
+condizionato EUR (2026-10-26).** Stessi151riferimenti low49/20witness logici,
+metadata14half06sotto assegnazione alternate corrente originale/override20clear/
+facing0..3. Quattro sprite188/231/232/234,14sprite-base pairs,84celle68null,
+14sequenze64frame/quattro OBJlists20oggetti/26pixelrequests7232B. Tutti57owner
+e62autenticati, nessun targetsharedroot/conflitto/mixeditem/extentsvariabili.
+Nuovi20span816B=216index8header80frame512pixel,54celle52null/two sequences/four
+op1frames/two pixelrequests; SHA029ff8a0.. . **ROMDATA-02-SCRIPT-OBJ-SPECIAL-ALTERNATE completato EUR/Wine mirato:** modello
+tipizzato, buildWindows senza avvisi e unico nuovo filtroWine passano19guardie/
+108prefix originali/52null+2proper reset/two DMA3uploads/interaVRAM512newpixelB.
+Il primo avvioWine fallisce prima del test per lockserver nella sandbox; stessa
+binary riavviata con accesso necessario, primo filtroeffettivoPASS/no rebuild.
+Comandi2/8già coperti non ripetuti. Managed/runtime/
+actualCLI/ordinary e high16/override/currentstate restano aperti; e62/USAe8
+invariati, Linux/nativeWindows/new32:9da fare, nessuna misura performance/spazio.
+[Contratto e modello](../rom_data_unit_obj.md#conditional-alternate-script-special-source-and-typed-model).

@@ -30,6 +30,34 @@ Documentation: [debug saves.md](docs/development/debug saves.md), [extended_save
 
 [Change record](docs/changes/2026-10-26-validate-user-failed-dispatch-snapshot.json)
 
+## 2026-10-26 — Extract conditional European alternate script poses with exact selector witnesses
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Join all151low-selector decimal49references to their logical metadata14halfword06under the original current same-unit alternate assignment, clear override20and facing0..3conditions. Preserve20producer witnesses/14logical IDs/14sprite-base pairs without all-sprite crossproducts or pruned bindings.
+- Add a strict offline source model for84keys/68nulls/14counted sequences64frames/four OBJlists20objects/26indexed4bpp requests7232B. Preserve every original command word and tail, and validate overlapping initial/normal/alternate dependency views independently before subtracting their union.
+- Identify20new spans816B, including54cells52nulls/two new sequences/four operation1frames/two pixel requests512B. Managed publication and runtime consumption remain a separate next unit; e62-d61andUSAe8-d7 are unchanged.
+
+**Validation**
+
+- New static exactEUR/archive/metadata14/manifest checks authenticate all57prior owner file/source hashes.31halfword/one literal/sixBLfingerprints pin the conditional alternate getter and assignment; all151script references match the already accepted exact selector evidence.
+- Full9048Bsource SHA25652ba9bc267436719dda66f7cc1628bf72a4f98310a276845b6bc1ecd994cab7a; shared8142alternate+38initial+52normalBonly. No internal-role conflict, shared-index-root target, mixed typed item or varying pixel extent.
+- New source216index8header80frame512pixelB has SHA256029ff8a0282346c25be4b436f7b5ea3e219e167d5639d497f7d495b0127a5e2c. The new original-reader oracle is validated on Wine below.
+- Single affected Windows frontend test build passes without warnings, frozen3af29161ee386cf5a5e18ec3260032a14dbbca048151684af38c8db772fe38d2. Initial Wine startup exits before invoking the filter because the sandbox blocks the local server lock; failure log retained and same-executable retry selected, with no rebuild or old acceptance replay.
+- Same frozen binary retry passes its first actual exact Winefilter:19JSON/source/producer/three-overlapping-dependency guards,84keys/all9048full sourceB/20new spans816B,108newcell original constructor aliases,52null+two proper resets/two original scheduler/queue/actualDMA3uploads/entireVRAM/all512newpixelB. Initial environment-only startup attempt invokes no test; no old acceptances or shared command2/8cases replayed.284observed nonpixelB/492PC/7422instructions describe coverage only.
+- Final preservation passes9294prior artifact hashes/1221build+1222initial-startup+1222successful-Wine exacthash-mtime guards/all11compiled source-preimages/two shared-hub preimages with only selected declarations.350local feature links, project-memory default+baseea17e92, new-module rustfmt and CRLF-aware whitespace pass; ROMs/cart/states/input/datasets/cache/TCC/canonical remain intact, no live task process. Accepted model-file SHA25696ce4c28cb19366fbb8804e3784782a1a4682551926b12315ae88fafed5ad035.
+
+**Limitations**
+
+- Conditional source/model work only; managed/runtime/actualCLI/ordinary source use and fullscene equivalence pending. No universal current actor assignment or everyactor/action reachability, terrain-name semantics, high16registry/42-230override or changed/stale actor contexts inferred.
+- Existing command2/8shared sequences keep previous original acceptance; new sequences contain operation1only. New Linux/USA/nativeWindows/new32:9 remain pending. No performance/storage measurements, gameplay checkpoint/navigation/private payload edit, packaging, Android change, commit or push.
+
+Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-extract-european-script-special-alternate-poses.json)
+
 ## 2026-10-26 — Publish and consume European conditional normal script poses with authenticated producer witnesses
 
 Type: added. Platforms: Windows.
@@ -50,6 +78,9 @@ Type: added. Platforms: Windows.
 - Final preservation passes8842prior artifact hashes/1150build+1152Wine hash-mtime guards/all16compiled source-preimages/five integration preimages,340local feature links, new-module rustfmt, project-memory default+baseea17e92 and CRLF-aware whitespace. Prior user commits/documentation remain preserved; private artifacts0tracked.
 - Single changed-code Windows production build28835warning-free/frozen6455958ed9616b269d225a7f9da28f726cbb6624021c461baf567571f1c1c5d0; canonicalf3e277db.. exacthash/mtime1792570130397888519 restored, main.rs content unchanged/mtime-onlyCargo invalidation. ActualWine26817CLIcreate/reuse-no-write58generation60managed/all58matchaccepted from unrelatedcwd/oldcache, generation-SHz1vX/datasetf131b439.. . One-frame immutableF09attachment exits0/zero newsource use, compatibility smoke only; no oldscene or ordinary-positive inference.
 - ActualCLI final preservation passes9175prior artifact hashes/1213CLI hash-mtime guards/all16runtime compiled source-preimages,341local feature links and allimplementation sources unchanged from accepted runtime. Canonical executable exacthash/mtime restored; project-memory default+baseea17e92 and CRLF-aware whitespace pass.
+- New ordinary e62Wine Snow6000locator on immutable recorded input exits0/48newindexB/zeroheaders-frames-OBJ-pixels-sequences, consistent with two already observed realnullcells; no query-census replay/guardbuild/fullpair and no newpixel inference. Read-only81existing EURsnapshots against the sevennewproper sequences find no enabled/dormant matchingtask. A separate retained deployment Start/A618locator exits0/zero newbytes; only oldprogram158is consumed, so it is terminalnegative without unchangedretry.
+- Readonly exact script-context/key/bodytask candidate checks preserve snapshots. A user-authorized copiedEURDS20cancel-flee B44probe produces two normal checkpoints/menu observation only; no DS20acceptance reopened, original/user/cart files intact and no rawHP/status/PC/payload edits. Program159contains the newproducer but its trigger is not established; speculative ending/start labels are retained as unproven navigation leads.
+- Ordinary increment preservation passes9253prior artifact hashes,1213Snow/1214RIVER/1230navigation exacthash-mtime guards and unchanged implementation sources across348baseline files; default+baseea17e92memory and CRLF-aware whitespace pass. Final ordinary maps retain9286private artifact hashes; no guest/build rerun or pixel/fullscene acceptance is inferred.
 
 **Limitations**
 
@@ -60,6 +91,33 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-26-consume-european-script-special-normal-poses.json)
+
+## 2026-10-26 — Assess a Godot frontend and defer implementation until ROM extraction is complete
+
+Type: docs. Platforms: Project planning.
+
+**Changes**
+
+- Honor the latest plan-only request by removing the initial untracked Godot/Rust scaffold from the superseded prototype request. Keep only an assessment and deferred TODO; do not install Godot, build an extension, modify the production workspace or interrupt extraction.
+- Document the current architecture: Machine and static recompilation are available through libraries, while mixed native dispatch, dataset loading and application lifecycle remain in private executable modules. Distinguish a possible interpreter transport experiment from native desktop parity and identify the shared runtime boundary needed for the latter.
+- Create GD00..GD05 planning checkpoints covering completion of the agreed EUR extraction scope, a reproducible baseline, runtime/API contracts, video/audio/input/save ownership, isolated future tooling and functional parity before an adoption decision. Keep mod support, complete ROM independence, every DS case and other platforms separate from the first EUR experiment.
+- Link the deferred assessment from the ROM-data TODO and durable project state. Require an explicit future development selection after the ROM priority; no unchecked Godot item becomes part of the active extraction execution queue.
+
+**Validation**
+
+- Read current Machine, private run_frame_native, desktop run_one_frame, dataset loader and snapshot/slot source boundaries. Consult primary godot-rust compatibility, Godot audio-generator and thread-safety documentation. This is an architectural assessment, not a runtime feasibility or performance test.
+- Remove exactly the five newly created experimental scaffold files; no experiments/godot_frontend implementation remains. No Cargo/Godot build, binary download, installation, gameplay test or benchmark was started for this work.
+- All seven protected hashes from the initial assessment baseline remain unchanged: root Cargo manifest/lock, extraction script, two existing executables, EUR ROM and user DS20 snapshot. 8 local plan links resolve. Existing concurrent extraction/runtime changes and previous Debug-save work remain preserved.
+- Project-memory coverage and git diff --check pass after reconciling the plan-only handoff. No active task process or experimental code remains; implementation stays deferred rather than queued for automatic resumption.
+
+**Limitations**
+
+- Godot integration, native parity, audio latency, rendering/filter equivalence, controller/platform coverage and packaging have not been implemented or tested. No performance benefit is claimed.
+- The proposed shared-runtime separation may require a future architectural change and its own verification; it is not authorized by the current plan-only request. Finishing an extraction increment does not automatically resume Godot development.
+
+Documentation: [GODOT_FRONTEND_TODO.md](docs/development/GODOT_FRONTEND_TODO.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-26-assess-and-defer-godot-frontend.json)
 
 ## 2026-10-25 — Refresh EUR ROM coverage to e61 and make Docker generation self-contained
 

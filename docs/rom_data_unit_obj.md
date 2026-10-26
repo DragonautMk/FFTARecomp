@@ -1161,3 +1161,100 @@ processes/no-write/summary JSONs, threeWine logs and one-frame endpoint image.
 Linux/USA/nativeWindows/new32:9 and alternate/override/highregistry/current-actor
 source cases remain open. Source/model/managed/native/actualCLI children stay
 closed, with no unchanged repeats.
+
+
+## Script-special ordinary source locators and remaining pixel gate
+
+A single new actuale62WineSnow6000locator on the retained authentic snapshot/
+input reads48newindexB and zero newheaders/frames/OBJ/pixels/sequences. This is
+ordinary typednull-source use, consistent with the source-linked two new null
+cells; it is not an every-frame differential or ordinary newpixel acceptance.
+No actor-query census/source/native proof is repeated and no guardbuild/fullpair
+is selected for this null-only observation. The seven new sequences remain
+covered by their existing source/targeted native tests.
+
+A new read-only search of81existing authenticated EURsnapshots for exactly those
+seven sequences finds no enabled or dormant matching bodytask. Exact context/
+manager/signedcursor reads in retained RIVERdeployment snapshots identify
+program158/key168, which has no future newproducer within that program. The
+retained Start/Atransition618with e62also reads zero newbytes; its archive use
+is only5B/twoopcodes/oneprogram. Both locators are terminal in their exact scope.
+Do not replay them unchanged or infer that every later scene is negative.
+
+Program159/key169contains selector2/group34/face0 atBAD829, which is a concrete
+new-source producer. Its invocation is still unresolved; provisional battle-end/
+battle-start labels are not evidence of reachability. Original12547Areads the
+selected key at2192, while09BE8queues a request at2194. Frozen RIVERfirst-turn
+states keep selectedkey168with no active script manager. A copiedEURDS20cancelled-
+flee B44normal menu probe also supplies no newsequence proof; two new snapshots
+remain private, originals and cartridge saves unchanged. No further battle
+completion or DS20failed-return acceptance is claimed or repeated.
+
+Ordinary newsequence/pixel use and complete-scene equivalence remain open. Next
+work can select an independent remaining producer contract, retaining this
+missing gate rather than weakening it. Private new evidence and guarded inputs
+are under `target/rom-data-script-special-ordinary/`. No performance measurements,
+newLinux/USA/nativeWindows/32:9 tests or production code changes occur here;
+concurrent Godot/frontend and completed userDS20work remain separate.
+
+
+## Conditional alternate script-special source and typed model
+
+The exact same151low-selector decimal49instructions now have a separate
+alternate projection through metadata14halfword06and original233D8/CF180.
+The conditions are selected before inspecting targets: a resolved nonnull unit
+matches selector byte4, the original special-unit predicate selects metadata14,
+its actor retains that same unit's actual alternate assignment under9B734,
+override20is clear and facing is0..3. These witnesses do
+not assert every actor's current sprite, global reachability or a terrain name.
+The16high-registry instructions, explicit42/230override and stale/changed actor
+assignments stay separate; no row is discarded or all-sprite product invented.
+
+Twenty logical producer pairs over14selectors collapse to14sprite/base pairs
+across188/231/232/234. Their84physical cells contain68nulls and14proper counted
+sequences64frames. Four OBJlists20objects and26pixel requests7232B follow only
+operation1; shared commands2/8keep their raw fields and prior reader acceptance.
+All57e62resource file/source hashes are checked. No shared-index-root target,
+role conflict, mixed old/new typed item or varying pixel extent occurs here.
+The9048Bfull graph has SHA-256
+`52ba9bc267436719dda66f7cc1628bf72a4f98310a276845b6bc1ecd994cab7a`.
+
+Existing ownership is8142Balternate-battle,38Binitial-pose and52Bnormal-battle.
+The new20spans816B comprise216index/8header/80frame/512pixel bytes:54cells52nulls,
+two sequences/four operation1frames/two pixel requests. New proper bindings are
+188/(32,33)/part0, with sequencesAD4950andAD4980. Concatenated new-source SHA-256
+is`029ff8a0282346c25be4b436f7b5ea3e219e167d5639d497f7d495b0127a5e2c`.
+Counts and original shape/size DMA arithmetic establish extents, with no guessed
+bank end or frame-count threshold used to classify a target.
+
+The [offline model](../crates/gba-core/src/rom_data/unit_obj_script_special_alternate.rs)
+keeps strict producer/graph/JSON identities, indexed tiles and all original
+command fields. It authenticates the exact EUR ROM and producer code, validates
+each overlapping initial/normal/alternate typed view independently, then
+subtracts their union. An unchanged second dependency cannot hide a mismatch
+in the first. The
+[source oracle](../crates/recomp/src/rom_data/script_special_alternate_model_tests.rs)
+passes one ignored focused Winefilter for new physical cell constructor
+aliases/null/proper resets and real scheduler/DMA uploads. One affected Windows
+frontend test build is warning-free, frozen SHA-256
+`3af29161ee386cf5a5e18ec3260032a14dbbca048151684af38c8db772fe38d2`.
+An initial Wine startup failure occurs before the test because sandbox access
+to the local server lock is read-only; its log is preserved. The same binary
+then passes its first actual filter execution with the required server access.
+
+Nineteen strict JSON/source/producer/shared-view guards pass, including altered
+initial/normal views whose bytes also occur in alternate. All84keys and all9048
+source bytes reconstruct exactly; the new20spans816B match the independent
+source plan. Only the54new physical cells execute original constructor paths,
+with both facing aliases:108prefixes,52null resets and two proper resets. Two
+new original scheduler/queue/DMA3uploads match entire VRAM and all512newpixelB.
+Existing shared commands2/8are not replayed. The284observed nonpixel load bytes,
+492PCs and7422instructions describe coverage, without whole allocator/task ABI,
+complete-state/native-clock or ordinary reachability claims. Private evidence is under
+`target/rom-data-script-special-alternate-poses/` and
+`target/rom-data-script-special-alternate-model/`.
+
+Managed publication/runtime/actualCLI and ordinary newpixel/fullscene gates
+remain pending. The production revision stays e62-d61, USAe8-d7; newLinux,
+nativeWindows/32:9 tests remain pending. No game fixture, navigation, payload
+edit, performance or storage measurement is selected for this source unit.

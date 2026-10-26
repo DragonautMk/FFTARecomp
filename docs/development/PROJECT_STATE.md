@@ -12,6 +12,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- [Godot frontend assessment](GODOT_FRONTEND_TODO.md) is planning only,
+  explicitly deferred until ROM extraction is finished and the user selects
+  development. No prototype remains. Machine is reusable as a library, but
+  full native dispatch and application lifecycle are still private binary
+  modules; a shared runtime boundary is a prerequisite for native frontend
+  parity. Do not infer implementation approval from this deferred TODO.
+
 - [EUR audio source contracts](../rom_data_audio.md) identify the original
   M4A driver,3player configurations,640song-directory entries and455unique
   headers with explicit dummy-header/WaveData alias. A graph over1610track
@@ -407,9 +414,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   SWI-DMA/mixed2new4normal and2new2raw; original tasks/commands remain guest work.
   Newdirectory/OBJ bytes are zero, sharedowners retained. ActualproductionCLI
   create/reuse58generation60managed/all58matchaccepted passes, canonical exact
-  restored; oneframeoldcacheF09attachment haszero newusage/smokeonly. Ordinary
-  source/newpixel and alternate/override/high16/current-state cases pending;
+  restored; oneframeoldcacheF09attachment haszero newusage/smokeonly. Newactual
+  Snow6000locator observes48typednullindexB/no newpixels; RIVERstart618zero newuse.
+  Bothclosed/no fullpair/repeat;81new-sequence snapshot reads find no tasklead.
+  Ordinarynewsequence/pixel/equivalence and alternate/override/high16/current-state
+  cases pending;
   newLinux/nativeWindows/USA/32:9 remain pending, no performance work.
+- [Conditional alternate script-special poses](../rom_data_unit_obj.md#conditional-alternate-script-special-source-and-typed-model)
+  now have an exact151reference/20logical-witness source projection and strict
+  offline model:84keys68null/14sequences64frames,20new spans816B over three
+  prior owners. One focused Wine source oracle passes19guards/108newcell
+  constructor aliases/52null+2proper resets/two actualDMAuploads512pixelB with
+  wholeVRAM equality. Managed/runtime/actualCLI/ordinary gates remain pending,
+  productione62-d61/USAe8-d7unchanged; high16/42-230/currentactor and newLinux/
+  nativeWindows/32:9 remain separate. No performance/storage measurement.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
   follows five original CF49C..CF5DC helpers with70direct callers,40constant
   supplemental calls/four slice callers and51metadata14special projections.

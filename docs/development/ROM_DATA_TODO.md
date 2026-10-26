@@ -3067,3 +3067,18 @@ CLI/ordinary da fare; e65/USAe8invariati. RedirectFFFFoutofcatalog/currentchange
 registryidentity e Linux/USA/nativeWindows/new32:9 separati. Nessun guest/build/
 fixture/navigazione o misura performance/spazio.
 [Contratto e limiti](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection).
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-GENERIC completato modello/oracolo EUR (2026-10-26).**
+Modello lossless conserva2940witnesses6720refs/107roots3210keys/777seq5093frames,
+12esplicititargetinitialroot48..59 e tutti659newspan99824B. Sei visteprecedenti
+validate indipendentemente prima della sottrazioneunione; metadata52/archive
+dipendenze reali,116righe/sentinel/redirect mantenute nella fonte/metadata esistente.
+Primo buildfrontendWindows warning-free/frozenbd8727ee..; primo filtroWine passa
+34guards/2772newcell facingaliases/1260null126proper resets/268scheduler-DMAuploads
+82016B/interaVRAM. Nessun oldcommand/source/managed/native/scene replay; no native
+complete-stateclock/wholeactorABI claim.03managed/runtime/CLI/ordinarynewpixel e
+FFFF/redirect/outofcatalog/changedactor/globalidentity aperti; Linux/USA/native
+Windows/new32:9 da verificare. Nessuna misura performance/spazio o nuova fixture/
+navigazione/privatepayload edit; e65/USAe8invariati.
+[Modello e limiti](../rom_data_unit_obj.md#typed-registry-generic-direct-job-model).

@@ -14,7 +14,8 @@
       "references": [
         "docs/changes/2026-10-21-validate-decoded-obj-scenes-and-costs.json"
       ],
-      "decoded_sha256": "2110b7e44ddcc2e468d2c5874edc487226ccd269faec255f8cf851944aad2e00"
+      "decoded_sha256": "2110b7e44ddcc2e468d2c5874edc487226ccd269faec255f8cf851944aad2e00",
+      "sources_sha256": "bdac0799c0dbacbac7bf6065810699529ed8f8227e084666961dd34bd56adf3f"
     },
     "graphics.bg-descriptors": {
       "ordinary_positive": true,
@@ -22,7 +23,8 @@
       "references": [
         "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
       ],
-      "decoded_sha256": "22506708efe6bce768196fc15bd9b3a5e73a3c6ce4b917ebc3d9823b8598d019"
+      "decoded_sha256": "22506708efe6bce768196fc15bd9b3a5e73a3c6ce4b917ebc3d9823b8598d019",
+      "sources_sha256": "d8447a7339c6f810c0b16d8b9460bf74de90c458b30cf0abd9f19cefc2adc2e6"
     },
     "graphics.bg-base-palettes": {
       "ordinary_positive": true,
@@ -30,7 +32,8 @@
       "references": [
         "docs/changes/2026-10-21-validate-decoded-base-palette-scenes.json"
       ],
-      "decoded_sha256": "c6d80140dde930d77b3af4736ba80dea636d8832e984cf43f9db2de599eac420"
+      "decoded_sha256": "c6d80140dde930d77b3af4736ba80dea636d8832e984cf43f9db2de599eac420",
+      "sources_sha256": "2e0bc27cc44d62cc7461de1faa0e616769c00f21c795d1ca1f4bfacb36565eb7"
     },
     "graphics.bg-alternate-palettes": {
       "ordinary_positive": true,
@@ -38,7 +41,8 @@
       "references": [
         "docs/changes/2026-10-21-validate-alternate-palette-scenes.json"
       ],
-      "decoded_sha256": "7f9caff47b59c54807e98e291c61dc1181ae4868e9afa970f13a4d95a602b959"
+      "decoded_sha256": "7f9caff47b59c54807e98e291c61dc1181ae4868e9afa970f13a4d95a602b959",
+      "sources_sha256": "1eb0f8a34048a78cce7db996c85988feec97b8f5a912fb5d9ae1c8e44fc7d073"
     },
     "graphics.bg-packet-programs": {
       "ordinary_positive": true,
@@ -46,7 +50,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-background-packet-programs.json"
       ],
-      "decoded_sha256": "79e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc"
+      "decoded_sha256": "79e557b3e02b0f61a6684eb2cddf7d946928f6aeb4da5225fbdc24595947a5dc",
+      "sources_sha256": "496bf9f60d17f321d751e1fd52ab4bf963061b66f4e10d1787d39d6b23e4bb8c"
     },
     "graphics.bg-main-graphics": {
       "ordinary_positive": true,
@@ -54,7 +59,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-main-background-graphics.json"
       ],
-      "decoded_sha256": "8dd0bb6f09bd293b3c5ff68ea3990d5c4b09f978ccaada5346980efd090fc00c"
+      "decoded_sha256": "8dd0bb6f09bd293b3c5ff68ea3990d5c4b09f978ccaada5346980efd090fc00c",
+      "sources_sha256": "3e56bcbec27f1eaeb83f5ea5cc06b113c6590da752a7ced3cd4f982ed7f43a90"
     },
     "graphics.bg-transfer-programs": {
       "ordinary_positive": true,
@@ -62,7 +68,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-background-transfer-programs.json"
       ],
-      "decoded_sha256": "051e0eee7412a24e1b0ce51a79736e4d8488f26593254e2cee907aa53eea71e8"
+      "decoded_sha256": "051e0eee7412a24e1b0ce51a79736e4d8488f26593254e2cee907aa53eea71e8",
+      "sources_sha256": "60f267f116ff4abd474acb4093a82b1f37ce789e3048b5e34e9f8eae3632fc20"
     },
     "text.short-strings": {
       "ordinary_positive": false,
@@ -70,7 +77,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-short-texts-and-referenced-font.json"
       ],
-      "decoded_sha256": "a422d06951e78d1ac10ce7be3ece0a84a17a1308d91f6b47ba0ff6fb10b054fa"
+      "decoded_sha256": "a422d06951e78d1ac10ce7be3ece0a84a17a1308d91f6b47ba0ff6fb10b054fa",
+      "sources_sha256": "2aad01c94e2ffa8ca686ff71435be7e41542b331328904919ed0ca522000496f"
     },
     "text.catalogs": {
       "ordinary_positive": true,
@@ -78,7 +86,8 @@
       "references": [
         "docs/changes/2026-10-22-validate-european-text-catalog-transition-and-cli.json"
       ],
-      "decoded_sha256": "d43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f"
+      "decoded_sha256": "d43278cc9c93d8ee6b0ba88b17668f4fdd1113397d4de396d37b945d61a7d45f",
+      "sources_sha256": "8fd116494dfbd6af3c862e7a67517a957fd726b7764348d3039f0cedecc2388f"
     },
     "font.complete-bank": {
       "ordinary_positive": true,
@@ -86,7 +95,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
       ],
-      "decoded_sha256": "0f81628b663c14ee4505b5c6188351e1e9bcd49e541e68670d3a5b4c4098c18c"
+      "decoded_sha256": "0f81628b663c14ee4505b5c6188351e1e9bcd49e541e68670d3a5b4c4098c18c",
+      "sources_sha256": "4b1babb40ed64bf79450984d348bc17a303896ed88b2f751079bd264ad6a80ce"
     },
     "text.name-keyboard": {
       "ordinary_positive": false,
@@ -94,7 +104,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-complete-font-and-name-keyboard.json"
       ],
-      "decoded_sha256": "fc194fc4bbdde49f8e40eca28d5e755dcfaf966775431f1d87a0f92d8728d411"
+      "decoded_sha256": "fc194fc4bbdde49f8e40eca28d5e755dcfaf966775431f1d87a0f92d8728d411",
+      "sources_sha256": "ceb0ae6e656cbe01be0c493d4580e19bea42a9b484e5327aab9a4c6740e359b6"
     },
     "graphics.obj-static-lists": {
       "ordinary_positive": true,
@@ -102,7 +113,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-static-obj-lists.json"
       ],
-      "decoded_sha256": "511b70107619ebfbf155a930a3c79a32d9b1e2eb1d5799531084a2f6b61edecd"
+      "decoded_sha256": "511b70107619ebfbf155a930a3c79a32d9b1e2eb1d5799531084a2f6b61edecd",
+      "sources_sha256": "62fd9de00696846cbe159dfee3fa52a188598107c0cb5ab6c6a8e5351a8a656c"
     },
     "graphics.obj-animation-banks": {
       "ordinary_positive": true,
@@ -110,7 +122,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-language-selected-obj-banks.json"
       ],
-      "decoded_sha256": "ea0b5e3e890d883ee2dd2a2d2557ef7893aae87739c69211c03037314fec0cb1"
+      "decoded_sha256": "ea0b5e3e890d883ee2dd2a2d2557ef7893aae87739c69211c03037314fec0cb1",
+      "sources_sha256": "8f2ad0bbc28fe0ce11e837174fbd1195ef8d09e94a1c3703a424f71816dd648b"
     },
     "graphics.obj-custom-banks": {
       "ordinary_positive": true,
@@ -118,7 +131,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-obj-custom-graphics.json"
       ],
-      "decoded_sha256": "4ba51bc46b75c06b136c57a65631178e45924c4c93e456906cf9c4b7ba549e30"
+      "decoded_sha256": "4ba51bc46b75c06b136c57a65631178e45924c4c93e456906cf9c4b7ba549e30",
+      "sources_sha256": "cd8ef50378e951f4bd6870c963012f9778486fa81fef468b99fb13f241979895"
     },
     "graphics.ui-raw-palettes": {
       "ordinary_positive": true,
@@ -126,7 +140,8 @@
       "references": [
         "docs/changes/2026-10-22-consume-european-raw-ui-palettes.json"
       ],
-      "decoded_sha256": "12e65de32adc0db422cd430d73a2966197d34bc3ad2a50a0352b2fa3c00a15cb"
+      "decoded_sha256": "12e65de32adc0db422cd430d73a2966197d34bc3ad2a50a0352b2fa3c00a15cb",
+      "sources_sha256": "66c202b9f4ba3300445d06e3fcf96ccafa3b0b9009c70efb9cb22d4f996b29ca"
     },
     "graphics.ui-custom-banks": {
       "ordinary_positive": true,
@@ -134,7 +149,8 @@
       "references": [
         "docs/changes/2026-10-23-extend-european-localized-ui-graphics.json"
       ],
-      "decoded_sha256": "a612150574e7651353404a0cf0df72ab4166612697936ae8666bb646c6e3e174"
+      "decoded_sha256": "a612150574e7651353404a0cf0df72ab4166612697936ae8666bb646c6e3e174",
+      "sources_sha256": "569cefecc1b9e0438aa2f12f77f06d069d19d0ae78c5e92cd6649ea48d50aba8"
     },
     "gameplay.item-records": {
       "ordinary_positive": true,
@@ -142,7 +158,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-static-item-records.json"
       ],
-      "decoded_sha256": "c151e82d6fac0c171414451623142c77aaf29f6a66ccb25495d652a37324ffc7"
+      "decoded_sha256": "c151e82d6fac0c171414451623142c77aaf29f6a66ccb25495d652a37324ffc7",
+      "sources_sha256": "53b037c5b3509861aa8d18a2d8708302d6411c94025aca582956f6b81860f6a1"
     },
     "gameplay.item-links": {
       "ordinary_positive": true,
@@ -150,7 +167,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-item-linked-pairs.json"
       ],
-      "decoded_sha256": "c6817d93fe8e808c13487037c9f780448011091537c9b95e06baf2053af6ec6f"
+      "decoded_sha256": "c6817d93fe8e808c13487037c9f780448011091537c9b95e06baf2053af6ec6f",
+      "sources_sha256": "4e879df326fc06d13d1e631043d333f3914028ec9d9bc04964b909a17c5ee9c6"
     },
     "gameplay.linked-metadata16": {
       "ordinary_positive": true,
@@ -158,7 +176,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-sixteen-byte-linked-metadata.json"
       ],
-      "decoded_sha256": "29c983faa4389293fea7a3f526f08236dc5c27e99bfbe25a213b92f43150a2c1"
+      "decoded_sha256": "29c983faa4389293fea7a3f526f08236dc5c27e99bfbe25a213b92f43150a2c1",
+      "sources_sha256": "f3ef17ca798bd7b61e58b84df35df33d475a1422d5497fa42d2345a78265fffa"
     },
     "gameplay.linked-metadata52": {
       "ordinary_positive": true,
@@ -166,7 +185,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-fifty-two-byte-linked-metadata.json"
       ],
-      "decoded_sha256": "6ac18b39995e6677bf5d80e830ab17d7b442d36171cfb90a45b6ea8a231d2fbd"
+      "decoded_sha256": "6ac18b39995e6677bf5d80e830ab17d7b442d36171cfb90a45b6ea8a231d2fbd",
+      "sources_sha256": "09c9a4093abc39eac2da0c5b91334a221b7be6e6f836b5bbd5138b665a2686b7"
     },
     "gameplay.linked-metadata4": {
       "ordinary_positive": true,
@@ -174,7 +194,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-four-byte-linked-pairs.json"
       ],
-      "decoded_sha256": "172f858a68236d78adca393004e431230f19a88f9a20d4bce8cb1172e82bb594"
+      "decoded_sha256": "172f858a68236d78adca393004e431230f19a88f9a20d4bce8cb1172e82bb594",
+      "sources_sha256": "a9724ee691c432125bff1408f626a4bc9f48fec9eaeb07b2afe9f4b6a39ff288"
     },
     "gameplay.linked-metadata2": {
       "ordinary_positive": true,
@@ -182,7 +203,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-two-byte-forward-inverse-map.json"
       ],
-      "decoded_sha256": "ff95d762868b257f84da4d37b6c7ed36515608c1d999af814c6f66693bf412ba"
+      "decoded_sha256": "ff95d762868b257f84da4d37b6c7ed36515608c1d999af814c6f66693bf412ba",
+      "sources_sha256": "83291de0195672eaee22283e66b9bb9e55d42409304a508b8f45ef4ec9ad9964"
     },
     "gameplay.default-constructor-template": {
       "ordinary_positive": true,
@@ -190,7 +212,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-default-constructor-template.json"
       ],
-      "decoded_sha256": "23a5c3e13f680223d223700b1a7cc01d87919e9479fbeec00e11214ab26bf6ca"
+      "decoded_sha256": "23a5c3e13f680223d223700b1a7cc01d87919e9479fbeec00e11214ab26bf6ca",
+      "sources_sha256": "4133b0050491f544849c64ef993356f961586f15a64b4372f6528ebab9dda16c"
     },
     "gameplay.constructor-alternate-templates": {
       "ordinary_positive": true,
@@ -198,7 +221,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-constructor-alternate-templates.json"
       ],
-      "decoded_sha256": "8222c0241c198aab55f8b3014d7082cbf25a7d224bc46693a88a239063c89e49"
+      "decoded_sha256": "8222c0241c198aab55f8b3014d7082cbf25a7d224bc46693a88a239063c89e49",
+      "sources_sha256": "a9e9c7cdf1b01fb123fb5f5513a8c5a1c6716e73deedb58bad798bc2241b1c18"
     },
     "gameplay.linked-metadata14": {
       "ordinary_positive": true,
@@ -206,7 +230,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-fourteen-byte-special-unit-metadata.json"
       ],
-      "decoded_sha256": "b9f66ba25c3fb1308b92372c251ace8180ad5594cef59e9d6f295b987f72fc0e"
+      "decoded_sha256": "b9f66ba25c3fb1308b92372c251ace8180ad5594cef59e9d6f295b987f72fc0e",
+      "sources_sha256": "034effc45445e306f4471bdaffd6805de931952e2e1b07d22db75a4d9dc87918"
     },
     "gameplay.linked-metadata12": {
       "ordinary_positive": true,
@@ -214,7 +239,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-twelve-byte-packed-pair-banks.json"
       ],
-      "decoded_sha256": "732081be5a06ad089e16358eef40e9ab126ab239e28c0c07830179b47bc969ba"
+      "decoded_sha256": "732081be5a06ad089e16358eef40e9ab126ab239e28c0c07830179b47bc969ba",
+      "sources_sha256": "431145b0d2f429dddd6e88b99e0903880f22c14c67f90e49e2a0bd0791535aa8"
     },
     "gameplay.global-pair-flags": {
       "ordinary_positive": false,
@@ -222,7 +248,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-global-packed-pair-flags.json"
       ],
-      "decoded_sha256": "618dd9c1e358597d76aa90feaec7d9e86a6006340f278096e9504114855685ee"
+      "decoded_sha256": "618dd9c1e358597d76aa90feaec7d9e86a6006340f278096e9504114855685ee",
+      "sources_sha256": "9b63a5afe7b42bc2da52a9bae1e1bdb3a7a642e4223e92ecd198911671e42088"
     },
     "gameplay.evaluation-parameters": {
       "ordinary_positive": true,
@@ -230,7 +257,8 @@
       "references": [
         "docs/changes/2026-10-23-validate-european-evaluation-threshold-acceptance.json"
       ],
-      "decoded_sha256": "a327d9f5d294c1906ef0ecf27b71e0a11487538b815f8bda528a8edf47ae772e"
+      "decoded_sha256": "a327d9f5d294c1906ef0ecf27b71e0a11487538b815f8bda528a8edf47ae772e",
+      "sources_sha256": "8a2cba861c683ed720aeaac60cfb544b742955995efed8838b7c9ca10149efb0"
     },
     "gameplay.progression-rewards": {
       "ordinary_positive": true,
@@ -239,7 +267,8 @@
         "docs/changes/2026-10-23-consume-european-progression-reward-and-price-records.json",
         "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
       ],
-      "decoded_sha256": "028fc280ae67a623e9807e6af959bb5352abb1ba102aa55e012fc0d27b43aeaf"
+      "decoded_sha256": "028fc280ae67a623e9807e6af959bb5352abb1ba102aa55e012fc0d27b43aeaf",
+      "sources_sha256": "bf66b8fb55ed55917ebeb5405b9c372716b20c314410818c5f5b38837c127589"
     },
     "gameplay.progression-gates": {
       "ordinary_positive": true,
@@ -247,7 +276,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-progression-gates-and-receipt-records.json"
       ],
-      "decoded_sha256": "da7ddb4779899c248f441306d3bf1525af42b592519a6e4a46dd4f7b2af8e41c"
+      "decoded_sha256": "da7ddb4779899c248f441306d3bf1525af42b592519a6e4a46dd4f7b2af8e41c",
+      "sources_sha256": "6c3f4145891cbccffd204c37f24d5302e0647c6186315cdf945cfbcb4646d1e2"
     },
     "gameplay.progression-selection-gates": {
       "ordinary_positive": true,
@@ -266,7 +296,8 @@
         "physical_records_observed": 26,
         "exit": 0
       },
-      "decoded_sha256": "ee8788a94c71ef521c38c259dde68e5f63e1002251c1c8cbfea3b2d61a7bc59c"
+      "decoded_sha256": "ee8788a94c71ef521c38c259dde68e5f63e1002251c1c8cbfea3b2d61a7bc59c",
+      "sources_sha256": "5d7514eaed288b5c87d07cca2c0c6a15c87008b5c4fcc94283c892802a76732b"
     },
     "gameplay.aggregate-flag-keys": {
       "ordinary_positive": true,
@@ -274,7 +305,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-aggregate-flag-keys.json"
       ],
-      "decoded_sha256": "5145b63554139712cf7277c734d86e894e55c8c2fd20f23a60093cd61cd94105"
+      "decoded_sha256": "5145b63554139712cf7277c734d86e894e55c8c2fd20f23a60093cd61cd94105",
+      "sources_sha256": "383f9f8bfc6eed3d21a5ad2aff2a4280bd2cc251dcc63f54c2ded8da695dda75"
     },
     "gameplay.trade-parameters": {
       "ordinary_positive": true,
@@ -282,7 +314,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-trade-parameters.json"
       ],
-      "decoded_sha256": "38930f37b2292043a8f94b56f578e14a0c1a7ff73b78bda721bb7b54cc5f2b2c"
+      "decoded_sha256": "38930f37b2292043a8f94b56f578e14a0c1a7ff73b78bda721bb7b54cc5f2b2c",
+      "sources_sha256": "7968de9fbd8ab359c88385f90971b022f6041c31e4d2e15d73229148da764688"
     },
     "gameplay.item-effect-parameters": {
       "ordinary_positive": true,
@@ -290,7 +323,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-item-effect-parameters.json"
       ],
-      "decoded_sha256": "7612bf7a86ba820731c725c7f9fb08caf49fcff055967ab5b0ed22e84b20787e"
+      "decoded_sha256": "7612bf7a86ba820731c725c7f9fb08caf49fcff055967ab5b0ed22e84b20787e",
+      "sources_sha256": "babda4ad3672243fa03863bb167d0b3accc5497f28bac5455d590b8a65466872"
     },
     "audio.m4a-directory": {
       "ordinary_positive": true,
@@ -298,7 +332,8 @@
       "references": [
         "docs/changes/2026-10-23-consume-european-m4a-directory.json"
       ],
-      "decoded_sha256": "de172b68926c16cc8b7a009e3d292518ad1dbf609625ce0f74f7c4dc18350075"
+      "decoded_sha256": "de172b68926c16cc8b7a009e3d292518ad1dbf609625ce0f74f7c4dc18350075",
+      "sources_sha256": "7121a1092990816e6079aa20f44f8a7a87f71571b6bf82f59fc4e45cbd3507a8"
     },
     "audio.m4a-tones": {
       "ordinary_positive": true,
@@ -306,7 +341,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-m4a-tones.json"
       ],
-      "decoded_sha256": "afa5e45a23857710fc629bba01532f225f7047bd72e8e278c9572217b9c645cd"
+      "decoded_sha256": "afa5e45a23857710fc629bba01532f225f7047bd72e8e278c9572217b9c645cd",
+      "sources_sha256": "5700c0fcafd28f691ca4b201a7fa67619e9f48ba83eddd25479e9a961247aee5"
     },
     "audio.m4a-sequences": {
       "ordinary_positive": true,
@@ -314,7 +350,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-m4a-sequences.json"
       ],
-      "decoded_sha256": "1a1c09bf67a0537ee2e51dd8414d1fcf9093110f68cf6a165d4db73bd2bd789c"
+      "decoded_sha256": "1a1c09bf67a0537ee2e51dd8414d1fcf9093110f68cf6a165d4db73bd2bd789c",
+      "sources_sha256": "f51a650a47020c242d75546ad8e041f49437422d5d230bed2a36b9a8dd809593"
     },
     "audio.m4a-driver-tables": {
       "ordinary_positive": true,
@@ -322,7 +359,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-m4a-driver-tables.json"
       ],
-      "decoded_sha256": "da1aa4a25be85187bba19ef08c7db3624169b01c75d312666b2abdbe8d14ab25"
+      "decoded_sha256": "da1aa4a25be85187bba19ef08c7db3624169b01c75d312666b2abdbe8d14ab25",
+      "sources_sha256": "8eb133289ac79a4b7bbeb9ce30a41bf8cd85e0b93a680c45fcb3d41ff0346d8e"
     },
     "graphics.palette-effect-dispatch": {
       "ordinary_positive": true,
@@ -330,7 +368,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-palette-effect-dispatch.json"
       ],
-      "decoded_sha256": "7852f482cdba51746f1c07363874bd26f68c516be467d8e0649c2257942c6b60"
+      "decoded_sha256": "7852f482cdba51746f1c07363874bd26f68c516be467d8e0649c2257942c6b60",
+      "sources_sha256": "f978cc64678235516ba17ae9c05bd89f782233c326abd1916f5d2389ca222d38"
     },
     "graphics.palette-programs": {
       "ordinary_positive": true,
@@ -338,7 +377,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-palette-programs.json"
       ],
-      "decoded_sha256": "b70eb0fc7b380958d89e423535677d8b11049eed19db0eb08f03463fe0ac06d6"
+      "decoded_sha256": "b70eb0fc7b380958d89e423535677d8b11049eed19db0eb08f03463fe0ac06d6",
+      "sources_sha256": "c9158aed96ea5815dc703759db8b20b57a7bc67eeffc7ac12523f2de00860a40"
     },
     "graphics.blend-programs": {
       "ordinary_positive": true,
@@ -346,7 +386,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-blend-programs.json"
       ],
-      "decoded_sha256": "a996f6369680e9a35ef6f1b914fd85b47ba29a7a7466a7b4a72f6914c58efd9e"
+      "decoded_sha256": "a996f6369680e9a35ef6f1b914fd85b47ba29a7a7466a7b4a72f6914c58efd9e",
+      "sources_sha256": "43b434ac3c0e16dd4d98be02062cd858089b31c9f7110a79c42f569983948845"
     },
     "engine.task-descriptors": {
       "ordinary_positive": true,
@@ -354,7 +395,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-task-descriptors.json"
       ],
-      "decoded_sha256": "024fac1c34f2b795629df1f0fc6e4ec08ce475dea6d944b7793387ce7e1ebfca"
+      "decoded_sha256": "024fac1c34f2b795629df1f0fc6e4ec08ce475dea6d944b7793387ce7e1ebfca",
+      "sources_sha256": "f94463ca1e47af845b3fb712916248ca3b878a103a73ee2fab6d1f18b1dbd2c4"
     },
     "engine.effect-event-directories": {
       "ordinary_positive": true,
@@ -363,7 +405,8 @@
         "docs/changes/2026-10-24-consume-european-effect-event-directories.json",
         "docs/changes/2026-10-24-verify-ordinary-european-effect-selector.json"
       ],
-      "decoded_sha256": "a90fd94aa09e3bca9a286af25dc6e2ee23b4c10c77beaf10d60e384c25a69277"
+      "decoded_sha256": "a90fd94aa09e3bca9a286af25dc6e2ee23b4c10c77beaf10d60e384c25a69277",
+      "sources_sha256": "04824fb3c995c5a6f3a76c305904bbb0b701659d887eb462c2324b1514e00596"
     },
     "engine.script-command-directory": {
       "ordinary_positive": true,
@@ -371,7 +414,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-script-command-directory.json"
       ],
-      "decoded_sha256": "9ecf6349e32e051d54172345d0dee1ec19e39d6ca8e2ca77e7f5c3a07db584b2"
+      "decoded_sha256": "9ecf6349e32e051d54172345d0dee1ec19e39d6ca8e2ca77e7f5c3a07db584b2",
+      "sources_sha256": "504009cf094de4b1d9c81ccfbbfa40fec01aa88efc2c36d5e7e3cd927e0afc62"
     },
     "engine.script-archive": {
       "ordinary_positive": true,
@@ -379,7 +423,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-script-archive.json"
       ],
-      "decoded_sha256": "29e61d5ddec422d21b92ff795ef931e51b85d5a129316bb8f1873264f7d3330f"
+      "decoded_sha256": "29e61d5ddec422d21b92ff795ef931e51b85d5a129316bb8f1873264f7d3330f",
+      "sources_sha256": "8338ac147860e977b7cabd0911ea2d4d62c0eae9637132fff1b20e30462efbaf"
     },
     "text.script-archives": {
       "ordinary_positive": true,
@@ -387,7 +432,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-script-localized-text.json"
       ],
-      "decoded_sha256": "cbc6cec1c974b4066ddc0fee2b6294c0f2bbc7963083c6d85d8034cb35d7ab79"
+      "decoded_sha256": "cbc6cec1c974b4066ddc0fee2b6294c0f2bbc7963083c6d85d8034cb35d7ab79",
+      "sources_sha256": "6aefe68696c7fe293a44a3b713584b16e6479ff9b613ff4518ff871fe66ec7b0"
     },
     "engine.script-coordinate-paths": {
       "ordinary_positive": true,
@@ -395,7 +441,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-script-coordinate-paths.json"
       ],
-      "decoded_sha256": "b86d6b4eb0e9f6b9a37440066c2ccb7279b3a7616d9b4ae452f7c8f35b3100c0"
+      "decoded_sha256": "b86d6b4eb0e9f6b9a37440066c2ccb7279b3a7616d9b4ae452f7c8f35b3100c0",
+      "sources_sha256": "02af0cc5ac9dc1f1c6acd829f19157fe07d78ca3cc5f3f91579f1746d15e40db"
     },
     "engine.auxiliary-script-command-directory": {
       "ordinary_positive": true,
@@ -403,7 +450,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-auxiliary-script-archive.json"
       ],
-      "decoded_sha256": "b8ba30cd6f52a97da7cde1b464b8184c2cb54157843c348cd09ceffab8080544"
+      "decoded_sha256": "b8ba30cd6f52a97da7cde1b464b8184c2cb54157843c348cd09ceffab8080544",
+      "sources_sha256": "a10015a38dfe3568efe8e3caa5486b7ce22ded19c5c14ca7ad90ed937b61e85b"
     },
     "engine.auxiliary-script-archive": {
       "ordinary_positive": true,
@@ -411,7 +459,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-auxiliary-script-archive.json"
       ],
-      "decoded_sha256": "bd410f3fde23fb68bec936da0ac5bed89dde2897a640c2e008d6b920351907b3"
+      "decoded_sha256": "bd410f3fde23fb68bec936da0ac5bed89dde2897a640c2e008d6b920351907b3",
+      "sources_sha256": "117eb97954c41b2c1379cbd584ae0d46497ace8c30fb58e54c35139ce37d3179"
     },
     "graphics.map-raster-palettes": {
       "ordinary_positive": true,
@@ -419,7 +468,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-map-raster-palettes.json"
       ],
-      "decoded_sha256": "d263f1a538fa9bd8c02225c4a6c41b6931b1c85f0e13d886f66a437e22abe9e8"
+      "decoded_sha256": "d263f1a538fa9bd8c02225c4a6c41b6931b1c85f0e13d886f66a437e22abe9e8",
+      "sources_sha256": "1c2ac7aa663d359aee0dad6c84d71de9dc165584637ae5b88eb05849c361a9c0"
     },
     "engine.ui-choice-lists": {
       "ordinary_positive": true,
@@ -427,7 +477,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-ui-choice-lists.json"
       ],
-      "decoded_sha256": "95f7ccb90cb1d48595f1ace3826d417d3ec2aef5b93f3686ae03444f5fd8abfb"
+      "decoded_sha256": "95f7ccb90cb1d48595f1ace3826d417d3ec2aef5b93f3686ae03444f5fd8abfb",
+      "sources_sha256": "707b433e5c59b2e393b089d22ee7b74b3ed4f5e9ee758407e6d3be93e59f470d"
     },
     "graphics.unit-obj-initial-pose": {
       "ordinary_positive": true,
@@ -435,7 +486,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-unit-obj-initial-pose.json"
       ],
-      "decoded_sha256": "f26afe300dd906b06ffeb048f5c1d88d0ed02744f0d91be645e263acd2474bd7"
+      "decoded_sha256": "f26afe300dd906b06ffeb048f5c1d88d0ed02744f0d91be645e263acd2474bd7",
+      "sources_sha256": "7189d855ae2a3803e811779d02f2be2111f7faee1790c8b958f0d62a3b3a76a9"
     },
     "graphics.color-mode-palettes": {
       "ordinary_positive": true,
@@ -443,7 +495,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-color-mode-palettes.json"
       ],
-      "decoded_sha256": "98068136afc44d24640c2c27027ccc34954aa0d92a01a603db767b07cfaab382"
+      "decoded_sha256": "98068136afc44d24640c2c27027ccc34954aa0d92a01a603db767b07cfaab382",
+      "sources_sha256": "5d461d9b7b97b27eaafd75d4d91a37fbda554b855c965d09f6864ea08a7d9aad"
     },
     "graphics.unit-obj-equipment": {
       "ordinary_positive": true,
@@ -451,7 +504,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-unit-obj-equipment.json"
       ],
-      "decoded_sha256": "23391d28a69a1bb728353d267a6080e47f6a741846c0c72ad7b631d887fb701c"
+      "decoded_sha256": "23391d28a69a1bb728353d267a6080e47f6a741846c0c72ad7b631d887fb701c",
+      "sources_sha256": "b817a69b4ed47a8fc8350301fa88f1a80bfc82abb33d309f7be2df04f5a2d634"
     },
     "graphics.unit-obj-normal-battle": {
       "ordinary_positive": true,
@@ -459,7 +513,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-normal-battle-obj-poses.json"
       ],
-      "decoded_sha256": "33d0c76b2a254cb565733c53317950531bf9b8fc0604eb6f1905d98e5c019d53"
+      "decoded_sha256": "33d0c76b2a254cb565733c53317950531bf9b8fc0604eb6f1905d98e5c019d53",
+      "sources_sha256": "8a93fdbe503232b8195b41211c7a59030ee43badc67c76a581316b67c49b7f69"
     },
     "graphics.unit-obj-alternate-battle": {
       "ordinary_positive": false,
@@ -467,7 +522,8 @@
       "references": [
         "docs/changes/2026-10-24-consume-european-alternate-battle-obj-poses.json"
       ],
-      "decoded_sha256": "cad7771dbddf3d92b93c6a9df6a62fa430b775b9e7e2932253207d71dff35580"
+      "decoded_sha256": "cad7771dbddf3d92b93c6a9df6a62fa430b775b9e7e2932253207d71dff35580",
+      "sources_sha256": "1c11e5ba288d21ed9e4b8e4902e324ad3b47605107d3177ec81f25c9d90736f6"
     }
   },
   "source_only": [
@@ -782,10 +838,10 @@
     }
   ],
   "limits": [
-    "Fotografia EUR e61-d60 del 25 ottobre 2026: 56 famiglie runtime e una proiezione solo sorgente. Gli aggiornamenti richiedono revisione delle prove; non è una misura USA/Android.",
+    "La mappa segue il dataset autenticato dell’estrattore compilato dall’ultimo commit. La revisione delle prove ordinarie è separata: nuovi contenuti o sorgenti richiedono revisione prima di ereditare una prova positiva. EUR soltanto, non una misura USA/Android.",
     "Codice: unione esatta degli intervalli di istruzioni scoperti dall’analizzatore attuale dai punti di ingresso ROM della cache conservata. Include candidati speculativi, non certifica ogni byte come codice o eseguito. RAM/BIOS esclusi; codice copiato in RAM non ricondotto automaticamente alla sorgente ROM.",
-    "Dati identificati: unione degli intervalli autenticati del manifest e di 33 intervalli / 6.436 B del modello script-special-normal. Header tecnico 0x4..0xc0 separato; puntatori senza estensioni provate non classificano intere regioni.",
-    "Disponibilità runtime e uso effettivo sono distinti. Prove ordinarie storiche per 52 delle 56 famiglie, anche su generazioni precedenti con file invariati; nessuna singola sessione tocca tutte le famiglie. La proiezione solo sorgente non è disponibile al runtime.",
+    "Dati identificati: unione degli intervalli autenticati del manifest e delle proiezioni solo sorgente ancora esterne al runtime. Le proiezioni già migrate non sono conteggiate come ulteriori famiglie. Header tecnico 0x4..0xc0 separato; puntatori senza estensioni provate non classificano intere regioni.",
+    "Disponibilità runtime e uso effettivo sono distinti. Prove ordinarie storiche ereditate soltanto se identici sia il file decoded sia la mappa delle sorgenti. Nessuna singola sessione tocca tutte le famiglie. Nuove famiglie autenticate non diventano automaticamente prove di uso ordinario.",
     "Non esiste qui una traccia ordinaria completa degli indirizzi letti: byte distinti consumati N/D. source_bytes include riletture; decoded_body_bytes e literal bytes non sono addendi della copertura ROM. Nessuna percentuale di byte effettivamente consumati viene inventata.",
     "Condivisione: minimo verificato da descrittori/packet/transfer BG, alias manifest, song-header e riferimenti tone-wave audio. Copie uguali a offset diversi non sono condivisioni; altri grafi restano non censiti.",
     "Sovrapposizione tra risorse: stessi byte rivendicati da famiglie distinte, inclusi font/glyph e OBJ condivisi. Livello separato dai riferimenti condivisi. Sovrapposizione codice/dati: conflitto o interleaving da esaminare, non byte da contare due volte.",

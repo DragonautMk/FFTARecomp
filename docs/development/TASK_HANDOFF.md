@@ -6,6 +6,23 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **ROM-COVERAGE-LIVE-GENERATION — selected (2026-10-26).** Latest user
+  confirms map remains unchanged. Actual26Oct logs succeed but always reuse
+  evidence-pinned e61-d60; uncommitted report delta is only analyzer binary SHA.
+  HEAD c8c165f actually publishes e65-d64 (verified from Git source);
+  the generic-direct model is uncommitted work over that revision.
+  Missing: follow the built committed extractor generation rather than evidence
+  revision, preserve reviewed ordinary proofs only for matching content, show
+  pending review/freshness, and generate a real updated index. Next implement
+  isolated Git-source Docker context, generation-keyed cache and dynamic report
+  reconciliation; validate new/current/historical/reuse/error paths. Preserve
+  user's generated report preimage and concurrent generic-model edits. No
+  gameplay/oracle rerun, normal executable or extraction-source mutation.
+  First actual build/extraction/report passed: e65-d64/60families/4pending;
+  12generator+6Bash checks pass. Build-stage correction requires one rebuild:
+  Git archive preserves old mtimes, so tar now extracts with fresh mtimes to
+  prevent warm Cargo cache reuse of unrelated source. No gameplay retest.
+
 - **GODOT-FRONTEND-ASSESSMENT — planning complete, implementation deferred
   (2026-10-26).** Latest user explicitly requested evaluation/TODO only and ROM
   extraction first. docs/development/GODOT_FRONTEND_TODO.md records assessment,
@@ -8395,3 +8412,105 @@ guards. Allnewframesop1, old2/8/0/6stayclosed. No nativecomplete-stateclock/
 ordinary/fullactorABI claim at02, no gamefixture/navigation/privatepayload/metrics.
 Selectcheckpoint beforeediting. Runtime/actualCLI/ordinary andLinux-USA-native
 Windows-new32:9 remain pending; authorizednormal localcheckpointderivationunused.
+
+
+**Selection checkpoint — ROMDATA-02-SCRIPT-REGISTRY-GENERIC (2026-10-26).**
+Previousgoalturn is progress: independent generic-direct sourcecontract2940
+witnesses6720refs/659newspans99824B/12initialrootviews closed; final367sources
+10712expectedguards/no livejobs. All367cheap current sourcehashes match; user
+uncommittede65work preserved/HEAD916b4f9. LatestfullTODO/EUR/Wine-only/no
+performance-space unchanged. Missinglossless offline model andonefocusedWine
+newsource oracle. Next newmodule/newtest andtwo sharedhub declarations only,
+e65-d64/USAe8-d7runtime unchanged. Retain3210keys/777seq andexplicit12initial
+sharedrootTargets; independentlyvalidate sixpriorfullviews initial/equipment/
+normal/alternate/low-scriptalternate/registry-knownspecial before unionsubtraction.
+Producerdeps metadata52/archive, fields110normal100alternate; all116rowclass
+observations remain inexistingmetadata/sourcecontract, sentinel/redirectcases
+separate. OneaffectedWindowsfrontend build/oneexactnewWine2772cell facingalias/
+1260null126proper/268DMA82016B/wholeVRAM with JSON-source-producer-6oldviews-root
+view guards; allnewframesop1/no oldcommand or nativeclock/ordinary/ABI/scene
+replay. Evidence target/rom-data-script-registry-generic-model/; fullgoalactive,
+managed/runtime/CLI/ordinary/globalidentity/otherplatforms pending. No fixture/
+navigation/privatepayload/performance/storage selected.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-GENERIC — build child closed.**
+12303affectedWindowsfrontend build terminalPASS/no warnings, firstattempt/no
+compiler correction. Frozen bd8727eecdb46327eab68b067d84d6cfbb80f3fd34c849553b35a57ba4eca2ec;
+15compiled inputs retained, activeprivatehash-mtimeguards unchanged. No prior
+source/command/native/scene test executed. Do not rebuild unchanged. Next first
+exactnewWine sourcefilter with requiredlocalserverfilesystemaccess; no fixture/
+navigation/performance work. Sourcecontract/fullfamilygoal unchanged.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-GENERIC — source/model/Wine children terminalPASS.**
+82612firstactualexactWinefilter exit0/PASS/frozenbd8727ee..,34guards/2772newcell
+facingaliases/1260null+126proper resets/268real scheduler-DMAuploads82016pixelB/
+wholeVRAM.3210keys/2940witnesses6720refs/all12initialrootviews/full796992B/owned
+659spans99824B preserved. Six overlapping priorviews EACH mismatchguard rejects
+independently, explicit sharedroot provenance/type guards pass. No oldcommand/
+previoussource/native/scene proof replay; D-Bus startup stderr did not affect
+terminalPASS.1462activeWinehash-mtimeguards/15compiledinputs unchanged. No
+build/test failure/retry/no livejobs. Source/model/oracle children nowclosed,
+next memory/preservation closure only, then03managed-runtime. Current e65-d64/
+USAe8-d7unchanged, no nativecomplete-stateclock/ordinary/wholeABI claim at02.
+No fixture/navigation/privatepayload/performance/storage work.
+
+
+**ROMDATA-02-SCRIPT-REGISTRY-GENERIC — memory/preservation closure.**
+Source/model/firstexactWine children closed/no unchangedbuild-oracle repeat.
+One warning-freefrontend build/firstWinebd8727ee.. passes34guards/2772newcell
+aliases/1260null126proper/268realDMA82016B/wholeVRAM and12sharedrootviews; six
+previous views independently guarded. Full796992B/source78b1f978../owned659spans
+99824B/source44033ff6../modelJSON3bd5b90a.. . All367baseline sourcechecks pass:
+implementationdelta onlytwohubs equalpreimages+exactdeclarations,15compiledinputs
+unchanged.1461build/1462Wineactivehash-mtimeguards verifiedbyrunners; newsource60
+e65ownerproof+04/03/02privateproof reused, no10712legacyartifact campaign.
+Record/unitOBJ/STATE/TODO/inventory/CHANGELOG updated;536decodedlinks/default+
+basec8c165fmemory/newmodulerustfmt/CRLF-whitespace pass. Currentuser/concurrent
+rom-coverage JSON/HTMLedits preserved/notselected/rebuilt/validated. HEADc8c165f
+commitsprior e65work; allsource hashes matchacceptedbaseline outside selected
+newmodelwork. Final369source/expectedprivate maps under target/rom-data-script-
+registry-generic-model/; no livejobs/fullgoalactive/incomplete/e65-d64/USAe8-d7.
+
+Next **ROMDATA-03-SCRIPT-REGISTRY-GENERIC**: managed publication+typedguest owner
+for exactly659newspans99824B; e66-d65newresource/unit-obj-script-registry-generic.json,
+62files61resources/all60priorresource records/e65retained. Actualnewproducerdeps
+metadata52/archive; sixsharedowners initial/equipment/normal/alternate/low-script
+alternate/registry-knownspecial. No artificialmetadata14/low-scriptnormal/override
+source dependency. ModelBinding reusesalternate::Target explicitNull/Sequence/
+SharedIndexRoot; newruntime indexbytes use target.bytes(),13u64bits cover777
+sequence identities, only126newseq/roles[0directory5544index504header11760frame
+0OBJ82016pixel] owned. Sourcepage union fromaccepted659spans; holes composeold/
+raw exactly. Keep2940witnesses6720refs andall12initialrootviews; immutabletyped
+source only, originaltasks/facing/commands/scheduler/DMA/VRAM stayguest. One
+Windowsaffectedcore/frontendcompile andtwofocusedWine publication-auth-lifecycle/
+neworiginal-interpreter-compiled fullstate-clock+796992Brawgraphpoison/boundaries-
+width-mirrors-BIOS-SWI-DMA/mixedprevious-raw checks; no oldsource/command/scene
+proof rerun. Source/model children closed, checkterminalartifacts before any
+repeat. ActualCLI/ordinarynewpixel andFFFF/redirect/outofcatalog/changedactor/
+globalregistryidentity/Linux-USA-nativeWindows-new32:9 remain pending. No
+fixture/navigation/privatepayload/performance/storage work implicitly selected;
+normal localcheckpointderivation authorization persists but isunused. Select
+checkpoint beforeediting; fullTODO remainsactive beyond this onefamily.
+
+
+**Selection checkpoint — ROMDATA-03-SCRIPT-REGISTRY-GENERIC (2026-10-26).**
+Previousgoalturn progress: source/model/firstWine closed,34guards/2772prefixes/
+1260null126proper/268DMA82016B/wholeVRAM/all12rootviews; final369source10746
+expectedguards/no livejobs. Cheap369sourcechecks showonlyconcurrenthandoffdelta;
+gitdiffnewtopcoverage-task selection inspected, allimplementationhashes match.
+Fullcurrenthandoffpreimage retained/onlyitsbaseline refreshed. Two setupassertions
+stopped beforecode/preimages/build; emptyignoredruntimedir nowselected. User/
+concurrent coverage JSON/HTML/evidence/scripts/Dockerwork preserved/notselected/
+rebuilt/validated, HEADc8c165f. LatestfullTODO/EUR/Wine-only/no performance-space
+unchanged. Missing managed/typedguest/native consumption659newspans99824B.
+Next e66-d65/62files61resources/actualmetadata52-archive+6sharedtypedviews; original
+facing/tasks/commands/scheduler/DMA/VRAM stayguest. Target.bytes()/13sequencewords/
+659sourcepageunion/holescomposeold-raw. OneWindowsaffectedcore/frontendcompile
+andtwofocusedWine publication-auth-lifecycle/all99824B126seq plusneworiginal-
+interpreter-compiled fullstate-clock/796992Brawgraphaltered/width-mirrors-boundaries-
+BIOS-SWI-DMA/mixedold-raw-new. Source/model/oracleclosed/no replay; no production
+CLI/ordinary/fixture/navigation/privatepayload/performance/storage yet. Evidence
+target/rom-data-script-registry-generic-runtime/; fullgoalactive/FFFF-redirect-
+outofcatalog-changedactor-globalidentity/otherplatform gates pending.

@@ -10,6 +10,7 @@
 <main>
 <h1>Copertura della ROM · FFTA EUR</h1>
 <p id="baseline" class="muted"></p>
+<p id="freshness" class="notice"></p>
 <div class="notice">Le categorie sono sovrapposte. <strong>Disponibile al runtime</strong> indica gli intervalli serviti dalle risorse tipizzate. <strong>Uso ordinario positivo</strong> indica le famiglie osservate: non significa che tutti i byte del loro intervallo siano stati letti. Il codice è una scoperta statica con candidati speculativi.</div>
 <div class="stats" id="stats"></div>
 <h2>Mappa per offset · 16 MiB</h2>
@@ -38,7 +39,9 @@ const rows=[['code_candidates','Codice candidato','code'],['identified_data','Da
 function text(tag,value,cls){const el=document.createElement(tag);el.textContent=value;if(cls)el.className=cls;return el}
 function bytesIn(spans,a,b){let total=0;for(const [s,e] of spans){if(s>=b)break;if(e>a)total+=Math.max(0,Math.min(e,b)-Math.max(s,a))}return total}
 function refs(cell,resource){for(const path of resource.references){const a=text('a',path.split('/').pop().replace(/\.json$/,''));a.href='../../'+path.replace(/^docs\//,'');cell.append(document.createElement('br'),a)}}
-$('baseline').textContent=`${R.date} · ROM EUR ${n(T.rom)} byte · baseline ${R.generation} · offset esclusivi [inizio, fine)`;
+$('baseline').textContent=`Dataset ${R.generation} · ROM EUR ${n(T.rom)} byte · offset esclusivi [inizio, fine)`;
+$('freshness').textContent=`HTML rigenerato: ${new Date(R.generated_at).toLocaleString('it-IT',{timeZoneName:'short'})}. Estrattore ${R.extractor_generation}, commit ${R.source_revision.slice(0,12)}. Prove ordinarie revisionate: ${R.reviewed_generation} del ${R.evidence_date}. ${R.pending_review.length} famiglie con prove da revisionare.`;
+if(R.historical_dataset)$('freshness').append(text('strong',' Dataset storico esplicito: rilancia senza --dataset / -DatasetDir per usare la generazione corrente.'));
 for(const [value,label] of [[n(T.code_candidates)+' B · '+pct(T.code_candidates),'Codice candidato, unione statica'],[n(T.identified_data)+' B · '+pct(T.identified_data),'Dati identificati, unione'],[n(T.runtime_available)+' B · '+pct(T.runtime_available),'Disponibili al runtime'],[`${T.ordinary_positive_families}/${T.runtime_families}`,'Famiglie runtime con uso ordinario positivo'],['N/D','Byte distinti letti nelle scene'],[n(T.shared_references)+' B · '+pct(T.shared_references),'Riferimenti condivisi, minimo censito'],[n(T.unclassified)+' B · '+pct(T.unclassified),'Non classificati dopo i candidati codice']]){const d=text('div','','stat');d.append(text('strong',value),text('span',label));$('stats').append(d)}
 $('stats').after(text('p',`Sovrapposizione da esaminare: ${n(T.code_data_overlap)} B appartengono sia ai candidati codice sia ai dati identificati. Header separato: ${n(T.header_metadata)} B. Solo fonte/modello: ${n(T.source_only_data)} B, esclusi dal runtime. Le percentuali non vanno sommate.`,'muted'));
 for(const [key,label,color] of rows){const d=text('span',label);const dot=text('i','','dot');dot.style.background=`var(--${color})`;d.prepend(dot);$('legend').append(d)}
@@ -59,7 +62,7 @@ const holes=document.createElement('ol');for(const span of R.largest_unclassifie
 $('sharing-summary').textContent=`${n(T.shared_references)} B in ${n(T.shared_records)} intervalli con riferimenti condivisi. ${n(T.multiple_resource_owners)} B appartengono a più risorse nel manifest. Le due misure possono sovrapporsi.`;
 const shared=document.createElement('ol');for(const r of [...R.sharing].sort((a,b)=>b.references-a.references).slice(0,8)){const li=document.createElement('li');li.append(rangeButton(r.range,`${r.references} riferimenti`),text('div',r.resource,'muted'));shared.append(li)}$('sharing').append(shared);
 for(const limit of R.limits)$('limits').append(text('li',limit));
-for(const [key,value] of Object.entries({rom_sha256:R.rom_sha256,manifest_sha256:R.manifest_sha256,evidence_sha256:R.evidence_sha256,...R.code})){const p=document.createElement('p');p.append(text('strong',key+': '),text('code',String(value)));$('provenance').append(p)}
+for(const [key,value] of Object.entries({generated_at:R.generated_at,source_revision:R.source_revision,extractor_generation:R.extractor_generation,reviewed_generation:R.reviewed_generation,evidence_date:R.evidence_date,pending_review:R.pending_review.join(', '),rom_sha256:R.rom_sha256,manifest_sha256:R.manifest_sha256,evidence_sha256:R.evidence_sha256,...R.code})){const p=document.createElement('p');p.append(text('strong',key+': '),text('code',String(value)));$('provenance').append(p)}
 addEventListener('resize',draw);matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);select(0);
 </script>
 </html>

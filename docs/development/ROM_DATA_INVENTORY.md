@@ -8,7 +8,9 @@ Do not apply a regional offset to another image or infer language coverage
 from a shared rendering format.
 
 The [overall ROM coverage map](ROM_COVERAGE.md) provides an offset atlas and
-reproducible metadata-only JSON/HTML for the reviewed EUR e61-d60 baseline. It
+reproducible metadata-only JSON/HTML following the committed EUR extractor.
+Dataset generation and historical ordinary-proof review are independent; new
+resources appear with review pending, without freezing regeneration. It
 separates speculative code, authenticated data, typed runtime availability,
 ordinary positive resource use, shared references and unclassified regions.
 Overlapping layers are not additive; ordinary distinct-read-byte coverage is
@@ -1549,7 +1551,10 @@ classificate:100bothconcrete/10normalonly/2bothFFFF/4routeFF,110normal100alterna
 1895pixelrequests677280B;12targetindexrootinitial48..59con witnesses exactfields.
 Full796992B/shared697168B, nuovi659span99824B (5544index504header11760frame82016pixel),
 1386newcells1260null/126newseq588op1/268pixelrequests. No nuoviOBJ/mixeditem/role/
-extentconflict. Fontechiusa, modello-Wine-managed-runtime-CLI-ordinary pending,
-e65/USAe8invariati. FFFF/redirect/outofcatalog/changedactor/globalidentity e altre
-piattaforme separati; nessun guest/build/fixture/navigazione/misure.
+extentconflict. Modello lossless e primoWine mirato passano34guards/2772newcell
+alias/1260null126proper resets/268DMA82016B/interaVRAM/12initialrootviews; sei
+precedenti viste validate indipendentemente. Primo buildfrontendWindows senza
+warning; managed-runtime-CLI-ordinary pending, e65/USAe8invariati. FFFF/redirect/
+outofcatalog/changedactor/globalidentity e altre piattaforme separati; nessun
+oldproof replay/fixture/navigazione/misure.
 [Contratto](../rom_data_unit_obj.md#registry-selectors-and-generic-direct-job-source-projection).

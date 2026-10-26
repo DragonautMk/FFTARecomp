@@ -1743,14 +1743,12 @@ role overlap, mixed old/new typed item or varying pixel extent. The new659spans
 with no newOBJlist. New-source SHA-256 is
 `44033ff6d5c52eb5ce768cf725db2b1c5bd906fe98a36be7082874304921cdd9`.
 
-This closes the source contract. A lossless model must preserve all witnesses,
-queries and the12explicit initial-root target views, independently validate six
-previous full typed owner views before subtracting their union, and keep all
-original words/tails/OBJattributes/indexed pixels. The focused new Wine source
-oracle may cover2772newcell facing aliases/1260null+126proper resets/268actual
-DMAuploads82016B/wholeVRAM; the new frames contain only operation1, so previous
-operation2/8/0/6acceptance stays closed. Model/build/Wine/managed/runtime/CLI/
-ordinary checks are not performed at this static stage; EUR e65-d64/USAe8-d7
+This source-contract child is closed. The completed lossless model and focused
+Wine oracle below preserve all witnesses/queries/12initial-root views, validate
+six previous full typed views independently, and cover2772newcell facing aliases/
+1260null+126proper resets/268actualDMAuploads82016B/wholeVRAM. Newframescontain
+only operation1; prior operation2/8/0/6acceptance stays closed. The static audit
+itself performs no model/build/guest/managed/runtime/CLI/ordinary check; EUR e65-d64/USAe8-d7
 remain unchanged. No guest, fixture/navigation/private payload edit, performance
 or storage measurement occurs. Private evidence:
 `target/rom-data-script-registry-generic-poses/`.
@@ -1758,3 +1756,37 @@ or storage measurement occurs. Private evidence:
 Livealternate redirects, FFFF/out-of-catalog/changedcurrentactor/globalregistry
 identity and ordinary newpixel/fullscene remain separate. Linux/USA/native
 Windows/new32:9 remain pending.
+
+
+## Typed registry generic direct-job model
+
+The [offline model](../crates/gba-core/src/rom_data/unit_obj_script_registry_generic.rs)
+retains2940mode/unitkind/selector/job/base witnesses6720refs/107roots/3210keys,
+777proper sequences5093frames/45OBJlists231objects/1895indexed pixel blocks.
+Its strict typed targets preserve12initialindex-root views alongside realnulls
+and proper sequences. Original words/tails/OBJattributes/pixelnibbles remain
+lossless; the existingmetadata52dependency retains every one of116rows, including
+all sentinel/redirect observations outside the conditional concrete domain.
+
+Source reconstruction independently validates initial/equipment/normal/alternate/
+low-scriptalternate/registry-knownspecial full typed views before subtracting
+their union. It validates all12initialdirectory/index target witnesses and the
+inherited alternate model's initial views. Only659newspans99824B form its owned
+fingerprint; the full796992Bgraph remains inspectable. No fixed registryjob,
+live cap or discarded selected query is introduced.
+
+One [focused source oracle](../crates/recomp/src/rom_data/script_registry_generic_model_tests.rs)
+passes2772newcell facing-alias prefixes/1260null+126proper resets/268real
+scheduler-DMAuploads82016pixelB/entireVRAM. Its34guards cover strict JSON/producer/
+metadata/archive/six-independent-old-view/shared-root mismatches. One affected
+Windows frontend build passes firstattempt without warnings; the first actual
+exact Wine filter passes. Frozen frontend SHA-256 is
+`bd8727eecdb46327eab68b067d84d6cfbb80f3fd34c849553b35a57ba4eca2ec`.
+All1462activeWinehash-mtimeguards/15compiledinputs remain unchanged. Prior
+command/source/managed/native/scene acceptance is not replayed; newframesare
+operation1only.
+Productione65-d64/USAe8-d7remain unchanged. Managed/runtime/actualCLI/ordinary
+newpixel/fullscene and FFFF/redirect/out-of-catalog/changedactor/globalidentity
+remain separate. Linux/USA/nativeWindows/new32:9 pending, no fixture/navigation/
+privatepayload/performance/storage work. Evidence:
+`target/rom-data-script-registry-generic-model/`.

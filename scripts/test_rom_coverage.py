@@ -1,5 +1,6 @@
 """ROM-free checks for atlas accounting and classification boundaries."""
 import random
+import sqlite3
 import contextlib
 import hashlib
 import io
@@ -54,11 +55,13 @@ class CoverageAccountingTests(unittest.TestCase):
 
 
 class CoverageRefreshTests(unittest.TestCase):
-    def test_stale_dataset_reports_expected_revision_and_remedy(self):
+    def test_evidence_revision_does_not_freeze_dataset_but_rom_must_match(self):
         e = {'baseline': ['rom', 61, 60]}
         coverage.check_baseline({'extractor_revision': 61, 'decoder_revision': 60}, e, 'rom')
-        with self.assertRaisesRegex(ValueError, 'e37-d36.*e61-d60.*Omit --dataset'):
-            coverage.check_baseline({'extractor_revision': 37, 'decoder_revision': 36}, e, 'rom')
+        coverage.check_baseline({'extractor_revision': 65, 'decoder_revision': 64}, e, 'rom')
+        coverage.check_baseline({'extractor_revision': 37, 'decoder_revision': 36}, e, 'rom')
+        with self.assertRaisesRegex(ValueError, 'ROM differs'):
+            coverage.check_baseline({'extractor_revision': 61, 'decoder_revision': 60}, e, 'other')
 
     def test_source_only_ranges_require_real_hashes_and_exact_extents(self):
         rom = bytes(range(32))
@@ -105,18 +108,26 @@ class CoverageRefreshTests(unittest.TestCase):
                 self.assertTrue(check)
                 self.assertEqual(command[:3], ['recomp', 'rom-data', 'extract'])
                 dest = Path(command[-1]); dest.mkdir()
-                (dest / 'manifest.toml').write_text('fixture')
-            with mock.patch.object(coverage.subprocess, 'run', side_effect=extract) as run:
+                (dest / 'manifest.toml').write_text('extractor_revision=65\ndecoder_revision=64\n')
+            with mock.patch.object(coverage, 'extractor_generation', return_value=(65,64)), \
+                 mock.patch.object(coverage.subprocess, 'run', side_effect=extract) as run:
                 coverage.prepare_dataset(args)
+                self.assertEqual(Path(args.dataset).name, 'e65-d64')
                 self.assertEqual(run.call_count, 1)
                 args.dataset = None
                 coverage.prepare_dataset(args)
                 self.assertEqual(run.call_count, 1)
+                (Path(args.dataset) / 'manifest.toml').write_text('extractor_revision=61\ndecoder_revision=60\n')
+                args.dataset = None
+                with self.assertRaisesRegex(ValueError, 'differs from built extractor'):
+                    coverage.prepare_dataset(args)
 
     def test_failed_validation_preserves_existing_report_and_repeat_is_explicit(self):
         with tempfile.TemporaryDirectory() as tmp:
             args = SimpleNamespace(dataset='already provided', output=tmp)
-            report = dict(generation='e61-d60', date='2026-10-25', totals=dict(runtime_families=56))
+            report = dict(generation='e65-d64', generated_at='first', reviewed_generation='e61-d60',
+                          evidence_date='2026-10-25', pending_review=[], historical_dataset=False,
+                          totals=dict(runtime_families=60), code=dict(analyzer_executable_sha256='first'))
             with mock.patch.object(coverage, 'build', return_value=report), contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(coverage.generate(args), 0)
             before = {p.name: p.read_bytes() for p in Path(tmp).iterdir()}
@@ -125,9 +136,70 @@ class CoverageRefreshTests(unittest.TestCase):
                     coverage.generate(args)
             self.assertEqual(before, {p.name: p.read_bytes() for p in Path(tmp).iterdir()})
             output = io.StringIO()
+            report['generated_at'] = 'second'
+            report['code']['analyzer_executable_sha256'] = 'rebuilt'
             with mock.patch.object(coverage, 'build', return_value=report), contextlib.redirect_stdout(output):
                 coverage.generate(args)
-            self.assertIn('Contenuto invariato', output.getvalue())
+            self.assertIn('Copertura invariata', output.getvalue())
+            self.assertNotEqual(before['index.html'], (Path(tmp) / 'index.html').read_bytes())
+
+    def test_review_requires_same_decoded_file_and_source_map(self):
+        evidence = json.loads((coverage.ROOT / 'docs/development/rom-coverage/evidence.json').read_text())
+        rid, note = next(iter(evidence['resources'].items()))
+        resource = dict(id=rid, sha256=note['decoded_sha256'], sources=[])
+        evidence['resources'][rid]['sources_sha256'] = coverage.sources_sha256(resource)
+        self.assertEqual(coverage.resource_evidence(resource, evidence)['evidence_status'], 'reviewed')
+        for changed in ({**resource, 'id':'new'}, {**resource, 'sha256':'changed'},
+                        {**resource, 'sources':[dict(offset=4,length=8)]}):
+            actual = coverage.resource_evidence(changed, evidence)
+            self.assertFalse(actual['ordinary_positive'])
+            self.assertEqual(actual['evidence_status'], 'unreviewed')
+        evidence['resources'][rid]['references'] = ['missing-proof.json']
+        with self.assertRaisesRegex(ValueError, 'missing evidence'):
+            coverage.resource_evidence(resource, evidence)
+
+    def test_new_resources_migrate_source_only_without_inheriting_ordinary_use(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); dataset = root / 'dataset'; dataset.mkdir()
+            rom = bytes(range(256)); (root / 'rom').write_bytes(rom)
+            (root / 'proof.json').write_text('{}')
+            with sqlite3.connect(root / 'gamedb.sqlite') as db:
+                db.execute('CREATE TABLE functions (sha256 TEXT)')
+            def source(a,b):
+                return dict(offset=a,length=b-a,sha256=hashlib.sha256(rom[a:b]).hexdigest(),role='fixture')
+            resources = []
+            for name,a,b in [('reviewed',192,208),('new',208,224)]:
+                (dataset / name).write_text(name)
+                resources.append(dict(id=name,path=name,sha256=coverage.sha(dataset/name),sources=[source(a,b)]))
+            evidence = dict(baseline=[coverage.sha(root/'rom'),61,60],date='2026-10-25',limits=[],
+                            resources={'reviewed':dict(decoded_sha256=resources[0]['sha256'],
+                            sources_sha256=coverage.sources_sha256(resources[0]),ordinary_positive=True,
+                            references=['proof.json'],note='accepted')},source_only=[dict(id='projection',
+                            sources=[source(208,240)],ranges=[[208,240]],references=['proof.json'],note='model')])
+            (root / 'evidence.json').write_text(json.dumps(evidence))
+            manifest = dict(source_rom_sha256=coverage.sha(root/'rom'),source_rom_size=256,
+                            extractor_revision=65,decoder_revision=64,profile='synthetic',resources=resources)
+            args = SimpleNamespace(rom=root/'rom',dataset=dataset,evidence=root/'evidence.json',
+                                   translation=None,analyzer='unused',code_seeds='unused')
+            with mock.patch.object(coverage, 'ROOT', root), \
+                 mock.patch.object(coverage.tomllib, 'loads', return_value=manifest), \
+                 mock.patch.object(coverage, 'extractor_generation', return_value=(65,64)), \
+                 mock.patch.object(coverage, 'collect_sharing', return_value=[]), \
+                 mock.patch.object(coverage, 'code_ranges', return_value=([],{})):
+                (dataset/'manifest.toml').write_text('mocked parser')
+                report = coverage.build(args)
+                self.assertEqual(report['pending_review'], ['new'])
+                self.assertEqual(report['layers']['ordinary_resource_extents'], [[192,208]])
+                self.assertEqual(report['resources'][-1]['ranges'], [[224,240]])
+                resources[1]['sources'] = [source(208,240)]
+                report = coverage.build(args)
+                self.assertEqual(report['totals']['source_only_data'], 0)
+                self.assertEqual(report['totals']['identified_families'], 2)
+                manifest['extractor_revision'] = 37
+                self.assertTrue(coverage.build(args)['historical_dataset'])
+                (dataset/'new').write_text('tampered')
+                with self.assertRaisesRegex(ValueError, 'invalid decoded'):
+                    coverage.build(args)
 
     def test_audio_sharing_counts_same_address_references_not_equal_content(self):
         with tempfile.TemporaryDirectory() as tmp:

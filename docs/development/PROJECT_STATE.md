@@ -484,8 +484,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   explicit initialindexroot48..59views. Full796992B shares697168B withsixowners;
   new659spans99824B include1386cells1260null/126seq588op1/268pixelrequests82016B.
   No mixeditem/role/extentconflict; initialjoint110count corrected beforetargets,
-  no hidden sentinel/redirect pruning or u16FFFFfallback. Sourcecontractclosed,
-  model/Wine/runtime/CLI/ordinary pending, e65/USAe8unchanged. No guest/build/
+  no hidden sentinel/redirect pruning or u16FFFFfallback. Strictlosslessmodel
+  and firstfocusedWineoracle pass34guards/2772newcell aliases/1260null126proper
+  resets/268DMA82016pixelB/wholeVRAM/all12initialroot views; sixpriorviews checked
+  independently. AffectedWindowsfrontend firstbuild warning-free, e65/USAe8
+  unchanged; managed/runtime/CLI/ordinary pending. No previous acceptance replay,
   fixture/navigation/metrics or newotherplatform tests; globalregistryidentity/
   outofcatalog/redirect/currentchanged remain separate.
 - The [EUR Color-Mode unit/UI palette model](../rom_data_color_palettes.md)
@@ -567,18 +570,21 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   target/build-logs/ and waits for Enter on interactive failure, retaining
   the original exit status for noninteractive automation.
   [Inventory/contract](ROM_DATA_INVENTORY.md) documents other families' unknowns.
-  The [overall ROM coverage atlas](ROM_COVERAGE.md) reviews EUR e61-d60 as
-  metadata-only interactive HTML/JSON, with exact interval unions and separate
-  code-candidate/data/runtime-availability/ordinary-use/sharing/unknown layers.
-  Aggregate source counters do not establish distinct bytes read; candidate
-  code/data overlaps remain explicit classification conflicts. Regenerate with
-  `scripts/windows/rom_coverage_docker.ps1` or
-  `scripts/linux/rom_coverage_docker.sh` after reviewing the baseline/evidence
-  registry. Docker bundles Python/Cargo/nm and the metadata helper; only the
-  ROM/evidence and optional existing datasets/ELF inputs are read-only. The
-  default prepares a private cached dataset and uses versioned address seeds;
-  only Docker and the EUR ROM are needed. Both launchers keep error/run logs;
-  PowerShell can open the report. The direct Python entry remains optional.
+  The [overall ROM coverage atlas](ROM_COVERAGE.md) follows the latest committed
+  EUR extractor generation with metadata-only HTML/JSON and separate candidate
+  code/data/runtime/ordinary-use/sharing/unknown layers. Docker launchers stage
+  a Git HEAD archive plus current public tools into Dockerfile.coverage, excluding
+  uncommitted extraction work and private inputs. The cache key comes from the
+  built extractor source, independently of historical evidence. New/changed
+  resources remain pending ordinary-proof review; exact decoded AND source-map
+  hashes preserve reviewed proofs. Migrated source-only spans are subtracted
+  from that layer. HTML shows generation time, commit, dataset/evidence revisions;
+  logs give deltas or unchanged coverage feedback. Every success rewrites outputs;
+  PowerShell -OpenReport uses a versioned URL. Host requires Git/Docker and EUR ROM,
+  no Python/Rust/old DLL. Runtime source counters do not establish distinct bytes
+  read; speculative code/data conflicts remain explicit. Direct Python and the
+  old working-tree Docker target remain developer alternatives. Native Windows/
+  PowerShell5.1/Docker Desktop are unverified.
   EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
   roots reference66lists/160objects. Source-authenticated JSON fields now feed
   original CPU/DMA/native and host descriptor readers without changing guest

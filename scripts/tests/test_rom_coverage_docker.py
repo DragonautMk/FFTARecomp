@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import tarfile
 import unittest
 
 
@@ -35,12 +36,16 @@ class DockerCoverageTests(unittest.TestCase):
         self.bin = self.directory / 'bin'
         self.bin.mkdir()
         # The child PATH deliberately contains no Python, Cargo or nm.
-        for name in ('dirname', 'basename', 'mkdir', 'id', 'mktemp', 'date', 'tee'):
+        for name in ('dirname', 'basename', 'mkdir', 'id', 'mktemp', 'date', 'tee', 'git', 'cp', 'rm'):
             (self.bin / name).symlink_to(shutil.which(name))
         docker = self.bin / 'docker'
         docker.write_text('''#!/bin/bash
 printf '%s\\0' "$@" > "$DOCKER_TEST_LOG/$1.args"
-if [[ "$1" == buildx ]]; then exit "${DOCKER_TEST_BUILD_STATUS:-0}"; fi
+if [[ "$1" == buildx ]]; then
+    cp "${!#}/runtime.tar" "$DOCKER_TEST_LOG/runtime.tar"
+    cp "${!#}/scripts/rom_coverage.py" "$DOCKER_TEST_LOG/current-tool.py"
+    exit "${DOCKER_TEST_BUILD_STATUS:-0}"
+fi
 if [[ "${DOCKER_TEST_NO_OUTPUT:-0}" == 0 && "${DOCKER_TEST_RUN_STATUS:-0}" == 0 ]]; then
     for arg in "$@"; do
         if [[ "$arg" == type=bind,source=*,target=/output ]]; then
@@ -54,6 +59,16 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
 ''')
         docker.chmod(0o755)
         self.environment = dict(os.environ, PATH=str(self.bin), DOCKER_TEST_LOG=str(self.directory))
+        for name in ('Cargo.toml','Cargo.lock','crates/model.rs','assets/public','TinyCC/public',
+                     'Licenses/public','gamedb.sqlite','docs/changes/proof.json',
+                     'scripts/rom_coverage.py','scripts/rom_coverage.html',
+                     'docs/development/rom-coverage/code-seeds.json'):
+            p = self.repo/name; p.parent.mkdir(parents=True,exist_ok=True); p.write_text('committed')
+        for args in (['init','-q'],['add','Cargo.toml','Cargo.lock','crates','assets','TinyCC','Licenses','gamedb.sqlite'],
+                     ['-c','user.name=Coverage test','-c','user.email=test@example.invalid','commit','-qm','fixture']):
+            subprocess.run(['git','-C',str(self.repo),*args],check=True,capture_output=True)
+        (self.repo/'crates/model.rs').write_text('unfinished extraction')
+        (self.repo/'scripts/rom_coverage.py').write_text('current tool')
 
     def run_script(self, *args, **environment):
         return subprocess.run([shutil.which('bash'), str(self.script), *map(str, args)],
@@ -68,9 +83,13 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         result = self.run_script()
         self.assertEqual(result.returncode, 0, result.stderr)
         build, run = self.call('buildx'), self.call('run')
-        self.assertEqual(build[build.index('--target') + 1], 'coverage')
-        self.assertEqual(build[build.index('--file') + 1], str(self.repo / 'Dockerfile.linux'))
-        self.assertEqual(build[-1], str(self.repo))
+        self.assertEqual(build[build.index('--file') + 1], str(self.repo / 'Dockerfile.coverage'))
+        self.assertTrue(build[-1].startswith(str(self.repo/'target/rom-coverage-context-')))
+        self.assertFalse(Path(build[-1]).exists())
+        with tarfile.open(self.directory/'runtime.tar') as archive:
+            self.assertEqual(archive.extractfile('crates/model.rs').read(), b'committed')
+            self.assertFalse(any(n.startswith(('rom/','out/','target/')) for n in archive.getnames()))
+        self.assertEqual((self.directory/'current-tool.py').read_text(),'current tool')
         for key, target in [('rom', '/input/source.gba'), ('evidence', '/input/evidence.json')]:
             self.assertIn(f'type=bind,source={self.repo / self.defaults[key]},target={target},readonly', run)
         self.assertIn(f'type=bind,source={self.repo / "target/rom-data/coverage"},target=/cache', run)

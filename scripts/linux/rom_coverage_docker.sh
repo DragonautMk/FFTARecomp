@@ -9,7 +9,7 @@ output_dir='docs/development/rom-coverage'
 evidence_path='docs/development/rom-coverage/evidence.json'
 usage() {
     printf 'Usage: %s [--rom FILE] [--dataset DIR] [--translation FILE] [--output DIR] [--evidence FILE]\n' "$0"
-    printf 'Default: prepare the reviewed dataset automatically and use versioned code-entry metadata.\n'
+    printf 'Default: prepare the latest committed extractor dataset and use versioned code-entry metadata.\n'
     printf 'All relative paths start at the project root. Logs: target/build-logs/rom-coverage-*.log\n'
 }
 main() {
@@ -56,6 +56,7 @@ for path in "${inputs[@]}"; do
     if [[ ! -f "$path" ]]; then printf 'Required input file does not exist: %s\n' "$path" >&2; exit 2; fi
 done
 command -v docker >/dev/null || { printf 'Docker with Buildx is required.\n' >&2; exit 1; }
+command -v git >/dev/null || { printf 'Git is required to isolate committed extraction sources.\n' >&2; exit 1; }
 mkdir -p -- "$output_dir"
 # Canonical paths also catch CSV-unsafe characters introduced by symlinks.
 rom_path=$(resolve_path "$(cd -- "$(dirname -- "$rom_path")" && pwd -P)/$(basename -- "$rom_path")")
@@ -82,10 +83,21 @@ if [[ -n "$translation_path" ]]; then
     args+=(--translation /input/translation.dll)
 fi
 image=ffta-rom-coverage:local
-printf 'Building ROM coverage tools inside Docker...\n'
+source_revision=$(git -C "$repo_dir" rev-parse --verify HEAD)
+context_dir=$(mktemp -d -- "$repo_dir/target/rom-coverage-context-XXXXXX")
+trap 'rm -rf -- "$context_dir"' EXIT
+# Archive a fixed commit: concurrent uncommitted extraction stays untouched.
+git -C "$repo_dir" archive --format=tar --output "$context_dir/runtime.tar" "$source_revision" \
+    Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
+mkdir -p -- "$context_dir/scripts" "$context_dir/docs/changes" "$context_dir/docs/development/rom-coverage"
+cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" "$context_dir/scripts/"
+cp -- "$repo_dir/docs/changes/"*.json "$context_dir/docs/changes/"
+cp -- "$repo_dir/docs/development/rom-coverage/evidence.json" \
+    "$repo_dir/docs/development/rom-coverage/code-seeds.json" "$context_dir/docs/development/rom-coverage/"
+printf 'Building ROM coverage tools inside Docker from commit %s...\n' "$source_revision"
 docker buildx build --platform linux/amd64 \
-    --file "$repo_dir/Dockerfile.linux" --target coverage \
-    --load --tag "$image" --progress plain "$repo_dir"
+    --file "$repo_dir/Dockerfile.coverage" --build-arg "COVERAGE_SOURCE_REVISION=$source_revision" \
+    --load --tag "$image" --progress plain "$context_dir"
 docker run --rm --platform linux/amd64 --network none \
     --user "$(id -u):$(id -g)" --env HOME=/tmp \
     "${mounts[@]}" "$image" "${args[@]}"

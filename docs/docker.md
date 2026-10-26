@@ -144,31 +144,35 @@ On Linux:
 bash scripts/linux/rom_coverage_docker.sh
 ```
 
-Both build the `coverage` target in `Dockerfile.linux`, then generate
-`docs/development/rom-coverage/index.html` and `coverage.json`. The default
-requires only the EUR ROM: the container prepares the reviewed dataset under
-`target/rom-data/coverage/<ROM-SHA>/e61-d60/`, authenticates/reuses it on later
-runs and analyzes the versioned address-only code seeds. The old local ELF
-translation and private validation dataset path are no longer prerequisites.
-The image compiles the extraction CLI and metadata helper; it executes no game,
-GUI, native translation or packaging campaign. The ROM/evidence remain read-only;
-only the private cache and report output are writable. No private input enters
-the image. Generation runs offline and Linux preserves host UID/GID.
+Both use `Dockerfile.coverage` to generate
+`docs/development/rom-coverage/index.html` and `coverage.json`. Git and Docker
+are required on the host. A temporary context contains runtime sources archived
+from a fixed HEAD commit plus the current public coverage tools/evidence; local
+unfinished extraction changes and private inputs stay outside the image. The
+normal executable and host Cargo output are untouched. The container compiles
+the CLI/helper, reads their source revision and prepares/reuses the matching
+`target/rom-data/coverage/<ROM-SHA>/e<extractor>-d<decoder>/` cache. No host Python,
+Rust or retained ELF is required. Source mtimes are refreshed inside Docker so
+warm Cargo caches cannot mask a changed archived source tree.
 
-The report now reviews EUR e61-d60:56runtime families/52ordinary-positive, with
-source-only data separately labeled. The terminal prints the reviewed generation,
-output HTML/JSON and an explicit unchanged-content message when appropriate.
-Both launchers retain every run/error under `target/build-logs/rom-coverage-*.log`;
-PowerShell `-OpenReport` opens the resulting HTML. Failed validation leaves the
-existing report intact. Updating runtime code alone does not invent new ordinary
-coverage: the evidence registry still needs explicit review for a new generation.
+The map follows newly committed extraction generations automatically. Ordinary
+use evidence is inherited only for identical decoded files and source maps;
+new/changed families are visible with review pending. The generated HTML shows
+its real generation time, dataset generation, source commit and separate evidence
+review date. Logs include count deltas or explicit unchanged coverage feedback;
+both HTML/JSON are rewritten on every successful run. PowerShell `-OpenReport`
+uses a timestamped file URL to request the new page. Failure logs remain under
+`target/build-logs/rom-coverage-*.log`, and validation failures preserve the report.
 
-Override `-RomPath/-DatasetDir/-TranslationPath/-OutputDir/-EvidencePath` in
-PowerShell or `--rom/--dataset/--translation/--output/--evidence` in Bash.
-Explicit datasets and optional retained ELF inputs are mounted read-only and
-must match the reviewed baseline; a stale e37 dataset reports the expected
-revision and the automatic-preparation remedy. All relative paths start at the
-repository root. See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
+ROM/evidence and explicit datasets/ELF inputs are read-only; only the private
+cache and report output are writable. Generation runs offline and Linux
+preserves host UID/GID. Override `-RomPath/-DatasetDir/-TranslationPath/-OutputDir/-EvidencePath`
+or `--rom/--dataset/--translation/--output/--evidence`. An explicit dataset from
+another revision is prominently labeled historical; omit it for current data.
+All relative paths start at the repository root. The older direct
+`Dockerfile.linux --target coverage` target uses the working tree instead of
+these launchers’ committed-source isolation.
+See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
 
 ## Environment and compatibility
 

@@ -7,6 +7,7 @@ report. Code candidates, runtime availability and ordinary use remain separate.
 """
 import argparse
 import collections
+import datetime
 import hashlib
 import json
 import os
@@ -246,12 +247,36 @@ def collect_sharing(dataset, manifest):
 
 
 def check_baseline(manifest, evidence, digest):
-    actual = [digest, manifest["extractor_revision"], manifest["decoder_revision"]]
-    if actual != evidence["baseline"]:
-        expected = evidence["baseline"]
-        raise ValueError(f"Dataset e{actual[1]}-d{actual[2]} does not match reviewed "
-                         f"e{expected[1]}-d{expected[2]}/ROM. Omit --dataset/-DatasetDir "
-                         "to prepare the reviewed dataset automatically.")
+    if digest != evidence["baseline"][0]:
+        raise ValueError("ROM differs from reviewed evidence")
+    for key in ("extractor_revision", "decoder_revision"):
+        if type(manifest[key]) is not int or manifest[key] < 1:
+            raise ValueError(f"invalid dataset {key}")
+
+
+def extractor_generation():
+    """Read the frozen source compiled into the coverage image, never evidence."""
+    source = (ROOT / "crates/gba-core/src/rom_data.rs").read_text()
+    return tuple(int(re.search(rf"pub const {name}_REV: u32 = (\d+);", source)[1])
+                 for name in ("EXTRACTOR", "DECODER"))
+
+
+def sources_sha256(resource):
+    return hashlib.sha256(json.dumps(resource["sources"], sort_keys=True,
+                                    separators=(",", ":")).encode()).hexdigest()
+
+
+def resource_evidence(resource, evidence):
+    """Carry ordinary proofs forward only for identical content and source map."""
+    note = evidence["resources"].get(resource["id"])
+    if (note and resource["sha256"] == note["decoded_sha256"]
+            and sources_sha256(resource) == note.get("sources_sha256")):
+        if not note["references"] or any(not (ROOT / ref).is_file() for ref in note["references"]):
+            raise ValueError(f"missing evidence record {resource['id']}")
+        return {**note, "evidence_status": "reviewed"}
+    return {"ordinary_positive": False, "references": [], "evidence_status": "unreviewed",
+            "note": "Risorsa e sorgenti autenticate nel dataset selezionato; "
+                    "prove di consumo ordinario da revisionare."}
 
 
 def source_only_spans(extra, rom):
@@ -270,7 +295,8 @@ def prepare_dataset(args):
     if args.dataset is not None:
         return
     evidence = json.loads(pathlib.Path(args.evidence).read_text())
-    digest, extractor_rev, decoder_rev = evidence["baseline"]
+    digest = evidence["baseline"][0]
+    extractor_rev, decoder_rev = extractor_generation()
     if sha(args.rom) != digest:
         raise ValueError("ROM differs from reviewed evidence; no dataset was created")
     dataset = pathlib.Path(args.dataset_cache) / digest / f"e{extractor_rev}-d{decoder_rev}"
@@ -282,6 +308,10 @@ def prepare_dataset(args):
         subprocess.run([args.extractor, "rom-data", "extract", args.rom, str(dataset)], check=True)
     else:
         print(f"Dataset conservato e{extractor_rev}-d{decoder_rev}: verifica e riuso", flush=True)
+    manifest = tomllib.loads((dataset / "manifest.toml").read_text())
+    if (manifest["extractor_revision"], manifest["decoder_revision"]) != (extractor_rev, decoder_rev):
+        raise ValueError("cached/extracted dataset differs from built extractor revision; "
+                         "use a clean --dataset-cache directory")
     args.dataset = str(dataset)
 
 
@@ -311,11 +341,7 @@ def build(args):
             if hashlib.sha256(rom[a:b]).hexdigest() != s["sha256"]:
                 raise ValueError(f"source authentication failed: {rid}")
             spans.append([a, b])
-        note = evidence["resources"][rid]
-        if resource["sha256"] != note["decoded_sha256"]:
-            raise ValueError(f"decoded resource differs from reviewed evidence: {rid}")
-        if not note["references"] or any(not (ROOT / ref).is_file() for ref in note["references"]):
-            raise ValueError(f"missing evidence record {rid}")
+        note = resource_evidence(resource, evidence)
         spans = union(spans)
         owners[rid] = spans
         all_data.extend(spans)
@@ -326,9 +352,11 @@ def build(args):
                         "decoded_sha256": resource["sha256"], **note})
     runtime = union(all_data)
     for extra in evidence["source_only"]:
-        spans = source_only_spans(extra, rom)
+        spans = intersection(source_only_spans(extra, rom), complement(runtime, len(rom)))
         if any(not (ROOT / ref).is_file() for ref in extra["references"]):
             raise ValueError("missing source-only evidence")
+        if not spans:
+            continue  # Already migrated into authenticated runtime resources.
         all_data.extend(spans)
         records.append({**extra, "ranges": spans, "source_bytes": length(spans),
                         "runtime_available": False, "ordinary_positive": False})
@@ -361,7 +389,15 @@ def build(args):
                    "source_only_data": length(data) - length(runtime),
                    "identified_union_with_header": length(data + header),
                    "shared_records": len(shared_records)})
-    return {"schema": 1, "date": evidence["date"], "profile": manifest["profile"],
+    built = extractor_generation()
+    source_file = ROOT / "coverage-source.txt"
+    return {"schema": 2, "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="microseconds"),
+            "evidence_date": evidence["date"], "reviewed_generation": f"e{evidence['baseline'][1]}-d{evidence['baseline'][2]}",
+            "source_revision": source_file.read_text().strip() if source_file.exists() else "working tree (direct invocation)",
+            "extractor_generation": f"e{built[0]}-d{built[1]}",
+            "historical_dataset": built != (manifest["extractor_revision"], manifest["decoder_revision"]),
+            "pending_review": [r["id"] for r in records if r.get("evidence_status") == "unreviewed"],
+            "profile": manifest["profile"],
             "rom_sha256": digest, "generation": f"e{manifest['extractor_revision']}-d{manifest['decoder_revision']}",
             "manifest_sha256": sha(manifest_path), "evidence_sha256": sha(args.evidence),
             "code": code_info, "totals": totals, "layers": layers,
@@ -375,7 +411,7 @@ def main():
     parser.add_argument("--rom", required=True)
     dataset_group = parser.add_mutually_exclusive_group(required=True)
     dataset_group.add_argument("--dataset", help="existing dataset, read-only")
-    dataset_group.add_argument("--dataset-cache", help="prepare/reuse reviewed data in this cache directory")
+    dataset_group.add_argument("--dataset-cache", help="prepare/reuse the built extractor's generation in this cache directory")
     parser.add_argument("--extractor", help="recomp CLI for automatic dataset preparation")
     parser.add_argument("--translation", help="optional original retained ELF; default uses versioned seed metadata")
     parser.add_argument("--code-seeds", default=str(ROOT / "docs/development/rom-coverage/code-seeds.json"))
@@ -397,20 +433,45 @@ def generate(args):
     output.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(report, ensure_ascii=False, separators=(",", ":"))
     template = pathlib.Path(__file__).with_name("rom_coverage.html").read_text()
-    previous = (output / "coverage.json").read_text() if (output / "coverage.json").is_file() else None
+    previous = None
+    if (output / "coverage.json").is_file():
+        try:
+            previous = json.loads((output / "coverage.json").read_text())
+        except ValueError:
+            pass  # A malformed old report must not prevent replacing it.
     with tempfile.TemporaryDirectory(dir=output) as staging:
         staging = pathlib.Path(staging)
         (staging / "coverage.json").write_text(payload + "\n")
         (staging / "index.html").write_text(template.replace("__ROM_COVERAGE_DATA__", payload.replace("<", "\\u003c")))
         os.replace(staging / "coverage.json", output / "coverage.json")
         os.replace(staging / "index.html", output / "index.html")
-    print(f"Rapporto {report['generation']} · prove del {report['date']} · "
+    print(f"Rapporto {report['generation']} · generato {report['generated_at']} · "
           f"{report['totals']['runtime_families']} famiglie runtime", flush=True)
-    if previous == payload + "\n":
-        print("Contenuto invariato: il rapporto era già aggiornato alla generazione verificata.", flush=True)
+    print(f"Prove revisionate {report['reviewed_generation']} del {report['evidence_date']}; "
+          f"{len(report['pending_review'])} famiglie con prove da revisionare.", flush=True)
+    if report["historical_dataset"]:
+        print(f"ATTENZIONE: dataset storico esplicito; estrattore {report['extractor_generation']}. "
+              "Omettere --dataset/-DatasetDir per seguire la versione corrente.", flush=True)
+    if previous:
+        if semantic_report(previous) == semantic_report(report):
+            print("Copertura invariata; index.html e coverage.json rigenerati con nuova data.", flush=True)
+        else:
+            print(f"Confronto con {previous.get('generation', '?')}:", flush=True)
+            for key in ("identified_data", "runtime_available", "unclassified", "runtime_families"):
+                if key in previous["totals"] and key in report["totals"]:
+                    delta = report["totals"][key] - previous["totals"][key]
+                    print(f"  {key}: {delta:+d}", flush=True)
     print(json.dumps(report["totals"], indent=2))
     print(f"HTML: {output / 'index.html'}\nJSON: {output / 'coverage.json'}", flush=True)
     return 0
+
+
+def semantic_report(report):
+    """Ignore generation time/build identity when comparing actual coverage."""
+    result = {k: v for k, v in report.items() if k not in ("generated_at", "source_revision")}
+    result["code"] = {k: v for k, v in report.get("code", {}).items()
+                      if k != "analyzer_executable_sha256"}
+    return result
 
 
 if __name__ == "__main__":

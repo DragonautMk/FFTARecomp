@@ -24,6 +24,7 @@ $logDir = Join-Path $repoDir 'target/build-logs'
 $logFile = Join-Path $logDir ('rom-coverage-{0}-{1}.log' -f (Get-Date -Format 'yyyyMMdd-HHmmss'), ([Guid]::NewGuid().ToString('N').Substring(0,8)))
 Write-Host "ROM coverage log: $logFile"
 Start-Transcript -LiteralPath $logFile | Out-Null
+$contextDir = $null
 try {
 $romFile = Get-ProjectPath $RomPath
 $dataset = if ($DatasetDir) { Get-ProjectPath $DatasetDir } else { $null }
@@ -39,14 +40,35 @@ foreach ($file in $inputs) {
 if (-not (Get-Command docker -CommandType Application -ErrorAction SilentlyContinue)) {
     throw 'Docker Desktop with Buildx is required. Start Docker Desktop using Linux containers.'
 }
+if (-not (Get-Command git -CommandType Application -ErrorAction SilentlyContinue)) {
+    throw 'Git is required to isolate committed extraction sources.'
+}
 [System.IO.Directory]::CreateDirectory($output) | Out-Null
 $image = 'ffta-rom-coverage:local'
+$sourceRevision = & git -C $repoDir rev-parse --verify HEAD
+if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve the committed extraction source.' }
+$sourceRevision = ($sourceRevision -join '').Trim()
+$contextDir = Join-Path $repoDir ('target/rom-coverage-context-' + [Guid]::NewGuid().ToString('N'))
+[IO.Directory]::CreateDirectory($contextDir) | Out-Null
+& git -C $repoDir archive --format=tar --output (Join-Path $contextDir 'runtime.tar') $sourceRevision Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
+if ($LASTEXITCODE -ne 0) { throw 'Cannot archive the committed extraction source.' }
+foreach ($directory in @('scripts', 'docs/changes', 'docs/development/rom-coverage')) {
+    [IO.Directory]::CreateDirectory((Join-Path $contextDir $directory)) | Out-Null
+}
+foreach ($name in @('rom_coverage.py', 'rom_coverage.html')) {
+    Copy-Item -LiteralPath (Join-Path $repoDir "scripts/$name") -Destination (Join-Path $contextDir 'scripts')
+}
+Get-ChildItem -LiteralPath (Join-Path $repoDir 'docs/changes') -Filter '*.json' -File |
+    Copy-Item -Destination (Join-Path $contextDir 'docs/changes')
+foreach ($name in @('evidence.json', 'code-seeds.json')) {
+    Copy-Item -LiteralPath (Join-Path $repoDir "docs/development/rom-coverage/$name") -Destination (Join-Path $contextDir 'docs/development/rom-coverage')
+}
 $buildArgs = @(
     'buildx', 'build', '--platform', 'linux/amd64',
-    '--file', (Join-Path $repoDir 'Dockerfile.linux'), '--target', 'coverage',
-    '--load', '--tag', $image, '--progress', 'plain', $repoDir
+    '--file', (Join-Path $repoDir 'Dockerfile.coverage'), '--build-arg', "COVERAGE_SOURCE_REVISION=$sourceRevision",
+    '--load', '--tag', $image, '--progress', 'plain', $contextDir
 )
-Write-Host "Building ROM coverage tools inside Docker..."
+Write-Host "Building ROM coverage tools inside Docker from commit $sourceRevision..."
 & docker @buildArgs
 if ($LASTEXITCODE -ne 0) { throw "Docker coverage image build failed (exit $LASTEXITCODE)." }
 $runArgs = @(
@@ -80,11 +102,18 @@ foreach ($name in @('index.html', 'coverage.json')) {
 }
 Write-Host "ROM coverage on host: $output/index.html"
 Write-Host "JSON data on host: $output/coverage.json"
-if ($OpenReport) { Start-Process -FilePath (Join-Path $output 'index.html') }
+if ($OpenReport) {
+    $reportFile = Get-Item -LiteralPath (Join-Path $output 'index.html')
+    $reportUri = ([Uri]$reportFile.FullName).AbsoluteUri + '?v=' + $reportFile.LastWriteTimeUtc.Ticks
+    Start-Process -FilePath $reportUri
+}
 } catch {
     Write-Host "ROM coverage failed: $_"
     throw
 } finally {
+    if ($contextDir -and (Test-Path -LiteralPath $contextDir)) {
+        Remove-Item -LiteralPath $contextDir -Recurse -Force
+    }
     Stop-Transcript | Out-Null
     Write-Host "ROM coverage log: $logFile"
 }

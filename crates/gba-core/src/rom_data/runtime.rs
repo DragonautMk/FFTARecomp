@@ -153,8 +153,11 @@ mod observed_task_parameters;
 use observed_task_parameters::ObservedTaskParametersResources;
 pub use observed_task_parameters::ObservedTaskParametersStats;
 mod constructor_obj_animation;
+mod task_cycle_deltas;
 use constructor_obj_animation::ConstructorObjAnimationResources;
+use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
+pub use task_cycle_deltas::TaskCycleDeltasStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -284,6 +287,7 @@ pub struct RuntimeResources {
     slot_job_lookup: Option<Box<SlotJobLookupResources>>,
     observed_task_parameters: Option<Box<ObservedTaskParametersResources>>,
     constructor_obj_animation: Option<Box<ConstructorObjAnimationResources>>,
+    task_cycle_deltas: Option<Box<TaskCycleDeltasResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -544,6 +548,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.constructor_obj_animation {
             resources.constructor_obj_animation = Some(Box::new(ConstructorObjAnimationResources::new(data.clone(), &source.constructor_obj_animation.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.task_cycle_deltas {
+            resources.task_cycle_deltas = Some(Box::new(TaskCycleDeltasResources::new(data.clone(), &source.task_cycle_deltas.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -636,6 +643,7 @@ impl RuntimeResources {
             slot_job_lookup: None,
             observed_task_parameters: None,
             constructor_obj_animation: None,
+            task_cycle_deltas: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -729,6 +737,7 @@ impl RuntimeResources {
             + self.slot_job_lookup.as_ref().map_or(0, |i| i.resident_bytes())
             + self.observed_task_parameters.as_ref().map_or(0, |i| i.resident_bytes())
             + self.constructor_obj_animation.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.task_cycle_deltas.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -847,6 +856,7 @@ impl RuntimeResources {
     pub fn slot_job_lookup_stats(&self) -> Option<SlotJobLookupStats> {self.slot_job_lookup.as_ref().map(|m|m.stats())}
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
+    pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1168,7 +1178,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.constructor_obj_animation {
+            let prior = match &self.constructor_obj_animation {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.task_cycle_deltas {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };

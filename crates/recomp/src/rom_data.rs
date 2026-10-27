@@ -46,6 +46,7 @@ use gba_core::rom_data::{
     slot_job_lookup::SlotJobLookup, SLOT_JOB_LOOKUP_ID, SLOT_JOB_LOOKUP_FILE, MAX_SLOT_JOB_LOOKUP_FILE_BYTES,
     observed_task_parameters::ObservedTaskParameters, OBSERVED_TASK_PARAMETERS_ID, OBSERVED_TASK_PARAMETERS_FILE, MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES,
     obj_lists::constructor_animation::Animation as ConstructorObjAnimation, CONSTRUCTOR_OBJ_ANIMATION_ID, CONSTRUCTOR_OBJ_ANIMATION_FILE, MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES,
+    task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
     map_raster_palettes::MapRasterPalettes, MAP_RASTER_PALETTES_ID, MAP_RASTER_PALETTES_FILE, MAX_MAP_RASTER_PALETTES_FILE_BYTES,
     auxiliary_scripts::AuxiliaryCommands, AUXILIARY_COMMANDS_ID, AUXILIARY_COMMANDS_FILE, MAX_AUXILIARY_COMMANDS_FILE_BYTES,
     auxiliary_scripts::AuxiliaryArchive, AUXILIARY_ARCHIVE_ID, AUXILIARY_ARCHIVE_FILE, MAX_AUXILIARY_ARCHIVE_FILE_BYTES,
@@ -247,6 +248,10 @@ mod unit_obj_ffff_reader_fields_model_tests;
 mod slot_job_lookup_model_tests;
 #[cfg(test)]
 mod observed_task_parameters_model_tests;
+#[cfg(test)]
+mod task_cycle_deltas_model_tests;
+#[cfg(test)]
+mod task_cycle_deltas_runtime_tests;
 #[cfg(test)]
 mod unit_obj_alternate_battle_model_tests;
 #[cfg(test)]
@@ -746,6 +751,11 @@ fn parse_constructor_obj_animation(bytes:&[u8])->Result<ConstructorObjAnimation,
     value.validate()?;Ok(value)
 }
 fn encode_constructor_obj_animation(value:&ConstructorObjAnimation)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode constructor_obj_animation: {e}"))}
+fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
+    let value:TaskCycleDeltas=serde_json::from_slice(bytes).map_err(|e|format!("Invalid task_cycle_deltas: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
 fn parse_map_raster_palettes(bytes:&[u8])->Result<MapRasterPalettes,String> {
     let value:MapRasterPalettes=serde_json::from_slice(bytes).map_err(|e|format!("Invalid map_raster_palettes: {e}"))?;
     value.validate()?;Ok(value)
@@ -937,6 +947,7 @@ struct Dataset {
     slot_job_lookup: Option<SlotJobLookup>,
     observed_task_parameters: Option<ObservedTaskParameters>,
     constructor_obj_animation: Option<ConstructorObjAnimation>,
+    task_cycle_deltas: Option<TaskCycleDeltas>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -986,6 +997,7 @@ struct Dataset {
     slot_job_lookup_bytes: Option<Vec<u8>>,
     observed_task_parameters_bytes: Option<Vec<u8>>,
     constructor_obj_animation_bytes: Option<Vec<u8>>,
+    task_cycle_deltas_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1061,6 +1073,7 @@ impl Dataset {
             slot_job_lookup: self.slot_job_lookup.as_ref().zip(self.slot_job_lookup_bytes.as_deref()),
             observed_task_parameters: self.observed_task_parameters.as_ref().zip(self.observed_task_parameters_bytes.as_deref()),
             constructor_obj_animation: self.constructor_obj_animation.as_ref().zip(self.constructor_obj_animation_bytes.as_deref()),
+            task_cycle_deltas: self.task_cycle_deltas.as_ref().zip(self.task_cycle_deltas_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1218,6 +1231,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(OBSERVED_TASK_PARAMETERS_FILE),MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES)).transpose()?;
     let constructor_obj_animation_bytes=manifest.coverage.iter().any(|id|id==CONSTRUCTOR_OBJ_ANIMATION_ID)
         .then(||read_bounded(&path.join(CONSTRUCTOR_OBJ_ANIMATION_FILE),MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES)).transpose()?;
+    let task_cycle_deltas_bytes=manifest.coverage.iter().any(|id|id==TASK_CYCLE_DELTAS_ID)
+        .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
     let map_raster_palettes_bytes=manifest.coverage.iter().any(|id|id==MAP_RASTER_PALETTES_ID)
         .then(||read_bounded(&path.join(MAP_RASTER_PALETTES_FILE),MAX_MAP_RASTER_PALETTES_FILE_BYTES)).transpose()?;
     let auxiliary_commands_bytes=manifest.coverage.iter().any(|id|id==AUXILIARY_COMMANDS_ID)
@@ -1290,6 +1305,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         slot_job_lookup_bytes.as_ref().map_or(0, Vec::len),
         observed_task_parameters_bytes.as_ref().map_or(0, Vec::len),
         constructor_obj_animation_bytes.as_ref().map_or(0, Vec::len),
+        task_cycle_deltas_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1358,6 +1374,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let slot_job_lookup=slot_job_lookup_bytes.as_deref().map(parse_slot_job_lookup).transpose()?;
     let observed_task_parameters=observed_task_parameters_bytes.as_deref().map(parse_observed_task_parameters).transpose()?;
     let constructor_obj_animation=constructor_obj_animation_bytes.as_deref().map(parse_constructor_obj_animation).transpose()?;
+    let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
     let map_raster_palettes=map_raster_palettes_bytes.as_deref().map(parse_map_raster_palettes).transpose()?;
     let auxiliary_commands=auxiliary_commands_bytes.as_deref().map(parse_auxiliary_commands).transpose()?;
     let auxiliary_archive=auxiliary_archive_bytes.as_deref().map(parse_auxiliary_archive).transpose()?;
@@ -1443,6 +1460,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         slot_job_lookup,
         observed_task_parameters,
         constructor_obj_animation,
+        task_cycle_deltas,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1492,6 +1510,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         slot_job_lookup_bytes,
         observed_task_parameters_bytes,
         constructor_obj_animation_bytes,
+        task_cycle_deltas_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1566,6 +1585,7 @@ fn check_dataset_budget(
     slot_job_lookup: usize,
     observed_task_parameters: usize,
     constructor_obj_animation: usize,
+    task_cycle_deltas: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1634,6 +1654,7 @@ fn check_dataset_budget(
         || slot_job_lookup as u64 > MAX_SLOT_JOB_LOOKUP_FILE_BYTES
         || observed_task_parameters as u64 > MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES
         || constructor_obj_animation as u64 > MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES
+        || task_cycle_deltas as u64 > MAX_TASK_CYCLE_DELTAS_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1705,6 +1726,7 @@ fn check_dataset_budget(
         .saturating_add(slot_job_lookup)
         .saturating_add(observed_task_parameters)
         .saturating_add(constructor_obj_animation)
+        .saturating_add(task_cycle_deltas)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -1886,6 +1908,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.constructor_obj_animation {
         eprintln!("ROM_DATA runtime=decoded resource={CONSTRUCTOR_OBJ_ANIMATION_ID} file={} phases={}",dataset.manifest.resources[66].sha256,data.frames.len());
+    }
+    if let Some(data)= &dataset.task_cycle_deltas {
+        eprintln!("ROM_DATA runtime=decoded resource={TASK_CYCLE_DELTAS_ID} file={} phases={}",dataset.manifest.resources[67].sha256,data.entries.len());
     }
     if let Some(data)= &dataset.map_raster_palettes {
         eprintln!("ROM_DATA runtime=decoded resource={MAP_RASTER_PALETTES_ID} file={} records={}",dataset.manifest.resources[49].sha256,data.programs.len());
@@ -2106,6 +2131,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.constructor_obj_animation_stats() {
             eprintln!("ROM_DATA_USE resource={CONSTRUCTOR_OBJ_ANIMATION_ID} dataset={} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
         }
+        if let Some(i)=resources.task_cycle_deltas_stats() {
+            eprintln!("ROM_DATA_USE resource={TASK_CYCLE_DELTAS_ID} dataset={} bus_reads={} source_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.phases_used);
+        }
         if let Some(i)=resources.map_raster_palettes_stats() {
             eprintln!("ROM_DATA_USE resource={MAP_RASTER_PALETTES_ID} dataset={} bus_reads={} source_bytes={} index_bytes={} header_bytes={} color_bytes={} programs_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.index_bytes,i.header_bytes,i.color_bytes,i.programs_used);
         }
@@ -2290,6 +2318,7 @@ fn write_dataset(
     let slot_job_lookup_data=source.slot_job_lookup.as_ref().map(|catalog|encode_slot_job_lookup(&catalog.decoded)).transpose()?;
     let observed_task_parameters_data=source.observed_task_parameters.as_ref().map(|catalog|encode_observed_task_parameters(&catalog.decoded)).transpose()?;
     let constructor_obj_animation_data=source.constructor_obj_animation.as_ref().map(|catalog|encode_constructor_obj_animation(&catalog.decoded)).transpose()?;
+    let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
     let map_raster_palettes_data=source.map_raster_palettes.as_ref().map(|catalog|encode_map_raster_palettes(&catalog.decoded)).transpose()?;
     let auxiliary_commands_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_commands(&catalog.commands)).transpose()?;
     let auxiliary_archive_data=source.auxiliary_scripts.as_ref().map(|catalog|encode_auxiliary_archive(&catalog.decoded)).transpose()?;
@@ -2356,6 +2385,7 @@ fn write_dataset(
     if let Some(bytes) = &slot_job_lookup_data {files.push(bytes);}
     if let Some(bytes) = &observed_task_parameters_data {files.push(bytes);}
     if let Some(bytes) = &constructor_obj_animation_data {files.push(bytes);}
+    if let Some(bytes) = &task_cycle_deltas_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2425,6 +2455,7 @@ fn write_dataset(
         slot_job_lookup_data.as_ref().map_or(0, Vec::len),
         observed_task_parameters_data.as_ref().map_or(0, Vec::len),
         constructor_obj_animation_data.as_ref().map_or(0, Vec::len),
+        task_cycle_deltas_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2493,6 +2524,7 @@ fn write_dataset(
     if let Some(bytes) = &slot_job_lookup_data {write(&path.join(SLOT_JOB_LOOKUP_FILE),bytes)?;}
     if let Some(bytes) = &observed_task_parameters_data {write(&path.join(OBSERVED_TASK_PARAMETERS_FILE),bytes)?;}
     if let Some(bytes) = &constructor_obj_animation_data {write(&path.join(CONSTRUCTOR_OBJ_ANIMATION_FILE),bytes)?;}
+    if let Some(bytes) = &task_cycle_deltas_data {write(&path.join(TASK_CYCLE_DELTAS_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -2784,6 +2816,7 @@ mod tests {
             slot_job_lookup: None,
             observed_task_parameters: None,
             constructor_obj_animation: None,
+            task_cycle_deltas: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3111,8 +3144,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

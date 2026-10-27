@@ -2214,3 +2214,46 @@ senza guardia5righe esatti; helper0percorsi. Nessun vecchio12frame/source/modell
 runtime/constructor ripetuto o nuova fixture/misura. Ordinaryconstructor rimane
 parziale;371034e piattaforme Linux/USA/Windows nativo/nuovo32:9 ancora da verificare.
 [Contratto e prove](../rom_data_gameplay.md#conditional-phase-zero-threshold-extension).
+
+
+**ROMDATA-01-TASK-CYCLE-DELTAS / ROMDATA-02-TASK-CYCLE-MODEL completati EUR
+(2026-10-27).** Proiezione condizionale371034–371064/48delta signed-i8,
+disgiunta da tutte67risorse e75. Lettori18E10/18E2A usano OLD-u8 prima della
+normalizzazione; incremento memorizzato come u8 prima helper1464EC/resto48,255→0. Somma/
+sottrazione signed su halfwordtask+8 con storelow16; asse/unità/lifetime non
+inferiti. Nessun cap introdotto: query48..255None,48/49/50 sono vecchio owner.
+Primo build Windows senza avvisi/unico filtro Wine passa23guardie/58prefissi
+originali/8bordi helper/tutte48righe e guardie RAM-callee,77input-frozen esatti.
+Modello lossless/JSON rigoroso; revisione e75-d74/68file67risorse invariata.
+Gestione/consumo runtime/CLI completati nelle unità sotto; ordinary separata
+ancora da fare e non dichiarata da questo test sorgente. Constructorordinary precedente ancora parziale; Linux/USA/
+Windows nativo/nuovo32:9 pendenti, nessuna misura o nuova fixture ordinaria.
+[Contratto e prove](../rom_data_gameplay.md#conditional-european-task-cycle-delta-source-and-model).
+
+
+**ROMDATA-02/04-TASK-CYCLE-RUNTIME completato EUR/Wine (2026-10-27).**
+Nuova risorsa gameplay.task-cycle-deltas/filetask-cycle-deltas.json/e76-d75:
+69file68risorse,48B signed-i8/uno span, tutte67precedenti risorse/file esatte.
+Owner tipizzato compone nuovi byte/prior/raw, niente cap o cambio ABI; USA8-7.
+Primo build Windows senza avvisi/primo filtro Wine passa9rifiuti attach
+transazionali/2insieme completo/interruzione nuovo file,8prefissi originali-
+interprete-nativi con stato completo/clock uguali e48rawB alterati,5letture
+esplicitamente compilate. Tutte48righe, confine read32con2nuovi+2vecchi byte,
+bordi/mirror,3trasferimenti DMA/SWI tra owner, file indisponibili/Load/Undo con
+owner conservato.154guardie/codice esatti; helper ritira solo copia interrotta.
+Nessuna ripetizione filtro sorgente o vecchie accettazioni. CLI produzione completata sotto;
+ordinary positiva dei delta rimane child05aperto; constructorordinary parziale.
+Linux/USA/Windows nativo/nuovo32:9 pendenti, nessuna misura.
+[Consumo e prove](../rom_data_gameplay.md#managed-task-cycle-deltas-and-typed-consumption).
+
+
+**ROMDATA-05-TASK-CYCLE-CLI completato EUR/Wine (2026-10-27).**
+Primo build produzione Windows senza avvisi/canonico ripristinato conhashmtime
+esatti; tre comandi Wine prepare/riuso/runc0exit0. Tutti69file uguali al dataset
+Rust accettato, tutti68ID/hash runtime uguali al manifest,48righe delta registrate,
+cache nativa esistente caricata. Tutto pathset71file/hashmtime invariato su riuso
+ed avvio;226guardie/codice esatti, helper0percorsi. Zero frame/dispatch/fallback/
+letture delta: solo attacco, non positività ordinaria. Rimane child05ordinary
+con scena normale positiva/modalità signed dimostrata prima fullpair; niente
+rotta cieca/manualflag. Linux/USA/Windows nativo/nuovo32:9 pendenti, nessuna misura.
+[CLI e limiti](../rom_data_gameplay.md#actual-cli-for-task-cycle-deltas).

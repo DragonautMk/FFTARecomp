@@ -10901,3 +10901,82 @@ no fifthblindroute/manualflag. Nextindependentbase source371034signed-byte reade
 notproved, do not infer48Bfromadjacency/divisorwithoutsemantics. New28frame source
 phase0positive doesnot classifythatsignedfamily. FullTODOactive/incomplete;
 Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.
+
+
+**ROMDATA-01/02-TASK-CYCLE-DELTAS closed/PASS (2026-10-27).**
+Latest fullTODO/EUR/Wine-only/no performance-space/local-copy authorization
+unchanged; userHEAD b654db2, no livejobs. Refined old vertical label to cycle:
+axis/lifetime/initializer/all-use unproved. Conditional371034..37106448B signed-i8
+projection disjoint all67e75owners; sourceSHAa586d989../reader18DAC..18E5C/
+literals18E18+18E58/helper1464EC..1465A2 authenticated. OLD-u8 used prelookup;
+increment stored/reloadedu8 then remainder48,255→0; signed add/subtask+8low16.
+No globalcap, query48..255None;48/49/50 reach earlier threshold owner. Strict
+losslessJSON/ordered48phase model. e75-d74/USA8-7 production unchanged.
+FirstWindowsfrontend20779warning-free/frozenbcd9b660a0e4827a9b7c3f290a8e2e55a52fe2adbd4aef05a0ac7bf02ddc080f.
+OnefirstWine40127PASS23guards/58originalreader prefixes/8helperboundaries/all48/
+signed-low16wrap/storedbyte255wrap/RAM-callee/Thumbreturn.77actualinput-frozen
+hashmtimeguards/compiledimplementation exact. No old acceptance/ordinaryscene
+replay/newfixture. Evidence target/rom-data-task-vertical-deltas/{source-contract.json,
+windows-model-build.json,windows-model-result.json,windows-model/result.json}.
+Record docs/changes/2026-10-27-model-european-task-cycle-deltas.json; feature
+#conditional-european-task-cycle-delta-source-and-model. Managed/runtime/CLI children closedbelow;
+positiveordinary cycle remains separate open; constructorordinary stays
+partial/four closednegative bounds, no blindroute/manualflag. FullTODOactive;
+Linux/USA/nativeWindows/new32:9 pending, no measurements/commit/push/Android/package.
+
+
+**ROMDATA-02/04-TASK-CYCLE-RUNTIME closed/PASS (2026-10-27).**
+FullTODO/EUR/Wine-only/no performance-space/localcopy authorization unchanged;
+userHEAD b654db2, no livejobs. e76-d75 newgameplay.task-cycle-deltas/filetask-cycle-
+deltas.json/48signedB/onespan/nodeps.69files68resources/all67e75records-files exact;
+USA8-7 unchanged. Typed48B onpage371 composesprior/raw; no guestcap/ABIchange,
+original arithmetic/helper/store/index untouched. Source-model childabove closed.
+FirstWindowsfrontend99836 warning-free/frozen711bd1c969fb1cf45040e03c13501b8f5efc5f053a8fc16ec359e4ae5e2fc0b7.
+FirstWine8087 PASS publication/newfileinterruption/9attach2fullsetguards/8complete-
+state-clock original-interpreter-native prefixes/5explicitcompiledB with48rawB
+altered. All48rows/mixedread32at371062 2new+2oldthreshold bytes/rawedges/mirrors/
+3crossing DMA-CpuSet-CpuFastSet/fullstate-clock; unavailablefiles/failedattach/
+load/slotLoad-Undo ownerretained andcontinuedtypedreads.106compiledinstructions/
+37dispatches coverageonly.154actualinput-output-frozen guards/compiledsourceexact;
+requiredartifactcomplete retired onlyinterruptedcopy, keepaccepted69file offline
+set/currentexe/preimages/alllogs/results/source/originalinputs/private slots.
+Private target/rom-data-task-cycle-runtime/{windows-runtime-build.json,
+windows-runtime-result.json,windows-managed-europe/result.json,
+preservation-result.json,artifact-cleanup.json}; accepted windows-managed-europe/
+offline dataset. dataset d4f66549ea79aa8c45be7f44484056d2f92daeb754a459f09826473635368254,
+manifestbd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b,
+cycleJSON2e5b3fab16b60356084606eba7ed856a7e6c0bae5cde6e1abcbd7a9a333a3f45.
+Record docs/changes/2026-10-27-consume-european-task-cycle-deltas.json; feature
+#managed-task-cycle-deltas-and-typed-consumption. CLI05child closedbelow; ordinarypositive cycle
+remains OPEN, no source-model/oldacceptance replay. Source-backed normalpositive
+scene needed beforefullpair, no blindnavigation/manualflags. Constructorordinary remains
+partial/fourclosednegative bounds. FullTODOactive, Linux/USA/nativeWindows/
+new32:9 pending, no measurements/assistantcommit/push/Android/package.
+
+
+**ROMDATA-05-TASK-CYCLE-CLI closed/PASS (2026-10-27).**
+FullTODO/EUR/Wine-only/no performance-space/localcopy authorization unchanged.
+UserHEAD b654db2, no livejobs. Source/model/runtime children stayclosed. First
+Windowsproduction32194 warning-free/frozend83ade6ca106d2dfe95945326d48188e79148e3a591e65e368f0dbd3ad30e2bb;
+canonicalf3e277db../mtime1792570130397888519 exactrestore/maincontentunchanged/
+Cargomtimeonly. ThreeWine40433 CLIchildren all0 prepare/reuse/runc0.69generation/
+71managed files/all69matchRustaccepted/all68runtimeIDhashes exact, new48rows and
+OBJ80lists registered, oldnativecache28859loads. Entiremanagedpathset/hashmtime
+no writes onreuse/startup.226actualinput-output-frozen guards/compiledsourceexact;
+zero guestframes/native/fallback/cycleuse deliberatelyregistration-only, NO
+ordinarypositive claim. Accepted CLI dataset target/rom-data-task-cycle-cli/windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e76-d75/generation-6iBeEJ;
+datasetd4f66549ea79aa8c45be7f44484056d2f92daeb754a459f09826473635368254,
+manifestbd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b,
+cycleJSON2e5b3fab16b60356084606eba7ed856a7e6c0bae5cde6e1abcbd7a9a333a3f45.
+Private target/rom-data-task-cycle-cli/{windows-build.json,windows-cli-processes.json,
+windows-cli-no-write.json,windows-cli-summary.json,preservation-result.json,
+artifact-cleanup.json}. Same runtime record extendedtruthfully; feature
+#actual-cli-for-task-cycle-deltas. Requiredcleanup0paths; alloutputs retained.
+Next remaining cycle05: prove normalaction reachability of18DAC signed mode
+(mask02set/04clear) via preceding initializer window (entryunproved) and18E5Cupdate helper/realcallers;
+cheap existingnormalBank/F09 source evidence before selecting an observation.
+No assumption F09threshold-positive provescycles, no oldscene equivalence replay,
+blindnavigation or manuallyforcedtaskflags. Positive scene then bounded fullpair
+withactualfile use stillOPEN; constructorordinary remainsseparatepartial/four
+closednegative routes. FullTODOactive/incomplete, Linux/USA/nativeWindows/new32:9
+pending; no measurements/newfixture/assistantcommit/push/Android/package.

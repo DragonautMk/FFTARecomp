@@ -3,6 +3,29 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-27 — Authenticate and model the European signed task-cycle deltas
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Authenticate a conditional48-byte signed-i8 projection at371034 using the complete original mode gate/reader/literals and nonzero-divisor helper1464EC. OLD-u8 lookup precedes normalization; stored-u8 increment is passed to remainder48 so255 wraps to0. Original signed add/sub stores low16 into task halfword+8. No axis/unit/task-lifetime/global input cap is inferred.
+- Add strict lossless TaskCycleDeltas JSON with ordered48phase rows, signed fields/source projection and exact-source verification. Outside48–255 queries remain None;48/49/50 preserve the earlier phase-threshold owner. Full48-byte source is disjoint from all67previous owners. Isolated model leaves managed/runtime e75-d74 and USA8-7 unchanged.
+
+**Validation**
+
+- One first Windows frontend test build warning-free/frozenbcd9b660a0e4827a9b7c3f290a8e2e55a52fe2adbd4aef05a0ac7bf02ddc080f; one first exact Wine filter passes23rejection guards/all48signed rows/58original-reader prefixes/8helper boundaries, old-index-before-normalization/store ordering/signed and low16wrapping/remainder-vs-quotient/Thumb-return/full RAM and callee-register guards.
+- All77actual input/frozen hash-mtime guards and compiled implementation hashes pass. Existing ROM/native-cache/TinyCC/canonical executable/F09state-input/current68file e75 dataset stay exact; no prior acceptance rebuilt or replayed. Source SHAa586d9892013a2a3c8dce2bd1629b4f6c611fed7b53e6dbb4a6ba542f13db020.
+
+**Limitations**
+
+- Source/model milestone only. Managed publication/direct runtime/actualCLI/positive ordinary cycle coverage remain separate children; no new ordinary fixture or guest RAM mutation used for ordinary validation. Coordinate axis, initializer/task lifetime, all-use and physical archive extent unproved. Constructor-animation ordinary child remains partial.
+- Linux/USA/native Windows/new32:9 pending; no performance/storage campaign, Android/package/assistant commit/push. Full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-model-european-task-cycle-deltas.json)
+
 ## 2026-10-27 — Model the European conditional constructor OBJ animation
 
 Type: added. Platforms: Windows.
@@ -26,6 +49,31 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-27-model-european-constructor-obj-animation.json)
+
+## 2026-10-27 — Publish and consume the European signed task-cycle deltas
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish gameplay.task-cycle-deltas/task-cycle-deltas.json in EUR e76-d75:69files68resources,48signed-i8 bytes/one source span/no dependencies, all67previous resource records-files retained. Wire extraction, strict loading/source equality/full-set validation, runtime attachment and use reporting; USA8-7 unchanged.
+- Add a private typed48-byte owner that composes prior/raw bytes, preserving original old-u8 indexing, signed add/sub, stored-byte wrap and remainder48 helper. Track48rows outside guest serialization. No Machine/CAPI/save/native-cache ABI or global input cap change. Legacy test construction only gains the new None/zero argument; closed tests are not rerun.
+
+**Validation**
+
+- One first Windows frontend build warning-free/frozen711bd1c969fb1cf45040e03c13501b8f5efc5f053a8fc16ec359e4ae5e2fc0b7. One first exact Wine filter passes69generation files/68resources/all67prior records-files exact, interruption at new file, nine transactional attach guards/two full-set presence guards with original owner and complete guest state retained.
+- Eight original/typed-interpreter/compiled-native prefixes match complete serialized state and guest clock with all48raw source bytes altered, five explicit compiled new-byte reads, both signs/helper-byte-wrap/outside48-254-255 preservation.106compiled instructions/37dispatches are coverage only. Same filter covers all48rows/mirrors/raw edges, mixed unaligned CAPIread32at371062 with two bytes from each new/prior owner, three crossing DMA/CpuSet/CpuFastSet fullstate-clock comparisons and unavailable-file/load/slot Load-Undo owner retention.
+- All154actual input-output-frozen hash-mtime guards and compiled implementation hashes pass. Required local artifact completion retires only the disposable interrupted dataset, preserving accepted69files/inputs/preimages/logs/results/current frozen executable. Dataset d4f66549ea79aa8c45be7f44484056d2f92daeb754a459f09826473635368254; manifestbd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b; cycleJSON2e5b3fab16b60356084606eba7ed856a7e6c0bae5cde6e1abcbd7a9a333a3f45.
+- One first Windows production build warning-free/frozend83ade6ca106d2dfe95945326d48188e79148e3a591e65e368f0dbd3ad30e2bb; canonical hash/mtime exactrestore/main content unchanged with mtime-only Cargo invalidation. Three Wine CLI children all0: prepare/reuse/runc0.69generation71managed/all69accepted/all68runtime ID-hashes exact/new48rows registered/old nativecache loaded. Whole managed pathset/hashmtime unchanged on reuse/startup,226actual guards/compiled source exact; zero frames/native dispatch/fallback/cycle reads deliberately registration-only. Required artifact completion0paths.
+
+**Limitations**
+
+- Bounded publication/direct consumption/lifecycle milestone. Actual production CLI registration is now verified; a positive ordinary cycle scene remains a separate open child. Source/model proof stays closed; no all-use/axis/unit/initializer/task-lifetime or physical archive claim. Constructor-animation ordinary child remains partial.
+- Linux/USA/native Windows/new32:9 pending. No ordinary fixture/navigation, performance/storage campaign, Android/package/assistant commit/push; full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-consume-european-task-cycle-deltas.json)
 
 ## 2026-10-27 — Include the European phase-zero threshold in typed task parameters
 

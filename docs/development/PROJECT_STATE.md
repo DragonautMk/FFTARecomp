@@ -681,7 +681,26 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   neverrerun. Samefrontend one NEW28frame fullpair8476→8504 passes everyfullstate/
   clock/central-wide/OAM/dispatch/allaudio; samples[61446,61446,7392,7392,61370],
   counts exactCLI.215guards/implementation/5lineguardpreimage exact, helper0paths.
-  Constructorordinary child remains partial;371034signed-byte source separate.
+  Constructorordinary child remains partial. Independent371034cycle projection
+  now has a source/model contract:48signed-i8 increments, old-u8 unchecked lookup
+  before stored-u8 increment/remainder48,255→0, signed add/sub taskhalfword+8.
+  Exact reader/helper/literals/full48ownership authenticated; no axis/lifetime
+  inference or global cap. One first warning-freeWindowsbuild/oneWinefilter
+  passes23guards/58originalprefixes/8helperboundaries/all48rows/RAM-callee guards,
+  77actualinputs-frozen/source exact. Isolated model leaves e75 unchanged;
+  Managed/runtime now passes e76-d75/gameplay.task-cycle-deltas:69files68resources,
+  one48B span/all67prior resources-files exact, typed/prior/raw composition.
+  FirstWindowsfrontend warningfree/oneWinefilter passes9attach2fullsetguards/
+  newfileinterruption/8complete-state-clock native prefixes with48rawB altered/
+  5explicitcompiledB/all48rows/mixed2+2owner read/3crossingDMA-SWI/Load-Undo and
+  unavailablefilelifecycle.154actualguards/compiledimplementation exact; required
+  cleanup retires only interruptedcopy. ActualCLI nowpasses firstproductionbuild/
+  canonicalhashmtime exactrestore/3Wine prepare-reuse-runc0 commands,69generation/
+  71managed files/all69accepted/all68runtimeIDhashes/oldcacheload. Managedpathset/
+  hashmtime no writes onreuse/startup,226guards/source exact, helper0paths. Zero
+  execution/cycleusage provesregistration only. Positiveordinary cycle remains
+  open, no oldsourcefilter or acceptance repeated.
+  [Cycle contract](../rom_data_gameplay.md#conditional-european-task-cycle-delta-source-and-model).
   [Phase-zero extension](../rom_data_gameplay.md#conditional-phase-zero-threshold-extension).
   [Constructor animation](../rom_data_obj.md#conditional-constructor-obj-animation-source-and-model).
   [Source proof](../rom_data_runtime.md#lower-bus-and-host-residue-source-contracts).

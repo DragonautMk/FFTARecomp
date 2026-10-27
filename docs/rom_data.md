@@ -1,5 +1,13 @@
 # Decoded ROM resources
 
+EUR e76-d75 adds [signed task-cycle deltas](rom_data_gameplay.md#managed-task-cycle-deltas-and-typed-consumption):
+69files/68resources,48signed bytes in one new file, all67prior records/files exact.
+One Wine filter passes publication/attach transaction guards, eight full-state/
+clock native comparisons with altered raw sources, mixed ownership, DMA/SWI and
+Load/Undo lifecycle. Actual production CLI prepare/reuse/zero-frame attachment
+passes all69files/68runtime hashes and no-write reuse. Positive ordinary cycle
+use remains open. Linux/USA/native Windows/new32:9 pending; no measurements.
+
 EUR e75-d74 adds the [conditional phase-zero threshold](rom_data_gameplay.md#conditional-phase-zero-threshold-extension)
 to the existing parameter file:3thresholds/4corrections/11source bytes, still
 68files67resources/all66other e74 records-files retained. Wine passes new-model/

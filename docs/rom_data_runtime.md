@@ -1521,3 +1521,18 @@ bits; source spans3B/8B total11B, same68files67resources/all66other records-file
 [The phase-zero contract](rom_data_gameplay.md#conditional-phase-zero-threshold-extension)
 records model/native/actualCLI/new28frame ordinary acceptance and raw fallback.
 Constructor ordinary discovery and deferred platforms remain separate.
+
+
+## Conditional task-cycle delta ownership
+
+EUR e76-d75 appends a48-byte signed cycle owner on page371, composed with the
+previous phase-threshold owner/raw ROM. One Wine filter passes eight original/
+typed-interpreter/native fullstate-clock prefixes, all48rows, a mixed C-API
+read with two bytes from each owner, three crossing DMA/SWI transfers and owner
+retention through unavailable files/Load/Undo. All67previous resources remain
+byte-identical. The [cycle contract](rom_data_gameplay.md#managed-task-cycle-deltas-and-typed-consumption)
+records the exact signed/index/store/remainder semantics and authentication.
+The106compiled instructions/37dispatches are coverage only. Actual production
+CLI prepare/reuse/zero-frame attachment nowpasses all69files/68runtime hashes
+and no-write reuse. Ordinary positive cycle use and deferred platforms remain
+separate.

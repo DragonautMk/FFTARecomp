@@ -2703,3 +2703,125 @@ archive extents and Linux/USA/native Windows/new32:9 remain open. Evidence:
 `target/rom-data-phase-zero-threshold/` (`source-contract.json`,
 `windows-phase-result.json`, `windows-cli-positive28-result.json`,
 `windows-ordinary28-result.json`, `preservation-result.json`, `artifact-cleanup.json`).
+
+
+## Conditional European task-cycle delta source and model
+
+`task_cycle_deltas::Catalog` authenticates a conditional48-byte projection at
+EUR371034–371064 as48signed-i8 increments. It checks the exact EUR image, the
+complete18DAC–18E5C mode gate/reader/literals and the1464EC–1465A2 nonzero-divisor
+helper. The source hash is
+a586d9892013a2a3c8dce2bd1629b4f6c611fed7b53e6dbb4a6ba542f13db020.
+Both source literals18E18/18E58 point to08371034. The full48-byte projection is
+disjoint from all67e75 resource owners; immediately following371064–371067
+already belongs to the independent phase-threshold resource.
+
+The entry18DAC copies its task argument to r4 and flags from task+10hex to r5.
+A nonzero task firstword and flag mask02 enable the update. Mask04 selects the
+separate threshold path; when clear, the signed delta path tests mask08. It
+loads the OLD unsigned byte at task+12hex, stores its increment truncated to u8,
+and uses the OLD byte for the unchecked lookup. Mask08 set uses LDRSB at18E10
+and subtracts the delta; clear uses LDRB at18E2A followed by LSL/ASR24 and adds
+it. Both store the low16bits into task halfword+8. No coordinate axis, physical
+unit or task lifetime is inferred from that field.
+
+Afterward the reader reloads the already stored u8 increment, passes it as r0
+with r1=48 to1464EC and stores the return as the new phase. This helper returns
+the unsigned remainder in r0: inputs below48 return directly; larger inputs
+use scaled subtraction, track speculative fractional subtractions in r2 and
+reverse those fractions at146574–14659C before returning. The fixed nonzero
+argument excludes the divisor-zero error branch. MOV PC,LR preserves Thumb.
+Thus newphase is `old.wrapping_add(1) % 48`, including old255→0, rather than a
+remainder computed before the byte wrap. The0–47domain follows normalization;
+it is not a check before the original lookup or proof of every initializer.
+
+The lossless JSON model has a fixed source offset and ordered phase0–47 entries
+with signed-i8 delta fields, rejecting unknown fields and invalid signed ranges.
+`delta(48..255)` and byte queries outside the projection return None. Source
+verification rejects coherent value edits. Guest lookup indices48/49/50 read the
+previous phase-threshold owner; other indices may reach other owners/raw ROM.
+No guest clamp or arithmetic replacement is introduced. Managed publication and
+direct runtime consumption are separate remaining children; this isolated model
+keeps e75-d74/68files67resources and USA8-7 unchanged.
+
+One first Windows test build is warning-free; the first reduced Wine filter
+passes all48rows,23rejection guards,58original reader prefixes and eight helper
+boundaries. These include signed add/subtract and low16overflow, prelookup
+outside indices48/49/50/254/255, stored-u8 wrap and complete RAM/callee-register
+guards. All77selected input/frozen hash-mtime guards and compiled sources pass. No ordinary scene or managed/native consumption is
+claimed by this source/model test. Linux/USA/native Windows/new32:9 remain to do;
+no performance or storage measurements. Private source/model evidence is under
+`target/rom-data-task-vertical-deltas/`.
+
+
+## Managed task-cycle deltas and typed consumption
+
+EUR e76-d75 registers `gameplay.task-cycle-deltas` in
+`task-cycle-deltas.json`/`task-cycle-deltas-v1-json`, one48-byte source span and
+no immutable dependencies. It appends the resource after the67prior entries,
+leaving their file bytes, records and coverage order intact:69generation files/
+68resources. USA stays e8-d7. Preparation, source equality, file hashes, coverage
+and ordered source binding use the existing transaction boundary. Coherent
+signed-value edits and metadata/source edits must fail without replacing the
+attached owner or changing serialized guest state.
+
+The private typed owner serves only371034–371064 on page371, composing every
+byte with an earlier owner or raw memory. In particular an unaligned C-API
+read32at08371062 includes the final two new delta bytes and the first two old
+phase thresholds; each owner supplies its own bytes. Indices48/49/50 still reach
+that earlier owner. The original task's sign handling, byte increment, wrapping,
+helper call and stores execute unchanged; there is no guest input clamp. A
+48bit usage mask tracks observed rows outside guest serialization, alongside
+bus-read and source-byte counts. These are coverage counters, not performance
+measurements. No Machine/C-API/save-state/native-cache ABI changes.
+
+One first Windows frontend build is warning-free. One first focused Wine
+filter passes69files/68resources with all67previous resource records/files exact,
+injected interruption at the new file, nine transactional attach failures and
+two full-set presence checks. Eight original/typed-interpreter/compiled-native
+prefixes match complete serialized state and guest clock with all48raw source
+bytes altered; five explicit compiled new-byte reads prove native consumption.
+Both signs and stored-byte/helper wrap are covered; outside48/254/255 preserve
+prior/raw reads. The106compiled instructions/37dispatches are coverage only.
+
+The same filter verifies all48typed rows, mixed read32at371062 with two bytes
+from each owner, raw outer edges and ROM mirrors, plus three fullstate-clock
+DMA/CpuSet/CpuFastSet transfers crossing into the prior threshold owner. The
+attached owner survives unavailable files, failed reattachment, state load and
+slot Load/Undo, with continued typed reads from altered raw bytes. All154actual
+input/output/frozen hash-mtime guards and compiled implementation hashes pass.
+Required artifact completion removes the disposable interrupted copy, retaining
+the69-file accepted dataset, original inputs, logs/results, preimages and frozen
+executable. Dataset identity:
+d4f66549ea79aa8c45be7f44484056d2f92daeb754a459f09826473635368254;
+manifestbd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b;
+cycle JSON2e5b3fab16b60356084606eba7ed856a7e6c0bae5cde6e1abcbd7a9a333a3f45.
+
+The completed source/model filter above remains closed. Actual production CLI
+is verified below; positive ordinary scenes remain a separate criterion.
+Linux/USA/native Windows/new32:9 remain pending. Evidence locator:
+`target/rom-data-task-cycle-runtime/`.
+
+
+## Actual CLI for task-cycle deltas
+
+One first Windows production build is warning-free; the frozen CLI hash is
+d83ade6ca106d2dfe95945326d48188e79148e3a591e65e368f0dbd3ad30e2bb.
+The canonical executable hash/mtime is restored exactly and main source content
+is unchanged (only Cargo invalidation mtime updated). Three first Wine commands
+pass: explicit prepare, reuse and runc with zero frames. All69generation files
+match the accepted Rust dataset, all68runtime resource IDs/hashes match the
+manifest, the new owner registers48rows and the existing native cache loads.
+The entire71-file managed path set, hashes and mtimes remain unchanged after
+reuse and startup. All226actual input/output/frozen guards and compiled source
+hashes pass. There are zero guest frames/native dispatches/fallback steps and
+zero cycle-read counters: this proves attachment, not positive ordinary use.
+
+Dataset identity/manifest/cycle-file hashes match the runtime evidence above.
+Private evidence under `target/rom-data-task-cycle-cli/` includes
+`windows-build.json`, `windows-cli-processes.json`, `windows-cli-no-write.json`,
+`windows-cli-summary.json`, `preservation-result.json` and cleanup receipt.
+A source-backed normal scene reaching the signed cycle mode remains necessary
+before its ordinary fullpair validation; no blind navigation or manually
+forced task flags substitute for it. Linux/USA/native Windows/new32:9 stay
+pending, with no new gameplay fixture or measurements in this CLI unit.

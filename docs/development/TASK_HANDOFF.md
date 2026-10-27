@@ -10980,3 +10980,66 @@ blindnavigation or manuallyforcedtaskflags. Positive scene then bounded fullpair
 withactualfile use stillOPEN; constructorordinary remainsseparatepartial/four
 closednegative routes. FullTODOactive/incomplete, Linux/USA/nativeWindows/new32:9
 pending; no measurements/newfixture/assistantcommit/push/Android/package.
+
+
+**ROMDATA-05-TASK-CYCLE-ORDINARY-REACHABILITY closed/PASS (2026-10-27).**
+Previousgoalturn progresssource/model/runtime/CLI nowusercommit989d01c; fullTODO/
+EUR/Wine-only/no metrics/local-copy permission unchanged. Static initializer
+18D6C setsdefault03, copiescallbackr2/context r1/resetsphase0. Generic015E48
+chooses03or07 viaowner+14mask0100, signbit08 ifC0==80. 11initializer/3updater/
+89setter rawBL candidates retained; only inspectedwindows authenticated, no
+wholecallgraph claim. Read-onlyheader/hashvalidatedacceptedpostcardparser on
+3existing normalstates foundBanktask02023CA4=root02022F64+D40flags03phase21,
+context02023C84/callback08018FC5; matches5C1F8rootliteral0200F428+D40/03 setter.
+OtherBanktask0200FD90flags03phase3, F09/start-endtask0202DDD0 flags07. Candidates
+alone notliveness. ONEsource-backed currentfrozen productionWine77284 Bank48
+neutralinput observation from exacthash+mtime statecopy nowPOSITIVE:48reads48B/
+all48phases, actualguest3660→3708. This provesnormalcycleuse, doesnotattribute
+whichcandidate task producedeachread. Reusedcurrente76dataset/oldnativecache;
+wholemanagedpathset/hashmtime/88selectedguards/448compiled implementation exact.
+No navigation/manualRAM-ROMflags/cartridge/original writes/rebuild/oldBank12
+acceptance replay. Actual source-backedneutral48 isnewcriterion. Evidence
+ target/rom-data-task-cycle-ordinary/{caller-candidates.json,trace-*.txt,
+readonly-normal-states.json,source-reachability-candidate.json,
+windows-cli-positive48-result.json,windows-cli-positive48.log}; seed-copy and
+neutral.input keptprivate. Previousconstructor4negativebounds remainclosed.
+No livejobs; fullpair nowclosedbelow, no secondCLI observation needed.
+
+**ROMDATA-05-TASK-CYCLE-ORDINARY closed/PASS (2026-10-27).**
+FullTODO/EUR/Wine-only/no metrics/local-copy permission unchanged. UserHEAD989d01c.
+Reachability/firstactualCLIpositive48 aboveclosed, no repeat needed. Five optional
+validatorlines FFTA_STATE_TEST_REQUIRE_TASK_CYCLE_DELTAS requirepositiveuse/all48;
+removingguard restoresoldmodule byteexact. FirstWindowsfrontend33866warningfree/
+frozen843b6f39bfc277e7b934b1e8ab1b803753f75d645de3f088a04a7604c8cfe77d.
+ONE firstWine92885 fullpair onnewnormal-neutralBank48 guest3660→3708 PASS every
+serializedstate/clock/central-wide/OAM/dispatch/allaudio. Samples
+[105336,105336,12672,12672,105260],96165native333103fallback coverageonly. All48
+cycle rows/48reads48B EXACTactualCLI77284.97actualinput-output-frozen guards/
+compiledsource/5lineoldlooppreimage/71managedpathset-hashmtime exact; required
+artifactcomplete0paths, keepnormalcopy/input/image/preimages/logs/results/exe/
+current69fileCLIdataset. No newnavigation/guestRAM-task-ROMflags/cartridgewrites/
+productionbuild/oldBank12-F09-source-model-runtime replay. Specificcandidate task
+notattributed to eachread; setter18E5C may preserve04/08withnew01,03argumentalone
+insufficient. 11/3/89rawBLcandidates notwholecallgraph. Evidence
+ target/rom-data-task-cycle-ordinary/{source-reachability-candidate.json,
+readonly-normal-states.json,caller-candidates.json,trace-*.txt,
+windows-cli-positive48-result.json,windows-scene-build.json,
+windows-ordinary48-result.json,preservation-result.json,artifact-cleanup.json}.
+New record docs/changes/2026-10-27-verify-european-task-cycle-ordinary-scene.json;
+feature #ordinary-european-task-cycle-scene. No livejobs. Declared cycle01/02/04/
+CLI05/ordinary05 children closed; don't reopen due broadTODO. Constructorordinary
+separatepartial/fourclosednegative routes, no fifthblindroute/manualflag. Full
+ROM_DATA_TODOactive/incomplete, Linux/USA/nativeWindows/new32:9 pending; no
+measurements/assistantcommit/push/Android/package.
+Next independent missinginventory criterion: oldBank12 trace covered onlynative
+API reads; fallback/host Bankreads notinventoried. Inspect existing opt-in
+bus/host capture andoldreport before choosing a single currentBank observation;
+no oldfullpair/sourceclassification replay merely because familyparentopen.
+
+Concurrent user-owned Atlas update detected while finishing: docs/development/
+rom-coverage/{coverage.json,index.html} changed externally frome72toe76/source989d01c.
+Thisunit didnotruncoveragegeneration orwrite thosefiles; read-onlydiff inspected,
+leftunchanged andseparate fromnewrecord attribution. Hash/mtime snapshot in
+ target/rom-data-task-cycle-ordinary/concurrent-user-coverage.json. Preserve it.
+Memoryrender/default/base989d01c andCRLFdiff PASS; final97actualguards/449source
+map, optionalguardpreimage exact, no livejobs.

@@ -1534,5 +1534,7 @@ byte-identical. The [cycle contract](rom_data_gameplay.md#managed-task-cycle-del
 records the exact signed/index/store/remainder semantics and authentication.
 The106compiled instructions/37dispatches are coverage only. Actual production
 CLI prepare/reuse/zero-frame attachment nowpasses all69files/68runtime hashes
-and no-write reuse. Ordinary positive cycle use and deferred platforms remain
-separate.
+and no-write reuse. Ordinary cycle48nowpasses one source-backed neutral Bank
+fullpair3660–3708, all48rows/48reads48B/every state-clock-buffers-OAM-dispatch-
+allaudio equal; counts match actualCLI. Deferred platforms and broader scenes
+remain separate.

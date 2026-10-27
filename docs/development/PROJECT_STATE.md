@@ -698,8 +698,19 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   canonicalhashmtime exactrestore/3Wine prepare-reuse-runc0 commands,69generation/
   71managed files/all69accepted/all68runtimeIDhashes/oldcacheload. Managedpathset/
   hashmtime no writes onreuse/startup,226guards/source exact, helper0paths. Zero
-  execution/cycleusage provesregistration only. Positiveordinary cycle remains
-  open, no oldsourcefilter or acceptance repeated.
+  execution/cycleusage in thatstartup provesregistration only. Ordinary cycle
+  nowpasses one source-backed newneutralBank48bound3660→3708: exactnormalstatecopy,
+  actualCLI48reads48B/all48rows/current71managedpaths-hashmtime unchanged. Source
+  initializer18D6C/default03 andgeneric015E48/03-07 plusreadonlyBankflags03candidate
+  selectscene; setter18E5C preservesold04/08 withnew01, argument03alone insufficient.
+  11/3/89rawBLcandidates notwholecallgraph/each-taskliveness. FirstWindowsfrontend
+  warningfree/5lineoptionalpositiveguard/oldloopbyteexact. OneWinefullpair passes
+  everyfullstate-clock/central-wide/OAM/dispatch/allaudio, samples
+  [105336,105336,12672,12672,105260], counts48/48/48exactCLI.97guards/compiledsource/
+  preimage exact, helper0paths. No navigation/manualRAM-task-ROMflag/cartridge
+  writes, productionrebuild or oldBank12/F09/sourcefilter acceptance repeated.
+  Declared cyclechildren closed; broader scenes/all-use/fullmigration remainopen.
+  [Ordinary cycle](../rom_data_gameplay.md#ordinary-european-task-cycle-scene).
   [Cycle contract](../rom_data_gameplay.md#conditional-european-task-cycle-delta-source-and-model).
   [Phase-zero extension](../rom_data_gameplay.md#conditional-phase-zero-threshold-extension).
   [Constructor animation](../rom_data_obj.md#conditional-constructor-obj-animation-source-and-model).

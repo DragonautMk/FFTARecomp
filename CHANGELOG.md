@@ -3,6 +3,30 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-27 — Verify all European signed cycle rows in an ordinary Bank scene
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add a five-line optional FFTA_STATE_TEST_REQUIRE_TASK_CYCLE_DELTAS guard requiring positive typed source use and all48rows in the existing ordinary fullpair validator. Removing it restores the previous module byte-for-byte; production e76-d75/USA8-7 and guest/native/save ABI are unchanged.
+- Choose a new48frame neutral Bank bound from exact normal snapshot copies using authenticated initializer18D6C/default03, generic015E48mode03-07 and read-only Bankroot+D40flags03/phase21 evidence matching5C1F8 caller.11initializer/3updater/89setter rawBL candidates are source leads, not wholecallgraph/liveness proof. Setter18E5C preserves previous04/08 when new01 is set, so argument03alone does not prove signed mode.
+
+**Validation**
+
+- One existing frozen production CLI Wine observation exits0 over guest3660→3708 using current69-file actualCLI e76 dataset and original native cache:48reads48source bytes/all48phases, entire71managed pathset/hashmtime unchanged. No production rebuild/navigation/manualRAM-task-ROMflags or cartridge/original writes; oldBank12/F09/source-model-runtime criteria not replayed.
+- One first Windows frontend build warning-free/frozen843b6f39bfc277e7b934b1e8ab1b803753f75d645de3f088a04a7604c8cfe77d. One first exact Wine fullpair on same48frames passes everycomplete serialized state/guestclock/central-wide framebuffer/OAM/dispatch and all5mixed-PSG-FIFOleft-FIFOright-HLEbit audio comparisons. Actual samples[105336,105336,12672,12672,105260];96165native333103fallback are coverage only. Guard counts48/48/48 exactlymatch actualCLI.
+- All97selected input-output-frozen hash-mtime guards, compiled implementation hashes and validator preimage pass. Required artifact completion0paths; accepted dataset, normalstate/input copies, original inputs, logs/results/preimages/current executable retained privately.
+
+**Limitations**
+
+- Declared ordinary48frame cycle criterion only; no exact task attribution for each read, all-scene/all-use/fullphysical archive/coordinate-axis-unit/initializer lifetime proof. Constructor-animation ordinary child remains independently partial with four closednegative routes. Full ROM_DATA_TODO still active.
+- Linux/USA/native Windows/new32:9 pending. No performance/storage campaign, Android/package/assistant commit/push.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-verify-european-task-cycle-ordinary-scene.json)
+
 ## 2026-10-27 — Authenticate and model the European signed task-cycle deltas
 
 Type: added. Platforms: Windows.

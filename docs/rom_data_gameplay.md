@@ -2798,7 +2798,7 @@ manifestbd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b;
 cycle JSON2e5b3fab16b60356084606eba7ed856a7e6c0bae5cde6e1abcbd7a9a333a3f45.
 
 The completed source/model filter above remains closed. Actual production CLI
-is verified below; positive ordinary scenes remain a separate criterion.
+and a positive ordinary48frame scene are verified below.
 Linux/USA/native Windows/new32:9 remain pending. Evidence locator:
 `target/rom-data-task-cycle-runtime/`.
 
@@ -2821,7 +2821,56 @@ Dataset identity/manifest/cycle-file hashes match the runtime evidence above.
 Private evidence under `target/rom-data-task-cycle-cli/` includes
 `windows-build.json`, `windows-cli-processes.json`, `windows-cli-no-write.json`,
 `windows-cli-summary.json`, `preservation-result.json` and cleanup receipt.
-A source-backed normal scene reaching the signed cycle mode remains necessary
-before its ordinary fullpair validation; no blind navigation or manually
-forced task flags substitute for it. Linux/USA/native Windows/new32:9 stay
+A source-backed normal scene reaching the signed cycle mode is now verified
+in the ordinary48frame criterion below. No task flag was manually forced. Linux/USA/native Windows/new32:9 stay
 pending, with no new gameplay fixture or measurements in this CLI unit.
+
+
+## Ordinary European task-cycle scene
+
+The signed-cycle family now has one complete ordinary EUR/Wine acceptance on
+a newly selected48frame neutral-input Bank bound, guest3660–3708. It uses an
+exact byte/hash/mtime copy of an existing normal Bank snapshot, the current
+actual-CLI69-file e76-d75 dataset, and the unchanged original native cache. No
+navigation, guest RAM/ROM/task mutation, cartridge save write or replay of the
+old Bank12/F09/source/model/runtime acceptance was needed.
+
+Source inspection found the initializer at18D6C: low-u8 r3zero selects default
+flags03 and resets phase0, with callbackr2/context r1. The generic015E48 caller
+selects03or07 according to owner halfword+14mask0100 and adds08 for maskC0==80.
+The raw Thumb-BL inventory has11initializer,3update and89flag-update candidates;
+these are leads with inspected windows, not a complete authenticated call graph.
+Read-only header/payload-hash-validated inspection of three existing normal
+snapshots finds Banktask02023CA4=root02022F64+D40, flags03/phase21/context02023C84/
+callback08018FC5. Its address matches the5C1F8 flag-update caller. That caller's
+argument03alone is not a universal signed-mode proof: helper18E5C preserves old
+mode04/sign08 when the new flags include01. The snapshot supplies actual03mode
+evidence. F09start/end candidates instead have07/threshold mode. RAM candidates
+alone are not liveness proof, and no particular task is attributed to each read.
+
+One existing frozen production CLI observation of the selected neutral48frames
+exits0 and consumes48reads/48source bytes/all48phases. The managed71-file pathset,
+hashes and mtimes remain unchanged. No production rebuild is repeated. One first
+Windows frontend build for a five-line optional positive-use guard is warning-free,
+frozen843b6f39bfc277e7b934b1e8ab1b803753f75d645de3f088a04a7604c8cfe77d.
+Removing only `FFTA_STATE_TEST_REQUIRE_TASK_CYCLE_DELTAS` restores the old
+comparison module byte-for-byte.
+
+One first exact Wine fullpair passes every serialized state/guest clock,
+central/wide framebuffer, OAM, dispatch and all mixed/PSG/FIFO-left/FIFO-right/
+HLE-bit audio comparisons across those48frames. Actual sample counts are
+[105336,105336,12672,12672,105260];96165native/333103fallback are coverage only.
+The guard requires all48rows and its48/48/48counts exactly match the actual CLI.
+All97selected input/output/frozen hash-mtime guards, compiled implementations
+and the old-loop preimage pass. Required artifact completion finds zero
+eligible paths. Private evidence under `target/rom-data-task-cycle-ordinary/`
+includes source/caller/snapshot reports, `windows-cli-positive48-result.json`,
+`windows-scene-build.json`, `windows-ordinary48-result.json`, preservation and
+cleanup receipts; snapshots/input/image remain outside Git.
+
+This closes the declared cycle source/model/publication/runtime/CLI/ordinary
+children, while full ROM migration remains open. Coordinate axis/unit, every
+initializer/task lifetime, complete physical extent/all-use and other scenes
+are unproved. Constructor-animation ordinary coverage remains independently
+partial; its four negative routes are not reopened. Linux/USA/native Windows/
+new32:9 remain pending; no performance or storage campaign.

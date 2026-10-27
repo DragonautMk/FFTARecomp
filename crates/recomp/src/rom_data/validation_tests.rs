@@ -312,6 +312,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TASK_CYCLE_DELTAS").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().task_cycle_deltas_stats().expect("decoded signed task-cycle deltas");
+        assert!(i.source_bytes > 0 && i.phases_used == 48, "ordinary scene must consume all48 signed cycle rows");
+        eprintln!("ROM_DATA_TASK_CYCLE_SCENE frames={frames} bus_reads={} source_bytes={} phases_used={}",i.bus_reads,i.source_bytes,i.phases_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PHASE_ZERO_THRESHOLD").is_some() {
         let i = decoded.bus.rom_resources().unwrap().observed_task_parameters_stats().expect("decoded phase-zero threshold");
         assert!(i.phase_threshold_bytes > 0 && i.vertical_correction_bytes > 0 && i.phases_used == 3 && i.corrections_used == 4, "this scene must consume all three conditional thresholds and four correction rows");

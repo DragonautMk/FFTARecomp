@@ -3871,8 +3871,8 @@ inferiti. Nessun cap introdotto: query48..255None,48/49/50 sono vecchio owner.
 Primo build Windows senza avvisi/unico filtro Wine passa23guardie/58prefissi
 originali/8bordi helper/tutte48righe e guardie RAM-callee,77input-frozen esatti.
 Modello lossless/JSON rigoroso; revisione e75-d74/68file67risorse invariata.
-Gestione/consumo runtime/CLI completati nelle unità sotto; ordinary separata
-ancora da fare e non dichiarata da questo test sorgente. Constructorordinary precedente ancora parziale; Linux/USA/
+Gestione/consumo runtime/CLI/ordinary48 completati nelle unità sotto; il solo
+test sorgente non dichiarava consumo o scena. Constructorordinary precedente ancora parziale; Linux/USA/
 Windows nativo/nuovo32:9 pendenti, nessuna misura o nuova fixture ordinaria.
 [Contratto e prove](../rom_data_gameplay.md#conditional-european-task-cycle-delta-source-and-model).
 
@@ -3888,7 +3888,7 @@ esplicitamente compilate. Tutte48righe, confine read32con2nuovi+2vecchi byte,
 bordi/mirror,3trasferimenti DMA/SWI tra owner, file indisponibili/Load/Undo con
 owner conservato.154guardie/codice esatti; helper ritira solo copia interrotta.
 Nessuna ripetizione filtro sorgente o vecchie accettazioni. CLI produzione completata sotto;
-ordinary positiva dei delta rimane child05aperto; constructorordinary parziale.
+ordinary positiva48 dei delta completata sotto; constructorordinary parziale.
 Linux/USA/Windows nativo/nuovo32:9 pendenti, nessuna misura.
 [Consumo e prove](../rom_data_gameplay.md#managed-task-cycle-deltas-and-typed-consumption).
 
@@ -3899,7 +3899,24 @@ esatti; tre comandi Wine prepare/riuso/runc0exit0. Tutti69file uguali al dataset
 Rust accettato, tutti68ID/hash runtime uguali al manifest,48righe delta registrate,
 cache nativa esistente caricata. Tutto pathset71file/hashmtime invariato su riuso
 ed avvio;226guardie/codice esatti, helper0percorsi. Zero frame/dispatch/fallback/
-letture delta: solo attacco, non positività ordinaria. Rimane child05ordinary
-con scena normale positiva/modalità signed dimostrata prima fullpair; niente
+letture delta: solo attacco; positività ordinaria e fullpair48 completati sotto. Niente
 rotta cieca/manualflag. Linux/USA/Windows nativo/nuovo32:9 pendenti, nessuna misura.
 [CLI e limiti](../rom_data_gameplay.md#actual-cli-for-task-cycle-deltas).
+
+
+**ROMDATA-05-TASK-CYCLE-ORDINARY completato EUR/Wine (2026-10-27).**
+Scena Bank48neutra3660→3708 scelta da sorgente e snapshotnormale: initializer
+18D6C/default03, generic015E48/03-07 e candidato Bankroot+D40flags03phase21,
+indirizzo coerente col caller5C1F8. Setter18E5C conserva vecchi04/08 con nuovo01:
+argomento03non basta a provare il modo.11/3/89BL grezzi sono candidati, niente
+callgraph/liveness dedotti dalla sola RAM. Una CLI esistente senza rebuild usa
+48letture48B/all48fasi, dataset71path/hashmtime invariato. Primo build frontend
+senza avvisi per5righe di guardia positiva; vecchio loop byteesatto senza guardia.
+Un solo fullpair Wine passa ogni stato completo/clock/immagine/OAM/dispatch/
+cinque flussi audio, campioni[105336,105336,12672,12672,105260], conteggi48/48/48
+esatti CLI.97guardie/codice/preimage esatti, helper0percorsi. Nessuna navigazione/
+manomissione RAM-task-ROM/cartridge o vecchia accettazione Bank12/F09 ripetuta.
+Child dichiarati01/02/04/CLI05/ordinary05 ciclo chiusi, migrazione totale ancora
+aperta; constructorordinary distinto parziale. Linux/USA/Windows nativo/nuovo32:9
+pendenti, niente misure.
+[Scena e prove](../rom_data_gameplay.md#ordinary-european-task-cycle-scene).

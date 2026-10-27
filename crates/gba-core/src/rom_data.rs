@@ -77,8 +77,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 72;
-pub const DECODER_REV: u32 = 71;
+pub const EXTRACTOR_REV: u32 = 73;
+pub const DECODER_REV: u32 = 72;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -255,6 +255,10 @@ pub const SLOT_JOB_LOOKUP_ID: &str = "gameplay.slot-job-lookup";
 pub const SLOT_JOB_LOOKUP_FILE: &str = "slot-job-lookup.json";
 pub const SLOT_JOB_LOOKUP_FORMAT: &str = "slot-job-lookup-v1-json";
 pub const MAX_SLOT_JOB_LOOKUP_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const OBSERVED_TASK_PARAMETERS_ID: &str = "gameplay.observed-task-parameters";
+pub const OBSERVED_TASK_PARAMETERS_FILE: &str = "observed-task-parameters.json";
+pub const OBSERVED_TASK_PARAMETERS_FORMAT: &str = "observed-task-parameters-v1-json";
+pub const MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const MAP_RASTER_PALETTES_ID: &str = "graphics.map-raster-palettes";
 pub const MAP_RASTER_PALETTES_FILE: &str = "map-raster-palettes.json";
 pub const MAP_RASTER_PALETTES_FORMAT: &str = "map-raster-palettes-v1-json";
@@ -500,6 +504,7 @@ pub struct Extraction {
     pub unit_obj_byte_property_words: Option<unit_obj_byte_property_words::Catalog>,
     pub unit_obj_ffff_reader_fields: Option<unit_obj_ffff_reader_fields::Catalog>,
     pub slot_job_lookup: Option<slot_job_lookup::Catalog>,
+    pub observed_task_parameters: Option<observed_task_parameters::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -571,6 +576,7 @@ pub struct BaseFiles<'a> {
     pub unit_obj_byte_property_words: Option<(&'a unit_obj_byte_property_words::UnitObjBytePropertyWords, &'a [u8])>,
     pub unit_obj_ffff_reader_fields: Option<(&'a unit_obj_ffff_reader_fields::UnitObjFfffReaderFields, &'a [u8])>,
     pub slot_job_lookup: Option<(&'a slot_job_lookup::SlotJobLookup, &'a [u8])>,
+    pub observed_task_parameters: Option<(&'a observed_task_parameters::ObservedTaskParameters, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1072,6 +1078,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![METADATA52_ID.into()], sources: metadata.sources.clone(),
             });
             result.slot_job_lookup = Some(metadata);
+            let metadata = observed_task_parameters::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(OBSERVED_TASK_PARAMETERS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: OBSERVED_TASK_PARAMETERS_ID.into(), path: OBSERVED_TASK_PARAMETERS_FILE.into(), format: OBSERVED_TASK_PARAMETERS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.observed_task_parameters = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1171,6 +1184,7 @@ impl Extraction {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1271,6 +1285,7 @@ impl Extraction {
             || self.unit_obj_byte_property_words.is_some() && (self.unit_obj_property_words.is_none() || self.color_mode_palettes.is_none())
             || self.unit_obj_ffff_reader_fields.is_some() && (self.metadata52.is_none() || self.script_archive.is_none())
             || self.slot_job_lookup.is_some() && self.metadata52.is_none()
+            || self.slot_job_lookup.is_some() != self.observed_task_parameters.is_some()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
             || self.manifest.resources.len() != self.resource_count()
@@ -1847,6 +1862,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected slot_job_lookup resource".into()),
         }
+        match (&self.observed_task_parameters, files.observed_task_parameters) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES { return Err("ObservedTaskParameters file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[65].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected observed_task_parameters resource".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2207,6 +2231,10 @@ impl Extraction {
             decoded.validate_dependencies(jobs)?;
             if decoded != &expected.decoded {return Err("Decoded slot_job_lookup differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.observed_task_parameters, files.observed_task_parameters) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded observed_task_parameters differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2283,6 +2311,7 @@ impl Extraction {
             + usize::from(self.unit_obj_byte_property_words.is_some())
             + usize::from(self.unit_obj_ffff_reader_fields.is_some())
             + usize::from(self.slot_job_lookup.is_some())
+            + usize::from(self.observed_task_parameters.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2402,6 +2431,7 @@ mod tests {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2474,6 +2504,7 @@ mod tests {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2556,6 +2587,7 @@ mod tests {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2627,6 +2659,7 @@ mod tests {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

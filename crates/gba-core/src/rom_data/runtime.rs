@@ -149,6 +149,9 @@ pub use unit_obj_ffff_reader_fields::UnitObjFfffReaderFieldsStats;
 mod slot_job_lookup;
 use slot_job_lookup::SlotJobLookupResources;
 pub use slot_job_lookup::SlotJobLookupStats;
+mod observed_task_parameters;
+use observed_task_parameters::ObservedTaskParametersResources;
+pub use observed_task_parameters::ObservedTaskParametersStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -276,6 +279,7 @@ pub struct RuntimeResources {
     unit_obj_byte_property_words: Option<Box<UnitObjBytePropertyWordsResources>>,
     unit_obj_ffff_reader_fields: Option<Box<UnitObjFfffReaderFieldsResources>>,
     slot_job_lookup: Option<Box<SlotJobLookupResources>>,
+    observed_task_parameters: Option<Box<ObservedTaskParametersResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -530,6 +534,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.slot_job_lookup {
             resources.slot_job_lookup = Some(Box::new(SlotJobLookupResources::new(data.clone(), &source.slot_job_lookup.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.observed_task_parameters {
+            resources.observed_task_parameters = Some(Box::new(ObservedTaskParametersResources::new(data.clone(), &source.observed_task_parameters.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -620,6 +627,7 @@ impl RuntimeResources {
             unit_obj_byte_property_words: None,
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
+            observed_task_parameters: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -711,6 +719,7 @@ impl RuntimeResources {
             + self.unit_obj_byte_property_words.as_ref().map_or(0, |i| i.resident_bytes())
             + self.unit_obj_ffff_reader_fields.as_ref().map_or(0, |i| i.resident_bytes())
             + self.slot_job_lookup.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.observed_task_parameters.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -827,6 +836,7 @@ impl RuntimeResources {
     pub fn unit_obj_byte_property_words_stats(&self) -> Option<UnitObjBytePropertyWordsStats> {self.unit_obj_byte_property_words.as_ref().map(|m|m.stats())}
     pub fn unit_obj_ffff_reader_fields_stats(&self) -> Option<UnitObjFfffReaderFieldsStats> {self.unit_obj_ffff_reader_fields.as_ref().map(|m|m.stats())}
     pub fn slot_job_lookup_stats(&self) -> Option<SlotJobLookupStats> {self.slot_job_lookup.as_ref().map(|m|m.stats())}
+    pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1140,7 +1150,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.slot_job_lookup {
+            let prior = match &self.slot_job_lookup {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.observed_task_parameters {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1344,6 +1358,7 @@ impl crate::MemMap {
             || UnitObjBytePropertyWordsResources::source_page(index)
             || UnitObjFfffReaderFieldsResources::source_page(index)
             || SlotJobLookupResources::source_page(index)
+            || ObservedTaskParametersResources::source_page(index)
             || MapRasterPaletteResources::source_page(index)
             || AuxiliaryScriptResources::source_page(index)
     }

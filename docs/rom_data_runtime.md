@@ -1400,7 +1400,8 @@ At this source milestone, the ten parameter bytes were unmodeled and all90bytes
 were outside the e71owner plans. Later64bytes become typed OBJ lists in e72 as
 recorded below. The ten parameter bytes now have an
 [isolated typed model](rom_data_gameplay.md#isolated-model-for-observed-task-parameter-fragments),
-with27guards/18original prefixes in one Wine filter, and remain unpublished.
+with27guards/18original prefixes in one Wine filter. Later e73 managed/runtime
+integration serves exactly those ten bytes, as recorded in the parameter notes.
 The16control bytes retain their explicit original ROM/code dependency. The
 lower452new audit bytes remain separate. No resource, owner or revision was
 introduced by the source milestone. One bounded producer-argument Wine frame was
@@ -1427,3 +1428,23 @@ bounded firstF09frame Wine pair now passes full state/clock/captured buffers/OAM
 dispatch/all audio and requires both new sources. Source/model/managed/runtime/
 CLI/declaredordinary children are closed; broader scenes and Linux/USA/native
 Windows/new32:9 remain pending. Prior scene results stay closed.
+
+
+## Observed task parameter runtime extension
+
+EUR e73-d72 adds a bounded typed owner for the existing10byte parameter model,
+with independent threshold/correction fields and per-kind/row coverage. Only
+371065..67/394E14..1C are served; candidate pages371/394 compose earlier-owner
+and raw bytes. Original counter/phase/correction instructions and guest clocks
+remain live. Two first Wine filters pass13attach/threefull-set guards/lifecycle,
+24complete-state/clock original versus interpreter/native prefixes with raw
+altered, outside queries, edges/mirrors/BIOS, six SWI/DMA and mixed native API
+reads. The corrected frontend build is warning-free; first failure was limited
+to two test-call arguments. Actual CLI now passes create/no-write reuse67files/
+69managed plus oldcache attachment. Firstframe is correction-negative; new12frame
+CLI use reaches both kinds/all six rows. One exact Wine12frame pair now passes
+every fullstate-clock/capturedbuffer/OAM/dispatch/allaudio comparison and requires
+both kinds/all six rows, matchingCLIcounts. Source/model/managed/runtime/CLI/
+declaredordinary children are closed; broader scenes and Linux/USA/native
+Windows/new32:9 remain pending. See the
+[parameter integration evidence](rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption).

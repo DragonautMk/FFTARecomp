@@ -2063,3 +2063,57 @@ zero percorsi. Nessun source/295pin/vecchio modello-ABI-runtime-CLI-scena
 ripetuto, nuova fixture/navigazione/misura.452lower separati;
 Linux/USA/Windows nativo/nuovo32:9 da verificare.
 [Modello e limiti](../rom_data_gameplay.md#isolated-model-for-observed-task-parameter-fragments).
+
+
+**ROMDATA-03-OBSERVED-TASK-PARAMETERS-RUNTIME completato EUR (2026-10-26).**
+e73-d72 pubblica gameplay.observed-task-parameters/observed-task-parameters.json:
+67file/66risorse, tutti65file/record precedenti/e72/76listeOBJ conservati. Due
+campi indipendenti, nessuna dipendenza inventata, solo10B/due span371065..67 e
+394E14..1C; pagina371/394 compone owner precedenti e ROM, senza cap/ABI/clock/
+stato nuovi. Due primi filtri Wine passano13rifiuti attach/3guardie fullset,
+pubblicazione/riparazione/move/lifecycle e24prefissi originali-interprete-nativo
+con stato completo/clock uguali e tutti10B raw alterati. Inclusi fasi0/3/255,
+correzioni0/16/255, bordi/mirror/BIOS, sei DMA-CpuSet-FastSet, letture API
+2nuovi+2vecchi con raw vecchi alterati e2nuovi+2raw modificati.26B nativi;
+316istruzioni/24dispatch solo copertura. Modello4b52c5f1.. esatto,74guardie e
+codice compilato esatti. Primo build core compilato, frontend due argomenti di
+test omessi: corretti solo due zeri, retry senza avvisi; nessun filtro Wine
+fallito. Helper artefatti elimina solo interrupted/moved. CLI di produzione e
+ordinary parametri restano aperti; Linux/USA/Windows nativo/nuovo32:9 pendenti,
+452lower separati. Nessun vecchio modello/source/ABI/scenario ripetuto, nuova
+fixture/navigazione/misura.
+[Runtime e prove](../rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption).
+
+
+**ROMDATA-04-OBSERVED-TASK-PARAMETERS-ACTUAL-CLI completato EUR (2026-10-27).**
+Build Windows produzione senza avvisi/c7f47bd4..; canonico hash/mtime ripristinati
+esattamente, contenuto main invariato. Prima prepare interrotta dall'utente:
+runner assente, manifest senza current/risultato; copia/log archiviati e stesso
+binario riusato. Tre comandi accettati exit0: create/reuse/oldcache-oneframe,
+67file generazione/69managed/66risorse/due span10B/nodeps/all67esatti, riuso senza
+scritture. Primo frame1B soglia/1fase ma0correzioni: gate presenza esplicitamente
+negativo, conservato. Una nuova runc12frame, motivata da quel negativo e dal
+lead sorgente esistente, exit0 con20letture/28B/12soglie16correzioni/2fasi4righe.
+145guardie e implementazione/originali/cache/canonico/Atlas utente invariati;
+helper artefatti zero percorsi, copia interrotta conservata. CLI chiusa; ordinary
+fullstate12frame da verificare. Nessun prepare/reuse/build/vecchio source-model-
+runtime-scenario ripetuto, nuova fixture/navigazione o misure. Linux/USA/Windows
+nativo/nuovo32:9 e452lower separati o pendenti.
+[CLI e limiti](../rom_data_gameplay.md#actual-cli-for-observed-task-parameters).
+
+
+**ROMDATA-05-OBSERVED-TASK-PARAMETERS-ORDINARY completato EUR (2026-10-27).**
+Solo cinque righe opzionali al validatore esistente richiedono entrambi i gruppi
+e tutte le sei righe. Primo build Windows senza avvisi e un solo filtro Wine:
+12frame F09 guest8476→8488, ogni stato completo/clock/immagine centrale-larga/
+OAM/dispatch/audio uguale. Cinque flussi con campioni reali
+[26334,26334,3168,3168,26258];20letture/28B/12soglie16correzioni/2fasi4righe
+esattamente uguali alla CLI.88123native/279744fallback solo copertura.76guardie,
+originali/cache/dataset67file/canonico/codice/Atlas utente esatti. Delta cinque
+righe verificato sul preimage; helper artefatti zero percorsi. Source/model/
+managed/runtime/CLI/ordinary dichiarato chiusi. Primo frame correction-negative
+e prepare interrotta restano chiusi; nessun vecchio source-modello-runtime-CLI-
+collector-scenario ripetuto, nuova fixture/navigazione/misura. Altre scene,
+indiretti/ABI/composedGUI/nuovo32:9 aperti;452lower e Linux/USA/Windows nativo
+separati o pendenti.
+[Equivalenza e limiti](../rom_data_gameplay.md#ordinary-twelve-frame-equivalence-for-observed-task-parameters).

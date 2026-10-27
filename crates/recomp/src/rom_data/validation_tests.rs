@@ -305,6 +305,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!([0x394f4c, 0x40d89e].into_iter().all(|at| resources.obj_list_source_used(at) == Some((true, true))), "this scene must consume both observed OBJ lists through guest and host readers");
         eprintln!("ROM_DATA_OBSERVED_OBJ_SCENE frames={frames} sources=00394f4c,0040d89e guest=true host=true");
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_OBSERVED_TASK_PARAMETERS").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().observed_task_parameters_stats().expect("decoded observed task parameters");
+        assert!(i.phase_threshold_bytes > 0 && i.vertical_correction_bytes > 0 && i.phases_used == 2 && i.corrections_used == 4, "this scene must consume both observed task parameter kinds and all six rows");
+        eprintln!("ROM_DATA_OBSERVED_TASK_SCENE frames={frames} bus_reads={} source_bytes={} phase_threshold_bytes={} vertical_correction_bytes={} phases_used={} corrections_used={}",i.bus_reads,i.source_bytes,i.phase_threshold_bytes,i.vertical_correction_bytes,i.phases_used,i.corrections_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_UI_PROPERTY_OBJ_LIST").is_some() {
         let used = decoded.bus.rom_resources().unwrap().obj_list_source_used(0x3950a4);
         assert_eq!(used, Some((true, true)), "this scene must consume the new UI property OBJ list through guest and host readers");

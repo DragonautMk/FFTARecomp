@@ -2513,9 +2513,128 @@ extraction/owner pipeline, EUR e72-d71/66files65resources/current76OBJlists and
 USAe8-d7 remain unchanged; these ten bytes are disjoint all current owners and
 are not yet published. Completion helper retires zero paths.
 
-Managed integration, typed runtime, actual CLI and ordinary new-owner checks
-remain pending for these parameter kinds. The closed source contract and two-
+The isolated model milestone is closed. Its later managed/runtime integration
+is recorded below; actual CLI and ordinary new-owner checks remain pending. The closed source contract and two-
 list/source/model/runtime/CLI/scene proofs are reused without replay. The452
 lower audit bytes remain separate. Linux/USA/native Windows/new32:9 remain
 unverified; there is no new fixture/navigation or performance/storage campaign.
 Evidence: `target/rom-data-observed-task-parameters-model/`.
+
+
+## Managed observed task parameters and typed bus consumption
+
+EUR e73-d72 publishes `observed-task-parameters.json` as the bounded resource
+`gameplay.observed-task-parameters`, format `observed-task-parameters-v1-json`.
+The two independent field groups keep their established model and source
+identities: two unsigned phase thresholds and four signed16 vertical corrections,
+over exactly ten bytes/two spans. There are no fabricated foreign dependencies.
+The generation now has67files/66resources; every65earlier file/record, the current
+76OBJlists and the e72generation are retained. USA stays e8-d7.
+
+The new immutable owner reconstructs only371065..67 and394E14..1C on candidate
+pages371/394. It combines each byte with the preceding owner's result or raw
+ROM, preserving phase0/other phase queries, old correction owners and unmodeled
+indices. Original increment/OLD-counter compare/phase-wrap and signed-load/
+subtraction instructions remain live. Guest timing, CAPI/native ABI, mutable
+machine fields and save format do not change. Coverage counters distinguish
+threshold/correction bytes and the two/four used rows; they are outside snapshots.
+
+The first Windows build compiles the core but finds two omitted arguments in
+historical frontend budget tests. Only those two zero arguments are corrected;
+the archived failure and source preimage are retained. The incremental frontend
+retry passes without diagnostics, frozen hash
+1823c1ab2f14e02fc9e016a073c268e5ef71454a8c1b969fd75f46f04276d694.
+Two first exact Wine filters pass. Managed checks cover interruption, create/
+no-write reuse, repair of damaged/missing data, relocation,13transactional attach
+guards and three full-set guards. Coherent edits to either field kind, malformed
+or omitted rows, source plans/hashes/dependencies/revisions preserve the active
+owner and complete guest state. Directory-unavailable Load/Undo/backup/restart
+retain the owner; all ten bytes and six rows remain readable with raw altered.
+
+Twenty-four original/interpreter/native prefixes have identical complete state
+and guest clock with all ten raw source bytes altered. Cases include threshold
+boundaries/old-u16 overflow/phase wrap, all eight low-bit correction aliases,
+phase0/3/255 and correction inputs0/16/255. Both edges, all widths/three mirrors/
+real-BIOS bus and six DMA/CpuSet/FastSet transfers pass. Mixed native API reads
+combine2new+2old typed bytes even when both raw sources are altered, and2new+
+2edited raw bytes around the phase fragment. Native API serves26typed bytes;
+316original instructions/24native dispatches describe coverage only.
+
+All67file/source checks pass. Dataset identity:
+fe0839b7f50a40333d72318a573a05a85c9bb319a1f38c2060949022710ff207;
+manifest SHA256ced88a054f0f999c4476605d886e3a2ba9b32b21aac96fc3bb198f87290c6bdd.
+The published JSON exactly matches the model's4b52c5f12f7633de0b1f790c5182ec5a727150a9460eb358eac3f41374788618.
+All74selected input/frozen-executable guards and compiled implementations stay
+exact. Required completion retires only interrupted/moved fixture copies;
+accepted offline data, current executable and logs/results/preimages remain.
+
+Managed/runtime, actual production CLI and the declared ordinary12frame
+comparison below are closed. Broader ordinary coverage remains separate. No completed model/source/ABI/scene oracle,
+fixture/navigation or performance/storage campaign is repeated. Broader inputs,
+full task/allocator ABI,452lower audit bytes and Linux/USA/native Windows/new32:9
+remain separate or unverified. Evidence:
+`target/rom-data-observed-task-parameters-runtime/`.
+
+
+## Actual CLI for observed task parameters
+
+CLI acceptance finishes on2026-10-27 using one warning-free Windows production
+build, frozen hashc7f47bd4fdf6263845fdf0cfc3440b3e30fd79fc19a15079231d9417d4112f94.
+The canonical executable's original hash/mtime are restored exactly; main source
+content stays unchanged with mtime-only Cargo invalidation.
+
+A user interruption leaves the first prepare without a current pointer or final
+result. Read-only process/artifact checks confirm incompleteness; its generation
+and log are retained in `aborted-cli-prepare`. The same frozen CLI then passes
+create/reuse/oldcache-oneframe, all child exits0, from an unrelated directory.
+All67generation files match the accepted runtime dataset, with69managed files,
+66resources/two new spans10B/no dependencies. Reuse preserves every managed hash
+and mtime. No accepted command or build is repeated to reconstruct context.
+
+The first F09 frame reads one threshold byte/one phase and no corrections. Its
+both-kind presence gate is explicitly negative and preserved. A new call at the
+12frame bound from the retained source audit uses20reads/28typed bytes:
+12threshold bytes/16correction bytes, both phases and all four correction rows.
+It uses the same original checkpoint/input/cache and16:9. This establishes the
+ordinary bound; it is not a complete-state equivalence result.
+
+All145selected input/output/frozen-executable guards and implementation content
+stay exact. The two userAtlas edits remain unchanged and unattributed. Artifact
+completion retires zero paths and retains the interrupted preparation. Actual
+CLI and the later12frame ordinary full-state pair are closed. Linux/USA/
+native Windows/new32:9 and broader scenes stay open; no new fixture/navigation
+or performance/storage campaign. Evidence:
+`target/rom-data-observed-task-parameters-cli/`.
+
+
+## Ordinary twelve-frame equivalence for observed task parameters
+
+The declared ordinary child uses F09guest frames8476→8488 because the actual
+CLI positively reaches both parameter kinds and all six rows at that12frame
+bound. The first-frame correction-negative and interrupted preparation remain
+closed evidence. Only five optional guard/report lines are added to the existing
+scene validator; its frame loop is unchanged. The first affected Windows frontend
+build passes without diagnostics, frozen hash
+isde380af6bf577eafd28c2b7e3c0a87dacb22bf3dae53b922f8b29a95e3c68ae3.
+
+One exact Wine filter with the current e73 CLI dataset, original checkpoint/
+input/cache and16:9 passes every complete serialized Machine state and guest
+clock, central/wide captured buffer, OAM, native/fallback dispatch and all mixed/
+PSG/FIFO/bitwise-HLE audio. All five streams have actual sample counts
+`[26334, 26334, 3168, 3168, 26258]`. The new guard requires both kinds/all six
+rows. Its20reads/28source bytes/12threshold bytes/16correction bytes/2phases/4rows
+exactly match CLI.88123native/279744fallback dispatches describe coverage only.
+
+All76selected input/frozen-executable guards and original state/input/cache/
+current67file dataset/canonical executable remain exact. The source preimage
+confirms the exact five-line addition and no other implementation change; the
+two userAtlas edits remain unchanged and unattributed. Required artifact
+completion retires zero paths.
+
+Source/model/managed/runtime/actual CLI and this declared ordinary child are
+closed. The proof is bounded to twelve frames; broader scenes/indirect sources,
+full task/allocator ABI, final composed GUI and new32:9 remain open. No prior
+source/model/runtime/CLI/collector/scene acceptance, fixture/navigation or
+performance/storage campaign is repeated.452lower audit bytes and Linux/USA/
+native Windows remain separate or pending. Evidence:
+`target/rom-data-observed-task-parameters-ordinary/`.

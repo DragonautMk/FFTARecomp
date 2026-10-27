@@ -621,8 +621,25 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   warning-freeWindowsfrontendbuild. Oldcounter compare/phasewrap/lowbitalias/
   signedsubtraction/RAM-callee guards exact;79selectedinputs exact. Phase0/
   correctionpriorowner/outsidequeries stayoutside model, no globalguest cap or
-  units inferred. Productione72pipeline unchanged; parameter managed/runtime/
-  CLI/ordinary remainopen, lower452B separate.
+  units inferred. Model milestone left productione72unchanged. Managed/runtime
+  nowfirstPASS e73-d72/gameplay.observed-task-parameters:67files66resources/all65
+  oldfiles-records/e72/76OBJlists retained, one10B/twospan file withindependent
+  fields/nodeps. Two Wine filters pass13attach/3fullset guards/lifecycle and24
+  original/interpreter/native fullstate-clock prefixes with10rawB altered,
+  outsidequeries/edges-mirrors-BIOS/sixSWI-DMA/mixednew-old-raw.26compiledB/
+  316instructions24dispatch arecoverageonly;74guards/compiledinputs exact.
+  Firstcorebuildcompiled; two frontendtest-call missingargs fixed, incremental
+  buildwarning-free. Requiredartifactcompletion retiresonlydisposable copies.
+  ActualparameterCLI nowpasses firstproductionbuild/canonicalrestore, prepare/
+  no-write reuse67generation69managed/all67accepted andoldcacheattachment. One
+  user-interruptedprepare archived/retriedsamebuild; firstframe1thresholdB but
+  correction0 isnegative. New12frameCLI reaches20reads28B/12threshold16correction/
+  2phases4rows;145guards/code/canonical/userAtlas exact. Ordinary12framefullstate
+  nowpasses one Winefullpair8476→8488/all6rows: everyfullstate-clock/central-wide/
+  OAM/dispatch/allaudio, samples[26334,26334,3168,3168,26258], exactCLI20reads28B.
+  Five optionalvalidator lines only, firstWindowsfrontendbuild warning-free/
+  76guards/code/originals/userAtlas exact. Allbounded parameterchildren closed;
+  broaderordinary/lower452B separate.
   USA8-7 unchanged; Linux/nativeWindows/new32:9 pending, no newfixture or
   measurements. Other threads/scenes/readers/typed HLE bypasses remain separate.
 

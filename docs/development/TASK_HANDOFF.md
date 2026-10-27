@@ -10571,7 +10571,127 @@ Evidence target/rom-data-observed-task-parameters-model/{independent-model.json,
 windows-model-build.json,windows-model-result.json,windows-model-europe/
 {decoded.json,result.json},preservation-result.json,artifact-cleanup.json,
 final-summary.json}. Finalmaps428sources/82activeguards.
-Memoryrender/default/basee2a1d37/newmodulesrustfmt/CRLFwhitespace PASS; no livejobs. Next missing03managedpublication/
-typedruntime for these two parameter kinds, then actualCLI/ordinary. Do not
-reopen model/source or prior two-list01..05 children. Fullgoalactive/incomplete;
+Memoryrender/default/basee2a1d37/newmodulesrustfmt/CRLFwhitespace PASS; no livejobs.
+Managed/runtime03 is now closed below; model/source/two-list children stayclosed. Fullgoalactive/incomplete;
 Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.
+
+
+**ROMDATA-03-OBSERVED-TASK-PARAMETERS-RUNTIME closed/PASS (2026-10-26).**
+Previousgoalturnprogress; fullTODO/EUR/Wine-only/no performance-space/copy
+permission persists. Source/model02/two-list01..05/oldscene children stayclosed.
+e73-d72 publishes gameplay.observed-task-parameters/observed-task-parameters.json,
+67files66resources/all65oldfiles-records/e72/current76OBJlists/USA8-7 retained.
+One file/two independent fieldgroups/nodeps, exactly10B/twospans371065..67 and
+394E14..1C. Typed page371/394 owner/prior-raw composition/perkind-row counters;
+no ABI/guestclock/state/inputcap/durationunits change. Fiveplumbing files plus
+newruntime/test modules; historicalpackettest getsonezero forsignature only.
+First79170corecompiled/frontendE0061two omittedhistoricalbudgetcall args. First
+failure logs/sourcepreimages retained. Fixonlytwozeros; retry94813warning-free/
+frozen1823c1ab2f14e02fc9e016a073c268e5ef71454a8c1b969fd75f46f04276d694.
+First two sequentialWine12871filters PASS13attach/3fullset/publication-lifecycle
+and24original-interpreter-native fullstate-clock prefixes withall10rawB altered.
+Includesoldcounter0/7/8/9/65535, phase0/3/255, all8lowbitcorrectionaliases plus
+0/16/255, boundaries-widths-mirrors-BIOS/sixSWI-DMA/mixednew2-old2 witholdraw
+edited/mixednew2-editedraw2.26compiledB/316instructions24dispatch coverageonly.
+Independentdatasetfe0839b7f50a40333d72318a573a05a85c9bb319a1f38c2060949022710ff207;
+manifestced88a054f0f999c4476605d886e3a2ba9b32b21aac96fc3bb198f87290c6bdd;
+file/model4b52c5f12f7633de0b1f790c5182ec5a727150a9460eb358eac3f41374788618 exact.
+All65oldfiles-records/74selectedinput-frozen guards/compiledsources exact.
+Required artifactcompletion retires2disposable copies, acceptedoffline/current
+exe/evidence retained. No newfixture/navigation/performance/oldacceptance replay.
+Record docs/changes/2026-10-26-consume-european-observed-task-parameters.json;
+feature docs/rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption.
+Evidence target/rom-data-observed-task-parameters-runtime/{windows-runtime-build.json,
+first-compile-failure-windows-runtime-build.json,windows-managed-result.json,
+windows-native-result.json,windows-managed-europe/{offline dataset,managed-result.json,
+lifecycle-result.json,native-result.json},preservation-result.json,artifact-cleanup.json,
+final-summary.json}. Finalmaps431sources/141activeguards.
+Memoryrender/default/basee2a1d37/newmodulesrustfmt/CRLFwhitespace PASS; no livejobs.
+ActualCLI04 is nowclosed below; ordinary05 followsits12framepositive bound. Do not replaymodel/runtime/oldscene checks. Lower452B
+separate; fullgoalactive/incomplete, Linux/USA/nativeWindows/new32:9 pending.
+No assistantcommit/push/Android/package.
+
+
+**ROMDATA-04-OBSERVED-TASK-PARAMETERS-ACTUAL-CLI closed/PASS (2026-10-27).**
+Previousgoalturnprogress; replacementAGENTS/fullTODO/EUR/Wine-only/no performance-
+space/copyauthorization persists. UserHEAD9b6b66c (externale2a→9b6), all431source
+hashes remainexact. Two userAtlas json/html edits preserved/unattributed unchanged.
+OnefirstproductionWindowsbuild50206warning-free/frozenCLI c7f47bd4fdf6263845fdf0cfc3440b3e30fd79fc19a15079231d9417d4112f94;
+canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720/
+mtime1792570130397888519 restored exact, maincontent unchanged/Cargo mtimeonly.
+Userinterruption left92825unknown/no selectedliveprocess, preparelogChecking-
+Preparing, generationmanifest butNOcurrent/result. Incomplete notaccepted;
+archivedaborted-cli-prepare/log/interruption-result.json. Samefrozenretry96650
+threeCLIchildrenexit0: create/reuse/oldcacheoneframe fromunrelatedcwd,67generation/
+69managed/all67accepted66res/twospans10B/nodeps, allmanagedhashes-mtimes reuseexact.
+Firstframe extra-both-kind gate explicitnegative:1read/1thresholdB/1phase,
+0correctionB/0rows, combinedrunnerexit1 AFTERallCLIexit0. Preserveoneframe-
+coverage-negative.json; neverrepeatthatboundorclaimordinarypositive fromit.
+One newCLI12 call79045 justifiedbynegative/closedsource12lead PASS20reads28B/
+12thresholdB16correctionB/2phases4rows, originalF09state/input/cache16:9. Notold
+collector/sceneequivalence replay. Both-kindactivation requirement nowclosed.
+Currentactualdataset target/rom-data-observed-task-parameters-cli/windows-cli/
+resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/
+e73-d72/generation-uDd7JP, samefe0839b7..dataset/ced88a05..manifest/4b52c5f1..model.
+145actualCLIguards/compiledsources/originals/canonical/userAtlas exact. Required
+artifactcompletion0paths, abortedfixture retained. No newfixture/navigation/
+performance/RSS/space campaign/acceptedbuild-prepare-reuse-source-model-runtime replay.
+Same docs/changes/2026-10-26-consume-european-observed-task-parameters.json extended
+with27October CLIvalidation; docs/rom_data_gameplay.md#actual-cli-for-observed-task-parameters.
+Evidence target/rom-data-observed-task-parameters-cli/{windows-build.json,
+interruption-result.json,windows-cli-summary.json,windows-cli-no-write.json,
+one-frame-coverage-negative.json,windows-cli-positive12-result.json,
+preservation-result.json,artifact-cleanup.json,final-summary.json}.
+Final431source/145guard maps; memoryrender/default/base9b6b66c/CRLFwhitespace
+PASS; no livejobs.
+Ordinary05 is nowclosed below at the NEW12framepositive bound. No source/model/
+runtime/CLI/oldscene repeats. Lower452B
+separate; fullgoalactive, Linux/USA/nativeWindows/new32:9 pending/no commit.
+
+
+**ROMDATA-05-OBSERVED-TASK-PARAMETERS-ORDINARY closed/PASS (2026-10-27).**
+LatestreplacementAGENTS/fullTODO/EUR/Wine-only/no performance-space/copypermission
+unchanged. Exactfive-line optionalvalidator newboth-kind/all6row positiveguard/
+report only, genericloop unchanged/preimageverified. FirstWindowsfrontendbuild
+94689warning-free/frozende380af6bf577eafd28c2b7e3c0a87dacb22bf3dae53b922f8b29a95e3c68ae3.
+FirstexactWine97007F09twelve-frame8476→8488 fullpair PASS everyfullstate-clock/
+central-wide capturedbuffers/OAM/dispatch/mixed-PSG-FIFO-HLEbitwise audio.
+Samples[26334,26334,3168,3168,26258]allpositive;88123native/279744fallback are
+coverageonly. Bothkinds/all6rows required;20reads28B/12thresholdB16correctionB/
+2phases4rows exactlymatchesactualCLI12. CurrentCLI67files/originalstate-input-
+cache16:9;76selectedinput-frozen guards/otherimplementation/canonical/userAtlas
+json-html exact. Requiredartifactcomplete0paths. Firstframecorrection-negative,
+abortedprepare andsource01/model02/runtime03/CLI04/two-list/oldcollector-scene
+proofs stayclosed, no acceptance replay/fixture/navigation/measurements.
+Same docs/changes/2026-10-26-consume-european-observed-task-parameters.json extended
+with27October ordinaryvalidation; feature docs/rom_data_gameplay.md#ordinary-twelve-frame-equivalence-for-observed-task-parameters.
+Evidence target/rom-data-observed-task-parameters-ordinary/{windows-scene-build.json,
+windows-scene-result.json,validation-tests-before.rs,preservation-result.json,
+artifact-cleanup.json,final-summary.json}. Final431source/76guard maps.
+Memoryrender/default/base9b6b66c/CRLFwhitespace PASS; no livejobs.
+Allboundedparameterchildren01source/02model/03runtime/04CLI/05ordinary nowclosed.
+Scope12frames only; broader scenes/indirect/fullphysicaltables/task-allocatorABI/
+composedGUI/new32:9 notclaimed. Next select remaining452lower newbus-host residue
+source contracts, using retainedcollector/comparison/address reports (no new
+collector/oldscene rerun); high90=64typedOBJ+10typedparameters+16codecontrol
+classified. FullTODOactive/incomplete, Linux/USA/nativeWindows pending; preserve
+userAtlas edits/no assistantcommit/push/Android/package.
+
+
+**Selection checkpoint — ROMDATA-01-BUS-HOST-LOWER-RESIDUE (2026-10-27).**
+Previousgoalturnprogress: parameter05terminalPASS/12frames/all6rows/76guards/
+431source map/memoryconfirmed; no livejobs. LatestfullTODO/EUR/Wine-only/no
+performance-space/copyauthorization unchanged. Source/model/runtime/CLI/
+ordinary/two-list/collector children stayclosed. Missing sourcecontracts for
+452lower bytes from retained bus-host additional542 afterhigh90 classified.
+Cheap intersections confirm113alignedwords/62ranges, NONE overlaps closedBank
+lower656witnesses; do not rerunthatproof. Deriveexact452-byte set fromretained
+report, currente73manifestownership, ROMknownidentity. Next rawThumbPCrelative
+literal candidate map; authenticate bounded straightline originalcode witnesses
+using staticexported cachekeys/modes or existing verified code windows. Candidate
+encodings alone not semantic/executed-site evidence; unresolved cases stayopen.
+Ifneeded fewnew disassembly windows/staticguards only; no newbuild/collector/
+scene replay or fixture/navigation. Preserve userAtlasjson/html edits separately.
+No newasset/table extent/revision/wholeROM/all-use/dynamicPC inference. Lower
+classification mayprove ROM/code dependencies; newdata consumers needtheir own
+models. Linux/USA/nativeWindows/new32:9pending; fullgoalactive/no commit/package.

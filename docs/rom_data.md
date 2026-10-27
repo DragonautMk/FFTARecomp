@@ -1,5 +1,19 @@
 # Decoded ROM resources
 
+EUR e73-d72 publishes [observed task parameters](rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption):
+67files/66resources, all65prior files/records and e72 retained. One bounded file
+keeps the independent phase-threshold/correction fields over exactly ten bytes.
+Two focused Wine filters pass managed/lifecycle authentication and24complete-
+state/clock original/interpreter/native prefixes with raw sources altered,
+plus boundaries/mirrors/BIOS, six SWI/DMA transfers and mixed old/new/raw reads.
+Actual production CLI create/no-write reuse passes67generation/69managed files,
+all67matching runtime. The first F09frame is correction-negative; a new12frame
+CLI check positively uses both kinds/all six rows. One12frame Wine pair now
+passes every full state/clock/captured buffer/OAM/dispatch/audio comparison and
+requires both kinds/all six rows; broader ordinary coverage remains separate.
+USA stays e8-d7; Linux/native Windows/new32:9 remain unverified.
+No performance/storage measurements.
+
 EUR e72-d71 integrates [two observed indirect OBJ lists](rom_data_obj.md#managed-observed-indirect-lists-and-typed-consumption)
 into the existing resource: 76 lists, 185 objects and 1262 source bytes. There
 are still 66 files and 65 resources; all 74 earlier lists, the other 64 files/

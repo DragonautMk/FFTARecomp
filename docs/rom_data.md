@@ -1,5 +1,15 @@
 # Decoded ROM resources
 
+EUR e74-d73 adds [conditional constructor OBJ animation](rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption):
+68files/67resources, one32B threshold/pointer file and four new lists/56B in the
+existing OBJ owner (80lists/193objects). All76prior lists/65other records-files
+are retained. Wine bounded acceptance covers managed activation,13native/
+interpreter state-clock prefixes with altered raw sources, bus edges/mirrors,
+six DMA/SWI comparisons and four host publications. A test ROM-restore-order
+failure separates the first passed stages from the remaining-only filter;
+completed checks were not replayed. Actual CLI/ordinary positive use, Linux,
+USA/native Windows/new32:9 remain pending. No performance/storage campaign.
+
 EUR e73-d72 publishes [observed task parameters](rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption):
 67files/66resources, all65prior files/records and e72 retained. One bounded file
 keeps the independent phase-threshold/correction fields over exactly ten bytes.

@@ -639,7 +639,32 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   OAM/dispatch/allaudio, samples[26334,26334,3168,3168,26258], exactCLI20reads28B.
   Five optionalvalidator lines only, firstWindowsfrontendbuild warning-free/
   76guards/code/originals/userAtlas exact. Allbounded parameterchildren closed;
-  broaderordinary/lower452B separate.
+  broaderordinary separate. The lower452B are now source-classified by an
+  opt-in filtered execution-site capture:113words/114reads,101literal words404B
+  from102executed Thumb LDRs and12switch words48B. Original opcode/address/width
+  checks distinguish actual operands from inherited HLE/DMA scope; cached and
+  uncached probes retain old address-only keys. One new Wine source-only filter
+  observes all selected words in a single current F09 decoded12frame arm;
+  no old equivalence replay.85guards/source/defaultcfg preimages/Atlas exact.
+  These bytes remain code support, no new resource/revision/asset extent.
+  Pointed394FBC now has a separate conditional constructor-animation source/model:
+  four8B threshold/list-pointer pairs32B plus four14B/two-object lists56B/eight
+  objects. The original u8counter increment/store/reload precedes unsigned-word
+  compare;255wraps0, newphase>3 clearsactivebit. Oldphase has no prelookup cap;
+  model0..3 only. One firstWindowsbuild/oneWinefilter passes13guards/15counter/
+  4constructor/4new-list copied-reader cases,94inputs/source/preimages exact.
+  The isolated milestone left e73 unchanged. Managed/runtime now passes e74-d73:
+  68files67resources,32B table withOBJdependency and4lists56B merged into existing
+  owner,80lists193objects1318B/all76oldlists/65otherrecords-files retained. First
+  Wine passes10attach/2halfset/publication/lifecycle/13fullstate-clock prefixes/
+  native36typedB/all4phases/4outside/708buscases, then testsetupROMidentity fails
+  beforeDMA. Restore-before-load correction is testonly; remainingfilter passes
+  6SWI-DMA/4hostpublications/twoobjects each without replaying completed checks.
+  Production byteidentical across observations;169guards/source/Atlas exact.
+  ActualCLI/ordinarypositive pending (retainedF09 zero matchingdatareads), no
+  firstfullfilterPASS claim. Pointed371064phase0/371034 separate source contracts.
+  [Constructor animation](../rom_data_obj.md#conditional-constructor-obj-animation-source-and-model).
+  [Source proof](../rom_data_runtime.md#lower-bus-and-host-residue-source-contracts).
   USA8-7 unchanged; Linux/nativeWindows/new32:9 pending, no newfixture or
   measurements. Other threads/scenes/readers/typed HLE bypasses remain separate.
 

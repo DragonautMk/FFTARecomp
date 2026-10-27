@@ -2117,3 +2117,55 @@ collector-scenario ripetuto, nuova fixture/navigazione/misura. Altre scene,
 indiretti/ABI/composedGUI/nuovo32:9 aperti;452lower e Linux/USA/Windows nativo
 separati o pendenti.
 [Equivalenza e limiti](../rom_data_gameplay.md#ordinary-twelve-frame-equivalence-for-observed-task-parameters).
+
+
+**ROMDATA-01-BUS-HOST-LOWER-RESIDUE completato EUR (2026-10-27).**
+452byte/113word/62intervalli classificati con114letture contestuali:404B da
+102LDR Thumb PC-relative su101literal,48B da12voci switch osservate7–18.
+Caricamento080A1146/MOVPC080A1148 conserva Thumb; prefisso originale normalizza
+u16zero/>24a1 prima dell'indice, senza nuovo limite globale. Il nuovo SiteCapture
+opzionale conserva schema/chiavi precedenti; scopePC/mode richiede verifica
+opcode/indirizzo/larghezza, non attribuzione automatica per HLE/DMA annidati.
+Un build Windows incrementale senza avvisi dopo errore helper solo nel test;
+un filtro Wine con nuove sonde e un solo arm F09 corrente12frame osserva tutti
+113word.85guardie/preimage cfg/codice/Atlas esatti; helper artefatti zero percorsi.
+Nessuna vecchia accettazione ripetuta, fixture o misura. I452B sono supporto
+codice, e73-d72/67file66risorse invariati. Nuove sorgenti394FBC/371064fase0/
+371034 richiedono contratti propri; nessun formato/estensione dedotto dai literal.
+Linux/USA/Windows nativo/nuovo32:9 da verificare, TODO globale aperto.
+[Contratto e limiti](../rom_data_runtime.md#lower-bus-and-host-residue-source-contracts).
+
+
+**ROMDATA-01-ADDITIONAL-CONSTRUCTOR-OBJ source/modello completato EUR (2026-10-27).**
+394FBC è una tabella di quattro coppie condizionali soglia32bit/puntatorelista,
+32B; lettori originali9DB56/9DBCA e costruttore già autenticato provano quattro
+liste394F82/90/9E/AC,56B/otto oggetti. Totale88B, nessuna sovrapposizione owner.
+Incremento/store/reloadu8 prima del confronto;255→0, fase nuova>3 disattiva.
+Vecchia fase non limitata prima del lookup: modello0–3, nessun nuovo cap globale.
+Modello isolato con JSON rigoroso/proiezione sorgente/verifica dipendenza liste.
+Primo build Windows senza avvisi/unico filtro Wine passa13guardie,15prefissi
+contatore, quattro prefissi puntatore-costruttore e quattro nuovi disegni con
+oracolo copiato esistente.94guardie/codice esatto, hub solo dichiarazioni/helper
+solo visibilità; helper artefatti zero percorsi. F09 conservata non legge questi
+dati: nessun uso ordinario dichiarato. Produzione e73-d72/67file66risorse invariata;
+estrazione/owner runtime/uso positivo da fare. Linux/USA/Windows nativo/nuovo32:9
+pendenti, nessuna vecchia accettazione ripetuta/fixture/navigazione/misura.
+[Contratto e modello](../rom_data_obj.md#conditional-constructor-obj-animation-source-and-model).
+
+
+**ROMDATA-03-CONSTRUCTOR-ANIMATION-RUNTIME completato EUR (2026-10-27).**
+e74-d73/68file67risorse pubblica tabella32B con dipendenza OBJ; catalogo80liste/
+193oggetti1318B, tutte76liste precedenti/126ref dirette/65altri file-record esatti.
+Owner tabella esatta con composizione precedente/raw, liste servite da owner OBJ
+esistente. Primo Wine supera10guardie/2halfset/lifecycle/pubblicazione e13prefissi
+originale-interprete-native stato-clock con88B grezzi alterati:36B typed native/
+20soglie16puntatori/4fasi,4query esterne senza addebito,708casi bus e composizione.
+Si ferma poi su errore setup test: load_state prima del ripristino ROM. Fallimento
+conservato, non dichiarato PASS completo. Corretto solo l'ordine nel test; filtro
+restante su dataset già validato passa6DMA/SWI e4pubblicazioni host/due oggetti
+reali ciascuna, senza ripetere le parti superate. Produzione identica fra i filtri.
+Build finali senza avvisi,169guardie/codice/Atlas esatti; helper artefatti0percorsi,
+diagnostica fallita e offline68 conservati, solo exe mai eseguito sostituito ritirato.
+CLI reale/uso ordinario positivo da fare; F09 conservata inattiva non basta.
+Linux/USA/Windows nativo/nuovo32:9 pendenti; nessuna nuova fixture/misura/replay.
+[Consumo e prove](../rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption).

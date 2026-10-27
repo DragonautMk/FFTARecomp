@@ -24,9 +24,75 @@ pub struct Read {
     pub length: usize,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
+pub struct ExecutionSite {
+    pub pc: u32,
+    pub thumb: bool,
+}
+
+/// A read during an interpreter instruction/HLE scope. Nested accesses such as
+/// DMA inherit that scope: validate the opcode before attributing its own load.
+/// None means outside interpreter execution, not an invented guest instruction.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
+pub struct SiteRead {
+    pub read: Read,
+    pub instruction: Option<ExecutionSite>,
+}
+
+struct SiteReads {
+    words: BTreeSet<u32>,
+    reads: BTreeSet<SiteRead>,
+}
+
 thread_local! {
     static READS: RefCell<Option<BTreeSet<Read>>> = const { RefCell::new(None) };
     static FETCH_DEPTH: Cell<usize> = const { Cell::new(0) };
+    static SITE_READS: RefCell<Option<SiteReads>> = const { RefCell::new(None) };
+    static EXECUTION_SITE: Cell<Option<ExecutionSite>> = const { Cell::new(None) };
+}
+
+/// Separate, thread-bound word-filtered diagnostic. Existing address-only
+/// Capture keys and results are unchanged; no raw bytes enter this collection.
+pub struct SiteCapture(PhantomData<Rc<()>>);
+impl SiteCapture {
+    pub fn start(words: impl IntoIterator<Item = u32>) -> Self {
+        let words: BTreeSet<_> = words.into_iter().collect();
+        assert!(words.iter().all(|w| w & 3 == 0 && *w < 0x1000000));
+        SITE_READS.with(|cell| {
+            let mut capture = cell.borrow_mut();
+            assert!(capture.is_none(), "ROM site capture is already active");
+            *capture = Some(SiteReads {
+                words,
+                reads: BTreeSet::new(),
+            });
+        });
+        Self(PhantomData)
+    }
+    pub fn finish(self) -> BTreeSet<SiteRead> {
+        SITE_READS.with(|cell| {
+            cell.borrow_mut()
+                .take()
+                .expect("active ROM site capture")
+                .reads
+        })
+    }
+}
+impl Drop for SiteCapture {
+    fn drop(&mut self) {
+        SITE_READS.with(|cell| *cell.borrow_mut() = None);
+    }
+}
+
+pub(crate) struct InstructionExecution(Option<ExecutionSite>);
+impl InstructionExecution {
+    pub(crate) fn enter(pc: u32, thumb: bool) -> Self {
+        Self(EXECUTION_SITE.with(|cell| cell.replace(Some(ExecutionSite { pc, thumb }))))
+    }
+}
+impl Drop for InstructionExecution {
+    fn drop(&mut self) {
+        EXECUTION_SITE.with(|cell| cell.set(self.0));
+    }
 }
 
 /// Thread-bound, non-nestable capture. Dropping also resets capture after panic.
@@ -76,14 +142,32 @@ pub(crate) fn record(reader: Reader, address: u32, length: usize) {
     {
         return;
     }
+    let read = Read {
+        reader,
+        guest_address: address,
+        physical_offset: address & 0x01ff_ffff,
+        length,
+    };
     READS.with(|cell| {
         if let Some(reads) = cell.borrow_mut().as_mut() {
-            reads.insert(Read {
-                reader,
-                guest_address: address,
-                physical_offset: address & 0x01ff_ffff,
-                length,
-            });
+            reads.insert(read);
+        }
+    });
+    SITE_READS.with(|cell| {
+        if let Some(capture) = cell.borrow_mut().as_mut() {
+            let first_word = read.physical_offset & !3;
+            let end = u64::from(read.physical_offset) + length as u64;
+            if capture
+                .words
+                .range(first_word..)
+                .next()
+                .is_some_and(|word| u64::from(*word) < end)
+            {
+                capture.reads.insert(SiteRead {
+                    read,
+                    instruction: EXECUTION_SITE.with(Cell::get),
+                });
+            }
         }
     });
 }

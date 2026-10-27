@@ -1,4 +1,4 @@
-//! Bounded EUR static OBJ lists from draw literals and two observed indirect roots.
+//! Bounded EUR static OBJ lists from direct, observed and conditional indirect roots.
 //! Animation state, OAM, matrices and lists constructed in RAM are not assets.
 use super::SourceRange;
 use crate::ffta_rom;
@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 mod roots;
 pub use roots::REFERENCES;
 pub mod observed;
+pub mod constructor_animation;
 
 #[derive(Clone, Copy, Debug)]
 pub struct RootReference {
@@ -256,6 +257,10 @@ impl Catalog {
         let extra = observed::Catalog::from_rom(rom)?;
         lists.extend(extra.decoded.lists);
         sources.extend(extra.sources);
+        // Four conditional pointer-table roots retain their indirect provenance.
+        let animation = constructor_animation::Catalog::from_rom(rom)?;
+        lists.extend(animation.lists.lists);
+        sources.extend(animation.sources.into_iter().filter(|s| s.role == "static-obj-list"));
         lists.sort_by_key(|list| list.source_offset);
         sources.sort_by_key(|source| source.offset);
         let decoded = Lists { lists };

@@ -165,7 +165,7 @@ fn rom_draw(rom: &[u8], list: &List, dimensions: &ObjDimensions, first: bool) {
     assert_eq!(m.bus.oam, oam);
     assert_eq!(m.bus.palette, palette);
 }
-fn copied_ram_draw(rom: &[u8], list: &List) {
+pub(super) fn copied_ram_draw(rom: &[u8], list: &List) {
     let mut m = pristine(rom);
     // Authenticated original copier mapping, reused as test setup. Do not rerun
     // the already classified copier or turn this into a new game checkpoint.

@@ -1448,3 +1448,65 @@ both kinds/all six rows, matchingCLIcounts. Source/model/managed/runtime/CLI/
 declaredordinary children are closed; broader scenes and Linux/USA/native
 Windows/new32:9 remain pending. See the
 [parameter integration evidence](rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption).
+
+
+## Lower bus and host residue source contracts
+
+`SiteCapture` extends the optional `rom-data-read-audit` feature with a separate,
+thread-bound collection filtered by aligned physical words. It preserves the
+address-only `Capture` schema and keys. Each read adds an optional interpreter
+execution PC and Thumb state; outside that scope it records `None`. Nested DMA
+or HLE accesses can inherit the scope, so attribution to an instruction's own
+operand requires checking the original opcode, effective address and width.
+It records no payload bytes or timings and changes no Machine/native/save ABI.
+The execution guard is compiled only with this nondefault feature.
+
+The source-only ignored test is
+`lower_rom_read_sites_tests::european_lower_rom_words_record_interpreter_sites`.
+Besides the existing private ROM/cache/state/input/dataset paths it takes
+`FFTA_STATE_TEST_LOWER_SITE_WORDS` (113 selected word offsets) and a new
+`FFTA_STATE_TEST_LOWER_SITE_ROOT`. All reports and fixtures remain local.
+One Windows feature build retry fixed only a test-local audio helper after an
+actual compile failure; the successful build was warning-free. One Wine filter
+passed cached/uncached original LDR scope, outside-scope/reset and old-key probes,
+then observed one decoded F09 arm, frames8476–8488, using the current67file EUR
+dataset. This is reader-site evidence; the already closed scene equivalence
+and collector acceptance were not repeated.
+
+All452selected bytes (113words,62ranges) were observed in114context reads.
+Every read is a four-byte bus access matching its original Thumb opcode/address:
+101literal words/404B from102executed PC-relative LDR sites, and12switch words/48B
+at0A116C–0A11A0 from load080A1146 followed by `MOV PC,r0` at080A1148. The latter
+preserves Thumb state despite even targets. The source prefix0A1124–0A114A
+normalizes a low-u16 input of zero or greater than24 to1, subtracts1, guards
+index<=23 and uses table0A1150. Only observed indices7–18 are classified;
+this is neither a global raw-input cap nor a claim about all table uses.
+Literal-shaped candidates/exported roots alone had been insufficient; their
+rejected candidate maps remain distinct from this executed-reader proof.
+
+The452bytes are code support, leaving e73-d72/67files66resources/USAe8-d7
+unchanged. Together with the earlier high90-byte classification, the extra542
+observed bytes comprise74typed data bytes and468code-support bytes. Pointed
+payloads require separate contracts:394FBC from loads0809DB40/0809DBB4,
+phase0 at371064, and signed-byte lead371034. No format or extent follows from
+an address-like literal or a plausible header. Other scenes/threads/readers,
+all-use completeness and full-ROM extraction remain open.
+
+All85execution guards, compiled source hashes, old read-key probe and user Atlas
+hashes/mtimes passed. Removing only the new cfg lines gives exact exec/frontend
+preimages; production runtime/schema/revisions remain unchanged. Artifact
+completion found no disposable paths. Linux/USA/native Windows/new32:9 remain
+pending; no checkpoint/navigation or performance/storage measurements.
+Evidence: `target/rom-data-bus-host-lower-residue/` including
+`windows-sites-result.json`, `source-contract.json`, `preservation-result.json`
+and `artifact-cleanup.json`. The frozen diagnostic executable is
+c831b960bc0bb28b6a958f1d1b80b0379af663cbde055cb59cd20f550d317bd4.
+
+
+## Constructor OBJ animation runtime
+
+EUR e74-d73 adds an exact32B threshold/pointer owner, composed with the existing
+OBJ owner extended by four lists/56B. Authentication, native/bus/DMA/host
+acceptance and the retained test-setup failure are described in
+[the OBJ feature contract](rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption).
+Actual CLI/ordinary positive use and deferred platforms remain open.

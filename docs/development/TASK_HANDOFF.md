@@ -10671,27 +10671,114 @@ artifact-cleanup.json,final-summary.json}. Final431source/76guard maps.
 Memoryrender/default/base9b6b66c/CRLFwhitespace PASS; no livejobs.
 Allboundedparameterchildren01source/02model/03runtime/04CLI/05ordinary nowclosed.
 Scope12frames only; broader scenes/indirect/fullphysicaltables/task-allocatorABI/
-composedGUI/new32:9 notclaimed. Next select remaining452lower newbus-host residue
-source contracts, using retainedcollector/comparison/address reports (no new
-collector/oldscene rerun); high90=64typedOBJ+10typedparameters+16codecontrol
-classified. FullTODOactive/incomplete, Linux/USA/nativeWindows pending; preserve
+composedGUI/new32:9 notclaimed. Lower452 source classification is closed below; next payload contracts are
+separate. High90=64typedOBJ+10typedparameters+16codecontrol classified. FullTODOactive/incomplete, Linux/USA/nativeWindows pending; preserve
 userAtlas edits/no assistantcommit/push/Android/package.
 
 
-**Selection checkpoint — ROMDATA-01-BUS-HOST-LOWER-RESIDUE (2026-10-27).**
-Previousgoalturnprogress: parameter05terminalPASS/12frames/all6rows/76guards/
-431source map/memoryconfirmed; no livejobs. LatestfullTODO/EUR/Wine-only/no
-performance-space/copyauthorization unchanged. Source/model/runtime/CLI/
-ordinary/two-list/collector children stayclosed. Missing sourcecontracts for
-452lower bytes from retained bus-host additional542 afterhigh90 classified.
-Cheap intersections confirm113alignedwords/62ranges, NONE overlaps closedBank
-lower656witnesses; do not rerunthatproof. Deriveexact452-byte set fromretained
-report, currente73manifestownership, ROMknownidentity. Next rawThumbPCrelative
-literal candidate map; authenticate bounded straightline originalcode witnesses
-using staticexported cachekeys/modes or existing verified code windows. Candidate
-encodings alone not semantic/executed-site evidence; unresolved cases stayopen.
-Ifneeded fewnew disassembly windows/staticguards only; no newbuild/collector/
-scene replay or fixture/navigation. Preserve userAtlasjson/html edits separately.
-No newasset/table extent/revision/wholeROM/all-use/dynamicPC inference. Lower
-classification mayprove ROM/code dependencies; newdata consumers needtheir own
-models. Linux/USA/nativeWindows/new32:9pending; fullgoalactive/no commit/package.
+**ROMDATA-01-BUS-HOST-LOWER-RESIDUE closed/PASS (2026-10-27).**
+Latest fullTODO/EUR/Wine-only/no performance-space/local-copy authorization
+unchanged. User HEAD e336114 acquired prior e73/Atlas work; preserved. Retained
+old collector showed113lower words452B/62ranges, no overlap closed Bank proof.
+Static candidate roots insufficient (101literal-looking/12other, only6cache
+anchors/no callback anchors); no repeated old196caller CFG experiment.
+Separate optional SiteCapture retains oldRead keys/schema; interpreter PC/Thumb
+scope is not automatic own-operand attribution for nested HLE/DMA. New exact
+Wine source filter PASS probes + ONE current67dataset F09 decoded12frame arm,
+8476→8488: all113words/114reads; original op/address/width authenticate101literal
+words404B/102sites and12switch words48B, indices7–18. Original0A1124prefix
+normalizes lowu16zero/>24to1, guards0..23, load0A1146→MOVPC0A1148 preservesThumb.
+No globalcap/tablealluses/assetextent inferred. All452B codesupport; extra542
+now74typeddata+468code. e73-d72/67files66resources/USA8-7 unchanged.
+Firstfeaturebuild92674 corecompiled/frontendE0425localtesthelper only; archived,
+localhelper corrected, incremental42584 warning-free/frozenc831b960bc0bb28b6a958f1d1b80b0379af663cbde055cb59cd20f550d317bd4.
+FirstWine87189PASS; no retries/oldcollector/fullpair/source-model-runtime-CLI
+replay/checkpoint/navigation/measurements.85input-frozen guards/compiledsource/
+defaultcfg preimages/userAtlas hash-mtime exact. Requiredartifactcomplete0paths.
+Record docs/changes/2026-10-27-attribute-european-lower-rom-readers.json;
+feature docs/rom_data_runtime.md#lower-bus-and-host-residue-source-contracts.
+Evidence target/rom-data-bus-host-lower-residue/{windows-sites-build.json,
+windows-sites-result.json,windows-sites/sites.json,source-contract.json,
+preservation-result.json,artifact-cleanup.json}. Memoryrender/default/basee336114/small-modulefmt/CRLFdiff PASS;
+final433source/85selectedguard maps retained, no live jobs. Separate new pointed-payload contracts:394FBC caller arguments
+9DB40/9DBB4 via known397F9C constructor;371064phase0;371034 signedbyte/helper.
+Do not reopen lower/code classification or old two-list acceptance for these.
+FullTODOactive/incomplete; Linux/USA/nativeWindows/new32:9 pending/no commit.
+
+
+**ROMDATA-01-ADDITIONAL-CONSTRUCTOR-OBJ source/model closed/PASS (2026-10-27).**
+LatestfullTODO/EUR/Wine-only/no performance-space/copyauthorization unchanged.
+394FBC is NOT an OBJlist: original9DB56/9DBCA use8B threshold32/pointer pairs;
+4conditional entries32B/thresholds1,3,4,4 point394F82/90/9E/AC, each14B/twoobjects,
+56B/8objects. Total88B/disjointcurrentowners. Originalcounter increments/stores/
+reloadsu8 before unsigned32compare,255→0; advanceif>threshold, newphase>3 clears
+activebit. Oldphaseuncheckedprelookup, conditional0..3 model/no globalcap or
+initializer/lifetime/fullallocator/schedulerABI. Knownoriginalcopier/constructor/
+draw sourcehashes reused, no ROMdisassemblyatRAM/oldacceptance rerun.
+Isolated obj_lists::constructor_animation Catalog/Animation/Frame withstrictJSON/
+sourceprojection/queryNoneoutside/listdependency. Production Catalog/resources/
+owner/revision e73-d72/67files66resources/USA8-7 unchanged. Existinghubs onlymodule
+lines; oldcopied-readerhelper onevisibility-onlyline, exactpreimages.
+FirstWindowsfrontendbuild27959 warning-free/frozenf2b4c88a699bebc0512727af2afde29116670dfc53421e5696210c77754a3497.
+FirstexactWine65223PASS all88B/fivespans/independentmodels/13guards/15original
+counterprefixes/4originalpointer-constructorprefixes/4NEWlistcopieddraws with
+fulloutput-matrix/RAM-callee/OAM/VRAM/palette guards.94actualinput-frozen guards/
+435compiledsources exact. Requiredartifactcomplete0paths; no livejobs. Canonical
+5d5e7720b3626234354650abbf3b22f78f93f192a39fe479e1fc697fb2bca156. RetainedF09
+hasZEROmatchingdatareads, no ordinarypositiveuse inferred fromliteralexecution.
+Record docs/changes/2026-10-27-model-european-constructor-obj-animation.json;
+feature docs/rom_data_obj.md#conditional-constructor-obj-animation-source-and-model.
+Evidence target/rom-data-additional-constructor-obj/{source-contract.json,
+windows-model-build.json,windows-model-result.json,windows-model/result.json,
+preservation-result.json,artifact-cleanup.json}. Memoryrender/default/basee336114/newmodulefmt/CRLFdiff
+PASS; final436source/94selectedguard maps retained.
+Runtime03 is closed below; source/model and lowerclassification stayclosed.
+ActualCLI/ordinarypositive criterion later; existingF09inactive data cannot be calledpositive. Othernew
+roots371064phase0/371034 separate. Linux/USA/nativeWindows/new32:9 pending;
+fullTODOactive/incomplete/no measurements/commit/push/Android/package.
+
+
+**ROMDATA-03-CONSTRUCTOR-ANIMATION-RUNTIME closed/PASS bounded stages (2026-10-27).**
+LatestfullTODO/EUR/Wine-only/no performance-space/local-copyauthorization unchanged.
+EUR e74-d73/68files67resources/graphics.constructor-obj-animation32B withOBJlist
+explicitdependency; existingOBJowner gains4lists56B→80lists193objects1318B,
+all76priorlists/126directrefs/65otherfiles-records/e73 retained. Strictparsing/
+binding/fullset/dependencies/transactionalactivation; exacttableowner prior/raw
+composition; Machine/CAPI/save/nativecacheABI unchanged, USA8-7 unchanged.
+Build11463corecompiled/frontendmisplacedbudgetargparsefailure archived; corrected
+onecompatibilityargument. Build64832PASS F63unexecuted, staticpreWinehostOAMoracle
+corrected/demandtwoobjects, supersededexe retired onlyafter acceptance. Build59095
+PASS warning-free/frozen92826f932f9d331710355de7bb86b89284556ae2eb71ada8282f83e17f9787ad.
+FirstWine7851passes managed68/67/10attach/2halfset/publication-interruption/create/
+no-write-reuse/repair/move/load-owner/88Boffline;13complete-state-clock original/
+interpreter/native prefixes/native36tableB20threshold16pointer/all4phases/4outside/
+708boundary-mirror-BIOS/prior-new-raw. THENactualtestsetupfailureline295:
+load_state rejects stillpoisonedROMidentitybeforeDMA. Originalfilterexit1,
+NOTfullfilterPASS; first-wine-stage-result.json +exactcompiledtestpreimage/
+log/result/frozen92826 copy retain completedstage evidence. Do NOTrerunclosed
+managed/native/bus merelybecauseparentfilterfailed. Onlyrestore-before-load test
+ordercorrected/extractremaininghelper; production byteidentical. Build35418PASS
+warning-free/frozen70dcf3834db5ed992789f7489ff1b3b4c11183d9e6a92b7d8f3a11e24b44e206.
+One remaining-onlyWine24838PASS sixDMA/CpuSet/CpuFastSet fullstate comparisons +
+fourhostpublications/twoactualobjects/equaldescriptors, reusing retainedoffline68.
+169selectedinput-frozen-dataset guards/compiledproduction/userAtlas hashmtime exact.
+Requiredartifactcompletion0eligiblepaths (layoutwindows/), failed diagnostics/
+currentoffline68 retained; onlyoldunexecutedF63exe retiredwithreceipt.
+Dataset a6509e2f53be8b777133a4282b43f404687dd9ce90772ddc1d82b8ac0ef91039;
+manifest16c5cec83bfbec2eb2940f927c6844b48fdd33337685ace3ad4fbaa7014003c2;
+tableJSON5e7227155bf391a1fcc98e16994899b2f024b6307404e3fd087eca0118286747.
+Record docs/changes/2026-10-27-consume-european-constructor-obj-animation.json;
+feature docs/rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption.
+Evidence target/rom-data-constructor-animation-runtime/{first-wine-stage-result.json,
+first-wine-failure-windows-runtime-result.json,first-wine-test-preimage.rs,
+windows-remaining-result.json,windows/remaining-result.json,preservation-result.json,
+artifact-cleanup.json,superseded-unexecuted-exe-retirement.json}. No livejobs.
+Memoryrender/default/basee336114/newmodulefmt/CRLFdiff PASS; final439source/
+169selectedguard maps retained. Next separateROMDATA-04-CONSTRUCTOR-ANIMATION-CLI:
+actualproductionprepare/reuse/current68 acceptance withcanonicalrestore; NO old
+source/model/runtime/collector/scene proof replay. Ordinarypositive stillmissing:
+retainedF09haszeroDATAreads; do not repeatF09/claimpositivefromliteral/nativeprefix.
+Authorizednormalgameplayfromcopies may laterderivepositiveEURcheckpoint, originals
+preserved; nofixturederivedthisunit. Otherroots371064phase0/371034 separate.
+FullTODOactive/incomplete; Linux/USA/nativeWindows/new32:9 pending, no performance/
+spacecampaign/assistantcommit/push/package/Android.

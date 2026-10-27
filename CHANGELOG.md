@@ -3,6 +3,79 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-27 — Model the European conditional constructor OBJ animation
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Authenticate the two original threshold/list-pointer readers behind394FBC. Model four conditional8B pairs with unsigned32bit thresholds and four independently bounded14B/two-object lists,88source bytes/eight objects, disjoint current owners. Preserve unchecked old-phase semantics; increment/store/reloadu8counter precedes compare,255wraps0 and newphase>3 clears active bit.
+- Add isolated obj_lists::constructor_animation Catalog/Animation/Frame, strict JSON, lossless pointer/source projection, optional phase/byte queries and referenced-list validation. Existing hubs only declare modules; expose the existing copied-reader oracle to a sibling test with one visibility change. Production extraction/catalog/runtime/e73-d72/USA8-7 remain unchanged.
+
+**Validation**
+
+- First Windows frontend build succeeds warning-free, frozen f2b4c88a699bebc0512727af2afde29116670dfc53421e5696210c77754a3497. One first exact Wine filter passes independent animation/list models, all88source bytes/five spans, boundaries and13structural/unknown-field/dependency/coherent-edit/source guards.
+- Fifteen original counter prefixes pass threshold edges and255wrap/fullRAM guards; four original pointer→copied-constructor prefixes prove r1 list selection and exact pending+158 write/prior+154 return; existing copied-reader oracle passes full output/matrix/RAM/callee/OAM/VRAM/palette checks for four NEW lists only.
+- All94selected input/frozen hash-mtime guards and435compiled sources exact; hub declaration-only and old oracle visibility-only preimages verified. Canonical animation5d5e7720b3626234354650abbf3b22f78f93f192a39fe479e1fc697fb2bca156. Required artifact completion removes zero paths. No old copier/list/model/runtime/CLI/scene acceptance replay or new fixture/navigation/measurements.
+
+**Limitations**
+
+- Isolated model only: managed extraction, existing OBJ catalog extension, typed table ownership and actual CLI/ordinary positive use remain pending. Retained F09 report has zero reads of these data ranges; no ordinary-use claim. Other raw phases, all-use/whole physical archive/initializers/lifetimes/full task allocator/scheduler ABI remain outside.
+- Linux/USA/native Windows/new32:9 pending. Phase0 at371064 and signed-byte lead371034 need separate contracts. No performance/storage campaign, Android/package/assistant commit/push; full ROM_DATA_TODO active.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-model-european-constructor-obj-animation.json)
+
+## 2026-10-27 — Publish and consume European constructor OBJ animation data
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish EUR e74-d73 constructor-obj-animation.json/graphics.constructor-obj-animation with32source bytes and explicit OBJ-list dependency. Merge four authenticated lists56B into the existing OBJ resource/owner, reaching80lists193objects1318B, preserving all76prior lists/126direct references/65other resource records-files and e73; USA8-7 unchanged.
+- Wire strict parsing/publication/source validation/full-set/dependency checks and transactional activation. Add an immutable32B table owner with prior/raw byte composition and outside-snapshot read/phase coverage; use existing OBJ guest/host paths for new lists. Preserve original unchecked phase logic, Machine/CAPI/native-cache/save ABI and raw fallback.
+
+**Validation**
+
+- Initial core build compiles; frontend parse fails from misplaced old budget-test compatibility argument, then corrected. Pre-Wine host-test placeholder replaced with authenticated OAM attributes. Warning-free executed build92826f932f9d331710355de7bb86b89284556ae2eb71ada8282f83e17f9787ad; later test-only remaining build70dcf3834db5ed992789f7489ff1b3b4c11183d9e6a92b7d8f3a11e24b44e206.
+- First Wine filter passes68files67resources/old-content retention,10attach/2half-set guards, publication interruption/create/reuse/repair/move, failed-attach state-owner and unavailable-directory state-load checks. It passes13original/interpreter/native fullstate-clock prefixes with88raw source bytes altered,36native table bytes20threshold16pointer/all4phases,4outside queries without new-owner use,708bus boundary/mirror/BIOS cases and prior/new/raw composition.
+- That first filter exits1 because the following DMA test loads a state before restoring poisoned ROM identity. Preserve exact failure/log/exe/source preimage and the completed-stage receipt; do not claim full-filter exit0. Correct only test restore order, run one remaining-only Wine filter on retained dataset: six DMA/CpuSet/CpuFastSet fullstate comparisons and four host publications/two real objects with equal descriptors pass. Completed managed/native/bus/source/model/scene proofs are not replayed; production code is exact across observations.
+- All169actual selected input/frozen/dataset hash-mtime guards, compiled implementations and user Atlas exact. Dataset a6509e2f53be8b777133a4282b43f404687dd9ce90772ddc1d82b8ac0ef91039; manifest16c5cec83bfbec2eb2940f927c6844b48fdd33337685ace3ad4fbaa7014003c2; tableJSON5e7227155bf391a1fcc98e16994899b2f024b6307404e3fd087eca0118286747. Required artifact completion finds zero eligible paths; accepted offline68 and failed diagnostics retained, only superseded unexecuted test exe retired with receipt.
+
+**Limitations**
+
+- Actual production CLI and positive ordinary-scene activation remain pending. Retained F09 has zero reads of these ranges, so literal execution/isolated prefix/host checks are not ordinary-positive evidence. Full initializer/lifetime/allocator/scheduler/all-use/physical-archive and expanded-content claims remain outside.
+- Linux/USA/native Windows/new32:9 pending. Phase0 at371064 and371034 signed-byte lead remain separate source work. No performance/storage campaign, checkpoint/navigation, old acceptance replay, Android/package/assistant commit/push; full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-consume-european-constructor-obj-animation.json)
+
+## 2026-10-27 — Attribute the European lower ROM residue to executed readers
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a separate optional thread-bound SiteCapture filtered by aligned ROM words, retaining the address-only Capture schema/keys. Record interpreter execution PC/Thumb scope or None; nested HLE/DMA scope requires original opcode/address/width validation. Default-off cfg preserves normal exec behavior, native/save ABI and e73-d72 resources.
+- Classify all452selected bytes/113words:101PC-relative literal words404B from102executed Thumb LDR sites and12same-state switch words48B. Authenticate normalized-u16 guarded24entry switch prefix and observed indices7–18 without inventing a global input cap or asset extent. Keep pointed394FBC/phase0-371064/371034 payloads as separate unproved leads.
+
+**Validation**
+
+- Initial Windows feature build compiled core but failed on two new-test private-helper references; preserve failure and fix only a local audio-clear helper. Incremental frontend build passes warning-free, frozen c831b960bc0bb28b6a958f1d1b80b0379af663cbde055cb59cd20f550d317bd4.
+- One first exact Wine filter passes original cached/uncached LDR context, outside-None, drop/reset and old-key probes, then a single current67file decoded F09 arm8476→8488. All113words appear in114instruction scopes; every selected original opcode/address/width matches. No old collector/fullpair equivalence acceptance replay.
+- All85selected input/frozen hash-mtime guards, compiled source hashes and user Atlas exact. Removing only new exec/frontend cfg lines restores exact preimages. Source contract fe4d55dbd1e8e3cd16cdde7bc56ca0237193464432ed8477a99fb2195d99b424; site report28a0c0e0dc5163cf1c2a9228355ecbf1fb236fe1ebab340496ae5d789763d285. Required artifact completion finds zero paths.
+
+**Limitations**
+
+- Bounded source classification only; literal candidate/static exported roots alone rejected as insufficient. No full-ROM/other-scene/thread/all-use/payload-format or extent inference. ROM code remains required, new pointed payload contracts and full ROM_DATA_TODO remain open.
+- Linux/USA/native Windows/new32:9 pending. No performance/storage campaign, new checkpoint/navigation, Android/package/assistant commit/push.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-attribute-european-lower-rom-readers.json)
+
 ## 2026-10-26 — Validate and organize the user EUR failed-dispatch snapshot as DS-20
 
 Type: added. Platforms: Windows/Wine.

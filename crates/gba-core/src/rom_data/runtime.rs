@@ -152,6 +152,9 @@ pub use slot_job_lookup::SlotJobLookupStats;
 mod observed_task_parameters;
 use observed_task_parameters::ObservedTaskParametersResources;
 pub use observed_task_parameters::ObservedTaskParametersStats;
+mod constructor_obj_animation;
+use constructor_obj_animation::ConstructorObjAnimationResources;
+pub use constructor_obj_animation::ConstructorObjAnimationStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -280,6 +283,7 @@ pub struct RuntimeResources {
     unit_obj_ffff_reader_fields: Option<Box<UnitObjFfffReaderFieldsResources>>,
     slot_job_lookup: Option<Box<SlotJobLookupResources>>,
     observed_task_parameters: Option<Box<ObservedTaskParametersResources>>,
+    constructor_obj_animation: Option<Box<ConstructorObjAnimationResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -537,6 +541,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.observed_task_parameters {
             resources.observed_task_parameters = Some(Box::new(ObservedTaskParametersResources::new(data.clone(), &source.observed_task_parameters.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.constructor_obj_animation {
+            resources.constructor_obj_animation = Some(Box::new(ConstructorObjAnimationResources::new(data.clone(), &source.constructor_obj_animation.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -628,6 +635,7 @@ impl RuntimeResources {
             unit_obj_ffff_reader_fields: None,
             slot_job_lookup: None,
             observed_task_parameters: None,
+            constructor_obj_animation: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -720,6 +728,7 @@ impl RuntimeResources {
             + self.unit_obj_ffff_reader_fields.as_ref().map_or(0, |i| i.resident_bytes())
             + self.slot_job_lookup.as_ref().map_or(0, |i| i.resident_bytes())
             + self.observed_task_parameters.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.constructor_obj_animation.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -837,6 +846,7 @@ impl RuntimeResources {
     pub fn unit_obj_ffff_reader_fields_stats(&self) -> Option<UnitObjFfffReaderFieldsStats> {self.unit_obj_ffff_reader_fields.as_ref().map(|m|m.stats())}
     pub fn slot_job_lookup_stats(&self) -> Option<SlotJobLookupStats> {self.slot_job_lookup.as_ref().map(|m|m.stats())}
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
+    pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -1154,7 +1164,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.observed_task_parameters {
+            let prior = match &self.observed_task_parameters {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.constructor_obj_animation {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };

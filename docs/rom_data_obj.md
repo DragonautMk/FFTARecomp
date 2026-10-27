@@ -1057,3 +1057,119 @@ final composed GUI, full actor/allocator ABI and new32:9 remain open. Prior12/
 3530frame acceptances are not replayed. Linux/USA/native Windows remain pending;
 there is no new fixture/navigation or performance/storage campaign. Evidence:
 `target/rom-data-observed-obj-lists-ordinary/`.
+
+
+## Conditional constructor OBJ animation source and model
+
+The separately attributed literals9DBA0/9DC38 point to394FBC. Original readers
+show that this is an eight-byte pair table, not an OBJ list:9DB60–9DB68 uses
+`base+8*phase` as an unsigned word threshold, while9DBCC–9DBDC loads the pointer
+at `base+8*phase+4` into r1 and calls145C10 via397F9C. The existing authenticated
+copier maps that constructor to D9752C/03006B6C; it writes the pending list field
+at instance+158 and returns the previous active field at+154. This reuses the
+known constructor/draw bridge without inferring the complete scheduler ABI.
+
+Both handlers iterate two16byte live slots at task+394/+3A4, gated by active
+bit0. The counter increments, stores and reloads as u8 before the unsigned-word
+comparison. A reloaded counter greater than the threshold resets to zero and
+increments/stores the phase; a new phase greater than3 clears active bit0.
+Thus counter255 becomes zero before comparison. The OLD phase has no prelookup
+bound: the model owns conditional phases0–3 without imposing a new guest cap or
+proving all initializers/lifetimes.
+
+Those four entries occupy32B at394FBC–394FDC, thresholds1/3/4/4. Their list
+pointers identify394F82,394F90,394F9E and394FAC, each14B/two objects,56B/eight
+objects total. Count-plus-six-byte-stride extents follow the original reader
+contract after pointer-flow authentication. Alignment gaps and adjacent content
+remain outside. All88B are disjoint from current manifest owners. Retained F09
+reports have zero data reads from these ranges; literal execution alone does
+not establish ordinary use of the pointed data.
+
+`obj_lists::constructor_animation::{Catalog,Animation,Frame}` provides the
+isolated model, four authenticated list roots, strict JSON, lossless source
+projection, optional phase/byte queries, referenced-list validation and exact
+EUR source verification. Thresholds retain all32bits; physical list offsets
+project back to the original absolute pointers. Source metadata has five spans.
+Existing catalog publication, resources, e73-d72 and USAe8-d7 remain unchanged.
+
+One Windows frontend build passes without diagnostics. A single exact Wine
+filter, `constructor_obj_animation_model_tests::european_constructor_obj_animation_matches_original_sources`,
+passes independent models/all88source bytes/boundaries/13negative and coherent
+edit guards;15original counter prefixes include threshold edges and255wrap,
+four original pointer→copied-constructor prefixes check the exact pending field,
+and the retained copied-reader oracle checks all output/matrix bytes and RAM/
+callee/OAM/VRAM/palette guards for the four NEW lists. Existing helper visibility
+alone changed; no old acceptance was rerun. Private ROM and independent JSON
+paths use `FFTA_STATE_TEST_ROM`/`FFTA_CONSTRUCTOR_ANIMATION_ROOT`.
+
+All94selected input/frozen hash-mtime guards and435compiled-source hashes pass;
+hub deltas are declarations only. Required artifact completion removes no paths.
+Canonical animation SHA256 is
+5d5e7720b3626234354650abbf3b22f78f93f192a39fe479e1fc697fb2bca156.
+Managed extraction, typed bus consumption and ordinary positive use are pending.
+Linux/USA/native Windows/new32:9 remain to verify. No new checkpoint/navigation,
+performance or storage campaign. Local evidence:
+`target/rom-data-additional-constructor-obj/` (`source-contract.json`,
+`windows-model-build.json`, `windows-model-result.json`,
+`windows-model/result.json`, `preservation-result.json`, `artifact-cleanup.json`).
+
+
+## Managed constructor OBJ animation and typed consumption
+
+EUR e74-d73 publishes `constructor-obj-animation.json`, resource
+`graphics.constructor-obj-animation`, with an explicit dependency on
+`graphics.obj-static-lists`. The new file owns only the32B threshold/pointer
+table. The existing list resource gains four lists/56B, reaching80lists,
+193objects and1318source bytes; all76previous lists/126direct references,
+65other resource records/files and e73 remain intact. There are68generation
+files/67resources. USA remains e8-d7 and has not been newly tested.
+
+Strict parsing, source/file identities, full-set and referenced-list checks
+precede transactional activation. The immutable table owner serves exactly its
+32bytes through the normal bus/native API/BIOS/DMA paths and composes earlier
+owners with raw fallback at edges. Pointer words reconstruct original ROM
+addresses; the existing OBJ owner serves the four lists to guest and host
+readers. No raw-span shadow or replacement guest animation loop is added.
+`constructor_obj_animation_stats` reports reads/source/threshold/pointer bytes
+and phases used outside guest snapshots. Machine/native-cache/save ABI and
+outside-phase behavior remain unchanged.
+
+Bounded acceptance combines two Wine observations, with the failure retained:
+
+- The first exact filter verifies68files/67resources, old content retention,
+  ten attach/two half-set guards, interrupted/create/no-write-reuse/repair/move,
+  failed-attach state/owner preservation and directory-unavailable state load.
+  It then passes13original/interpreter/native full-state-and-clock prefixes
+  with all88new raw source bytes altered. Native APIs positively supply36table
+  bytes (20threshold/16pointer), allfour phases; four outside-phase queries add
+  none.708boundary/mirror/BIOS combinations and prior/new/raw composition pass.
+  That filter exits1 at the following test-setup step: state loading correctly
+  rejects still-altered ROM identity before DMA. This is not a full-filter pass.
+- A test-only correction restores ROM before loading state. A separate exact
+  remaining filter reuses the validated offline dataset and passes six DMA/
+  CpuSet/CpuFastSet full-state comparisons and four host publications, each
+  requiring two actual objects and equal descriptors. Completed managed/native/
+  boundary checks are not replayed. Production code is byte-identical between
+  these observations.
+
+The initial frontend compile failure was a misplaced compatibility argument in
+an old budget test; only that argument was corrected. Pre-Wine review also
+replaced a host-test OAM placeholder with original attributes. Final affected
+builds are warning-free; first executed92826f93.. and remaining70dcf383.. frozen
+executables/source preimages/logs remain local. All169selected hash-mtime guards,
+compiled implementations and user Atlas pass. Artifact completion finds zero
+eligible paths in this layout; original failed diagnostics and the accepted
+68file offline dataset are retained. Only a superseded unexecuted test executable
+was retired, with a receipt.
+
+Accepted dataset identity:
+a6509e2f53be8b777133a4282b43f404687dd9ce90772ddc1d82b8ac0ef91039;
+manifest16c5cec83bfbec2eb2940f927c6844b48fdd33337685ace3ad4fbaa7014003c2.
+Actual production CLI and ordinary positive use remain pending; F09's retained
+zero-read observation does not satisfy the latter. Linux/native Windows/USA/
+new32:9 remain to verify. No new checkpoint/navigation, performance/storage
+campaign, old source/model/scene acceptance replay, package or assistant commit.
+Evidence: `target/rom-data-constructor-animation-runtime/` including
+`first-wine-stage-result.json`, `first-wine-failure-windows-runtime-result.json`,
+`windows-remaining-result.json`, `windows/remaining-result.json`,
+`preservation-result.json` and `artifact-cleanup.json`.

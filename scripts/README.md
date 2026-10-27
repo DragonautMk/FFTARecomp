@@ -21,6 +21,9 @@ so PowerShell 7 does not try to find the Windows PowerShell `powershell.exe`
 inside its own installation directory.
 `AndroidPort/` has its own scripts and is managed separately.
 
+The runtime's [session diagnosis](../docs/debug_diagnostics.md) is available as
+`recomp diagnose` and Debug > Copy diagnosis; it needs no Python installation.
+
 The [debug-tools checklist](../docs/development/DEBUG_TOOLS_TODO.md) maps existing
 CLI/debug capabilities to planned user-facing and machine-readable workflows.
 It distinguishes available commands from proposed tools and DS scene cases.

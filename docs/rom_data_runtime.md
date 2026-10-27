@@ -1582,8 +1582,10 @@ readers are2C5FA/2C5FE/2C61A/2C620/2C632 and1500-family sprite reads; SpritePeek
 also reads the60list bytes. Executed source literals5E6F4/5E6F8 point to object
 root4165A0and sequence root4114FC. The2C5E0/2C60C task uses a u16 selector/tick/
 phase, distinct from the established4E494/4E4E4u8-counter animation producers.
-Complete root cardinalities/ownership/producer semantics and a typed model are
-still separate work; addresses and observed spans alone do not establish them.
+Four declared producer prefixes now have a separate authenticated
+[source/model contract](rom_data_obj.md#european-obj-banks-with-u16-task-counters).
+Addresses and observed spans alone did not establish those bounds; managed and
+runtime integration remain separate work.
 No new resource or archive extent is declared by this inventory.
 
 The same capture pins twelve already typed cycle bytes/phases21–32 to the
@@ -1602,4 +1604,5 @@ zero eligible paths. Private evidence is under `target/rom-data-bank-bus-host-re
 preservation/cleanup receipts. Current datasets, original states/inputs/cache,
 canonical executable and Atlas are unchanged. Linux/USA/native Windows/new32:9
 remain pending; no new fixture/navigation/production build or performance/storage
-campaign. The90byte data-source child remains open; this census stays closed.
+campaign. The90byte lead now belongs to the four-prefix source/model contract;
+managed/runtime children remain open. This census stays closed.

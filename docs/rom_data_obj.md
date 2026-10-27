@@ -1231,3 +1231,83 @@ flag. Diagnostics, normal snapshots and key scripts remain private in
 `target/rom-data-constructor-animation-ordinary/`; artifact completion is deferred
 while this unit remains partial. Linux/USA/native Windows/new32:9 remain pending,
 with no measurements or previous acceptance replay.
+
+
+## European OBJ banks with u16 task counters
+
+`word_task_obj_animations::Catalog` authenticates four direct-producer pairs for
+the original2C5E0constructor/2C60Cupdater, distinct from the4E494/4E4E4u8-counter
+family. The four object/sequence roots are41634C/411478,41647C/4114AC,
+4165A0/4114FC and4166C4/41154C. Exact literal-load/BL windows at54B98,5E6E4,
+5E70C and12F350pin each pair; full reader and producer hashes bind the model to
+the exact EUR image. Producer5E6C4takes the low-u8 first argument, choosing
+4165A0/4114FCfor values<=78 and41647C/4114ACotherwise. Its second argument supplies
+the low-u8 repeat field through the original stack argument. All four inspected
+direct callers select sequence0. Other indirect callers remain unproved.
+
+The relative-index format bounds each declared prefix at its first referenced
+record. Every indexed target, header, complete payload, link, alignment and
+source overlap is checked. These four prefixes contain50lists/140objects,
+7sequences/49frames and65disjoint spans/1378source bytes, with no overlap against
+any of the68current resource owners. Padding is excluded. The source grammars
+and payload checks establish conditional prefixes; they do not establish a
+whole archive or a global guest index cap. Seven lists are unreferenced by the
+selected nonempty sequences. An early private assertion that maximum frame IDs
+would prove every index slot reachable was rejected; those entries are retained
+without claiming ordinary use. Three sequence1records have zero counts. Their
+headers remain empty/opaque, with no invented hold frame or duration alias.
+
+The constructor writes a26-byte RAM task: object/sequence roots at00/04,
+sequence countu16at08, frame pointer at0C, selectoru16at10, ticku16at12,
+phaseu16at14, repeatbyte at16 and doneu16at18 (offsets hexadecimal). Padding
+0A–0B/17stays untouched. Selector is stored and reloaded as u16before indexing;
+repeat retains the low byte of the stack word. The constructor's POP r0/BX r0
+epilogue carries the caller return in scratchr0, not a task-pointer return API.
+
+The updater selects the OLDphase's object list before changing counters and
+returns that list pointer. It increments/stores the u16tick and compares the
+low-u16 increment to the u16duration, advancing only when newtick>duration.
+Thus tick255advances to256, while65535wraps to0. A phase advance also truncates
+to u16before comparing count. Nonzero repeat wraps phase0; otherwise it clamps
+to count-1and latches done1. Other paths retain the prior done word. There is no
+check before the old phase's lookup. Empty-sequence updating and arbitrary live
+indices stay outside the declared valid-frame contract; original guest/raw
+behavior is preserved, with no new clamp.
+
+The strict lossless model reuses shared bank/list/frame field representation,
+with its own four-root/known-shape checks and u16semantic queries. It does not
+reuse the old u8task's timing behavior or widen that older schema. Byte queries
+serve exactly the65spans; padding/outside queries return None. Source equality
+rejects coherent edits, JSON rejects unknown fields/range errors, and all1378
+projected bytes match the original image. Empty sequence frame queries return
+None; empty object lists remain valid zero-object lists.
+
+Validation uses isolated Windows core tests, preserving unfinished parallel
+frontend work. A coredev-only serde_json dependency adds JSON checks without a
+frontend build. The first core build is warning-free. Its first Wine filter
+passes the model/data stage: all byte/source queries, JSON roundtrip and23guards,
+then fails on an incorrect test-only constructor-return expectation. The source
+returns callerLRin r0. That single expectation was corrected; the product model
+was unchanged. The failed filter/preimage/executable/log are retained and are
+not called passing. A second warning-free core build and one remaining-only
+Wine filter pass23original constructors,93updates and6producer-branch/alias cases,
+including all49nonempty frames, duration boundaries,255/65535tick behavior,
+old-list return, repeat/clamp/latched done, input truncation and full RAM/callee
+register guards. The already completed model23guard stage was not replayed.
+
+All88selected input/output/frozen guards and199compiled core source hashes pass.
+Canonical decoded JSON is
+d207dfae8a08050e7b59c573d9813b841858ed69955d7c22de0332402fee2706.
+Required artifact completion finds zero eligible paths and retains failed-stage
+diagnostics. Evidence is under `target/rom-data-u16-task-obj-bank/`:
+`source-contract.json`, `first-wine-stage-result.json`, `windows-core-result.json`,
+`windows-remaining-result.json`, `windows-remaining-model/decoded.json`,
+preservation and cleanup receipts.
+
+This source/model milestone leaves e76-d75/current68resources and USA8-7
+unchanged. Managed publication, direct bus/native/host consumption, actual CLI
+and ordinary positive use of these banks remain separate children. The accepted
+Bank read census is reused, not repeated. Linux/USA/native Windows/new32:9,
+broader lifetime/indirect use/archive bounds and constructor-animation ordinary
+coverage remain open. No new ordinary fixture/navigation, performance/storage
+campaign, frontend/production build, Android/package/assistant commit or push.

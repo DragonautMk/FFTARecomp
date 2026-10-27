@@ -54,6 +54,30 @@ Documentation: [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [ROM
 
 [Change record](docs/changes/2026-10-27-plan-shared-debugging-tools.json)
 
+## 2026-10-27 — Authenticate European OBJ banks using u16 task counters
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Authenticate four direct producer literal/BL pairs for original2C5E0/2C60Cu16task banks:50lists140objects/7sequences49frames/65disjoint spans1378bytes, no overlap with68current owners. Relative-prefix shape/targets/payloads/links/padding checked; seven unreferenced lists/three zero headers retained without reachability/hold/globalcap/fullarchive claims.
+- Add strict lossless WordTaskObjAnimations using shared pure bank fields with its own fixed declared roots/shapes and u16queries, source verification and exact byte projection. Original selector/tick/phase useu16, repeatlowu8, update returns OLDphase list before increment and advances only newtick>duration; repeat/clamp/latched done retained. Add coredev-onlyserde_json/Cargo.lock entry, preserving parallel frontend/arboard edits without compiling frontend. Source/model milestone leaves e76-d75/USA8-7 unchanged.
+
+**Validation**
+
+- First isolated Windows core build warning-free/frozen256634141f8c4b191bfcbebdf9b168decfe06b2cf1352ec5c7dbf8913bdf8dcd. First Wine filter passes all1378byte/source queries/JSON roundtrip/23guards, then fails a test-only expectation that constructor returns TASK inr0; original02C608POP r0/BX r0 returns callerLR scratch value. Failedfilter/preimage/log/executable retained, not claimed fullPASS; productmodel unchanged.
+- Correct that expectation only, extract shared oracle helper, then second warning-free Windows core build/frozene05244ed07ec32c2cc5974e37489accdc48d4c2861c26fdf11cea66f3e162f6f. One remaining-only Wine filter passes23original constructors/93updates/6producer branch-alias cases, all49nonempty frames/u16tick255→256and65535wrap/duration boundaries/OLDlist return/repeat-clamp-latched done/input aliases/fullRAM-callee guards. Completedmodel23guard stage not replayed.
+- All88selected input-output-frozen guards and199compiled core source hashes exact;65spans1378B disjoint/current69filedataset/originalROM/canonical unchanged. CanonicalJSONd207dfae8a08050e7b59c573d9813b841858ed69955d7c22de0332402fee2706. Requiredartifactcompletion0paths, failed diagnostics retained.
+
+**Limitations**
+
+- Conditional declared relative-bank prefixes only. Emptysequence updating/indirectcallers/task lifetime/fullarchive/all-use and ordinary coverage of unreferenced lists remain unproved. Managed extraction/publication/direct runtime/native-host/actualCLI/positive ordinary bank use remain separate open children; existing census/ordinary acceptance not rerun.
+- Linux/USA/native Windows/new32:9 pending. No ordinaryfixture/navigation/frontend-production build/performance-storage campaign/Android/package/assistant commit/push. ParallelDBG frontend changes are preserved and not validated by this core-only unit; fullROM_DATA_TODO remains active.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-model-european-u16-task-obj-banks.json)
+
 ## 2026-10-27 — Authenticate and model the European signed task-cycle deltas
 
 Type: added. Platforms: Windows.
@@ -227,6 +251,36 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-27-attribute-european-lower-rom-readers.json)
+
+## 2026-10-27 — Add shared session diagnosis and read-only preflight
+
+Type: added. Platforms: Windows (Wine validation).
+
+**Changes**
+
+- Implement DBG-01 with Debug > Copy diagnosis and recomp diagnose using one schema-1 JSON collector. Include executable SHA-256 and build-time revision/dirty/target/profile, exact ROM/BIOS identity, effective native/interpreter mode, selected cartridge/snapshot slots, input, dataset and storage/report paths.
+- Keep CLI preflight read-only: resolve saves without a picker or directory creation, validate snapshots on a disposable machine, parse bounded input recordings and authenticate explicit/current managed datasets without preparing or repairing them. Report missing/incompatible files and unavailable ROM-audit feature with causes, remedies and failure exit status.
+- Observe loaded image and attached dataset identities from the paused menu, flag changed on-disk sources, preserve guest state/clock and distinguish picker selection from live state and active recording from validated replay. Retain the clipboard owner and save a single bounded atomic report even when clipboard access fails.
+- Reuse the existing locked arboard dependency for clipboard access. Protect arbitrary output files from replacement; route the default report through portable/installed configuration storage. Document commands and limits, close DBG-01 and retain the later tool priorities.
+
+**Validation**
+
+- Offline locked Windows release test build passes. Wine runs pass 5 diagnosis tests, all 40 menu tests and 2 save-selection tests, including transactional report refresh, original-file preservation, structured failures and complete guest-state equality before/after live diagnosis.
+- Eight actual Windows CLI cases under Wine pass on existing EUR inputs: explicit and managed dataset identity equality, older incompatible resource generation, malformed key mask, snapshot BIOS mismatch, absent optional feature, refusal to overwrite the supplied save and invalid slot range.
+- One Wine/Xvfb GUI session on copied saves/portable config passes menu action, clipboard JSON equality with the saved report, unchanged paused guest frame/clock between two captures, one-file refresh and normal exit. Menu screenshot inspected. The first shared headless-prefix GUI attempt failed before window creation; the isolated graphical prefix passed.
+- All 139 selected private input/dataset hashes and mtimes remain unchanged; current production Windows/Linux executable hashes and mtimes are preserved. A frozen candidate remains in target/debug-tools-diagnosis/recomp.exe; no release package was produced.
+- 16 local document links and 22 ordered DBG IDs pass; only DBG-01 is complete. Metadata and task-scoped whitespace checks pass. Full workspace/base memory and global whitespace checks report only concurrent word_task_obj_animations/core Cargo/source edits awaiting their separate record. The artifact helper refuses this non-rom-data unit layout; no managed interrupted/moved-resources fixture copies were created.
+
+**Limitations**
+
+- Native Windows, Linux/Wayland, physical controllers and an actively translated native GUI session remain unverified. No benchmark, extraction acceptance replay, new DS scene or Android/Godot development was performed.
+- Input parsing does not establish scene reachability or frame-origin compatibility. Native preflight reports intent without compiling/loading translations; SRAM identity does not validate in-game checksum fields.
+- The concurrent session committed implementation and Bank audit changes in 2ba3edb during validation. This task preserves that commit and records its own diagnosis work separately; no assistant commit or push was issued.
+- Concurrent word_task_obj_animations and core Cargo/module edits appeared after the frozen candidate build. Preserve this separate extraction work; global memory/whitespace closure belongs to that unit.
+
+Documentation: [debug_diagnostics.md](docs/debug_diagnostics.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-27-add-shared-session-diagnosis.json)
 
 ## 2026-10-26 — Validate and organize the user EUR failed-dispatch snapshot as DS-20
 

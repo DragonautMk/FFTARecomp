@@ -1,7 +1,7 @@
 # TODO — Strumenti di debug condivisi
 
-Aggiornato il **27 ottobre 2026**. Questa è una checklist di progettazione:
-le nuove voci non sono ancora implementate. Gli strumenti devono servire sia
+Aggiornato il **27 ottobre 2026**. La checklist segue progettazione e sviluppo:
+le spunte identificano gli strumenti completati. Gli strumenti devono servire sia
 all'utente, attraverso menu e procedure brevi, sia all'assistente, attraverso
 comandi riproducibili e risultati strutturati.
 
@@ -42,7 +42,7 @@ non significano che siano già raccolte in un unico debugger.
   di esecuzione, dietro la feature `rom-data-read-audit`;
   [capacità e limiti](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit).
   Non è ancora un comando generale accessibile dal menu. Le estensioni Bank
-  presenti nella working tree durante questa ricognizione restano lavoro in corso.
+  hanno una prova circoscritta separata, descritta nello stesso documento.
 - [x] **Gestione artefatti:** helper e regole di
   [conservazione locale](LOCAL_ARTIFACTS.md) già presenti. La chiusura delle
   verifiche della pulizia interrotta rimane distinta dalla loro esistenza;
@@ -70,13 +70,19 @@ non significano che siano già raccolte in un unico debugger.
 
 ## P0 — Rendere i problemi riproducibili e aiutare l'estrazione
 
-- [ ] **DBG-01 — Diagnosi della sessione e controllo iniziale.**
+- [x] **DBG-01 — Diagnosi della sessione e controllo iniziale.**
   Menu «Copia diagnosi» e controllo CLI senza avviare la scena: mostrare profilo,
   build, modalità native/interprete, dataset attivo, ROM/BIOS, slot, input,
   percorso dati effettivo e cartella del report. Segnalare file mancanti,
   generazioni incompatibili e strumenti non compilati nella build scelta.
   **Chiusura:** lo stesso report si ottiene da menu/CLI; un input errato viene
   individuato prima dell'esecuzione e la causa indica come correggerlo.
+  **Completato:** [diagnosi della sessione](../debug_diagnostics.md), menu
+  «Copy diagnosis» e CLI `diagnose`, JSON comune e report singolo atomico.
+  Verificati 47 test Windows sotto Wine, otto casi CLI su dati EUR e menu/appunti
+  in una sessione Wine/Xvfb isolata; 139 file protetti invariati. Windows nativo
+  e Linux restano da verificare. Native prima dell'avvio è una richiesta esplicita,
+  non una compilazione già eseguita. [Record](../changes/2026-10-27-add-shared-session-diagnosis.json).
 
 - [ ] **DBG-02 — Sessione di debug isolata.**
   Avviare una copia di lavoro del caso scelto, indicando chiaramente la partita

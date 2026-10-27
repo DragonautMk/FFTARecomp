@@ -6,15 +6,30 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- **DBG-01 — selected (2026-10-27).** Latest user asks to begin executing the
-  shared debugging-tools checklist. The plan is complete; diagnosis/preflight is
-  still unchecked and no shared report implementation exists in the inspected
-  menu/CLI entry points. Missing: one versioned session report shared by a Debug
-  menu action and a read-only CLI preflight, effective file/build identities,
-  useful failure messages and targeted validation. Next: inspect storage,
-  startup and menu actions, then implement the common report and both callers.
-  Preserve concurrent ROM audit/extraction changes. No unrelated acceptance or
-  benchmark selected; continue with later DBG items only after closing this unit.
+- **DBG-01 — complete (2026-10-27).** User authorized starting the shared tool
+  checklist. Debug > Copy diagnosis and read-only `recomp diagnose` now share
+  schema-1 JSON: build/executable/source identities, effective mode/paths,
+  slots/input/dataset, actionable errors and bounded atomic report refresh.
+  Menu clipboard equals the saved report; collection preserves paused guest
+  state/clock. Offline Windows test/build passes; Wine passes 5 diagnosis,
+  40 menu and 2 save-selection tests, eight real EUR CLI cases and one isolated
+  GUI/Xvfb session. First shared headless-prefix window failure was environmental;
+  dedicated graphical prefix passes without a product change. All 139 selected
+  input hashes/mtimes and both production executable identities/mtimes unchanged.
+  Candidate: target/debug-tools-diagnosis/recomp.exe. Evidence: test-results.json,
+  cli-results.json, gui-results.json and final-verification.json in that unit.
+  Sixteen document links, 22 ordered DBG IDs, metadata memory and task whitespace
+  pass. Full workspace/base checks report only concurrent word-task/core Cargo
+  extraction edits awaiting their own record/whitespace closure; preserve them.
+  Concurrent session committed implementation in 2ba3edb; no commit/push by this
+  task. No new DS scene, benchmark or extraction acceptance replay. Artifact
+  helper rejects non-rom-data unit names; no disposable managed fixture trees
+  were created. Only the newly redundant canonical executable backup retired
+  after identity checks; current candidate/logs/inputs retained. No live unit job.
+  Native Windows/Linux/Wayland/controllers/translated native GUI remain unverified.
+  Next checklist item is DBG-02 isolation; this entry has no missing DBG-01 work.
+  [Usage](../debug_diagnostics.md),
+  [record](../changes/2026-10-27-add-shared-session-diagnosis.json).
 
 - **DEBUG-TOOLS-PLAN — complete (2026-10-27).** Latest user requested a TODO
   checklist for debugging tools shared by user and assistant. The linked
@@ -11102,9 +11117,7 @@ control-contracts.json,managed-cycle-sites.json,preservation-result.json,
 artifact-cleanup.json}. Keepallinputs/reports/preimages/currentexe/currentdataset.
 Record docs/changes/2026-10-27-inventory-european-bank-bus-host-reads.json;
 feature docs/rom_data_runtime.md#bank-bus-and-selected-host-rom-inventory.
-Next ROMDATA-01-U16-TASK-OBJ-BANK: authenticate full2C5E0/2C60C prefix/return,
-5E6F4/8actualproducer andparameters, relativeindex/header/frame/list source bounds
-and current68owner overlap beforemodel/managedruntime. Reuse thisBankcapture,
+U16source/model child nowclosedbelow; managed/runtime next. Reuse thisBankcapture,
 no newobservation/build/oldcontrolproof replay to reconstructcontext. Otheraddress
 literal leads6DF4A2/B2,394C14,3950B2,3976D8,399750 stayseparateunprovedtargetpayloads.
 Constructorordinary separatepartial/fourclosednegative routes, no blindroute or
@@ -11120,7 +11133,7 @@ feature docs, not the parallel plan. Memoryrender/default/base3d96d68/2modulefmt
 CRLFdiff PASS; final451sources95guards/currentcode-preimage exact at closure.
 
 
-**Selection checkpoint — ROMDATA-01/02-U16-TASK-OBJ-BANK (2026-10-27).**
+**Resolved source/model selection — ROMDATA-01/02-U16-TASK-OBJ-BANK (2026-10-27).**
 Latest fullROMTODO/EUR/Wine-only/no performance-space/localcopy permission
 unchanged. Previousgoalturn PROGRESS: Bankbus/host censusclosedPASS firstbuild/
 Wine/1344codeB/90data-leads, final451source95guards read, no liveROMjobs. HEAD
@@ -11140,3 +11153,78 @@ no Linuxgame tests or frontend/prod rebuild forunchangedcode. No normalfixture
 mutation/navigation, oldmodel/Bank48/12/census acceptance staysclosed. Broader
 ROMmigration/USA/Linux/nativeWindows/new32:9/constructorordinary remainopen.
 Private target/rom-data-u16-task-obj-bank; no apprevision change in isolatedmodel.
+
+Source refinement:4actualdirect2C5E0literal/BLwindows proved:54B98 roots41634C/
+411478,5E6E4 roots4165A0/4114FC,5E70C roots41647C/4114AC,12F350 roots4166C4/
+41154C. Fourdirectselectors0;5E6C4 lowu8ID<=78vs>78 choosesBankpair; repeatarg
+lowu8. Fullctor/updaterthrough2C666return: u16inc store/lowu16compare, advance
+iffnewtick>duration, returnOLDlist; repeatnonzero wraps0, nonrepeatclampscount-1/
+done1. Conditionalrelativeprefix grammar bounds index byfirstreferencedrecord;
+alloffsets/header/payload/link/alignment/overlap checks pass.50lists140OBJ/
+7seq49frames/65spans1378B, excludedpadding, disjointall68owners. Seven listslots
+unreferenced bynonemptyseq; a private maxID-corroborationassert failed before
+model/build, reject assumptionallslotsreachable (do not forceordinarycoverage).
+Three emptyseqheaders opaque beyondctor; directcallersselect0. No globalcaps,
+wholearchive/alluse/otherindirectcallers claim. ProceedsharedBankfield model
+withfixedknown counts<=16 (old u8semanticsunchanged), core-onlyJSON/originalprefix
+Winefilter. Coredevserde_json avoidsbuilding unfinishedparallelfrontend; preserve
+arboard/diagnostics Cargo.lock edits. No frontend/prod build/revision change.
+
+Firstcorebuild82341warningfree/frozen256634141f8c4b191bfcbebdf9b168decfe06b2cf1352ec5c7dbf8913bdf8dcd.
+FirstWine45551filter FAIL in test-onlyctor-return expectation: original02C608
+POP r0/BXr0 carriescallerLR, notTASK. Productmodel unchanged. Sequentialfirst
+preimage provesall1378B/65spans/4bank JSON-roundtrip/outsidequeries/23guards PASS
+beforefirstconstructor call. Preservefirst-executed-tests.rs/exe/log/result and
+first-wine-stage-result.json; do NOTrerunclosedmodel/data stage or claimfirst
+filterPASS. Missing only originalctor23/update93/producer6oracles. Correctone
+r0expectedvalue, extractsharedoracle helper andnewremaining-onlyfilter. Next
+incrementalWindowscorebuild/newfrozenexe, runONLY remaining_original_prefixes;
+sameROM/model/coresources excepttest-onlyfix, no data/model/runtime change.
+Repeat reason verifiedfirsttestfailure, smallestremainingcheck selected.
+
+
+**ROMDATA-01/02-U16-TASK-OBJ-BANK closed/PASS across staged checks (2026-10-27).**
+FullROMTODO/EUR/Wine-only/no metrics/localcopy permission unchanged. UserHEADnow
+2ba3edb includes priorcensus/diagnostics commits; concurrentDBG frontend/docs
+preserved, notcompiled. No liveROMjobs. Fouractual2C5E0producerrootpairs:
+41634C/411478,41647C/4114AC,4165A0/4114FC,4166C4/41154C. Conditionalrelativeformat
+prefixes50lists140OBJ/7seq49frames/65spans1378B, paddingexcluded, disjointall68
+owners. Sevenunreferencedlist slots/3zeroheaders remainopaque, no globalcaps/
+wholearchive/alluse inference. Source maxID-coversallslots assumption rejected
+beforemodel/build; no attempttoforceordinary use. WordTaskObjAnimations strict
+JSON/source projection/u16queries reusespureBankfields, not old8bit timing.
+Coredevserde_json/Cargo.lock onlyaddgba-coreentry, preserve arboard/DBGchanges.
+Originalctor26B preservespadding, selectorlowu16/repeatlowu8, POP r0/BXr0carries
+callerLRscratch. Updater returnsOLDlist beforetick/phase u16inccompare;255→256,
+65535→0, advanceonlynewtick>duration; repeatwrap/nonrepeatclamp/done1latched.
+Firstcorebuild82341warningfree/frozen256634141f8c4b191bfcbebdf9b168decfe06b2cf1352ec5c7dbf8913bdf8dcd.
+FirstWine45551 fullfilterFAIL test-onlyexpectedctorr0TASK; sequentialpreimage
+proves1378B/65spans/JSON/outsidequeries/23guards PASS beforefirstctorcall. Keep
+first-wine-stage-result.json/first-executed-tests.rs/failedexe-log-result; do NOT
+claimfullfirstPASS orrerunclosedmodelstage. Test-onlyr0fix/sharedoracle extraction,
+secondcorebuild15784warningfree/frozene05244ed07ec32c2cc5974e37489accdc48d4c2861c26fdf11cea66f3e162f6f.
+ONE remaining-onlyWine19800 PASS ctor23/update93/producer6/RAM-callee/aliases/
+durationboundaries/all49frames/oldlistreturn/u16tick/repeatclampdone. Productmodel
+byteidentical acrossstages.88actualinput-output-frozen guards/199compiledcore
+sourcesexact; helper0paths, keepfailed/currentexes/logs/results/preimages/ROM/
+current69fileCLIset. CanonicalJSONd207dfae8a08050e7b59c573d9813b841858ed69955d7c22de0332402fee2706
+at target/rom-data-u16-task-obj-bank/windows-remaining-model/decoded.json.
+Private source-contract.json/layout-candidates.json/windows-core-result.json/
+windows-remaining-result.json/preservation-result.json/artifact-cleanup.json.
+Record docs/changes/2026-10-27-model-european-u16-task-obj-banks.json; feature
+#european-obj-banks-with-u16-task-counters. e76-d75/USA8-7 unchanged. Next child
+ROMDATA-02/04-U16-TASK-OBJ-RUNTIME: publish typedfile/resource andconsume owned
+indices/headers/frame/list fields via bus/native/host composition, preserving
+all68prior resource files andguestlogic/clock/ABI. ActualCLI/ordinary use later;
+acceptedBankcensus reuse, no oldsource/model/prod/scene acceptance replay.
+ParallelDBG-01 at top staysseparate, don'tselectit asROMwork. Constructorordinary
+separatepartial/fourclosednegative routes. FullTODOactive/incomplete; Linux/USA/
+nativeWindows/new32:9 pending, no measurements/navigation/newordinaryfixture/
+assistantcommit/push/Android/package.
+
+U16model closurechecks: memoryrender/default/base2ba3edb PASS, newmodel/test
+rustfmt PASS, CRLF-aware gitdiffcheck PASS (preserved coreCargo.toml CRLF;
+plain diffchecker treatingCRas trailingwhitespace wasnot a sourcechange).
+Final454selectedsource map/88input-output-frozen guards/199compiledcoresources.
+ParallelDBGdocs/record remainuserowned, no frontendcompilation/validation claim.
+No livejobs; don't rerun firstfailedfilter/closedmodelstage to regeneratehistory.

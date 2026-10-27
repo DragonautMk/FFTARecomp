@@ -16,10 +16,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   stable DBG-01..DBG-22 IDs, separate from DS scene cases. It inventories existing
   tooling before prioritizing shared menu/CLI diagnostics, isolated sessions,
   snapshot/input replay, bounded ROM audits, coverage linkage and first-divergence
-  reports. Each item has dependencies and acceptance criteria. Existing feature
-  audit hooks are distinct from uncommitted Bank extensions. No implementation
-  or runtime campaign is selected by the checklist; EUR extraction remains the
-  priority, Godot stays deferred, and performance measurement stays separate.
+  reports. Each item has dependencies and acceptance criteria. DBG-01 is now
+  implemented as [session diagnosis](../debug_diagnostics.md): Debug > Copy
+  diagnosis and read-only `recomp diagnose` share a versioned JSON collector,
+  build/file identities, effective storage paths and actionable preflight errors.
+  Report refresh is bounded/atomic; snapshot checks use a disposable machine,
+  while the menu observes live bytes/frame/clock without modifying guest state.
+  Wine validation covers the CLI and menu/clipboard; native Windows and Linux
+  remain unverified. DBG-02 isolation is next; EUR extraction retains priority,
+  Godot stays deferred and performance measurement stays separate.
 
 - [Godot frontend assessment](GODOT_FRONTEND_TODO.md) is planning only,
   explicitly deferred until ROM extraction is finished and the user selects
@@ -740,7 +745,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   interpreterLDRB18E2A explainoldNativeAPIgap.95guards/compiledsource/default
   preimage/Atlas exact, helper0paths. No oldfullpair/sourceclassification replay,
   newfixture/navigation/productionbuild/revision/ABI or measurements. e76/USA8-7
-  and deferredplatforms unchanged; censusclosed,90Bdata childopen.
+  and deferredplatforms unchanged; censusclosed. Newu16taskOBJ source/model now
+  authenticates4producerprefixes/50lists140OBJ/7seq49frames/65spans1378B, all68old
+  owners disjoint. Sevenunreferencedlists/3zeroseqheaders retained, no invented
+  hold/alluse/globalcap/archive claim. Sharedlosslessfields/strictJSON/source
+  projection/u16queries preserveoriginaltiming width. Firstcorebuildwarningfree/
+  Wine model23guards pass then test-onlyctorr0return expectation fails; product
+  unchanged, correctedtest/secondwarningfreecorebuild/remainingonlyWine pass
+  ctor23/update93/producer6/RAM-callee/aliases/bounds. Oldmodelstage notrerun or
+  fullfirstfilterPASS claimed.88guards/199coresources exact, helper0paths; coredev
+  serde_json avoidsparallelfrontend compilation. e76unchanged; managed/runtime/
+  CLI/ordinary children stillopen.
+  [U16bank contract](../rom_data_obj.md#european-obj-banks-with-u16-task-counters).
 
 - The [following live-slot helpers](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup)
   D05E8/D0618test/count nonzero firstwords in20RAMslots at02002E78, whileD0650

@@ -3937,9 +3937,28 @@ NativeAPI inclusi;992B già classificati,80literal/320B e8celle dispatch/32B
 verificati ora:1344B supporto codice, niente cap127globale da branchconhelper.
 Restano90B dati:18programma/12directory/60listeOBJ, root4165A0+4114FC via5E6F4/8,
 lettori2C5E0/2C60C con tick-fase-selettoreu16, distinti dai banchi u8già tipizzati.
-Confini/cardinalità/producer/modello vanno dimostrati prima migrazione; nessuna
-nuova risorsa/revisione dal solo censimento. Dodici delta tipizzati21–32 letti da
+Contratto e modello dei quattro prefissi autenticati completati sotto; gestione/
+consumo restano aperti. Nessuna nuova risorsa/revisione dal solo censimento. Dodici delta tipizzati21–32 letti da
 LDRB18E2A interprete spiegano il limite del vecchio NativeAPI.95guardie/codice/
 preimage default esatti, helper0percorsi. e76-d75/USA8-7 invariati, Atlasutente
 preservato; Linux/USA/Windows nativo/nuovo32:9 pendenti, niente misure/fixture.
 [Inventario e nuove sorgenti](../rom_data_runtime.md#bank-bus-and-selected-host-rom-inventory).
+
+
+**ROMDATA-01-U16-TASK-OBJ-BANK / ROMDATA-02-U16-TASK-OBJ-MODEL completati nel
+prefisso EUR dichiarato (2026-10-27).** Quattro produttori2C5E0 autenticano root
+41634C/411478,41647C/4114AC,4165A0/4114FC,4166C4/41154C:50liste140OBJ/7seq49frame/
+65span1378B disgiunti da68owner. Formato relative-index/payload verificato,
+padding escluso; sette liste non referenziate e tre seqvuote restano dati,
+non prova di raggiungibilità/hold inventati. Contatore-fase-selettoreu16,
+repeatlowu8, ritorno listavecchia prima incremento,255→256/65535→0, clamp/repeat/
+done latch; nessun cap prima lookup o confine globale archivio. Modello lossless
+JSON rigoroso riusa campi puri, non tempistica u8. Primo build core senza avvisi:
+Wine passa23guardie/proiezione1378B poi fallisce aspettativa test sul r0di ritorno
+ctor. Correzione solo test; secondo build core senza avvisi/filtro solo-rimanente
+passa23ctor/93update/6producer, RAM-callee/alias/bordi. Primo filtro non dichiarato
+PASS e23guardie non ripetute.88guardie/199sorgenti core esatte; helper0percorsi.
+Coredevserde_json preserva modifiche frontend parallele senza compilarle. Revisione
+e76-d75/USA8-7 invariata: gestione/consumo/CLI/ordinary di questi banchi ancora
+aperti; Linux/USA/Windows nativo/nuovo32:9 pendenti, niente misure/fixture.
+[Contratto e modello](../rom_data_obj.md#european-obj-banks-with-u16-task-counters).

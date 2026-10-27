@@ -20,6 +20,7 @@ pub mod fonts;
 pub mod name_keyboard;
 pub mod obj_lists;
 pub mod obj_animations;
+pub mod word_task_obj_animations;
 pub mod obj_graphics;
 pub mod ui_palettes;
 pub mod ui_graphics;

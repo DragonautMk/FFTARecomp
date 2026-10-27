@@ -9,6 +9,11 @@ Il [frontend Godot](GODOT_FRONTEND_TODO.md) è soltanto una valutazione con TODO
 rinviato a dopo la conclusione dell'estrazione concordata. Non è un nuovo passo
 esecutivo di questo TODO e non va sviluppato durante la migrazione dei dati.
 
+Il [TODO degli strumenti di debug](DEBUG_TOOLS_TODO.md) raccoglie i miglioramenti
+per utente e assistente: riproduzione dei casi, audit delle letture, confronto
+delle divergenze e collegamento alla ROM coverage. È una checklist da selezionare
+per necessità, non una nuova campagna parallela obbligatoria all'estrazione.
+
 ## Obiettivo e ordine di lavoro
 
 L'obiettivo principale è scompattare la ROM selezionata in file di risorse,
@@ -3920,3 +3925,21 @@ Child dichiarati01/02/04/CLI05/ordinary05 ciclo chiusi, migrazione totale ancora
 aperta; constructorordinary distinto parziale. Linux/USA/Windows nativo/nuovo32:9
 pendenti, niente misure.
 [Scena e prove](../rom_data_gameplay.md#ordinary-european-task-cycle-scene).
+
+
+**ROMDATA-01-BANK-BUS-HOST-RESIDUE: censimento EUR/Wine completato, sorgenti90B
+aperte (2026-10-27).** Modalità opzionale SiteCapture::start_all conserva filtri
+vuoti/singoli e vecchie chiavi. Primo build feature Windows senza avvisi/unico
+Wine: probe nuovi e un braccio Bank12decodificato3660–3672 con input normale
+esistente, niente vecchio fullpair ripetuto.7430letture/7532site,497con contesto
+interprete/7035None;7083B immagine,1434B fuori68owner. Tutti3683B del vecchio
+NativeAPI inclusi;992B già classificati,80literal/320B e8celle dispatch/32B
+verificati ora:1344B supporto codice, niente cap127globale da branchconhelper.
+Restano90B dati:18programma/12directory/60listeOBJ, root4165A0+4114FC via5E6F4/8,
+lettori2C5E0/2C60C con tick-fase-selettoreu16, distinti dai banchi u8già tipizzati.
+Confini/cardinalità/producer/modello vanno dimostrati prima migrazione; nessuna
+nuova risorsa/revisione dal solo censimento. Dodici delta tipizzati21–32 letti da
+LDRB18E2A interprete spiegano il limite del vecchio NativeAPI.95guardie/codice/
+preimage default esatti, helper0percorsi. e76-d75/USA8-7 invariati, Atlasutente
+preservato; Linux/USA/Windows nativo/nuovo32:9 pendenti, niente misure/fixture.
+[Inventario e nuove sorgenti](../rom_data_runtime.md#bank-bus-and-selected-host-rom-inventory).

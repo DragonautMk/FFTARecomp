@@ -1,0 +1,269 @@
+# TODO — Strumenti di debug condivisi
+
+Aggiornato il **27 ottobre 2026**. Questa è una checklist di progettazione:
+le nuove voci non sono ancora implementate. Gli strumenti devono servire sia
+all'utente, attraverso menu e procedure brevi, sia all'assistente, attraverso
+comandi riproducibili e risultati strutturati.
+
+**DBG identifica uno strumento; DS identifica una scena di prova.** I casi
+DS-01…DS-26 restano nel [TODO debug saves](debug%20saves.md), con i rispettivi
+stati e limiti. Non si crea una seconda lista di scene validate.
+
+Priorità attuale: aiutare l'[estrazione ROM](ROM_DATA_TODO.md), concentrandosi
+su EUR. Windows è il riferimento desktop; le nuove verifiche funzionali
+seguono l'attuale percorso Wine, indicando separatamente quelle native ancora
+mancanti. Nessun benchmark è richiesto da questo piano. Il
+[frontend Godot](GODOT_FRONTEND_TODO.md) resta rinviato e non è un prerequisito.
+
+## Basi già disponibili da riutilizzare
+
+Le spunte qui indicano capacità esistenti, con l'ambito documentato nei link;
+non significano che siano già raccolte in un unico debugger.
+
+- [x] **Slot di debug:** fino a 99 snapshot e 99 salvataggi standard, copie,
+  anteprime e Undo; [Extended saves](../extended_saves.md). Il catalogo locale
+  mantiene provenienza, regione e stato dei casi, ma il menu usa nomi generici.
+- [x] **Registrazione e replay:** `RECOMP_RECORD_INPUT`, `frames`/`runc`/`verify`
+  con input registrati; `runc --state` riprende snapshot in sola lettura.
+  Il [workflow di replay](PERFORMANCE_WORKFLOW.md#record-a-battle-from-a-supplied-snapshot)
+  documenta il limite attuale sui caricamenti durante la registrazione.
+- [x] **Confronti e catture:** verifica CLI degli hash dei frame, test mirati
+  di stato completo/clock/audio e dump di framebuffer/PPU/audio. Queste capacità
+  hanno ambiti diversi: `verify` da solo non equivale a tutte le prove dei test
+  mirati. Riferimenti: [CLI](../../crates/recomp/src/main.rs),
+  [confronti](../../scripts/compare_native_backends.py),
+  [analisi log](../../scripts/ffta_log_analysis.py).
+- [x] **Codice e fallback:** disassemblatore `dis`, trace dell'interprete,
+  raccolta e import/export di [label](../labels.md), contatori native/fallback.
+- [x] **Dataset e mappa:** estrazione/verifica/preparazione e
+  [ROM coverage](ROM_COVERAGE.md) offline via Docker, con identità, revisione
+  e data di generazione separate dalle prove ordinarie.
+- [x] **Audit ROM opzionale:** collector bus/host e catture filtrate con contesto
+  di esecuzione, dietro la feature `rom-data-read-audit`;
+  [capacità e limiti](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit).
+  Non è ancora un comando generale accessibile dal menu. Le estensioni Bank
+  presenti nella working tree durante questa ricognizione restano lavoro in corso.
+- [x] **Gestione artefatti:** helper e regole di
+  [conservazione locale](LOCAL_ARTIFACTS.md) già presenti. La chiusura delle
+  verifiche della pulizia interrotta rimane distinta dalla loro esistenza;
+  i miglioramenti sono raccolti in DBG-18.
+
+## Regole comuni per i nuovi strumenti
+
+- Stessa operazione e stesso significato dal menu e dal comando equivalente;
+  la CLI deve funzionare senza automatizzare clic e coordinate dello schermo.
+- Ogni esecuzione identifica binario, ROM/BIOS, dataset, snapshot, input e
+  configurazione effettivi. Commit e working tree modificata non bastano a
+  identificare un vecchio binario: servono hash e provenienza della build.
+- Output breve leggibile, JSON versionato per l'assistente e codice di uscita
+  distinto per successo, divergenza, timeout o input incompatibile.
+- Diagnostica disattivata nel percorso normale; attivazione esplicita, durata,
+  filtri e quantità massima di output. Log troncati e hook non coperti devono
+  essere riconoscibili, mai interpretati come assenza di problemi.
+- ROM, snapshot, SRAM, registrazioni, dump e asset restano locali e ignorati
+  da Git. Le sessioni lavorano su copie e non salvano sulla partita personale.
+- L'osservazione deve preservare stato e clock guest; le letture diagnostiche
+  non devono alterare registri I/O, conteggi del test o flusso del gioco.
+- Una spunta richiede implementazione, istruzioni d'uso, prova del risultato
+  atteso e del caso d'errore, evidenza e limiti. La sola presenza di un flag
+  o di un'immagine corretta non chiude la verifica.
+
+## P0 — Rendere i problemi riproducibili e aiutare l'estrazione
+
+- [ ] **DBG-01 — Diagnosi della sessione e controllo iniziale.**
+  Menu «Copia diagnosi» e controllo CLI senza avviare la scena: mostrare profilo,
+  build, modalità native/interprete, dataset attivo, ROM/BIOS, slot, input,
+  percorso dati effettivo e cartella del report. Segnalare file mancanti,
+  generazioni incompatibili e strumenti non compilati nella build scelta.
+  **Chiusura:** lo stesso report si ottiene da menu/CLI; un input errato viene
+  individuato prima dell'esecuzione e la causa indica come correggerlo.
+
+- [ ] **DBG-02 — Sessione di debug isolata.**
+  Avviare una copia di lavoro del caso scelto, indicando chiaramente la partita
+  attiva. Snapshot load, Undo, autosave, backup e uscita devono restare nella
+  sessione; tornare alla partita normale deve essere esplicito.
+  **Chiusura:** hash degli originali invariati dopo Load/Undo/riavvio/errore e
+  percorso portable trasferibile. **Dipende da:** DBG-01; riusa gli slot esistenti.
+
+- [ ] **DBG-03 — Catalogo DS navigabile e interrogabile.**
+  Mostrare nome scena, regione, slot, variante, fonte, stato e prova disponibile;
+  filtrare dal menu e ottenere gli stessi dati in JSON. Importare in uno slot
+  libero con anteprima, senza confondere DS, IN, GEN e numeri delle varianti.
+  **Chiusura:** selezionare DS-20 apre il punto previsto nella copia EUR;
+  DS-03/DS-15 restano non coperti finché manca una nuova prova. Rilevare cataloghi
+  con file mancanti o checksum diversi. **Dipende da:** DBG-01/02.
+
+- [ ] **DBG-04 — Registrazione semplice a partire da uno snapshot.**
+  Comandi «Registra/Termina» e corrispondente avvio CLI: associare snapshot
+  iniziale, origine dei frame, tasti già premuti e sequenza ordinata degli input.
+  In caso di Load/Undo durante la registrazione, arrestare con un messaggio o
+  iniziare un segmento esplicito; non indebolire il blocco attuale producendo
+  una registrazione apparentemente valida.
+  **Chiusura:** il replay raggiunge l'endpoint atteso con stato/clock coerenti,
+  anche iniziando con un tasto tenuto premuto. **Dipende da:** DBG-02/03.
+
+- [ ] **DBG-05 — Riproduzione con un comando o un pulsante.**
+  Un profilo locale contiene caso, binario e dataset selezionati, input, numero
+  di frame, condizione d'arresto e timeout. L'utente sceglie «Riproduci caso»;
+  l'assistente esegue lo stesso profilo e riceve progressione ed esito JSON.
+  Non attivare misure di performance per un controllo funzionale.
+  **Chiusura:** ripetibilità dell'endpoint; errore chiaro su input incompatibile,
+  timeout e interruzione, senza scritture personali. **Dipende da:** DBG-01…04.
+
+- [ ] **DBG-06 — Audit delle letture ROM utilizzabile senza test ad hoc.**
+  Esporre i collector esistenti con preset, intervallo di frame, filtro indirizzi
+  e limite di eventi. Distinguere bus/host, letture typed/raw, fetch esclusi e
+  accessi non osservati. Quando disponibile riportare PC/modalità, mantenendo
+  distinto il contesto ereditato da DMA/HLE dall'istruzione che legge direttamente.
+  **Chiusura:** report di intervalli fisici e byte distinti, confronto con i dati
+  noti e scarto dei mirror duplicati; controllo di stato/clock con audit spento
+  e acceso. Una lettura fuori owner è una pista, non una nuova famiglia provata.
+  **Dipende da:** DBG-01/05 e chiusura delle estensioni audit già in lavorazione.
+
+- [ ] **DBG-07 — Collegare scene, letture e ROM coverage.**
+  Importare gli audit per caso DS ed esporre i livelli «identificato», «servito
+  dal runtime», «letto nelle scene selezionate», «condiviso» e «sconosciuto».
+  Clic su una regione → risorsa, scene e prove; confronto tra due generazioni
+  con data/identità visibili. Conservare separatamente candidati codice e dati.
+  **Chiusura:** contare le unioni senza sommare riletture, separare intervalli
+  delle famiglie positive da byte osservati, rifiutare report con ROM diversa
+  e dichiarare la copertura dei collector. **Dipende da:** DBG-06.
+
+- [ ] **DBG-08 — Arresto e cattura quando si raggiunge un caso.**
+  Permettere condizioni come prima lettura di una risorsa, ingresso in un PC
+  verificato o evento noto. Fermarsi a un confine sicuro e creare uno snapshot
+  derivato con origine, input e motivo della cattura, pronto per il catalogo.
+  **Chiusura:** un trigger noto produce un punto riutilizzabile; un trigger mai
+  raggiunto termina al limite dichiarato senza promuovere il caso. Le scene
+  ordinarie si raggiungono tramite input reali. **Dipende da:** DBG-03/05/06.
+
+## P1 — Capire dove e perché compare una differenza
+
+- [ ] **DBG-09 — Confronto al primo punto di divergenza.**
+  Confrontare interprete/native oppure dati raw/typed riutilizzando i controlli
+  esistenti: stato completo, clock, framebuffer centrale/wide, OAM e stream audio.
+  Evidenziare il primo frame e i campi diversi, con immagini affiancate e JSON.
+  **Chiusura:** localizzare una differenza nota senza limitarsi all'hash finale;
+  indicare esattamente quali componenti sono state confrontate.
+  **Dipende da:** DBG-05; output pesanti solo attorno alla divergenza.
+
+- [ ] **DBG-10 — Pausa, avanzamento di un frame e ripresa controllata.**
+  Fornire scorciatoie e comandi equivalenti per fermarsi e avanzare di N frame.
+  Rendere visibili frame guest, clock e motivo dell'arresto; evitare che il tasto
+  del debugger diventi anche un input del gioco.
+  **Chiusura:** avanzamento esatto, ripresa senza salti di stato o accumuli audio
+  causati dalla pausa host. **Dipende da:** DBG-02/05.
+
+- [ ] **DBG-11 — Breakpoint, watchpoint e memoria in sola lettura.**
+  Selezionare PC/ARM/Thumb, intervallo letto/scritto o valore osservato; mostrare
+  registri e memoria con label, offset ROM e owner. Distinguere l'arresto a
+  istruzione da quello a blocco nativo: non dichiarare granularità non supportata.
+  **Chiusura:** due trigger mirati verificati e letture diagnostiche senza effetti
+  I/O; nessuna modifica arbitraria di RAM necessaria. **Dipende da:** DBG-10/06.
+
+- [ ] **DBG-12 — Ispettore grafico e confronto visivo.**
+  Riunire i dump esistenti: BG/OBJ, OAM, palette, tile, finestre, framebuffer
+  originale, estensione widescreen e composizione finale. Collegare il pixel
+  selezionato alla sorgente quando la provenienza è dimostrata.
+  **Chiusura:** spiegare un caso noto di palette/ritaglio/layout con vista e
+  report riproducibili, senza alterare registri o rendering guest.
+  **Dipende da:** DBG-05/09; riusa i dati estratti e i confronti grafici correnti.
+
+- [ ] **DBG-13 — Diagnosi di menu, testo e input.**
+  Mostrare menu riconosciuto, focus, azione host/guest, bbox e metriche del testo;
+  tracciare pressione/rilascio, rimappatura e conferma consumata dal menu.
+  Conservare un controllo da tastiera/gamepad e uno da CLI con input registrati.
+  **Chiusura:** una conferma doppia o un testo tagliato è attribuibile a un
+  passaggio preciso, senza affidarsi al solo screenshot. **Dipende da:** DBG-04/12.
+
+- [ ] **DBG-14 — Diagnostica audio circoscritta.**
+  Rendere selezionabili le catture mixed/PSG/FIFO/HLE, i relativi eventi e un
+  intervallo breve attorno al difetto; confronto e riproduzione locale dei dump.
+  Esporre mute, Fast e reset rilevanti senza avviare benchmark.
+  **Chiusura:** individuare una divergenza nota e distinguere audio generato da
+  audio effettivamente consegnato al dispositivo; I/O fuori dal callback audio.
+  **Dipende da:** DBG-05/09; limiti di byte/durata e listener hardware dichiarato.
+
+- [ ] **DBG-15 — Codice, label e fallback nello stesso rapporto.**
+  Collegare PC osservato, disassemblato, label, blocco compilato e motivo del
+  fallback, con filtri e catture limitate. Distinguere codice ROM, codice in RAM,
+  candidati statici ed esecuzione osservata.
+  **Chiusura:** una transizione interprete/native è ricostruibile e l'import di
+  label per ROM diversa è segnalato; nessuna percentuale di codice estratto viene
+  dedotta dal solo numero di ingressi. **Dipende da:** DBG-01/06/11.
+
+- [ ] **DBG-16 — Report del problema pronto da leggere insieme.**
+  Generare indice HTML locale, riepilogo e JSON con sintomo, caso, frame, input,
+  identità, confronto e prossima verifica suggerita. Pulsanti per aprire cartella
+  e copiare il comando esatto; distinguere allegati privati e metadati condivisibili.
+  **Chiusura:** l'utente può indicare un report e l'assistente riprodurlo senza
+  ricostruire a mano le variabili d'ambiente; nessun invio automatico di file.
+  **Dipende da:** DBG-01/05/09; report presente anche in caso di errore.
+
+## P2 — Estendere la diagnosi senza accumulare lavoro e dati
+
+- [ ] **DBG-17 — Ispettore di task, script e unità.**
+  Esporre strutture già verificate, cursori, attori e collegamenti alle risorse,
+  con provenienza per campo. Lasciare sconosciuti i campi non decodificati e
+  distinguere dati ROM da stato RAM e valori sentinella.
+  **Chiusura:** una sequenza nota è ricostruibile da eventi osservati senza
+  inventare limiti globali o identità fisse delle unità. **Dipende da:** DBG-06/11
+  e dai contratti ROM specifici già completati.
+
+- [ ] **DBG-18 — Gestore delle sessioni e degli artefatti di debug.**
+  Riutilizzare la pulizia esistente e completarne verifica/distribuzione:
+  contesti Docker con tutti i moduli richiesti, ricevuta di rimozione, scelta
+  delle sessioni da conservare, spazio stimato e limiti per trace/catture.
+  Proteggere sessioni attive e cache in uso mediante coordinamento esplicito;
+  preservare errori, originali, input e prove, eliminando copie ridondanti concluse.
+  **Chiusura:** preview/apply coerenti, nuova sessione e pulizia concorrente non
+  si danneggiano, test di errore/interruzione e percorsi con spazi superati.
+  **Dipende da:** DBG-01; applicabile fin dai primi strumenti P0.
+
+- [ ] **DBG-19 — Registro circolare degli eventi recenti.**
+  Conservare una quantità limitata di input, cambi scena, letture selezionate,
+  fallback ed errori; congelarla su richiesta o trigger, senza dump continui
+  dell'intera macchina. Indicare eventi scartati e finestra effettiva.
+  **Chiusura:** limite rispettato anche su un'esecuzione lunga e contesto utile
+  salvato su un errore controllato. **Dipende da:** DBG-08/16/18.
+
+- [ ] **DBG-20 — Controllo locale di una sessione aperta.**
+  Valutare un canale strutturato locale per interrogare stato, mettere in pausa,
+  avanzare e catturare, condiviso con i comandi del menu. Preferire la soluzione
+  più piccola che consenta all'assistente di operare senza clic fragili.
+  **Chiusura:** comandi versionati, timeout/cancellazione, identificazione della
+  sessione e risposta strutturata; accesso locale esplicito e nessun servizio
+  esposto per impostazione predefinita. **Dipende da:** DBG-01/02/10/16.
+
+- [ ] **DBG-21 — Campagne mirate di casi e regressioni.**
+  Selezionare DS, famiglie o transizioni interessate da una modifica; mostrare
+  esiti positivo/negativo/incompatibile/non eseguito e prove precedenti riusate.
+  I dati di gioco restano locali: i test pubblici del runner usano fixture sintetiche.
+  **Chiusura:** il rapporto distingue «zero letture in questa scena» da
+  «funzionalità non usata nel gioco»; nessun replay automatico di tutte le prove
+  concluse per ricostruire il contesto. **Dipende da:** DBG-03/05/07/09/18.
+
+- [ ] **DBG-22 — Distribuzione e guida comune degli strumenti.**
+  Documentare pochi percorsi completi: segnalare un bug, registrare una scena,
+  confrontare due runtime, cercare letture non coperte e liberare i temporanei.
+  Allineare help/menu/CLI; prevedere avvio PowerShell e Docker per gli strumenti
+  offline quando utile, con log d'errore sempre rintracciabile.
+  **Chiusura:** procedure ripetibili dal percorso portable spostato, prerequisiti
+  espliciti, pacchetti senza dati personali e matrice Wine/Windows nativo/Linux
+  dichiarata. **Dipende da:** gli strumenti effettivamente selezionati; non
+  richiede completare tutto il piano né il frontend Godot.
+
+## Primo gruppo consigliato e gestione degli avanzamenti
+
+Partire da **DBG-01 → DBG-02 → DBG-03 → DBG-04 → DBG-05**: scegliere una scena,
+registrare il problema e riprodurlo con lo stesso contesto. Poi **DBG-06/07**
+collegano quel caso all'estrazione, mentre **DBG-09** aiuta a spiegare le differenze.
+I requisiti di conservazione di **DBG-18** si applicano da subito a ogni nuovo
+output; la sua interfaccia completa può arrivare dopo.
+
+Per ogni voce selezionata aggiungere nel relativo record: ambito minimo,
+dipendenze soddisfatte, comando/procedura utente, prova eseguita, limiti e
+criterio restante. Aggiornare [TASK_HANDOFF.md](TASK_HANDOFF.md) e i documenti
+esistenti; un parent aperto non riapre le basi già validate. Questa checklist
+non autorizza lo sviluppo simultaneo di tutti gli strumenti e non sostituisce
+le priorità del lavoro ROM in corso.

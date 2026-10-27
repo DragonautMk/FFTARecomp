@@ -34,12 +34,23 @@ fn available_or_backed_up(save: &Path) -> bool {
 }
 
 pub fn resolve(rom: &Path) -> Result<PathBuf, String> {
+    resolve_with(rom, true)
+}
+
+/// Same save selection, without creating directories or opening a picker.
+pub fn inspect(rom: &Path) -> Result<PathBuf, String> {
+    resolve_with(rom, false)
+}
+
+fn resolve_with(rom: &Path, interactive: bool) -> Result<PathBuf, String> {
     if let Some(path) = std::env::var_os("FFTA_SAVE_PATH") {
         return Ok(PathBuf::from(path));
     }
     if let Some(root) = input_config::storage::portable_root() {
         let dir = root.join("Data").join("saves");
-        std::fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
+        if interactive {
+            std::fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
+        }
         // Persist only the numeric choice: the complete portable folder can move.
         let slot = input_config::AvConfig::load().debug_game_save_slot;
         return crate::game_saves::GameSaves::new(&dir.join("ffta.sav")).path(slot);
@@ -58,6 +69,9 @@ pub fn resolve(rom: &Path) -> Result<PathBuf, String> {
             Ok(only.clone())
         }
         _ => {
+            if !interactive {
+                return Err("Multiple cartridge saves found; choose one with --sav FILE (or FFTA_SAVE_PATH).".into());
+            }
             // Other games may share this directory. Never guess which file to overwrite.
             let selected = rfd::FileDialog::new()
                 .set_title("Choose your FFTA save - Cancel to start a new save")

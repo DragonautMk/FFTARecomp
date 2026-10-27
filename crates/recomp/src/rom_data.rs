@@ -395,6 +395,7 @@ mod palette_data_tests;
 #[cfg(test)]
 mod palette_runtime_tests;
 mod preparation;
+pub(crate) mod diagnosis;
 #[cfg(test)]
 mod validation_tests;
 #[cfg(test)]
@@ -403,6 +404,8 @@ mod native_rom_data_residue_tests;
 mod host_rom_read_audit_tests;
 #[cfg(all(test, feature = "rom-data-read-audit"))]
 mod lower_rom_read_sites_tests;
+#[cfg(all(test, feature = "rom-data-read-audit"))]
+mod bank_rom_read_audit_tests;
 pub use preparation::prepare_startup;
 
 fn read_bounded(path: &Path, limit: u64) -> Result<Vec<u8>, String> {

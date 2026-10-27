@@ -3,6 +3,10 @@
 Aggiornato il 26 ottobre 2026. Numerazione stabile **DS-01…DS-26**, nello stesso
 ordine della lista originale. Il nome breve è riportato in ciascuna voce.
 
+Per gli strumenti con cui catalogare, registrare e riprodurre questi casi vedere
+il [TODO debug tools](DEBUG_TOOLS_TODO.md): gli ID **DBG** indicano strumenti,
+gli ID **DS** continuano a indicare le scene e le relative prove.
+
 Ricognizione aggiornata: **18 casistiche validate, 6 parziali, 2 non coperte**.
 La ripresa aggiunge **DS-04/05/06/09/10/11/13/14/23/24/25**
 alle precedenti DS-01/02/16/18/19/22. DS-26 ha ora un punto postgame parziale. Il nuovo file utente EUR completa

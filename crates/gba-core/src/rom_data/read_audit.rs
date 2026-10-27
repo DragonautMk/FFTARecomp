@@ -40,7 +40,7 @@ pub struct SiteRead {
 }
 
 struct SiteReads {
-    words: BTreeSet<u32>,
+    words: Option<BTreeSet<u32>>,
     reads: BTreeSet<SiteRead>,
 }
 
@@ -58,6 +58,14 @@ impl SiteCapture {
     pub fn start(words: impl IntoIterator<Item = u32>) -> Self {
         let words: BTreeSet<_> = words.into_iter().collect();
         assert!(words.iter().all(|w| w & 3 == 0 && *w < 0x1000000));
+        Self::begin(Some(words))
+    }
+    /// Address inventory with execution scope before target words are known.
+    /// An explicit all-address mode keeps an empty word filter meaning empty.
+    pub fn start_all() -> Self {
+        Self::begin(None)
+    }
+    fn begin(words: Option<BTreeSet<u32>>) -> Self {
         SITE_READS.with(|cell| {
             let mut capture = cell.borrow_mut();
             assert!(capture.is_none(), "ROM site capture is already active");
@@ -157,12 +165,12 @@ pub(crate) fn record(reader: Reader, address: u32, length: usize) {
         if let Some(capture) = cell.borrow_mut().as_mut() {
             let first_word = read.physical_offset & !3;
             let end = u64::from(read.physical_offset) + length as u64;
-            if capture
-                .words
-                .range(first_word..)
-                .next()
-                .is_some_and(|word| u64::from(*word) < end)
-            {
+            if capture.words.as_ref().is_none_or(|words| {
+                words
+                    .range(first_word..)
+                    .next()
+                    .is_some_and(|word| u64::from(*word) < end)
+            }) {
                 capture.reads.insert(SiteRead {
                     read,
                     instruction: EXECUTION_SITE.with(Cell::get),

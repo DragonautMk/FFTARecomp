@@ -1,23 +1,46 @@
 # Task handoff
 
-Updated: 2026-10-26. Latest user instructions take precedence. Follow
+Updated: 2026-10-27. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- **LOCAL-ARTIFACT-HYGIENE — selected (2026-10-26).** Latest user explicitly
-  requests cleaning project leftovers and reducing future accumulation. Previous
- 23Oct selective cleanup is closed; new request reopens only newer obsolete
-  generated artifacts and their producers, not ROM extraction/runtime acceptance.
-  Existing uncommitted slot-job/FFFF runtime work and its evidence belong to the
-  parallel task and must be preserved. Missing: measured inventory, reviewed safe
-  cleanup with retained logs/results/private inputs, and bounded generation of
-  disposable files. Next inspect disk consumers/producers and active/referenced
-  paths, then remove reviewed obsolete outputs and add a reusable conservative
-  cleanup/retention workflow. No global Docker prune, save deletion, rebuild or
-  gameplay selected. New authorization supersedes earlier no-storage-work scope
-  for this cleanup unit only.
+- **DBG-01 — selected (2026-10-27).** Latest user asks to begin executing the
+  shared debugging-tools checklist. The plan is complete; diagnosis/preflight is
+  still unchecked and no shared report implementation exists in the inspected
+  menu/CLI entry points. Missing: one versioned session report shared by a Debug
+  menu action and a read-only CLI preflight, effective file/build identities,
+  useful failure messages and targeted validation. Next: inspect storage,
+  startup and menu actions, then implement the common report and both callers.
+  Preserve concurrent ROM audit/extraction changes. No unrelated acceptance or
+  benchmark selected; continue with later DBG items only after closing this unit.
+
+- **DEBUG-TOOLS-PLAN — complete (2026-10-27).** Latest user requested a TODO
+  checklist for debugging tools shared by user and assistant. The linked
+  [checklist](DEBUG_TOOLS_TODO.md) inventories seven existing capability groups
+  and defines 22 unchecked DBG items with priorities, dependencies and acceptance
+  criteria. First group: diagnosis, isolated sessions, DS catalog, recording and
+  replay; then bounded audits, ROM coverage and divergence diagnosis. DS scene
+  status stays separate; EUR extraction retains priority and Godot is deferred.
+  All 22 ordered IDs/acceptance criteria and 374 local file links checked.
+  Metadata-only memory and whitespace checks pass; the full memory check reports
+  only the concurrent read_audit/rom_data/Bank-test implementation files awaiting
+  their own record. Those edits are preserved and not attributed to this plan.
+  No tool implementation, build, gameplay, benchmark, old acceptance, commit or
+  push performed. Documentation and changelog updated; no missing deliverable.
+  [Record](../changes/2026-10-27-plan-shared-debugging-tools.json).
+
+- **LOCAL-ARTIFACT-HYGIENE — interrupted after applied cleanup (2026-10-26).**
+  Actual result target/local-artifact-cleanup-2026-10-26/applied.json confirms
+  240 paths / 7,138 files / about 50.3 GB retired, with 3,186 private-input hashes
+  and 53,887 retained file stats unchanged. Accepted datasets/results/helpers kept.
+  Cleanup utility and two-generation coverage retention are present; real Docker
+  retention log records one old cache retired. Final validation/memory closure
+  was interrupted and is not inferred complete from the implementation. Latest
+  request is the debug-tools checklist: no repeated sweep/build/test or unrelated
+  cleanup fixes selected. New checklist may track remaining usability/retention
+  validation. Existing cleanup receipts retain historical artifact availability.
 
 - **ROM-COVERAGE-LIVE-GENERATION — complete (2026-10-26).** User confirmed
   HTML seemed unchanged. Successful logs were reusing evidence-pinned e61;
@@ -10972,12 +10995,9 @@ Private target/rom-data-task-cycle-cli/{windows-build.json,windows-cli-processes
 windows-cli-no-write.json,windows-cli-summary.json,preservation-result.json,
 artifact-cleanup.json}. Same runtime record extendedtruthfully; feature
 #actual-cli-for-task-cycle-deltas. Requiredcleanup0paths; alloutputs retained.
-Next remaining cycle05: prove normalaction reachability of18DAC signed mode
-(mask02set/04clear) via preceding initializer window (entryunproved) and18E5Cupdate helper/realcallers;
-cheap existingnormalBank/F09 source evidence before selecting an observation.
-No assumption F09threshold-positive provescycles, no oldscene equivalence replay,
-blindnavigation or manuallyforcedtaskflags. Positive scene then bounded fullpair
-withactualfile use stillOPEN; constructorordinary remainsseparatepartial/four
+Cycleordinary reachability/positivefullpair nowclosedbelow; no reopening from
+this obsolete CLI queue. F09threshold mode alone didnotprove cycles. No oldscene
+equivalence replay/blindnavigation/manuallyforcedtaskflags; constructorordinary remainsseparatepartial/four
 closednegative routes. FullTODOactive/incomplete, Linux/USA/nativeWindows/new32:9
 pending; no measurements/newfixture/assistantcommit/push/Android/package.
 
@@ -11043,3 +11063,80 @@ leftunchanged andseparate fromnewrecord attribution. Hash/mtime snapshot in
  target/rom-data-task-cycle-ordinary/concurrent-user-coverage.json. Preserve it.
 Memoryrender/default/base989d01c andCRLFdiff PASS; final97actualguards/449source
 map, optionalguardpreimage exact, no livejobs.
+
+
+**ROMDATA-01-BANK-BUS-HOST-RESIDUE closed/PASS (2026-10-27).**
+FullTODO/EUR/Wine-only/no performance-space/localcopy permission unchanged.
+StartHEAD989d01c/previouscycleWIP preserved; usercommittedcycleordinary+Atlas as
+3d96d68duringunit, no code rewrite/reopening. No livejobs. Feature-only explicit
+SiteCapture::start_all adds unknown-address scope, empty/singlefilters unchanged,
+addressOnlykeys same, defaultfrontendpreimage exactafter2cfg lines removed.
+No Machine/CAPI/save/nativecacheABI/revision/productionbuild change.
+FirstWindowsfeature90728 warning-free/frozenff74819f4a8645fb1869b034f8c1714d386f9154f46447bd3b9e2921c34da30c.
+ONEfirstWine68013PASS newmodeempty-single-all/ARMfetch/projection/drop probes +
+currentdecodedBank12arm fromoldnormalstate/input/currente76dataset/oldcache,
+guest3660→3672.7430reads/7532sites/497scoped7035outside. Independentaddresskey
+projection EXACT. OldBank12dispatch19962/85770/audio[26334,26334,3168,3168,26258]
+EXACTretainedreport. No oldfullpair/Bank48/F09/source/model/CLI acceptance replay.
+7083imageB/1434unowned/all3683oldnativeB included.992priorclassifiedcodesupport,
+80newliteralwords320B actualThumbLDRPC operands, plus8newdispatchcells32B:
+2ABC4/2BFB8/5B6AC/96110/A115C..116C. Originalprefix/opcode/address/width/hash
+pins authenticate; A1146oldnormalized24prefix reusednotdisassembledagain.
+96110conditional<=126pathonly, > calls09A230returnunproved: NOglobal127cap.
+One privateA1146opcodepin correctedfrom5808toactual6800offline afterassert;
+NO Wine/build rerun, accepted control-contracts.json authoritative.
+Total1344codesupport, remaining90observeddata bytes (NOTnewresourceextent):
+4114FC..1500word /411504..1506count /41153A..1546framepairs18B,
+4165D0..65DC3relativeOBJdirectorywords12B,416688..66C4three20B/3-object lists60B.
+Actualreaders2C5FA/2C5FE/2C61A/2C620/2C632 +1500-family/SpritePeek. Literals
+5E6F4=084165A0 and5E6F8=084114FC. Original2C5E0/2C60C usesu16selector/tick/phase,
+distinct fromexisting4E494/4E4E4u8counterbank assumptions. Fullrootcardinality/
+producer/domain/ownership/model remain nextchild, do notinferfromadjacency or
+observed90alone. Twelvealreadytypedcycles21..32 aretrueinterpreterLDRB18E2A
+operands; explainsnative-onlyfootprintgap, no taskaddressattribution.
+95actualinput-output-frozen/source-contractguards/compiledimplementation/default
+preimage/Atlas exact; artifactcomplete0paths. e76-d75/USA8-7 unchanged. Private
+ target/rom-data-bank-bus-host-residue/{windows-bank/reads-and-sites.json,
+windows-bank-build.json,windows-bank-result.json,source-classification.json,
+control-contracts.json,managed-cycle-sites.json,preservation-result.json,
+artifact-cleanup.json}. Keepallinputs/reports/preimages/currentexe/currentdataset.
+Record docs/changes/2026-10-27-inventory-european-bank-bus-host-reads.json;
+feature docs/rom_data_runtime.md#bank-bus-and-selected-host-rom-inventory.
+Next ROMDATA-01-U16-TASK-OBJ-BANK: authenticate full2C5E0/2C60C prefix/return,
+5E6F4/8actualproducer andparameters, relativeindex/header/frame/list source bounds
+and current68owner overlap beforemodel/managedruntime. Reuse thisBankcapture,
+no newobservation/build/oldcontrolproof replay to reconstructcontext. Otheraddress
+literal leads6DF4A2/B2,394C14,3950B2,3976D8,399750 stayseparateunprovedtargetpayloads.
+Constructorordinary separatepartial/fourclosednegative routes, no blindroute or
+manualflags. FullTODOactive/incomplete; Linux/USA/nativeWindows/new32:9 pending,
+no measurements/assistantcommit/push/Android/package.
+
+Parallel work note: shareddebug-tools plan/DBG-01 selection at top and related
+DEBUG_TOOLS_TODO/debugsaves/scripts index/docs record are externally maintained
+user work. Read their diff, preserved it, no DBG implementation selected by this
+ROMgoal. Currentgoal remains fullROM_DATA_TODO; don't follow DBGqueue as a new
+ROM extraction task. New Bankcensus record covers only its own diagnostic/hooks/
+feature docs, not the parallel plan. Memoryrender/default/base3d96d68/2modulefmt/
+CRLFdiff PASS; final451sources95guards/currentcode-preimage exact at closure.
+
+
+**Selection checkpoint — ROMDATA-01/02-U16-TASK-OBJ-BANK (2026-10-27).**
+Latest fullROMTODO/EUR/Wine-only/no performance-space/localcopy permission
+unchanged. Previousgoalturn PROGRESS: Bankbus/host censusclosedPASS firstbuild/
+Wine/1344codeB/90data-leads, final451source95guards read, no liveROMjobs. HEAD
+3d96d68; preserve censusWIP and concurrentDBG-01 Cargo.lock/recompmanifest/main/
+save_path edits inspected, do not adopt DBG queue. Missing newbank sourcecontract
+forroots4165A0/4114FC at2C5E0/2C60C, actualproducer5E6F4/8, u16counter/phase/
+selector/return semantics, conditionaldirectory bounds/data extents/owner overlap,
+then strict lossless model and one focused original-reader Wine filter.
+Cheaprootbytes suggest15list-index cells/2sequence cells, listheaders0..3 and
+sequenceheaders16/0 withpadding. These are candidates, NOT extent/globalinputcap
+proof; zero-count behavior must stayopaque beyond authenticatedcaller/prefix.
+Next bounded fulltail2C65A.. andproducerwindow5E6..., reuse existingconstructor/
+updater prefix andacceptedBankcapture (no observation rerun). Derive exactsource
+spans/hash/provenance beforemodel. If building source/model only, prefer Windows
+core-test target to avoid compiling parallel unfinished frontenddiagnostics;
+no Linuxgame tests or frontend/prod rebuild forunchangedcode. No normalfixture
+mutation/navigation, oldmodel/Bank48/12/census acceptance staysclosed. Broader
+ROMmigration/USA/Linux/nativeWindows/new32:9/constructorordinary remainopen.
+Private target/rom-data-u16-task-obj-bank; no apprevision change in isolatedmodel.

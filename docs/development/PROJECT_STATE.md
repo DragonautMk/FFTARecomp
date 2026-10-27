@@ -12,6 +12,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- [Shared debugging tools](DEBUG_TOOLS_TODO.md) is a planning checklist with
+  stable DBG-01..DBG-22 IDs, separate from DS scene cases. It inventories existing
+  tooling before prioritizing shared menu/CLI diagnostics, isolated sessions,
+  snapshot/input replay, bounded ROM audits, coverage linkage and first-divergence
+  reports. Each item has dependencies and acceptance criteria. Existing feature
+  audit hooks are distinct from uncommitted Bank extensions. No implementation
+  or runtime campaign is selected by the checklist; EUR extraction remains the
+  priority, Godot stays deferred, and performance measurement stays separate.
+
 - [Godot frontend assessment](GODOT_FRONTEND_TODO.md) is planning only,
   explicitly deferred until ROM extraction is finished and the user selects
   development. No prototype remains. Machine is reusable as a library, but
@@ -717,6 +726,21 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   [Source proof](../rom_data_runtime.md#lower-bus-and-host-residue-source-contracts).
   USA8-7 unchanged; Linux/nativeWindows/new32:9 pending, no newfixture or
   measurements. Other threads/scenes/readers/typed HLE bypasses remain separate.
+
+- The [Bank bus/host census](../rom_data_runtime.md#bank-bus-and-selected-host-rom-inventory)
+  now covers interpreter and selected host access beyond the old native-onlyAPI:
+  optional explicit all-site capture keeps old word filters/address keys/default
+  builds unchanged. One first warning-freeWindows feature build/one Wine filter
+  passes newmode probes and one currentBank12decoded arm, projection exact and
+  retainedold dispatch/audio counts exact.7430reads/7532sites/497scoped7035None,
+  7083imageB/1434unowned/all3683oldnativeB included.992prior-code+320executedliteral+
+  32dispatchB=1344codesupport;90dataB remain source/model work at4114FC/4165A0,
+  u16task readers2C5E0/2C60C distinct from establishedu8animation producers. No
+  root-cardinality/asset-extent/global127cap inference. Cycle21–32reads from
+  interpreterLDRB18E2A explainoldNativeAPIgap.95guards/compiledsource/default
+  preimage/Atlas exact, helper0paths. No oldfullpair/sourceclassification replay,
+  newfixture/navigation/productionbuild/revision/ABI or measurements. e76/USA8-7
+  and deferredplatforms unchanged; censusclosed,90Bdata childopen.
 
 - The [following live-slot helpers](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup)
   D05E8/D0618test/count nonzero firstwords in20RAMslots at02002E78, whileD0650

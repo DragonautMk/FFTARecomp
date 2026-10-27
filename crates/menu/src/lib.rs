@@ -64,6 +64,7 @@ pub enum MenuAction {
     SaveState { slot: u8, overwrite: bool },
     LoadState(u8),
     UndoState,
+    CopyDiagnosis,
     RestoreBackup(u64),
     SwitchGameSave(u8),
     CopyGameSave { slot: u8, overwrite: bool },
@@ -140,6 +141,7 @@ enum Page {
 enum Row {
     DebugMenu,
     ExtendedSaves,
+    CopyDiagnosis,
     GameSavesMenu,
     GameSaveSlot,
     UseGameSave,
@@ -282,7 +284,7 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
-        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::Back],
+        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
         Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
         Page::ReplaceGameSave => &[Row::ConfirmCopyGameSave, Row::Back],
@@ -311,6 +313,7 @@ impl Row {
         match self {
             Row::DebugMenu => "Debug",
             Row::ExtendedSaves => "Extended saves",
+            Row::CopyDiagnosis => "Copy diagnosis",
             Row::GameSavesMenu => "Game saves",
             Row::GameSaveSlot => "Slot",
             Row::UseGameSave | Row::ConfirmSwitchGameSave => "Use and restart",
@@ -381,7 +384,7 @@ impl Row {
     fn is_action(self) -> bool {
         matches!(
             self,
-            Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
+            Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
                 | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
                 | Row::Backup(_) | Row::ConfirmRestoreBackup
                 | Row::SaveStateConfirm
@@ -671,6 +674,10 @@ impl Menu {
 
     pub fn game_save_result(&mut self, message: String) { self.game_save_message = message; }
 
+    pub fn diagnosis_result(&mut self, message: String) { self.debug_message = message; }
+
+    pub fn selected_state_slot(&self) -> u8 { self.state_slot as u8 + 1 }
+
     pub fn state_result(&mut self, message: String) { self.state_message = message; }
     pub fn set_state_undo(&mut self, label: Option<String>) { self.state_undo = label; }
     pub fn set_save_backups(&mut self, copies: [BackupInfo;2]) { self.save_backups = copies; }
@@ -843,6 +850,7 @@ impl Menu {
                 }
             }
             MenuInput::Confirm => match row {
+                Row::CopyDiagnosis => Some(MenuAction::CopyDiagnosis),
                 Row::GameSavesMenu => {
                     if av.debug_extended_saves && self.game_save_slots.len() == 99 {
                         self.open(Page::GameSaves);
@@ -1237,7 +1245,7 @@ fn value_of(
         Row::DebugMenu => ">".into(),
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
-        Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
+        Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
@@ -1360,7 +1368,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             av.debug_extended_saves = !av.debug_extended_saves;
             Some(Changed::Debug)
         },
-        Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+        Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
         Row::MouseMode => None,
@@ -1880,6 +1888,23 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::LoadState(9)));
         menu.handle(MenuInput::Cancel, &mut av);
         assert_eq!(rows_of(menu.page)[menu.selected], Row::SaveStatesMenu);
+    }
+
+    #[test]
+    fn diagnosis_is_available_without_extended_saves_and_keeps_menu_paused() {
+        let mut menu = Menu::new(true, true);
+        let mut av = AvConfig::default();
+        menu.open(Page::Debug);
+        at(&mut menu, Row::CopyDiagnosis);
+        assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
+        assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::CopyDiagnosis));
+        assert_eq!(menu.page, Page::Debug);
+        assert!(!av.debug_extended_saves);
+        menu.diagnosis_result("Diagnosis copied; report saved.".into());
+        assert!(menu.debug_message.contains("report saved"));
+        let mut pixels = vec![[0; 4]; 640 * 480];
+        menu.draw(&av, &std::array::from_fn(|_| String::new()), "", "", "", "", &mut pixels, 640, 480);
+        assert!(pixels.iter().any(|p| *p != [0; 4]));
     }
 
     #[test]

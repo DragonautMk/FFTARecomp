@@ -27,6 +27,33 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-27-verify-european-task-cycle-ordinary-scene.json)
 
+## 2026-10-27 — Plan shared user and assistant debugging tools
+
+Type: docs. Platforms: Desktop tooling planning.
+
+**Changes**
+
+- Add an Italian DEBUG_TOOLS_TODO checklist with 22 stable DBG IDs, priorities, dependencies and concrete acceptance criteria. Separate tool work from the existing DS scene checklist and inventory seven existing capability groups before proposing improvements.
+- Prioritize session diagnostics and identities, isolated save handling, DS catalog access, snapshot-based input recording and reproducible replay. Follow with bounded ROM read auditing, actual-consumption coverage linkage, scene triggers and first-divergence state/clock/image/audio reports.
+- Plan graphics/text/input/audio/code inspectors, bounded trace/event capture, shared local command access, targeted regression campaigns, artifact retention and distribution. Keep menu workflows and structured CLI/JSON outputs aligned for both user and assistant.
+- Link the plan from ROM extraction, debug-save documentation, project state and script index. Keep EUR extraction first, Godot deferred and performance campaigns separate; mark uncommitted Bank audit extensions as in progress rather than available completed tools.
+- Reconcile the interrupted cleanup handoff from its existing terminal receipts without repeating cleanup, builds or tests; remaining cleanup validation/memory closure stays explicit and is not selected by this planning request.
+
+**Validation**
+
+- Inspected current menu/CLI options, recorder/replay workflow, existing scoped audit documentation/source, DS catalog status, coverage tooling and artifact-retention documentation. No runtime, build, gameplay or benchmark was run.
+- Document checks pass: 22 unique ordered DBG-01..DBG-22 items, 22 acceptance criteria, seven existing capability groups and 374 local file links across the new checklist and its entry points.
+- Project memory metadata-only and git diff --check pass. The full project-memory check reports only the three concurrent read_audit/rom_data/Bank-test implementation files awaiting their separate change record; this documentation task does not claim their validation or closure.
+
+**Limitations**
+
+- This is a planning deliverable only. The 22 new checklist items are unchecked; no debugger, UI, runtime hook or command interface was implemented.
+- Concurrent read_audit and Bank audit test modifications are preserved. Historical evidence availability and interrupted cleanup closure remain distinct from completed feature validation.
+
+Documentation: [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md), [debug saves.md](docs/development/debug saves.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-27-plan-shared-debugging-tools.json)
+
 ## 2026-10-27 — Authenticate and model the European signed task-cycle deltas
 
 Type: added. Platforms: Windows.
@@ -73,6 +100,30 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-27-model-european-constructor-obj-animation.json)
+
+## 2026-10-27 — Trace European Bank ROM reads through the bus and selected host paths
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add explicit feature-only SiteCapture::start_all to collect interpreter/HLE execution scope before data addresses are known. Preserve empty/single word filters and address-only Capture keys/schema; diagnostic remains absent from default builds. No Machine/MemMap/CAPI/save/native-cache ABI, extractor revision or production executable change.
+- Add one focused Bank12source inventory filter reusing existing normal state/input/currente76dataset/originalnativecache. Compare independent address/site projections and retained old dispatch/audio counts in one decoded arm; old Bank48/F09/fullpair/source/model/CLI acceptance remains closed.
+
+**Validation**
+
+- One first Windows feature build warning-free/frozenff74819f4a8645fb1869b034f8c1714d386f9154f46447bd3b9e2921c34da30c. One first Wine filter passes empty/single/all mode, originalARM-fetch exclusion, projection/drop probes and Bank12guest3660→3672.7430read keys/7532site keys/497instruction-scoped7035outside; dispatch19962/85770 and all5sample counts[26334,26334,3168,3168,26258] exactlymatch retained old Bank12report.
+- 7083image bytes/1434outside current68owners; all3683oldnative-image bytes included. Reuse992previously source-classified bytes, authenticate80actualThumb-PC-literal words320B and8newdispatch cells32B with original opcode/address/width/prefix/hash pins:1344code-support bytes total. Reuse priorA1146prefix; observed96110direct<=126path does not prove global127cap because larger values call helper with unproved return.90data bytes remain source leads around4114FC/4165A0 and reader2C5E0/2C60C; no new resource/extent inferred.
+- Pin twelve already typed cycle source phases21–32 to original interpreterLDRB18E2A, explaining oldNative-only gap without guest-task attribution. All95actual input-output-frozen/source-contract guards, compiled implementations and defaultfrontend preimage after2cfg lines removed pass. Original snapshots/input/native-cache/canonical/currentdataset/userAtlas exact; requiredartifactcompletion0paths.
+
+**Limitations**
+
+- Bounded address/source inventory only, not new fullpair/all-use proof.90observed data bytes require complete producer/root-cardinality/ownership/extent authentication and typed integration; u16task animation reader differs from existingu8producer assumptions. Native/host outside interpreter scope staysNone; inheritedHLE/DMA scope requires opcode/operand validation.
+- Other scenes/threads, unselecteddirecthost/typedHLE bypasses/foldednativeconstants/code-signature reads and KeyboardWidths coverage remain separate. Linux/USA/native Windows/new32:9 pending. No newfixtures/navigation/performance-storage campaign/Android/package/assistantcommit/push; full ROM_DATA_TODO active.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-inventory-european-bank-bus-host-reads.json)
 
 ## 2026-10-27 — Publish and consume the European signed task-cycle deltas
 

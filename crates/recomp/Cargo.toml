@@ -9,6 +9,7 @@ description = "Static recompiler CLI"
 rom-data-read-audit = ["gba-core/rom-data-read-audit"]
 
 [dependencies]
+arboard = { version = "3.6.1", default-features = false }
 serde = { version = "1", features = ["derive"] }
 tempfile = "3"
 armv4t = { path = "../armv4t" }

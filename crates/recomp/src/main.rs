@@ -20,6 +20,7 @@ mod perf;
 mod packfile;
 mod play;
 mod rom_switch;
+mod diagnostics;
 mod rom_data;
 mod save_path;
 mod game_saves;
@@ -65,6 +66,7 @@ fn main() -> ExitCode {
         return ExitCode::SUCCESS;
     }
     let result = match args.first().map(String::as_str) {
+        Some("diagnose") => diagnostics::cmd(&args[1..]),
         Some("dis") => cmd_dis(&args[1..]),
         Some("controllers") => {
             if let Some(g) = build_gilrs() {
@@ -122,6 +124,19 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("diagnose", "recomp diagnose <rom> [options]", &[
+        "--json             print the versioned report as JSON",
+        "--out FILE         save the report atomically (default: stdout only)",
+        "--bios FILE | --no-bios  select real BIOS or HLE",
+        "--sav FILE         select cartridge save without opening a picker",
+        "--state FILE       validate a snapshot without executing it",
+        "--slot N           inspect snapshot slot 1..99 beside the selected save",
+        "--input FILE       validate a recorded gba-input v1 script",
+        "--interp           select interpreter (default: native requested)",
+        "--rom-data         inspect the current managed dataset without preparing it",
+        "--dataset DIR      inspect an explicit dataset",
+        "--require-rom-audit fail if this binary lacks rom-data-read-audit",
+    ], "Read-only session preflight shared with Debug > Copy diagnosis. No game execution, translation, resource preparation or save writes. Exit 1 with a report on invalid inputs."),
     ("rom-data", "recomp rom-data <extract|verify> <rom> <dataset-directory> | prepare <rom> [resources-root]", &[],
      "Extract, verify or prepare source-authenticated decoded OBJ dimensions, BG descriptors and base palettes for exact FFTA EUR/USA images. Managed preparation reuses or repairs versioned application data. Use --rom-data with play/frames/runc to consume verified base data; the source ROM is still required."),
     ("controllers", "recomp controllers [--poll]", &["--poll    sample each DirectInput controller"], "List detected gilrs and Windows DirectInput controllers without loading a ROM."),

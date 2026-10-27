@@ -517,6 +517,8 @@ struct PlayApp {
     // Core machine + persistence.
     machine: Machine,
     sav_path: String,
+    diagnosis: crate::diagnostics::Request,
+    diagnosis_clipboard: Option<arboard::Clipboard>,
     game_saves: crate::game_saves::GameSaves,
     state_slots: crate::save_state::Slots,
     save_backups: crate::save_backups::Backups,
@@ -1663,6 +1665,43 @@ impl PlayApp {
         }
     }
 
+    fn copy_diagnosis(&mut self) {
+        self.diagnosis.save = Some(self.sav_path.clone().into());
+        self.diagnosis.slot = Some(self.menu.selected_state_slot());
+        self.diagnosis.interp = self.native.is_none();
+        self.diagnosis.recording = self.record.is_some();
+        let result = (|| -> Result<String, String> {
+            let path = crate::diagnostics::default_report_path()?;
+            self.diagnosis.out = Some(path.clone());
+            let mut report = crate::diagnostics::collect(&self.diagnosis, Some(&self.machine));
+            report["live_settings"] = serde_json::json!({
+                "aspect": self.av.video_aspect, "extended_saves": self.av.debug_extended_saves,
+                "audio_enhanced": self.av.audio_enhanced,
+                "note": "Live settings can differ from the config file while applying a change."
+            });
+            crate::diagnostics::write_report(&path, &report)?;
+            eprintln!("Diagnosis report: {}", path.display());
+            let text = serde_json::to_string_pretty(&report).map_err(|e| e.to_string())?;
+            let copied = (|| -> Result<(), String> {
+                if self.diagnosis_clipboard.is_none() {
+                    self.diagnosis_clipboard = Some(arboard::Clipboard::new().map_err(|e| e.to_string())?);
+                }
+                self.diagnosis_clipboard.as_mut().unwrap().set_text(text).map_err(|e| e.to_string())
+            })();
+            let status = if report["ok"] == true { "OK" } else { "check issues" };
+            match copied {
+                Ok(()) => Ok(format!("Diagnosis copied ({status}); report saved.")),
+                Err(e) => {
+                    eprintln!("Diagnosis clipboard unavailable: {e}; report retained at {}", path.display());
+                    Ok(format!("Report saved ({status}); clipboard unavailable."))
+                }
+            }
+        })();
+        self.menu.diagnosis_result(result.unwrap_or_else(|e| format!("Diagnosis failed: {e}")));
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
     fn refresh_state_slots(&mut self) {
         self.state_slots.set_extended(self.av.debug_extended_saves);
         let slots = (1..=self.state_slots.count()).map(|slot| {
@@ -2781,6 +2820,7 @@ impl ApplicationHandler for PlayApp {
                     menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),
+                    menu::MenuAction::CopyDiagnosis => self.copy_diagnosis(),
                     menu::MenuAction::RestoreBackup(id) => self.restore_save_backup(id),
                     menu::MenuAction::SwitchGameSave(slot) => self.switch_game_save(slot),
                     menu::MenuAction::CopyGameSave { slot, overwrite } => self.copy_game_save(slot, overwrite),
@@ -3283,6 +3323,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     };
 
     let mut machine = make_machine(rom, bios.as_deref());
+    let prepared_resources_directory = prepared_resources.as_ref().map(|p| p.directory.clone());
     if let Some(prepared) = prepared_resources {
         crate::rom_data::attach_from_directory(&mut machine, &prepared.directory)?;
     }
@@ -3475,7 +3516,17 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let benchmark_zoom = benchmark.as_ref().map_or(0, |b| b.zoom);
     if benchmark_zoom > zoom_max { return Err("benchmark zoom exceeds the selected aspect's limit".into()); }
     if let Some(benchmark) = benchmark.as_mut() { benchmark.restore(&mut machine)?; }
+    let diagnosis = crate::diagnostics::Request {
+        rom: rom_path.into(),
+        bios: bios_arg.map(Into::into).or_else(input_config::find_bios),
+        no_bios: !machine.bus.real_bios,
+        dataset: prepared_resources_directory,
+        input: std::env::var_os("RECOMP_RECORD_INPUT").map(Into::into),
+        ..Default::default()
+    };
     let mut app = PlayApp {
+        diagnosis,
+        diagnosis_clipboard: None,
         machine,
         sav_path,
         game_saves,

@@ -1538,3 +1538,68 @@ and no-write reuse. Ordinary cycle48nowpasses one source-backed neutral Bank
 fullpair3660–3708, all48rows/48reads48B/every state-clock-buffers-OAM-dispatch-
 allaudio equal; counts match actualCLI. Deferred platforms and broader scenes
 remain separate.
+
+
+## Bank bus and selected host ROM inventory
+
+The existing optional diagnostic now has an explicit `SiteCapture::start_all()`
+mode, collecting execution scope before target addresses are known. The old
+word-filtered constructor still treats an empty set as empty; address-only
+`Capture` keys/schema stay unchanged. `rom-data-read-audit` remains absent from
+default builds, with no new Machine/MemMap fields, C API, save/native-cache ABI,
+extractor revision or production build. Removing the two new frontend cfg lines
+restores its preimage exactly; all core/default-feature manifests are unchanged.
+
+One first Windows feature build is warning-free, frozen
+ff74819f4a8645fb1869b034f8c1714d386f9154f46447bd3b9e2921c34da30c.
+One first Wine filter passes targeted empty/single/all filter, original ARM
+instruction-fetch exclusion, projection and drop probes, then a single current
+EUR decoded Bank12source arm over guest3660–3672 with the existing normal input,
+current e76-d75/69-file dataset and original native cache. The all-site projection
+exactly equals the independent address-only capture in that same arm. Dispatch
+[19962,85770] and five actual sample counts[26334,26334,3168,3168,26258] match the
+retained old Bank12report. These are coverage checks, not timings or a second
+fullpair; the completed Bank48ordinary/F09/source/model/CLI proofs were not rerun.
+
+The new report has7430unique read keys and7532site keys:497with interpreter/HLE
+scope and7035outside it. Reader keys are3810Bus/3601AudioValue/10SpritePeek/
+8SpriteList/1ObjSourceTable; KeyboardWidths is unexercised. It covers7083physical
+image bytes and1434outside current68manifest owners. All3683image bytes from
+the old native-only Bank sample are included. Of these unowned bytes,992already
+have scoped source classifications from earlier Bank/F09contracts. New exact
+opcode/address/width checks identify80Thumb PC-relative literal words/320bytes.
+Four new dispatch cells plus four new cells in the already proved A1146table
+add32bytes of executable control support, bringing this sample's total to1344.
+MOV PC,r0 preserves Thumb despite even targets. The96110case has only a direct
+<=126conditional path: larger values call09A230with unproved return behavior,
+so no global127input cap is inferred. The A1146prefix contract is reused; its
+old observation and classification are not repeated.
+
+The remaining90observed data bytes are source leads:18bytes of relative
+sequence-index/header/frame fields around4114FC,12bytes of object-list directory
+entries4165D0–DC and60bytes in three counted OBJ lists416688–C4. Captured original
+readers are2C5FA/2C5FE/2C61A/2C620/2C632 and1500-family sprite reads; SpritePeek
+also reads the60list bytes. Executed source literals5E6F4/5E6F8 point to object
+root4165A0and sequence root4114FC. The2C5E0/2C60C task uses a u16 selector/tick/
+phase, distinct from the established4E494/4E4E4u8-counter animation producers.
+Complete root cardinalities/ownership/producer semantics and a typed model are
+still separate work; addresses and observed spans alone do not establish them.
+No new resource or archive extent is declared by this inventory.
+
+The same capture pins twelve already typed cycle bytes/phases21–32 to the
+original Thumb LDRB at18E2A. This is actual interpreter data access and explains
+the old native-only API blind spot without attributing a task address. Inherited
+HLE/DMA scope still requires opcode/operand validation; native/host access
+outside interpreter scope remains None. Other scenes/threads, unselected direct
+host readers, typed HLE bypasses, folded native constants and code/signature
+reads remain outside this bounded census.
+
+All95actual input/output/frozen/source-contract guards and compiled implementations
+pass, including the user-owned Atlas files. Required artifact completion finds
+zero eligible paths. Private evidence is under `target/rom-data-bank-bus-host-residue/`:
+`windows-bank/reads-and-sites.json`, `source-classification.json`,
+`control-contracts.json`, `managed-cycle-sites.json`, build/Wine results and
+preservation/cleanup receipts. Current datasets, original states/inputs/cache,
+canonical executable and Atlas are unchanged. Linux/USA/native Windows/new32:9
+remain pending; no new fixture/navigation/production build or performance/storage
+campaign. The90byte data-source child remains open; this census stays closed.

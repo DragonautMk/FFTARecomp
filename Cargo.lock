@@ -4523,6 +4523,7 @@ dependencies = [
 name = "recomp"
 version = "0.2.0"
 dependencies = [
+ "arboard",
  "armv4t",
  "cpal",
  "dirs 6.0.0",

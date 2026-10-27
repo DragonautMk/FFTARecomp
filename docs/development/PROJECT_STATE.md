@@ -661,8 +661,28 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   beforeDMA. Restore-before-load correction is testonly; remainingfilter passes
   6SWI-DMA/4hostpublications/twoobjects each without replaying completed checks.
   Production byteidentical across observations;169guards/source/Atlas exact.
-  ActualCLI/ordinarypositive pending (retainedF09 zero matchingdatareads), no
-  firstfullfilterPASS claim. Pointed371064phase0/371034 separate source contracts.
+  ActualCLI nowpasses firstproductionbuild/canonicalrestore and3Winecommands:
+  prepare/no-write-reuse/zero-frame startup,68generation70managed/all67runtime
+  resource hashes exact/oldcacheloaded;145guards/source content exact. No guest
+  execution claim. Ordinarypositive discovery remains partial: one testbuild/
+  fourWine normal-key bounds from retained12006 copy (no3530replay) allnewtable0,
+  although movement selection/confirmation completed. Passive observer and7line
+  optional validatorgate compile; fullpair notrun/no positive fixture. Original
+  effect flag setter9D054 and6enable-disablecallers are navigation leads, normal
+  action reachability/meaning unproved.84guards/source/oldloop exact; allpartial
+  fixtures retained. No fifthblindroute/manualflag or firstfullfilterPASS claim. Phase0 at371064 is now typed in e75-d74:
+  3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
+  same68files67resources/all66other e74 records-files/old10B retained. No global
+  phase cap; runtimephase/correction coverage partitions3/4bits. One first
+  Windowsfrontendbuild/oneWinefilter passes4neworiginal/7attach/6native-state-clock/
+  3DMA and rawedges; helperchanges visibilityonly. Firstproductionbuild/canonical
+  restore +one actualCLI28 auto-prepare pass all68files/all3phases4corrections,
+  36reads44B/28threshold16correction. Private logmatcher repaired offline, child0
+  neverrerun. Samefrontend one NEW28frame fullpair8476→8504 passes everyfullstate/
+  clock/central-wide/OAM/dispatch/allaudio; samples[61446,61446,7392,7392,61370],
+  counts exactCLI.215guards/implementation/5lineguardpreimage exact, helper0paths.
+  Constructorordinary child remains partial;371034signed-byte source separate.
+  [Phase-zero extension](../rom_data_gameplay.md#conditional-phase-zero-threshold-extension).
   [Constructor animation](../rom_data_obj.md#conditional-constructor-obj-animation-source-and-model).
   [Source proof](../rom_data_runtime.md#lower-bus-and-host-residue-source-contracts).
   USA8-7 unchanged; Linux/nativeWindows/new32:9 pending, no newfixture or

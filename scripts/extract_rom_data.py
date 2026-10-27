@@ -49,7 +49,7 @@ DESCRIPTIONS = {
     'unit-obj-byte-property-words.json': 'European UI byte-input propertyword complement; existing actor-property and palette aliases retain their owners and original guest callers remain live',
     'unit-obj-ffff-reader-fields.json': 'European numeric FFFF property and directory reader fields with conditional metadata/archive provenance; original live unmapped bus and guest control flow retained',
     'slot-job-lookup.json': 'European twenty-slot u8 job references from the original live slot selector; metadata52 properties, name lookup, input truncation and raw outside sources remain guest work',
-    'observed-task-parameters.json': 'European observed phase1/2 unsigned thresholds and signed vertical correction indices4..7; original old-counter compare, phase wrap, earlier owners and outside queries retained',
+    'observed-task-parameters.json': 'European conditional phase0/1/2 unsigned thresholds and signed vertical correction indices4..7; original old-counter compare, phase wrap, earlier owners and outside queries retained',
     'constructor-obj-animation.json': 'European conditional phases0..3 unsigned word thresholds and indirect OBJ-list pointers; original u8 counter wrap and unchecked outside-phase fallback retained',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',

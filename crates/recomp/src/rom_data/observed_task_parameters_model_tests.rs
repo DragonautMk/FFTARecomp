@@ -19,7 +19,7 @@ fn pristine(rom: &[u8]) -> Machine {
     m
 }
 
-fn original_phase(rom: &[u8], model: &ObservedTaskParameters, phase: u8, old: u16) {
+pub(super) fn original_phase(rom: &[u8], model: &ObservedTaskParameters, phase: u8, old: u16) {
     let threshold = model.phase_thresholds.threshold(phase).unwrap();
     let mut m = pristine(rom);
     m.cpu.regs[4] = TASK;

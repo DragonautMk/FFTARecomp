@@ -2476,6 +2476,11 @@ and new32:9 remain pending. Evidence:
 
 ## Isolated model for observed task parameter fragments
 
+This e73 milestone describes the earlier two-phase model. The current e75
+[phase-zero extension](#conditional-phase-zero-threshold-extension) below adds
+phase0 and supersedes its current query/source-span counts; its old acceptance
+remains closed.
+
 `rom_data::observed_task_parameters` models two independent EUR fragments in
 `ObservedTaskParameters`: two `PhaseThresholds` rows for phases1/2 at371065..67,
 and four `VerticalCorrections` rows for indices4..7 at394E14..1C. Entries retain
@@ -2638,3 +2643,63 @@ source/model/runtime/CLI/collector/scene acceptance, fixture/navigation or
 performance/storage campaign is repeated.452lower audit bytes and Linux/USA/
 native Windows remain separate or pending. Evidence:
 `target/rom-data-observed-task-parameters-ordinary/`.
+
+
+## Conditional phase-zero threshold extension
+
+EUR e75-d74 extends the same `gameplay.observed-task-parameters` file with the
+conditional phase0 byte at371064. The already authenticated original18DCA–18DF8
+reader and18DF4 literal establish base371064; the three conditional phases0/1/2
+have unsigned thresholds16/8/8. The source span grows from2B at371065 to3B at
+371064. The earlier two rows and four signed correction rows are exact, giving
+11source bytes in the same two independent spans3B/8B. Source SHA256 for the
+three thresholds isee8357f0303dac80be96e10b1b49913c294c163771824fca6152057a6e1da957.
+This neither establishes a prelookup global phase cap nor changes the original
+OLD-u16-counter comparison, increment/store, wrap or outside-query behavior.
+
+`PhaseThresholds::threshold` now supports0–2 and returnsNone for3–255. Runtime
+coverage reserves three phase bits before the four correction bits, so phase0
+and correction4 remain independent. The owner composes raw edges with allthree
+file-derived bytes; the correction source/earlier owners and guest logic remain
+unchanged. File format and count remain68files/67resources. All66other e74
+resource records/files,80OBJlists and the earlier10parameter bytes are retained.
+USA stays e8-d7; no Machine/CAPI/save/native-cache ABI changes.
+
+One first Windows frontend build is warning-free. One Wine filter passes four
+new original phase0 prefixes (old counters0/15/16/65535), seven new attach guards,
+six original/interpreter/native complete-state-and-clock prefixes (four phase0,
+two outside3/255), four explicit compiled phase0 bytes with raw371064 altered,
+disjoint3phase/4correction coverage, all11typed bytes/raw edges and three DMA/
+CpuSet/CpuFastSet full-state comparisons. Existing prefix helpers changed only
+visibility; old1/2/vertical/constructor acceptance was not replayed.
+
+One first Windows production build preserves the canonical executable's hash/
+mtime and main content exactly. A single actual Wine CLI auto-prepare/runc call
+uses the existing F09 snapshot/input/cache for a NEW28frame bound:8476–8504,
+68generation/70managed files, all68equal the accepted dataset. The CLI child exits0
+and uses36reads44B/28threshold16correction bytes/all3phases4rows. Its private log
+matcher initially expected the explicit prepare-subcommand format; read-only
+finalization recognizes `resources: created` for auto-prepare without rerunning
+the command. These counts prove new phase0 use after the old1/2 wrap.
+
+The same frontend executable then passes one Wine28frame fullpair: every
+serialized state/clock, central/wide framebuffer, OAM, dispatch and all mixed/
+PSG/FIFO-left/FIFO-right/HLE-bit audio comparisons. Actual samples are
+[61446,61446,7392,7392,61370];207600native/650135fallback are coverage only. All
+seven parameter rows are required; counts match the actual CLI exactly. The
+optional five-line `FFTA_STATE_TEST_REQUIRE_PHASE_ZERO_THRESHOLD` guard leaves
+the existing comparison loop byte-identical when removed. This is the newly
+positive28frame criterion, not a repeat of the closed12frame milestone.
+
+All215selected input/output/frozen hash-mtime guards and compiled source content
+pass. Required artifact completion finds zero disposable paths. Dataset identity
+eefc7e329ae9bb6104c63867e5ba6331f2466a41752e1237fce92757694aac86,
+manifestb43670c8212648ee249874f261b10e4ce5bbaa01bcfeb102e0aa6d8b065dd351,
+parameterJSON9c9de34b938d53b4a2fba244d615226b52e3f03d71e03ec0928b01db824a8bee.
+No new gameplay fixture/navigation or performance/storage campaign belongs to
+this phase-zero unit. Constructor-animation ordinary discovery remains a
+separate partial child;371034signed-byte source, broader scenes/all-use/physical
+archive extents and Linux/USA/native Windows/new32:9 remain open. Evidence:
+`target/rom-data-phase-zero-threshold/` (`source-contract.json`,
+`windows-phase-result.json`, `windows-cli-positive28-result.json`,
+`windows-ordinary28-result.json`, `preservation-result.json`, `artifact-cleanup.json`).

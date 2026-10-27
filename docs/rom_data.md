@@ -1,5 +1,13 @@
 # Decoded ROM resources
 
+EUR e75-d74 adds the [conditional phase-zero threshold](rom_data_gameplay.md#conditional-phase-zero-threshold-extension)
+to the existing parameter file:3thresholds/4corrections/11source bytes, still
+68files67resources/all66other e74 records-files retained. Wine passes new-model/
+native/DMA guards, one actual CLI28frame positive bound and one fullstate-clock-
+image-OAM-dispatch-allaudio28frame pair requiring all seven rows. Constructor OBJ
+ordinary discovery remains partial; broader scenes, Linux/USA/native Windows/
+new32:9 pending. No performance/storage campaign.
+
 EUR e74-d73 adds [conditional constructor OBJ animation](rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption):
 68files/67resources, one32B threshold/pointer file and four new lists/56B in the
 existing OBJ owner (80lists/193objects). All76prior lists/65other records-files
@@ -7,8 +15,10 @@ are retained. Wine bounded acceptance covers managed activation,13native/
 interpreter state-clock prefixes with altered raw sources, bus edges/mirrors,
 six DMA/SWI comparisons and four host publications. A test ROM-restore-order
 failure separates the first passed stages from the remaining-only filter;
-completed checks were not replayed. Actual CLI/ordinary positive use, Linux,
-USA/native Windows/new32:9 remain pending. No performance/storage campaign.
+completed checks were not replayed. Actual production CLI create/no-write reuse/
+zero-frame startup nowpasses68generation70managed/all67runtime resource hashes
+and existingcacheload. Ordinary positive use/Linux/USA/native Windows/new32:9
+remain pending. No performance/storage campaign.
 
 EUR e73-d72 publishes [observed task parameters](rom_data_gameplay.md#managed-observed-task-parameters-and-typed-bus-consumption):
 67files/66resources, all65prior files/records and e72 retained. One bounded file

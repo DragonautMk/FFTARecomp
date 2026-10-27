@@ -130,6 +130,8 @@ mod constructor_obj_animation_model_tests;
 #[cfg(test)]
 mod constructor_obj_animation_runtime_tests;
 #[cfg(test)]
+mod constructor_obj_animation_scene_tests;
+#[cfg(test)]
 mod observed_obj_lists_runtime_tests;
 #[cfg(test)]
 mod obj_animation_tests;
@@ -335,6 +337,8 @@ mod unit_obj_ffff_reader_fields_runtime_tests;
 mod slot_job_lookup_runtime_tests;
 #[cfg(test)]
 mod observed_task_parameters_runtime_tests;
+#[cfg(test)]
+mod phase_zero_threshold_tests;
 #[cfg(test)]
 mod map_raster_palette_runtime_tests;
 #[cfg(test)]

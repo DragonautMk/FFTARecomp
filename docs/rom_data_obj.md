@@ -1165,7 +1165,8 @@ was retired, with a receipt.
 Accepted dataset identity:
 a6509e2f53be8b777133a4282b43f404687dd9ce90772ddc1d82b8ac0ef91039;
 manifest16c5cec83bfbec2eb2940f927c6844b48fdd33337685ace3ad4fbaa7014003c2.
-Actual production CLI and ordinary positive use remain pending; F09's retained
+Actual production CLI registration is now verified below; ordinary positive
+use remains pending. F09's retained
 zero-read observation does not satisfy the latter. Linux/native Windows/USA/
 new32:9 remain to verify. No new checkpoint/navigation, performance/storage
 campaign, old source/model/scene acceptance replay, package or assistant commit.
@@ -1173,3 +1174,60 @@ Evidence: `target/rom-data-constructor-animation-runtime/` including
 `first-wine-stage-result.json`, `first-wine-failure-windows-runtime-result.json`,
 `windows-remaining-result.json`, `windows/remaining-result.json`,
 `preservation-result.json` and `artifact-cleanup.json`.
+
+
+## Actual CLI for constructor OBJ animation
+
+One first warning-free Windows production build, frozen
+1e98de03b8d0254d1126b825993341fd4ef5176297ff718034fc10d6d0e9e30d,
+passes three actual Wine CLI commands from an unrelated working directory:
+prepare, no-write reuse, and `runc --frames 0 --rom-data`. The new generation has
+68files/67resources, all68hashes exactly matching the accepted e74-d73 runtime
+dataset;70managed files retain their hashes/mtimes across reuse and startup.
+Every67runtime resource ID/file hash matches the manifest. The new table logs
+four phases and the OBJ owner80lists. The existing native cache loads unchanged.
+
+The actual main-loop bound explicitly supports zero frames: native/fallback
+counts and table-use counters are all zero. This checks production registration
+and attachment without replaying inactive F09 or implying positive guest use.
+Positive ordinary coverage remains separate. All145selected input/output/frozen
+guards and439source content hashes pass. The canonical executable's original
+hash/mtime are restored exactly; main content is unchanged with mtime-only Cargo
+invalidation. Required artifact completion removes no paths. No checkpoint,
+navigation, performance/storage campaign, old acceptance replay or new Linux/
+USA/native Windows/new32:9 validation. Local evidence:
+`target/rom-data-constructor-animation-cli/` (`windows-build.json`,
+`windows-cli-summary.json`, `windows-cli-no-write.json`,
+`preservation-result.json`, `artifact-cleanup.json`).
+
+
+## Ordinary constructor animation discovery remains partial
+
+An ignored Wine-only observer, `constructor_obj_animation_scene_tests::normal_gameplay_observes_constructor_animation`,
+uses normal input on local EUR snapshot copies and passively watches typed
+source use. It never edits guest task/phase/RAM or ROM fields. It keeps a rolling
+normal checkpoint before first use and an exact normal-key suffix, declaring a
+positive fixture only if both table fields/allfour phases and allfour lists
+through guest and host readers are used. The existing complete-state validator
+has a separate optional `FFTA_STATE_TEST_REQUIRE_CONSTRUCTOR_ANIMATION` gate;
+removing its seven lines restores the original comparison loop byte-for-byte.
+
+A first warning-free Windows test build and four Wine observations establish
+negative bounds, not ordinary acceptance. A retained EUR endpoint12006 snapshot
+from previously verified normal F09 inputs was copied exactly; that3530frame
+acceptance was not replayed. Right-confirm160frames and left-confirm200 reach
+the action menu with no newtable reads. Delayed selection160 produces a genuine
+movement-grid checkpoint; continuing from its copy for200frames with cursor/
+confirm input again completes movement with no reads. Allfour selected bounds
+are closednegative, source/phase/list use stays zero, and no fullpair was run.
+All84actual input/frozen guards and compiled implementations are exact.
+
+Original source9D054–9D074 sets/clears owner+24bit20 from a low-u8 boolean.
+Original callers enable at99300/99F18/A57BE and disable at99516/99FE2/A570A.
+Those are navigation leads, not proof of the flag's meaning or normal-action
+reachability. Positive ordinary coverage remains open until that source gate
+can be reached by genuine gameplay. It must not be manufactured by setting the
+flag. Diagnostics, normal snapshots and key scripts remain private in
+`target/rom-data-constructor-animation-ordinary/`; artifact completion is deferred
+while this unit remains partial. Linux/USA/native Windows/new32:9 remain pending,
+with no measurements or previous acceptance replay.

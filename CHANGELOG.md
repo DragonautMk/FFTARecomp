@@ -27,6 +27,31 @@ Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/
 
 [Change record](docs/changes/2026-10-27-model-european-constructor-obj-animation.json)
 
+## 2026-10-27 — Include the European phase-zero threshold in typed task parameters
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Extend the authenticated phase fragment to conditional phases0/1/2 at371064 with unsigned thresholds16/8/8, preserving the previous two rows/four signed corrections. Publish e75-d74 in the same parameter file/two spans3B8B/11source bytes, retaining68files67resources/all66other e74 resource records-files. No prelookup guest cap, duration unit or Machine/CAPI/save/native-cache ABI change; USA8-7 unchanged.
+- Update the optional phase query to support0–2, keeping3–255 outside. Partition runtime usage into three phase bits and four correction bits, preserving typed/prior/raw byte composition. Reuse original/runtime prefix helpers via visibility-only changes and add a five-line optional new-phase0-positive scene guard; original comparison loop remains byte-exact when removed.
+
+**Validation**
+
+- One first Windows frontend build warning-free/frozen484aa274be11da98bff3377922f46e082e2937929d48930f77076af22deb2cf1. One first exact Wine filter passes four new original phase0 cases with oldcounter0/15/16/65535, seven attach guards, six original/interpreter/native fullstate-clock prefixes (four phase0/two outside3/255), four explicit compiled new-byte reads with raw371064 altered, disjoint3phase4correction coverage/all11typed bytes/raw edges, and three DMA/CpuSet/CpuFastSet fullstate comparisons.
+- One first Windows production build warning-free/frozen655d7575912a0335e23184ed674e564d57f68050775bb22b4cdf02e513fd2a72; canonical hash/mtime exactrestore/main content unchanged with mtime-only Cargo invalidation. A single Wine actual CLI auto-prepare/runc28 from originalF09 state/input/cache exits0:68generation70managed/all68accepted/67resources, frames8476→8504,36reads44B/28threshold16correction/all3phases4rows. Private output matcher initially expected explicit prepare-subcommand text; read-only finalization uses actual resources: created auto-prepare log. CLI/build/prepare/reuse not rerun.
+- Same frontend executable passes one first NEW28frame ordinary fullpair requiring allseven rows: everyserialized state/clock/central-wide framebuffer/OAM/dispatch/mixed-PSG-FIFO-left-FIFO-right-HLE-bit audio equal. Actual samples[61446,61446,7392,7392,61370];207600native650135fallback are coverage only. Parameter counts exactlymatch actualCLI; old closed12frame/source/model/runtime/constructor acceptance not repeated.
+- All215selected input/output/frozen hash-mtime guards, compiled implementations and validator preimage pass. Required artifact completion0paths. Dataset eefc7e329ae9bb6104c63867e5ba6331f2466a41752e1237fce92757694aac86; manifestb43670c8212648ee249874f261b10e4ce5bbaa01bcfeb102e0aa6d8b065dd351; parameterJSON9c9de34b938d53b4a2fba244d615226b52e3f03d71e03ec0928b01db824a8bee.
+
+**Limitations**
+
+- Conditional source/model/runtime/CLI and declared28frame ordinary scope only; no fullphysical archive/all-use/global phase cap/duration or task allocator lifetime claim. The constructor-animation ordinary child remains partial with four closednegative routes; source371034 signed-byte lead remains separate.
+- Linux/USA/native Windows/new32:9 pending. No new gameplay fixture/navigation in this phase-zero unit, profiling/performance/storage campaign, Android/package/assistant commit/push. Full ROM_DATA_TODO remains active.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-27-consume-european-phase-zero-threshold.json)
+
 ## 2026-10-27 — Publish and consume European constructor OBJ animation data
 
 Type: added. Platforms: Windows.
@@ -35,6 +60,8 @@ Type: added. Platforms: Windows.
 
 - Publish EUR e74-d73 constructor-obj-animation.json/graphics.constructor-obj-animation with32source bytes and explicit OBJ-list dependency. Merge four authenticated lists56B into the existing OBJ resource/owner, reaching80lists193objects1318B, preserving all76prior lists/126direct references/65other resource records-files and e73; USA8-7 unchanged.
 - Wire strict parsing/publication/source validation/full-set/dependency checks and transactional activation. Add an immutable32B table owner with prior/raw byte composition and outside-snapshot read/phase coverage; use existing OBJ guest/host paths for new lists. Preserve original unchecked phase logic, Machine/CAPI/native-cache/save ABI and raw fallback.
+- Validate actual e74 production CLI prepare/no-write reuse and zero-frame runtime registration/cacheload, preserving the canonical executable hash/mtime and main content. No inactive F09 or completed runtime scene is replayed.
+- Add an ignored Wine-only passive normal-key navigation observer that derives local checkpoints/input suffixes from authorized EUR copies and requires all four table phases/list guest-host use before declaring positive coverage. Add a seven-line optional ordinary validator gate; its existing comparison loop remains byte-identical when removed.
 
 **Validation**
 
@@ -42,10 +69,12 @@ Type: added. Platforms: Windows.
 - First Wine filter passes68files67resources/old-content retention,10attach/2half-set guards, publication interruption/create/reuse/repair/move, failed-attach state-owner and unavailable-directory state-load checks. It passes13original/interpreter/native fullstate-clock prefixes with88raw source bytes altered,36native table bytes20threshold16pointer/all4phases,4outside queries without new-owner use,708bus boundary/mirror/BIOS cases and prior/new/raw composition.
 - That first filter exits1 because the following DMA test loads a state before restoring poisoned ROM identity. Preserve exact failure/log/exe/source preimage and the completed-stage receipt; do not claim full-filter exit0. Correct only test restore order, run one remaining-only Wine filter on retained dataset: six DMA/CpuSet/CpuFastSet fullstate comparisons and four host publications/two real objects with equal descriptors pass. Completed managed/native/bus/source/model/scene proofs are not replayed; production code is exact across observations.
 - All169actual selected input/frozen/dataset hash-mtime guards, compiled implementations and user Atlas exact. Dataset a6509e2f53be8b777133a4282b43f404687dd9ce90772ddc1d82b8ac0ef91039; manifest16c5cec83bfbec2eb2940f927c6844b48fdd33337685ace3ad4fbaa7014003c2; tableJSON5e7227155bf391a1fcc98e16994899b2f024b6307404e3fd087eca0118286747. Required artifact completion finds zero eligible paths; accepted offline68 and failed diagnostics retained, only superseded unexecuted test exe retired with receipt.
+- CLI04 on2026-10-27: one first Windows production build warning-free/frozen1e98de03b8d0254d1126b825993341fd4ef5176297ff718034fc10d6d0e9e30d. Three Wine commands exit0:68generation/70managed/67resources, all68files identical to accepted runtime, reuse and startup every hash/mtime unchanged; all67runtime resource IDs/hashes match manifest. Existing nativecache loads; zero frames/native dispatch/fallback and newtable counters0 make no guestexecution/ordinarypositive claim. Canonical f3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720/mtime1792570130397888519 exactrestore, main content unchanged/mtime-onlyCargo invalidation,145selectedguards/439source content exact, required artifact completion0paths.
+- Ordinary05 remains partial. One first warning-free Windows frontend build/frozen5af5613d7a10652c06f533280eb4d9335f66df9c2793f866f797c1050b0597be; four normal-key Wine observations exit0 but explicitly negative:12006→12166 right-confirm160frames,12006→12206 left-confirm200,12006→12166 delayed selection160, then derived12166→12366 confirm200. All newtable counters0/lists unused; no fullpair or positive fixture asserted. Existing endpoint12006 checkpoint9857872422d8e6c45d71dd2464d79fbdb1fa35bd3a360194efca3b6f8869c768 was copied exactly with retained normal3530frame provenance, without replaying that acceptance. Original inputs/currentCLI68/source hashes and84actual input/frozen guard union exact; no guestRAM/task/phase/ROM injection. Keep all partial fixtures/diagnostics; do not run artifact completion before ordinary acceptance.
 
 **Limitations**
 
-- Actual production CLI and positive ordinary-scene activation remain pending. Retained F09 has zero reads of these ranges, so literal execution/isolated prefix/host checks are not ordinary-positive evidence. Full initializer/lifetime/allocator/scheduler/all-use/physical-archive and expanded-content claims remain outside.
+- Actual production CLI registration is closed; positive ordinary-scene activation remains pending. Retained F09 has zero reads of these ranges, so literal execution/isolated prefix/host checks are not ordinary-positive evidence. Full initializer/lifetime/allocator/scheduler/all-use/physical-archive and expanded-content claims remain outside. Four ordinary navigation bounds remain closednegative; source traces authenticate effect flag setter9D054 enable/disable calls, but normal-action reachability/meaning is unproved. No fifth blind movement probe or manually enabled flag is authorized as an ordinary proof.
 - Linux/USA/native Windows/new32:9 pending. Phase0 at371064 and371034 signed-byte lead remain separate source work. No performance/storage campaign, checkpoint/navigation, old acceptance replay, Android/package/assistant commit/push; full ROM_DATA_TODO remains active.
 
 Documentation: [rom_data_obj.md](docs/rom_data_obj.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).

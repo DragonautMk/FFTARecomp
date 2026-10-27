@@ -53,7 +53,7 @@ impl ObservedTaskParametersResources {
         } else {
             let value = self.data.vertical_corrections.byte_at(at)?;
             self.used.fetch_or(
-                1 << (2 + (at - model::VERTICAL_SOURCE) / 2),
+                1 << (model::PHASE_COUNT as u32 + (at - model::VERTICAL_SOURCE) / 2),
                 Ordering::Relaxed,
             );
             Some((value, 3))
@@ -96,8 +96,8 @@ impl ObservedTaskParametersResources {
             source_bytes,
             phase_threshold_bytes,
             vertical_correction_bytes,
-            phases_used: u64::from((used & 3).count_ones()),
-            corrections_used: u64::from((used >> 2).count_ones()),
+            phases_used: u64::from((used & ((1 << model::PHASE_COUNT) - 1)).count_ones()),
+            corrections_used: u64::from((used >> model::PHASE_COUNT).count_ones()),
         }
     }
     pub(super) fn resident_bytes(&self) -> usize {

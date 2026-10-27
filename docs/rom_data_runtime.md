@@ -1509,4 +1509,15 @@ EUR e74-d73 adds an exact32B threshold/pointer owner, composed with the existing
 OBJ owner extended by four lists/56B. Authentication, native/bus/DMA/host
 acceptance and the retained test-setup failure are described in
 [the OBJ feature contract](rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption).
-Actual CLI/ordinary positive use and deferred platforms remain open.
+Actual CLI prepare/reuse/zero-frame registration nowpasses all68files/67runtime
+resource hashes; ordinary positive use and deferred platforms remain open.
+
+
+## Conditional phase-zero parameter ownership
+
+EUR e75-d74 extends the prior parameter owner by byte371064, covering phases0–2
+without capping guest inputs. Three phase coverage bits precede four correction
+bits; source spans3B/8B total11B, same68files67resources/all66other records-files.
+[The phase-zero contract](rom_data_gameplay.md#conditional-phase-zero-threshold-extension)
+records model/native/actualCLI/new28frame ordinary acceptance and raw fallback.
+Constructor ordinary discovery and deferred platforms remain separate.

@@ -2169,3 +2169,48 @@ diagnostica fallita e offline68 conservati, solo exe mai eseguito sostituito rit
 CLI reale/uso ordinario positivo da fare; F09 conservata inattiva non basta.
 Linux/USA/Windows nativo/nuovo32:9 pendenti; nessuna nuova fixture/misura/replay.
 [Consumo e prove](../rom_data_obj.md#managed-constructor-obj-animation-and-typed-consumption).
+
+
+**ROMDATA-04-CONSTRUCTOR-ANIMATION-CLI completato EUR (2026-10-27).**
+Primo build produzione Windows senza avvisi/1e98de03..; canonico hash/mtime
+ripristinati e contenuto main invariato. Tre CLI Wine exit0: prepare/riuso senza
+scritture/runc0frame.68file generazione/70managed/67risorse, tutti68hash identici
+al runtime accettato e tutti67ID/hash runtime esatti; vecchia cache caricata.
+Hash/mtime riuso e startup invariati,145guardie/439sorgenti esatte; helper0percorsi.
+Zero frame/dispatch/fallback/contatori nuovi: prova registrazione/attach reale,
+nessun uso ordinario positivo dedotto. Nessun F09/source-model-runtime-scenario
+ripetuto, nuova fixture/navigazione/misura. Uso ordinario positivo e Linux/USA/
+Windows nativo/nuovo32:9 restano da verificare.
+[CLI e limiti](../rom_data_obj.md#actual-cli-for-constructor-obj-animation).
+
+
+**ROMDATA-05-CONSTRUCTOR-ANIMATION-ORDINARY-POSITIVE parziale EUR (2026-10-27).**
+Osservatore passivo Wine-only implementato e guardia positiva opzionale nel
+validatore (sette righe; loop precedente esatto senza guardia). Primo build
+Windows senza avvisi; quattro osservazioni normali exit0 ma NEGATIVE: due
+spostamenti160/200frame dal checkpoint EUR12006 copiato, selezione ritardata160,
+conferma200 dal nuovo stato di selezione. Tabella0/fasi0/liste inutilizzate,
+nessun fullpair o fixture positiva dichiarati.84guardie/codice/originali esatti;
+provenienza normale precedente conservata senza replay3530frame. Nessuna
+mutazione manuale RAM/task/fase/ROM. Setter flag9D054/call6 verificati come lead,
+azione normale/semantica ancora da provare; niente altra rotta cieca o flag forzato.
+Unità aperta, fixture/diagnostica conservate; sorgente indipendente371064fase0
+separata. Linux/USA/Windows nativo/nuovo32:9 pendenti, nessuna misura.
+[Prova ancora aperta](../rom_data_obj.md#ordinary-constructor-animation-discovery-remains-partial).
+
+
+**ROMDATA-01..05-CONDITIONAL-PHASE-ZERO completato EUR (2026-10-27).**
+371064fase0 ora tipizzata: soglie condizionali0/1/2=16/8/8, span3B più8correzioni,
+11B nello stesso file/68file67risorse/e75-d74. Vecchie2righe+4correzioni/all66altri
+record-file esatti. Nessun cap globale prima lookup o cambio ABI. Partizione
+copertura3fasi/4correzioni disgiunta. Primo build Windows senza avvisi/unico Wine
+passa4prefissi originali nuovi/7attach/6stati-clock nativi/3DMA e bordi raw.
+Primo build produzione/canonico ripristinato, una CLI auto-prepare28frame passa
+all68file/3fasi4correzioni/36letture44B/28soglie16correzioni. Corretto solo matcher
+log offline dopo CLIexit0; comando non ripetuto. Stesso exe frontend: un nuovo
+fullpair28frame8476→8504 passa ogni stato-clock/immagine/OAM/dispatch/audio con
+campioni[61446,61446,7392,7392,61370], conteggi esatti CLI.215guardie/codice/loop
+senza guardia5righe esatti; helper0percorsi. Nessun vecchio12frame/source/modello/
+runtime/constructor ripetuto o nuova fixture/misura. Ordinaryconstructor rimane
+parziale;371034e piattaforme Linux/USA/Windows nativo/nuovo32:9 ancora da verificare.
+[Contratto e prove](../rom_data_gameplay.md#conditional-phase-zero-threshold-extension).

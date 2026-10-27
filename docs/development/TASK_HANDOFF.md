@@ -10774,11 +10774,130 @@ first-wine-failure-windows-runtime-result.json,first-wine-test-preimage.rs,
 windows-remaining-result.json,windows/remaining-result.json,preservation-result.json,
 artifact-cleanup.json,superseded-unexecuted-exe-retirement.json}. No livejobs.
 Memoryrender/default/basee336114/newmodulefmt/CRLFdiff PASS; final439source/
-169selectedguard maps retained. Next separateROMDATA-04-CONSTRUCTOR-ANIMATION-CLI:
-actualproductionprepare/reuse/current68 acceptance withcanonicalrestore; NO old
-source/model/runtime/collector/scene proof replay. Ordinarypositive stillmissing:
+169selectedguard maps retained. ActualCLI04 isclosed below; no source/model/
+runtime/collector/scene proof replay. Ordinarypositive stillmissing:
 retainedF09haszeroDATAreads; do not repeatF09/claimpositivefromliteral/nativeprefix.
 Authorizednormalgameplayfromcopies may laterderivepositiveEURcheckpoint, originals
 preserved; nofixturederivedthisunit. Otherroots371064phase0/371034 separate.
 FullTODOactive/incomplete; Linux/USA/nativeWindows/new32:9 pending, no performance/
 spacecampaign/assistantcommit/push/package/Android.
+
+
+**ROMDATA-04-CONSTRUCTOR-ANIMATION-CLI closed/PASS (2026-10-27).**
+Previousgoalturnprogress, latestfullTODO/EUR/Wine-only/no performance-space/local
+copyauthorization unchanged. UserHEADef2de61 contains earliercode/proofs; clean
+statusatselection. FirstWindowsproductionbuild27491warning-free/frozenCLI
+1e98de03b8d0254d1126b825993341fd4ef5176297ff718034fc10d6d0e9e30d.
+Canonicalf3e277dba89945d8884e83106bef90bd6d2bf31df51dd25145c791f2a4d80720/
+mtime1792570130397888519 exactrestore; maincontentunchanged/Cargomtimeonly.
+ThreeactualWineCLI95170commands exit0 prepare/reuse/startup--frames0 from/tmp:
+68generation70managed67resources/all68matchacceptedruntime; all67runtime IDs/
+filehashes exact, ctor4phases/OBJ80lists, oldnativecacheloaded. ReuseANDstartup
+allmanagedhash-mtimes/pathset exact. Zero frame/native/fallback/newtablecounters
+confirmed; this isregistration/attach, NOTordinarypositive or gameexecution.
+Dataset target/rom-data-constructor-animation-cli/windows-cli/resources/
+8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e74-d73/
+generation-r8A6Iu; a6509e2f..dataset/16c5cec8..manifest unchanged.
+145selectedinput-output-frozen guards/439source content/canonical exact. Required
+artifactcomplete0paths; no checkpoint/navigation/old F09/source-model-runtime-
+scene replay or measurements. Same runtime change record extended CLIvalidation:
+docs/changes/2026-10-27-consume-european-constructor-obj-animation.json;
+feature docs/rom_data_obj.md#actual-cli-for-constructor-obj-animation.
+Evidence target/rom-data-constructor-animation-cli/{windows-build.json,
+windows-cli-summary.json,windows-cli-no-write.json,preservation-result.json,
+artifact-cleanup.json}. No livejobs; memoryrender/default/baseef2de61/CRLFdiff PASS; final439source/
+145actualguard maps retained. Runtime/source/
+model/lowerclassification allstayclosed. NextROMDATA-05-CONSTRUCTOR-ANIMATION-
+ORDINARY-POSITIVE: find genuine EUR gameplay activation then exactbounded
+currentCLI68/originalstate-input-cache ordinaryfullstate-clock-buffers-audio.
+RetainedF09data0 isnegative; do not blindlyrepeat it. Existingrecorded normalinput
+haslaterkeys72/107/142/178 and853+; cheap original-source/fixture reads canselect
+bounded navigation. User explicitlyauthorizes localcheckpoints via normalgameplay
+fromcopies, originalROM/saves/states/input unchanged, allartifactsignored. No
+manual RAM/task/phase mutation forordinaryfixture. Otherroots371064phase0/371034
+separate; fullTODOactive/incomplete/Linux/USA/nativeWindows/new32:9 pending.
+
+
+**ROMDATA-05-CONSTRUCTOR-ANIMATION-ORDINARY-POSITIVE partial (2026-10-27).**
+FullTODO/EUR/Wine-only/no performance-space and explicitnormal-copycheckpoint
+permission persist. Native/source/model/runtime/CLIchildren stayclosed. UserHEAD
+ef2de61, no livejobs. Newpassive normal-key observer +7lineoptionalpositiveguard
+compiledfirstWindowsfrontend4939 warning-free/frozen5af5613d7a10652c06f533280eb4d9335f66df9c2793f866f797c1050b0597be.
+Frontendonlymoduledecl, removingguard restoresgenericcomparisonloop byteexact.
+Existing endpoint12006 snapshot from normalF09record retained oldfullstateproof,
+SHA9857872422d8e6c45d71dd2464d79fbdb1fa35bd3a360194efca3b6f8869c768, copiedexact
+as seed-copy.ffstate; NO3530oldacceptance replay. FourWineobservations closed:
+A51078 move-right-confirm160frames12006→12166/menuAct/table0;
+B10924 move-left-water200frames12006→12206/menuAct/table0;
+C59305 move-select-delayed160frames12006→12166/blueMovegrid/table0;
+D47554 confirm-selected fromCcopy200frames12166→12366/menuAct/table0.
+Eachboundednormal-key observationexit0, allnewtable0/phases0/listsunused.
+Theseare terminalNEGATIVEbounds, NOTpositiveordinaryacceptance. Do NOTrepeat
+these orrunfullpairwithoutpositive sourceuse. No manual guestRAM/task/phase/
+ROMflag changes orcartridge/originalstate writes.84input-frozen guardunion/
+440compiledsource map/looppreimages exact; allnormalderivedcheckpoints private.
+Evidence target/rom-data-constructor-animation-ordinary/{windows-scene-build.json,
+move-right-confirm-result.json,move-left-water-result.json,
+move-select-delayed-result.json,confirm-selected-result.json,
+partial-preservation-result.json}; subdirsretain observation.json/endstate/images.
+Observercanroll before-activation checkpoint/exactkeysuffix onlyifsourceused;
+noneproduced positiveyet. No artifactcomplete: acceptancepartial, retaindiagnostics.
+New original navigation leads, NOTnewresource orreachability proof:9D054..9D074
+lowu8bool OR20/AND~20 onowner+24; realBL windowsenable99300/99F18/A57BE,
+disable99516/99FE2/A570A. 9B42C/9B5C4 gatefree-slot activation onownerbit20.
+Keep flag-setter-callers.json/trace-setter-caller-*.txt/trace-09d020.txt and
+trace-09b3e0.txt/trace-09b5c4.txt. Meaning/whichnormalactionenables stillunproved;
+no fifthblindMove route ormanuallyforcedflag. Missingdeliverable genuinepositive
+checkpoint then boundedoriginal-vs-decoded fullstate-clock-buffers-OAM-dispatch-
+allaudio requiring4phases/4list guest-host. Thischild remainsOPEN whileindependent
+base-dataworkproceeds, notblocked/no-progress. Same runtimechange record extended
+withactualpartialscope; docs/rom_data_obj.md#ordinary-constructor-animation-discovery-remains-partial.
+Memoryrender/default/baseef2de61/newmodulefmt/CRLFdiff PASS; partial440source/
+84selectedguard maps retained. PhaseZero01..05 isclosed below; next371034signed-byte
+root independent, constructorordinarysourcegate stillopen. FullTODOactive/incomplete; Linux/USA/nativeWindows/
+new32:9 pending, no measurements/assistantcommit/push/Android/package.
+
+
+**ROMDATA-01..05-CONDITIONAL-PHASE-ZERO closed/PASS (2026-10-27).**
+LatestfullTODO/EUR/Wine-only/no performance-space/local-copyauthorization unchanged.
+Independentnewbyte371064 authenticated by old18DCAreader/literal18DF4; conditional
+0/1/2 thresholds16/8/8, phaseSHAee8357f0../oldtwo8/8exact and4verticalunchanged.
+Modelquery0supported/3..255None, NO globalprelookupcap/durationinference; private
+runtimecoverage3phasebits+4correctionbitsdisjoint. EUR75/74 same68files67resources,
+all66other e74 records-files/old10B retained, newtotal11B/spans3/8/nodeps.
+Machine/CAPI/save/nativecacheABI unchanged, USA8-7 untouched.
+FirstWindowsfrontend9186 warning-free/frozen484aa274be11da98bff3377922f46e082e2937929d48930f77076af22deb2cf1.
+FirstWine63777PASS4neworiginalphase0cases/7attach/6complete-state-clock prefixes
+(4phase0+2outside)/4explicitcompilednewB/3DMA-SWI/all11typedB/mask3+4/rawedges.
+Oldhelpers visibilityonly, frontendmoduledecl, 5lineoptionalnewpositiveguard;
+removingguard givesexactpreimageoldloop. No old1/2/vertical/constructor replay.
+Firstproductionbuild71852warning-free/frozenCLI655d7575912a0335e23184ed674e564d57f68050775bb22b4cdf02e513fd2a72.
+Canonicalf3e277db../mtime1792570130397888519 exactrestore/maincontentunchanged/
+Cargomtime-only. One actualWine94862 CLIautoPrepare/runc28 childexit0/current68/
+70managed/all68accepted/oldcache28859loaded/frames8476→8504. Privateparser expected
+ROM_DATA action=created instead ofauto resources: created: correctedreadonly
+fromretainedlog+files, NO CLI/build/prepare/reuse rerun. Counts36reads44B/
+28threshold16vertical/3phases4corrections provephase0actualafter1/2wrap.
+Samefrozenfrontend ONE ordinaryWine46903 NEW28bound fullpair PASS everyfullstate-
+clock/central-wide/OAM/dispatch/allaudio; samples[61446,61446,7392,7392,61370],
+207600native650135fallback coverageonly, parametercounts EXACTCLI/all7rows required.
+Old12acceptance closednotreplayed.215actualinput-output-frozen guards/compiled
+implementation/preimages exact; helpercomplete0paths; no newfixture/navigation/
+measurements. CurrentactualCLI dataset target/rom-data-phase-zero-threshold/
+windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/
+v1/e75-d74/generation-Gmwb26; dataset eefc7e329ae9bb6104c63867e5ba6331f2466a41752e1237fce92757694aac86,
+manifestb43670c8212648ee249874f261b10e4ce5bbaa01bcfeb102e0aa6d8b065dd351,
+parameterJSON9c9de34b938d53b4a2fba244d615226b52e3f03d71e03ec0928b01db824a8bee.
+Record docs/changes/2026-10-27-consume-european-phase-zero-threshold.json;
+feature docs/rom_data_gameplay.md#conditional-phase-zero-threshold-extension.
+Evidence target/rom-data-phase-zero-threshold/{source-contract.json,
+windows-phase-result.json,model-runtime-preservation-result.json,windows-build.json,
+windows-cli-positive28-result.json,windows-ordinary28-result.json,
+preservation-result.json,artifact-cleanup.json}. No livejobs. Memoryrender/default/baseef2de61/affectedsmallmodulefmt/CRLFdiff
+PASS; final442source/215actualguard maps retained.
+Constructorordinary05 remainsOPENpartial/4negativebounds/sourceeffectflagcallers,
+no fifthblindroute/manualflag. Nextindependentbase source371034signed-byte reader
+18E10/18E2A/post-updatehelper1464EC argument48; exact helper/index/lifetime/extent
+notproved, do not infer48Bfromadjacency/divisorwithoutsemantics. New28frame source
+phase0positive doesnot classifythatsignedfamily. FullTODOactive/incomplete;
+Linux/USA/nativeWindows/new32:9 pending, no assistantcommit/push/Android/package.

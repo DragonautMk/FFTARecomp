@@ -1,11 +1,13 @@
-//! Two observed task-parameter fragments; no complete table or guest input cap.
+//! Authenticated task-parameter fragments; no global guest input cap.
 use super::SourceRange;
 use crate::ffta_rom;
 use serde::{Deserialize, Serialize};
 
-pub const PHASE_SOURCE: u32 = 0x371065;
+pub const PHASE_SOURCE: u32 = 0x371064;
+/// Conditional phases in the original wrap sequence, not a prelookup guest cap.
+pub const PHASE_COUNT: usize = 3;
 pub const VERTICAL_SOURCE: u32 = 0x394e14;
-pub const PHASE_SHA256: &str = "0b57459772db2f3f6986a135824545af8690c536a865454c3c664767dc2b73f0";
+pub const PHASE_SHA256: &str = "ee8357f0303dac80be96e10b1b49913c294c163771824fca6152057a6e1da957";
 pub const VERTICAL_SHA256: &str =
     "13f75c7ff789108645b9fc6e662298dd306b4175d247e4b7da985b5bea8f0f9d";
 pub type SourceSpan = (u32, Vec<u8>, String);
@@ -26,22 +28,20 @@ pub struct PhaseThresholds {
 impl PhaseThresholds {
     pub fn validate(&self) -> Result<(), String> {
         if self.source_offset != PHASE_SOURCE
-            || self.entries.len() != 2
+            || self.entries.len() != PHASE_COUNT
             || self
                 .entries
                 .iter()
                 .enumerate()
-                .any(|(i, e)| usize::from(e.phase) != i + 1)
+                .any(|(i, e)| usize::from(e.phase) != i)
         {
             return Err("Invalid observed EUR phase-threshold fragment".into());
         }
         Ok(())
     }
-    /// Only observed phases1/2; phase0 and every other guest byte stay outside.
+    /// Conditional phases0..2 only. Other guest bytes retain prior/raw behavior.
     pub fn threshold(&self, phase: u8) -> Option<u8> {
-        self.entries
-            .get(usize::from(phase.checked_sub(1)?))
-            .map(|e| e.threshold)
+        self.entries.get(usize::from(phase)).map(|e| e.threshold)
     }
     pub fn byte_at(&self, offset: u32) -> Option<u8> {
         self.entries
@@ -172,7 +172,7 @@ impl Catalog {
                 return Err("Original task-parameter source literal mismatch".into());
             }
         }
-        let phases = &rom[PHASE_SOURCE as usize..PHASE_SOURCE as usize + 2];
+        let phases = &rom[PHASE_SOURCE as usize..PHASE_SOURCE as usize + PHASE_COUNT];
         let vertical = &rom[VERTICAL_SOURCE as usize..VERTICAL_SOURCE as usize + 8];
         if ffta_rom::digest(phases) != PHASE_SHA256 || ffta_rom::digest(vertical) != VERTICAL_SHA256
         {
@@ -185,7 +185,7 @@ impl Catalog {
                     .iter()
                     .enumerate()
                     .map(|(i, &threshold)| PhaseThreshold {
-                        phase: i as u8 + 1,
+                        phase: i as u8,
                         threshold,
                     })
                     .collect(),

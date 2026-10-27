@@ -269,11 +269,11 @@ fn owner_lifecycle() {
     );
 }
 #[derive(Clone, Copy)]
-enum Call {
+pub(super) enum Call {
     Phase(u8, u16),
     Vertical(u8),
 }
-fn setup(m: &mut Machine, call: Call) {
+pub(super) fn setup(m: &mut Machine, call: Call) {
     m.bus.ffta_sprites.enabled = false;
     m.cpu.regs = std::array::from_fn(|i| 0x11000000 + i as u32);
     m.cpu.regs[13] = 0x03007c00;
@@ -294,13 +294,13 @@ fn setup(m: &mut Machine, call: Call) {
         }
     }
 }
-fn stop(call: Call) -> u32 {
+pub(super) fn stop(call: Call) -> u32 {
     match call {
         Call::Phase(..) => 0x08018e40,
         Call::Vertical(..) => 0x080264fa,
     }
 }
-fn interpreted(m: &mut Machine, call: Call, visited: &mut BTreeSet<(u32, bool)>) -> usize {
+pub(super) fn interpreted(m: &mut Machine, call: Call, visited: &mut BTreeSet<(u32, bool)>) -> usize {
     setup(m, call);
     for steps in 0..=40 {
         if m.cpu.regs[15] == stop(call) {

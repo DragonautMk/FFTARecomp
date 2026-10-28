@@ -1436,6 +1436,7 @@ impl Bus for MemMap {
     }
 
     fn read8(&mut self, addr: u32) -> u8 {
+        let value = (|| {
         match addr >> 24 {
             0x00 => {
                 if addr < 0x4000 {
@@ -1498,9 +1499,15 @@ impl Bus for MemMap {
             // Open bus (see region 0): the last prefetched word.
             _ => (self.bios_open >> ((addr & 3) * 8)) as u8,
         }
+        })();
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 1, false, value as u32);
+        value
     }
 
     fn write8(&mut self, addr: u32, value: u8) {
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 1, true, value as u32);
         if let Some(log) = self.ffta_diagnostics.as_mut() {
             log.write(self.frames, addr, 1, value as u32);
         }
@@ -1546,6 +1553,7 @@ impl Bus for MemMap {
     }
 
     fn read16(&mut self, addr: u32) -> u16 {
+        let value = (|| {
         match addr >> 24 {
             0x00 => {
                 if addr < 0x4000 {
@@ -1623,9 +1631,14 @@ impl Bus for MemMap {
             }
             _ => self.rd16_bytes(addr),
         }
+        })();
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 2, false, value as u32);
+        value
     }
 
     fn read32(&mut self, addr: u32) -> u32 {
+        let value = (|| {
         match addr >> 24 {
             0x00 => {
                 if addr < 0x4000 {
@@ -1703,9 +1716,15 @@ impl Bus for MemMap {
             }
             _ => self.rd32_halves(addr),
         }
+        })();
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 4, false, value as u32);
+        value
     }
 
     fn write16(&mut self, addr: u32, value: u16) {
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 2, true, value as u32);
         if let Some(log) = self.ffta_diagnostics.as_mut() {
             log.write(self.frames, addr, 2, value as u32);
         }
@@ -1749,6 +1768,8 @@ impl Bus for MemMap {
     }
 
     fn write32(&mut self, addr: u32, value: u32) {
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::debug_memory::record(addr, 4, true, value as u32);
         if let Some(log) = self.ffta_diagnostics.as_mut() {
             log.write(self.frames, addr, 4, value);
         }

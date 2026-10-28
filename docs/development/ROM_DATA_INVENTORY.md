@@ -2849,3 +2849,214 @@ confini/LoadUndo e DMAword34202/CpuSet68404halfword/FastSet34208word passano.
 invariati; USA8-7/schema1. ProssimiCLI reale+ordinary; coordinatepool/allcaller/
 fullABI/global/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti, niente misure.
 [Consumo e prove](../rom_data_gameplay.md#managed-encounter-unit-templates-and-typed-guest-reads).
+
+
+**ROMDATA-04-ENCOUNTER-UNIT-TEMPLATE-CLI completato EUR/Wine (2026-10-28).**
+Un buildWindows produzione senzaavvisi/afeaef25.. da514sorgenti runtime accettati,
+canonicalhashmtime ripristinati. TrecomandiWine preparecreated/reused/runc700
+passano:74file esatti alruntime/73IDhash/76path no-write, 28859blocchi cache.
+Copie normali Giza02menu/03A700input19409→20109: 186letture/211B,
+5record/1header, 8classi positive e1nonosservate. Criterio positivo
+selector/argument/equipment/flag soddisfatto; tutti13conteggi conservati perun
+fullpair successivo. 184guardie514hash/helper0, niente nuovafixture/navigazione/
+misura o proof chiuso ripetuto. Ordinaryfullpair/tutti2850record442header/fullABI/
+coordinatepool/global/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti.
+[CLI e consumo](../rom_data_gameplay.md#actual-encounter-unit-template-cli-and-ordinary-consumption).
+
+
+**ROMDATA-05-ENCOUNTER-UNIT-TEMPLATE-BATTLE-ORDINARY completato EUR/Wine
+(2026-10-28).** Un solo fullpair700 normale Giza02menu/03input19409→20109 con
+il datasetCLI e81-d80:ogni stato completo/clock/immagine classic-central-wide/
+OAM/dispatch/5audio passa. Tutti13conteggi esatti allaCLI:186letture211B,
+35selector/15argument/80equipment/10auxiliary/41bit/10optional/10flag/10control/
+0opaque, cinque record e unheader; otto classi semantiche positive. Opaqueordinary
+nonosservato, prova bus distinta. Una guardia facoltativa5righe/vecchiovalidator
+byteexact, un buildWindows senzaavvisi/33c61082.. da514sorgenti e un filtroWine.
+104guardieordinarie+184CLI/514hash ciascuno esatti/helper0; nessuna nuova fixture/
+navigazione/misura/proof chiuso ripetuto. Caso chiuso; tutti2850record442header/
+fullABI/coordinatepool/global/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti.
+[Equivalenza](../rom_data_gameplay.md#ordinary-encounter-unit-template-battle-entry-equivalence).
+
+
+**ROMDATA-01-ENCOUNTER-COORDINATES completato per il contratto sorgente EUR
+(2026-10-28).**691liste/2342coppieXY/4684B70B6A8..70C8F4 partizionati esattamente
+dai linkpointer-count header:nessun buco/alias/overlap fra49797span73owner.
+323placement0liste3272B/34random680B/12placement2=88B/322default644B,323headercon
+payload119tuttinulli. Rawu8XY preservano letture signedsearch e unsigned; RNG02868
+nonnegative15bit/remainder146314/masku16 restano originali, nessuncap10/16 o
+fallbacksafe sui null inventato. Novefinestre riusate+tre nuove helper/RNG,41pin/
+38guardie passano; niente build/testWine-Linux/game/fixture/navigazione/prove
+chiuse ripetute/misura. Prossimo modello rigoroso691liste+coerenzaheader e un
+oracoloWine mirato, poi estrazione/runtime/CLI/ordinary. Schema1/e81-d80/USA8-7
+invariati; Linux-USA/Windowsnativo/nuovo32:9/allcaller/fullABI/global/fullTODO aperti.
+[Contratto](../rom_data_maps.md#european-encounter-coordinate-lists-and-original-readers).
+
+
+**ROMDATA-02-ENCOUNTER-COORDINATE-MODEL completato EUR/Wine (2026-10-28).**
+Modello rigoroso691liste2342coppie rawu8XY/4684B/691span; shape/coerenzaheader/
+autenticità separati, vista signed diagnostica, nessunfallbacksafe null/capvalori.
+Primo buildcoreWindows fallisceperimportBus neltest; solaimport corretta, seconda
+copia516sorgenti accettata/2fe3e236.. senzaavvisi/227coreinputs, preimmagini conservate.
+Un filtroWine passa30guardie/8044prefissi originali signed-unsigned su tutti4684B,
+12highbit isolati e102prefissi randomoriginali(34liste*3seed). RNG/index/indirizzi/
+masku16/scritture/callee-SP/outerRAM-VRAM-OAM-palette-ROM esatti; nonfullABI,
+repeatedrandom/exhaustion/nativeclock/ordinary.40guardie516accepted+516failedhash/
+38sourceguard esatti/helper0; nessuna nuova fixture/navigazione/prova chiusa
+ripetuta/misura. Prossimo managed e82-d81/index73+typedbus, poiCLIordinary;
+Linux-USA/Windowsnativo/nuovo32:9/allcaller/global/fullTODO pendenti.
+[Modello e prova](../rom_data_maps.md#typed-encounter-coordinates-and-original-reader-proof).
+
+
+**ROMDATA-03-04-ENCOUNTER-COORDINATE-RUNTIME completato EUR/Wine (2026-10-28).**
+e82-d81/index73/encounter-coordinates.json,75file74risorse/tutti73precedenti
+esatti/dipendenza header. Owner immutabile691span4684B/quattro ruoli+XY/statistiche
+liste-header, routing locale eglobale70B..70C/composizione vecchiowner ai bordi.
+Tre build Windows senza avvisi, accettato0f85fbf7.. da518sorgenti. Il primo filtro
+Wine passa pubblicazione/14attach/3fullset e si ferma nel harness nativo; il
+secondo isola la concatenazione oltre il punto di arresto. Corretto solo il test
+con BLpair e due famiglie che escludono i rispettivi stop. Il terzo filtro riusa
+il dataset, mantiene tutti22casi e completa native/lifecycle senza ripetere
+pubblicazione o attach. I22casi original-interpreter-native coincidono nello
+stato e clock completi con4684Braw alterati dopoLoad (18load/indice0gate/3randomprefix),
+21Bnuovi/2template/13header compilati. Tutti4684B/691liste323header/
+ruoliXY/691confini/width-mirror/LoadUndo/DMA-CpuSet-FastSet passano. 253guardie/
+518hash516modelpreimages esatti/helper solo interrupted; algoritmi/ABI invariati.
+ProssimiCLI reale+ordinary; Linux-USA/Windowsnativo/nuovo32:9/fullABI/allcaller/
+global/fullTODO pendenti. Nessuna fixture/navigazione/misura/vecchio proof ripetuto.
+[Consumo e prove](../rom_data_maps.md#managed-encounter-coordinates-and-typed-guest-reads).
+
+
+**ROMDATA-04-ENCOUNTER-COORDINATE-CLI completato EUR/Wine (2026-10-28).** Un build
+Windows produzione senza avvisi/b467d4ad.. da518sorgenti accettati, canonicalhashmtime
+ripristinati. TrecomandiWine preparecreated/reused/runc700 passano:75file esatti
+alruntime/74IDhash/77path no-write/28859blocchi cache caricati. Copie normali
+Giza02menu/03input19409→20109: 20letture20B/1liste1header,
+placement0-X-Y positivi; tutti10conteggi conservati. 186guardie518hash/helper0,
+nessuna nuova fixture/navigazione/misura/prova chiusa ripetuta. Fullpair prossimo,
+non tutte691liste/ruoli/header/ABI. Linux-USA/Windowsnativo/nuovo32:9/global/
+fullTODO pendenti.
+[CLI e consumo](../rom_data_maps.md#actual-encounter-coordinate-cli-and-ordinary-consumption).
+
+
+**ROMDATA-05-ENCOUNTER-COORDINATE-BATTLE-ORDINARY completato EUR/Wine
+(2026-10-28).** Un fullpair700 normale Giza02menu/03input19409→20109 con datasetCLI
+e82-d81: ogni stato completo/clock/immagine classic-central-wide/OAM/5audio passa;
+dispatch nativo e fallback eseguiti. Tutti10conteggi esatti allaCLI:20letture20B,
+placement0=20, X10/Y10, una lista e unheader. Random/placement2/default nonosservati
+qui, restano distinte le prove mirate già concluse. Guardia facoltativa5righe/
+vecchiovalidator byteexact, un buildWindows senzaavvisi/de67e015.. da518sorgenti e
+un filtroWine. 104guardieordinarie+186CLI/518hash ciascuno esatti/helper0.
+Caso chiuso; tutte691liste323headerconpayload/placement-RNG/fullABI/global/
+Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti. Nessuna nuova fixture,
+navigazione o misura di performance.
+[Equivalenza](../rom_data_maps.md#ordinary-encounter-coordinate-battle-entry-equivalence).
+
+
+**ROMDATA-01-LINKED-METADATA28 completato per il contratto sorgente EUR
+(2026-10-28).**347record28B/9716B710E04..7133F8,17root e aritmetica28B,
+famiglia successiva4B con due lettori indipendenti. Confine fisico, nessun cap
+347 guest. GetterD07A4 low16/low8: scalari, vista interna+12, wordflag/21bit,
+selettori34..255→0 senza letture dati. Lettori direttiu16+22/byte24..26;
+byte3/15/27 opachi conservati. Tutti347record ricostruiti, nessuna sovrapposizione
+con74owner/50488span,20finestre14nuove6riusate/69pin/122guardie/helper0.
+Solo contratto statico; modello/Wine/runtime/CLI/ordinario prossimi. Schema1/
+e82-d81 invariati. Linux-USA/Windowsnativo/nuovo32:9/global/fullTODO pendenti;
+nessun build/gioco/checkpoint/navigazione/misura o prova chiusa ripetuta.
+[Contratto](../rom_data_gameplay.md#european-indexed-28-byte-metadata-source-contract).
+
+
+**ROMDATA-02-LINKED-METADATA28 completato EUR/Wine (2026-10-28).** Modello
+lossless347record/9716B, campi unsigned/flag32/byteopachi, shape/sourceauth distinti;
+lookup low16/low8 conserva scalari/vista indirizzo+12/21bit/default senza lettura,
+nessun cap guest o fallback nullo inventato. Un buildWindows core senzaavvisi/
+358dba2c.. da520sorgenti stabili e un filtroWine:27guardie/14517prefissi originali
+(12088getter completi1388tail1041inline),8675byte interpretati osservati/1041opachi
+ricostruiti,9varianti isolate342prefissi; RAM/callee/SP-LR/VRAM/OAM/palette/ROM
+esatti. 36guardiemodello520hash+122sorgente esatti/helper0. Schema1/e82-d81
+invariati; prossimi managed/runtime poiCLI/ordinario. FullABI/nextfamiglia4B/
+global/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti, nessuna misura o
+nuova fixture/navigazione/vecchia prova chiusa ripetuta.
+[Modello e prova](../rom_data_gameplay.md#typed-indexed-28-byte-metadata-and-original-reader-proof).
+
+
+**ROMDATA-03-04-LINKED-METADATA28-RUNTIME completato EUR/Wine (2026-10-28).**
+e83-d82/index74/linked-metadata28.json:76file75risorse/all74precedenti esatti,
+uno span9716B/nessuna dipendenza inventata. Owner tipizzato immutabile5classi/
+347record/8contatori, pagine locali+globali710..713, bordi headerprecedente/
+successor grezzo. Un buildWindows senzaavvisi/040133f5.. da522sorgenti, un filtroWine
+pubblicazione/interruzione14attach2fullset/23casi nativi stato-clock completi con
+9716byte grezzi alterati dopoLoad:17load+6getterD07A4,31byte nuovi+1header compilati.
+Tutti9716byte/5classi347record/tutti347bordi/LoadUndo/DMA-CpuSet-FastSet3stati-clock
+passano. 216guardie522hash520preimmagini modello esatti/helper ritira solo copia
+interrotta. ActualCLI/ordinario prossimi; ABI/USA8-7/schema1 invariati, nessun
+nuovo gioco/checkpoint/navigazione/misura o vecchia prova chiusa ripetuta.
+FullABI/global/nextfamiglia4B/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti.
+[Consumo diretto](../rom_data_gameplay.md#managed-indexed-28-byte-metadata-and-typed-guest-reads).
+
+
+**ROMDATA-04-LINKED-METADATA28-CLI registrazione completata EUR/Wine;
+uso ordinario positivo ancora aperto (2026-10-28).** Un buildWindows produzione
+senzaavvisi/0acb352e.. da522sorgenti: sola correzione di3messaggi metadata28, inverse
+byteexact/altri521file esatti/canonicalhashmtime ripristinati. Creazione/riuso/
+avvii normali:76file esatti alruntime/75IDhash/78path no-write/28859blocchi cache.
+Quattro locatori normali Giza700/Jobs540/Abilityset700/BattleTechRinfo800 hanno
+TUTTI8contatori0, conservati come negativi da non ripetere; nessun fullpair
+eseguito. Menu osservati, nuovi input da normali comandi su copia autorizzata;
+nessun checkpoint nuovo o edit manuale guest. 220guardie522hash/helper0.
+Prossimo: percorso di combattimento con azione non nulla prima di positivo/fullpair.
+Linux-USA/Windowsnativo/nuovo32:9/fullABI/global/fullTODO pendenti; nessuna misura.
+[CLI e limiti](../rom_data_gameplay.md#actual-indexed-metadata28-cli-registration-and-ordinary-locators).
+
+
+**ROMDATA-04-05-LINKED-METADATA28-COMBAT completato EUR/Wine (2026-10-28).**
+Apertura normale del menu Steal su terreno asciutto a Giza:42frame22669→22711,
+15letture20byte serviti/cinque record,10halfword+10byte; inline/flag/opachi0.
+Cattura, CLI esistente0acb352e.. e un fullpairWine coincidono in tutti8conteggi;
+ogni stato completo/clock/immagine classic-central-wide/OAM/5audio passa. Nessun
+effetto abilità eseguito o tutti347record rivendicati. Un buildWindows test senza
+avvisi/5a6c81be.. da523sorgenti, guardia facoltativa5righe/vecchiovalidator byteexact
+ed osservatore di soli input normali; sette catture1182frame su copie autorizzate,
+nessun edit manuale guest/salvataggio originale. 177guardie523hash+220CLI/522hash
+esatti/78path no-write/helper0. Quattro vecchi locatori negativi restano chiusi;
+non si ripetono source/model/runtime/registrazione o prove di altre famiglie.
+Caso ordinario chiuso; effetti/tutti347/fullABI/global/nextfamiglia4B/Linux-USA/
+Windowsnativo/nuovo32:9/fullTODO pendenti, nessuna misura di performance.
+[Equivalenza](../rom_data_gameplay.md#ordinary-metadata28-steal-menu-equivalence).
+
+
+**ROMDATA-01-LINKED-RECORDS4 completato per il contratto sorgente EUR
+(2026-10-28).** Intervallo7133F8..713744,844 byte in211 posizioni fisiche da4 byte;
+sei root e lettori originali con indice u8 moltiplicato per4, confine distinto
+con la famiglia successiva a passo8. Tutti i quattro campi sono letti unsigned;
+indirizzi originali conservati nel contesto live. 1041 riferimenti dalle prime
+tre posizioni inline dei347 record metadata28 raggiungono194 posizioni distinte,
+tre riferimenti a indice0 e nessuno esterno. Nessun cap211/max208, limite globale
+ai tre indici, enum o fallback nullo inventato. Gli zeri0/1/209/210 restano record
+fisici distinti; significato riserva/padding dei due finali ancora da chiarire.
+Ricostruzione completa844 byte, nessun overlap con75 risorse/50489 span e83-d82;
+13 finestre autenticate (6 nuove,7 riusate),45 pin e112 guardie esatti/helper0.
+Solo analisi statica, senza build/test/gioco/fixture o ripetizione di prove chiuse.
+Prossimo: modello e prova mirata dei lettori originali su Wine; gestione/runtime/
+CLI/uso ordinario di QUESTA famiglia ancora da implementare. Linux/USA/Windows
+nativo/nuovo32:9/fullABI/cataloghi indiretti/fullTODO pendenti; nessuna misura.
+[Contratto](../rom_data_gameplay.md#european-linked-four-byte-record-source-contract).
+
+
+**ROMDATA-02-LINKED-RECORDS4 completato EUR/Wine (2026-10-28).** Modello core
+lossless:211 posizioni fisiche con quattro campi u8/844 byte/uno span; shape,
+ordine/indici/parser stretti separati dall'autenticazione EUR e13 finestre.
+Indirizzo guest originale calcolato per tutti256 indici, anche211..255 esterni;
+None diagnostico non diventa fallback guest. Zeri distinti e significato dei due
+finali ancora aperto, nessun enum/cap/limite globale ai selettori inventato.
+Un buildWindows core senza avvisi/a7270580.. da525 sorgenti stabili (233 input
+core), un solo filtro Wine:20 guardie/1567 chiamate o prefissi originali,
+1055 lettori coprono tutti844 byte e512 setter completi coprono entrambi i
+contesti/tutti256 indici/alias low8/indirizzi esterni. Due varianti isolate con
+bit alto passano10 prefissi unsigned e sono rifiutate dall'autenticazione base.
+RAM completa salvo i5 byte attesi dei setter/callee/SP-LR/IWRAM/VRAM/OAM/palette/
+ROM finale esatti;9808 istruzioni come sola copertura. 125 guardie525 hash e112
+sorgente esatti/helper0. Schema1/e83-d82/save/native/CAPI invariati. Prossimo:
+managed/runtime poi CLI/uso ordinario di questa famiglia; nativeclock/fullABI/
+Linux/USA/Windows nativo/nuovo32:9/cataloghi indiretti/fullTODO pendenti. Nessun
+gioco/checkpoint/misura/ripetizione di prove precedenti chiuse.
+[Modello e lettori](../rom_data_gameplay.md#typed-four-byte-linked-records-and-original-reader-proof).

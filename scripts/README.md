@@ -149,3 +149,37 @@ riferimento e interprete/native con dataset opzionale come candidato. Il primo
 confine diverso produce un report HTML/JSON privato con campi CPU/Bus esatti,
 immagini affiancate e stream; un prefisso uguale conserva solo metadati.
 Non richiede la feature audit. Vedi [uso, ambito e verifiche](../docs/debug_comparisons.md).
+
+`recomp debug-control status/pause/step/resume SESSION` controlla la finestra
+di una copia isolata. `step SESSION N [--keys HEX]` avanza esattamente 1–600 frame
+e rimane in pausa; menu e F6/F7/F8 condividono le stesse azioni.
+`debug-session open SESSION --paused` evita frame prima della prima richiesta.
+Vedi [DBG-10: procedura, audio e limiti](../docs/debug_control.md).
+
+
+EUR e82-d81 extraction adds `encounter-coordinates.json`
+(`gameplay.encounter-coordinates`) with header pointer/count/role coherence.
+Its691 spans retain raw XY bytes and original signed/unsigned placement/RNG
+logic. [Managed resource and checks](../docs/rom_data_maps.md#managed-encounter-coordinates-and-typed-guest-reads).
+
+`recomp debug-control inspect SESSION ADDRESS LENGTH` legge buffer e registri
+senza effettuare accessi I/O. `break SESSION PC arm|thumb` e `watch SESSION
+read|write START END` cercano un punto nell'interprete con limiti di passi/frame;
+watch richiede `rom-data-read-audit`. Vedi [DBG-11 e granularità](../docs/debug_probes.md).
+
+`recomp debug-control graphics SESSION [--compare-last]` cattura dalla copia
+in pausa un [report grafico DBG-12](../docs/debug_graphics.md), con PNG/JSON e
+buffer PPU privati, proiezioni readonly e confronto con l'ultimo report.
+Non richiede audit e non genera un nuovo snapshot.
+
+`report_home.py` genera `index.html` nella root, con tutti gli indici HTML locali,
+ricerca e filtri. `windows/report_home.ps1 -OpenReport` e
+`bash scripts/linux/report_home.sh` usano l'immagine Docker coverage già esistente,
+con rete disabilitata e checkout readonly; non eseguono estrazione o runtime.
+Il solo catalogo generato resta ignorato. [Uso e verifiche](../docs/report_home.md).
+
+`recomp debug-control ui-start SESSION` / `ui-report SESSION` e le voci Debug
+Start UI / input trace / Save UI / input report raccolgono osservazioni limitate
+di focus, font, input/rimappatura e dispatch host/guest nella copia isolata.
+`status.host_menu` espone il focus reale prima di automatizzare la navigazione.
+I report privati sono riconosciuti dalla homepage. [DBG-13](../docs/debug_ui.md).

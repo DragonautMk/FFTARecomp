@@ -599,6 +599,13 @@ struct PlayApp {
     menu_enabled: bool,
     menu: menu::Menu,
     paused: bool,
+    frame_control: crate::debug_control::Control,
+    probe: Option<crate::debug_probe::Search>,
+    probe_result: Option<serde_json::Value>,
+    inspection: Option<serde_json::Value>,
+    graphics_report: Option<String>,
+    ui_trace: crate::debug_ui::Trace,
+    control_server: Option<crate::debug_control::Server>,
     menu_dirty: bool,
     cursor_visible: bool,
     suppress: u16,
@@ -1348,6 +1355,7 @@ impl PlayApp {
                         .map(move |token| (slot, token))
                 })
                 .collect();
+            if self.ui_trace.enabled(){self.ui_trace.event(self.machine.bus.frames,self.machine.bus.clock,"controller-poll",serde_json::json!({"backend":"XInput","tokens":all_tokens}));}
             let any_down = !all_tokens.is_empty();
             let mut captured = None;
             if capture_pad && !capture_combo && !capture_locked {
@@ -1634,11 +1642,16 @@ impl PlayApp {
         }
         self.pad_ff_toggle_prev = pad_ff_toggle;
         self.pad_ff_held = pad_ff_held;
+        if self.ui_trace.enabled(){
+            let mut held=self.held.iter().map(|k|format!("{k:?}")).collect::<Vec<_>>();held.sort();
+            self.ui_event("mapped-poll",serde_json::json!({"held_keyboard":held,"mapped_keys":keys,"nav":[nav.up,nav.down,nav.left,nav.right,nav.confirm,nav.cancel,nav.open],"rising_confirm":nav.confirm&&!self.nav_prev.confirm,"paused":self.paused,"suppression":self.suppress,"binding_capture":format!("{:?}",self.menu.capturing()),"menu_shortcut":self.menu_shortcut_held,"menu":self.ui_focus()}));
+        }
         (keys, nav)
     }
 
     /// Rebuild the key -> GBA button table after the menu rebinds a key.
     fn rebuild_key_pairs(&mut self) {
+        if self.ui_trace.enabled(){self.ui_event("bindings-changed",serde_json::json!({"input_config":self.icfg.serialize()}));}
         let defaults = input_config::InputConfig::default();
         let pairs: Vec<(KeyCode, u16)> = input_config::Button::ALL
             .iter()
@@ -1705,7 +1718,168 @@ impl PlayApp {
         self.next_frame = Instant::now();
     }
 
+    fn ui_event(&mut self,stage:&str,data:serde_json::Value) {
+        self.ui_trace.event(self.machine.bus.frames,self.machine.bus.clock,stage,data);
+    }
+    fn ui_focus(&self)->serde_json::Value {
+        let(w,h)=self.menu_dimensions();crate::debug_ui::focus(&self.menu,w,h)
+    }
+    fn save_ui_report(&mut self)->Result<(),String> {
+        let root=input_config::exe_dir().ok_or("Missing isolated root")?;
+        crate::debug_ui::capacity(&root)?;
+        let(w,h)=self.menu_dimensions();
+        if w>1600||h>1000{return Err("UI report supports windows up to1600x1000".into());}
+        let before=self.machine.save_state()?;
+        let mut pixels=self.preview_frame(w,h,true);
+        let capture=menu::diagnostics::capture(||self.menu.draw_inputs(&self.av,&self.icfg,&mut pixels,w,h)).map_err(str::to_owned)?;
+        let state=&self.machine.bus.ffta_dialogue;
+        let layouts=(0..2).map(|i|self.ui_layout((w as u32,h as u32),i).map(|l|serde_json::json!({"rect":l.rect,"clip":l.clip}))).collect::<Vec<_>>();
+        let scene=self.game_mouse.scene(&self.machine.bus).map(|s|serde_json::json!({"selected":s.selected,"targets":s.targets.iter().map(|t|serde_json::json!({"index":t.index,"bounds":t.bounds})).collect::<Vec<_>>()}));
+        let frozen=serde_json::json!({"rom_sha256":gba_core::ffta_rom::digest(&self.machine.bus.rom),"runtime_sha256":gba_core::ffta_rom::digest(&crate::diagnostics::read(&std::env::current_exe().map_err(|e|e.to_string())?,256*1024*1024)?),
+            "frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"state_sha256":gba_core::ffta_rom::digest(&before),
+            "host_menu":self.ui_focus(),"text":crate::debug_ui::text(capture),"canvas":[w,h],"input_config":self.icfg.serialize(),
+            "guest_ui":{"recognized_selector":scene,"name_input":self.game_mouse.is_name_input(&self.machine.bus),"battle_mouse_enabled":self.machine.bus.ffta_battle_mouse.enabled,
+                "dialogue_flags":{"separate":state.separate,"action":state.action_layout,"town":state.town_layout,"shop":state.shop_layout,"site":state.site_layout,"laws":state.laws_layout},"panel_kind":format!("{:?}",state.extra.kind),"layouts":layouts,"pixel_bounds":[gba_core::ffta_dialogue::pixel_bounds(&state.pixels),gba_core::ffta_dialogue::pixel_bounds(&state.extra.pixels)],"unknown_menu":"Other guest menu/focus/text metrics are unknown"}});
+        if self.machine.save_state()?!=before{return Err("UI observation changed guest state".into());}
+        let path=self.ui_trace.save(&root,frozen,&pixels,w,h)?;
+        eprintln!("UI report: {}",root.join(&path).display());
+        self.menu.diagnosis_result("UI report saved. Open Data/config/ui/<run>/index.html".into());self.menu_dirty=true;Ok(())
+    }
+    fn debug_action(&mut self, action: &crate::debug_control::Action) -> Result<(),String> {
+        if !self.debug_session { return Err("Open an isolated debug copy first".into()); }
+        if self.ui_trace.enabled(){self.ui_event("control-request",serde_json::json!({"command":action,"paused":self.paused}));}
+        match action {
+            crate::debug_control::Action::UiStart|crate::debug_control::Action::UiReport=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("UI trace/report requires an idle paused copy".into());}
+                if matches!(action,crate::debug_control::Action::UiStart){
+                    let root=input_config::exe_dir().ok_or("Missing isolated root")?;crate::debug_ui::capacity(&root)?;
+                    let state=gba_core::ffta_rom::digest(&self.machine.save_state()?);
+                    self.ui_trace.start(serde_json::json!({"state_sha256":state,"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"menu":self.ui_focus(),"input_config":self.icfg.serialize()}))?;
+                    self.menu.diagnosis_result("UI/input trace active:30s /1024events /600frames. Save UI report to retain.".into());self.menu_dirty=true;return Ok(());
+                }
+                return self.save_ui_report();
+            },
+            crate::debug_control::Action::Graphics{compare_last}=>{
+                if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some(){return Err("Pause and finish current search/step/replay before graphics capture".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;crate::debug_graphics::capacity(&root)?;
+                let size=self.window.as_ref().ok_or("Graphics capture needs an active window")?.inner_size();
+                let(w,h)=(size.width as usize,size.height as usize);if w==0||h==0||w>1600||h>1000{return Err("Graphics capture supports window sizes up to1600x1000".into());}
+                let world=self.preview_frame(w,h,false);let composed=self.preview_frame(w,h,true);
+                let layouts=(0..2).map(|i|self.ui_layout((w as u32,h as u32),i).map(|l|serde_json::json!({"rect":l.rect,"clip":l.clip}))).collect::<Vec<_>>();
+                let front=crate::debug_graphics::Frontend{width:w,height:h,world,composed,settings:serde_json::json!({"view":self.view,"base_extra":self.base_extra,"zoom_level":self.zoom_level,"ui_layouts":layouts,"av":self.av.serialize()})};
+                let report=crate::debug_graphics::capture(&root,&self.machine,front,*compare_last)?;
+                eprintln!("Graphics report: {}",root.join(&report).display());self.graphics_report=Some(report);
+                self.menu.diagnosis_result("Graphics saved. Open Data/config/graphics/<run>/index.html".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::Inspect{address,length}=>{
+                if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 {return Err("Pause and finish the current budget before inspection".into());}
+                let root=input_config::exe_dir();
+                let value=crate::debug_probe::inspect(&self.machine,*address,*length,root.as_deref(),self.diagnosis.dataset.as_deref())?;
+                if let Some(server)=&self.control_server {server.inspection(&value)?;}
+                self.menu.diagnosis_result(format!("PC {:08X} | CPSR {:08X} | inspection.json",self.machine.cpu.regs[15],self.machine.cpu.cpsr));
+                self.inspection=Some(value);self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::Find{settings}=>{
+                if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some() || self.recording_active() {return Err("Search requires an idle paused copy without recording or replay".into());}
+                let search=crate::debug_probe::Search::start(settings.clone(),self.native.is_some())?;
+                self.frame_control.stop("searching");self.probe_result=None;self.probe=Some(search);self.debug_audio_boundary();self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::Step{..} if self.probe.is_some()=>return Err("Interrupt or finish the search before stepping frames".into()),
+            crate::debug_control::Action::Pause | crate::debug_control::Action::Resume=>self.interrupt_probe(),
+            _=>{},
+        }
+        let before=self.paused;
+        let paused=self.frame_control.apply(action,before,self.replay_job.is_some())?;
+        if matches!(action,crate::debug_control::Action::Status) {return Ok(());}
+        self.paused=paused;
+        if paused && !before {self.menu.reset();self.refresh_state_slots();}
+        self.pending_key=None;
+        self.mouse_queue.clear();
+        self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
+        self.suppress |= !self.game_keys & 0x3ff;
+        self.debug_audio_boundary();
+        self.menu_dirty=true;
+        Ok(())
+    }
+
+    fn interrupt_probe(&mut self) {
+        if let Some(probe)=self.probe.take() {
+            self.probe_result=Some(serde_json::json!({"outcome":"interrupted","remaining_steps":probe.remaining()}));
+        }
+    }
+
+    fn probe_tick(&mut self) {
+        let completed=self.probe.as_mut().unwrap().tick(&mut self.machine);
+        if completed {
+            self.refresh_ui_layers();
+            let frame=display_frame(&self.machine.bus,&mut self.padded_frame);
+            self.temporal.push(frame,&self.lut);
+            self.handoff_audio();
+        }
+        if self.probe.as_ref().unwrap().result.is_some() {
+            let probe=self.probe.take().unwrap();
+            let mut result=probe.result.clone().unwrap();result["settings"]=serde_json::to_value(&probe.settings).expect("search settings");self.probe_result=Some(result);
+            self.frame_control.stop(if self.probe_result.as_ref().unwrap()["outcome"]=="hit" {"search-hit"}else{"not-reached"});
+            // A partial-step stop keeps its guest audio buffers: they are guest
+            // state, drained at the next completed frame as ordinary playback.
+            self.menu.diagnosis_result(format!("{} | PC {:08X} | inspect via debug-control",self.frame_control.reason.to_uppercase(),self.machine.cpu.regs[15]));
+            self.finish_control();
+        }
+        self.menu_dirty=true;
+    }
+
+    fn debug_audio_boundary(&mut self) {
+        self.set_fast_forward(false,1);
+        self.streams.lock().unwrap().muted=self.paused;
+        self.fps.reset(Instant::now());
+        self.profile.presentation_boundary();
+        self.reset_audio_counters();
+    }
+
+    fn debug_status(&self) -> Result<serde_json::Value,String> {
+        let state=gba_core::ffta_rom::digest(&self.machine.save_state()?);
+        let st=self.streams.lock().unwrap();
+        Ok(serde_json::json!({"paused":self.paused,"remaining":self.frame_control.remaining,
+            "reason":self.frame_control.reason,"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,
+            "pc":self.machine.cpu.regs[15],"keys":self.machine.bus.keys,"state_sha256":state,
+            "backend":if self.native.is_some(){"native"}else{"interp"},
+            "registers":self.machine.cpu.regs,"cpsr":self.machine.cpu.cpsr,"thumb":self.machine.cpu.thumb(),
+            "probe":self.probe_result,"search_remaining_steps":self.probe.as_ref().map(|p|p.remaining()),"inspection":self.inspection,"graphics_report":self.graphics_report,"ui_trace":self.ui_trace.status(),"host_menu":self.ui_focus(),
+            "host_audio":{"mixed":st.mixed.len(),"psg":st.psg.len(),"hle":st.hle.len(),
+                "fifo":[st.fifo[0].len(),st.fifo[1].len()],"normal":st.normal_audio.is_some(),"muted":st.muted,"epoch":st.epoch},
+            "guest_audio":[self.machine.bus.audio_buf.len(),self.machine.bus.psg_tap.len(),self.machine.bus.hle_tap.len(),self.machine.bus.fifo_tap[0].len(),self.machine.bus.fifo_tap[1].len()]}))
+    }
+
+    fn poll_control(&mut self) {
+        let request=match self.control_server.as_mut().map(|s|s.poll()) {
+            Some(Ok(request))=>request,
+            Some(Err(error))=>{eprintln!("debug control: {error}");None},
+            None=>None,
+        };
+        if let Some(request)=request {
+            let result=if self.control_server.as_ref().is_some_and(|s|s.pending.is_some()) {
+                Err("A frame step is still pending".into())
+            }else{self.debug_action(&request.command)};
+            if result.is_ok() && matches!(request.command,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}) {
+                self.control_server.as_mut().unwrap().pending=Some(request);
+            }else{
+                let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+                if let Err(error)=self.control_server.as_mut().unwrap().reply(&request,status.unwrap_or_default(),error){eprintln!("debug control: {error}");}
+            }
+        }
+        self.finish_control();
+    }
+
+    fn finish_control(&mut self) {
+        if self.frame_control.remaining==0 && self.probe.is_none() && self.control_server.as_ref().is_some_and(|s|s.pending.is_some()) {
+            let status=self.debug_status();
+            let error=if !["step-complete","search-hit","not-reached"].contains(&self.frame_control.reason) {Some(format!("Step stopped: {}",self.frame_control.reason))} else {status.as_ref().err().cloned()};
+            if let Err(error)=self.control_server.as_mut().unwrap().finish(status.unwrap_or_default(),error){eprintln!("debug control: {error}");}
+        }
+    }
+
     fn start_replay(&mut self, choose_only: bool, kind: ReplayKind) {
+        if self.frame_control.remaining>0 || self.probe.is_some() {self.menu.diagnosis_result("Finish the frame step/search before starting a replay.".into());self.menu_dirty=true;return;}
         if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
         if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
         if choose_only || self.replay_path.is_none() {
@@ -1752,6 +1926,7 @@ impl PlayApp {
 
     fn start_input_recording(&mut self) {
         let result = (|| -> Result<(), String> {
+            if self.probe.is_some() {return Err("Finish or interrupt the search before recording.".into());}
             if !self.debug_session { return Err("Open an isolated debug copy before recording.".into()); }
             if self.replay_job.is_some() {return Err("Finish or cancel the replay before recording.".into());}
             if self.recording_active() { return Err("An input recording is already active.".into()); }
@@ -1911,7 +2086,9 @@ impl PlayApp {
 
     /// Capture the displayed game view plus native UI, excluding the pause menu and FPS HUD.
     fn state_preview(&mut self) -> Vec<[u8; 4]> {
-        let (w, h) = (crate::save_state::PREVIEW_W, crate::save_state::PREVIEW_H);
+        self.preview_frame(crate::save_state::PREVIEW_W,crate::save_state::PREVIEW_H,true)
+    }
+    fn preview_frame(&mut self,w:usize,h:usize,include_ui:bool)->Vec<[u8;4]>{
         self.temporal.compose(&self.lut, &mut self.rgba);
         let mut pixels = vec![[0, 0, 0, 255]; w * h];
         let [vx, vy, vw, vh] = self.view;
@@ -1927,7 +2104,7 @@ impl PlayApp {
                 }
             }
         }
-        for layer in 0..2 {
+        for layer in 0..if include_ui{2}else{0} {
             if let Some(layout) = self.ui_layout((w as u32, h as u32), layer) {
                 let ui = self.ui_frame(layout, layer);
                 for y in 0..h {
@@ -2051,6 +2228,9 @@ impl PlayApp {
     }
 
     fn after_state_restore(&mut self) {
+        if self.ui_trace.enabled(){self.ui_event("timeline-restored",serde_json::json!({"scope":"trace prefix ended; report may show a later restored state"}));self.ui_trace.freeze("state-restored");}
+        self.interrupt_probe();
+        self.frame_control.stop("state-restored");
         self.profile.presentation_restored(self.machine.bus.frames);
         // Discard consumer resamplers and queues from the old timeline.
         drop(self.stream.take());
@@ -2063,6 +2243,7 @@ impl PlayApp {
             }
         }
         self.set_fast_forward(false, 1);
+        self.streams.lock().unwrap().muted=self.paused;
         self.stream = start_audio(self.streams.clone());
         self.audio_retry = if self.stream.is_none() {
             Some(Instant::now())
@@ -2238,9 +2419,12 @@ impl PlayApp {
         // core renders (and we read back) the size the zoom needs.
         self.sync_view();
         if self.benchmark.is_none() {
-            let keys = self.game_mouse.keys(&mut self.machine.bus, self.game_keys);
-            let keys = gba_core::ffta_battle_mouse::keys(&mut self.machine.bus, keys);
+            let keys = if self.paused { self.frame_control.keys } else {
+                let keys=self.game_mouse.keys(&mut self.machine.bus,self.game_keys);
+                gba_core::ffta_battle_mouse::keys(&mut self.machine.bus,keys)
+            };
             self.machine.bus.keys = keys;
+            if self.ui_trace.enabled(){self.ui_event("guest-input-latch",serde_json::json!({"keys":keys,"source":if self.paused{"controlled-step"}else{"mapped-host-and-mouse"},"host_menu_paused":self.paused,"recording":self.capture.is_some()}));}
             let battle_event = self.machine.bus.ffta_battle_mouse.take_event();
             let language_event = self.game_mouse.take_selection_event();
             if let Some(index) = battle_event {
@@ -2295,6 +2479,7 @@ impl PlayApp {
             self.error = Some("emulation step guard exceeded before a complete frame".into());
             return false;
         }
+        if self.ui_trace.enabled(){self.ui_event("guest-frame",serde_json::json!({"keys":self.machine.bus.keys,"from_frame":frames_before,"completed_frame":self.machine.bus.frames,"recording":self.capture.is_some()}));}
         self.profile.record_ppu(ppu_timings);
         self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
@@ -2391,7 +2576,7 @@ impl PlayApp {
     /// can't overflow into permanent DEGRADED spam.
     fn handoff_audio(&mut self) {
         let bus = &mut self.machine.bus;
-        if self.stream.is_none() || (self.ff_active && self.av.ff_audio == "silent") {
+        if self.paused || self.stream.is_none() || (self.ff_active && self.av.ff_audio == "silent") {
             // Silent fast-forward still advances guest frames. Only diagnostics
             // need to publish them; keep the default discard path lock-free.
             if self.benchmark.is_none() && self.profile.enabled() {
@@ -2643,15 +2828,30 @@ impl ApplicationHandler for PlayApp {
                         ..
                     },
                 ..
-            } => match state {
+            } => {
+                if self.ui_trace.enabled(){self.ui_event("keyboard",serde_json::json!({"key":format!("{code:?}"),"pressed":state==ElementState::Pressed,"repeat":repeat,"paused":self.paused}));}
+                match state {
                 ElementState::Pressed => {
+                    // Consume debugger shortcuts before text input, bindings, Fast or menu capture.
+                    if self.debug_session && matches!(code,KeyCode::F6|KeyCode::F7|KeyCode::F8) {
+                        if self.ui_trace.enabled(){self.ui_event("shortcut-consumed",serde_json::json!({"key":format!("{code:?}"),"repeat":repeat,"guest_input":false}));}
+                        if !repeat {
+                            let action=match code {
+                                KeyCode::F6=>if self.paused {crate::debug_control::Action::Resume}else{crate::debug_control::Action::Pause},
+                                KeyCode::F7=>crate::debug_control::Action::Step{frames:1,keys:0x3ff},
+                                _=>crate::debug_control::Action::Step{frames:10,keys:0x3ff},
+                            };
+                            if let Err(error)=self.debug_action(&action){self.menu.diagnosis_result(error);self.menu_dirty=true;}
+                        }
+                        return;
+                    }
                     if !self.paused && self.game_mouse.is_name_input(&self.machine.bus) {
                         let consumed=match code {
                             KeyCode::Backspace=>self.game_mouse.name_command(&self.machine.bus,false),
                             KeyCode::Enter|KeyCode::NumpadEnter=>self.game_mouse.name_command(&self.machine.bus,true),
                             _=>text.as_ref().is_some_and(|t|self.game_mouse.type_text(&self.machine.bus,t.as_str())),
                         };
-                        if consumed {self.held.remove(&code);return;}
+                        if consumed {if self.ui_trace.enabled(){self.ui_event("text-input-consumed",serde_json::json!({"key":format!("{code:?}"),"guest_button":false}));}self.held.remove(&code);return;}
                     }
                     self.held.insert(code);
                     let menu_combo_down = input_config::combo_state(&self.icfg.menu_key, |token| {
@@ -2692,6 +2892,7 @@ impl ApplicationHandler for PlayApp {
                 ElementState::Released => {
                     self.held.remove(&code);
                 }
+            }
             },
             WindowEvent::CursorMoved { position, .. } => {
                 let p = (position.x, position.y);
@@ -2753,6 +2954,7 @@ impl ApplicationHandler for PlayApp {
         if self.window.is_none() {
             return;
         }
+        self.poll_control();
 
         // Pointer policy, reconciled live: visible in windowed mode (users
         // need it to drag/resize/close the window) and while the pause menu is
@@ -2800,12 +3002,14 @@ impl ApplicationHandler for PlayApp {
                 return;
             }
             self.paused = !self.paused;
+            self.interrupt_probe();
+            self.frame_control.stop(if self.paused {"menu-pause"}else{"running"});
+            self.debug_audio_boundary();
             self.fps.reset(Instant::now());
             self.profile.presentation_boundary();
             if self.paused {
                 // End the current audio timeline immediately. Keep the user's
                 // Fast latch; the effective speed is resolved again on resume.
-                self.set_fast_forward(false, 1);
                 self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();
                 self.menu.reset();
                 self.refresh_state_slots();
@@ -2831,8 +3035,7 @@ impl ApplicationHandler for PlayApp {
                 || !self.mouse_queue.is_empty();
             // Feed the menu the rising edges and apply any setting change live
             // (video) or to av.cfg only (restart-required audio/gamut). The
-            // GBA sees all keys released while the menu is up.
-            if self.capture.is_none() { self.machine.bus.keys = 0x3FF; }
+            // No guest step runs until requested; preserve its saved input latch.
             // Key capture: the Inputs page asked for a key; take the next
             // press (Escape cancels). Navigation is frozen meanwhile and for
             // the rest of this tick, so the chosen key (an arrow, Enter...)
@@ -2933,6 +3136,7 @@ impl ApplicationHandler for PlayApp {
                 } else if binding == menu::Bind::GamepadMenu {
                     self.icfg.menu_pad = name;
                 }
+                if self.ui_trace.enabled(){self.ui_event("pad-bindings-changed",serde_json::json!({"input_config":self.icfg.serialize()}));}
                 if let Err(error) = self.icfg.save() {
                     eprintln!("menu: could not save input.cfg ({error})");
                 }
@@ -2960,7 +3164,9 @@ impl ApplicationHandler for PlayApp {
             // together below.
             let mut acts: Vec<menu::MenuAction> = Vec::new();
             for (fired, ev) in events {
-                if !fired || was_capturing {
+                if !fired {continue;}
+                if was_capturing {
+                    if self.ui_trace.enabled(){self.ui_event("menu-consumed-by-remapping",serde_json::json!({"input":format!("{ev:?}"),"menu":self.ui_focus()}));}
                     continue;
                 }
                 self.menu_dirty = true;
@@ -2973,11 +3179,13 @@ impl ApplicationHandler for PlayApp {
                     menu::MenuInput::Cancel => "menu:cancel",
                 };
                 if !self.menu_tap_filter.accept_at(control, Instant::now()) {
+                    if self.ui_trace.enabled(){self.ui_event("menu-debounce-refused",serde_json::json!({"input":format!("{ev:?}"),"menu":self.ui_focus()}));}
                     continue;
                 }
-                if let Some(a) = self.menu.handle(ev, &mut self.av) {
-                    acts.push(a);
-                }
+                let before=if self.ui_trace.enabled(){Some(self.ui_focus())}else{None};
+                let action=self.menu.handle(ev,&mut self.av);
+                if let Some(before)=before{self.ui_event("host-menu-dispatch",serde_json::json!({"input":format!("{ev:?}"),"before":before,"after":self.ui_focus(),"action":action.map(|a|format!("{a:?}")),"guest_step":false}));}
+                if let Some(a)=action {acts.push(a);}
             }
             // Mouse: hover highlights, left/right click act, wheel moves.
             let mq = std::mem::take(&mut self.mouse_queue);
@@ -3016,10 +3224,24 @@ impl ApplicationHandler for PlayApp {
                 }
             }
             for action in acts {
+                if self.ui_trace.enabled(){self.ui_event("host-action",serde_json::json!({"action":format!("{action:?}"),"menu":self.ui_focus()}));}
                 match action {
+                    menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::Resume => {
                         if self.replay_job.is_some() {self.menu.diagnosis_result("Finish or cancel the replay before resuming.".into());}
                         else {self.paused=false;}
+                    },
+                    menu::MenuAction::CaptureGraphics=>{if let Err(error)=self.debug_action(&crate::debug_control::Action::Graphics{compare_last:false}){self.menu.diagnosis_result(error);self.menu_dirty=true;}},
+                    menu::MenuAction::InspectPC => {
+                        let pc=self.machine.cpu.regs[15];
+                        if let Err(error)=self.debug_action(&crate::debug_control::Action::Inspect{address:pc,length:16}){self.menu.diagnosis_result(error);self.menu_dirty=true;}
+                    },
+                    menu::MenuAction::DebugStep(frames) => {
+                        if let Err(error)=self.debug_action(&crate::debug_control::Action::Step{frames,keys:0x3ff}){self.menu.diagnosis_result(error);}
+                    },
+                    menu::MenuAction::DebugResume => {
+                        if let Err(error)=self.debug_action(&crate::debug_control::Action::Resume){self.menu.diagnosis_result(error);}
                     },
                     menu::MenuAction::RestartRom => self.restart_rom(),
                     menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
@@ -3146,12 +3368,21 @@ impl ApplicationHandler for PlayApp {
                 // to select Resume/back out (South=A, East=B) so they don't
                 // buffer into the game. The cursor is re-hidden by the next
                 // reconcile if fullscreen.
-                self.reset_audio_counters();
-                self.fps.reset(Instant::now());
-                self.profile.presentation_boundary();
+                self.interrupt_probe();
+                self.frame_control.stop("running");
+                self.debug_audio_boundary();
                 self.suppress = !keys & 0x3FF;
                 return;
             }
+            if self.probe.is_some() {self.probe_tick();}
+            if self.frame_control.remaining>0 {
+                let before=self.machine.bus.frames;
+                if !self.run_one_frame() {self.frame_control.stop("incomplete-frame");self.finish_control();event_loop.exit();return;}
+                if let Err(error)=self.frame_control.completed_frame(before,self.machine.bus.frames){self.error=Some(error);self.finish_control();event_loop.exit();return;}
+                self.menu_dirty=true;
+                self.finish_control();
+            }
+            self.menu.set_debug_position(self.machine.bus.frames,self.machine.bus.clock,self.frame_control.reason,self.probe.as_ref().map_or(self.frame_control.remaining,|p|p.remaining() as u32));
             // Poll input at the normal menu cadence, but rasterize the native-
             // resolution canvas only when input or window events changed it.
             if !self.menu_dirty {
@@ -3315,6 +3546,8 @@ impl ApplicationHandler for PlayApp {
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
         drop(self.replay_job.take());
+        self.interrupt_probe();
+        drop(self.control_server.take());
         if self.capture.is_some() {
             let complete = self.error.is_none();
             if !self.stop_input_recording(if complete { "clean session close" } else { "runtime error" }, complete) && complete {
@@ -3383,11 +3616,12 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
 
 fn cmd_play_inner(args: &[String], session: Option<&crate::debug_session::Session>) -> Result<(), String> {
     let start_recording = session.is_some() && args == ["--record-input"];
-    if session.is_some() && !args.is_empty() && !start_recording {
+    let start_paused = session.is_some() && args == ["--debug-paused"];
+    if session.is_some() && !args.is_empty() && !start_recording && !start_paused {
         return Err("The isolated runtime is pinned to its case. Reopen it with debug-session open <folder>, without play overrides.".into());
     }
     if start_recording && session.and_then(|s|s.state()).is_none() { return Err("Recording start needs a snapshot seed".into()); }
-    let args = if start_recording { &[][..] } else { args };
+    let args = if start_recording || start_paused { &[][..] } else { args };
     let mut rom_path = session.map(|s| s.rom().to_string_lossy().into_owned());
     let mut interp_only = session.is_some_and(|s| s.interp());
     // Opt-in decoded resources until the equivalence/cost gates pass.
@@ -3840,6 +4074,13 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         menu_enabled,
         menu: menu::Menu::new(true, false),
         paused: false,
+        frame_control: Default::default(),
+        probe: None,
+        probe_result: None,
+        inspection: None,
+        graphics_report: None,
+        ui_trace: Default::default(),
+        control_server: session.map(|s|crate::debug_control::Server::new(&s.root)).transpose()?,
         menu_dirty: true,
         // Starts visible (windowed); the loop reconciles against fullscreen.
         cursor_visible: true,
@@ -3886,6 +4127,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
 
     app.menu.set_debug_session(session.is_some());
     if debug_start_state.is_some() { app.after_state_restore(); }
+    if start_paused {app.debug_action(&crate::debug_control::Action::Pause)?;}
     if start_recording {
         app.start_input_recording();
         if app.capture.is_none() { return Err("Cannot start input recording; see recording error in the session log".into()); }

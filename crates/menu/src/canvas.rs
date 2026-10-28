@@ -161,5 +161,6 @@ impl Canvas {
             pen += adv;
             last = Some(id);
         }
+        super::diagnostics::observe(font, x, y, s, size, title, max, self.pix.width(), self.pix.height());
     }
 }

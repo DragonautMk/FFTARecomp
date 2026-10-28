@@ -185,3 +185,8 @@ restano da verificare o fuori ambito. Non si inferiscono nuovi benchmark,
 accettazioni ROM/DS, correttezza completa native o sviluppo Godot. Evidenza locale
 sotto `target/debug-tools-compare/`; la sua eventuale indisponibilità non riapre
 le verifiche già chiuse.
+
+Per ispezionare i buffer PPU e la composizione frontend di una copia ferma,
+usare [l'ispettore DBG-12](debug_graphics.md): report offline con palette/tile/OAM,
+finestre e pixel backing. Il confronto per frame fra backend descritto qui resta
+separato dalla cattura readonly e dalle proiezioni di registri congelati.

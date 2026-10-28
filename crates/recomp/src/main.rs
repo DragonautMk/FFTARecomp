@@ -22,6 +22,10 @@ mod play;
 mod rom_switch;
 mod diagnostics;
 mod debug_session;
+mod debug_control;
+mod debug_probe;
+mod debug_graphics;
+mod debug_ui;
 mod debug_catalog;
 mod debug_recording;
 mod debug_compare;
@@ -77,6 +81,7 @@ fn main() -> ExitCode {
     if args.first().is_some_and(|s|s=="debug-rom-audit") { return ExitCode::from(debug_rom_audit::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
     let result = match args.first().map(String::as_str) {
+        Some("debug-control") => debug_control::cmd(&args[1..]),
         Some("debug-record") => debug_recording::cmd(&args[1..]),
         Some("debug-catalog") => debug_catalog::cmd(&args[1..]),
         Some("debug-session") => debug_session::cmd(&args[1..]),
@@ -138,6 +143,21 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-control", "recomp debug-control <status|pause|resume|step|inspect|break|watch> SESSION [options]", &[
+        "step N: exactly 1..600 completed frames, then remain paused",
+        "inspect SESSION ADDRESS LENGTH: readonly backing1..256bytes/registers/labels/owners",
+        "ui-start / ui-report SESSION: bounded menu/text/input trace and offline report",
+        "graphics SESSION [--compare-last]: private offline PPU/frontend report, at most8",
+        "Report requires idle paused copy; no guest rendering/IO writes or new snapshot",
+        "break SESSION PC arm|thumb [--steps 1..5000000]: before interpreter step",
+        "watch SESSION read|write START END [--steps N] [--width 1|2|4] [--value HEX]",
+        "Addresses/value are hex; search requires pause/interpreter, watch needs audit feature",
+        "Search capped at600 completed frames, remains paused, no automatic snapshot",
+        "--keys HEX: active-low guest mask 000..3ff; default 3ff (all released)",
+        "status: guest frame/clock/reason, exact state hash and host audio queues",
+        "Open a debug session with: debug-session open SESSION --paused",
+        "F6 pause/resume, F7 one frame, F8 ten frames in the isolated window",
+    ], "Control an active isolated interactive copy through an acknowledged local mailbox. No normal-game control or new private snapshots. Step acknowledgement waits for completion; 120s timeout is not cancellation."),
     ("debug-compare", "recomp debug-compare <create|run|cancel> [options]", &[
         "create: debug-replay create options plus --frames 1..3600 (within recorded input)",
         "--backend interp|native  candidate; reference is always interpreter/raw",

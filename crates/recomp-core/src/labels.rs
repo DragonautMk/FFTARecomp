@@ -145,6 +145,11 @@ impl Labels {
     /// counted and skipped, never fatal.
     pub fn load(path: &std::path::Path, sha: &str, rom_len: usize) -> Result<Labels, String> {
         let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+        Self::parse(&text, path, sha, rom_len)
+    }
+
+    /// Parse an already-read buffer; `path` is diagnostic context only.
+    pub fn parse(text: &str, path: &std::path::Path, sha: &str, rom_len: usize) -> Result<Labels, String> {
         if text.lines().next().map(str::trim) == Some("gba-labels v1") {
             Self::load_v1(&text, path, sha, rom_len)
         } else {

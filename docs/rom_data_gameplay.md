@@ -3078,3 +3078,474 @@ Actual production CLI/create-reuse/no-write/startup and one positive ordinary
 pair are next. This integration is not full importer/ABI, all-caller/global
 archive or coordinate-payload proof. Linux, USA, native Windows, new32:9 and the
 full ROM TODO remain pending; no new ordinary fixture/navigation or metrics.
+
+
+## Actual encounter unit-template CLI and ordinary consumption
+
+The actual e81-d80 Windows production CLI now passes three Wine commands:
+prepare creates the generation, a second prepare reuses it without writes, and
+normal `runc` enters White Flowers from the retained Giza menu. All74 generation
+files match the accepted runtime dataset; all73 logged resource IDs/hashes match
+the manifest. All76 managed files retain hashes and mtimes through reuse and
+normal startup. The five dependencies and two source fragments retain the192
+prior constructor bytes. The original28859 translated blocks load.
+
+Exact normal state/input copies cover guest19409→20109 (700 frames). Template
+usage is `{"ability_bit_bytes": 41, "argument_bytes": 15, "auxiliary_bytes": 10, "bus_reads": 186, "control_bytes": 10, "equipment_bytes": 80, "flag_bytes": 10, "headers_used": 1, "opaque_bytes": 0, "optional_bytes": 10, "records_used": 5, "selector_bytes": 35, "source_bytes": 211}`. Positive byte classes are
+`selector_bytes, argument_bytes, equipment_bytes, auxiliary_bytes, ability_bit_bytes, optional_bytes, flag_bytes, control_bytes`; unobserved byte classes are `opaque_bytes`.
+The selector/argument/equipment/flag positive-use criterion is satisfied before
+selecting one ordinary full equivalence pair. Usage counts are correctness
+coverage, not performance measurements. This single battle-entry case does not
+establish all2,850 records, all442 headers, every branch or full importer ABI.
+Any zero class remains covered separately by the targeted bus/source/native
+proofs, without adding navigation merely to increase a counter.
+
+One warning-free production build `afeaef25..` uses the accepted514-file runtime
+source copy, excluding unrelated Debug/frontend changes. Only the affected
+production fingerprint is isolated; unchanged core artifacts are reused and the
+canonical executable's hash and mtime are restored exactly. All184 actual
+guards and514 frozen source hashes pass; artifact completion retires zero paths.
+Evidence is retained under `target/rom-data-encounter-unit-template-cli/`: build,
+three command logs, no-write/summary/final/preservation/cleanup receipts, exact
+normal copies and the production executable. The actual dataset is
+`target/rom-data-encounter-unit-template-cli/windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e81-d80/generation-GJRgcu`.
+
+No new fixture/checkpoint/navigation, closed model/runtime/header/constructor
+acceptance replay or performance campaign occurs. One ordinary full pair with
+all13 usage fields equal to this CLI run is next. Linux, USA, native Windows,
+new32:9, coordinate payloads and the remaining ROM TODO stay pending.
+
+
+## Ordinary encounter unit-template battle-entry equivalence
+
+One Wine ordinary equivalence pair now closes the retained700-frame Giza menu
+→White Flowers deployment case, guest19409→20109, using the actual e81-d80 CLI
+dataset. Every complete machine state and guest clock matches the original-ROM
+path. Classic, central and wide images, OAM, native/fallback dispatch and all
+five audio streams also match. Dispatch counts are `[3316146, 8054486]` and audio
+sample counts are `[1536150, 1536150, 184800, 184800, 1536026]`. These counts are correctness/coverage
+evidence; no performance measurement or comparison is made.
+
+All13 unit-template usage fields equal the production CLI exactly:
+`{"ability_bit_bytes": 41, "argument_bytes": 15, "auxiliary_bytes": 10, "bus_reads": 186, "control_bytes": 10, "equipment_bytes": 80, "flag_bytes": 10, "headers_used": 1, "opaque_bytes": 0, "optional_bytes": 10, "records_used": 5, "selector_bytes": 35, "source_bytes": 211}`. The eight semantic byte classes are positive,
+covering five template records in one encounter header. Opaque ordinary usage
+remains zero, covered separately by the source/full-bus proof. This is one
+positive battle-entry case, not all2,850 records, all442 headers, every conditional
+initializer path, full importer ABI or global archive coverage.
+
+An optional five-line `FFTA_STATE_TEST_REQUIRE_ENCOUNTER_UNIT_TEMPLATES` block
+requires positive selector, argument, equipment, auxiliary, bit, optional, flag
+and control-byte use, and reports all13 usage fields. Removing only that block
+reproduces the prior validator byte-for-byte, preserving every older guard. One
+warning-free514-source Windows test build `33c61082..` and one Wine filter pass.
+Only the affected test fingerprint is isolated; core code is unchanged from the
+accepted runtime. All104 ordinary guards/514 frozen pair-source hashes and
+184 closed CLI guards/514 production-source hashes remain exact.
+Artifact completion retires zero paths.
+
+Evidence is retained under `target/rom-data-encounter-unit-template-battle-ordinary/`:
+validator preimage/added block, stable source copy, build, full-pair result and
+final/preservation/cleanup receipts. No new fixture, checkpoint or navigation,
+closed source/model/runtime/CLI-registration/header/constructor acceptance replay
+or metrics occur. Linux, USA, native Windows, new32:9, coordinate payloads and
+the remaining ROM TODO stay pending.
+
+
+## European indexed 28-byte metadata source contract
+
+The EUR table rooted at710E04 now has a declared physical source contract:
+347 records of28 bytes, indices0..346,9716 bytes ending at7133F8, SHA-256
+`68cea1f29a7c4a6a50e2184538d2df954c00d792f84eb59405643221410fa192`. Seventeen exact root literals and their PC-relative
+loaders use28-byte arithmetic. Two independent consumers root the following
+family at7133F8 and use four-byte indexing and different byte fields. These
+start/stride/successor-type witnesses establish the declared physical partition;
+347 is not a guest-input limit. The proposed resource name is
+`gameplay.linked-metadata28`, without inferring an ability, law or mission name.
+All records reconstruct byte-for-byte and are disjoint from all74 accepted
+resources/50488 source spans in e82-d81.
+
+The original getter D07A4 narrows its index to low16 and selector to low8.
+Selectors0/1 read unsigned halfword+0/byte+2;2..8 read bytes4..10;9 returns the
+original source address+12;10 returns the full word+16. Selectors11..31 test
+bits0..20 of that word and normalize to0/1. Selectors32/33 read halfword+20 and
+byte+11. Selectors34..255 return0 without a record-data load. Address computation
+remains unchecked; index347 and higher must preserve raw or other-owner behavior.
+No logical index cap or global null-record fallback is introduced. Row0 is
+physical data and has byte3=1, even though many of its other bytes are zero.
+
+Direct readers additionally establish unsigned halfword+22, branch-dependent
+byte+24 dispatch, byte+25 comparisons with2/3 and byte+26 reads. The latter has a
+separate zero-alias path through existing metadata52. Bytes3 and27 remain opaque.
+Selector9 exposes an inline four-byte region12..15; one original consumer loops
+through its first three byte indices0..2 and uses the following four-byte family.
+Byte15 remains uninterpreted in the inspected loads. The returned view itself
+has no new three-byte bound. All full flags, raw values and opaque bytes stay
+exact; observed values do not become enums, Boolean storage or zero policies.
+
+Twenty authenticated windows (14 new/six reused) and69 instruction/literal/
+jump-table pins pass. Additional successor/neighbor windows remain exploratory
+diagnostics. All122 actual guards pass; artifact completion retires zero paths.
+Evidence under `target/rom-data-linked-metadata28/` retains the source contract,
+reconstructable records, span, complete getter and direct-reader windows,
+successor candidates, pins and final/preservation/cleanup receipts. This unit
+uses static original-code inspection and byte/hash checks. It runs no build,
+Wine/game test, checkpoint, navigation or performance measurement.
+
+Next is a strict lossless model and focused Wine original-reader proof, then
+managed publication, typed consumption, actual CLI and ordinary use. Schema1/
+e82-d81 and USAe8-d7 remain unchanged. The following four-byte family, all indirect
+callers/full ABI/global archive, Linux, USA, native Windows, new32:9 and the full
+ROM TODO remain pending. Closed coordinate/header/template proofs stay closed.
+
+
+## Typed indexed 28-byte metadata and original-reader proof
+
+The standalone core `rom_data::metadata28` model now retains347 ordered records
+and every9716 source byte in typed unsigned fields, fixed byte arrays, a full
+32-bit flag word and explicit opaque bytes. Shape checks validate the fixed
+source/count/physical index order; they impose no observed value caps, enums,
+opaque-zero policy or global null fallback. Exact EUR ROM identity, all20
+source-contract windows and source hash authenticate `Catalog::from_rom`.
+`verify_source` separately checks that decoded values equal the authenticated
+base. JSON rejects unknown/missing fields, wrong array sizes and wrong numeric
+types or widths. `source_spans` publishes one disjoint source plan; managed
+publication and runtime attachment remain the next integration criterion.
+
+`record` narrows to low16 and returns `None` outside physical ownership; this is
+not a guest fallback. `lookup` narrows the selector to low8, preserves scalar/
+full-word/21 bit-query behavior and distinguishes `SourceAddress` from `Scalar`.
+Selector9 returns the encoded original address+12 even outside the owned table;
+selectors34..255 return0 without requiring record data. Other unowned scalar
+reads remain `None` for later raw or prior-owner composition. The helper neither
+turns the inline view into a host pointer nor adds a three-byte bound.
+
+One warning-free Windows core-only build `358dba2c..` uses a frozen520-file copy
+of the accepted518-source ordinary unit with only the core module declaration
+and two new leaves. Only the exact core-test fingerprint is isolated; parallel
+Debug work is excluded from this proof. One focused Wine filter passes27 shape,
+JSON and authentication guards and14517 actual original-code prefixes:
+12088 full D07A4 getter calls (all347 records ×34 selectors, all222 default
+selectors once, low16/low8 aliases and raw outside indices),1388 unsigned
+single-load tail prefixes and1041 five-instruction inline/successor
+prefixes. They observe all8675 interpreted source bytes. The other1041 bytes
+(positions3/15/27 per record) retain exact serialization and bus projection.
+The selected inline prefix preserves its raw following-family lookup.
+
+Nine isolated source variants, never ordinary checkpoints, exercise unsigned
+high bytes/halfwords, full-word bit31, queried bit20 and changed opaque bytes.
+All342 additional original prefixes agree and source authentication rejects
+these modified models. Original RAM outside the retained four-byte stack word,
+callee registers, SP/LR, VRAM, OAM, palette and final ROM bytes remain exact.
+The `347169` executed instructions describe test coverage only;
+no host performance or guest-clock equivalence claim follows from this model
+oracle. Native full-state/clock proof belongs to runtime integration.
+
+All36 actual model guards/520 frozen source hashes and122 closed source
+contract guards remain exact; artifact completion retires zero paths. Evidence
+under `target/rom-data-linked-metadata28-model/` includes independent values and
+probe plans, isolated variants, stable sources, build/test logs, executable and
+final/preservation/cleanup receipts. Schema1/e82-d81 and USAe8-d7 stay unchanged.
+Next are managed e83-d82 publication and typed consumption, then actual CLI and
+ordinary use. Full caller ABI, the following four-byte family, global archive,
+Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+
+
+## Managed indexed 28-byte metadata and typed guest reads
+
+EUR e83-d82 adds `gameplay.linked-metadata28` at resource index74, serialized as
+`linked-metadata28.json` / `linked-metadata28-v1-json`. The generation contains
+76 files and75 resources. All74 previous resource records and decoded files
+remain exact; schema1 and USAe8-d7 stay unchanged. Its single9716-byte source
+span710E04..7133F8 is disjoint from previous owners and declares no invented
+cross-resource dependency. Source reconstruction, file hash, source span/role
+and exact decoded-base equality are checked before transactional attachment.
+Existing fixed input guards retain their parser-safety role; no space campaign
+or compression optimization is performed.
+
+The immutable owner holds the typed model and six record-mask words. Its eight
+counters report reads, source bytes, halfword-field bytes, scalar-byte bytes,
+inline bytes, flag bytes, opaque bytes and distinct records used. Five classes
+partition each physical record6/12/3/4/3 bytes. The inline fourth byte15 remains
+opaque alongside bytes3/27; all values stay exact. Local and global source-page
+selection include710..713. Every read composes per byte with the prior owner or
+raw ROM, so the header to the left and raw four-byte successor to the right keep
+their behavior and counters. Low16/low8 indexing, scalar/address/default getters,
+bit queries, caller gates and live algorithms remain original guest work.
+Machine/C API, native cache and save-state ABI are unchanged.
+
+One warning-free522-source Windows build `040133f5..` and one focused Wine filter
+pass publication76/prior74 equality, interruption before manifest publication,
+14 attachment and two complete-set guards. Every failed attach preserves the
+existing resource owner and complete guest state. The accepted520-source model
+copy is the build base; only integration hubs and two new leaves are overlaid,
+excluding parallel Debug work. Only affected core-library/test fingerprints are
+isolated; old source copies and the canonical executable stay exact.
+
+Twenty-three original/interpreter/native cases compare complete serialized
+states and guest clocks with all9716 raw bytes poisoned after Load/setup:
+17 load prefixes cover five classes, record boundaries, mirrors, the prior
+header and raw successor; six complete D07A4 calls cover source-address/no-data
+branches, full flags, bit queries, aliases and raw outside indices. The compiled
+path actually consumes31 new bytes and1 prior-header byte.
+Two analysis families keep full-getter and single-load stops disjoint, asserting
+that neither family compiles its stop; Thumb BL pairs remain fused.
+The56 compiled instructions and28 dispatches describe coverage only.
+This is selected native behavior, not full caller ABI or ordinary reachability.
+
+The bus proof poisons all9716 source bytes and reads them through a ROM mirror:
+2082 halfword-field,4164 scalar-byte,1041 inline,1388 flag and1041 opaque bytes,
+all347 records. Mixed16/32-bit reads cross all347 record ends, page boundaries,
+prior-header and raw successor edges; other-owner reads leave these counters
+unchanged. Unavailable files/failed reattachment, Load and private-slot Load/Undo
+retain the same owner. DMA3 and CpuSet4860-halfword copies and CpuFastSet2432-word
+copy cover the full source and raw tail; all three compare complete state/clock
+against the ROM path. Source poison is restored before state comparison.
+
+All216 actual guards,522 integration source hashes and520 closed model preimages
+remain exact. Artifact completion retires only the disposable interrupted dataset
+copy; accepted data, logs, executable, compiled objects and source preimages stay
+available under `target/rom-data-linked-metadata28-runtime/`. Dataset identity is
+`66bc5dbd8fe08af1b949de272215870a7f74fe929eb6e2041b498e8f16becb0f`, manifest `16015edba717322a7839e517b9ba0edfb4ac5e78557f2a8b2a6efc34dace2920` and metadata JSON
+`590ba29559b1f5a44212f3ac9e09eab723c14dcc32c5a8e4642097ec64b60966`. Build/runtime/final/preservation/cleanup receipts
+record actual scope. The closed source and14517+342 model oracle are not replayed.
+
+Next are actual production CLI create/reuse/startup with positive field use, then
+one ordinary equivalence pair. The retained Giza700 window is a candidate whose
+new usage counters must be observed first. Full caller ABI/global archive, the
+following four-byte family, Linux, USA, native Windows, new32:9 and the full ROM
+TODO remain pending. No new checkpoint, ordinary fixture, navigation or game run,
+performance measurement, Android change, package, assistant commit or push occurs.
+
+
+## Actual indexed metadata28 CLI registration and ordinary locators
+
+The production e83-d82 Windows CLI passes generation creation, reuse and normal
+startup. All76 generation files match the accepted runtime dataset; all75 logged
+resource IDs/hashes match the manifest. All78 managed files retain hashes and
+mtimes through reuse and every observed startup. The original
+28859 translated blocks load with the single9716-byte source span and
+empty dependency list intact. Registration is closed. Positive ordinary usage and one complete ordinary
+pair are now verified by the [Steal menu case](#ordinary-metadata28-steal-menu-equivalence)
+below.
+
+Four bounded normal locators all report zero in every metadata28 counter:
+Giza menu-to-deployment700 frames19409→20109; retained Change Jobs540 frames
+4519→5059; Ability-set selection700 frames4519→5219; and Battle Tech R-info800
+frames4519→5319. These are negative observations, not positive consumption or
+per-frame equivalence proofs. The last two use normal inputs derived on a copied
+checkpoint after inspecting the Unit menu (Equipment0/Ability1/Change Jobs2)
+and the visible R-info command. The final image actually shows First Aid,
+Powerbreak, Mug, Shieldbearer and Mindbreak; that menu still does not read this
+physical table. No input/guest-state value is forced to make a counter positive.
+Do not repeat these locators. The later dry-ground Steal combat menu supplies positive field-use evidence.
+The four unrelated menu/deployment views and basic index0/default attack alone
+do not establish that use.
+
+One warning-free production build `0acb352e..` uses a frozen522-file copy of the
+accepted runtime. Its only source overlay corrects three metadata28 error labels
+that previously named coordinates. Reversing those three string edits restores
+the accepted core file byte-for-byte; all other521 source files are exact.
+Only affected core-library/production fingerprints are isolated; the canonical
+executable hash and mtime are restored exactly. There are six recorded CLI
+commands (prepare/reuse/four locators), plus one230-frame menu observation.
+Source/model/runtime acceptances are not replayed for the diagnostic text.
+
+All220 actual guards and522 CLI source hashes remain exact; artifact completion
+retires zero paths. Evidence under `target/rom-data-linked-metadata28-cli/` keeps
+normal input derivation/provenance, source copy, three-label preimage/inverse
+receipt, build/command logs, zero-case histories, menu images and registration/
+preservation/cleanup receipts. Dataset: `target/rom-data-linked-metadata28-cli/windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e83-d82/generation-GuUcax`. No new checkpoint,
+manual guest RAM/task/ROM/cartridge edit or performance measurement occurs.
+Linux, USA, native Windows, new32:9, the following four-byte family, full caller
+ABI/global archive and the full ROM TODO remain pending.
+
+
+## Ordinary metadata28 Steal menu equivalence
+
+Normal game inputs on copies of retained EUR checkpoints now provide a positive
+metadata28 case: opening the Steal command list on dry ground in Giza. The actual
+menu shows Steal Armor, Steal Weapon, Steal Gil, Steal JP and Steal Ability.
+The accepted suffix spans42 frames, guest22669→22711, and serves five records:
+`{"bus_reads": 15, "byte_bytes": 10, "flag_bytes": 0, "halfword_bytes": 10, "inline_bytes": 0, "opaque_bytes": 0, "records_used": 5, "source_bytes": 20}`. These are served-byte counters, not an inferred
+distinct-byte union. Halfword and byte fields are positive; inline, flag and
+opaque ordinary use remain zero and retain their separate targeted proofs.
+No ability effect or steal result is executed or claimed by this menu window.
+
+The existing production CLI `0acb352e..` replays that suffix
+with exactly the same eight counters, all75 logged resource IDs/hashes matching
+e83-d82 and all78 managed paths retaining hashes and mtimes. It loads the same
+28859-block native cache. One Wine full pair on the actual CLI dataset then
+compares every complete serialized state and guest clock against the original-ROM
+path, with classic/central/wide images, OAM and all five audio streams equal at
+every frame. Native/fallback dispatch counts are `[205895, 591653]` and audio sample
+counts are `[92168, 92168, 11088, 11088, 92082]`; these describe correctness/coverage, not speed.
+
+An optional five-line `FFTA_STATE_TEST_REQUIRE_METADATA28` block requires positive
+reads, source bytes, records and at least one interpreted byte class, reporting
+all eight counters. Removing only that block restores the prior validator
+byte-for-byte. A test-only normal-input observer loads a copied checkpoint,
+advances the original native frame runner with keyboard inputs and observes
+resource counters. It retains a rolling16-frame pre-read checkpoint, input suffix,
+end state/image and up to32 positive continuation frames within the input bound.
+ROM identity is asserted unchanged. There is no manual guest RAM, register,
+task, ROM or cartridge edit, original save writer or forced action index.
+
+One warning-free523-source Windows test build `5a6c81be..` supplies both capture
+and comparison; core code is unchanged from the accepted522-source CLI. Only
+the affected test fingerprint is isolated. Seven normal capture steps execute
+1182 frames, plus one neutral CLI frame inspects the full viewport. The initial
+water branch has Action disabled and is abandoned without an equivalence claim.
+A retained pre-move dry checkpoint has Move selected/Action enabled; ordinary
+Down/A opens Action and then Steal. The final capture observes the first new
+read and32 continuation frames, retaining the42-frame suffix. No old source,
+model, runtime, CLI registration, four negative locators or constructor acceptance
+is replayed. No production/core rebuild is needed for discovery or the full pair.
+
+All177 current guards/523 frozen source hashes and220 closed CLI guards/522
+production source hashes remain exact, including original seeds, cache, loader,
+canonical executable and all78 managed files. Artifact completion retires zero
+paths. Evidence under `target/rom-data-linked-metadata28-combat/` includes normal
+input plans and capture endpoints, `07-open-steal/before-activation.ffstate`,
+`activation.input`, CLI and42-frame pair logs/results, validator preimage/guard,
+frozen sources/executable and final/preservation/cleanup receipts.
+
+This closes the declared source/model/managed/runtime/CLI and one positive
+ordinary case for metadata28. It does not prove every347 records, inline/flag/
+opaque ordinary use, executed ability effects, full caller ABI or global archives.
+The following four-byte family's model and runtime, Linux, USA, native Windows,
+new32:9 and the full ROM TODO remain pending. Its source contract is described
+below. No performance measurement, space campaign, Android
+change, package, assistant commit or push occurs.
+
+## European linked four-byte record source contract
+
+**ROMDATA-01-LINKED-RECORDS4 — source contract complete, 2026-10-28.** The declared
+EUR physical partition `7133F8..713744` contains844 bytes, retained as211 ordered
+four-byte slots, with SHA-256
+`85d556e39da8baaec49308c815125532aa8947a476e2c59131532a5bf0334fa9`.
+Six exact root literals and their original PC-relative loads establish the
+four-byte indexing. The independently rooted next family at713744 uses an
+eight-byte step and its own loop. This establishes a physical partition, not a
+guest index cap or the semantic number of active records. The neutral proposed
+resource ID is `gameplay.linked-records4`.
+
+All four fields are individually loaded as unsigned bytes. Field00 appears in
+the B8548 reader and the global/instance getters134CBC/134CD6. Field01 is loaded
+at C5524, C5A42 and132FE6; its branch and dispatch comparisons belong to those
+callers. Original134E24/134E26 and134E40/134E42 load fields03/02 separately as
+arguments to live logic. Getter13510C reads field02. Other consumers use field00,
+field02 and field03 as indices into separate encoded code-pointer tables rooted
+at3AD638,3AD6AC and3AD72C. Those external tables and their extents are not part of
+this source contract. No ability/effect names, enums, value caps, Boolean
+conversion or signed reinterpretation are introduced.
+
+The selected original loops obtain the metadata28 getter's encoded inline
+address and read its first three positions. Across347 parent rows these give
+1041 references to194 distinct four-byte slots, all inside the declared
+partition. Three references select index0. Repeated indices alias the same
+original row; equal row contents remain separate physical identities. The
+observed maximum208 is a property of these references, not an accepted index
+limit. The fourth inline byte is not newly classified as a reference.
+
+Original context initialization retains the inline address at live+2C and
+`087133F8 + 4 * inline_index` at live+30. The two later selector setters store and
+reread the low byte of the inline position before loading the row index. Their
+address calculation has no universal three-position or211-record guard. The
+eventual model/runtime must retain original encoded addresses and leave reads
+outside its owned partition to the appropriate existing owner or raw ROM.
+
+Slots0,1,209 and210 contain identical zero bytes and are preserved individually.
+The inspected loops read index0 normally; no global null, terminator or fallback
+rule follows from a zero row. The two trailing zero slots209/210 have no proven
+reserved/padding meaning and remain undecided. The next family's first-byte
+zero check skips an eight-byte entry and advances its loop; it is not a
+terminator for either catalog.
+
+All211 slots reconstruct the complete844 source bytes exactly. The partition
+does not overlap any of the75 accepted e83-d82 resources or their50489 source
+spans. Thirteen authenticated instruction/literal windows, six new and seven
+cached, and45 exact pins support the contract. Two additional exploratory
+windows are retained separately. All112 input guards preserve the ROM, static
+disassembler, accepted76 dataset files, cached witnesses and completed proof
+receipts. Artifact completion retires zero paths. An expected ADD encoding in
+the private checking helper was corrected before acceptance and a missing
+literal window was added; no build or runtime test failed.
+
+Evidence under `target/rom-data-linked-records4/` includes the source contract,
+ordered private records, reference list/counts, root/loader inventory,
+authenticated windows and pins, source spans and final/preservation/cleanup
+receipts. This unit uses static inspection only: no build, Wine invocation,
+gameplay, fixture derivation or previous completed proof is repeated. The strict
+typed model and original-reader Wine proof are now complete below; managed
+publication, runtime reads, actual CLI and an ordinary case come next. Linux, USA, native
+Windows, new32:9, full caller ABI, indirect catalogs and the full ROM TODO remain
+pending; no performance or storage campaign is performed.
+
+## Typed four-byte linked records and original reader proof
+
+**ROMDATA-02-LINKED-RECORDS4 — complete for EUR/Wine, 2026-10-28.** The standalone
+core `rom_data::records4` model preserves all211 ordered physical slots and all
+844 bytes, including distinct zero slots0,1,209 and210. `Record` contains its
+physical `u8` index and four separate unsigned byte fields. Strict JSON parsing
+rejects unknown/missing fields and invalid numeric types or widths. Validation
+checks the declared source, slot count, order and indices without inventing
+enums, a null row, value caps or meaning for the trailing zeros. One source span
+has role `linked-records4-slots` and reconstructs the complete partition.
+
+`source_address(index: u8)` returns the original encoded guest address, including
+indices211..255 outside this model's ownership. `record` returns `None` for an
+unowned slot and `byte_at` does so outside7133F8..713744. These are ownership
+diagnostics, not guest zero/fallback behavior. The original dynamic inline
+selector is not constrained to three positions. Shape validation remains
+separate from `verify_source`: base authentication requires the exact full EUR
+ROM, source fingerprint and all13 authenticated reader/boundary windows, then
+compares decoded content. Modified but well-shaped values are not accepted as
+the original base dataset.
+
+One warning-free core-only Windows build produces executable SHA-256
+`a727058074a5c1e546a2528538cf9ff81507e147c5d62c4c8a35bdf740d43bb7`.
+Its frozen525-file source snapshot derives from the accepted523-file metadata28
+ordinary snapshot with only the new model/test leaves and module declaration
+overlaid. It has233 core/build inputs. Only the exact affected core-test
+fingerprint is isolated; the current parallel debug sources and all accepted
+snapshots remain untouched.
+
+One new Wine filter passes20 model/parser/authentication guards and1567 calls
+or prefixes through original guest instructions:
+
+- 1055 field probes run five readers for every211 slots: global and instance
+  field00 getters, field01 prefix, global field02 getter and the field03/02
+  argument prefix. Actual LDRB effective addresses cover all844 owned source
+  bytes, including unreferenced and zero slots. The argument prefixes stop
+  before calls into live game logic.
+- 512 full setter calls run both original global and instance setters for all
+  256 byte indices. High bits in the input selector are discarded by the
+  original byte store/read. Checks include the selected inline byte, encoded
+  row address and all five permitted EWRAM write bytes, including addresses for
+  unowned211..255. No three-position or211-record cap is introduced.
+- Two isolated high-bit variants run10 additional field probes, exercising
+  unsigned values128..255 in every field. They pass shape validation, fail
+  original-base authentication and remain separate synthetic oracle inputs.
+
+Every field probe preserves EWRAM; setter probes preserve the full buffer apart
+from the expected selector byte and pointer word. All probes preserve callee
+registers, SP/LR, IWRAM, VRAM, OAM and palette; the final ROM equals its original
+copy after the isolated variants are restored. The9808 executed instructions
+are coverage evidence only. This oracle does not compare native clock behavior,
+full caller ABI, ordinary gameplay or managed runtime consumption.
+
+All125 actual input guards,525 frozen source hashes, the three current
+implementation hashes and112 closed source-unit guards remain exact. Artifact
+completion retires zero paths. Private evidence under
+`target/rom-data-linked-records4-model/` retains independent model/source/probe
+inputs, isolated variants, source preimage/snapshot, current executable,
+build/Wine logs and final/preservation/cleanup receipts. Source classification
+and all older model/runtime/ordinary proofs are not replayed. Schema1/e83-d82,
+save/native/C API layouts and the existing managed dataset are unchanged.
+
+Next is managed publication and immutable typed bus ownership for this family,
+then targeted native full-state/guest-clock, Load/Undo and DMA checks, actual CLI
+and an ordinary case. Linux, USA, native Windows, new32:9, full caller ABI,
+external dispatch-table extents, indirect catalogs and the full ROM TODO remain
+pending. No gameplay, checkpoint derivation, performance measurement, storage
+campaign, Android change, package, assistant commit or push occurs in this unit.

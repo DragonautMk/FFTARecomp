@@ -240,6 +240,13 @@ in-game `.sav` saves for transfer to a GBA or another emulator.
 
 ## Development history and project skills
 
+For local reports, generate and open `index.html` at the repository root. It
+collects coverage maps, graphics inspectors and comparisons with search and
+filters. Windows: `.\scripts\windows\report_home.ps1 -OpenReport`; Linux:
+`bash scripts/linux/report_home.sh`. Both reuse the existing coverage Docker
+image. See [homepage generation and scope](docs/report_home.md). The generated
+catalog stays local and is ignored by Git.
+
 See [CHANGELOG.md](CHANGELOG.md) for implemented changes and validation.
 See the [desktop performance TODO](docs/development/PERFORMANCE_TODO.md) for
 prioritized optimization work, CPU/GPU candidates and correctness gates.
@@ -249,7 +256,7 @@ to record changes and run `python3 scripts/project_memory.py check` before hando
 
 ## 📜 License and credits
 
-- License: MIT, see [LICENSE](LICENSE). It keeps the original author's copyright line.
+- License: MIT, see [LICENSE](Licenses/LICENSE). It keeps the original author's copyright line.
 - Based on [gba-recomp](https://github.com/JRickey/gba-recomp) by JRickey (MIT OR Apache-2.0).
 - `gamedb.sqlite` is by JRickey, released under CC0 1.0.
 - Includes [w64devkit](https://github.com/skeeto/w64devkit) (GCC, binutils and other tools under GPL and compatible licenses), unmodified. Their licenses are in `payload/toolchain`.

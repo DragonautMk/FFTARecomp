@@ -30,6 +30,8 @@ pub mod metadata16;
 pub mod metadata52;
 pub mod metadata4;
 pub mod metadata2;
+pub mod metadata28;
+pub mod records4;
 pub mod default48;
 pub mod constructor_alternates;
 pub mod metadata14;
@@ -76,6 +78,7 @@ pub mod world_nodes;
 pub mod world_roads;
 pub mod encounter_headers;
 pub mod encounter_unit_templates;
+pub mod encounter_coordinates;
 pub mod unit_obj_byte_property_words;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;
@@ -83,8 +86,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 81;
-pub const DECODER_REV: u32 = 80;
+pub const EXTRACTOR_REV: u32 = 83;
+pub const DECODER_REV: u32 = 82;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -273,6 +276,14 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const METADATA28_ID: &str = "gameplay.linked-metadata28";
+pub const METADATA28_FILE: &str = "linked-metadata28.json";
+pub const METADATA28_FORMAT: &str = "linked-metadata28-v1-json";
+pub const MAX_METADATA28_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const ENCOUNTER_COORDINATES_ID: &str = "gameplay.encounter-coordinates";
+pub const ENCOUNTER_COORDINATES_FILE: &str = "encounter-coordinates.json";
+pub const ENCOUNTER_COORDINATES_FORMAT: &str = "encounter-coordinates-v1-json";
+pub const MAX_ENCOUNTER_COORDINATES_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const ENCOUNTER_UNIT_TEMPLATES_ID: &str = "gameplay.encounter-unit-templates";
 pub const ENCOUNTER_UNIT_TEMPLATES_FILE: &str = "encounter-unit-templates.json";
 pub const ENCOUNTER_UNIT_TEMPLATES_FORMAT: &str = "encounter-unit-templates-v1-json";
@@ -546,6 +557,8 @@ pub struct Extraction {
     pub world_roads: Option<world_roads::Catalog>,
     pub encounter_headers: Option<encounter_headers::Catalog>,
     pub encounter_unit_templates: Option<encounter_unit_templates::Catalog>,
+    pub encounter_coordinates: Option<encounter_coordinates::Catalog>,
+    pub metadata28: Option<metadata28::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -625,6 +638,8 @@ pub struct BaseFiles<'a> {
     pub world_roads: Option<(&'a world_roads::WorldRoads, &'a [u8])>,
     pub encounter_headers: Option<(&'a encounter_headers::EncounterHeaders, &'a [u8])>,
     pub encounter_unit_templates: Option<(&'a encounter_unit_templates::EncounterUnitTemplates, &'a [u8])>,
+    pub encounter_coordinates: Option<(&'a encounter_coordinates::EncounterCoordinates, &'a [u8])>,
+    pub metadata28: Option<(&'a metadata28::Metadata28, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1183,6 +1198,14 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![ENCOUNTER_HEADERS_ID.into(), CONSTRUCTOR_ALTERNATES_ID.into(), ITEM_RECORDS_ID.into(), METADATA14_ID.into(), METADATA52_ID.into()], sources: metadata.sources.clone(),
             });
             result.encounter_unit_templates = Some(metadata);
+            let metadata = encounter_coordinates::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(ENCOUNTER_COORDINATES_ID.into());
+            result.manifest.resources.push(Resource {id:ENCOUNTER_COORDINATES_ID.into(),path:ENCOUNTER_COORDINATES_FILE.into(),format:ENCOUNTER_COORDINATES_FORMAT.into(),sha256:String::new(),dependencies:vec![ENCOUNTER_HEADERS_ID.into()],sources:metadata.sources.clone()});
+            result.encounter_coordinates = Some(metadata);
+            let metadata = metadata28::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(METADATA28_ID.into());
+            result.manifest.resources.push(Resource {id:METADATA28_ID.into(),path:METADATA28_FILE.into(),format:METADATA28_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.metadata28 = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1290,6 +1313,8 @@ impl Extraction {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1398,6 +1423,8 @@ impl Extraction {
             || self.world_nodes.is_some() != self.world_roads.is_some()
             || self.world_roads.is_some() != self.encounter_headers.is_some()
             || self.encounter_headers.is_some() != self.encounter_unit_templates.is_some()
+            || self.encounter_unit_templates.is_some() != self.encounter_coordinates.is_some()
+            || self.encounter_coordinates.is_some() != self.metadata28.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2047,6 +2074,14 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected encounter_unit_templates resource".into()),
         }
+        match (&self.encounter_coordinates, files.encounter_coordinates) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_ENCOUNTER_COORDINATES_FILE_BYTES {return Err("Encounter coordinates file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[73].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected encounter coordinates".into()),
+        }
+        match (&self.metadata28, files.metadata28) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_METADATA28_FILE_BYTES {return Err("Metadata28 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[74].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected metadata28".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2441,6 +2476,14 @@ impl Extraction {
             decoded.validate_references(files.items.ok_or("Missing encounter items dependency")?.0, files.metadata14.ok_or("Missing encounter descriptor dependency")?.0, files.metadata52.ok_or("Missing encounter job dependency")?.0)?;
             if decoded != &expected.decoded {return Err("Decoded encounter_unit_templates differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.encounter_coordinates,files.encounter_coordinates) {
+            decoded.validate_headers(files.encounter_headers.ok_or("Missing coordinate header dependency")?.0)?;
+            if decoded!=&expected.decoded {return Err("Decoded coordinates differ from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.metadata28,files.metadata28) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded metadata28 differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2525,6 +2568,8 @@ impl Extraction {
             + usize::from(self.world_roads.is_some())
             + usize::from(self.encounter_headers.is_some())
             + usize::from(self.encounter_unit_templates.is_some())
+            + usize::from(self.encounter_coordinates.is_some())
+            + usize::from(self.metadata28.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2652,6 +2697,8 @@ mod tests {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2732,6 +2779,8 @@ mod tests {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2822,6 +2871,8 @@ mod tests {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2901,6 +2952,8 @@ mod tests {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

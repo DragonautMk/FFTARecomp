@@ -12,6 +12,7 @@
 //! through the `screen` crate's enums so the two frontends never drift.
 
 mod canvas;
+pub mod diagnostics;
 mod font;
 pub mod fps;
 mod controller_icons;
@@ -66,6 +67,12 @@ pub enum MenuAction {
     SaveState { slot: u8, overwrite: bool },
     LoadState(u8),
     UndoState,
+    CaptureGraphics,
+    StartUiTrace,
+    SaveUiReport,
+    InspectPC,
+    DebugStep(u32),
+    DebugResume,
     CompareReplay,
     CaptureReplay,
     AuditReplay,
@@ -157,6 +164,13 @@ enum Page {
 /// left/right/confirm. `Key(b)` starts a "press a key" capture.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Row {
+    StartUiTrace,
+    SaveUiReport,
+    CaptureGraphics,
+    InspectPC,
+    DebugStepOne,
+    DebugStepTen,
+    DebugResume,
     DebugMenu,
     ExtendedSaves,
     CompareReplay,
@@ -314,7 +328,7 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
-        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::Back],
+        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::Back],
         Page::DebugCatalog => &[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry,Row::CatalogImport,Row::CatalogOpen,Row::CatalogChoose,Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
         Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
@@ -344,6 +358,13 @@ impl Row {
         match self {
             Row::DebugMenu => "Debug",
             Row::ExtendedSaves => "Extended saves",
+            Row::CaptureGraphics => "Capture graphics report",
+            Row::StartUiTrace => "Start UI / input trace",
+            Row::SaveUiReport => "Save UI / input report",
+            Row::InspectPC => "Inspect PC / registers",
+            Row::DebugStepOne => "Step 1 frame (F7)",
+            Row::DebugStepTen => "Step 10 frames (F8)",
+            Row::DebugResume => "Resume (F6)",
             Row::CompareReplay => "Compare first difference",
             Row::CaptureReplay => "Capture on trigger",
             Row::AuditReplay => "Audit replay",
@@ -431,7 +452,7 @@ impl Row {
         matches!(
             self,
             Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-                | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
+                | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
                 | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
                 | Row::Backup(_) | Row::ConfirmRestoreBackup
                 | Row::SaveStateConfirm
@@ -629,6 +650,7 @@ pub struct Menu {
     game_save_message: String,
     debug_message: String,
     debug_session: bool,
+    debug_position: Vec<String>,
     catalog: debug_catalog::CatalogState,
     state_message: String,
     state_undo: Option<String>,
@@ -682,6 +704,7 @@ impl Menu {
             game_save_message: String::new(),
             debug_message: String::new(),
             debug_session: false,
+            debug_position: Vec::new(),
             catalog: debug_catalog::CatalogState::default(),
             state_message: String::new(),
             state_undo: None,
@@ -728,8 +751,27 @@ impl Menu {
     pub fn diagnosis_result(&mut self, message: String) { self.debug_message = message; }
 
     pub fn set_debug_session(&mut self, active: bool) { self.debug_session = active; }
+    pub fn set_debug_position(&mut self, frame: u64, clock: u64, reason: &str, remaining: u32) {
+        self.debug_position = vec![format!("FRAME {frame}"), format!("CLOCK {clock}"), reason.to_uppercase(), format!("REMAINING {remaining}")];
+    }
 
     pub fn selected_state_slot(&self) -> u8 { self.state_slot as u8 + 1 }
+
+    pub fn debug_focus(&self,w:usize,h:usize)->diagnostics::Focus {
+        let l=self.page_layout(w,h);
+        let first=self.first_visible(l);
+        diagnostics::Focus {page:format!("{:?}",self.page),selected:self.selected,
+            label:rows_of(self.page).get(self.selected).map(|r|r.label()).unwrap_or("unknown").into(),
+            capture:self.capture.map(|b|format!("{b:?}")),panel:[l.panel_x,l.panel_y,l.panel_w,l.panel_h],
+            first_visible:first,dropdown:self.dropdown.as_ref().map(|dd|{
+                let(x,y,w,h,_,first)=theme::dropdown_geometry(dd,w,h);
+                diagnostics::DropdownFocus {label:dd.row.label().into(),index:dd.index,
+                    option:setting_options(dd.row).get(dd.index).cloned().unwrap_or_default(),
+                    panel:[x,y,w,h],first_visible:first}
+            }),selected_bounds:if self.selected>=first && self.selected<first+l.visible_rows {
+                Some([l.panel_x+l.pad,l.rows_y+(self.selected-first)*l.line_h,l.panel_w.saturating_sub(2*l.pad),l.line_h])
+            }else{None}}
+    }
 
     pub fn set_catalog(&mut self, entries: Vec<CatalogEntry>, region: &str) {
         self.catalog = debug_catalog::CatalogState::new(entries,region);
@@ -922,6 +964,16 @@ impl Menu {
             }
             MenuInput::Confirm => match row {
                 Row::DebugCatalog => Some(MenuAction::OpenDebugCatalog),
+                Row::StartUiTrace|Row::SaveUiReport=>{if self.debug_session{Some(if row==Row::StartUiTrace{MenuAction::StartUiTrace}else{MenuAction::SaveUiReport})}else{self.debug_message="Open an isolated copy before UI tracing.".into();None}},
+                Row::CaptureGraphics=>{if self.debug_session{Some(MenuAction::CaptureGraphics)}else{self.debug_message="Open an isolated copy before graphics capture.".into();None}},
+                Row::InspectPC => {
+                    if self.debug_session {Some(MenuAction::InspectPC)}else{self.debug_message="Open an isolated debug copy before inspecting.".into();None}
+                },
+                Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume => {
+                    if !self.debug_session { self.debug_message = "Open an isolated debug copy before stepping.".into(); None }
+                    else if row == Row::DebugResume { Some(MenuAction::DebugResume) }
+                    else { Some(MenuAction::DebugStep(if row == Row::DebugStepOne {1} else {10})) }
+                },
                 Row::CompareReplay => Some(MenuAction::CompareReplay),
                 Row::CaptureReplay => Some(MenuAction::CaptureReplay),
                 Row::AuditReplay => Some(MenuAction::AuditReplay),
@@ -1273,6 +1325,11 @@ impl Menu {
                     else if width >= 100. { ("DEBUG COPY",14.) } else { ("DEBUG",10.) };
                 c.rect(4., 8., width, 28., 4., [255,225,142], [60,35,8], [190,135,35]);
                 c.text(10., 14., label, [255,225,142], size, true, width-12.);
+                if width >= 120. {
+                    for (i,line) in self.debug_position.iter().enumerate() {
+                        c.text(10., 48. + i as f32 * 19., line, [255,225,142], 12., true, width-12.);
+                    }
+                }
                 c.finish(rgba);
             }
         }
@@ -1349,7 +1406,7 @@ fn value_of(
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
         Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
+            | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
@@ -1473,7 +1530,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             Some(Changed::Debug)
         },
         Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+            | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
         Row::MouseMode => None,
@@ -1648,6 +1705,20 @@ fn response_mode(av: &AvConfig) -> ResponseMode {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn debug_focus_reports_actual_dropdown_option_and_existing_geometry() {
+        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        assert!(menu.debug_focus(852,480).dropdown.is_none());
+        menu.handle(MenuInput::Confirm,&mut av);
+        let focus=menu.debug_focus(852,480);let dropdown=focus.dropdown.unwrap();
+        assert_eq!(dropdown.label,"Extended saves");assert_eq!(dropdown.index,0);
+        assert_eq!(dropdown.panel,[266,202,320,76]);
+        assert_eq!(dropdown.option,setting_options(Row::ExtendedSaves)[0]);
+        menu.handle(MenuInput::Down,&mut av);
+        let selected=menu.debug_focus(852,480).dropdown.unwrap();
+        assert_eq!(selected.index,1);assert_eq!(selected.option,setting_options(Row::ExtendedSaves)[1]);
+        assert_eq!(menu.selected,0);
+    }
     #[test]
     fn physical_pixel_layout_scales_proportionally_from_1080p_to_4k() {
         for n in [MAIN_ROWS.len(), INPUT_ROWS.len(), GAMEPAD_ROWS.len()] {
@@ -2037,6 +2108,18 @@ mod tests {
         for (w, h) in [(640,480),(852,480),(1280,720)] {
             let l = menu.page_layout(w,h);
             assert!(l.rows_y+l.visible_rows*l.line_h<=h);
+        }
+    }
+
+    #[test]
+    fn frame_steps_are_isolated_actions_and_leave_menu_open() {
+        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        at(&mut menu,Row::DebugStepOne);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert!(menu.debug_message.contains("isolated"));menu.set_debug_session(true);
+        at(&mut menu,Row::InspectPC);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::InspectPC));
+        at(&mut menu,Row::CaptureGraphics);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::CaptureGraphics));
+        for (row, action) in [(Row::DebugStepOne,MenuAction::DebugStep(1)),(Row::DebugStepTen,MenuAction::DebugStep(10)),(Row::DebugResume,MenuAction::DebugResume)] {
+            at(&mut menu,row);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(action));assert_eq!(menu.page,Page::Debug);
         }
     }
 

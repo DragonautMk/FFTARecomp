@@ -97,6 +97,101 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](
 
 [Change record](docs/changes/2026-10-28-verify-european-world-node-cli.json)
 
+## 2026-10-28 — Verify European metadata28 in a normal Steal command menu
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a test-only normal-input checkpoint observer and optional five-line positive metadata28 scene guard. Removing the guard restores the prior validator exactly; normal captures never manually edit guest state, ROM or cartridge data.
+- Close metadata28 positive ordinary CLI/equivalence with the retained42-frame Giza Steal menu suffix; preserve four prior zero locators and distinguish menu entry from executed ability effects.
+
+**Validation**
+
+- One warning-free Windows test build 5a6c81be.. from523acceptedcopy sources, only affectedtest fingerprint/coreunchanged. Seven normalWinecapture steps1182frames plus oneCLIwideobservation1frame; drypre-move checkpoint and actualmenu inputs yield42frame22669→22711 positive fixture.
+- Existing productionCLI0acb352e.. positive42 and onefullWinepair match everycomplete state/guestclock/classic-central-wide image/OAM/fiveaudio streams; all8counts={"bus_reads": 15, "byte_bytes": 10, "flag_bytes": 0, "halfword_bytes": 10, "inline_bytes": 0, "opaque_bytes": 0, "records_used": 5, "source_bytes": 20} exactcapture-CLI-pair. Dispatch=[205895, 591653], audio=[92168, 92168, 11088, 11088, 92082] coverageonly. All75loggedIDhashes/78managedpaths no-write.
+- All177actualguards/523sourcehashes and220closedCLIguards/522production hashes exact; optionalguard removal byteexact/helper0paths. No source/model/runtime/registration/fournegative or oldfamily acceptance replay; no newprod/core build or metrics.
+
+**Limitations**
+
+- One menu entry uses five records and halfword/byte fields; inline/flag/opaque ordinary classes stay0 with separate targetedproofs. Not all347records, executed effects, all caller gates/fullABI/globalarchive or completeROMTODO.
+- Followingfourbytefamily/Linux/USA/nativeWindows/new32:9 pending; no manualguestRAM-register-task-ROM-cartridge edit/originalsavewriter/spacecampaign/Android/package/assistantcommit/push. Parallelwork preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-linked-metadata28-steal-menu.json)
+
+## 2026-10-28 — Verify metadata28 CLI registration and retain ordinary locator limits
+
+Type: fixed. Platforms: Windows.
+
+**Changes**
+
+- Correct three metadata28 error labels that named coordinates; exact inverse overlay against accepted runtime core file, all other521sources unchanged.
+- Close actual e83-d82 production CLI creation/reuse/startup with76files exactruntime/75loggedIDhashes/78managedpaths no-write. Keep positiveordinary/fullpair open after four zero-counter normal locators and observed menu routing.
+
+**Validation**
+
+- One warning-free Windows production build 0acb352e.. from522sources; affectedcorelib/prod fingerprints only, canonicalexe hashmtime restored. SixCLIchildren exit0 plus one230frame menu observation; old28859nativeblocks loaded, all220guards/522sourcehashes exact/helper0.
+- All8metadata28 counters0 in Giza700,Jobs540,Abilityset700 andBattleTechRinfo800. Firsttwo use retainednormalinputs; lasttwo use normalinput derivation on copiedstate from viewedmenus/R-info. Preserve negativehistory/provenance; no positivefullpair or oldacceptance replay.
+
+**Limitations**
+
+- CLIregistration is accepted, ordinarypositive usage and fullstate-clock/image/OAM/audio pair are NOT achieved. Nextrequires a nonzero originalcombat-action path; menu labels/basicdefaultattack are insufficient. Do not repeatfourzero locators.
+- Linux/USA/nativeWindows/new32:9/followingfourbytefamily/fullcallerABI/globalarchive/fullTODO pending. No newcheckpoint/manualguestRAM-task-ROM-cart edit/metrics/spacecampaign/Android/package/assistantcommit/push; parallelwork preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-linked-metadata28-cli.json)
+
+## 2026-10-28 — Verify European unit-template production CLI and ordinary data use
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify e81-d80 production CLI creation, no-write reuse and retained normal Giza battle-entry startup. All74generation files exactruntime/73loggedresourceID-hashes/76managed paths unchanged, five dependencies and192prior-owned bytes retained.
+- Close positive selector/argument/equipment/flag use before one ordinary equivalence pair; report all13 usage fields and unobserved classes without claiming all2850records/442headers/fullABI.
+
+**Validation**
+
+- One warning-free Windows production build afeaef25.. from514accepted runtime sources; only exact production fingerprint isolated/core unchanged, canonicalexe hash/mtime restored. Three Wine children exit0 preparecreated/reused/runc700 guest19409→20109, old28859nativecacheblocks loaded.
+- All184guards/514source hashes exact, artifacthelper0paths; counts={"ability_bit_bytes": 41, "argument_bytes": 15, "auxiliary_bytes": 10, "bus_reads": 186, "control_bytes": 10, "equipment_bytes": 80, "flag_bytes": 10, "headers_used": 1, "opaque_bytes": 0, "optional_bytes": 10, "records_used": 5, "selector_bytes": 35, "source_bytes": 211}. Positiveclasses=['selector_bytes', 'argument_bytes', 'equipment_bytes', 'auxiliary_bytes', 'ability_bit_bytes', 'optional_bytes', 'flag_bytes', 'control_bytes']; unobserved=['opaque_bytes']. No newfixture/checkpoint/navigation/metrics or closedsource-model-runtime-header-constructor acceptance replay.
+
+**Limitations**
+
+- One ordinary fullstate-clock/pixel/OAM/dispatch/audio pair next; this single battle-entry usage window is not allrecord/allheader/allbranch/fullABI/globalarchive proof.
+- Linux/USA/nativeWindows/new32:9/coordinatepayload/fullROM_DATA_TODO pending. No performance/storage campaign, Android/package, assistantcommit/push; existinguser/parallelwork preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-unit-template-cli.json)
+
+## 2026-10-28 — Verify European unit templates in ordinary battle entry
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add optional five-line positive-use guard for all eight observed semantic unit-template byte classes in the existing ordinary scene validator, reporting all13 usage fields. Removing only the new block restores the prior validator exactly.
+- Close the retained normal Giza menu-to-White Flowers deployment case with actual e81-d80 production dataset and exact CLI counters; opaque ordinary usage remains unobserved and full-bus proof separate.
+
+**Validation**
+
+- One warning-free514-source Windows test build 33c61082.., only affectedtest fingerprint isolated/core unchanged; one Wine700 per-frame pair19409→20109. Every complete state/guest clock/classic-central-wide image/OAM/native-fallback/fiveaudio matches. Dispatch=[3316146, 8054486]; audio=[1536150, 1536150, 184800, 184800, 1536026]; all13counts={"ability_bit_bytes": 41, "argument_bytes": 15, "auxiliary_bytes": 10, "bus_reads": 186, "control_bytes": 10, "equipment_bytes": 80, "flag_bytes": 10, "headers_used": 1, "opaque_bytes": 0, "optional_bytes": 10, "records_used": 5, "selector_bytes": 35, "source_bytes": 211} exactCLI.
+- All104ordinary guards/514pairsource hashes plus184closedCLI guards/514production hashes exact; optionalguard removal byteexact/artifacthelper0paths. No newfixture/checkpoint/navigation/metrics or closedsource-model-runtime-CLI-registration/header/constructor acceptance replay.
+- Memory render/metadata-only/CRLF whitespace diff pass. Default/base07be4d2 checks report only five parallel Debug-control/session/menu/main/play paths awaiting their owner record; no own ROM path uncovered. Final104ordinary guards/184closedCLI guards and514source hashes each remain exact.
+
+**Limitations**
+
+- One positive case with five records/one header does not prove all2850records/all442headers/opaqueordinary/everyconditional branch/full importer ABI/globalarchive or complete ROM_DATA_TODO.
+- Linux/USA/nativeWindows/new32:9/coordinatepayload pending. No performance/storage campaign, Android/package, assistantcommit/push; userparallelwork preserved.
+- Global project-memory check currently awaits the unrelated parallel Debug-control/session record; this record does not claim their implementation or checks.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-unit-template-battle-entry.json)
+
 ## 2026-10-28 — Verify European encounter-header production CLI and ordinary data use
 
 Type: docs. Platforms: Windows.
@@ -143,6 +238,52 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-28-verify-european-encounter-header-battle-entry.json)
+
+## 2026-10-28 — Verify European coordinate production CLI and ordinary data use
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify actual e82-d81 CLI creation, no-write reuse and retained normal Giza battle-entry startup:75generation files exactruntime/74logged IDs-hashes/77managed paths unchanged,691spans/headerdependency. Close positive placement0/XY use before one ordinary equivalence pair.
+- Reconcile stale PROJECT_STATE runtime attempt counts against already closed evidence:threewarningfreebuilds/stagedfilters withtwo testharness failures, no acceptance rerun.
+
+**Validation**
+
+- One warning-free Windows production build b467d4ad.. from518accepted sources; only affectedprod fingerprint isolated/coreunchanged, canonicalexe hash/mtime restored. ThreeWinechildren exit0 preparecreated/reused/runc70019409→20109, old28859nativeblocks loaded.
+- All186guards/518sourcehashes exact, artifacthelper0paths; all10counts={"bus_reads": 20, "default_bytes": 0, "headers_used": 1, "lists_used": 1, "placement0_bytes": 20, "placement2_bytes": 0, "random_bytes": 0, "source_bytes": 20, "x_bytes": 10, "y_bytes": 10}. Positive roles=['placement0_bytes'], unobserved=['random_bytes', 'placement2_bytes', 'default_bytes']. No newfixture/navigation/checkpoint/metrics or closedmodel-runtime-header-template acceptance replay.
+
+**Limitations**
+
+- One ordinary fullstate-clock/pixel/OAM/dispatch/audio pair next; this window is not all691lists/allroles/allheaders/fullplacementABI/globalarchive or complete ROM_DATA_TODO.
+- Linux/USA/nativeWindows/new32:9 pending; no metrics/storage campaign, Android/package, assistantcommit/push. ParallelDebug/userwork preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-coordinate-cli.json)
+
+## 2026-10-28 — Verify European encounter coordinates in ordinary battle entry
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add optional five-line positive-use guard for ordinary coordinate source reads, placement0, X/Y and list/header coverage in the existing scene validator, reporting all ten usage fields. Removing the block restores the previous validator exactly.
+- Close retained normal Giza-to-White Flowers deployment with the actual e82-d81 production dataset and exact CLI counters; random, placement2 and default ordinary roles remain unobserved in this case.
+
+**Validation**
+
+- One warning-free518-source Windows test build de67e015.., only affected test fingerprint isolated/core unchanged; one Wine700 per-frame pair19409→20109. Every complete state/guest clock/classic-central-wide image/OAM/five audio streams matches. Native-fallback dispatch=[3316146, 8054486]; audio=[1536150, 1536150, 184800, 184800, 1536026]; all10counts={"bus_reads": 20, "default_bytes": 0, "headers_used": 1, "lists_used": 1, "placement0_bytes": 20, "placement2_bytes": 0, "random_bytes": 0, "source_bytes": 20, "x_bytes": 10, "y_bytes": 10} exactCLI.
+- All104ordinary guards/518pairsource hashes plus186closedCLI guards/518production hashes exact; optional guard removal byteexact/artifacthelper0paths. Existing original checkpoint/input unchanged; no new navigation or performance measurements.
+
+**Limitations**
+
+- One list and one header with placement0/X/Y use does not establish all691lists/all323payloadheaders/other ordinary roles/every caller gate/full placement-RNG ABI/global archive or complete ROM_DATA_TODO.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage campaign, Android/package or assistantcommit/push; parallel Debug/user work preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-coordinate-battle-entry.json)
 
 ## 2026-10-28 — Verify ordinary European constructor animation through the Giza scene
 
@@ -413,6 +554,55 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](doc
 
 [Change record](docs/changes/2026-10-28-model-european-world-node-records.json)
 
+## 2026-10-28 — Model European linked four-byte records and verify original readers
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add standalone records4 model for211 ordered physical slots/four unsigned byte fields/844 source bytes, strict JSON and shape validation distinct from exact EUR base authentication and13 reader windows.
+- Keep original encoded u8-index addresses for all256 indices including unowned211..255; preserve distinct zero rows, unknown trailing reserve-or-padding meaning and existing schema/dataset/save/native/C API layouts.
+
+**Validation**
+
+- One warning-free Windows core-only build from525 frozen files/233 core inputs produces a727058074a5c1e546a2528538cf9ff81507e147c5d62c4c8a35bdf740d43bb7. Only the affected core-test fingerprint is isolated; old snapshots and parallel DBG implementation are preserved.
+- One new Wine filter passes20 guards and1567 original calls/prefixes:1055 field probes cover all844 bytes;512 full global/instance setters cover all256 indices, high-input low8 aliases and outside-owner addresses. Two isolated high-bit variants pass10 additional unsigned field probes and fail original-base authentication.
+- EWRAM is exact apart from expected setter byte/pointer writes; callee registers/SP-LR/IWRAM/VRAM/OAM/palette/final ROM are exact. All125 actual guards/525 frozen hashes/three current implementation hashes and112 closed source guards pass; artifact helper retires zero paths. No gameplay, fixture derivation, metrics or closed-proof replay.
+- Project memory metadata-only and CRLF-aware diff checks pass. Default and base07be4d2 checks identify only four uncovered files from parallel DBG interface work; all three records4 implementation paths are covered.
+
+**Limitations**
+
+- Managed publication/runtime bus ownership, targeted native full-state and guest-clock/LoadUndo/DMA proof, actual CLI and ordinary use remain pending for this family; this is a source/model/original-reader oracle only.
+- Linux, USA, native Windows, new32:9, full caller ABI, semantic count/trailing padding, external dispatch-table extents, indirect catalogs and the full ROM TODO remain pending.
+- General shared-workspace memory coverage awaits the parallel DBG record for menu canvas/diagnostics and debug_ui.rs/report.html; that implementation remains untouched and is not attributed here.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-model-european-linked-records4.json)
+
+## 2026-10-28 — Model European indexed 28-byte metadata and prove original readers
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add lossless347record/9716B core metadata28 model with strict shape/JSON and separate exactEUR/window/source authentication. Preserve full unsigned values/flags and opaque bytes.
+- Project original low16-index/low8-selector scalars, source-address view,21 Boolean bitqueries and no-data default while keeping unowned scalar reads distinct. Leave live caller/RAM algorithms unchanged.
+
+**Validation**
+
+- One warning-free Windows core-only build 358dba2c.. from520frozen sources, exactcoretestfingerprint only; one Wine filter passes27guards/14517original prefixes(12088fullgetter1388directtail1041inline-successor),all8675interpretedB/1041opaqueB roundtrip. Nine isolated variants342additional originalprefixes verify high-bit/fullword/opaque values without ordinary fixtures.
+- Full RAM/callee/SP-LR/VRAM/OAM/palette/finalROM checks pass; 347169instructions coverageonly. All36modelguards/520sourcehashes/230coreinputs and122closedsourceguards exact; artifacthelper0paths. No game/navigation/metrics/closedproof replay.
+
+**Limitations**
+
+- Standalone model/source oracle only; managed publication/typedruntime/nativefullstate-clock/actualCLI/ordinary coverage next. Schema1/e82-d81 unchanged.
+- Full caller ABI/global catalog/followingfourbytefamily/Linux/USA/nativeWindows/new32:9/fullROMTODO pending. No guest index cap, globalnullfallback, semanticnames or returnedview3cap inferred; parallel Debug work preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-model-european-linked-metadata28.json)
+
 ## 2026-10-28 — Model European encounter unit templates with shared coherence
 
 Type: added. Platforms: Windows.
@@ -460,6 +650,31 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-28-model-european-encounter-headers.json)
+
+## 2026-10-28 — Model European encounter coordinates and verify original readers
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add strict lossless691-list/2342-pair rawu8XY model with691source spans/4684B, header pointer-count-role coherence and exact EUR/source/window authentication separated from shape. Preserve signed/unsigned views and original RNG/placement/null gates without observed-value caps or safe guest fallback.
+
+**Validation**
+
+- First core-only Windows build fails only for missingBus trait import in the new test; import fixed, failed516source copy/logs retained, second516source build 2fe3e236.. warning-free/227coreinputs. Only exactcoretest fingerprint isolated, no globalclean/oldsource mutation/frontend build.
+- One Wine filter passes30guards/8044originalunsigned-signedload prefixes covering all4684B,12isolated restored highbit prefixes and102originalrandom-selection prefixes across34lists/3seededges. RNG/remainder/index/pointer/XY/seed/u16mask/destination/retainedcallee-SP-LR/outerRAM-VRAM-OAM-palette-ROM checked;25362instructions coverageonly.
+- All40modelguards/516acceptedsourcehashes/516failedpreimages+38closedsourceguards exact, artifacthelper0paths. No newgame/fixture/navigation/oldsource-header-template-runtime-ordinary acceptance/performance.
+- Memory render/metadata-only/CRLF whitespace diff pass. Default/base07be4d2 report only six parallel Debug-control/session/menu/main/play/scriptsREADME paths awaiting their owner record; no own ROM implementation path is uncovered. Final40model guards/38source guards and516accepted+516failed source hashes exact.
+
+**Limitations**
+
+- Prefix proof is not full placement ABI/repeated random selection/exhaustion/all null caller gates/native-state-clock/ordinary runtime or globalarchive proof. Managed e82-d81/index73 typedbus/CLI/ordinary next; current schema1/e81-d80/USA8-7 unchanged.
+- Linux/USA/nativeWindows/new32:9/fullROM_DATA_TODO pending. No metrics/storage campaign, Android/package, assistantcommit/push; parallelDebug/userwork preserved.
+- Global project-memory check currently awaits the parallel Debug-control record; this ROM record does not describe that implementation or claim its checks.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-model-european-encounter-coordinates.json)
 
 ## 2026-10-28 — Link ROM coverage to bounded scene read audits
 
@@ -565,6 +780,30 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](
 
 [Change record](docs/changes/2026-10-28-consume-european-world-node-records.json)
 
+## 2026-10-28 — Publish European indexed metadata28 and consume typed guest bytes
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add e83-d82/index74 managed linked-metadata28.json resource, immutable typed byte owner and CPU/DMA/native guest read composition with five classes/347record mask/eight usage counters. Preserve all74prior resources/files and typed-header/raw successor edges; no invented dependency or guest/save/native/CAPI ABI change.
+- Authenticate model bytes and one9716Bsource span before transactional attach; connect preparation, bounded parsing, hashing and runtime usage diagnostics while keeping original selectors, flags and live algorithms.
+
+**Validation**
+
+- One warning-free Windows build 040133f5.. from522acceptedcopy sources, affected corelib/test fingerprints only; one focusedWine publication76/prior74/interruption/14attach2fullset proof preserves failed-attach owner/fullstate. No oldsource/model/coordinate/header/template acceptance replay.
+- Twenty-three rawROM/typed-interpreter/native complete-state-clock cases with9716rawBpoisoned AFTERLoad:17loads+6fullD07A4getters,31compilednewB/1priorheaderB; 56compiledinstructions/28dispatchcoverageonly. Full9716B5classes347records/all347boundaries/widths/mirrors/typedrawedges/LoadUndo/threeDMA-CpuSet-FastSet fullstates-clock pass.
+- All216actualguards/522integration sourcehashes/520closedmodel preimages exact; helperretiresonlyinterruptedcopy. Dataset=66bc5dbd8fe08af1b949de272215870a7f74fe929eb6e2041b498e8f16becb0f; manifest=16015edba717322a7839e517b9ba0edfb4ac5e78557f2a8b2a6efc34dace2920; newJSON=590ba29559b1f5a44212f3ac9e09eab723c14dcc32c5a8e4642097ec64b60966.
+
+**Limitations**
+
+- Actual production CLI create/reuse/no-write/startup with positive ordinary use and one full ordinary equivalence pair remain next. Selected native prefixes do not prove full caller ABI/globalarchive or all ordinary rows/fields.
+- Linux/USA/nativeWindows/new32:9/followingfourbytefamily/fullROMTODO pending. No metrics/spacecampaign/newgame-navigation-checkpoint-fixture/Android/package/assistantcommit/push; parallel Debug work preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-consume-european-linked-metadata28.json)
+
 ## 2026-10-28 — Publish and consume European encounter unit templates
 
 Type: added. Platforms: Windows.
@@ -615,6 +854,32 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](
 
 [Change record](docs/changes/2026-10-28-consume-european-encounter-headers.json)
 
+## 2026-10-28 — Publish and consume European encounter coordinate lists
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish encounter-coordinates.json/gameplay.encounter-coordinates at e82-d81/index73 with header pointer/count/role dependency coherence.75files74resources, all73prior records/files exact; immutable691-span4684-byte typed owner and local/global70B..70C page routing.
+- Compose old template/header borders per byte, retain index0-prefix coordinate ownership without a typedheader0/fallback, and report four roles/XY/list-header usage. Original placement/RNG/live rules and Machine/native/save ABI unchanged.
+
+**Validation**
+
+- Three warning-free Windows builds/accepted0f85fbf7.. from518stablefiles each; remainingcopy changes only newtestharness. Only affected corelib/test then test-only fingerprint isolated, no globalclean/oldsource edit/unrelatedDebug/frontend integration. FirstWine passespublication/attach/fullset then failsnative harness; test-onlyBLpair/ARMdecoderfix follows established helper pattern. Secondfilter exposes cross-case chaining beyond single-load stop; finalharness splits two case families/assertsnostopmember and preservesall22cases/nativechaining.
+- FirstWine publication/interruption/14attach/threefullset/failedowner-state retention plus remaining-only thirdWine native/lifecycle (75acceptedfiles exact/no publication-attach replay) pass22complete-state-clock cases with4684rawBpoisoned afterLoad:18actualloads/onefullindex0gate/threeoriginalrandomprefixes;156compiledinstructions/21newB/2oldtemplateB/13oldheaderB.
+- All4684B/fourroles/XY/691lists323headers/all691boundaries/widths-mirrors-prioredges/LoadUndo and threeDMA-CpuSet-CpuFastSet fullstate-clock checks pass. All253actualguards/518integrationhashes/516modelpreimages exact; artifacthelper onlyinterruptedcopy. No newgame/fixture/navigation/closedmodel-source-template-header-ordinary acceptance/performance.
+- Memory render/metadata-only/CRLF whitespace diff pass. Default/base07be4d2 report only six parallel Debug-memory/probe paths awaiting their owner record; no own ROM path uncovered. Final253actualguards/518accepted+518first+518second source hashes/516modelpreimages exact, accepted75dataset files unchanged.
+
+**Limitations**
+
+- ActualproductionCLI/create-reuse/startup/positiveordinary next. Selected native cases are not fullplacement ABI/randomexhaustion/allcaller-nullgates/globalarchive/fullROM_DATA_TODO proof.
+- Linux/USA/nativeWindows/new32:9 pending, USA8-7/schema1 unchanged. No metrics/storage campaign, Android/package, assistantcommit/push; parallelDebug/userwork preserved.
+- Global project-memory check currently awaits the parallel Debug-memory/probe record; this record does not describe that work or claim its checks.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-consume-european-encounter-coordinates.json)
+
 ## 2026-10-28 — Classify European world node links and preserve opaque record bytes
 
 Type: docs. Platforms: Windows.
@@ -638,6 +903,55 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-28-classify-european-world-node-records.json)
+
+## 2026-10-28 — Classify European linked four-byte gameplay records
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish the declared844-byte EUR partition7133F8..713744 as211 ordered physical four-byte slots using six authenticated roots, original u8 indexing and an independently rooted eight-byte successor family.
+- Classify all four fields as unsigned bytes, original encoded live-context pointers and1041 metadata28 inline references to194 slots; preserve zero and duplicate rows without inventing a guest cap, enum, null rule or trailing padding meaning.
+
+**Validation**
+
+- All211 slots reconstruct844 source bytes exactly, SHA25685d556e39da8baaec49308c815125532aa8947a476e2c59131532a5bf0334fa9; no overlap with75 accepted e83-d82 resources/50489 spans. All1041 selected references are in range, including three to index0.
+- Thirteen authenticated windows (six new, seven cached),45 instruction/literal pins and112 input guards pass; accepted76 dataset files, ROM, static disassembler and closed receipts remain exact; artifact helper retires zero paths.
+- Static source inspection only. One private helper ADD-encoding typo corrected and one missing literal window added before acceptance; no build, Wine/game/test/fixture/navigation/metrics or closed-proof replay.
+- Project memory metadata-only and CRLF-aware diff checks pass. Default and base07be4d2 memory checks currently report four uncovered implementation paths from parallel DBG interface work; none belongs to this source-only unit.
+
+**Limitations**
+
+- 211 is a physical slot count, not a guest cap or proven active semantic count; trailing zero slots209/210 remain reserved-or-padding undecided. External code-pointer table extents and all indirect callers/full ABI are unproven.
+- Strict typed model/original-reader Wine proof, managed publication/runtime, actual CLI and ordinary consumption remain pending for this family. Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+- Shared-workspace memory coverage remains pending for parallel crates/menu/src/canvas.rs, crates/menu/src/diagnostics.rs, crates/recomp/src/debug_ui.rs and crates/recomp/src/debug_ui/report.html; their implementation and ownership are preserved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-classify-european-linked-records4.json)
+
+## 2026-10-28 — Classify European indexed 28-byte gameplay metadata
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish declared347record/9716B physical source partition710E04..7133F8 from17cached roots/28-byte indexing and an independently rooted following four-byte family, without a guest347cap.
+- Classify original D07A4 low16-index/low8-selector getter, inline source-address view, full flags and21 Boolean bit queries, direct tail readers and opaque bytes; retain lossless raw values and row0.
+
+**Validation**
+
+- All347records reconstruct exactly; fullhash=68cea1f29a7c4a6a50e2184538d2df954c00d792f84eb59405643221410fa192; no overlap with74accepted e82-d81 resources/50488spans. Twenty authenticated windows14new6reused and69instruction/literal/jump-table pins pass.
+- All122 actual guards preserve ROM, static disassembler, accepted75dataset files and closed proof receipts; artifacthelper0paths. Static source checks only, no build/Wine/game/fixture/navigation/metrics or closedproof replay.
+
+**Limitations**
+
+- Strict model/original-reader Wine proof, managed/runtime consumption, actual CLI and ordinary coverage next; source contract alone is not direct file consumption.
+- Following four-byte family, all indirect callers/full ABI/globalarchive, Linux/USA/nativeWindows/new32:9/fullROM TODO remain pending. Numeric fields do not establish ability/law/mission names, enums/valuecaps or globalnullfallback.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-classify-european-linked-metadata28.json)
 
 ## 2026-10-28 — Classify European encounter unit-template fields and shared ownership
 
@@ -684,6 +998,29 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-28-classify-european-encounter-header-catalog.json)
+
+## 2026-10-28 — Classify European encounter coordinate lists and original readers
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Define the complete header-linked691-list/2342-pair/4684-byte coordinate source partition70B6A8..70C8F4. Four pointer roles and counts exactly cover physical spans with no holes/alias/prior ownership; preserve rawu8 XY with signed-search/unsigned reader semantics.
+- Identify original nonnegative15-bit RNG/signed remainder/index/u16mask path, null-link limits and index0-prefix coordinate ownership; retain live algorithms without invented10/16caps or safe null fallback.
+
+**Validation**
+
+- Static checks pass691full list projections/442header reference roles, disjointness against49797spans/73owners, nine reused and three new bounded windows/41instruction pins/38actualpreservationguards. Artifacthelper0paths.
+- No build/runtimeWine-Linux/game/newfixture/navigation/newrootcensus/closedsource-model-runtime-ordinary acceptance/performance; existingexactROM/nativecache/canonical/input/source evidence preserved.
+
+**Limitations**
+
+- Strict lossless691-list model/headercoherence and one focused Wine original-load/randomprefix proof are next; managed/runtime/CLI/ordinary consumption remains open. Static contract is not full placement ABI/allcaller/nullgate/globalarchive proof.
+- Schema1/e81-d80/USA8-7 unchanged; Linux/USA/nativeWindows/new32:9/fullROM_DATA_TODO pending. No metrics/storage campaign, Android/package, assistantcommit/push; paralleluserDebug work preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-classify-european-encounter-coordinates.json)
 
 ## 2026-10-28 — Classify European constructor cell flag seeds in existing BG packets
 
@@ -809,6 +1146,71 @@ Documentation: [debug_catalog.md](docs/debug_catalog.md), [debug_sessions.md](do
 
 [Change record](docs/changes/2026-10-28-add-shared-debug-save-catalog.json)
 
+## 2026-10-28 — Add bounded offline graphics inspection from paused isolated copies
+
+Type: added. Platforms: Windows cross builds and Wine/Xvfb; offline Chrome desktop/mobile.
+
+**Changes**
+
+- Add menu Capture graphics report and debug-control graphics SESSION [--compare-last] in idle paused isolated copies. Freeze raw VRAM/OAM/palette/IO and saved central/active-wide RGB555 buffers, readonly BG/OBJ/window projections and128OAM descriptors, palette/tile/raw texture selectors. No guest step, register/IO write, Machine/save/native ABI change or new snapshot.
+- Reuse the original snapshot preview CPU sampler at actual window dimensions for world and UI composition, recording settings, UI rectangles/clips and exact changed-pixel count/bounds. Bound window to1600x1000, JSON to2MiB and report directories to8including incomplete captures. Preserve previous reports and publish graphics.json last; no automatic pruning.
+- Generate a self-contained offline interactive HTML/JSON/PNG bundle with current frozen-register provenance, raw buffer/image SHA256 and complete before/after state identity. Selected BG/tile/palette pixels name demonstrated backing offsets, flips/banks/map entries; final framebuffer winner and VRAM-to-ROM transfer source remain unknown. Separate saved RGB555 white0xffff from transparent isolated-layer sentinel.
+- Optional compare-last authenticates the latest complete same-session ROM/schema and exact prior raw/paired image hashes, then reports byte differences with up to16offsets and paired central/wide/frontend images. Changed geometry/settings do not imply pixel alignment. Preserve the original guest renderer and existing include-UI snapshot sampler behavior.
+
+**Validation**
+
+- Frozen public07be4d2 plus15selected overlays reuses accepted DBG10/11 and excludes concurrent extraction implementation. Locked/offline release builds with and without rom-data-read-audit are warning-free. Final feature SHA2560046a8125ea0d7d81366e40e57a528c9a16f744d0b1d8469ef7e6eddc84a753a; default e14dc29052a0979373e1d35058f4c66fba2e66bfc5e2ee32abd4873c297a9f2f.
+- 58distinct targeted Wine tests pass:3graphics report,2readonly PPU,6control,1preview and46menu.57initial executions passed; pre-GUI review separated saved0xffff white from layer transparency, followed by3affected report executions only. Preserve pre-RGB-output-review source/build selections; earlier unaffected tests not reopened.
+- Initial automatic permission review timed out before harness creation or execution and allowed retry; retry found the missing script and exited before tests. Prepared the script in the workspace, then authorized Wine run passed. permission-review-attempt.json records the resolved environmental sequence; no runtime acceptance duplicated.
+- 21real CLI cases plus Wine/Xvfb GUI pass: paused capture/menu, same-frame zero deltas, comparison after one frame, missing prior, reversibly tampered prior,8directory capacity preserving every existing hash-mtime, running/closed refusals and default-feature capture. Complete state/frame/clock/save/progress are unchanged by capture/refusal. Default and feature copies produce identical selected state/raw hashes; both terminate0with inactive ready markers.
+- DS20 frame22220 at852x480 shows wide UI canvas rect[-294,0,1440,480] clipped to[0,0,852,480]; independent PNG comparison counts89856changed pixels inside[114,48,738,192), explaining transparent canvas padding/crop separately from actual panel content. Two same-frame captures have0differences in all6raw components.
+- Offline Chrome desktop1400px/mobile620px interactions and inspected screenshots pass paired images, palette/tile/OAM/window selection and no horizontal overflow. Selected BG0pixel(65,10) decodes backing0x06002091; actual generated PNG pixel equals independently decoded map/tile/palette RGBA.128OAM slots and six zero raw delta rows verified.
+- Independent final-verification.json validates all15compiled overlays,5reports/raw hashes/arrays/image shapes, every central/wide PNG pixel against RGB555, OAM fields, exact raw deltas and UI pixel bounds. Stripping only the PPU module hook restores the original renderer body; generalized include-UI preview sampler matches the original. All202selected original input hash-mtimes and both normal runtimes remain unchanged; no snapshot timeline and private payloads ignored/untracked.
+- Local evidence under target/debug-tools-graphics retains build-selection/fixture-selection/protection maps, tests/builds/CLI/GUI/browser/final verification results, screenshots, source preimages and both closed portable copies. artifact-retention.json records retirement of two exited Chrome profiles; accepted reports/current candidates/cache/diagnostics remain. No managed publication disposable trees created; ROM-only completion helper does not apply.
+- Feature guide includes the reproducible DS20 layout explanation and actual limits; checklist checks only DBG01-12, durable-state/handoff close DBG12. Seven changed Markdown guides/shared docs have no missing local file links,22ordered IDs and8owned implementation paths are recorded. Project-memory metadata/changelog and git diff --check pass. Workspace and base07be4d2 coverage checks identify only concurrent extraction file crates/recomp/src/rom_data/metadata28_scene_tests.rs without its own changed record; preserve it outside DBG12. documentation-verification.json records the integration limitation.
+
+**Limitations**
+
+- Wine/Xvfb validation only. Native Windows/Linux/Wayland, physical controllers, graphical capture from a native-runtime copy, other scenes/ROMs and the full graphics-mode matrix remain unverified. Synthetic affine/bitmap tests do not establish ordinary-scene coverage or native parity.
+- Frozen register projections are not a reconstruction of scanline history. Text BG uses current scroll/flip/palette; affine BG shows the raw map without invented reference history. Raw OAM texture selectors do not apply object transforms. Backing/host-owner metadata does not prove ROM ownership, typed consumption, final framebuffer winning source or new DS acceptance.
+- Frontend output is the diagnostic CPU composition with/without native UI using existing preview sampling; pause menu/FPS/final GPU effects and monitor presentation are excluded. View/settings changes require manual alignment judgement. Report capacity includes incomplete captures, which are retained for diagnosis.
+- No normal runtime replacement, old Bank/F09/native-parity acceptance, ROM extraction/performance replay, Android, Godot, commit or push. Concurrent extraction changes and accepted DBG10/11 have their own records.
+- Global workspace/base memory coverage remains non-green until the separate concurrent metadata28 scene-navigation harness receives its own accurate change record. DBG12 metadata and owned implementation coverage pass; do not attribute that unrelated source or unverified extraction outcome to this change.
+
+Documentation: [debug_graphics.md](docs/debug_graphics.md), [debug_control.md](docs/debug_control.md), [debug_comparisons.md](docs/debug_comparisons.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-readonly-graphics-inspector.json)
+
+## 2026-10-28 — Add an offline root homepage for all existing local HTML reports
+
+Type: added. Platforms: Offline HTML; Linux Docker and headless Chrome desktop/narrow layout.
+
+**Changes**
+
+- Generate ignored root index.html from existing local index.html/index.htm pages, with category filters, name/title/path search, modification dates, three quick links and local documentation. Include historical reports without inferring validation from existence/mtime. Relative percent-encoded URLs preserve navigation when moving the whole checkout; all links work without JavaScript.
+- Version scripts/report_home.py and its standalone HTML template, Windows PowerShell and Linux Bash refresh launchers. Docker wrappers reuse the existing coverage image, mount the checkout readonly and disable network; host publishes only the homepage. No runtime build, extraction, coverage regeneration or game execution. Python3.9+ standard-library mode also available.
+- Bound discovery to1Mentries/5Kindices/64KiBtitle reads, skip service directories and symlinks, never open ROM/save/reportJSON payloads. Escape titles/paths as text, preserve literal template tokens, atomically publish after successful scan, remove ordinary temporary output and ignore generated catalog/interrupted temporary files.
+- Add homepage generation instructions to README/scripts docs and durable project state. Navigation checks also correct the pre-existing README LICENSE link to the existing Licenses/LICENSE file without changing license text.
+
+**Validation**
+
+- Real Linux launcher reuses Docker image sha256:bb2acbc9c43515d859359828441a66e743956430476501dcf779966ce043c2d9 with readonly mount/networknone and exits0. Initial sandbox wrapper/xtrace attempts could not reach Docker and exited before generation; authorized escalation succeeds without image build/extraction. Retain generation-results.json.
+- Independent rg inventory exactly matches23generated report links:8coverage/5graphics/10comparisons. All35local navigation/report/document links exist; all23preexisting report HTML SHA256/mtime pairs are unchanged. Generated root index.html ignored/untracked; no report or game payload copied.
+- Chrome headless desktop and narrow/mobile layout checks pass23initial/reset rows, three shortcuts,5/10/8group counts, case-insensitive DS20/title search, no-result/reset state, accessible pressed state/focus/date output and no horizontal overflow. Both screenshots visually inspected; actual innerWidth1400/500 recorded rather than claiming the requested390window equals device viewport.
+- Temporary out-of-tree fixture verifies percent-encoded reserved/Unicode names, HTML title escaping, literal template-token preservation, symlink/service exclusion, scan-entry refusal and unchanged prior homepage. Bash syntax passes; no runtime test/build needed for static navigation. Retire two exited owned Chrome profiles with artifact-retention.json, keep results/screenshots/protected maps under ignored target/report-home-validation.
+- Feature/README/scripts/durable-state/handoff and one coherent record/changelog updated. Project-memory metadata/changelog and git diff --check pass. Workspace/base07be4d2 checks identify only concurrent extraction crates/recomp/src/rom_data/metadata28_scene_tests.rs without its own changed record; all homepage implementation files are covered accurately by this record.
+
+**Limitations**
+
+- The catalog is a local snapshot: rerun generation after individual report create/move/delete, then reload browser. Browser refresh alone cannot scan disk. Presence/category/filemtime is navigation metadata, not proof of report validity or new ROM/scene acceptance. Known service folders and symlinks excluded; limits/errors preserve previous output.
+- PowerShell launcher supplied but not executed because pwsh/native Windows are unavailable on this host. Other browsers/native mobile devices and dark theme remain unverified. Docker launchers require an already-existing compatible coverage image/daemon and do not build/pull one automatically.
+- No runtime/source ROM extraction changes, no game/save writes, native-parity/performance acceptance, Android/Godot work, commit or push. Preserve unrelated accepted debugging and concurrent extraction work.
+- Global workspace/base memory coverage remains blocked by the separate concurrent metadata28 scene-test record. Do not attribute that source or extraction acceptance to homepage navigation; preserve the work and keep its own integration requirement.
+
+Documentation: [report_home.md](docs/report_home.md), [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-local-report-homepage.json)
+
 ## 2026-10-28 — Localize the first differing replay frame with exact state fields and paired evidence
 
 Type: added. Platforms: Windows cross build under Wine/Xvfb; offline HTML in Chrome/Linux.
@@ -841,6 +1243,39 @@ Type: added. Platforms: Windows cross build under Wine/Xvfb; offline HTML in Chr
 Documentation: [debug_comparisons.md](docs/debug_comparisons.md), [debug_replays.md](docs/debug_replays.md), [debug_captures.md](docs/debug_captures.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
 
 [Change record](docs/changes/2026-10-28-add-first-frame-debug-comparisons.json)
+
+## 2026-10-28 — Control paused debug sessions with exact frame steps and acknowledged local commands
+
+Type: added. Platforms: Windows cross builds and Wine/Xvfb GUI; synthetic audio callback.
+
+**Changes**
+
+- Add isolated-session debug-control status/pause/step/resume with per-process/request identities, atomic bounded mailbox, OS single-client lock, deferred completion acknowledgement and constant-size retained result. Readonly status reports frame/clock/PC/key latch/full-state hash and guest/host audio queue sizes. Normal game exposes no control channel.
+- Add debug-session open DIR --paused plus menu Step 1/10 and Resume, F6 pause/resume and F7/F8 one/ten frames. Consume reserved debugger presses before text/bindings/Fast/capture and ignore repeats. Menu/keyboard steps use neutral guest input; CLI accepts an explicit000..3ff active-low mask. Require pause and1..600frames, stop only on exact completed-frame increments and surface partial/closed/interrupted outcomes.
+- Expose frame/clock/reason/remaining beside the paused-copy menu without changing guest/save/native layouts. Preserve the guest input latch during idle pause. Reuse the normal guarded frame runner, discard stepped guest audio instead of queuing it, invalidate host queues/DSP and reset priming/pacing at pause/resume so host wait time creates no backlog.
+- Refuse replay profile selection/spawn during an active frame budget; keep pause/step/resume refused while an existing replay owns supervision. Load/Undo/Restart explicitly stop budgets. Keep current and diagnostic private sessions under ignored target, reuse build cache, preserve concurrent extraction and ordinary executables.
+
+**Validation**
+
+- Frozen public07be4d2 plus five selected source overlays compiles locked/offline Windows feature and default release frontends without warnings. Final feature target/debug-tools-step/recomp.exe SHA2563d2b8ab63037530f15a682ca68e4937a7db9808ff940891792d0d0d686850e41; default50b9ddc88f8fc6a618c290a0384bde7f321cc05442d762be86d61b048f629107. Production Windows/Linux executables keep original hashes/mtimes.
+- 69 Wine targeted tests pass:4 controller/mailbox/parser,6 isolated sessions,12 play frontend,1 actual callback discarded-history test and46menu. Cover bounded exact accounting, incomplete/multiple frame rejection, transactional invalid/busy commands, per-run single-consumption mailbox, shutdown marker and isolated action availability. Initial sandbox refused Wine socket before any test; identical executables pass with sandbox exception, environment-attempt.json retained.
+- 24 real CLI/GUI cases plus a pending-step owner-close runner pass on new DS20 copies. Idle pause preserves full-state hash/frame/clock; zero/601frame/bad-mask and closed/duplicate clients refused. F7 held beyond autorepeat while also mapped to guest A produces one neutral frame; F8 and menu1/10 steps produce exact22total. A single CLI22step has identical complete-state SHA337467c73c2c386bd6456fe20002c1ddc2c592f2a4afadae1d106e0f659611e5. Explicit A/release masks pass.
+- GUI CLI/F6 pause/resume preserves frozen state after stop, with empty guest and host audio queues. Recording22stepped frames and80frames with pause/resume both pass complete-state/clock verification against continuous interpreter execution. All screenshots inspected; parent processes exit0 and pending600step client receives explicit failure on owner-close.
+- Initial GUI harness assumed Main selection0 despite startup hover; it entered input bindings and did not start the intended recording/menu checks. Preserve failed copies/logs/screenshot in gui-navigation-attempt; use an explicit Debug hit and park pointer in the corrected harness. No product source or executable change for that harness repair.
+- After those checks, final review finds replay start could overlap an existing multi-frame budget. Add one refusal before chooser/spawn plus a comment; preserve pre-overlap-guard source/build/test evidence, rebuild both candidates, and validate only the new/default scope. Independent source comparison proves no other post-test implementation change; earlier unaffected tests/recording acceptance are reused.
+- Nine final-default CLI/GUI cases plus controlled600step interruption runner pass without audit feature: seed start before any frame, exact2frame requests, visible replay refusal during active budget, Escape interruption acknowledged as partial, step-while-running refusal, menu Resume, empty paused audio and inactive clean close. Final screenshot shows the refusal and live remaining budget; no chooser/worker starts.
+- Independent final verification authenticates all five live/frozen source overlays, final candidates,69test results,33CLI results, three accepted session runtime pins/clean terminal states, exact recording endpoint hashes and private-output ignore status. All202selected original input hash-mtimes remain unchanged. Current runtimes/source/logs/screenshots/accepted and failed fixtures stay local; unused superseded default unit executable replaced, older feature runtime retained in accepted recording sessions. No managed publication disposable trees or Chrome profiles created; ROM-only cleanup helper does not apply.
+- Final409local Markdown file links and22ordered DBG IDs pass with only DBG01-10 checked; project-memory workspace/base07be4d2 coverage and git diff --check pass. Feature docs, checklist, durable state and handoff close DBG10; DBG11 remains unstarted. Concurrent extraction stays covered by its own records.
+
+**Limitations**
+
+- Validation uses Wine/Xvfb and interpreter guest execution. Native Windows/Linux/Wayland, physical controllers, native translation stepping, other scenes/ROMs/datasets, listening and physical-device latency remain unverified. Callback/queue checks do not establish hardware playback behavior or new performance/ROM/DS/native-parity acceptance.
+- A step aligns completed PPU frames, not individual instructions. Neutral menu/keyboard input and explicit fixed CLI mask differ from variable recorded replay. Free execution continues after a resume/status acknowledgement; reported state is the observed boundary. Client120s timeout is not cancellation and was not wall-clock-tested; a force-killed server may leave stale ready metadata until reopen. One client can await a step; keyboard/menu can interrupt it.
+- No snapshot version/native ABI change, normal executable replacement, old Bank/F09/native parity repair/replay, extraction acceptance, Android, Godot, commit or push. Failed diagnostic fixtures stay private and retained; absence of historical local artifacts does not reopen this accepted unit.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_sessions.md](docs/debug_sessions.md), [debug_recordings.md](docs/debug_recordings.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-controlled-debug-frame-stepping.json)
 
 ## 2026-10-28 — Expose bounded ROM read audits through isolated replay profiles
 
@@ -877,6 +1312,41 @@ Documentation: [debug_rom_audit.md](docs/debug_rom_audit.md), [debug_replays.md]
 
 [Change record](docs/changes/2026-10-28-add-bounded-rom-read-audit-tools.json)
 
+## 2026-10-28 — Add bounded UI input traces with actual host-menu focus and font diagnostics
+
+Type: added. Platforms: Windows cross builds and Wine/Xvfb; simulated XInput; offline Chrome desktop/mobile.
+
+**Changes**
+
+- Add isolated menu Start UI / input trace and Save UI / input report plus acknowledged debug-control ui-start/ui-report. Expose actual status.host_menu page/row/binding/dropdown option and existing geometry. Start/save require an idle paused copy; collection observes keyboard/controller mapping, host dispatch/consumption, binding changes, control requests and actual guest-frame latches without input injection or guest mutation.
+- Bound explicit trace to30seconds/1024events/600frames, deduplicate unchanged mapped/controller polls, retain stop reason and refuse replacing an unsaved trace. State restoration seals the prefix. Keep at most8report folders including failed captures, windows1600x1000 and JSON2MiB; publish ui.json last without automatic pruning, overwriting or collector snapshots.
+- Observe the existing host-menu font on a disposable redraw: text prefix256characters,512runs,4096measured characters, actual advance/ascent/descent and rendered glyph-outline bounds, separate original width-stop/canvas clipping. Thread-local observer is normally off and unwinding clears collection; original renderer and dropdown geometry expressions remain intact.
+- Offline HTML/PNG/JSON report provides actual focus/layout, selectable text bounds and filtered host/guest sequence with independent host-ms/guest-frame clocks, ROM/runtime/full-state identities and effective bindings. Guest text/unknown selectors stay unknown. Homepage generator recognizes ui.json as its own category and links the feature guide; refreshed ignored homepage includes29indices/sixUI reports.
+
+**Validation**
+
+- Frozen public07be4d2 plus20selected overlays retains accepted DBG10-12 and excludes concurrent extraction implementation. Final locked/offline feature/default Windows release builds warning-free; feature SHA2562be92f115b651960f716bf69e2dd1569a43feb0165e451893facaadbcf79467e, default9c15b92e991336535f4bf9cfcfe416917429a01a7b45246b4d41f97808597634. First git archive included absent root build.rs and refused before export/build; remove nonexistent pathspec only and retain source-export-attempt.
+- 69distinct Wine tests pass:68initial (2collector,7control,12frontend,47menu) plus1new dropdown-focus test. Two affected report tests run after dropdown review and again after status/template review;73executions are not73distinct tests. Observer leaves every test pixel identical. Time/frame/event/dedup/output-capacity/error retention and parser/frontend boundaries verified.
+- Initial keyboard prefix accepted35events/14Enter autorepeats with one host Confirm opening Extended-saves dropdown, plus F7 neutral3ff and controlled3fe/3ff latches. Harness then navigated the open dropdown instead of Stop, requested verify while the lease was live and force-closed owner/Xvfb. Retain incomplete recording/unclean copy; no endpoint/clean-exit claim. Screenshot justified actual dropdown focus output; pre-dropdown-focus preserves source/build/results, accepted prefix never rerun.
+- Fresh Recorded CLI UI case records2A/release frames, publishes a readonly report, explicitly stops recording and closes0/inactive before debug-record verify. Full endpoint SHA256dd841ef6dba845974625e7e5ae5839f86069000066f876a32d0a86bf6fcb0b81 passes; input/start/end hashes independently checked. Separate simulated-pad copy accepts dropdown geometry and menu Start/Save, then unconditional Right enters MouseKeyboard after automatic Gamepad selection; preserve rejected remap arm/unclean diagnostic copy.
+- Readonly status focus and bounded selector width added in pre-status-browser review. Next harness catches actual row0=Open menu rather than A before any gamepad injection; pad-binding-target-attempt retains logs/source. Reopen the SAME unadvanced final copy only for remaining remap, selecting real Gamepad/A=row1 from status geometry/label. Actual simulated XInput South held1200ms commits North->South once, one keyboard Confirm opens capture, no second confirm or guest frame, exact complete state preserved. Final copy closes0/inactive; duplicate-start/capacity preserving report hash-mtimes/running/closed refusals pass.
+- 41CLI invocations retained:40expected exits and one rejected early live-session verify. These include navigation retries, not41distinct acceptance cases. Two accepted clean copies and two diagnostic interrupted copies remain local. Source/runtime/input originals preserved; no normal executable replacement. Screenshots inspected and no live GUI/helper remains.
+- Known clipped diagnostic title measures545.8886px advance versus472available,64of75characters chosen, width_stopped=true/canvas_clipped=false. Extended-saves dropdown panel[266,202,320,76] at852x480 is independently identified. Chrome1400desktop/620mobile checks actual image/text/outline selection, dropdown/remap focus, event filtering and no overflow. Homepage checks29indices/sixUIreports/search/reset and new guide link.
+- Independent final-verification authenticates20live/frozen overlays,6reports against current/prior exact templates and pinned runtimes, PNG dimensions/event ordering/limits/no collector snapshots, recording input/start/end identities and terminal ready states. Removing only observers restores exact original menu canvas, guest frame runner and input mapping; dropdown helper body is byte-identical. All202selected originals preserved by final GUI and normal runtimes rechecked. Initial readonly checker selected unit parent instead of case parent; corrected only path arithmetic, no execution acceptance repeated.
+- Evidence under target/debug-tools-ui: build/fixture selections/protection maps, initial/affected/status-browser test results, accepted keyboard/remaining prefixes, CLI/GUI/browser/final-verification, logs/screenshots and source preimages. artifact-retention.json retires three exited Chrome profiles while retaining current candidates/cache/four session histories/six reports/complete and incomplete recordings. No managed disposable fixtures created; ROM-only completion helper does not apply.
+- Feature/checklist/durable-state/handoff close DBG13; only DBG01-13checked among22ordered IDs. All checked local Markdown links and42homepage file links exist. Project-memory workspace/base07be4d2 coverage and git diff --check pass, including the concurrent extraction record now provided by its own work. documentation-verification/command-results retain exact scope; no missing administrative deliverable.
+
+**Limitations**
+
+- Wine/Xvfb interpreter validation with simulated XInput only. Native Windows/Linux/Wayland, physical controllers, other scenes/backend-native execution and hardware presentation/latency remain unverified. Raw Gilrs/DirectInput/mouse transitions are outside hooks; mapped merged results still observable. No new ROM/DS/native parity or performance acceptance.
+- Text metrics concern the actual host-menu font and glyph-outline bounds, not alpha-pixel extents or decoded guest glyphs. PNG is a disposable CPU menu redraw over existing preview, not monitor/GPU capture. Unknown guest menus/focus/text and ROM transfer provenance remain unknown. Width/canvas clipping and collector limits are explicit.
+- A trace is a bounded observed prefix, not a complete replay. Original incomplete keyboard recording and interrupted diagnostic sessions retain their actual failure status; only the separate complete2frame recording is replay-certified. State restoration seals the prior timeline; report current state may belong to a later restoration. Prior report paths in status remain historical after failure.
+- No normal runtime/save/native ABI change, extraction acceptance replay, Android, Godot, commit or push. Preserve unrelated accepted tool work and concurrent extraction; its records remain separate.
+
+Documentation: [debug_ui.md](docs/debug_ui.md), [debug_control.md](docs/debug_control.md), [debug_recordings.md](docs/debug_recordings.md), [report_home.md](docs/report_home.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-bounded-menu-text-input-diagnostics.json)
+
 ## 2026-10-28 — Capture reusable debug points when bounded replay triggers are observed
 
 Type: added. Platforms: Windows cross build validated under Wine/Xvfb.
@@ -907,6 +1377,40 @@ Type: added. Platforms: Windows cross build validated under Wine/Xvfb.
 Documentation: [debug_captures.md](docs/debug_captures.md), [debug_replays.md](docs/debug_replays.md), [debug_catalog.md](docs/debug_catalog.md), [debug_rom_audit.md](docs/debug_rom_audit.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
 
 [Change record](docs/changes/2026-10-28-add-bounded-debug-trigger-captures.json)
+
+## 2026-10-28 — Add bounded interpreter breakpoints, bus watchpoints and readonly memory inspection
+
+Type: added. Platforms: Windows cross builds and Wine/Xvfb; synthetic core/frontend validation.
+
+**Changes**
+
+- Extend the isolated debug-control channel with inspect/break/watch and menu Inspect PC / registers. Report full registers/CPSR/mode, frame/clock,1..256 immutable backing bytes, region/mirror/physical ROM offsets, exact-buffer authenticated optional debug-labels.toml and source-plan owner overlaps. Refuse IO/open-bus/backup protocol inspection; label/manifest provenance does not claim observed execution or typed consumption.
+- Add bounded interpreter search with neutral guest input,1..5000000steps/600completed frames and at most2000steps per UI tick. PC/mode stops before an eligible interpreter step; read/write/range/width/value watch stops after the complete step including HLE/DMA/tick, excludes fetches and distinguishes non-instruction service sites. Native search is explicitly refused; watch requires rom-data-read-audit. Retain partial-frame guest state/audio and last completed display until resume/frame completion.
+- Add feature-gated thread-local first-hit bus observer and readonly core backing mapper without Machine/memory-layout/save/native ABI fields or timing mutations. Read wrappers preserve original bus expressions and return values; write observation records requested value before the original operation. Bound request/result/labels/owner metadata; retain only last inspection/search response rather than a snapshot timeline.
+- Refuse recording/replay/frame-step overlap with an active search and reuse F6/Escape/owner-close interruption. Pure Labels::parse accepts the same authenticated buffer whose hash is reported; load delegates without changing existing file semantics. Add a server last-response outbox and flush-before-next-request so transient Windows replacement refusal retries publication without replaying the guest command; terminal flush is bounded, persistent IO still surfaces via logs/client timeout.
+
+**Validation**
+
+- Frozen public07be4d2 plus11selected overlays includes accepted DBG10 and excludes concurrent extraction implementation. Locked/offline Windows feature/default release builds are warning-free. Final feature SHA25644a96674d5ff840716169dbf3df911af3ba8d75c61281af33cd4868442c78573, default1d52e1ea0e2de071ad6a54a27603cd2913568226bb5dd6408f166ab591d2c36b; normal Windows/Linux executables retain original hash-mtimes.
+- 88 distinct targeted Wine tests pass:5probe/inspection,3core mapper-observer,25bus regressions,6controller/channel,46menu,3label parser. Executions are84initial plus8affected label/probe and6updated mailbox tests; do not double-count reruns as distinct tests. Checks cover exact before-PC/after-write state against unobserved execution, zero-step PC identity/mode, fetch exclusion, value/width/range/bounds, immutable mirrors/VRAM mapping, IO refusal, same-ROM owner/label authentication and altered source rejection.
+- 21 first-stage real CLI/GUI checks pass on new DS20 copy.256BROM bytes equal backing source; RAM mirror/registers/labels and IO/backup/wrap/length/foreign-label refusals preserve complete-state hash/frame/clock. Thumb080003d6 hits before step66720 at clock6241285276/frame22219; a repeated current-PC search executes0steps and preserves all state. Word read03007ffc=value03000f10 stops after IRQ service with eligible_instruction=false; word write03007f78=request6000003f stops after the whole step. One-step not-reached, partial-state idle freeze and subsequent completed-frame step pass.
+- Initial overlap harness presses Return0.3s after Wine-client spawn, before the search arrives. Recording legitimately starts and search refuses it. Reject only this startup ordering, preserve guard-startup-race fixtures/logs/screenshots and accepted first-stage results; do not replay the21unchanged checks. Corrected remaining guard harness waits for the pending client before actions.
+- Inspection provenance review replaces separate file reread by pure exact-buffer Labels::parse; rerun only5affected probe/3label tests. Narrow source/preimages and selections retained. Search loop is independently identical to the accepted first-stage loop; formatting restoration removes one unrelated CRLF change without expression changes.
+- First final-default inspection finds a real Windows sharing race: inspection.json publishes, but replacing result.json is temporarily denied while the client reads the prior result. Client actually times out120s, no automatic command retry. Preserve mailbox-sharing-attempt. Updated outbox test blocks atomic publication with a directory, verifies pending response survives and request is not reexecuted, then releases destination and verifies exact acknowledgement. All6updated control tests pass. One inherited --lib-only-binary build command refused before compile; corrected harness and logs retained in mailbox-command-attempt.
+- Nine final-default CLI/GUI checks plus2pending search runners pass: readonly256B exact-buffer label SHA/menu registers and PC without audit; watch feature refusal preserves state; recording/replay actions refused during a live search; F6 interruption and owner-close acknowledge partial/closed failures. Final screenshots visually inspected. A transient Access denied in final log recovers with the same response and no client timeout. Accepted final session closes cleanly with inactive ready marker.
+- Independent final verification authenticates11live/frozen overlays, final candidates, all202selected original input hash-mtimes, test/result identities and private-output ignore status. Stripping only the new observation wrappers/hooks reconstructs every original bus expression; search loop remains exact.21first-stage plus9final CLI exits match, actual3hit metadata validated, no final recording/replay spawned. Evidence and artifact-retention.json under target/debug-tools-probes retain current runtimes, source/preimages, accepted reports and failed diagnostics; no managed disposable trees/browser profiles were created and ROM-only completion helper does not apply.
+- Final415local Markdown file links,22ordered DBG IDs and only DBG01-11checked pass. Project-memory workspace/base07be4d2 coverage and git diff --check pass. Checklist, feature documentation, durable state and handoff close DBG11; DBG12 remains unstarted, with concurrent extraction described only in its own records.
+
+**Limitations**
+
+- Wine/Xvfb interpreter validation only. Native Windows/Linux/Wayland, physical controllers, other scenes/ROMs/datasets and full-duration5Mstep/600frame searches remain unverified. Native instruction search is unsupported and refused; readonly inspection may observe a paused native copy. No native-parity correctness or instruction cause is inferred.
+- Bus watch scope covers actual MemMap bus methods, excluding interpreter fetches. It records requested writes even for transformed/ignored destinations and may observe nested widths; direct host-vector reads are outside scope. Stop is after the complete interpreter/service step, including inherited HLE/DMA/tick, not inside an individual memory operation. PC stop is before eligible Machine step, without testing opcode condition success.
+- Images represent last completed frame; partial guest audio/state are retained until normal frame completion while host audio stays silent. Owner/label overlap is declared/source-authenticated correlation, not typed consumption, ownership discovery or new ROM/DS acceptance. Late inspection/search sections remain timestamped prior observations in status.
+- Client120s wait is not cancellation; transient response replacement is recovered while the process remains alive and terminal flush is bounded500ms. Persistent IO failure, force-killed process or shared-filesystem adversarial edits are not certified; old diagnostic fixtures remain retained and private. No normal runtime replacement, old Bank/F09/native parity/extraction/performance replay, Android, Godot, commit or push.
+
+Documentation: [debug_probes.md](docs/debug_probes.md), [debug_control.md](docs/debug_control.md), [labels.md](docs/labels.md), [debug_rom_audit.md](docs/debug_rom_audit.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-bounded-debug-breakpoints-and-memory-inspection.json)
 
 ## 2026-10-28 — Verify normal European White Flowers acceptance and retain battle-navigation limits
 

@@ -136,6 +136,8 @@ impl Drop for Capture {
 
 /// Only surrounds the interpreter's instruction-byte fetch, never execution,
 /// HLE handling or ticking. This guard has no effect in normal builds.
+pub(crate) fn fetching() -> bool { FETCH_DEPTH.with(|depth| depth.get() != 0) }
+
 pub(crate) struct InstructionFetch;
 impl InstructionFetch {
     pub(crate) fn enter() -> Self {

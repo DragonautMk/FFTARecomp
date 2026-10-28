@@ -1723,3 +1723,58 @@ passes74-file publication/72prior exact/14attach/sevenfullset guards,27 poisoned
 native fullstate-clock prefixes, every new/prior source byte, Load/Undo and
 DMA/CpuSet/FastSet. Actual CLI and ordinary use are next. No guest algorithm or
 save/native ABI changes. [Proof and limits](rom_data_gameplay.md#managed-encounter-unit-templates-and-typed-guest-reads).
+
+
+## Unit-template ordinary scene guard
+
+`FFTA_STATE_TEST_REQUIRE_ENCOUNTER_UNIT_TEMPLATES=1` requires positive ordinary
+use of the eight observed semantic template byte classes and reports all13
+usage fields. The accepted Wine700 Giza battle-entry pair matches every complete
+state/guest clock/image/OAM/audio and all counts to the production e81-d80 CLI.
+Five records/one header are used; opaque bytes stay zero. Removing the optional
+five-line guard restores the older validator exactly. [Proof and limits](rom_data_gameplay.md#ordinary-encounter-unit-template-battle-entry-equivalence).
+
+
+## Encounter coordinate typed owner
+
+EUR e82-d81 adds `gameplay.encounter-coordinates` / `encounter-coordinates.json`
+with an explicit encounter-header dependency. The immutable owner validates691
+spans/4,684 bytes and header pointer/count/role coherence before activation.
+Local/global pages70B..70C compose prior template/header borders bytewise;
+statistics distinguish four roles, X/Y,691 lists and323 headers. Staged
+Wine checks pass75-file publication/73prior exact/14attach/threefullset guards,
+22 complete-state-clock native cases, all source bytes and list boundaries,
+Load/Undo and three transfers. Original placement/RNG/ABI remain unchanged.
+Actual CLI/ordinary and Linux/USA are next.
+[Proof and limits](rom_data_maps.md#managed-encounter-coordinates-and-typed-guest-reads).
+
+
+## Encounter coordinate ordinary scene guard
+
+`FFTA_STATE_TEST_REQUIRE_ENCOUNTER_COORDINATES=1` requires positive ordinary
+coordinate source reads, placement0, X/Y and list/header use, and reports all ten
+usage fields. The accepted Wine700 Giza battle-entry pair matches every complete
+state, guest clock, classic/central/wide image, OAM and all audio streams, with
+all counts equal to production e82-d81 CLI. One list/header is used; random,
+placement2 and default roles stay unobserved in this window. Removing the
+optional five-line block restores the prior validator exactly.
+[Proof and limits](rom_data_maps.md#ordinary-encounter-coordinate-battle-entry-equivalence).
+
+
+## Indexed metadata28 ordinary scene guard
+
+`FFTA_STATE_TEST_REQUIRE_METADATA28=1` requires positive ordinary reads/source
+bytes/distinct records and at least one interpreted halfword, byte, inline or
+flag class. It reports all eight counters. The accepted42-frame Wine Steal menu
+case matches the actual production CLI exactly:15reads/20served bytes,10halfword/
+10byte bytes/five records, other three classes zero. Every complete state/clock,
+classic/central/wide image, OAM and all five audio streams match the original-ROM
+arm. Removing only the optional five-line block restores the previous validator.
+
+The ignored `metadata28_scene_tests::normal_gameplay_observes_metadata28` observer
+accepts private `FFTA_METADATA28_SCENE_ROOT` plus the existing ROM/native/state/
+input/dataset/frame variables. It runs normal keyboard frames on a copied seed,
+checks the original ROM identity, and retains normal endpoints and a pre-read
+suffix for later CLI/equivalence verification. It makes no guest state edits.
+A successful capture alone is not equivalence; positive counters and the separate
+full pair remain required. [Case, provenance and limits](rom_data_gameplay.md#ordinary-metadata28-steal-menu-equivalence).

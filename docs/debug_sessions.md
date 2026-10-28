@@ -141,3 +141,8 @@ nella copia restano da verificare. La prova native copre la copia e identità de
 libreria TinyCC. Non sono stati eseguiti benchmark, nuove scene DS o vecchie prove
 di accettazione ROM. Evidenza locale in `target/debug-tools-sessions/`; sorgenti
 pubblici e cache riutilizzabile in `target/debug-tools-build/`.
+
+Per mettere in pausa la copia, avanzare di un numero esatto di frame e riprendere
+usare [DBG-10: menu, F6/F7/F8 e CLI debug-control](debug_control.md).
+`debug-session open DIR --paused` parte dal seed senza eseguire frame prima
+della prima richiesta; il normale `open DIR` mantiene l'avvio diretto.

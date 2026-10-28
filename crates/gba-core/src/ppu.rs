@@ -15,6 +15,7 @@
 //! Mosaic is not yet implemented. Mid-scanline raster effects are out of
 //! scope by design (scanline granularity; see docs/architecture.md §6).
 use crate::mem::{MAX_RENDER_WIDTH, MemMap, VISIBLE_WIDTH, extra, render_width};
+pub mod inspect;
 
 const TRANSPARENT: u16 = 0xFFFF;
 

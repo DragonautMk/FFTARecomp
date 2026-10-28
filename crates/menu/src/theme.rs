@@ -444,7 +444,7 @@ pub(super) fn draw(
     }
     c.finish(px);
 }
-fn dropdown_geometry(
+pub(super) fn dropdown_geometry(
     dd: &Dropdown,
     w: usize,
     h: usize,

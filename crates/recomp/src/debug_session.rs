@@ -254,18 +254,19 @@ pub(crate) fn replay_command(root: &Path) -> Result<Command, String> {
 }
 
 pub(crate) fn launch(root: &Path) -> Result<Child, String> {
-    launch_mode(root, false)
+    launch_mode(root, false, false)
 }
 
 pub(crate) fn launch_recording(root: &Path) -> Result<Child, String> {
-    launch_mode(root, true)
+    launch_mode(root, true, false)
 }
 
-fn launch_mode(root: &Path, record: bool) -> Result<Child, String> {
+fn launch_mode(root: &Path, record: bool, paused: bool) -> Result<Child, String> {
     read_manifest(root)?;
     let mut command = Command::new(root.join(exe_name()));
     command.current_dir(root).arg("play");
     if record { command.arg("--record-input"); }
+    if paused { command.arg("--debug-paused"); }
     scrub(&mut command, std::env::vars_os().map(|(name, _)| name));
     #[cfg(windows)] { use std::os::windows::process::CommandExt; command.creation_flags(0x08000000); }
     command.spawn().map_err(|e| format!("Cannot start debug-session copy: {e}"))
@@ -273,9 +274,9 @@ fn launch_mode(root: &Path, record: bool) -> Result<Child, String> {
 
 pub(crate) fn cmd(args: &[String]) -> Result<(), String> {
     match args.first().map(String::as_str) {
-        Some("open") if args.len() == 2 => {
+        Some("open") if args.len() == 2 || (args.len()==3 && args[2]=="--paused") => {
             let root = fs::canonicalize(&args[1]).map_err(|e| e.to_string())?;
-            let status = launch(&root)?.wait().map_err(|e| e.to_string())?;
+            let status = launch_mode(&root, false, args.len()==3)?.wait().map_err(|e| e.to_string())?;
             if status.success() { Ok(()) } else { Err(format!("Debug-session process failed: {status}")) }
         }
         Some("inspect") if args.len() == 2 => {

@@ -312,6 +312,21 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA28").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().metadata28_stats().expect("decoded EUR metadata28");
+        assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && [i.halfword_bytes, i.byte_bytes, i.inline_bytes, i.flag_bytes].into_iter().any(|n| n > 0), "ordinary scene must consume an interpreted metadata28 field");
+        eprintln!("ROM_DATA_METADATA28_SCENE frames={frames} bus_reads={} source_bytes={} halfword_bytes={} byte_bytes={} inline_bytes={} flag_bytes={} opaque_bytes={} records_used={}",i.bus_reads,i.source_bytes,i.halfword_bytes,i.byte_bytes,i.inline_bytes,i.flag_bytes,i.opaque_bytes,i.records_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ENCOUNTER_COORDINATES").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().encounter_coordinates_stats().expect("decoded EUR encounter coordinates");
+        assert!([i.bus_reads, i.source_bytes, i.placement0_bytes, i.x_bytes, i.y_bytes, i.lists_used, i.headers_used].into_iter().all(|n| n > 0), "ordinary battle entry must consume placement0 X/Y coordinate data");
+        eprintln!("ROM_DATA_ENCOUNTER_COORDINATES_SCENE frames={frames} bus_reads={} source_bytes={} placement0_bytes={} random_bytes={} placement2_bytes={} default_bytes={} x_bytes={} y_bytes={} lists_used={} headers_used={}",i.bus_reads,i.source_bytes,i.placement0_bytes,i.random_bytes,i.placement2_bytes,i.default_bytes,i.x_bytes,i.y_bytes,i.lists_used,i.headers_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ENCOUNTER_UNIT_TEMPLATES").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().encounter_unit_templates_stats().expect("decoded EUR encounter unit templates");
+        assert!([i.selector_bytes, i.argument_bytes, i.equipment_bytes, i.auxiliary_bytes, i.ability_bit_bytes, i.optional_bytes, i.flag_bytes, i.control_bytes].into_iter().all(|n| n > 0), "ordinary battle entry must consume all eight observed semantic template classes");
+        eprintln!("ROM_DATA_ENCOUNTER_UNIT_TEMPLATES_SCENE frames={frames} bus_reads={} source_bytes={} selector_bytes={} argument_bytes={} equipment_bytes={} auxiliary_bytes={} ability_bit_bytes={} optional_bytes={} flag_bytes={} control_bytes={} opaque_bytes={} records_used={} headers_used={}",i.bus_reads,i.source_bytes,i.selector_bytes,i.argument_bytes,i.equipment_bytes,i.auxiliary_bytes,i.ability_bit_bytes,i.optional_bytes,i.flag_bytes,i.control_bytes,i.opaque_bytes,i.records_used,i.headers_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ENCOUNTER_HEADERS").is_some() {
         let i = decoded.bus.rom_resources().unwrap().encounter_headers_stats().expect("decoded EUR encounter headers");
         assert!([i.unit_count_bytes, i.map_bytes, i.template_pointer_bytes, i.placement_count_bytes, i.position_pointer_bytes, i.control_bytes].into_iter().all(|n| n > 0), "ordinary battle-entry scene must consume all six observed semantic header classes");

@@ -1488,3 +1488,273 @@ The nested encounter unit-template source contract is now closed for the
 header-linked2,850-record physical partition, retaining the192 bytes already
 owned by constructor alternates. Its strict model and managed/runtime/ordinary
 migration remain next. [Layout, readers and shared ownership](rom_data_gameplay.md#european-encounter-unit-templates-and-shared-ownership).
+
+
+## European encounter coordinate lists and original readers
+
+The four pointer roles of the authenticated442 encounter headers define691
+non-null coordinate lists,2,342 XY pairs and exactly4,684 bytes at
+`70B6A8..70C8F4`. SHA-256 is `f5b215d130be9fc5536627f67c0dbe39d9bdb6738325d1ea8d6c16642af4e3d4`. The list extents uniquely
+partition the full interval in header/slot order: no holes, overlaps, aliases or
+out-of-range references. This independent pointer/count coverage corroborates
+the closed unit-template end and first encounter-header address; adjacency alone
+does not establish the payload catalog. All49,797 source spans of73 accepted
+e81 owners are disjoint, so the coordinate payload has no shared prior owner.
+
+The691 planned source spans preserve each list's header index, slot and raw XY
+pairs. Their roles are:
+
+- Placement0:323 lists/1,636 pairs/3,272 bytes, pointer16 and count12.
+- Random:34 lists/340 pairs/680 bytes, pointer20 and range13.
+- Placement2:12 lists/44 pairs/88 bytes, pointer24 and count14.
+- Default:322 lists/322 pairs/644 bytes, pointer28's first XY pair.
+
+There are323 headers with payloads and119 with all four pointers null. Of1,077
+null links,408 are random,430 placement2,119 placement0 and120 default. All null
+non-default roles have zero count. Default nulls remain conditional original
+pointer reads with unproved caller gates, not permission to return a safe zero
+coordinate. All data is raw u8: placement search uses signed LDRSB atBD044/BD048,
+while first-point selection, candidate comparisons, random placement and default
+getters use unsigned loads. Signed and unsigned views must preserve every bit;
+actual small positive coordinate values are not a new range restriction.
+
+Placement0/2 mode selection and live loops remain guest code. The random path
+uses original RNG02868: `seed*0x41C64E6D+0x3039` stored to IWRAM030034B0, with a
+nonnegative15-bit return. The caller uses signed remainder146314, low-u8 index,
+a u16 uniqueness mask and pointer20+2*index. Actual random lists each contain10
+pairs; neither10 nor the16-bit mask becomes an invented global guest cap or a
+replacement RNG/placement algorithm. Zero/outside/null inputs retain their
+original control and prior/raw behavior until their callers are proved.
+
+The final16 bytes of the raw index0-header prefix are now accounted for by
+header442's14-byte placement0 list at70C8E4 and two-byte default at70C8F2. Index0
+is still outside the physical header catalog. Full payload projection and future
+`byte_at` ownership will include these bytes without inventing an index0 header.
+
+Nine closed bounded reader windows are reused; three new windows cover only
+the missing remainder helper/tail and RNG body. All41 instruction pins, list
+projections, span ownership and38 actual preservation guards pass. No new build,
+Wine/Linux runtime test, gameplay/checkpoint/navigation, global root census,
+closed model/runtime/ordinary proof replay or performance measurement occurs.
+Evidence is retained under `target/rom-data-encounter-coordinates/`:
+`source-contract.json`, `coordinate-lists.json`, references/null references,
+coverage analysis,691-span plan, window metadata and final/preservation/cleanup
+receipts. The intermediate coverage analysis is distinct from the closed source
+contract, and does not by itself claim execution coverage.
+
+Next is a strict lossless691-list model with header-pointer/count coherence and
+one focused Wine signed/unsigned-load/random-prefix proof. Managed publication,
+typed guest reads, actual CLI and ordinary use remain open. The dependency is
+`gameplay.encounter-headers`; schema1/e81-d80 and USAe8-d7 remain unchanged.
+Linux, USA, native Windows, new32:9, full placement ABI/all-caller gates/global
+archive and the full ROM TODO remain pending.
+
+
+## Typed encounter coordinates and original-reader proof
+
+`encounter_coordinates::{Point,CoordinateList,EncounterCoordinates,Catalog}`
+now models all691 header-linked lists/2,342 pairs losslessly. Raw u8 X/Y fields
+and the diagnostic signed view preserve the same physical bits. The fixed
+catalog shape checks source/count/order/slot/contiguous extent; separate header
+coherence checks every non-null pointer, slot, count and header index. Null links
+are absent diagnostic lists, never a safe guest fallback. Coordinate values,
+observed role lengths and RNG limits do not become new shape restrictions.
+
+All4,684 source bytes and691 per-list spans reconstruct independently. Exact EUR
+ROM identity, full source digest and the12 closed reader windows authenticate
+the source separately from structural validity. Strict JSON rejects unknown
+fields and wrong/missing/nonnumeric coordinate fields. High-bit byte edits remain
+structurally coherent with header pointers/counts but fail source authenticity.
+The original guest placement, signed/unsigned loads, RNG, remainder, mask and
+live/null gates remain unchanged.
+
+The first core-only Windows build catches a missing `Bus` trait import in the
+new test, before any Wine execution. Only that import is corrected. The failed
+516-file source copy/logs remain diagnostic preimages; the second516-file copy
+contains just the fixed test. Only the affected core-test fingerprint is isolated.
+The accepted build `2fe3e236..` is warning-free, with227 core inputs; no global
+clean, older source mutation or frontend build occurs.
+
+One focused Wine filter passes30 guards and8,044 actual original single-load
+prefixes: unsigned X/Y across every pair, plus signed search X/Y for both
+placement roles. Actual effective addresses, registers, flags, PC and all4,684
+source bytes are checked. Twelve isolated synthetic prefixes demonstrate
+unsigned/signed behavior for128/255/127/0 without authenticating or publishing
+these edits. The source ROM is restored and verified exactly afterward.
+
+The same filter passes102 bounded original random-selection prefixes across
+all34 random lists and seeds0/1/u32::MAX. It executes the original RNG and
+remainder calls, checks returned range/index, pointer+2*index, both loaded
+coordinates, seed update, u16 uniqueness-mask update and live unit F6/F7 writes.
+Only the expected seed/mask/eight-byte helper stack scratch and two destination
+bytes may change. Callee registers/SP/retained prefix LR, outer RAM, VRAM, OAM,
+palette and original ROM guards pass. The25,362 instructions are execution
+coverage, not performance measurements. These are bounded prefixes with an empty
+mask, not full placement ABI, repeated-selection/exhaustion behavior, all caller
+gates or native state/clock equivalence.
+
+All40 actual model-unit guards,516 accepted source hashes,516 failed-build
+preimage hashes and38 closed source-contract guards remain exact. Artifact
+completion retires zero paths. Evidence is retained under
+`target/rom-data-encounter-coordinate-model/`: independent model/probes/coverage/
+source plan, both source snapshots/build logs, accepted Wine result and
+final/preservation/cleanup receipts. No old header/template/constructor/source/
+ordinary acceptance replay, gameplay/navigation/checkpoint or metrics occurs.
+
+Managed publication and typed guest reads are next: e82-d81/index73,
+`encounter-coordinates.json`, explicit encounter-header dependency,691 spans and
+pages70B..70C including both global/local routing. Existing template/header
+owners border the coordinate source on both sides. The last16 bytes of the raw
+index0-header prefix will be coordinate-owned, while index0 remains outside the
+header model. Actual CLI and a positive ordinary pair follow. Current schema1/
+e81-d80 and USAe8-d7 are unchanged. Linux, USA, native Windows, new32:9, global/
+all-caller/full-ABI verification and the full ROM TODO stay open.
+
+
+## Managed encounter coordinates and typed guest reads
+
+EUR e82-d81 publishes `encounter-coordinates.json`, resource
+`gameplay.encounter-coordinates` at index73. The generation contains75 files and
+74 resources. All73 previous resource records/files remain exact; schema1 and
+USAe8-d7 are unchanged. The encounter-header dependency is explicit, and strict
+parsing, header pointer/count/role coherence, source binding and full source
+comparison precede transactional activation.
+
+The immutable coordinate owner supplies691 list spans/4,684 bytes, with four
+role counters, X/Y counters and list/header masks. Both local and global routing
+cover pages70B..70C. Bytewise composition retains the unit-template owner on the
+left and header owner on the right, including mixed-width boundary reads. The
+last16 bytes of the raw index0 prefix are coordinate-owned; index0 still does
+not become a typed header. Original signed/unsigned loads, mode selection, RNG,
+remainder, live mask/loop and null gates remain guest code. No Machine/C API,
+native-cache or save-state ABI changes. The64MiB parser guard bounds malformed
+input, without a storage or performance campaign.
+
+Three warning-free Windows integration builds use518 stable source files each;
+the accepted executable is `0f85fbf7..`. All three extend the accepted516-file
+model copy with integration paths. Subsequent copies change only the new test
+harness. Unrelated
+Debug changes are excluded. Integration anchors are validated before writing;
+only the affected core-library and test fingerprints are isolated. No global
+clean, old source modification or closed model/source/header/
+template/ordinary proof replay occurs.
+
+The first reduced Wine filter passes interrupted publication,14 attach refusals
+and three full-set guards, preserving the old owner and complete state on
+activation failure. It then stops at a missing native table entry in the
+synthetic harness. Inspection
+corrects its BL-pair/ARM-aware builder to the established native emission
+contract. The second, remaining-only filter identifies a separate case-boundary
+problem: single-load and random-prefix blocks share one chained analysis, so
+execution continues past a single-load stop. The final test-only fix builds two
+case families and asserts that each analysis excludes its stop boundaries. All22
+cases remain required; native chaining and guest/runtime code are unchanged.
+A third Wine filter runs only the remaining native and bus/lifecycle stages,
+reusing the same75 accepted dataset files without re-publication or attach-guard
+replay. All first sources/executable/logs/native-object diagnostics are retained.
+The22 original-ROM/interpreter/compiled-native cases now match
+complete states and guest clocks after all4,684 raw coordinate bytes are poisoned
+in the test machines. They comprise18 actual signed/unsigned loads across four
+roles, mirrors, prior owners and an unrelated raw successor; one full index0
+gate call; and three original RNG/remainder/coordinate-selection prefixes.
+The full index0 case verifies the new ownership boundary; it does not reopen the
+older header-model oracle. Native code explicitly consumes
+21 new coordinate bytes,
+2 prior template bytes and
+13 prior header bytes.
+156 compiled instructions are coverage only, not a full
+placement ABI or random-exhaustion claim.
+
+Every new source byte passes the bus proof with raw data poisoned:3,272 placement0,
+680 random,88 placement2 and644 default bytes,2,342 X and2,342 Y bytes, all691
+lists/323 headers. The proof covers widths, mirrors, all691 list-end crossings,
+page boundaries and poisoned prior-owned bytes on both sides. An unrelated older
+owner leaves coordinate statistics unchanged. Load, slot save/load and Undo
+retain the immutable owner even while dataset files are unavailable.
+
+DMA3 and CpuSet copy2,344 halfwords, while CpuFastSet copies1,184 words, all to
+EWRAM10000. Transfers cross the complete coordinate block into the header owner
+and match complete states/clocks. All253 actual guards,518 integration
+source hashes,518 first-attempt and518 second-attempt source hashes and516 closed model source
+preimages remain exact. Artifact completion retires only the interrupted dataset copy; accepted offline data,
+source preimages, executable and logs remain available.
+
+Evidence is retained under `target/rom-data-encounter-coordinate-runtime/`:
+build/filter/native/bus results, static integration plan, final/preservation/
+cleanup receipts, accepted dataset and source snapshot. Dataset identity is
+`c3804c66ce41e2e292ee67785aada27bcc65d22af5dd646e2b02e4a714cbc0e3`, manifest SHA-256
+`08946ac3f72e4460ace9473e5366c8fd452bf00355a720f25310ec3b9bd35061` and coordinate JSON SHA-256
+`91a2222cad4575095fe73f8a8a5ddc3d0f89a68482e01a6f3c79ea8cf66807e7`.
+Actual production CLI/create-reuse/no-write/startup and positive ordinary use
+are next. Linux, USA, native Windows, new32:9, full placement ABI/all caller/null
+gates/global archive and the remaining ROM TODO stay pending. No new ordinary
+fixture, checkpoint, navigation or performance measurement occurs.
+
+
+## Actual encounter coordinate CLI and ordinary consumption
+
+The production e82-d81 Windows CLI passes three Wine commands: prepare creates
+the generation, a second prepare reuses it, and normal `runc` enters White
+Flowers from the retained Giza menu. All75 generation files match the accepted
+runtime dataset; all74 logged resource IDs/hashes match the manifest. All77
+managed files keep hashes and mtimes through reuse and normal startup. The
+original28859 translated blocks load, with the header dependency and691
+coordinate spans intact.
+
+Exact normal state/input copies cover guest19409→20109 (700 frames). All ten
+coordinate counters are `{"bus_reads": 20, "default_bytes": 0, "headers_used": 1, "lists_used": 1, "placement0_bytes": 20, "placement2_bytes": 0, "random_bytes": 0, "source_bytes": 20, "x_bytes": 10, "y_bytes": 10}`. Positive roles are
+`placement0_bytes`; unobserved roles are `random_bytes, placement2_bytes, default_bytes`.
+Placement0 and both X/Y have positive use before selecting one ordinary full
+pair. Zero roles retain their separate targeted source/native/bus proofs; no
+extra navigation is added to increase counters. This one battle-entry window
+does not prove all691 lists,323 payload headers or every placement/RNG branch.
+
+One warning-free production build `b467d4ad..` uses the accepted518-file runtime
+source copy, excluding unrelated Debug changes. Only the affected production
+fingerprint is isolated; the canonical executable's hash and mtime are restored
+exactly. All186 actual guards and518 source hashes remain exact; artifact
+completion retires zero paths. Evidence is retained in
+`target/rom-data-encounter-coordinate-cli/`: exact copies, build and command logs,
+no-write/final/preservation/cleanup receipts and the production executable.
+The actual dataset is `target/rom-data-encounter-coordinate-cli/windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e82-d81/generation-gMH5wq`.
+
+One ordinary full pair with identical ten counters is next. No new checkpoint,
+fixture/navigation, closed source/model/runtime/header/template acceptance
+replay or performance measurement occurs. Linux, USA, native Windows, new32:9,
+full placement ABI/all caller gates/global archive and the full ROM TODO remain
+pending.
+
+
+## Ordinary encounter coordinate battle-entry equivalence
+
+One Wine ordinary equivalence pair closes the retained700-frame Giza menu to
+White Flowers deployment case, guest19409→20109, using the actual e82-d81 CLI
+dataset. Every complete machine state and guest clock matches the original-ROM
+path. Classic, central and wide images, OAM and all five audio streams also
+match. Native/fallback dispatch counts are `[3316146, 8054486]`; audio sample counts
+are `[1536150, 1536150, 184800, 184800, 1536026]`. Counts describe correctness and executed coverage;
+no performance measurement or comparison is made.
+
+All ten coordinate usage fields match the production CLI exactly:
+`{"bus_reads": 20, "default_bytes": 0, "headers_used": 1, "lists_used": 1, "placement0_bytes": 20, "placement2_bytes": 0, "random_bytes": 0, "source_bytes": 20, "x_bytes": 10, "y_bytes": 10}`. Placement0 and both X/Y bytes are positive,
+covering one coordinate list and one encounter header. Random, placement2 and
+default coordinates remain unobserved in this window; their targeted source,
+model and poisoned-source native/bus proofs stay distinct. This case does not
+establish all691 lists, all323 payload headers, full placement/RNG execution,
+all caller gates or global archive coverage.
+
+An optional five-line `FFTA_STATE_TEST_REQUIRE_ENCOUNTER_COORDINATES` block
+requires positive source reads, placement0, X, Y, list and header use, and reports
+all ten fields. Removing only that block reproduces the prior validator
+byte-for-byte, including every older guard. One warning-free518-source Windows
+test build `de67e015..` and one Wine filter pass. Only the affected test fingerprint
+is isolated; core code matches the accepted runtime. All104 ordinary guards,
+518 frozen pair-source hashes and186 closed CLI guards/518 production
+source hashes remain exact. Artifact completion retires zero paths.
+
+Evidence is retained under
+`target/rom-data-encounter-coordinate-battle-ordinary/`: validator preimage and
+added block, frozen source copy, executable, build and full-pair logs/results,
+final/preservation/cleanup receipts. The original retained checkpoint and input
+are used unchanged. Linux, USA, native Windows, new32:9, full placement ABI,
+all caller gates, global archive and the remaining ROM TODO stay pending.

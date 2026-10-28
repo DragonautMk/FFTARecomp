@@ -225,34 +225,75 @@ non significano che siano già raccolte in un unico debugger.
   originali controllati e i normali eseguibili restano invariati.
   [Record](../changes/2026-10-28-add-first-frame-debug-comparisons.json).
 
-- [ ] **DBG-10 — Pausa, avanzamento di un frame e ripresa controllata.**
+- [x] **DBG-10 — Pausa, avanzamento di un frame e ripresa controllata.**
   Fornire scorciatoie e comandi equivalenti per fermarsi e avanzare di N frame.
   Rendere visibili frame guest, clock e motivo dell'arresto; evitare che il tasto
   del debugger diventi anche un input del gioco.
   **Chiusura:** avanzamento esatto, ripresa senza salti di stato o accumuli audio
   causati dalla pausa host. **Dipende da:** DBG-02/05.
+  **Implementato (2026-10-28):** [controllo della copia isolata](../debug_control.md),
+  menu Step 1/10 e Resume, F6/F7/F8 consumati prima dell'input guest e CLI
+  `debug-control status/pause/step/resume`; avvio `debug-session open DIR --paused`.
+  Budget di 1–600 frame, input neutro o maschera CLI, frame/clock/motivo visibili,
+  code audio svuotate e pacing ripristinato alla ripresa. 69 test Wine, 24 casi
+  CLI/GUI e nove default passano; 22 frame menu/tastiera coincidono nello stato
+  completo con CLI e le registrazioni di 22/80 frame coincidono con l'interprete
+  continuo. Interruzioni, client concorrente e replay durante un budget verificati.
+  202 originali invariati; piattaforme native/controller/passi native non verificati.
+  [Record](../changes/2026-10-28-add-controlled-debug-frame-stepping.json).
 
-- [ ] **DBG-11 — Breakpoint, watchpoint e memoria in sola lettura.**
+- [x] **DBG-11 — Breakpoint, watchpoint e memoria in sola lettura.**
   Selezionare PC/ARM/Thumb, intervallo letto/scritto o valore osservato; mostrare
   registri e memoria con label, offset ROM e owner. Distinguere l'arresto a
   istruzione da quello a blocco nativo: non dichiarare granularità non supportata.
   **Chiusura:** due trigger mirati verificati e letture diagnostiche senza effetti
   I/O; nessuna modifica arbitraria di RAM necessaria. **Dipende da:** DBG-10/06.
+  **Implementato (2026-10-28):** [ricerca e ispezione readonly](../debug_probes.md),
+  `debug-control break/watch/inspect` e menu Inspect PC / registers nella copia.
+  PC/modo prima del passo, accessi bus/valore dopo il passo con HLE/DMA espliciti;
+  ricerca interprete limitata, native rifiutato, watch con feature audit. Registri,
+  finestre 1–256 byte, mirror/offset/label e owner da source-plan autenticato.
+  Passano 88 test Wine distinti, 21 casi CLI/GUI e nove default più interruzioni:
+  PC Thumb e due accessi IRQ reali, letture senza mutazioni, guardie e chiusura.
+  Risolta anche la perdita di conferma su sostituzione temporaneamente negata
+  da Windows: ripubblicazione della stessa risposta senza rieseguire il comando.
+  202 originali invariati; nessuna nuova accettazione ROM/DS/native.
+  [Record](../changes/2026-10-28-add-bounded-debug-breakpoints-and-memory-inspection.json).
 
-- [ ] **DBG-12 — Ispettore grafico e confronto visivo.**
+- [x] **DBG-12 — Ispettore grafico e confronto visivo.**
   Riunire i dump esistenti: BG/OBJ, OAM, palette, tile, finestre, framebuffer
   originale, estensione widescreen e composizione finale. Collegare il pixel
   selezionato alla sorgente quando la provenienza è dimostrata.
   **Chiusura:** spiegare un caso noto di palette/ritaglio/layout con vista e
   report riproducibili, senza alterare registri o rendering guest.
   **Dipende da:** DBG-05/09; riusa i dati estratti e i confronti grafici correnti.
+  **Esito:** [ispettore offline](../debug_graphics.md) da copia ferma, menu/CLI,
+  massimo otto report privati con buffer/PNG/JSON e confronto precedente.
+  BG/OBJ/OAM/palette/tile/finestre, centrale/wide e composizione CPU con/senza UI;
+  pixel backing esplicito, provenienza ROM e vincitore finale sconosciuti.
+  DS-20 frame22220 spiega padding/ritaglio UI: finestra852×480, canvas con x=-294,
+  contenuto effettivo89.856pixel in [114,48,738,192), dentro il clip.58test Wine,
+  21casi CLI/GUI, browser desktop/mobile e5report verificati;202originali e
+  runtime normali invariati. Effetti GPU, piattaforme native e altre scene non
+  certificati. [Record](../changes/2026-10-28-add-readonly-graphics-inspector.json).
 
-- [ ] **DBG-13 — Diagnosi di menu, testo e input.**
+- [x] **DBG-13 — Diagnosi di menu, testo e input.**
   Mostrare menu riconosciuto, focus, azione host/guest, bbox e metriche del testo;
   tracciare pressione/rilascio, rimappatura e conferma consumata dal menu.
   Conservare un controllo da tastiera/gamepad e uno da CLI con input registrati.
   **Chiusura:** una conferma doppia o un testo tagliato è attribuibile a un
   passaggio preciso, senza affidarsi al solo screenshot. **Dipende da:** DBG-04/12.
+  **Esito:** [trace UI/input](../debug_ui.md), Start/Save dal menu e CLI,
+  focus in `status` incluse opzioni/geometry del dropdown, metriche dello stesso
+  font, bbox e PNG diagnostico senza modificare rendering o input. Limiti
+  30s/1.024eventi/600frame, otto report privati. Autorepeat tastiera:14ripetizioni,
+  un solo dispatch; XInput simulato:una rimappatura A, nessuna conferma doppia né
+  frame guest. Registrazione CLI A/rilascio verificata su2frame dopo chiusura.
+  Testo tagliato attribuito a545,89px richiesti/472disponibili,64/75caratteri,
+  clip canvas falso.69test Wine distinti, browser desktop/mobile e6report;
+  202originali/runtime normali invariati. Errori di navigazione del test conservati
+  separati dai prefissi accettati; controller fisici/testo guest non certificati.
+  [Record](../changes/2026-10-28-add-bounded-menu-text-input-diagnostics.json).
 
 - [ ] **DBG-14 — Diagnostica audio circoscritta.**
   Rendere selezionabili le catture mixed/PSG/FIFO/HLE, i relativi eventi e un

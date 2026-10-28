@@ -158,6 +158,12 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod metadata28;
+use metadata28::Metadata28Resources;
+pub use metadata28::Metadata28Stats;
+mod encounter_coordinates;
+use encounter_coordinates::EncounterCoordinatesResources;
+pub use encounter_coordinates::EncounterCoordinatesStats;
 mod encounter_unit_templates;
 use encounter_unit_templates::EncounterUnitTemplatesResources;
 pub use encounter_unit_templates::EncounterUnitTemplatesStats;
@@ -308,6 +314,8 @@ pub struct RuntimeResources {
     world_roads: Option<Box<WorldRoadsResources>>,
     encounter_headers: Option<Box<EncounterHeadersResources>>,
     encounter_unit_templates: Option<Box<EncounterUnitTemplatesResources>>,
+    encounter_coordinates: Option<Box<EncounterCoordinatesResources>>,
+    metadata28: Option<Box<Metadata28Resources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -586,6 +594,12 @@ impl RuntimeResources {
         if let Some((data,_))= files.encounter_unit_templates {
             resources.encounter_unit_templates = Some(Box::new(EncounterUnitTemplatesResources::new(data.clone(), &source.encounter_unit_templates.as_ref().unwrap().sources, files.encounter_headers.ok_or("Missing encounter header dependency")?.0, files.constructor_alternates.ok_or("Missing encounter constructor dependency")?.0, files.items.ok_or("Missing encounter item dependency")?.0, files.metadata14.ok_or("Missing encounter descriptor dependency")?.0, files.metadata52.ok_or("Missing encounter job dependency")?.0)?));
         }
+        if let Some((data,_))=files.encounter_coordinates {
+            resources.encounter_coordinates=Some(Box::new(EncounterCoordinatesResources::new(data.clone(),&source.encounter_coordinates.as_ref().unwrap().sources,files.encounter_headers.ok_or("Missing coordinate header dependency")?.0)?));
+        }
+        if let Some((data,_))=files.metadata28 {
+            resources.metadata28=Some(Box::new(Metadata28Resources::new(data.clone(),&source.metadata28.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -684,6 +698,8 @@ impl RuntimeResources {
             world_roads: None,
             encounter_headers: None,
             encounter_unit_templates: None,
+            encounter_coordinates: None,
+            metadata28: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -783,6 +799,8 @@ impl RuntimeResources {
             + self.world_roads.as_ref().map_or(0, |i| i.resident_bytes())
             + self.encounter_headers.as_ref().map_or(0, |i| i.resident_bytes())
             + self.encounter_unit_templates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.encounter_coordinates.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.metadata28.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -902,6 +920,8 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn metadata28_stats(&self)->Option<Metadata28Stats> {self.metadata28.as_ref().map(|d|d.stats())}
+    pub fn encounter_coordinates_stats(&self)->Option<EncounterCoordinatesStats> {self.encounter_coordinates.as_ref().map(|d|d.stats())}
     pub fn encounter_unit_templates_stats(&self) -> Option<EncounterUnitTemplatesStats> {self.encounter_unit_templates.as_ref().map(|m|m.stats())}
     pub fn encounter_headers_stats(&self) -> Option<EncounterHeadersStats> {self.encounter_headers.as_ref().map(|m|m.stats())}
     pub fn world_roads_stats(&self) -> Option<WorldRoadsStats> {self.world_roads.as_ref().map(|m|m.stats())}
@@ -1253,10 +1273,12 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.encounter_unit_templates {
+            let prior = match &self.encounter_unit_templates {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
+            let prior = match &self.encounter_coordinates {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.metadata28 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1412,6 +1434,8 @@ impl crate::MemMap {
             || WorldRoadsResources::source_page(index)
             || EncounterHeadersResources::source_page(index)
             || EncounterUnitTemplatesResources::source_page(index)
+            || EncounterCoordinatesResources::source_page(index)
+            || Metadata28Resources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

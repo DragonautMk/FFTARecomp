@@ -12,6 +12,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- The [local report homepage](../report_home.md) is generated as ignored root
+  `index.html`, indexing existing coverage/comparison/graphics/other HTML indices
+  with search, filters, relative links and file modification dates. Reusable
+  generator/template and Windows/Linux launchers are versioned; Docker launchers
+  reuse the existing coverage image with readonly checkout/network disabled,
+  without extraction or runtime builds. Regenerate after report changes; browser
+  reload alone cannot discover new local files. Catalog presence/mtime does not
+  establish report validity or new scene acceptance.
+
 - The [local cheat reference catalog](../cheats.md) lives in ignored root
   `cheats/`, with a Markdown index and provenance-preserving JSON export for
   future work. Third-party source collections and their derivatives stay local
@@ -101,6 +110,58 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   clock/r15 differences at frame1, with images/OAM/audio equal; its parity stays
   unaccepted. Wine CLI/GUI and offline browser checks pass without replacing
   normal runtimes; native platforms/controllers remain unverified.
+  DBG-10 adds [controlled frame stepping](../debug_control.md) in isolated copies:
+  F6 pause/resume, consumed F7/F8 one/ten-frame shortcuts, matching menu actions
+  and acknowledged local `debug-control status/pause/step/resume` commands.
+  `debug-session open DIR --paused` starts at the seed before any guest frame.
+  Steps require pause, use neutral or explicit CLI keys and complete1..600frames
+  before stopping; frame/clock/reason/remaining and readonly state hash are visible.
+  Paused steps discard frontend audio, transitions invalidate DSP/queues and reset
+  host pacing. Starting a separate replay is refused while a frame budget remains.
+  Wine GUI/CLI proves exact menu/keyboard/CLI states and22/80frame recorded endpoints
+  against continuous interpreter execution; native platforms/controllers/native
+  stepping and physical listening remain unverified. No normal runtime replaced.
+  DBG-11 adds [bounded interpreter probes and readonly inspection](../debug_probes.md):
+  debug-control break/watch/inspect and menu Inspect PC / registers. PC/mode stops
+  before an eligible interpreter step; read/write/value watch stops after the
+  whole step including HLE/DMA/tick, excluding instruction fetches. Watch uses
+  the audit feature; native searches are refused rather than claiming block-
+  internal instruction granularity. Search is limited to5Msteps/600frames, neutral
+  input and paused copies without recording/replay. Immutable buffer windows
+  refuse IO/backup protocols and report registers, mirrors/physical ROM offsets,
+  exact-buffer authenticated labels and source-plan owners, separate from typed
+  consumption. No Machine/save/native ABI change. Local response outbox survives
+  transient Windows replacement refusal without repeating the guest command.
+  Wine tests/CLI/GUI verify PC and two IRQ accesses, readonly state preservation,
+  default feature boundaries and interruption; native platforms/controllers and
+  native search remain unverified or unsupported.
+  DBG-12 adds the [offline graphics inspector](../debug_graphics.md), menu
+  Capture graphics report and `debug-control graphics SESSION [--compare-last]`
+  in idle paused isolated copies. At most eight private reports retain raw
+  buffers, central/wide images, frontend CPU composition with/without UI and
+  frozen BG/OBJ/OAM/palette/tile/window projections, without new snapshots or
+  guest writes. Pixel attribution proves declared VRAM/palette backing only;
+  final framebuffer winner, scanline history and ROM transfer source stay unknown.
+  Previous same-session reports are hash-authenticated before raw byte deltas
+  and paired images; different view/settings do not imply pixel alignment.
+  DS20 frame22220 demonstrates wide-canvas padding versus actual UI bounds.
+  Wine tests/CLI/GUI plus desktop/mobile browser checks preserve complete state,
+  original inputs and normal runtimes; native platforms/controllers/native
+  capture, other scenes and final GPU effects remain unverified.
+  DBG-13 adds [menu/text/input diagnostics](../debug_ui.md), explicit Start/Save
+  actions and `debug-control ui-start/ui-report`. Readonly `status.host_menu`
+  identifies actual page/row/capture/dropdown geometry and option, avoiding
+  assumptions about controller-selected tabs. A30s/1024event/600frame observer
+  distinguishes physical keyboard/XInput samples, mapping, host dispatch,
+  remapping/shortcut consumption and actual guest-frame latches. Disposable
+  host-menu redraw records the existing font's advance/outline/width stop and
+  canvas clip with identical observed/unobserved pixels; guest text stays unknown.
+  At most8private reports, no collector snapshots or guest mutation; report
+  presence is not replay/scene acceptance. Wine keyboard/autorepeat/simulated
+  XInput and a closed2frame recorded CLI endpoint pass, with browser views and
+  exact source-body preservation. Native platforms/physical pads and raw
+  Gilrs/DirectInput/mouse stages remain unverified or uncovered. Homepage groups
+  these reports separately; failed harness prefixes remain local diagnostics.
   EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
@@ -923,8 +984,96 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   27native fullstates-clock with136800rawBpoisoned, 25compilednewB/8oldB;
   all136608new+192oldB/2846newrecords441headers/mixedwidths-mirrors-edges/LoadUndo/
   DMAword34202-CpuSet68404halfword-FastSet34208word allPASS. 215guards514hashes/
-  512modelpreimages exact/helperonlyinterruptedcopy. ActualCLI/ordinary unit
-  payloads andcoordinatepool/all442/fullABI remainopen;
+  512modelpreimages exact/helperonlyinterruptedcopy. Actualunit-templateCLI now
+  passes create/reuse/normal700:74files exactruntime/73IDhash/76paths no-write,
+  28859oldcacheblocks/186reads211B/5records1headers,
+  8positiveclasses/1unobserved. One warningfree514source productionbuild
+  afeaef25../canonicalhashmtime restored/184guards/helper0. One Wine700ordinary
+  unit-template fullpair nowpasses allstates-clock/classic-central-wide/OAM/
+  dispatch/5audio, all13counts exactCLI/eightclassespositive/5records1header/
+  opaque0unobserved. One5lineoptionalguard/oldvalidatorbyteexact, warningfree514
+  source build33c61082../104ordinaryguards+184closedCLIguards514hasheseach/helper0.
+  Unit-templateordinaryCASEclosed. Coordinates nowhave sourcecontract:691lists/
+  2342pairs/4684B70B6A8..70C8F4, allheaderpointer-count extents exactlypartitioned,
+  noholes/alias/priorowner against73resources49797spans. Roles placement0=3272B/
+  random680B/placement2=88B/default644B;323headerswithpayload119allnull. Rawu8XY
+  retain signedsearch/unsignedreads; RNG02868nonnegative15bits/remainder146314/
+  u16mask original, no10/16cap/fallback invented.12windows3new9reuse/41pins38guards,
+  no build/runtime/game/fixture/oldproof replay forsourcecontract. Strictcoordinate
+  model nowlossless691lists2342u8XYpairs/all4684B/691spans, shape/headercoherence/
+  sourceauth separate/no nullfallback/observedvaluecaps. FirstWindowscorebuild
+  failstestBusimport, fixedtestonly/second516copy accepted2fe3e236.. warningfree/
+  227coreinputs. OneWinefilter30guards/8044actualsigned-unsignedloadprefixes/all4684B,
+  12isolatedhighbit/102originalrandomprefixes(all34lists*3seeds), RNG/index/mask/
+  address/destination/callee-SP/outerRAM-VRAM-OAM-palette-ROM exact.40modelguards/
+  516accepted+516failedpreimagehashes/38sourceguards/helper0, notfullABI/nativeclock.
+  Now e82-d81/index73 publishescoordinates:75files74resources/all73prior exact,
+  headerdependency/691spans4684B, immutable4roles+XY/list-headermasks, local/global
+  pages70B..70C andprior-templateleft/header-right composition/index0payload.
+  Three warningfree518source builds/accepted0f85fbf7..; firstWinepub-attachPASS,
+  twoharness-onlynativefailures fixedwithBLpair/twofamilystopguards, finalremaining
+  filter14attach3fullsetcached/22native
+  fullstates-clock poisoned4684rawB(18loads/index0gate/3randomprefixes),
+  21compilednewB/2templateB/13headerB;
+  all4684B/4rolesXY/691lists323headers/all691boundaries/LoadUndo/DMA3 PASS.
+  253guards518hashes516modelpreimages exact/helperonlyinterruptedcopy;
+  originalguest/ABI unchanged. CoordinateactualCLI nowpasses create/reuse/700:
+  75files exactruntime/74IDhash/77paths no-write/28859oldnativeblocks,
+  20reads20B/1lists1headers/1positiveroles/X-Ypositive.
+  One warningfree518source productionbuildb467d4ad../canonicalhashmtime restored/
+  186guards/helper0. One Wine700coordinate ordinary fullpair nowpasses every
+  fullstate-clock/classic-central-wide/OAM/5audio; all10counts exactCLI20reads20B/
+  placement0=20/XY10each/1list1header, other3rolesunobserved. Optional5lineguard/
+  oldvalidatorbyteexact, warningfree518source buildde67e015../104ordinaryguards+
+  186closedCLIguards518hasheseach/helper0. CoordinateordinaryCASEclosed;
+  all691lists323payloadheaders/all2850records/all442/fullABI remainopen;
+  Following linkedmetadata28 nowhas declaredsourcecontract347x28/9716B710E04..
+  7133F8,17roots/28B arithmetic/nextindependent4Bfamily2readers; physicalcountnot
+  guestcap. D07A4low16index/low8selector, scalarfields/inlineview+12/fullflags+
+  21bitqueries/default0; directu16+22/bytes24..26, opaque3/15/27 preserved.
+  All347recordsroundtrip/74owners50488spansdisjoint/20windows14new6reuse/
+  69pins/122guards/helper0. Standalone metadata28model nowlossless347rows9716B/
+  unsignedfields/fullflags/opaque, fixedshape vs sourceauth separate; low16/low8
+  lookup/scalar-vs-sourceaddress/defaultnodata/outsideowner retained. One warningfree
+  corebuild358dba2c../520acceptedcopysources andoneWinefilter27guards/14517original
+  prefixes(12088fullgetter1388tail1041inline)/8675actualsemanticB/1041opaqueroundtrip,
+  9isolatedvariants342prefixes/RAM-callee-stack-VRAM-OAM-palette-ROM exact;
+  36modelguards520hash+122sourceguards/helper0. Managede83-d82/index74 nowadds
+  linked-metadata28.json/1span9716B/nodeps:76files75resources/all74prior exact,
+  immutable5byteclasses/347recordmask/8counters/local-globalpages710..713,
+  priorheaderleft/rawsuccessorright composition. One warningfree522sourcebuild
+  040133f5../oneWinefilter14attach2fullset/23nativefullstates-clock with9716rawB
+  poisonedAFTERLoad(17loads6fullD07A4getters/twostop-safeanalyses),31compilednewB/
+  1priorheaderB/all9716busB5classes347records/all347ends/LoadUndo/DMA3fullstate-clock.
+  216actualguards522hash520modelpreimages/helperonlyinterruptedcopy;
+  guestlogic/save-native-CAPI ABI unchanged. Actualmetadata28CLI registration
+  nowpasses create/reuse/startup:76files exactruntime/75IDhash/78paths no-write/
+  28859cacheblocks. One warningfree522source productionbuild0acb352e../3label-only
+  overlay inversebyteexact/521othersources exact/canonicalhashmtime restored/
+  220guards/helper0. Fourordinarylocators Giza700/Jobs540/Abilityset700/
+  BattleTechRinfo800 haveall8counts0; observedmenus/normalinputderivation, not
+  consumption/fullpair. Those negatives stay closed. A later normal dry-ground
+  Steal menu now closes positive ordinary use:42frames22669→22711,15reads20servedB/
+  halfword10-byte10/fiverecords; inline-flag-opaqueordinary0. ActualCLI0acb352e..
+  and one Wine fullpair match all8counts/everyfullstate-clock/classic-central-wide/
+  OAM/5audio. One warningfree523source testbuild5a6c81be../optional5lineguard exact
+  oldvalidatorpreimage/test-only normalobserver; sevencaptures1182frames oncopies,
+  no manualguestedit. 177guards523hash+220closedCLIguards522hash exact/helper0.
+  Source-model-runtime-CLI/ordinaryCASE closed; executed effects/all347/fullABI open;
+  Following four-byte family now has its own source contract:7133F8..713744,
+  844B/211 physical slots, six roots/u8*4 and independent successor8B stride.
+  Four unsigned fields;1041 parent references/194 distinct slots/zero-index3/
+  outside0, no211 cap or global null/selector cap. Zero slots0/1/209/210 remain
+  distinct, trailing reserve/padding undecided. All844B exact/75owners50489spans
+  disjoint/13windows6new7reuse45pins112guards/helper0; static inspection only.
+  Standalone records4 typed model now keeps all211x4/844B with strict shape/order/
+  parser vs exact base auth; u8 encoded addresses retain outsideowner211..255,
+  no null/cap. One warningfree corebuilda7270580../525frozen233coreinputs andone
+  Winefilter20guards/1567original calls-prefixes (1055field probes/all844B,
+  512full global-instance setters/all256indices/low8aliases/outsideaddresses),
+  2isolatedhighbitvariants10prefixes/RAM-callee-SP-LR-IWRAM-VRAM-OAM-palette-ROM
+  exact.125guards525hash+112sourceguards/helper0. Schema1/e83-d82 unchanged;
+  managed/runtime/nativeclock/LoadUndo/DMA/CLI/ordinary for this family next;
   no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global

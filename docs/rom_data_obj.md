@@ -1203,6 +1203,10 @@ USA/native Windows/new32:9 validation. Local evidence:
 
 ## Ordinary constructor animation discovery remains partial
 
+This section retains the initial negative discovery bounds. The
+[ordinary positive follow-up](#ordinary-constructor-animation-positive-giza-scene)
+now closes the required EUR/Wine case; the old negative inputs are not replayed.
+
 An ignored Wine-only observer, `constructor_obj_animation_scene_tests::normal_gameplay_observes_constructor_animation`,
 uses normal input on local EUR snapshot copies and passively watches typed
 source use. It never edits guest task/phase/RAM or ROM fields. It keeps a rolling
@@ -1224,10 +1228,11 @@ All84actual input/frozen guards and compiled implementations are exact.
 
 Original source9D054–9D074 sets/clears owner+24bit20 from a low-u8 boolean.
 Original callers enable at99300/99F18/A57BE and disable at99516/99FE2/A570A.
-Those are navigation leads, not proof of the flag's meaning or normal-action
-reachability. Positive ordinary coverage remains open until that source gate
-can be reached by genuine gameplay. It must not be manufactured by setting the
-flag. Diagnostics, normal snapshots and key scripts remain private in
+A [source-linked follow-up](#ordinary-constructor-flag-activation-and-inactive-slots)
+now proves flag activation during ordinary Move. The two animation slots remain
+inactive in that capture, so positive animation coverage still requires their
+creation/callback gate. The flag and slots must not be manufactured by editing
+guest memory. Diagnostics, normal snapshots and key scripts remain private in
 `target/rom-data-constructor-animation-ordinary/`; artifact completion is deferred
 while this unit remains partial. Linux/USA/native Windows/new32:9 remain pending,
 with no measurements or previous acceptance replay.
@@ -1311,3 +1316,345 @@ Bank read census is reused, not repeated. Linux/USA/native Windows/new32:9,
 broader lifetime/indirect use/archive bounds and constructor-animation ordinary
 coverage remain open. No new ordinary fixture/navigation, performance/storage
 campaign, frontend/production build, Android/package/assistant commit or push.
+
+
+## Managed runtime for the u16-task OBJ banks
+
+EUR `v1/e77-d76` appends `word-task-obj-animations.json` as
+`graphics.word-task-obj-animations`: four banks,50lists/140objects,7sequences/
+49frames,65source spans/1378bytes. The70generation files contain all68previous
+resource records and resource bytes unchanged. USA stays e8-d7.
+
+The new runtime owner binds every source span to its typed offset, length, role
+and hash. It shares only immutable field projection and list lookup with the
+older OBJ animation owner. Each owner retains its own page gate; the old byte
+projection body is unchanged. The new owner covers pages411/416 and composes
+indices, counts, attributes, sequence headers, frame-list selectors and durations
+with earlier owners and raw padding. CPU, native API, DMA and BIOS transfers use
+these typed fields. Host descriptor lookup also accepts the50declared list
+addresses. Guest task construction, u16timing, old-list return and out-of-domain
+reads remain in the original code. Machine, native-cache/API and save formats
+are unchanged. Registration reports banks/lists/frames; usage reports guest
+field-byte classes and host-list reads without attributing them to a task.
+
+The first warning-free Windows frontend test build produces frozen executable
+5f03118a23b57d8431f58bc8698b10e657fbb0b7623cfbca126f294338b34da0.
+Its Wine filter has durable passing stage receipts for publication70/resources69,
+all68previous records/files, injected new-file interruption,9failed-attach guards
+and2full-set guards, with the prior owner and full machine state retained.
+It also passes27original compiled/interpreted prefixes (7constructors/20updates),
+202explicit compiled source bytes,68compiled instructions, full-state/clock
+comparisons and all65rawspans poisoned. Bus/lifecycle checks pass all1378bytes/
+sixfield classes,217mixed boundary/mirror reads,66rawgap bytes, the old animation
+page wrapper, missing-files Load/slot Undo with owner retention and3DMA/CpuSet/
+CpuFastSet full-state/clock comparisons.
+
+The first process stopped without a terminal test result after those stage
+receipts; the original log/executable/test preimage remain available. It is
+not a full-filter PASS. A remaining-only host filter completes the unit without
+replaying the managed/native/bus stages. The first remaining build compiled
+without warnings but its source guard rejected two concurrent frontend edits;
+it was not frozen or run. A stable source snapshot prevents that race. A new
+test draft was corrected to isolate50synthetic frames, put all objects onscreen
+and require every OAM publication. One snapshot build failed on test-only private
+field access; the assertion and an OAM/register origin mismatch were corrected,
+with the product unchanged. Its failed diagnostics/preimage are retained.
+
+The final snapshot Windows build is warning-free; frozen executable
+0df23c7f90f46b7a35de6e04fba0043eccbd39ac55fabd1bae0e0be36488e1fe.
+One remaining-only Wine filter passes all50lists/140objects/95typed host-list
+reads, with all65rawspans poisoned, accepted OAM publication for each list and
+identical raw/typed descriptors. This synthetic check includes the five empty
+lists; it does not assert their reachability in ordinary gameplay. All165actual
+input/output/frozen guards,496snapshot source hashes and current ROM implementation
+inputs match. First622selected input guards also passed before Wine and after
+the staged receipts; later parallel DBG changes are preserved without claiming
+the root frontend remained unchanged. Required artifact completion retires only
+the accepted unit's injected interrupted copy and retains datasets, failed/current
+executables, source preimages and diagnostic/results files.
+
+Evidence: `target/rom-data-u16-task-obj-runtime/`, including the staged JSONs
+under `windows-managed-europe/`, `first-wine-stage-result.json`,
+`windows-host-final-result.json`, `final-summary.json`, preservation and cleanup
+receipts. Dataset27463ce4f7ffccc3d0b9c8ab5ee78160a3e1c844ed80f68768f9adea87cb7757;
+manifestd6061a94f56214478fe6dc9b00eef3aa547691577cfb04df5dc412b93ddc56aa;
+newJSONd207dfae8a08050e7b59c573d9813b841858ed69955d7c22de0332402fee2706.
+Actual CLI is now covered by the [three-command check below](#actual-cli-for-the-u16-task-obj-banks);
+ordinary positive use is covered by the [Bank scene below](#ordinary-european-u16-task-obj-bank-scene). No old model,
+Bank scene or census acceptance is repeated. Linux/USA/native Windows/new32:9
+remain pending; no performance/storage measurements or ordinary fixture edits.
+
+
+## Actual CLI for the u16-task OBJ banks
+
+The e77-d76 Windows production CLI passes three real commands under Wine:
+managed `rom-data prepare` creates one generation, a second prepare reuses it,
+and `runc --frames 0 --rom-data` attaches it while loading the existing native
+cache. All70generation files match the accepted runtime dataset exactly;
+69resource IDs and file hashes are logged at runtime. The managed tree contains
+72files. New-bank registration reports4banks/50lists/49frames, and all nine
+new-owner usage fields remain zero at zero guest frames/dispatches/fallbacks.
+Reuse and startup preserve every managed path's hash and modification time.
+This is registration evidence; the [Bank scene below](#ordinary-european-u16-task-obj-bank-scene) separately proves positive ordinary use.
+
+One warning-free Windows production build uses a copy of the stable accepted
+runtime source snapshot, preserving concurrent frontend work. Its frozen CLI
+hash is b3bfe6f425923ce461793771fe6c84b86eb5da7dda69b3b9c7e0f5208eab51ea;
+the canonical executable's original hash and modification time are restored.
+All154actual input/output guards,496copied source hashes and current ROM
+implementation inputs pass. Required artifact completion finds zero eligible
+paths, retaining the managed dataset, logs and frozen candidate. Dataset
+27463ce4f7ffccc3d0b9c8ab5ee78160a3e1c844ed80f68768f9adea87cb7757 is unchanged.
+Evidence: `target/rom-data-u16-task-obj-cli/`, including
+`windows-cli-summary.json`, `windows-cli-no-write.json`, the three command logs,
+`windows-build.json`, preservation and cleanup receipts. No prior source/model/
+runtime/Bank scene/census acceptance was repeated; no ordinary fixture edits or
+navigation. Linux/USA/native Windows/new32:9 remain pending, with no performance
+or storage campaign. Parallel DBG work remains separate.
+
+
+## Ordinary European u16-task OBJ bank scene
+
+The source-backed Bank window now proves positive ordinary consumption of
+`graphics.word-task-obj-animations` with EUR e77-d76. The state at guest frame
+3660 and its normal input recording are exact copies of the existing fixtures.
+The accepted Bank bus/host census selected this 12-frame window: it had already
+authenticated reads belonging to roots4165A0/4114FC. That census is reused as
+selection evidence; it is not repeated. No navigation, new checkpoint, cartridge
+write or manual RAM/task/ROM edit is involved.
+
+One run of the existing production CLI passes frames3660–3672 with292bus reads
+and346source bytes:44relative-index,20list-count,240attribute,2sequence-header,
+20frame-list and20duration bytes, plus20host-list reads. All six field classes
+are positive. The72managed paths retain their hashes and modification times.
+The existing e77 candidate is reused without another production build.
+
+The generic differential test lacked new-owner usage reporting. A five-line
+opt-in `FFTA_STATE_TEST_REQUIRE_WORD_TASK_OBJ` guard now requires all six field
+classes and host reads, then reports the nine counters. Removing this block
+restores every byte of the previous validator, including its frame loop. One
+warning-free Windows frontend test build from a stable496-file source snapshot
+produces frozen executable
+309ba31c067b19b5bb132c9258602ad2b6648be851a36bbf1d8c0b1b063c1ab7.
+
+One Wine differential filter passes on its first attempt. At every one of the
+12frames it compares complete serialized state and guest clock, central/wide
+pixels, OAM, native/fallback dispatch and all audio samples. The five audio
+streams contain[26334,26334,3168,3168,26258] samples; dispatch coverage is
+[19962,85770]. All nine new-owner counters exactly match the actual CLI above.
+These counts establish execution coverage, not performance. No previously
+completed source/model/runtime or scene acceptance is replayed.
+
+All94actual input/output guards,496snapshot source hashes and current ROM
+implementation inputs pass, including the original state/input, canonical
+executable, ROM, native cache, TinyCC and current dataset. Required artifact
+completion finds zero eligible paths and retains the copied fixtures, accepted
+dataset, preimage, logs and frozen test executable. Evidence is under
+`target/rom-data-u16-task-obj-ordinary/`: `windows-cli-positive12-result.json`,
+`old-loop-preimage-result.json`, `windows-scene-build.json`,
+`windows-ordinary12-result.json`, `final-summary.json`, preservation and cleanup
+receipts. Parallel DBG work remains separate.
+
+This closes one ordinary positive-use child for the declared family. It does
+not prove all four banks or all50lists occur in ordinary play, reachability of
+the seven unreferenced lists, empty-sequence updater behavior, arbitrary indirect
+inputs, full archive bounds or whole-game coverage. Constructor-animation
+ordinary discovery remains a separate partial child. Linux/USA/native Windows/
+new32:9 remain pending. No performance/storage campaign, Android/package,
+assistant commit or push.
+
+
+## Ordinary constructor flag activation and inactive slots
+
+Source inspection now links the flag setter to an ordinary Move path. The
+original95EA0state handler receives the context loaded through0200F4A8 by9A594.
+Its u16state at context+DC dispatches through960F0. State27 (99ACC) checks the
+Bmask0x0002 before the Amask0x0001, validates the selected cell through9D6C8,
+and separates a destination equal to the saved unit origin from a changed
+position. The changed-position path computes a route count at context+1A4 and
+queues states28/29. In state29, a signed count greater than1 reaches the
+9D054enable call at99F18 on context word0's owner. State3A also contains the
+99300enable on its normal fallthrough. These are conditional source paths,
+not a global scheduler bound or proof of every caller's live inputs.
+
+The third enable is a separate path: A5544dispatches eight local cases;
+case6calls A57BE to enable the flag, while case1calls A570A to disable it.
+Its position exchange and alpha-shadow loops are reached from A96AA. Their
+ordinary reachability is not inferred from the Move evidence.
+
+Two previously authenticated normal snapshots were read without execution or
+mutation. The retained Move-grid snapshot has state27 and a cursor different
+from the saved origin, which supports a new A-only confirmation rather than
+repeating the old Right-then-confirm input. One Wine observer uses an exact copy
+and the already frozen e77test executable. Its160-frame bound is negative for
+constructor animation: table reads, phases and four-list guest/host use remain
+zero. This fifth bound is closed; it is not positive ordinary acceptance or a
+reason to repeat any of the four older negative bounds. The endpoint returns
+to state25 with route count3. Table0 does not establish that the target failed
+validation or that movement failed.
+
+To resolve the missing flag/slot evidence, one shorter64-frame run uses the
+existing e77production CLI's read-only `FFTA_MOVEMENT_DUMP_PREFIX` capability,
+with explicit dump frames and `FFTA_OAM_LOG`. No compilation is needed. The
+448private RAM/image files show normal movement and owner+24mask20 set from
+post-frame12186through12230 (45observed frames). The actor's grid position
+changes during that interval. Both slots at owner+394/+3A4 retain zero active
+bits, counters and phases in every captured post-frame state. The typed table
+still has zero reads. Flag reachability is therefore proved for this ordinary
+path; positive animation coverage still depends on slot creation and callback
+conditions. Post-frame fields do not attribute execution to an exact guest PC
+or prove the absence of every intra-frame change.
+
+The evidence includes21bounded source windows and their hashes, authenticated
+wrapper/dispatch/call bindings, a preserved snapshot parser and587actual input/
+output guards, plus496frozen CLI source hashes. Original ROM, native cache,
+TinyCC, canonical executable, normal states/inputs and the72-path e77managed
+set remain unchanged. New game checks run only under Wine. Static inspection
+uses an existing disassembler and is not Linux gameplay validation. Required
+artifact completion finds zero eligible paths and retains every negative and
+diagnostic fixture. No performance/storage campaign or source/model/runtime/
+CLI/equivalence/census acceptance is repeated.
+
+Evidence: `target/rom-data-constructor-flag-reachability/`, including
+`source-contract.json`, `retained-contexts.json`, `move-target-candidates.json`,
+`windows-confirm-only-result.json`, `confirm-only-end-context.json`,
+`windows-flag-capture-result.json`, `flag-capture-fields.json`, final summary,
+preservation and cleanup receipts. The [slot-gate follow-up below](#constructor-slot-creation-depends-on-live-cell-flags-and-height)
+authenticates the9B550creator/9DB0Ccounter/9DBA4constructor owner flow and excludes
+the unchanged captured map using its cell flags. Further navigation or a full
+ordinary equivalence pair needs positive table/list use first. Linux/USA/native
+Windows/new32:9, all-phase/all-list ordinary animation and the full TODO remain
+open. No manual guest fields, cartridge writes, Android/package, assistant
+commit or push.
+
+
+## Constructor slot creation depends on live cell flags and height
+
+The slot-creation gate is now source-authenticated. No further gameplay run,
+capture, build or Wine/Linux test is needed for this source child: it reuses
+the64RAM snapshots from the flag investigation.
+
+The9DB0Ccounter handler passes `[owner,9B11D]` through its owner+10collection.
+The9E300trampoline forwards the actor and owner to9B11C through145C10. That
+handler keeps actor in r6 and owner in r9; its394/3A4slots therefore match those
+updated by9DB0C and read by the9DBA4constructor handler. The preceding9DAD4
+readiness helper is a separate function, not the counter's entry.
+
+Creation requires additional actor and cell conditions. A changed integer
+position must pass the actor30mask10000gate. When actor30mask8000is clear, the
+normal branch at9B460 requires unit byteFD equal to2, signed cell coordinates
+inside0–15, a valid cell, cell flags containing02and a signed cell height greater
+than the actor's signed height. Animation36must differ from40. The handler then
+sets8000, updates animation state and checks owner24mask20and a free slot before
+9B550sets its active bit, counter0and phase0. The8000-set branch creates on the
+opposite transition, when that cell predicate becomes false. Ordinary movement
+and owner20alone are insufficient to activate this animation.
+
+The original cell helpers1DDEC/1DE78/1DD88read the live RAM map rooted at02007F10:
+width at+8, record pointer at+4, two-byte records containing height and flags.
+The creator explicitly converts height to signed8-bit before comparison. These
+are live derived cells, not a new immutable ROM catalog or an inferred global
+map format.
+
+Read-only evaluation of the existing64post-frame snapshots finds unitFD2,
+actor flags30equal0and animation36equal0. All three walked cells have height2
+and flags0; no sampled owner20frame satisfies the cell02or height predicate.
+More strongly, all256records in the creator's conditional16×16domain lack bit02.
+Their512bytes retain hash
+3d9fd03ffe3735ec0bcb38c537033e39280e17de7bccbb2f2cfd80db91ee7d58
+throughout the capture. This unchanged retained map state has no eligible cell,
+so trying another Move destination there cannot establish the required positive
+animation use. Future map/script changes and other maps are separate cases;
+post-frame data does not identify every intra-frame guest PC.
+
+Eight bounded source windows, the owner/callback bindings, all64retained RAM
+inputs and87actual input/output guards pass. Required artifact completion finds
+zero eligible paths and retains all evidence. Original ROM and captures are
+unchanged; static disassembly is not Linux gameplay validation. No schema,
+runtime, cache, save or ABI change is made. Evidence:
+`target/rom-data-constructor-slot-activation/{source-contract.json,
+captured-gate-values.json,final-summary.json,preservation-result.json,
+artifact-cleanup.json}`.
+
+The [retained-map inventory below](#retained-normal-maps-have-no-eligible-constructor-animation-cells)
+now closes that candidate search:81normal snapshots contain only two map
+configurations, both without cell02. Synthetic runtime fixtures and
+retired historical copies must not be treated as ordinary states. New gameplay
+needs a source-backed candidate; the ordinary fullpair still requires all four
+phases and all four lists through guest and host readers first. The five closed
+negative Move bounds and completed flag capture stay closed. Linux/USA/native
+Windows/new32:9 and the full ROM TODO remain pending; no measurements,
+Android/package, assistant commit or push.
+
+
+## Retained normal maps have no eligible constructor-animation cells
+
+A new read-only criterion checks the81existing normal EUR snapshots listed by
+the retained scene-provenance reports. Their older alternate-sequence search
+stays closed: only the constructor's cell02predicate and structural actor
+candidates are inspected. All81snapshot hashes, payload checksums and ROM
+identities pass, and every snapshot contains a valid conditional16×16cell domain.
+They represent two512-byte map projections: one F09configuration and80snapshots
+of the river configuration. Neither projection contains a cell with bit02.
+There is no eligible candidate among these retained map states.
+
+All88actual snapshot/report/parser/contract/output guards pass. No build,
+gameplay, Wine/Linux test, capture, new checkpoint or guest-memory edit occurs.
+This terminal negative bound covers these two retained configurations only;
+it does not classify every EUR map or future script mutation. It must not be
+reopened by scanning the same unchanged states or trying more Move routes there.
+Evidence is under `target/rom-data-constructor-eligible-map-inventory/`:
+`existing-map-candidates.json`, final summary and preservation receipt.
+
+Positive animation use remains open. A [source follow-up](rom_data_maps.md#constructor-animation-cell-flag-seeds)
+reuses the already migrated auxiliary BG packets:25programs/44descriptor IDs
+initialize cell02. A [script-map follow-up](rom_data_maps.md#script-map-selection-and-remaining-battle-reachability)
+now binds opcode12to the loader and identifies19eligible literal instructions.
+The live default also depends on an active index and40-byte records; their
+normal quest/event provenance still needs proof before navigation or a fullpair. No synthetic fixture or
+retired historical copy is used as an ordinary scene. Linux/USA/native Windows/
+new32:9 and the full ROM TODO remain pending; no measurements or deployment.
+
+
+The [active-index source join](rom_data_maps.md#active-index-producer-and-event-record-links)
+now links the live primary/alternate indices to event rows and conditional
+normal/script selection paths. Its44 direct-primary/default-script/cell02 rows
+are conditional source links. The [normal pub selector](rom_data_maps.md#normal-pub-menu-identifies-an-eligible-quest)
+now confirms mission58/White Flowers is available and links it to eligible
+map69/descriptor68. [Normal acceptance](rom_data_maps.md#normal-white-flowers-acceptance-and-open-battle-entry)
+is now proved by payment and Fee:Paid. The [normal Giza battle follow-up](rom_data_maps.md#normal-giza-battle-entry-and-positive-constructor-animation)
+closes entry, the live20flag02cell grid, eligible Marsh and normal Move from
+(6,5)to(5,7). The passive observer sees all four phases/lists through guest and
+host readers:22reads/88aggregate table bytes. An11-frame checkpoint/suffix is
+retained before use. The [ordinary11-frame fullpair](#ordinary-constructor-animation-positive-giza-scene)
+now passes; the earlier negative bounds remain closed.
+
+
+## Ordinary constructor animation positive Giza scene
+
+The normal [Giza battle and Move route](rom_data_maps.md#normal-giza-battle-entry-and-positive-constructor-animation)
+supplies the first positive ordinary case for `graphics.constructor-obj-animation`.
+An exact copy of its22713checkpoint and11-frame neutral suffix reaches22724.
+One existing production CLI Wine run reuses the accepted e77dataset and native
+cache. It consumes22table reads/88aggregate bytes:44threshold and44pointer
+bytes across all four phases. No preparation/build or discovery replay occurs.
+
+One existing Windows validator, run on Wine with
+`FFTA_STATE_TEST_REQUIRE_CONSTRUCTOR_ANIMATION=1`, passes all11complete serialized
+states and guest clocks, classic framebuffer, central and extended pixels,
+OAM, native/fallback dispatch and all five audio streams. All four new lists
+are used through guest and host readers. Table counts match the actual CLI
+exactly; native/fallback counts are57833/223470and audio sample counts are
+[24138,24138,2904,2904,23966]. The ordinary constructor criterion is closed for
+this case. This is not all-map/actor/fullgame or new32:9 coverage.
+
+All91actual input/output/dataset/executable guards and496frozen source hashes
+pass, with all72managed paths unchanged. Original ROM/cache/loader/checkpoints/
+inputs and canonical executable hash/mtime are preserved. No code/schema/ABI/
+cache/save change, manual guest edit or cartridge-save write occurs. Required
+artifact completion retires zero paths. Private evidence is in
+`target/rom-data-constructor-animation-positive/`: exact normal copies,
+`windows-cli-result.json`, `windows-pair-result.json`, final summary and
+preservation/cleanup receipts. Linux, USA, native Windows, new32:9 and the full
+ROM TODO remain pending; no performance/storage campaign, Android/package,
+assistant commit or push occurs.

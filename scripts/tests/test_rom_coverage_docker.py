@@ -62,6 +62,7 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         for name in ('Cargo.toml','Cargo.lock','crates/model.rs','assets/public','TinyCC/public',
                      'Licenses/public','gamedb.sqlite','docs/changes/proof.json',
                      'scripts/rom_coverage.py','scripts/rom_coverage.html','scripts/local_artifacts.py',
+                     'scripts/rom_coverage_audit.py','scripts/rom_coverage_ranges.py',
                      'docs/development/rom-coverage/code-seeds.json'):
             p = self.repo/name; p.parent.mkdir(parents=True,exist_ok=True); p.write_text('committed')
         for args in (['init','-q'],['add','Cargo.toml','Cargo.lock','crates','assets','TinyCC','Licenses','gamedb.sqlite'],
@@ -120,6 +121,26 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn(f'type=bind,source={output},target=/output', self.call('run'))
         self.assertIn(str(self.repo / 'custom inputs'), ' '.join(self.call('run')))
+
+    def test_repeatable_audit_and_comparison_mounts_are_readonly(self):
+        files = [self.repo / name for name in ('private/audit one.json', 'private/audit two.json', 'old report.json')]
+        for p in files:
+            p.parent.mkdir(exist_ok=True); p.write_text('{}')
+        result = self.run_script('--audit', 'private/audit one.json', '--audit', files[1], '--compare', files[2])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        run = self.call('run')
+        for p, target in zip(files, ('/input/audit-0.json', '/input/audit-1.json', '/input/previous.json')):
+            self.assertIn(f'type=bind,source={p},target={target},readonly', run)
+        self.assertEqual(run.count('--audit'), 2)
+        self.assertEqual(run[run.index('--compare')+1], '/input/previous.json')
+        with tarfile.open(self.directory/'runtime.tar') as archive:
+            self.assertFalse(any('private' in n for n in archive.getnames()))
+
+    def test_missing_audit_or_comparison_fails_before_build(self):
+        for flag in ('--audit', '--compare'):
+            result = self.run_script(flag, 'absent.json')
+            self.assertEqual(result.returncode, 2)
+            self.assertIsNone(self.call('buildx'))
 
     def test_missing_dataset_or_input_stops_before_docker(self):
         for key, name in self.defaults.items():

@@ -1477,13 +1477,15 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx < self.rom.len() {
-                    #[cfg(feature = "rom-data-read-audit")]
-                    crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::Bus, addr, 1);
                     if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<1>(idx, &self.rom)) {
+                            #[cfg(feature = "rom-data-read-audit")]
+                            crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 1, true);
                             return bytes[0];
                         }
                     }
+                    #[cfg(feature = "rom-data-read-audit")]
+                    crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 1, false);
                     self.rom[idx]
                 } else {
                     Self::rom_open_bus(addr)
@@ -1605,13 +1607,15 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 2 <= self.rom.len() {
-                    #[cfg(feature = "rom-data-read-audit")]
-                    crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::Bus, addr, 2);
                     if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<2>(idx, &self.rom)) {
+                            #[cfg(feature = "rom-data-read-audit")]
+                            crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 2, true);
                             return u16::from_le_bytes(bytes);
                         }
                     }
+                    #[cfg(feature = "rom-data-read-audit")]
+                    crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 2, false);
                     u16::from_le_bytes([self.rom[idx], self.rom[idx + 1]])
                 } else {
                     self.rd16_bytes(addr)
@@ -1683,13 +1687,15 @@ impl Bus for MemMap {
                 }
                 let idx = Self::rom_index(addr);
                 if idx + 4 <= self.rom.len() {
-                    #[cfg(feature = "rom-data-read-audit")]
-                    crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::Bus, addr, 4);
                     if Self::resource_page(idx) {
                         if let Some(bytes) = self.rom_resources.as_ref().and_then(|r| r.guest_read::<4>(idx, &self.rom)) {
+                            #[cfg(feature = "rom-data-read-audit")]
+                            crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 4, true);
                             return u32::from_le_bytes(bytes);
                         }
                     }
+                    #[cfg(feature = "rom-data-read-audit")]
+                    crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::Bus, addr, 4, false);
                     u32::from_le_bytes(self.rom[idx..idx + 4].try_into().unwrap())
                 } else {
                     self.rd32_halves(addr)

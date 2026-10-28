@@ -1,5 +1,20 @@
 # Direct decoded resource consumption
 
+EUR e78-d77 adds [world nodes](rom_data_maps.md#managed-world-nodes-and-typed-guest-reads):
+71files/70resources, all69prior records/files retained, USAe8-d7 unchanged.
+The600-byte typed owner supplies coordinates, ordered path/neighbor links and
+opaque fields while keeping original placement/pathfinding and raw/RAM outside
+behavior. One reduced Wine filter passes publication/12attach/2fullset guards,
+15complete-state-clock native prefixes, all600bus bytes and three transfer/
+Load-Undo checks. [Actual CLI creation/no-write reuse and normal16-frame use](rom_data_maps.md#actual-world-node-cli-and-ordinary-coordinate-use)
+now pass71identical generation files/70runtime IDs/73unchanged managed paths,
+with402coordinate bytes/22nodes. That16-frame zero path/neighbor bound stays
+closed. The [later ordinary travel360case](rom_data_maps.md#ordinary-world-node-travel-and-caller-gates)
+now passes all states/clock/images/OAM/dispatch/five audio streams with6841B
+(4820coordinate/864path/1157neighbor),29nodes and exactCLIcounts. Opaque use0
+remains targeted-only. No performance measurements or old acceptance replay.
+
+
 EUR e71-d70 adds the [twenty-slot job lookup](rom_data_gameplay.md#managed-twenty-slot-job-lookup-and-typed-bus-consumption):
 66files/65resources, all64prior decoded files/records and e70retained, actual
 metadata52dependency. Two focused Wine filters pass publication/lifecycle and
@@ -1371,6 +1386,23 @@ campaign. New Linux/USA/native Windows/new32:9 remain pending. Local results:
 `target/rom-data-host-rom-read-residue/`.
 
 
+### Bounded audit tools
+
+[DBG-06](debug_rom_audit.md) now exposes the collectors through replay profiles,
+CLI `debug-rom-audit create/run/cancel` and menu Audit replay. An additive
+`TraceCapture` limits unique events, filters readers/physical ranges/windows
+and records actual typed/raw serving, first/last guest frame and interpreter
+scope. Legacy Capture/SiteCapture keys and projections remain unchanged.
+The optional hooks preserve default feature-disabled code and guest/save/native
+ABI. Context inherited by HLE/DMA remains distinct from a proved direct operand.
+
+The report deduplicates physical byte unions across mirrors and widths, compares
+an explicitly identified source plan, and states dropped requests, partial
+windows and missing hooks. A known owner does not imply actual typed service;
+outside-plan bytes remain source leads. The accepted source/runtime extension
+campaigns above were not replayed to expose these tools. Usage and the new
+bounded raw/typed state-clock checks are in the linked feature guide.
+
 ## High bus and host residue source contracts
 
 All90new high-offset bytes from the F09 bus/host audit have scoped original
@@ -1606,3 +1638,51 @@ canonical executable and Atlas are unchanged. Linux/USA/native Windows/new32:9
 remain pending; no new fixture/navigation/production build or performance/storage
 campaign. The90byte lead now belongs to the four-prefix source/model contract;
 managed/runtime children remain open. This census stays closed.
+
+
+## Typed u16-task OBJ bank runtime
+
+EUR e77-d76 adds the65span1378byte owner for four source-authenticated u16task
+OBJ banks, preserving all68previous resource records/files. Guest reads compose
+new typed fields with prior owners and raw padding; host list lookup shares the
+same immutable field records. The original constructor/updater still owns all
+live indexing and counter semantics. See the [managed runtime contract and
+staged Wine evidence](rom_data_obj.md#managed-runtime-for-the-u16-task-obj-banks).
+The current stages prove managed publication, native/interpreter full-state/
+clock equality, bus/transfer and Load/Undo retention. A remaining-only Wine
+filter passes50host lists/140OBJ/95typed host reads and accepted OAM publications
+with poisoned raw source bytes, completing the runtime unit across staged
+checks. The first interrupted filter is not a fullPASS; its closed stages were
+not replayed. The [actual e77 CLI](rom_data_obj.md#actual-cli-for-the-u16-task-obj-banks)
+nowpasses create/reuse/zero-frame attachment:70identical generationfiles/
+69runtimeIDs, no managed writes on reuse/startup, all newusagefields zero.
+The [ordinary Bank12 child](rom_data_obj.md#ordinary-european-u16-task-obj-bank-scene)
+also nowpasses: one existing-CLI positive observation and one Wine fullpair
+compare all12complete states/clock/images/OAM/dispatch/all5audio streams, with
+292reads/346source bytes/all6field classes/20host reads exactly matching the CLI.
+Only a5line optional test guard is added; the old validator is byteexact when
+removed. This is one ordinary window, not allbank/list/fullgame coverage. Existing census/scene/model
+acceptance remains closed, USA e8-d7 unchanged, Linux/nativeWindows/new32:9
+pending and no performance measurements.
+
+
+EUR e79-d78 adds `gameplay.world-roads` / `world-roads.json`: 45 selected road
+headers and2,188signed XY samples, 46 source spans/4,736bytes. Runtime reads
+come from immutable typed count/pointer/sample/opaque fields, composing with the
+old world-node boundary and raw bytes outside the projection. Seven usage
+fields report bus/source/count/pointer/sample/opaque bytes and paths used.
+No host movement/facing/pathfinder replaces guest routines. First Wine filter
+passes72files/71resources/all70prior exact and strict attach, then finds a missing
+396page gate. After the routing fix, a remaining-only filter passes
+12native fullstate-clock prefixes, all source classes/widths/mirrors/lifecycle
+and DMA/CpuSet/CpuFastSet3. Actual CLI/ordinary case and Linux/USA/native Windows
+remain pending; no measurements. See [managed world roads](rom_data_maps.md#managed-world-roads-and-typed-guest-reads).
+
+
+The actual e79-d78production CLI and one ordinary sampled-road pair now pass on
+Wine: create/reuse/startup72files71resources74managed paths unchanged, then
+Giza360full states-clock/images/OAM/dispatch/fiveaudio with all seven counts
+identical to CLI. Positive count/pointer/sample use covers5,067source bytes;
+40paths means any field, not40sample payloads. Opaqueordinary0remains targeted-
+only. Linux/USA/nativeWindows and broader catalog/scenes pending. See
+[ordinary road equivalence](rom_data_maps.md#ordinary-sampled-road-travel-equivalence).

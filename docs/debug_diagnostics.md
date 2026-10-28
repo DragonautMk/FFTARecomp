@@ -84,8 +84,9 @@ Il report è limitato a 512 KiB e pubblicato atomicamente; viene sostituito solo
 un precedente report dello stesso tipo/schema, mai un file arbitrario o un link.
 Nessun contenuto ROM, BIOS, RAM, SRAM, screenshot o asset è incorporato nel JSON.
 Il controllo non avvia traduzioni native, replay o benchmark e non salva la
-partita. La sessione di debug isolata e i profili di replay restano le prossime
-voci della [checklist](development/DEBUG_TOOLS_TODO.md).
+partita. Le [sessioni isolate](debug_sessions.md) aggiungono copie portable del
+caso scelto; i profili di replay restano una voce successiva della
+[checklist](development/DEBUG_TOOLS_TODO.md).
 
 ## Verifica del 27 ottobre 2026
 

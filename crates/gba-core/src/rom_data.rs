@@ -72,6 +72,8 @@ pub mod unit_obj_ffff_reader_fields;
 pub mod slot_job_lookup;
 pub mod observed_task_parameters;
 pub mod task_cycle_deltas;
+pub mod world_nodes;
+pub mod world_roads;
 pub mod unit_obj_byte_property_words;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;
@@ -79,8 +81,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 76;
-pub const DECODER_REV: u32 = 75;
+pub const EXTRACTOR_REV: u32 = 79;
+pub const DECODER_REV: u32 = 78;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -269,6 +271,18 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const WORLD_ROADS_ID: &str = "gameplay.world-roads";
+pub const WORLD_ROADS_FILE: &str = "world-roads.json";
+pub const WORLD_ROADS_FORMAT: &str = "world-roads-v1-json";
+pub const MAX_WORLD_ROADS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const WORLD_NODES_ID: &str = "gameplay.world-nodes";
+pub const WORLD_NODES_FILE: &str = "world-nodes.json";
+pub const WORLD_NODES_FORMAT: &str = "world-nodes-v1-json";
+pub const MAX_WORLD_NODES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const WORD_TASK_OBJ_ANIMATIONS_ID: &str = "graphics.word-task-obj-animations";
+pub const WORD_TASK_OBJ_ANIMATIONS_FILE: &str = "word-task-obj-animations.json";
+pub const WORD_TASK_OBJ_ANIMATIONS_FORMAT: &str = "word-task-obj-animations-v1-json";
+pub const MAX_WORD_TASK_OBJ_ANIMATIONS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const MAP_RASTER_PALETTES_ID: &str = "graphics.map-raster-palettes";
 pub const MAP_RASTER_PALETTES_FILE: &str = "map-raster-palettes.json";
 pub const MAP_RASTER_PALETTES_FORMAT: &str = "map-raster-palettes-v1-json";
@@ -517,6 +531,9 @@ pub struct Extraction {
     pub observed_task_parameters: Option<observed_task_parameters::Catalog>,
     pub constructor_obj_animation: Option<obj_lists::constructor_animation::Catalog>,
     pub task_cycle_deltas: Option<task_cycle_deltas::Catalog>,
+    pub word_task_obj_animations: Option<word_task_obj_animations::Catalog>,
+    pub world_nodes: Option<world_nodes::Catalog>,
+    pub world_roads: Option<world_roads::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -591,6 +608,9 @@ pub struct BaseFiles<'a> {
     pub observed_task_parameters: Option<(&'a observed_task_parameters::ObservedTaskParameters, &'a [u8])>,
     pub constructor_obj_animation: Option<(&'a obj_lists::constructor_animation::Animation, &'a [u8])>,
     pub task_cycle_deltas: Option<(&'a task_cycle_deltas::TaskCycleDeltas, &'a [u8])>,
+    pub word_task_obj_animations: Option<(&'a word_task_obj_animations::WordTaskObjAnimations, &'a [u8])>,
+    pub world_nodes: Option<(&'a world_nodes::WorldNodes, &'a [u8])>,
+    pub world_roads: Option<(&'a world_roads::WorldRoads, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1114,6 +1134,27 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.task_cycle_deltas = Some(metadata);
+            let metadata = word_task_obj_animations::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(WORD_TASK_OBJ_ANIMATIONS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: WORD_TASK_OBJ_ANIMATIONS_ID.into(), path: WORD_TASK_OBJ_ANIMATIONS_FILE.into(), format: WORD_TASK_OBJ_ANIMATIONS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.word_task_obj_animations = Some(metadata);
+            let metadata = world_nodes::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(WORLD_NODES_ID.into());
+            result.manifest.resources.push(Resource {
+                id: WORLD_NODES_ID.into(), path: WORLD_NODES_FILE.into(), format: WORLD_NODES_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.world_nodes = Some(metadata);
+            let metadata = world_roads::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(WORLD_ROADS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: WORLD_ROADS_ID.into(), path: WORLD_ROADS_FILE.into(), format: WORLD_ROADS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
+            });
+            result.world_roads = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1216,6 +1257,9 @@ impl Extraction {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1319,6 +1363,9 @@ impl Extraction {
             || self.slot_job_lookup.is_some() != self.observed_task_parameters.is_some()
             || self.observed_task_parameters.is_some() != self.constructor_obj_animation.is_some()
             || self.constructor_obj_animation.is_some() != self.task_cycle_deltas.is_some()
+            || self.task_cycle_deltas.is_some() != self.word_task_obj_animations.is_some()
+            || self.word_task_obj_animations.is_some() != self.world_nodes.is_some()
+            || self.world_nodes.is_some() != self.world_roads.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -1923,6 +1970,33 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected task_cycle_deltas resource".into()),
         }
+        match (&self.word_task_obj_animations, files.word_task_obj_animations) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_WORD_TASK_OBJ_ANIMATIONS_FILE_BYTES { return Err("WordTaskObjAnimations file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[68].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected word_task_obj_animations resource".into()),
+        }
+        match (&self.world_nodes, files.world_nodes) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_WORLD_NODES_FILE_BYTES { return Err("WorldNodes file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[69].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected world_nodes resource".into()),
+        }
+        match (&self.world_roads, files.world_roads) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_WORLD_ROADS_FILE_BYTES { return Err("WorldRoads file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[70].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected world_roads resource".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2295,6 +2369,18 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded {return Err("Decoded task_cycle_deltas differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.word_task_obj_animations, files.word_task_obj_animations) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded word_task_obj_animations differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.world_nodes, files.world_nodes) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded world_nodes differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_))) = (&self.world_roads, files.world_roads) {
+            decoded.validate()?;
+            if decoded != &expected.decoded {return Err("Decoded world_roads differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2374,6 +2460,9 @@ impl Extraction {
             + usize::from(self.observed_task_parameters.is_some())
             + usize::from(self.constructor_obj_animation.is_some())
             + usize::from(self.task_cycle_deltas.is_some())
+            + usize::from(self.word_task_obj_animations.is_some())
+            + usize::from(self.world_nodes.is_some())
+            + usize::from(self.world_roads.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2496,6 +2585,9 @@ mod tests {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2571,6 +2663,9 @@ mod tests {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2656,6 +2751,9 @@ mod tests {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2730,6 +2828,9 @@ mod tests {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

@@ -519,12 +519,18 @@ struct PlayApp {
     sav_path: String,
     diagnosis: crate::diagnostics::Request,
     diagnosis_clipboard: Option<arboard::Clipboard>,
+    debug_session: bool,
+    debug_catalog: Option<crate::debug_catalog::Catalog>,
+    replay_path: Option<std::path::PathBuf>,
+    replay_job: Option<crate::debug_replay::Job>,
+    replay_message: String,
     game_saves: crate::game_saves::GameSaves,
     state_slots: crate::save_state::Slots,
     save_backups: crate::save_backups::Backups,
     boot_state: Vec<u8>,
     sav_seen: Option<u64>,
     record: Option<(std::fs::File, u16)>,
+    capture: Option<crate::debug_recording::Capture>,
     native: Option<(super::NativeLibrary, BlockTable)>,
 
     // Audio.
@@ -791,6 +797,10 @@ impl PlayApp {
     }
 
     fn choose_rom(&mut self)->bool {
+        if self.debug_session {
+            self.menu.session_result("Close the debug session to return to the normal game before switching ROM.".into());
+            return false;
+        }
         let Some(path)=crate::rom_switch::pick(&self.sav_path)else{return false;};
         let result=crate::rom_switch::validate(&path).and_then(|_| {
             // Flush the current cartridge before the replacement process reads
@@ -1665,16 +1675,187 @@ impl PlayApp {
         }
     }
 
+    fn start_debug_session(&mut self) {
+        if self.recording_active() {
+            self.menu.diagnosis_result("Stop input recording before starting a debug session.".into());
+            return;
+        }
+        let result = (|| -> Result<(), String> {
+            let state = self.machine.save_state()?;
+            let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+            let destination = crate::debug_session::default_destination()?;
+            let root = crate::debug_session::create(&destination, crate::debug_session::Source {
+                rom: &self.machine.bus.rom,
+                bios: self.machine.bus.real_bios.then_some(self.machine.bus.bios.as_slice()),
+                save: self.machine.bus.save_data(), state: Some(&state),
+                av: self.av.clone(), input: self.icfg.clone(), interp: self.native.is_none(),
+                dataset: self.diagnosis.dataset.as_deref(), executable: &exe,
+            })?;
+            crate::debug_session::launch(&root)?;
+            eprintln!("Isolated debug session: {}", root.display());
+            Ok(())
+        })();
+        self.menu.diagnosis_result(match result {
+            Ok(()) => "Debug copy opened; normal game stays paused.".into(),
+            Err(e) => format!("Cannot start debug copy: {e}"),
+        });
+        self.menu_dirty = true;
+        self.next_frame = Instant::now();
+    }
+
+    fn start_replay(&mut self, choose_only: bool, audit: bool) {
+        if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
+        if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
+        if choose_only || self.replay_path.is_none() {
+            let Some(path) = rfd::FileDialog::new().set_title("Choose replay.json")
+                .add_filter("Replay profile", &["json"]).pick_file() else { return; };
+            self.replay_path = Some(path);
+        }
+        if choose_only { self.menu.diagnosis_result("Replay profile selected. Choose Replay case.".into()); self.menu_dirty=true; return; }
+        let path=self.replay_path.as_deref().unwrap();
+        let result=if audit {crate::debug_replay::Job::start_audit(path)} else {crate::debug_replay::Job::start(path)};
+        match result {
+            Ok(job)=>{self.replay_path=Some(job.profile.clone());self.replay_message.clear();self.menu.diagnosis_result("Replay running in an isolated worker. Cancel replay stops it.".into());self.replay_job=Some(job);},
+            Err(e)=>self.menu.diagnosis_result(format!("Cannot replay: {e}")),
+        }
+        self.menu_dirty=true;
+    }
+
+    fn poll_replay(&mut self) {
+        let Some(job)=&mut self.replay_job else {return;};
+        let result=job.poll();
+        let terminal=matches!(result,Ok(Some(_))|Err(_));
+        let message=match result {
+            Ok(Some(report))=>{eprintln!("Replay result: {}",serde_json::to_string(&report).unwrap_or_default());report.short()},
+            Ok(None)=>job.progress().map_or_else(||"Replay starting.".into(),|r|r.short()),
+            Err(e)=>format!("Replay error: {e}"),
+        };
+        if message != self.replay_message {
+            self.replay_message=message.clone();self.menu.diagnosis_result(message);self.menu_dirty=true;
+        }
+        if terminal {self.replay_job=None;}
+    }
+
+    fn cancel_replay(&mut self) {
+        let message=match &mut self.replay_job {
+            Some(job)=>match job.cancel(){Ok(())=>"Replay cancellation requested.".into(),Err(e)=>format!("Cannot cancel: {e}")},
+            None=>"No replay is running.".into(),
+        };
+        self.menu.diagnosis_result(message);self.menu_dirty=true;
+    }
+
+    fn recording_title(&self) -> String { format!("{}{}", self.title, if self.capture.is_some() { " [REC]" } else { "" }) }
+
+    fn recording_active(&self) -> bool { self.record.is_some() || self.capture.is_some() }
+
+    fn start_input_recording(&mut self) {
+        let result = (|| -> Result<(), String> {
+            if !self.debug_session { return Err("Open an isolated debug copy before recording.".into()); }
+            if self.replay_job.is_some() {return Err("Finish or cancel the replay before recording.".into());}
+            if self.recording_active() { return Err("An input recording is already active.".into()); }
+            self.sync_view();
+            self.game_mouse.cancel(); self.machine.bus.ffta_battle_mouse.cancel();
+            let directory = crate::debug_recording::destination()?;
+            self.capture = Some(crate::debug_recording::Capture::start(&directory, &self.machine,
+                self.native.is_none(), self.diagnosis.dataset.as_deref(), &self.av, &self.icfg)?);
+            eprintln!("Input recording started: {}", directory.display());
+            if let Some(window) = &self.window { window.set_title(&format!("{} [REC]", self.title)); }
+            Ok(())
+        })();
+        self.menu.diagnosis_result(match result { Ok(()) => "Recording active. Resume to reproduce.".into(), Err(e) => format!("Cannot record: {e}") });
+        self.menu_dirty = true;
+    }
+
+    fn stop_input_recording(&mut self, reason: &str, complete: bool) -> bool {
+        let mut saved = false;
+        let message = if let Some(capture) = self.capture.take() {
+            match capture.finish(&self.machine, reason, complete) {
+                Ok(path) => { saved = true; eprintln!("Input recording completed: {}", path.display()); format!("Recording saved: {}", path.file_name().unwrap_or_default().to_string_lossy()) },
+                Err(e) => { eprintln!("Input recording: {e}"); format!("Recording error: {e}") },
+            }
+        } else if let Some((file, _)) = self.record.take() {
+            match file.sync_all() { Ok(()) => "Legacy input recording stopped; no snapshot-relative manifest was created.".into(), Err(e) => format!("Recording error: {e}") }
+        } else { "No input recording is active.".into() };
+        self.menu.diagnosis_result(message);
+        if let Some(window) = &self.window { window.set_title(&self.title); }
+        self.menu_dirty = true;
+        saved
+    }
+
+    fn open_debug_catalog(&mut self, choose: bool) {
+        let path = if choose || (self.debug_catalog.is_none() && !crate::debug_catalog::default_path().is_some_and(|p|p.is_file())) {
+            rfd::FileDialog::new().set_title("Choose debug-save catalog.json")
+                .add_filter("Debug-save catalog", &["json"]).pick_file()
+        } else { self.debug_catalog.as_ref().map(|c|c.path.clone()).or_else(crate::debug_catalog::default_path) };
+        let Some(path)=path else {return;};
+        match crate::debug_catalog::Catalog::load(&path) {
+            Ok(catalog)=>{
+                let entries=catalog.entries.iter().map(|e|menu::CatalogEntry {key:e.key.clone(),name:e.name.clone(),kind:e.kind.clone(),case:e.case.clone(),region:e.region.clone(),status:e.status.clone(),slot:e.slot,source:e.source.clone(),evidence:e.evidence.clone(),available:e.available,error:e.error.clone().unwrap_or_default()}).collect();
+                let region=match gba_core::ffta_rom::version(&self.machine.bus.rom) {Some(gba_core::ffta_rom::Version::Europe)=>"EUR",Some(gba_core::ffta_rom::Version::Usa)=>"USA",None=>""};
+                self.debug_catalog=Some(catalog);self.menu.set_catalog(entries,region);
+                if let Some(index)=self.menu.catalog_selection(){self.catalog_preview(index);}
+            },
+            Err(e)=>{self.menu.diagnosis_result(format!("Cannot open catalog: {e}"));self.menu.catalog_result(format!("Cannot open catalog: {e}"));},
+        }
+        self.menu_dirty=true;
+    }
+
+    fn catalog_preview(&mut self,index:usize) {
+        if let Some(catalog)=&self.debug_catalog {
+            match catalog.preview(index) {Ok(preview)=>self.menu.catalog_preview(preview),Err(e)=>{self.menu.catalog_preview(Vec::new());self.menu.catalog_result(e);}}
+        }
+        self.menu_dirty=true;
+    }
+
+    fn catalog_import(&mut self,index:usize) {
+        if !self.debug_session {self.menu.catalog_result("Import requires a debug copy; use Open isolated case.".into());return;}
+        let result=(||->Result<u8,String>{
+            let catalog=self.debug_catalog.as_ref().ok_or("Open a catalog first")?;
+            // Use the live owner so the import remains the last undoable file action.
+            self.state_slots.set_extended(true);
+            catalog.import(index,&self.machine,&mut self.state_slots,None)
+        })();
+        match result {
+            Ok(slot)=>{
+                if slot>9 {self.av.debug_extended_saves=true;let _=self.av.save();}
+                self.refresh_state_slots();self.menu.reveal_imported_slot(slot);
+                self.menu.state_result(format!("Catalog checkpoint imported into slot {slot}. Select Load state to use it."));
+            },Err(e)=>self.menu.catalog_result(format!("Cannot import: {e}")),
+        }
+        self.menu_dirty=true;
+    }
+
+    fn catalog_open(&mut self,index:usize) {
+        if self.debug_session {self.menu.catalog_result("Close this debug copy to open another; import a checkpoint here instead.".into());return;}
+        if self.recording_active(){self.menu.catalog_result("Stop input recording before opening a case.".into());return;}
+        let result=(||->Result<(),String>{
+            let catalog=self.debug_catalog.as_ref().ok_or("Open a catalog first")?;
+            let e=catalog.entries.get(index).ok_or("Select a catalog entry")?;
+            let destination=crate::debug_session::default_destination()?;
+            let suffix=destination.file_name().unwrap_or_default().to_string_lossy();
+            let label=format!("{}-{}-{suffix}",if e.id.is_empty(){"variant"}else{&e.id},e.region);
+            let destination=destination.with_file_name(label);
+            let root=catalog.create(index,&destination,&self.machine.bus.rom,
+                self.machine.bus.real_bios.then_some(self.machine.bus.bios.as_slice()),self.native.is_none(),
+                self.av.clone(),self.icfg.clone(),self.diagnosis.dataset.as_deref())?;
+            crate::debug_session::launch(&root)?;
+            eprintln!("Catalog isolated case: {}",root.display());Ok(())
+        })();
+        self.menu.catalog_result(match result{Ok(())=>"Catalog copy opened; this game stays paused.".into(),Err(e)=>format!("Cannot open case: {e}")});self.menu_dirty=true;
+    }
+
     fn copy_diagnosis(&mut self) {
         self.diagnosis.save = Some(self.sav_path.clone().into());
         self.diagnosis.slot = Some(self.menu.selected_state_slot());
         self.diagnosis.interp = self.native.is_none();
-        self.diagnosis.recording = self.record.is_some();
+        self.diagnosis.recording = self.recording_active();
+        if let Some(capture) = &self.capture { self.diagnosis.input = Some(capture.directory.join("input.input")); }
         let result = (|| -> Result<String, String> {
             let path = crate::diagnostics::default_report_path()?;
             self.diagnosis.out = Some(path.clone());
             let mut report = crate::diagnostics::collect(&self.diagnosis, Some(&self.machine));
             report["live_settings"] = serde_json::json!({
+                "debug_session": self.debug_session,
                 "aspect": self.av.video_aspect, "extended_saves": self.av.debug_extended_saves,
                 "audio_enhanced": self.av.audio_enhanced,
                 "note": "Live settings can differ from the config file while applying a change."
@@ -1761,7 +1942,7 @@ impl PlayApp {
 
     fn switch_game_save(&mut self, slot: u8) {
         if !self.av.debug_extended_saves { return; }
-        if self.record.is_some() {
+        if self.recording_active() {
             self.menu.game_save_result("Stop input recording before switching saves.".into());
             self.menu_dirty = true;
             return;
@@ -1804,7 +1985,7 @@ impl PlayApp {
     }
 
     fn restart_rom(&mut self) {
-        if self.record.is_some() {
+        if self.recording_active() {
             self.menu.session_result("Stop recording before restarting.".into());
             self.menu_dirty = true;
             return;
@@ -1831,7 +2012,7 @@ impl PlayApp {
     }
 
     fn restore_save_backup(&mut self, generation: u64) {
-        if self.record.is_some() {
+        if self.recording_active() {
             self.menu
                 .backup_result("Stop input recording before restoring a backup.".into());
             self.menu_dirty = true;
@@ -1902,9 +2083,13 @@ impl PlayApp {
     }
 
     fn undo_state_operation(&mut self) {
-        if self.record.is_some() && self.state_slots.undo_restores_machine() {
-            self.menu
-                .state_result("Stop input recording before undoing a load.".into());
+        if self.recording_active() && self.state_slots.undo_restores_machine() {
+            let message = if self.capture.is_some() {
+                if self.stop_input_recording("Undo load requested; retry after recording stopped", true) {
+                    "Recording saved. Choose Undo load again."
+                } else { "Recording failed; see Debug for details. Undo load was refused." }
+            } else { "Stop input recording before undoing a load." };
+            self.menu.state_result(message.into());
             self.menu_dirty = true;
             return;
         }
@@ -1923,9 +2108,13 @@ impl PlayApp {
     }
 
     fn state_operation(&mut self, saving: bool, slot: u8, overwrite: bool) {
-        if !saving && self.record.is_some() {
-            self.menu
-                .state_result("Stop input recording before loading a state.".into());
+        if !saving && self.recording_active() {
+            let message = if self.capture.is_some() {
+                if self.stop_input_recording("Load requested; retry after recording stopped", true) {
+                    "Recording saved. Choose Load again."
+                } else { "Recording failed; see Debug for details. Load was refused." }
+            } else { "Stop input recording before loading a state." };
+            self.menu.state_result(message.into());
             self.menu_dirty = true;
             return;
         }
@@ -2050,13 +2239,15 @@ impl PlayApp {
             let keys = self.game_mouse.keys(&mut self.machine.bus, self.game_keys);
             let keys = gba_core::ffta_battle_mouse::keys(&mut self.machine.bus, keys);
             self.machine.bus.keys = keys;
-            if let Some(index) = self.machine.bus.ffta_battle_mouse.take_event() {
+            let battle_event = self.machine.bus.ffta_battle_mouse.take_event();
+            let language_event = self.game_mouse.take_selection_event();
+            if let Some(index) = battle_event {
                 if let Some((file, _)) = &mut self.record {
                     use std::io::Write;
                     let _ = writeln!(file, "{} mouse:{index}", self.machine.bus.frames);
                 }
             }
-            if let Some(index) = self.game_mouse.take_selection_event() {
+            if let Some(index) = language_event {
                 if let Some((file, _)) = &mut self.record {
                     use std::io::Write;
                     let _ = writeln!(file, "{} mouse:{index}", self.machine.bus.frames);
@@ -2067,6 +2258,14 @@ impl PlayApp {
                     use std::io::Write;
                     let _ = writeln!(file, "{} {keys:03x}", self.machine.bus.frames);
                     *last = keys;
+                }
+            }
+            if let Some(capture) = &mut self.capture {
+                let events: Vec<_> = battle_event.into_iter().chain(language_event.map(u16::from)).collect();
+                if let Err(error) = capture.before_frame(&self.machine, &events) {
+                    self.stop_input_recording(&error, false);
+                    self.paused = true;
+                    return true;
                 }
             }
         }
@@ -2131,7 +2330,7 @@ impl PlayApp {
             if let Some(w) = self.window.as_ref() {
                 w.set_title(&format!(
                     "{} · {:.2} ms/frame ({:.1}x headroom) · native {} blocks · fallback {} steps",
-                    self.title,
+                    self.recording_title(),
                     self.emu_ema_ms,
                     16.7 / self.emu_ema_ms.max(0.01),
                     self.native_run,
@@ -2376,7 +2575,7 @@ impl ApplicationHandler for PlayApp {
         // needs them. Never Wait (would block the emulator on an OS event).
         event_loop.set_control_flow(ControlFlow::Poll);
         let attrs = Window::default_attributes()
-            .with_title(self.title.clone())
+            .with_title(self.recording_title())
             .with_window_icon(load_window_icon())
             .with_inner_size(LogicalSize::new(self.base_w() as f64 * 3.0, 160.0 * 3.0))
             .with_resizable(true);
@@ -2545,6 +2744,7 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn about_to_wait(&mut self, event_loop: &ActiveEventLoop) {
+        self.poll_replay();
         if self.benchmark.is_some() && self.window.is_some() {
             self.benchmark_tick(event_loop); return;
         }
@@ -2591,7 +2791,7 @@ impl ApplicationHandler for PlayApp {
         // While the menu waits for a key, Escape cancels the capture
         // instead of closing the menu.
         let capturing_now = self.paused && self.menu.capturing().is_some();
-        let toggle_edge = !capturing_now && nav.open && !self.nav_prev.open;
+        let toggle_edge = self.replay_job.is_none() && !capturing_now && nav.open && !self.nav_prev.open;
         if toggle_edge {
             if !self.menu_enabled {
                 event_loop.exit();
@@ -2630,7 +2830,7 @@ impl ApplicationHandler for PlayApp {
             // Feed the menu the rising edges and apply any setting change live
             // (video) or to av.cfg only (restart-required audio/gamut). The
             // GBA sees all keys released while the menu is up.
-            self.machine.bus.keys = 0x3FF;
+            if self.capture.is_none() { self.machine.bus.keys = 0x3FF; }
             // Key capture: the Inputs page asked for a key; take the next
             // press (Escape cancels). Navigation is frozen meanwhile and for
             // the rest of this tick, so the chosen key (an arrow, Enter...)
@@ -2815,12 +3015,28 @@ impl ApplicationHandler for PlayApp {
             }
             for action in acts {
                 match action {
-                    menu::MenuAction::Resume => self.paused = false,
+                    menu::MenuAction::Resume => {
+                        if self.replay_job.is_some() {self.menu.diagnosis_result("Finish or cancel the replay before resuming.".into());}
+                        else {self.paused=false;}
+                    },
                     menu::MenuAction::RestartRom => self.restart_rom(),
                     menu::MenuAction::SaveState { slot, overwrite } => self.state_operation(true, slot, overwrite),
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),
+                    menu::MenuAction::OpenDebugCatalog => self.open_debug_catalog(false),
+                    menu::MenuAction::ChooseDebugCatalog => self.open_debug_catalog(true),
+                    menu::MenuAction::CatalogSelection(index) => self.catalog_preview(index),
+                    menu::MenuAction::CatalogImport(index) => self.catalog_import(index),
+                    menu::MenuAction::CatalogOpen(index) => self.catalog_open(index),
+                    menu::MenuAction::AuditReplay => self.start_replay(false,true),
+                    menu::MenuAction::ReplayCase => self.start_replay(false,false),
+                    menu::MenuAction::ChooseReplayProfile => self.start_replay(true,false),
+                    menu::MenuAction::CancelReplay => self.cancel_replay(),
+                    menu::MenuAction::StartInputRecording => self.start_input_recording(),
+                    menu::MenuAction::StopInputRecording => { self.stop_input_recording("user stopped", true); },
                     menu::MenuAction::CopyDiagnosis => self.copy_diagnosis(),
+                    menu::MenuAction::StartDebugSession => self.start_debug_session(),
+                    menu::MenuAction::CloseDebugSession => quit = true,
                     menu::MenuAction::RestoreBackup(id) => self.restore_save_backup(id),
                     menu::MenuAction::SwitchGameSave(slot) => self.switch_game_save(slot),
                     menu::MenuAction::CopyGameSave { slot, overwrite } => self.copy_game_save(slot, overwrite),
@@ -3094,6 +3310,13 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
+        drop(self.replay_job.take());
+        if self.capture.is_some() {
+            let complete = self.error.is_none();
+            if !self.stop_input_recording(if complete { "clean session close" } else { "runtime error" }, complete) && complete {
+                self.error = Some("Cannot finish input recording; inspect the retained recording folder and session log".into());
+            }
+        }
         // run_app consumes/drops the event loop before PlayApp is dropped.
         // In particular, wgpu's EGL backend must release its Wayland objects
         // while that display connection still exists (even with Vulkan selected).
@@ -3148,8 +3371,21 @@ impl ApplicationHandler for PlayApp {
 /// closes. Teardown (final save, fallback census, label recording) happens
 /// in the final event-loop callback, before its display connection is dropped.
 pub fn cmd_play(args: &[String]) -> Result<(), String> {
-    let mut rom_path = None;
-    let mut interp_only = false;
+    let session = crate::debug_session::current()?;
+    let result = cmd_play_inner(args, session.as_ref());
+    if let Some(session) = &session { session.result(&result); }
+    result
+}
+
+fn cmd_play_inner(args: &[String], session: Option<&crate::debug_session::Session>) -> Result<(), String> {
+    let start_recording = session.is_some() && args == ["--record-input"];
+    if session.is_some() && !args.is_empty() && !start_recording {
+        return Err("The isolated runtime is pinned to its case. Reopen it with debug-session open <folder>, without play overrides.".into());
+    }
+    if start_recording && session.and_then(|s|s.state()).is_none() { return Err("Recording start needs a snapshot seed".into()); }
+    let args = if start_recording { &[][..] } else { args };
+    let mut rom_path = session.map(|s| s.rom().to_string_lossy().into_owned());
+    let mut interp_only = session.is_some_and(|s| s.interp());
     // Opt-in decoded resources until the equivalence/cost gates pass.
     let mut prepare_rom_data = false;
     // Machine-readable lifecycle lines on stdout for a supervising frontend
@@ -3158,9 +3394,11 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
     // Perf instrumentation is developer tooling: always on in debug builds,
     // opt-in (--stats or GBA_RECOMP_STATS=1) in release.
     let mut show_stats = cfg!(debug_assertions) || std::env::var_os("GBA_RECOMP_STATS").is_some();
-    let mut bios_arg: Option<String> = None;
-    let mut no_bios = false;
+    let mut bios_arg: Option<String> = session.and_then(|s| s.bios()).map(|p| p.to_string_lossy().into_owned());
+    let mut no_bios = session.is_some_and(|s| s.bios().is_none());
     let mut gamedb_arg: Option<String> = None;
+    let mut catalog_arg: Option<std::path::PathBuf> = None;
+    let mut replay_path: Option<std::path::PathBuf> = None;
     let mut benchmark = None;
     let mut it = args.iter();
     while let Some(arg) = it.next() {
@@ -3176,6 +3414,8 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
             "--record-labels" => FALLBACK_COLLECT.store(true, Ordering::Relaxed),
             "--bios" => bios_arg = Some(it.next().ok_or("--bios needs a value")?.to_string()),
             "--no-bios" => no_bios = true,
+            "--debug-replay" => replay_path = Some(it.next().ok_or("--debug-replay needs replay.json")?.into()),
+            "--debug-catalog" => catalog_arg = Some(it.next().ok_or("--debug-catalog needs a file")?.into()),
             "--gamedb" => gamedb_arg = Some(it.next().ok_or("--gamedb needs a value")?.to_string()),
             other if rom_path.is_none() => rom_path = Some(other.to_string()),
             other => return Err(format!("unexpected argument {other:?}")),
@@ -3184,6 +3424,7 @@ pub fn cmd_play(args: &[String]) -> Result<(), String> {
     if benchmark.is_some() && std::env::var_os("RECOMP_RECORD_INPUT").is_some() {
         return Err("--benchmark cannot record input".into());
     }
+    let debug_catalog = catalog_arg.as_deref().map(crate::debug_catalog::Catalog::load).transpose()?;
     // The function-boundary source for a first-launch build: open it once
     // here so on-demand translation seeds exhaustively from the map (and
     // --ram profiling captures RAM-resident code the map can't carry).
@@ -3323,9 +3564,10 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     };
 
     let mut machine = make_machine(rom, bios.as_deref());
-    let prepared_resources_directory = prepared_resources.as_ref().map(|p| p.directory.clone());
-    if let Some(prepared) = prepared_resources {
-        crate::rom_data::attach_from_directory(&mut machine, &prepared.directory)?;
+    let prepared_resources_directory = session.and_then(|s| s.dataset())
+        .or_else(|| prepared_resources.as_ref().map(|p| p.directory.clone()));
+    if let Some(directory) = &prepared_resources_directory {
+        crate::rom_data::attach_from_directory(&mut machine, directory)?;
     }
     let save_backups = crate::save_backups::Backups::new(Path::new(&sav_path));
     if benchmark.is_none() {
@@ -3354,7 +3596,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         }
     };
 
-    let title = String::from("FFTARecomp");
+    let title = session.map_or_else(|| "FFTARecomp".into(), |s| format!("FFTARecomp - DEBUG: {}", s.manifest.label));
 
     // Audio. Both paths run at once so the in-game menu can crossfade between
     // faithful and enhanced live (the callback slews between them, the producer
@@ -3513,6 +3755,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let game_mouse=gba_core::ffta_mouse::LanguageMouse::new(&machine.bus.rom,icfg.mouse_keyboard || std::env::var("FFTA_MOUSE").as_deref()==Ok("1"));
     if icfg.mouse_keyboard {machine.bus.ffta_battle_mouse.set_enabled(true);}
     let boot_state = machine.save_state()?;
+    let debug_start_state = session.and_then(|s| s.state());
+    if let Some(state) = &debug_start_state { crate::save_state::load(&mut machine, state)?; }
     let benchmark_zoom = benchmark.as_ref().map_or(0, |b| b.zoom);
     if benchmark_zoom > zoom_max { return Err("benchmark zoom exceeds the selected aspect's limit".into()); }
     if let Some(benchmark) = benchmark.as_mut() { benchmark.restore(&mut machine)?; }
@@ -3527,6 +3771,11 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let mut app = PlayApp {
         diagnosis,
         diagnosis_clipboard: None,
+        debug_session: session.is_some(),
+        debug_catalog,
+        replay_path,
+        replay_job: None,
+        replay_message: String::new(),
         machine,
         sav_path,
         game_saves,
@@ -3535,6 +3784,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         boot_state,
         sav_seen,
         record,
+        capture: None,
         native,
         streams,
         stream,
@@ -3629,6 +3879,13 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         mouse_queue: Vec::new(),
         error: None,
     };
+
+    app.menu.set_debug_session(session.is_some());
+    if debug_start_state.is_some() { app.after_state_restore(); }
+    if start_recording {
+        app.start_input_recording();
+        if app.capture.is_none() { return Err("Cannot start input recording; see recording error in the session log".into()); }
+    }
 
     // Teardown (final save, fallback census, label recording) runs in the
     // app's `exiting` callback — winit's guaranteed last hook — so it fires on

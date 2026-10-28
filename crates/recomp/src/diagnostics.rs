@@ -32,7 +32,7 @@ fn absolute(path: &Path) -> PathBuf {
     std::path::absolute(path).unwrap_or_else(|_| path.to_owned())
 }
 
-fn read(path: &Path, limit: u64) -> Result<Vec<u8>, String> {
+pub(crate) fn read(path: &Path, limit: u64) -> Result<Vec<u8>, String> {
     let mut file = File::open(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let meta = file.metadata().map_err(|e| e.to_string())?;
     if !meta.is_file() || meta.len() > limit {

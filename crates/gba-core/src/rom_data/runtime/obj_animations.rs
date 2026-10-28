@@ -154,6 +154,16 @@ impl ObjAnimationResources {
         if !Self::source_page(index) {
             return prior;
         }
+        self.guest_read_projected(index, rom, prior)
+    }
+
+    /// Shared immutable field projection. Each owner applies its own page gate.
+    pub(super) fn guest_read_projected<const N: usize>(
+        &self,
+        index: usize,
+        rom: &[u8],
+        prior: Option<[u8; N]>,
+    ) -> Option<[u8; N]> {
         let mut counts = [0; 8];
         let bytes = std::array::from_fn(|i| match self.byte(index + i) {
             Some((byte, kind)) => {

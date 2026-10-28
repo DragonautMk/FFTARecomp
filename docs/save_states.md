@@ -143,9 +143,11 @@ current zoom, so it is not used as a preview. The first completed game frame
 rebuilds the extended view and separate UI layers; preview generation does not
 advance or modify the restored machine.
 
-Loading while input
-recording is active is refused inside the menu, since its linear recording
-format cannot represent a rewind.
+Loading while input recording is active is refused inside the menu, since a
+linear recording cannot represent a rewind. With the new
+[snapshot recorder](debug_recordings.md), Load or Undo load first saves the
+recording and refuses that command; repeat it to change timeline. The legacy
+recorder still requires an explicit Stop before a load.
 
 State files contain game memory and screenshots. Git ignores `.ffstate`; source
 packaging and release auditing exclude it. No personal checkpoint ships in a

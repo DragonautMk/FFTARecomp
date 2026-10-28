@@ -23,6 +23,22 @@ inside its own installation directory.
 
 The runtime's [session diagnosis](../docs/debug_diagnostics.md) is available as
 `recomp diagnose` and Debug > Copy diagnosis; it needs no Python installation.
+[Isolated debug sessions](../docs/debug_sessions.md) use `recomp debug-session`
+and Debug > Start debug session to work on portable copies of the selected case.
+[The save catalog](../docs/debug_catalog.md) uses `recomp debug-catalog list/open/import`
+and Debug > Debug catalog for shared filters, integrity checks, previews and
+opening a DS checkpoint in an isolated copy. These runtime commands need no Python.
+[Snapshot input recordings](../docs/debug_recordings.md) use Debug > Start/Stop
+input recording and `recomp debug-record start/verify`: capture relative input
+from a private snapshot and compare a bounded interpreter replay's full endpoint.
+[Replay profiles](../docs/debug_replays.md) use `recomp debug-replay create/run/cancel`
+and Debug > Replay case. The same isolated worker reports progress and distinct
+success/divergence/incompatible/timeout/interruption outcomes, without performance
+measurement or game-save writes; an existing native library is optional.
+[ROM read audits](../docs/debug_rom_audit.md) use `debug-rom-audit create/run/cancel`
+and Debug > Audit replay, with an explicit `rom-data-read-audit` worker feature.
+They add bounded events, frame/address/reader filters, actual typed/raw service
+and physical-byte unions without re-extraction or automatic coverage promotion.
 
 The [debug-tools checklist](../docs/development/DEBUG_TOOLS_TODO.md) maps existing
 CLI/debug capabilities to planned user-facing and machine-readable workflows.
@@ -58,6 +74,19 @@ always start at the repository root, even when launched from another directory.
 Scripts resolve their repository from their own location. Explicit output
 paths remain relative to the calling directory. See
 [Docker workflows](../docs/docker.md) and [extraction options](../docs/rom_data.md).
+The EUR extractor also publishes `word-task-obj-animations.json` in e77-d76:
+four source-authenticated banks for u16 task counters, with readable OBJ lists,
+relative indices, frame selectors and durations. See the [managed runtime
+contract](../docs/rom_data_obj.md#managed-runtime-for-the-u16-task-obj-banks)
+for validation, actual-CLI evidence and the source-backed ordinary Bank check. USA remains e8-d7.
+EUR e78-d77 additionally publishes `world-nodes.json`: typed coordinates,
+ordered path/neighbor links and losslessly preserved opaque fields. The
+[world-node runtime contract](../docs/rom_data_maps.md#managed-world-nodes-and-typed-guest-reads)
+records the reduced Wine integration checks and actual CLI create/reuse/normal
+coordinate use. The subsequent ordinary travel360check passes coordinates,
+paths and neighbors with complete state/clock/image/audio equivalence. Other
+nodes/maps, opaque ordinary use and new Linux/USA checks remain pending.
+
 
 The Linux Docker builder saves each run's output and errors under
 `target/build-logs/linux-*.log`. On failure it waits for Enter in an interactive
@@ -68,3 +97,18 @@ copies with `python3 scripts/local_artifacts.py complete target/<unit> --apply`.
 Preview without `--apply`; retain the accepted offline dataset and proof logs.
 See [local artifact retention](../docs/development/LOCAL_ARTIFACTS.md) for safety
 checks, optional superseded-binary retirement and coverage cache limits.
+
+
+EUR e79-d78 extraction additionally publishes `world-roads.json`
+(`gameplay.world-roads`), covering45conditional8-byte headers and2,188signed
+XY samples through46source spans. Schema1 and USAe8-d7 stay unchanged. Runtime
+preserves guest movement and bytewise old-owner/raw fallback; the reduced Wine
+integration proof is recorded in [managed world roads](../docs/rom_data_maps.md#managed-world-roads-and-typed-guest-reads).
+Production CLI and ordinary-scene proof remain next; Linux/USA tests pending.
+
+
+Actual e79-d78CLI creation/reuse/startup and one Giza360ordinary road pair now
+pass on Wine, with72files/71resources/74managedpaths unchanged and full states/
+clock/images/OAM/dispatch/fiveaudio. All seven road counts match CLI, including
+positive count/pointer/sample bytes. See [the scoped result](../docs/rom_data_maps.md#ordinary-sampled-road-travel-equivalence).
+Linux/USA/nativeWindows and broader coverage remain pending; no measurements.

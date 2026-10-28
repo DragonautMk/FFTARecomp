@@ -21,6 +21,11 @@ mod packfile;
 mod play;
 mod rom_switch;
 mod diagnostics;
+mod debug_session;
+mod debug_catalog;
+mod debug_recording;
+mod debug_replay;
+mod debug_rom_audit;
 mod rom_data;
 mod save_path;
 mod game_saves;
@@ -65,7 +70,12 @@ fn main() -> ExitCode {
         print_help(topic);
         return ExitCode::SUCCESS;
     }
+    if args.first().is_some_and(|s|s=="debug-rom-audit") { return ExitCode::from(debug_rom_audit::cmd(&args[1..])); }
+    if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
     let result = match args.first().map(String::as_str) {
+        Some("debug-record") => debug_recording::cmd(&args[1..]),
+        Some("debug-catalog") => debug_catalog::cmd(&args[1..]),
+        Some("debug-session") => debug_session::cmd(&args[1..]),
         Some("diagnose") => diagnostics::cmd(&args[1..]),
         Some("dis") => cmd_dis(&args[1..]),
         Some("controllers") => {
@@ -106,7 +116,7 @@ fn main() -> ExitCode {
         Some("labels") => cmd_labels(&args[1..]),
         // A packaged binary (manifest beside the executable) plays its
         // pinned title when launched bare — double-click behavior.
-        None if packfile::load().is_some() => play::cmd_play(&[]),
+        None if packfile::load().is_some() || debug_session::present() => play::cmd_play(&[]),
         _ => {
             print_help(None);
             return ExitCode::FAILURE;
@@ -124,6 +134,43 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-rom-audit", "recomp debug-rom-audit <create|run|cancel> [options]", &[
+        "create: debug-replay create options plus:",
+        "--preset all|bus|host --from N --to N  relative frame window [from,to)",
+        "--range START:END  repeatable physical byte range, decimal or 0x hex",
+        "--limit 1..50000    unique event cap (default20000); dropped requests explicit",
+        "--known-manifest FILE  ROM-identity matched source plan; no re-extraction",
+        "run/cancel PROFILE use the same isolated replay worker and outcome codes",
+    ], "Feature-gated bounded ROM read audit. Reports bus/selected host, actual typed/raw path, physical unions, known-plan overlap, scope PC/mode and explicit unobserved/truncated coverage. Requires --features rom-data-read-audit in the selected worker."),
+    ("debug-replay", "recomp debug-replay <create|run|cancel> [options]", &[
+        "create --recording DIR --session DIR --dir NEW_DIR --case NAME",
+        "  [--runtime FILE] [--library FILE] [--timeout-ms 1..120000]",
+        "run PROFILE [--json]  supervised functional replay, JSON Lines progress/result",
+        "cancel PROFILE        request interruption of the current run",
+        "Exit codes: 0 pass, 2 divergence, 3 incompatible, 4 timeout, 5 interrupted, 6 worker error",
+    ], "Create a portable replay profile from a completed snapshot recording. Pin runtime, ROM/BIOS/dataset/input/endpoint; execute in an isolated worker with no save writer or performance measurement. Optional --library selects an existing compatible native translation; no compilation."),
+    ("debug-record", "recomp debug-record <start SESSION | verify RECORDING --session SESSION>", &[
+        "start             open a closed isolated snapshot session and start recording",
+        "verify            bounded interpreter replay; compare complete endpoint state/clock",
+    ], "Record snapshot-relative input in a private debug copy. Stop from Debug > Stop input recording or on clean close. Incomplete recordings cannot pass verification."),
+    ("debug-catalog", "recomp debug-catalog <list|open|import> CATALOG [options]", &[
+        "--case DS-20       filter DS case (does not select IN/GEN sources)",
+        "--region EUR|USA   filter region; uncovered cases remain visible",
+        "--status VALUE     filter recorded regional status",
+        "--kind VALUE       case, variant, IN, GEN or NEW",
+        "--entry KEY        select the exact stable entry key",
+        "--json             print the same versioned catalog used by the menu",
+        "open: --rom FILE --dir DIR [--bios FILE|--no-bios] [--interp] [--dataset DIR] [--launch]",
+        "import: --session DIR [--slot N]  copy a snapshot into a free isolated slot",
+    ], "Browse an existing private schema-1 debug-save catalog, verify checksums and preserve recorded case scope. Open creates an isolated case copy; import refuses active sessions and occupied slots."),
+    ("debug-session", "recomp debug-session <create ROM --dir DIR [options] | open DIR | inspect DIR>", &[
+        "--sav FILE          copy the selected cartridge save",
+        "--state FILE        copy and start from this snapshot (read-only source)",
+        "--bios FILE | --no-bios  select the copied BIOS or HLE",
+        "--interp            use interpreter; native requires bundled TinyCC",
+        "--dataset DIR | --rom-data  copy verified data into the session",
+        "--open              create and launch the session",
+    ], "Create an isolated portable debug copy, reopen it, or inspect its versioned JSON manifest. Original progress stays untouched. Close the debug window to return to the paused normal game."),
     ("diagnose", "recomp diagnose <rom> [options]", &[
         "--json             print the versioned report as JSON",
         "--out FILE         save the report atomically (default: stdout only)",
@@ -154,6 +201,8 @@ image's sha256) instead of label files; mutually exclusive with --labels",
 Emits C11 in bounded chunks and compiles them with cc. Label files (<rom>.labels \
 or the recorder's accumulator) contribute extra entry-point seeds automatically."),
     ("play", "recomp play <rom> [--interp] [--stats] [--status] [--record-labels] [--bios file] [--no-bios] [--benchmark config.toml]", &[
+        "--debug-catalog FILE  select a private debug-save catalog for Debug > Debug catalog",
+        "--debug-replay FILE   select replay.json for Debug > Replay case",
         "--rom-data        opt-in verified decoded game data (normal enablement awaits equivalence/cost gates)",
         "--benchmark FILE   developer-only bounded GUI replay (TOML config; no cartridge writes)",
         "--interp           force the interpreter (skip/ignore native translation)",

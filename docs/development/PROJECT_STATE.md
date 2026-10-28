@@ -12,6 +12,13 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- The [local cheat reference catalog](../cheats.md) lives in ignored root
+  `cheats/`, with a Markdown index and provenance-preserving JSON export for
+  future work. Third-party source collections and their derivatives stay local
+  while redistribution permissions are unverified. Regions/device formats and
+  source-specific master codes remain distinct; static preservation checks do
+  not establish runtime compatibility. This adds no cheat execution support.
+
 - [Shared debugging tools](DEBUG_TOOLS_TODO.md) is a planning checklist with
   stable DBG-01..DBG-22 IDs, separate from DS scene cases. It inventories existing
   tooling before prioritizing shared menu/CLI diagnostics, isolated sessions,
@@ -23,7 +30,48 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Report refresh is bounded/atomic; snapshot checks use a disposable machine,
   while the menu observes live bytes/frame/clock without modifying guest state.
   Wine validation covers the CLI and menu/clipboard; native Windows and Linux
-  remain unverified. DBG-02 isolation is next; EUR extraction retains priority,
+  remain unverified. DBG-02 adds [isolated portable sessions](../debug_sessions.md)
+  via Debug > Start/Close debug session and `debug-session create/open/inspect`.
+  A separate copied runtime owns its ROM/seed/config/save/dataset/cache, relative
+  immutable input pins and exclusive lease; inherited project write overrides
+  are scrubbed. The normal window stays paused with unchanged progress while
+  the copy runs; menu return, load/undo/restart/backups and relocation pass Wine
+  checks. Default creation stops at eight retained sessions without deleting them.
+  DBG-03 adds the [shared save catalog](../debug_catalog.md): Debug > Debug
+  catalog and `debug-catalog list/open/import` share region/status/kind/DS
+  filters, recorded provenance/scope, file checksums and snapshot previews.
+  Open creates a DBG-02 copy with a portable selected-entry catalog; import
+  writes an exact checkpoint into a free isolated slot with Undo and explicit
+  Load. DS/IN/GEN/variant identifiers stay distinct and recorded DS statuses
+  are never promoted by checksum validation. DBG-04 adds
+  [snapshot input recordings](../debug_recordings.md): menu Start/Stop and
+  `debug-record start` capture exact initial state, explicit held keys at relative
+  frame0, ordered input and a complete endpoint in a private session. Load/Undo
+  load finish the capture and refuse the first rewind request. Incomplete or
+  changed captures cannot pass `debug-record verify`; its bounded interpreter
+  replay compares full serialized state/clock without a cartridge writer.
+  Legacy RECOMP_RECORD_INPUT stays separate; its focused verifier stays interpreter
+  only. DBG-05 adds [portable replay profiles](../debug_replays.md), CLI
+  `debug-replay create/run/cancel` and menu Replay case/profile selection/cancel.
+  Selected runtime, recording runtime, ROM/BIOS/dataset/input/endpoint identities
+  stay distinct. A supervised worker uses no cartridge/slot/backup writer;
+  progress/result JSON and exit codes separate pass, divergence, incompatible,
+  timeout, interruption and worker failure. Replay never enables performance
+  measurement or compiles a native translation. An explicit existing library is
+  supported, but the old local EUR library shows a same-clock full-state
+  divergence on DS20; its parity is not accepted or silently repaired here.
+  DBG-06 adds [bounded ROM read audits](../debug_rom_audit.md), CLI
+  `debug-rom-audit create/run/cancel` and menu Audit replay. Optional feature
+  hooks retain old Capture/SiteCapture keys; the new thread-bound observer
+  caps unique events and records actual typed/raw service plus interpreter
+  scope. Presets, physical address filters and relative frame windows feed
+  byte unions and identity-matched known-plan comparison, with explicit
+  truncation, partial windows and uncovered hooks. Manifest reads share the
+  existing 16 MiB project limit. Raw/typed DS20 replay preserves full state/clock;
+  the two-frame inventory is12,416B with11,495B actually served typed using e76.
+  Plan overlap and outside-plan reads do not establish new resources or DS
+  acceptance. Dataset comparison remains explicit; ROM coverage linkage is DBG-07.
+  EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
 - [Godot frontend assessment](GODOT_FRONTEND_TODO.md) is planning only,
@@ -682,9 +730,128 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   fourWine normal-key bounds from retained12006 copy (no3530replay) allnewtable0,
   although movement selection/confirmation completed. Passive observer and7line
   optional validatorgate compile; fullpair notrun/no positive fixture. Original
-  effect flag setter9D054 and6enable-disablecallers are navigation leads, normal
-  action reachability/meaning unproved.84guards/source/oldloop exact; allpartial
-  fixtures retained. No fifthblindroute/manualflag or firstfullfilterPASS claim. Phase0 at371064 is now typed in e75-d74:
+  effect flag setter9D054 and6enable-disablecallers have a source-linked
+  follow-up:21boundedwindows bindMove state27→pathcount→28/29 andenable99F18,
+  plusseparate3A/exchange paths. Readonlynormalgrid fields justifyonlyA-confirm;
+  one reused-Wineobserver160bound isnegative table0 (fifthclosedbound), notfullpair.
+  OneexistingCLI64frame readonlydump provesnormalMove flag20set12186–12230/
+  45postframes whileboth394/3A4slots remaininactive/counter-phase0/table0. No new
+  build;587guards496frozeninputs exact/helper0paths, negativefixtures retained.
+  Ordinaryflagreachable isclosed. The subsequent source-only slotgate child
+  authenticates8windows/owner-callback flow andcell predicates: FD2, cell02,
+  surfaceheight>actorheight/animation36!=40 plusflags/free slot. Reused64RAM
+  captures haveflags02absent fromall256conditionalcells, stable512Bhash; no
+  eligiblecell inthisunchangedmapstate, so furtherMoveguessing there isexcluded.
+  87guards/helper0paths, no newbuild/gameplay/test. Parentordinary stillopen;
+  newreadonly81normalEURsnapshot criterion nowclosesNEGATIVE:2mapprojections/
+  alldomainsvalid/zero02cells/88guards, oldalternate-sequence scan notreplayed.
+  Normalterrainloader alreadyclosedOct24, so oldBGownership isreused. New
+  typedsemanticquery113auxiliarypacketprograms/162links finds25programs/44IDs
+  seeding02; no newresource/decoder or test. Targeted1DE98directBL/literal census
+  empty (notdeadcodeproof), one1DD68caller reads02.24guards4windows exact/helper0.
+  Conditionalmapselection source child nowbinds253C8state10/variable7/setter/
+  loader totypedopcode12(advance2/callback126831).204instructions56default/
+  148literal;19literalinstructions select10eligible rawmapargs.37guards9windows
+  exact/no newbuild-game-test. TWOretainednormal examples active35/197 default
+  records match99/85andremainineligible; not81scan replay or eventkey=indexjoin.
+  Active-index producer is now source-linked:9CF0 writes02002170/172;9D04 selects
+  event-row primary/alternate, and127388 scans rows255..1 by event key. The normal
+  63944 path joins selected70B record713B3C+45 to12B event row71C760. A new query
+  finds44 direct-primary/default-script/cell02 rows in the caller's256-value
+  domain; not archive extent or ordinary availability.42guards23windows exact,
+  no build/game/test. An eligible quest actually available from a normal
+  checkpoint was then confirmed by two reused-observer Wine
+  routes:620 to retain the missing pub menu,300 normal4Down+A to White Flowers.
+  Live14-entry list has eligible IDs58/72; visible fifth row/detail selector
+  confirms58→event58/primary315/maparg69/descriptor68.130guards496frozen sources/
+  23windows exact/helper0paths; no build. Normal mission58 acceptance is then
+  proved by300gil payment7709→7409 and Fee:Paid detail.27bounded Wine navigation
+  checkpoints/4840frames reuse309ba31c/e77,337guards496sources17exploratory windows
+  exact, no build/fullpair. QuitMission menu misread was corrected without
+  cancelling; actualLeave reachesworld. Named cursor endpoints Cyril/LutiaPass/
+  Nubswood/Sprohm, no Giza battle yet. Stop blind cursor trials; inspect original
+  world-location/placed-coordinate join. This join is subsequently closed:
+  corrected literal03002810, source375F8/385CC coordinate/placement semantics,
+  Giza region7/node20/source395E24→world112,296. One warning-free497-source Windows
+  test build/one neutral Wine frame2232reads2276sites323scoped pass; rawRAM matches
+  retained parser.152guards32windows/helper0paths, no newnavigation. Retained21
+  cursor128,287 is nearby; shortLeft thenactual label beforeA. New30-node20B ROM
+  family first2coordinatebytes classified. The subsequent600B source projection
+  now authenticates four ordered path/neighbor links and10opaqueB per record:
+  300semantic/300opaqueB,90links/45reverse path pairs.4DAD0neighbor-first lookup
+  differs from46EB0nonzero-path adjacency; node0valid, rawfallback outside30.
+  25windows44pins42guards/69owner49746span disjointness pass, no build/game/test.
+  Typed world_nodes model now reconstructs600B/one source plan with30ordered
+  nodes/four links/opaque bytes and separate shape/source checks. One warning-
+  free core-only Windows build/oneWinefilter pass23guards/566original-reader
+  calls/all300semanticB/16bytealiases/24outsidecalls;300opaqueB preserved/unread.
+  24actualguards215frozen coresources/helper0paths exact, no gameplay/frontend
+  build. Subsequent e78-d77 managed/runtime now publishes71files70resources,
+  all69prior exact, USAe8-d7 unchanged; one600B typedbinding/7statsfields andraw/
+  RAM fallback, no guestalgorithm/ABI change. OneWinefilter passes12attach/
+  2fullset guards,15native fullstate-clock prefixes/32compiledsourceB/124instr,
+  all600busB/30nodes/widths-mirrors-edges/priorowner/LoadUndo/DMA3. Two staleoldcore
+  builds rejected; exactoldfingerprint moved afterlibtouchfailed, thirdbuild
+  warningfree/fresh=false/frozen2cf1d882.. from502stablefiles.200actualguards/
+  502integration+215modelsource hashes pass; disposableinterruptedcopy retired,
+  acceptedoffline dataset kept. Actual productionCLI now passes create/no-write
+  reuse/normal16 at19049→19065:71files exactruntime/70IDs/73managedpaths unchanged,
+  old28859blocks cache loaded/402coordinateB22nodes.169guards502sources/helper0,
+  warningfree e0491cdc.. andcanonicalhashmtime restored. Private absolutecounter
+  matcher fixedoffline after3childexit0/no rerun. Path-neighbor-opaque0 in16bound
+  remainsclosed. Newsourcecaller10windows/27guards plus2retainednormalstates
+  justifylatertravel: current17/selected20(dest19)→current19/progressFF;
+  conditional3B012→4DB1C/4DB80,47034progressgate/4DAD0. OneCLI360andoneWinefullpair
+  nowpass6841B=4820coordinate864path1157neighbor/29nodes, all360states-clock/
+  classic-central-wide/OAM/dispatch/5audio, exactCLIcounts. Five-line optional
+  guard/oldvalidatorbyteexact; one warningfree502source build dabb1ac6..,
+  103guards/old169CLIguards/source27 exact/helper0. OrdinaryworldnodeCASEclosed,
+  opaque0targeted-only; othernodes/maps remainopen. Road397018nowhasconditional
+  sourcecontract:45selected8Bheaders/360B plus2188signedXYoffsetpairs/4376B,
+  46spans4736B/4601semantic135opaque, disjoint70owners49747spans.4DD0Clowu8
+  direction/index/step, reverseorder/no signnegation/out-of-rangezero;4DD70
+  orientation/4DD84minnode anchor. Fiveonepixel-short endpoints preserved,
+  notnormalized.6windows60pins17guards/helper0/no build-game-test for source.
+  Standalone world_roads model now reconstructs46spans4736B, with strictJSON,
+  coherent partition and separate authenticity; preserves fullu8 counts/opaque/
+  signed samples and rawoutside45. One warningfree core-onlyWindows build/
+  oneWinefilter pass29guards/2537originalcalls/all4601semanticB,135opaqueB
+  preserved-unread, reverse/zerooutput-loadskip/u8aliases/order helpers exact.
+  32preservationguards/504buildfiles(218coreinputs) exact/helper0, no gameplay;
+  Standalone-model revision was e78-d77. Now e79-d78/index70 publishes
+  world-roads.json:72files71resources/all70prior exact; USA8-7/schema1 unchanged.
+  Immutable46span typed count/pointer/sample/opaque owner composes oldnodeleft/
+  rawright/indices45..255. Two warningfree506source builds/accepted52be2981..;
+  firstWine publication12attach2fullsetPASS, nativecase3FAIL missing396page gate.
+  Routingfix+remainingWine passes12native fullstate-clock poisoned4736B,
+  all4736busB/4classes45paths/widths/mirrors/LoadUndo/DMA3. 221guards506sources/
+  504closedmodelpreimages exact/helperonlyinterruptedcopy; no game/oldproof
+  replay. RoadactualCLI nowpasses create/reuse/normal360:72files exactruntime/
+  71IDs/74managedpaths no-write, 28859oldcacheblocks; 2976reads/5067B=
+  885count/2788pointer/1394sample/0opaque/40paths, positive3classes.
+  Warningfree506source productionbuild 1a86d341../canonicalhashmtime restored;
+  180guards/helper0. One ordinaryWine360fullpair nowpasses allstates-clock/
+  classic-central-wide/OAM/dispatch/5audio, all7roadcounts exactCLI, 3classes
+  positive/40paths(anyfield, not40payloads)/opaque0. One5lineoptionalguard/
+  oldvalidatorbyteexact, warningfree506source build 4c453f07../100guards plus
+  180closedCLI guards exact/helper0. RoadordinaryCASEclosed; all45payloads/maps/
+  opaqueordinary/globalextent/fullABI remainunproved.
+  The subsequent normal Giza route closes battle entry: primary315/map69/
+  descriptor68, live512Bgrid equals packet56seed with20flag02cells. MarshFD2 at
+  (6,5)normally moves to(5,7), triggering all4phases/4lists guest-host after75
+  frames:22reads/88tableB. The new11-frame before-use suffix now passes actual
+  CLI and one ordinary fullpair22713→22724: allstates/clock/pixels/OAM/dispatch/
+  fiveaudio, all4lists guest-host and exactCLIcounts.91guards496sources/helper0,
+  no build; ordinary constructor case closed. Sixteen prior discovery captures/
+  3875frames/221guards remain evidence, not16equivalence acceptances. No manual
+  guest edits/cart writes; earlier negative bounds remain closed. Declared40Bencounterheader physicalcatalog nowproved:442headers1..442,
+  first70C8F4/rootbase70C8CC/nextindependent28Bfamily710E04,17680B.27cachedroot
+  loaders/40windows54pins68guards;33semantic7opaqueB/header. All442template
+  backlinks contiguous2850*48B6EA048..70B6A8; nestedpayload schema separate.
+  Index0prefix ends in header442coordinatepayloads, notvalidheader/rawfallback.
+  Header29pointer70CD58alreadyconstructor-alternates-owned:2newspans17676B,
+  dependency/sharedcoherence/skip4oldbytes required. Typedmodel/extraction/
+  runtime/CLI/ordinary remainopen; no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global
   phase cap; runtimephase/correction coverage partitions3/4bits. One first
@@ -695,7 +862,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   neverrerun. Samefrontend one NEW28frame fullpair8476→8504 passes everyfullstate/
   clock/central-wide/OAM/dispatch/allaudio; samples[61446,61446,7392,7392,61370],
   counts exactCLI.215guards/implementation/5lineguardpreimage exact, helper0paths.
-  Constructorordinary child remains partial. Independent371034cycle projection
+  Constructorordinary is now closed by the Giza case above. Independent371034cycle projection
   now has a source/model contract:48signed-i8 increments, old-u8 unchecked lookup
   before stored-u8 increment/remainder48,255→0, signed add/sub taskhalfword+8.
   Exact reader/helper/literals/full48ownership authenticated; no axis/lifetime
@@ -754,8 +921,27 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   unchanged, correctedtest/secondwarningfreecorebuild/remainingonlyWine pass
   ctor23/update93/producer6/RAM-callee/aliases/bounds. Oldmodelstage notrerun or
   fullfirstfilterPASS claimed.88guards/199coresources exact, helper0paths; coredev
-  serde_json avoidsparallelfrontend compilation. e76unchanged; managed/runtime/
-  CLI/ordinary children stillopen.
+  serde_json avoidsparallelfrontend compilation at that model milestone. The
+  subsequent e77-d76 managed/runtime child nowpasses across staged Winechecks:
+  70files69resources/all68prior files-records exact,65spans1378B typed through
+  guest/native/bus/host,27originalstate-clock prefixes/202compiledB,217mixedreads/
+  DMA3/missingfiles Load-slotUndo ownerretention and50host lists140OBJ/95reads.
+  Shared immutable projection preserves oldbody/pagegate andguestu16logic/ABI.
+  First interruptedfilter retains closedstage receipts, not claimed fullPASS;
+  remaining-onlyhost filter completes theunit. One concurrent-sourceguard build
+  rejection and one test-only privatefieldcompilefailure are retained; corrected
+  stable snapshot build/Winehost pass.165guards/496snapshot/currentROMinputs exact,
+  helperretires onlyoneexpected interruptedcopy. ActualCLI child nowpasses one
+  warningfreeproduction snapshot build/threeWinecommands:create/reuse/runc0,
+  all70generationfiles69runtimeIDs exact/72managedpaths unchanged/all9newfields0.
+  Canonicalexehashmtime restored;154guards496copiedsources exact/helper0paths.
+  One ordinaryBank12positive child nowpasses on exact existingnormalfixture
+  copies: CLI292reads346B/all6classes20host, one5lineopt-intestguard/oldvalidator
+  byteexact, firstwarningfree snapshotWindowsbuild/oneWinefullpair all12states/
+  clock/images/OAM/dispatch/all5audio, all9countersexactCLI.94guards496snapshot
+  sources/currentROMinputs exact/helper0paths. No allbank/list/fullgame claim;
+  constructorordinary separatepartial. USAe8-d7 and deferredplatforms unchanged.
+  ConcurrentDBGwork staysseparate.
   [U16bank contract](../rom_data_obj.md#european-obj-banks-with-u16-task-counters).
 
 - The [following live-slot helpers](../rom_data_gameplay.md#live-state-helpers-following-the-slot-job-lookup)

@@ -20,6 +20,8 @@ import tempfile
 import tomllib
 
 from local_artifacts import prune_coverage_cache
+from rom_coverage_ranges import union, length, intersection, complement, multiple_owners, checked_span
+from rom_coverage_audit import attach_audits, bounded_json, compare_reports
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -27,76 +29,6 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 def sha(path):
     with open(path, "rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
-
-
-def union(ranges):
-    result = []
-    for start, end in sorted(ranges):
-        if start < 0 or end <= start:
-            raise ValueError(f"invalid interval {start}..{end}")
-        if result and start <= result[-1][1]:
-            result[-1][1] = max(end, result[-1][1])
-        else:
-            result.append([start, end])
-    return result
-
-
-def length(ranges):
-    return sum(b - a for a, b in union(ranges))
-
-
-def intersection(left, right):
-    left, right = union(left), union(right)
-    i = j = 0
-    result = []
-    while i < len(left) and j < len(right):
-        a, b = max(left[i][0], right[j][0]), min(left[i][1], right[j][1])
-        if a < b:
-            result.append([a, b])
-        if left[i][1] < right[j][1]:
-            i += 1
-        else:
-            j += 1
-    return union(result)
-
-
-def complement(ranges, size):
-    cursor, result = 0, []
-    for a, b in union(ranges):
-        if b > size:
-            raise ValueError("range outside ROM")
-        if cursor < a:
-            result.append([cursor, a])
-        cursor = b
-    if cursor < size:
-        result.append([cursor, size])
-    return result
-
-
-def multiple_owners(owners):
-    """Intervals covered by >=2 distinct owners; duplicate roles count once."""
-    events = collections.defaultdict(list)
-    for owner, spans in owners.items():
-        for a, b in union(spans):
-            events[a].append((owner, 1))
-            events[b].append((owner, -1))
-    active, result, previous = set(), [], 0
-    for offset in sorted(events):
-        if len(active) >= 2 and previous < offset:
-            result.append([previous, offset])
-        for owner, direction in events[offset]:
-            if direction == 1:
-                active.add(owner)
-            else:
-                active.remove(owner)
-        previous = offset
-    return union(result)
-
-
-def checked_span(start, end, size):
-    if not (isinstance(start, int) and isinstance(end, int) and 0 <= start < end <= size):
-        raise ValueError(f"out-of-ROM interval {start}..{end}")
-    return [start, end]
 
 
 def retained_seeds(path, evidence, rom):
@@ -394,7 +326,7 @@ def build(args):
                    "shared_records": len(shared_records)})
     built = extractor_generation()
     source_file = ROOT / "coverage-source.txt"
-    return {"schema": 2, "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="microseconds"),
+    report = {"schema": 2, "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="microseconds"),
             "evidence_date": evidence["date"], "reviewed_generation": f"e{evidence['baseline'][1]}-d{evidence['baseline'][2]}",
             "source_revision": source_file.read_text().strip() if source_file.exists() else "working tree (direct invocation)",
             "extractor_generation": f"e{built[0]}-d{built[1]}",
@@ -407,6 +339,8 @@ def build(args):
             "resources": records, "sharing": shared_records,
             "limits": evidence["limits"], "bin_bytes": 65536,
             "largest_unclassified": sorted(unknown, key=lambda r: r[1] - r[0], reverse=True)[:20]}
+    attach_audits(report, getattr(args, "audit", []))
+    return report
 
 
 def main():
@@ -422,13 +356,15 @@ def main():
     parser.add_argument("--code-seeds", default=str(ROOT / "docs/development/rom-coverage/code-seeds.json"))
     parser.add_argument("--analyzer", required=True, help="rom_code_ranges executable")
     parser.add_argument("--evidence", default=str(ROOT / "docs/development/rom-coverage/evidence.json"))
+    parser.add_argument("--audit", action="append", default=[], help="DBG06 rom-audit.json, repeatable; metadata only")
+    parser.add_argument("--compare", help="previous coverage.json, same ROM; default compares the existing output")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     if args.cache_keep < 0:
         parser.error("--cache-keep must not be negative")
     try:
         return generate(args)
-    except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
+    except (OSError, ValueError, KeyError, TypeError, OverflowError, subprocess.CalledProcessError) as error:
         print(f"ROM coverage failed: {error}", file=sys.stderr, flush=True)
         return 1
 
@@ -438,16 +374,22 @@ def generate(args):
     report = build(args)
     output = pathlib.Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(report, ensure_ascii=False, separators=(",", ":"))
     template = pathlib.Path(__file__).with_name("rom_coverage.html").read_text()
     previous = None
-    if (output / "coverage.json").is_file():
+    comparison_path = getattr(args, "compare", None)
+    if comparison_path or (output / "coverage.json").is_file():
         try:
-            previous = json.loads((output / "coverage.json").read_text())
-            if not isinstance(previous, dict) or not isinstance(previous.get("totals"), dict):
-                previous = None
-        except ValueError:
-            pass  # A malformed old report must not prevent replacing it.
+            previous, old_hash, _ = bounded_json(comparison_path or output / "coverage.json")
+            if not isinstance(previous.get("totals"), dict):
+                raise ValueError("invalid previous report")
+            if "schema" in previous:
+                report["comparison"] = compare_reports(report, previous, old_hash)
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            if comparison_path:
+                raise ValueError(f"invalid --compare report: {error}") from error
+            previous = None
+            report["comparison_note"] = "Rapporto precedente non confrontabile: " + str(error)
+    payload = json.dumps(report, ensure_ascii=False, separators=(",", ":"))
     with tempfile.TemporaryDirectory(dir=output) as staging:
         staging = pathlib.Path(staging)
         (staging / "coverage.json").write_text(payload + "\n")
@@ -485,7 +427,7 @@ def generate(args):
 
 def semantic_report(report):
     """Ignore generation time/build identity when comparing actual coverage."""
-    result = {k: v for k, v in report.items() if k not in ("generated_at", "source_revision")}
+    result = {k: v for k, v in report.items() if k not in ("generated_at", "source_revision", "comparison", "comparison_note")}
     result["code"] = {k: v for k, v in report.get("code", {}).items()
                       if k != "analyzer_executable_sha256"}
     return result

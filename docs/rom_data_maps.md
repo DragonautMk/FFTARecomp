@@ -58,7 +58,9 @@ width and height at context+8/+9 to 16. The auxiliary program initializes a
 byte as height. `0801DDA8` can subtract one when the second byte has bit1 set
 and the caller's low flag bit is clear, returning a signed 16-bit result.
 `0801DE78` reads the second byte; `0801DE98` writes that byte at `0801DEB0`.
-The complete game meanings of its flag bits remain unclassified.
+The [constructor-animation follow-up](#constructor-animation-cell-flag-seeds)
+now ties flag02to a conditional slot gate and classifies its static seed
+candidates; complete flag meanings and live writer reachability remain open.
 
 Consequently, decoded static patches initialize terrain; they cannot replace
 the mutable terrain grid or its current pointer/width. The sentinel loader
@@ -378,3 +380,905 @@ this production/ordinary closure. Other ordinary palette/camera contexts and
 whole raster/camera ABI remain outside the declared scene. New Linux, USA,
 native Windows and new 32:9 checks remain pending. No performance/space
 measurement, package, Android, agent commit or push was performed.
+
+
+## Constructor-animation cell flag seeds
+
+The normal terrain loader and its BG ownership were already closed by the
+24October source classification above; they are reused here. The new criterion
+is the origin of cell flag02needed by the constructor-animation slot gate.
+No separate terrain archive, decoder or resource is introduced.
+
+A targeted scan of the exact16MiBEUR image finds no direct ThumbBL or aligned
+Thumb-pointer encoding for the1DE98flag setter. This does not prove dead code,
+absence of indirect callers or immutable live flags. The cell-pointer getter
+1DD68has one directBL encoding at1D798; its bounded authenticated caller window
+reads the flags byte and tests02, providing another consumer rather than a
+new writer route.
+
+The static seed source is already available in the authenticated e77
+`bg-packet-programs.json`. A new semantic query applies its ordered auxiliary
+u16writes to the512-byte grid, starting with the existing zero-fill or parent
+image before child writes. This reuses the accepted packet representation and
+source semantics; it does not rerun the old codec or original-loader oracle.
+Among113auxiliary programs linked by162descriptors,25programs initialize cells
+with flag02and44descriptor IDs refer to those seeds. Observed seed flag-byte
+values are0,1,2,3,4,8and9. The live pointer/width and later writes remain guest
+state. The inspected normal builder window1AF08..1AF6Creads height bytes to
+calculate bounds and contains no flags store in that window.
+
+The44descriptor IDs are source-backed candidates, not normal gameplay
+reachability or a mapping to named battle locations. Their detailed cells,
+programs, parents and seed hashes remain in private `typed-cell-seeds.json`.
+The previously inspected81snapshots still cover only their two02-free maps;
+that negative bound is not reopened. The [script-map follow-up](#script-map-selection-and-remaining-battle-reachability)
+now links19literal instructions to eligible seeds. Reaching a suitable normal
+battle remains a separate open criterion, without forcing map IDs or guest fields.
+
+All24actual source/tool/old-receipt/current-dataset/model/output guards and four
+bounded source-window hashes pass. No implementation, revision, build,
+gameplay, Wine/Linux test, capture or checkpoint is added. Required artifact
+completion finds zero eligible paths. A private closure-script quote typo was
+corrected before it could execute; the premature cleanup attempt refused the
+unit without a terminal summary, then completed after the summary existed.
+No product or evidence result changed. Evidence is under
+`target/rom-data-cell-flag-writers/`: targeted candidate JSONs,
+`typed-cell-seeds.json`, `source-contract.json`, final summary, preservation and
+cleanup receipts. Static disassembly is not Linux gameplay validation.
+
+Positive constructor-animation ordinary use still needs all four phases and
+all four lists through guest and host readers before the fullpair. Linux/USA/
+native Windows/new32:9 and the full ROM TODO remain pending. No performance/
+storage campaign, Android/package, assistant commit or push.
+
+
+## Script map selection and remaining battle reachability
+
+The actual source path now links the eligible seed IDs to map-selection
+instructions. The normal state handler253C8has a guarded35-entry dispatch at
+2540C; state10reaches2549C. It reads variable7throughCCF00from02002037, narrows
+the result to8bits, calls1B270at254A8, creates the1B689loader and advances to
+state11. The setter's existing unsigned-minus-one/zero-sentinel contract remains
+unchanged. The2540Caddress is table data, not the handler's entry.
+
+The authenticated script command directory binds opcode12, advance2, to Thumb
+callback126831. A nonzero instruction byte1is written to variable7through
+CCF18. Zero instead reads byte2at `70C8CC + 40 * U16(02002170)`, using0A104to
+obtain the live index, and writes that value to variable7. Both paths set the
+normal state byte0200F390to10. A51encoding direct-call census forCCF18selects
+the two adjacent literal7arms for authentication; the other49candidate dataflows
+are not classified here. This does not prove that all variable7writes have
+been found.
+
+A new semantic query of the accepted typed command directory and script archive
+finds204opcode12instructions:56use the live default and148carry nonzero literals.
+Nineteen literal instructions select ten raw map arguments whose declared BG
+seeds contain cell02:31,33,34,73,75,89,91,109,115and129. Exact source/program/
+bank/event-key references remain in private `script-map-links.json`. These are
+conditional code-to-asset links, not proof that an event or battle is reachable
+in ordinary play, nor a mapping to a named location. Archive event-key IDs and
+the live active record index must not be equated without another source join.
+
+Read-only fields from two already authenticated normal representatives provide
+consistent default-path examples: one has active index35, map argument99and
+loaded descriptor98; the other has197,85and84. Their source record byte2values
+are99and85respectively. Both maps are ineligible, matching the already closed
+retained-map bound. This does not attribute an executed opcode or replay the
+81snapshot search.
+
+All37actual source/tool/current-dataset/parser/normal-state/output guards and
+nine bounded source-window hashes pass. No build, gameplay, Wine/Linux test,
+capture, checkpoint, decoder, resource, ABI, cache or save change occurs. This
+source linkage child is closed; normal eligible-battle selection remains
+partial. No managed/native validation or disposable fixture copy is created.
+Evidence: `target/rom-data-constructor-eligible-map-selection/`, including
+`source-contract.json`, `script-map-links.json`, `retained-selector-contexts.json`,
+targeted caller candidate JSONs, final summary and preservation receipt.
+
+The [active-index follow-up](#active-index-producer-and-event-record-links)
+authenticates the producer and conditional event joins. The full40-byte catalog
+extent and an eligible quest available in normal play remain open. No guessed map ID, guest-memory edit or navigation is authorized by
+these static links. Positive constructor-animation ordinary acceptance still
+needs all four phases and all four lists through guest and host readers before
+a fullpair. Existing source/runtime/scene/census,81map and five Move negative
+bounds remain closed. Linux/USA/native Windows/new32:9 and the full ROM TODO
+remain pending; no measurements, package, assistant commit or push.
+
+
+## Active index producer and event record links
+
+The EUR setter `08009CF0` writes the low16 bits of r0 to `02002170` and r1 to
+`02002172`, without an index bound. An exact-image encoding census finds two
+direct Thumb BLs, at9D2C and1273A8, and no aligned Thumb-pointer encoding for
+this setter. This is not a census of all stores to either field or a proof
+that indirect callers are absent.
+
+The first caller belongs to9D04. When the supplied event row has nonzero u16
+at+4, it selects a12-byte record at `71D1EC + 12 * low8(arg1)` and passes its
+halfwords+2/+4 to the setter. Otherwise it passes the event row's halfword+2
+and zero. A source path through63878 state3 and a helper condition reaches
+63944: u16 at0200219E selects a70-byte record at713B3C, whose byte45 selects a
+12-byte event row at71C760. The call at6397E supplies this row and its byte0
+to9D04. These are conditional original code paths; no claim about an executed
+menu action follows from static inspection.
+
+The other setter caller is in script callback127388. Its little-endian u16
+parameter is compared with event-row byte1 while scanning rows255 down to1.
+The first matching row supplies halfword+2 and zero to the setter. Consequently,
+duplicate keys select the highest matching row and row0 is excluded from this
+scan. Event keys, event-row indices and active40-byte record indices are
+separate selectors; this source join now connects them conditionally.
+
+A new semantic query uses the caller's256-value u8 event-row domain, not an
+assumed archive extent. It finds208 rows taking the direct-primary branch,
+54 rows whose primary map field selects a declared cell02 seed, and44 rows
+with both the direct-primary branch and a referenced default-map opcode12.
+Detailed joins remain in private `event-map-leads.json`. Eight event-key groups
+have duplicates. The maximum primary index442 is an observed reference, not
+a count or upper bound on guest access. A separate helperD2760 returns300;
+it is not evidence for the extent of the40-byte catalog. No complete catalog
+schema, resource or decoder is introduced.
+
+Read-only inspection of the already authenticated pub checkpoint finds selected
+index0200219E=0 and event row0, whose direct primary selects raw map11 without
+cell02. This is not evidence about missions subsequently visible in its menu.
+The first private parser attempt stopped for a missing Python struct import
+before producing output; the corrected read preserves the original state.
+
+All42 source/tool/prior-proof/parser/state/output guards and23 bounded source
+window hashes pass. This closes the producer and conditional-join source child;
+normal eligible-battle reachability and full catalog extent remain partial.
+Evidence is under `target/rom-data-active-encounter-records/`: source contract,
+caller candidates, event-map leads, retained pub selector, final summary and
+preservation receipt. No build, gameplay, Wine/Linux test, capture, checkpoint
+or managed/native disposable copy is created. Static disassembly is not Linux
+game validation.
+
+The [normal pub-menu follow-up](#normal-pub-menu-identifies-an-eligible-quest)
+now identifies an available eligible quest and confirms its detail selector.
+Acceptance and actual battle entry remain open.
+No forced index/map/RAM or further blind Move attempt follows from these links.
+Positive constructor acceptance still requires all four phases and all four
+lists through guest and host readers before a fullpair. Closed source/runtime/
+CLI/scene/census/81-map/five-Move results remain closed. Linux, USA, native
+Windows, new32:9 and the full ROM TODO remain pending; no performance/storage
+campaign, Android/package, assistant commit or push occurs.
+
+
+## Normal pub menu identifies an eligible quest
+
+The missing menu endpoint is now retained through normal game input on exact
+local copies of the authenticated EUR pub checkpoint. One620-frame Wine route
+uses the existing input to open the mission list, ending at guest frame14969.
+A second300-frame route presses Down four times and A, ending at15269 with the
+White Flowers detail screen. Both use the existing frozen309ba31c observer and
+accepted e77 dataset; there is no build. The former620-frame scene acceptance
+is not replayed as acceptance: the new deliverable is its missing machine
+endpoint and available-quest selectors.
+
+The live list context at[0200F44C]=02024D5C has14 pointers and count byte+1B.
+Original62126..6215E binds the pointer at+20+4*ordinal to the mission ID encoded
+as byte0|((byte1&3)<<8). A new query of these14 live entries, joined to the
+closed event/map source proof, finds two direct-primary/default-script/cell02
+candidates: mission IDs58and72. The first is the fifth visible menu row.
+After normal selection, the image visibly identifies White Flowers, while
+[0200F448]=0202389C and its+1450 pointer selects02002268 with mission ID58.
+Original60208..60228 and its literals authenticate this selector projection.
+Its source link is event row58, primary index315, raw map69/descriptor68 with
+cell02 seeds. The detail names Giza Plains as its destination. This establishes
+an eligible quest present in the normal menu, not an accepted mission or an
+executed battle/map load.
+
+Exploratory031C/03D windows referring to03001028 were not linked to the live pub
+menu; the observed IWRAM word is an executable encoding, so that candidate
+context layout was rejected. It is not used to decode the mission list. The
+selected source projections above are authenticated separately.
+
+Both Wine workers pass and retain normal endpoint states/images/logs. Their
+constructor counters stay zero in the pub, as expected; this is not a positive
+animation or equivalence result. All130 actual input/dataset/output guards,
+496 frozen source hashes and23 bounded source-window hashes pass. Originals,
+source copies and70 accepted dataset files preserve hashes and mtimes. There
+are no manual RAM/task/ROM edits or cartridge-save writes. The artifact helper
+finds zero disposable paths and keeps the new normal checkpoints. Evidence:
+`target/rom-data-eligible-quest-locator/`, especially source contract, final
+summary, preservation and cleanup receipts, `windows-menu/` and
+`windows-white-flowers-detail/`.
+
+The [acceptance follow-up](#normal-white-flowers-acceptance-and-open-battle-entry)
+now proves payment and active mission status. Actual battle entry remains open. No forced map/index or blind Move follows from
+the source link. All four constructor phases and lists through guest and host
+readers remain required before the ordinary fullpair. Old source/runtime/CLI/
+scene/census/81-map/five-Move children stay closed. Linux, USA, native Windows,
+new32:9 and full ROM_DATA_TODO remain pending. No performance/storage campaign,
+Android/package, assistant commit or push occurs.
+
+
+## Normal White Flowers acceptance and open battle entry
+
+Normal input from an exact copy of the confirmed White Flowers detail completes
+the loadout/default OK, fee/objective and conditions/Yes flow. The payment
+endpoint shows300gil paid and funds reduced from7709to7409. A later quest-detail
+screen explicitly shows Fee:Paid for White Flowers. This closes normal
+acceptance of the eligible mission58; it does not prove a battle/map load.
+
+One menu item was initially misread as Quit Pub. It is Quit Mission: that
+selection opened the accepted-quest cancellation list, and A then opened its
+detail with the A:Cancel label. No A was pressed on that cancellation detail.
+The next route backs out with B, selects the actual fourth-row Leave and reaches
+the world map. The paid mission remains active. Both the mistaken interpretation
+and its correction are retained in the private step reasons and contract.
+
+Twenty-seven bounded normal-input Wine captures,4840executed frames in total,
+reuse the existing309ba31c observer and e77 dataset. These are navigation
+checkpoints, not27equivalence acceptances. All workers pass; constructor table
+use stays zero and no fullpair is run. Four cursor endpoints are identified by
+the game's visible labels: Cyril, Lutia Pass, Nubswood and Sprohm. The unnamed
+central patch returns the cursor to Cyril when selected and is excluded as a
+new destination. Long cursor holds also scroll the camera; approximate pixel
+estimates overshot several targets. Southern, eastern and northern viewport
+bounds are retained, without inferring that Giza Plains is absent or unplaced.
+Further blind cursor trials are not selected.
+
+The source follow-up is incomplete. Seventeen bounded exploratory windows have
+exact hashes, but92524is an initializer and stale task arrays do not prove the
+active world dispatch. The031C/03D03001028 context is not linked to the live world
+map. Approximate private font diagnostics locate English catalog165E8name
+indices719Cyril,724Nubswood,725Giza Plains and729Lutia Pass; a3EE60list builder
+uses a718base. These are discovery leads, not a verified placed-region/coordinate
+join or a new decoder. They must not be used to force a location or guest ID.
+
+All337 actual input/dataset/output guards,496 frozen source hashes and17 source
+window hashes pass. Originals,70 dataset files and current executables remain
+unchanged. All new snapshots derive only from normal keys on local copies;
+there are no manual RAM/task/ROM edits or cartridge-save writes. No build or
+runtime implementation changes occur. The partial navigation unit retains its
+diagnostic checkpoints and existing executable; no artifact retirement is run.
+Evidence: `target/rom-data-white-flowers-battle-navigation/`, including
+`source-contract.json`, final summary, preservation receipt and27separate
+step/input/log/state/image groups. The latest endpoint is the north-pan branch;
+the Sprohm-labelled step20is a useful normal resume point.
+
+Acceptance is closed, while actual Giza Plains battle entry, eligible actor/
+cell state and positive constructor use remain open. The [world-selector follow-up](#world-selector-and-placed-region-coordinates)
+now proves Giza Plains is placed and supplies its coordinates plus a retained
+nearby cursor state. Battle entry remains open. All four phases and lists through
+guest and host readers remain required before the ordinary fullpair. Closed
+source/runtime/CLI/scenes/81-map/five-Move bounds stay closed. Linux, USA, native
+Windows, new32:9 and full ROM_DATA_TODO remain pending; no performance/storage
+campaign, Android/package, assistant commit or push occurs.
+
+
+## World selector and placed region coordinates
+
+A new feature-gated test records one neutral normal world frame through the
+existing address/site capture API and writes the actual EWRAM/IWRAM to private
+files. One warning-free Windows build uses a stable497-file e77 source copy;
+one Wine run covers guest18829→18830. It records2232unique reads,2276sites and
+323sites with interpreter/HLE scope. Native/host sites can have no instruction,
+and nested accesses inherit scope: inspect the opcode before attribution.
+This is source discovery, not a scene-equivalence or performance result.
+The raw EWRAM matches the retained snapshot parser byte for byte.
+
+Two inspection errors are corrected. The actual254B2call targets6B40; the
+previous guessed7B40window was unrelated. Original6B40/6A58use the scheduler
+count byte+2 and per-slot status bytes, not the word+4 used by the earlier
+candidate query. More substantially, the literal low halfword2810/high0300
+means03002810. Earlier probing at03001028read the wrong address, so the old
+world-layout rejection did not follow from that probe. The actual normal
+world parent at[03002810] is0200F3A4. Its save/view pointers both happen to be
+02002C10in this snapshot; this is not a universal alias rule.
+
+Original375F8uses the pointer at parent+067C, here08395CA8, and loops over30
+nodes at20-byte stride. The first two bytes give unsigned tile X/Y; multiply
+by8and add8to each for the centering target. The conditional hitbox is
+Xtile*8−4..Xtile*8+20 and Ytile*8−8..Ytile*8+16. Conditional centering moves one
+pixel per call. At37D6A..37D70the caller supplies view+6/+8 as cursor X/Y.
+Original37A44subtracts view+Crepresenting vertical scroll when drawing cursor Y.
+Thus screen Y and world Y must be distinguished.
+
+Original385CC..38668uses save-base+B0+12*region index, checks byte1bit0 and reads
+byte3as a one-based node selector. The coordinate source is node-root+
+20*(selector−1). The existing name-catalog join is reused. Giza Plains at region
+index7/catalog725has selector20and coordinate source395E24: tile13/36, world
+center112/296. It is placed. The source join also agrees with the known Cyril,
+Sprohm, Nubswood and Lutia Pass labels. These are coordinate/placement semantics,
+not a complete schema for the20-byte node records. The other18bytes, complete
+model/extraction and managed runtime for this newly identified family remain open.
+
+A new read-only criterion examines only the retained southern endpoints:
+step21has cursor128/287, step22has128/330, while the labelled Sprohm step20has
+112/168. This does not replay the27navigation bounds. A short Left press from
+step21can enter the Giza hitbox and allow the original centering logic to act;
+verify the actual label before destination confirmation. No forced coordinate,
+map ID or guest field is used.
+
+All152 actual input/dataset/output guards,497 stable source hashes and32 bounded
+window hashes pass. The artifact helper completes with zero disposable paths.
+Evidence is in `target/rom-data-world-location-selector/`: source contract,
+placed-node-coordinate join, retained south coordinates, final summary,
+preservation/cleanup receipts and `windows-world/` read sites/raw RAM. The only
+tracked code is the optional test module and its feature-gated declaration;
+runtime/resource/schema/cache/save behavior is unchanged. No new navigation or
+old source/runtime/CLI/scene acceptance is run. Actual battle entry and all-four-
+phase/all-four-list constructor guest/host use remain open before a fullpair.
+Linux, USA, native Windows, new32:9 and full ROM_DATA_TODO remain pending; no
+performance/storage campaign, Android/package, assistant commit or push occurs.
+
+
+## Normal Giza battle entry and positive constructor animation
+
+The source-backed short Left movement from the retained southern world
+checkpoint reaches the visible Giza Plains label. Normal A travels there and
+opens White Flowers with22days remaining. A enters its deployment screen.
+The live primary index is315, variable7is69 and the loaded descriptor is68.
+The actual512-byte terrain grid has SHA-256
+`e8427b5e31cda367749b505f234ab95b2ecd85c3d91b91a5677817082589e840`,
+matching the existing packet56seed and all20flag02cells. This closes normal
+battle/map reachability; earlier negative map/navigation bounds stay closed.
+
+Normal deployment places Marsh and confirms his facing. The first START
+attempts happened before facing confirmation and leave that state unchanged;
+B returns to placement. After facing A, the actual “START To Battle” prompt
+appears. START/Yes and the opening dialogue reach the normal Move menu.
+Marsh has unitFD2, position(6,5), height2, actor flags0and animation0.
+Move/A followed by Left/Down/Down puts the actual cursor at(5,7), a highlighted
+reachable flag02water cell. A confirms the move without guest-field edits.
+
+The passive observer becomes positive after75executed frames, ending at22724:
+22table reads/88aggregate bytes,44threshold and44pointer bytes, all four
+phases and all four OBJ lists through both guest and host readers. It retains
+an exact normal checkpoint at22713and an11-frame suffix before first use.
+This is positive discovery, not yet a complete scene-equivalence result.
+
+The unit uses16normal-input Wine captures/3875executed frames total, with the
+existing309ba31c observer and e77dataset; no new build. These captures are not
+16equivalence acceptances. All221actual input/dataset/output guards and496
+frozen source hashes pass. Originals, cartridge saves and dataset are unchanged;
+all local checkpoints derive from normal keys on copies. The artifact helper
+retires zero paths. Evidence is in `target/rom-data-giza-battle-entry/`, including
+per-step states/images/results, map/actor context, positive observation, final
+summary and preservation/cleanup receipts. The [subsequent actual CLI and fullpair](rom_data_obj.md#ordinary-constructor-animation-positive-giza-scene)
+now pass on the11-frame suffix, closing the ordinary constructor case.
+Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+No performance measurements, Android/package, assistant commit or push occur.
+
+
+## World node record source projection
+
+The next source unit bounds the30-record projection at395CA8..395F00:
+600bytes,20-byte stride, SHA-256
+`ed9d29c7b96b37537f0b8ac8e95fc17c57605c1056427e8dcbc58775e12d2e76`.
+The30count comes from the already proved375F8loop. It does not impose a global
+index limit:36E90/36EB4and4DAD0narrow inputs to bytes without checking30, while
+4DB80uses32-entry work arrays. Future typed reads must preserve raw fallback
+outside the declared projection. The primary31488initializer and32BE6..32BEC
+store08395CA8at[03002810]+067C. Four exact aligned root literals and20aligned
+067Cconstant matches are inventoried; this is not every synthesized pointer.
+
+Bytes0/1are unsigned tile coordinates. Four ordered link slots begin at
+2/6/10/14: path ID byte, neighbor node byte, then two opaque bytes. The last two
+bytes18/19are also opaque. Thus300bytes have source-backed field meaning and
+300bytes remain opaque, all zero in this exact image. Preserve them losslessly;
+zero contents and selected readers do not prove global padding/dead-byte rules.
+The exact graph has120slots,90nonzero path links and30zero-path slots. Its45
+path IDs each join two opposite directions. Neighbor0is valid, including the
+active links from nodes1/2; it is distinct from a zero path ID.
+
+Original4DAD0matches neighbor fields in slot order and returns the corresponding
+path byte, orFFonly when no neighbor matches. It does not first test path!=0:
+target0therefore returns0for22nodes through empty slots. Original46EB0first
+accepts equal nodes, then requires nonzero path before matching neighbors.
+Original4DB80copies all four neighbors and paths;4DC5Eskips zero paths. Its
+conditional node8/27gates depend on02002E58bits1/2. A nonzero path ID conditionally
+selects397018+(ID−1)*8and reads byte0for path-cost comparison. Those road records
+and payloads are a separate unmodeled dependency; no complete pathfinder ABI or
+road-catalog bounds are inferred here.
+
+The600-byte projection is disjoint from all49746source spans of the69accepted
+e77resource owners. Twenty-one new bounded windows, four reused closed windows,
+44instruction pins and42actual input/output/source guards pass. A new query of
+the retained neutral world frame finds35unique reads/42sites within these600B,
+only coordinate fields at375F8and3864E/38662. It is not new edge ordinary-use
+coverage. A diagnostic print initially treated structured instruction metadata
+as an integer; the saved query was intact and inspected without recapture.
+
+No build, game run, Wine/Linux test, fixture or implementation change occurs.
+Evidence is in `target/rom-data-world-node-records/`: source contract, exact
+field/graph analysis, retained site query, authenticated windows and final/
+preservation/cleanup receipts. The helper retires zero paths. Next is the strict
+lossless typed node/link/opaque model and shared source plan, then one focused
+Wine original-reader oracle. Extraction/managed runtime/actual CLI/ordinary
+checks remain open, as do Linux, USA, native Windows, new32:9 and the full ROM
+TODO. No measurements, Android/package, assistant commit or push occurs.
+
+
+## Typed world nodes and original-reader proof
+
+`world_nodes::Catalog` authenticates the exact EUR image, six producer/reader
+windows and the600-byte source hash. `WorldNodes` exposes30ordered `Node`
+records, unsigned tile coordinates, four ordered `Link` slots with distinct
+path/neighbor bytes, each opaque pair and an opaque tail. Its shared
+`source_spans()` plan reconstructs one exact600-byte range. JSON denies unknown
+fields and wrong fixed array lengths. Shape validation checks source identity,
+node count and order; it does not impose inferred max45paths/max29neighbors or
+opaque-zero rules. Source verification separately rejects content changes.
+
+The typed coordinate helper scales by8without the centering offset. Path lookup
+matches neighbors first and can return zero through an empty slot; adjacency
+accepts equal declared nodes and otherwise requires nonzero path before a
+neighbor match. Helpers return `None` for nodes outside the declared30-record
+owner, preserving the requirement for raw fallback in future guest integration.
+No host pathfinder or live placement algorithm replaces original guest code.
+
+One warning-free Windows core-only test build, frozen as6c2ef15a.., and one
+focused Wine filter pass23shape/JSON/source guards and566original-interpreter
+calls. Independent private model/probe files confirm exact600-byte
+reconstruction and every return/load-address sequence, including16low-byte
+aliases and24outside-projection calls. All300semantic bytes are observed at
+original load sites. The300opaque bytes are reconstructed/hash checked, not
+claimed read. Callee registers, SP, RAM outside the original stack, VRAM, OAM
+and palette remain checked. These are synthetic call inputs, not new ordinary
+checkpoints, full ABI, native/state-clock or pathfinder acceptance.
+
+All24actual input/output/executable guards and215retained core-source hashes
+pass. Original ROM/cache/loader/states/inputs and canonical executable remain
+unchanged; the artifact helper retires zero paths. The parallel frontend is not
+built. Evidence is in `target/rom-data-world-node-model/`, including independent
+inputs, `windows-model-europe/`, build/run results, source preimages and final/
+preservation/cleanup receipts. The only production code addition is this
+standalone model and its module declaration. Schema/extractor/decoder stay
+1/77/76; managed extraction/runtime, actual CLI and ordinary coverage are next.
+Linux, USA, native Windows, new32:9 and full ROM_DATA_TODO remain pending.
+No gameplay, performance/storage campaign, Android/package, assistant commit or
+push occurs; the previous source/coordinate/constructor proofs stay closed.
+
+
+## Managed world nodes and typed guest reads
+
+EUR e78-d77 publishes `world-nodes.json` as `gameplay.world-nodes`, resource
+index69:71generation files and70resources. All69previous records and files are
+exactly retained; USA stays e8-d7. The file contains the strict30-node model and
+one authenticated600-byte source binding. The runtime serves coordinates, path
+IDs, neighbors and opaque bytes directly from the decoded fields. Seven usage
+fields report reads/bytes, the four field classes and distinct nodes used.
+
+Typed reads compose with earlier owners and raw bytes at either boundary.
+The owner only claims395CA8..395F00, leaving node30/31/255queries and live RAM
+root overrides to the original guest. No Machine/CAPI/native-cache/save ABI,
+placement/pathfinder algorithm or host timing replacement is added. Host
+pathfinding is not introduced. Publication, parsing, coherent full-set checks,
+source authentication and startup attachment share the same model.
+
+One reduced Wine filter passes publication and interrupted-new-file refusal,
+12attachment guards and two full-set guards. Failed attachment preserves the
+previous owner and full serialized state. Fifteen original/interpreter/native
+prefixes match complete state and guest clock with all600raw source bytes
+poisoned after state load:124compiled instructions and32explicit compiled
+source bytes. They cover coordinate/path/adjacency semantics, low-byte alias,
+mirrored pointer, outside30/31and equal255queries, plus a live RAM root override.
+This is not a full pathfinder ABI or ordinary-scene claim.
+
+The same filter serves all600bytes and every field class/30nodes through the
+bus, with byte/halfword/word widths, ROM mirrors, mixed raw edges and an earlier
+typed owner. Unavailable files preserve the attached owner through Load and
+slot Undo. DMA, CpuSet and CpuFastSet each match complete state and clock across
+the typed source and following raw bytes. The model's earlier566-call source
+oracle and the world/constructor scenes are not replayed.
+
+Two initial Windows build attempts fail because Cargo reuses an old core
+artifact. Its dependency record still names the older host-source-snapshot;
+touching the new copy's crate entry does not invalidate it. Moving only that
+specific core fingerprint into private diagnostics forces the selected core to
+compile. The third build is warning-free and frozen as2cf1d882..; its artifact
+record says `fresh=false`. No global Cargo clean or accepted fixture/executable
+removal occurs. The stable502-file source copy preserves parallel frontend work.
+
+All200actual preservation guards,502integration-source hashes and215retained
+model-source hashes pass. The artifact helper retires only the disposable
+interrupted publication copy, keeping the accepted offline dataset, executable,
+source preimages and failed-build diagnostics. Dataset identity is
+e949b04d.., manifestf4b3c8b2.. and world-node JSON4336cfcc... Evidence is under
+`target/rom-data-world-node-runtime/`, including three build results,
+`windows-runtime-result.json`, accepted `windows-managed-europe/offline dataset/`,
+final summary and preservation/cleanup receipts. The [actual production CLI](#actual-world-node-cli-and-ordinary-coordinate-use)
+now passes registration and ordinary coordinate use; positive path/neighbor and
+the full ordinary pair remain open. Linux, USA, native Windows,
+new32:9, road397018and full ROM_DATA_TODO remain pending. No new gameplay,
+performance/storage campaign, Android/package, assistant commit or push occurs.
+
+
+## Actual world node CLI and ordinary coordinate use
+
+One warning-free Windows production build from the accepted502-file integration
+copy is frozen as e0491cdc... The canonical executable's hash and mtime are
+restored exactly. Three actual Wine CLI commands pass: prepare creates the
+managed e78-d77generation, a second prepare reuses it without writes, and
+`runc` loads the unchanged28859-block native cache with normal Giza world input.
+All71generation files match the accepted runtime dataset, all70logged resource
+IDs/hashes match the manifest, and all73managed paths preserve hashes/mtimes
+through reuse and normal startup.
+
+The normal16-frame prefix uses exact copies of the already retained Giza01
+world state and02travel input, with no new navigation fixture or guest edits.
+It covers guest19049→19065and consumes402world-node coordinate bytes/402reads,
+22nodes. Path, neighbor and opaque usage stay zero in this selected bound.
+This closes actual production registration and positive ordinary coordinate
+consumption. The [later source-backed360-frame travel case](#ordinary-world-node-travel-and-caller-gates)
+now closes positive path/neighbor use and the full ordinary pair. The runtime's complete
+field coverage is targeted evidence, distinct from this ordinary observation.
+
+The private wrapper initially expected `frames:16`; the CLI reports the
+absolute guest endpoint19065. All three child processes had already exited0
+and passed their post-run preservation guards. The final summary is corrected
+from retained logs only, with no child rerun. The16-frame zero path/neighbor
+bound is closed; do not repeat it unchanged. Inspect original callers or a
+source-backed later ordinary state before selecting further gameplay.
+
+All169actual input/output/dataset/executable guards and502frozen source hashes
+pass. Required artifact completion retires zero paths. Private evidence is in
+`target/rom-data-world-node-cli/`: exact normal copies, build/three CLI logs,
+`windows-cli-summary.json`, no-write receipt and final/preservation/cleanup
+receipts. Dataset identity remains e949b04d.., manifest f4b3c8b2.. and new JSON
+4336cfcc... No new fullpair, source/model/runtime oracle replay, performance
+measurement, Android/package, assistant commit or push occurs. Linux, USA,
+native Windows, new32:9, road397018and the full ROM TODO remain pending.
+
+
+## Ordinary world node travel and caller gates
+
+A new source criterion follows the path/neighbor readers, without replaying
+the source model, world audit or closed16-frame observation. The direct Thumb
+BL query finds4DAD0at4672C/4676E/4706C,4DB80at4DB30and46EB0at46D08/46D6C/46E50.
+Their aligned Thumb-pointer query is empty; this does not exclude synthesized
+or indirect references. The4DB1Cwrapper has five direct caller candidates,
+including3B012;47034has468AC/468DC. Ten bounded windows are authenticated.
+
+At3AFEE..3B016, a nonzero view+1Aone-based destination differing from
+[parent+7BB] selects4DB1C/4DB80, with output at parent+7C1. Two existing normal
+snapshots provide a concrete later-travel candidate: Giza01has current node17
+and selected20(destination19); the accepted360-frame endpoint has current/
+target19, progressFFand phase3. Entity1also moves from node0to1. The selected
+entity projection is parent+7B8+52*index: bytes3/4origin/target,7phase,8progress.
+Original47034requires progress!=FFbefore its4DAD0call. These source and retained
+RAM links are conditional; they are not an exact-frame/PC attribution claim.
+
+A single existing-CLI360-frame observation on exact copies of Giza01/02input
+now proves all three semantic field classes:6841reads/6841aggregate bytes,
+4820coordinate/864path-ID/1157neighbor bytes and29nodes. Opaque use stays0.
+The longer bound is justified by the already retained player/entity transition;
+the first16zero path/neighbor bound remains closed, not rerun as acceptance.
+No new checkpoint, navigation fixture or manual guest edit is introduced.
+
+A five-line optional `FFTA_STATE_TEST_REQUIRE_WORLD_NODES` gate requires positive
+coordinates, paths and neighbors in the common scene validator. Removing it
+restores the previous validator byte for byte. A single warning-free Windows
+test build from a stable502-file copy includes the guard; only the exact prior
+test fingerprint is isolated to avoid Cargo's known old-snapshot dep-info trap.
+The core and runtime implementations are unchanged, and no old proof is rerun.
+
+One Wine fullpair over guest19049→19409passes every360complete serialized
+states and guest clocks, classic/central/extended images, OAM, native/fallback
+dispatch and all five audio streams. All seven world-node usage counters match
+the actual CLI exactly. Dispatch counts are2006894/3620371; audio sample counts
+are[790020,790020,95040,95040,789942]. This closes the ordinary EUR/Wine world-node
+case. It does not claim all30nodes/maps/actors, opaque ordinary use, global
+archive bounds or a complete pathfinder ABI. Targeted model/runtime evidence
+for all600bytes remains distinct from ordinary29-node/three-field coverage.
+
+All103actual ordinary-unit guards and502stable source hashes pass, as do the
+27caller-source guards and169closed CLI guards. Artifact completion retires
+zero paths. Evidence is in `target/rom-data-world-node-ordinary-callers/` and
+`target/rom-data-world-node-travel-ordinary/`: caller contracts/retained gates,
+CLI and fullpair results, validator preimage/guard, source copy, final summaries
+and preservation/cleanup receipts. New test executable dabb1ac6.. and existing
+CLI e0491cdc.. are retained. Linux, USA, native Windows, new32:9, road397018and
+full ROM_DATA_TODO remain pending. No performance/storage campaign,
+Android/package, assistant commit or push occurs; parallel DBG work is preserved.
+
+
+## World road path source contract
+
+The45path IDs selected by the already proved30-node/90-active-link projection
+identify45eight-byte headers at397018..397180. This is a conditional projection,
+not a global archive bound. Header byte0is an unsigned sample count; bytes1..3
+remain opaque, and word+4is the exact encoded ROM pointer. The45distinct payloads
+are contiguous at395F00..397018:2188signed XY pairs/4376bytes. Together the
+headers and payloads give46nonoverlapping source spans/4736bytes,4601semantic
+and135opaque bytes. The full contiguous source hash is `e0a6a0a205c1dba5a9b0681309a7261056072d51c8cf7a4c1ce4814369caa8ec`.
+All135opaque bytes happen to be zero; no global padding/zero rule follows.
+
+The closed primary producer stores08397018at parent+680. The absolute root has
+three exact aligned literal matches:31560,4DD08and4DD34. Original4DC8C..96uses
+(pathID−1)*8/header byte0as a path-cost comparison term. Original4DD0Ctakes an
+output pointer plus direction, header index and sample step, narrowing the
+last three inputs to bytes without a45-index guard. If step>=count it writes
+zero32and skips pointer/sample loads. Otherwise direction0selects step, while
+nonzero selects count−(step+1); the doubled reverse offset is narrowed to16bits.
+The reader sign-extends each source byte into a halfword and packs Xlow16/Yhigh16,
+writes the output word and returns the same output pointer.
+
+Original4DD70computes unsigned low-byte current-node>target-node to choose
+reverse order. Original4DD84returns their unsigned low-byte minimum. At
+4708Cand47112..44, the caller queries the sample and adds its signed offsets to
+that lower-index node's tile X/Y multiplied by8. These are sampled offsets,
+not incremental per-step deltas; reverse playback does not negate them.
+The46B64facing consumer queries current/next samples across at most five
+successive differences, retaining byte-step wrapping. Its angle/helper ABI is
+not claimed. The direct-reader query finds4DD0Ccalls at46B94/46BE2/4708C,
+4DD70at4707Cand4DD84at47112, with no aligned Thumb pointers for these three
+exact addresses; indirect/synthesized references remain outside that query.
+
+Every selected sample word is nonzero in this image, matching the caller's
+packed-zero arrival sentinel. This is not a model rule forbidding a zero point.
+Observed counts32..85and signed extrema are descriptive, not guest caps.
+Forty paths end exactly at the node displacement. Paths4/6/8/10/12end one pixel
+short; preserve those source samples and do not normalize or force endpoints.
+
+Six windows(two new/four reused),60instruction pins and17actual source/tool/
+output guards pass. The4736bytes are disjoint from all49747source spans of the
+70accepted e78owners. Their left neighbor is the existing world-node owner;
+future mixed reads must retain it. Source bytes after397180remain outside the
+new projection. Evidence is in `target/rom-data-world-road-paths/`: selected
+header/point analysis, source contract/46-span plan, caller candidates, windows,
+final summary and preservation/cleanup receipts. The artifact helper retires
+zero paths. No build, game run, Wine/Linux test, fixture or implementation change
+occurs; the completed world-node ordinary case is not replayed.
+
+Next is the strict lossless road-header/point model and shared source plan,
+then one focused Wine original-reader oracle. Extraction, managed consumption,
+actual CLI, ordinary use, global catalog extent and135opaque-byte meaning stay
+open. Linux, USA, native Windows, new32:9and the full ROM TODO remain pending;
+no performance/storage campaign, Android/package, assistant commit or push occurs.
+
+
+## Typed sampled world roads and original-reader proof
+
+`world_roads::Catalog` now authenticates the exact EUR image, the six closed
+producer/reader windows and the complete 4,736-byte projection hash.
+`WorldRoads` retains 45 ordered headers, each full-byte sample count, three
+opaque bytes, exact encoded pointer and ordered signed `Point` offsets. The
+shared `source_spans()` plan reconstructs 46 spans: 45 sample payloads followed
+by the 360-byte header table. `byte_at()` covers this owner only. JSON rejects
+unknown fields, invalid byte ranges and wrong opaque-array lengths.
+
+Shape validation checks the declared header identity/order and a coherent,
+nonoverlapping partition of its source payload region. Authenticity is a
+separate exact-source check. Structural count values span the full byte range;
+there is no inferred 32..85 cap, opaque-zero requirement, zero-point prohibition
+or endpoint correction. All five one-pixel-short endpoints remain exact.
+`packed_point()` applies low-byte direction/index/step aliases, forward or
+reverse sample order and signed halfword packing. It returns `Some(0)` when
+step is at least count, and `None` for header indices outside the declared
+projection, requiring raw fallback. The unsigned node-order helpers preserve
+the original reverse flag and lower-node base. Guest movement, facing and
+pathfinding remain original code; no runtime integration is included yet.
+
+One warning-free core-only Windows build (`de9d1e11..`) and one focused Wine
+filter pass 29 structural/JSON/source guards and 2,537 original-interpreter
+calls. Independent private inputs cover every 2,188 forward sample, 135 reverse
+queries, 180 out-of-range queries, six low-byte aliases, six raw header queries
+outside the owner and 22 node-order helper calls. Exact output words, returned
+output pointers and load sequences match, including pointer/sample-load skips
+on exhaustion. All 4,601 semantic bytes are observed at original load sites;
+135 opaque bytes are reconstructed/hash checked and remain unread. Callee
+registers, SP/LR, RAM outside the original stack/output, VRAM, OAM and palette
+are checked. These synthetic calls do not establish full ABI, native clock,
+facing/pathfinder or ordinary gameplay acceptance.
+
+The stable source copy contains 504 build files, including 218 core/build
+inputs; all hashes and 32 actual preservation guards pass. Only the affected
+old core-test fingerprint was isolated to prevent reuse through dep-info naming
+an earlier source copy. No old source, canonical executable or global cache was
+cleaned. The parallel Debug audit/frontend work was excluded from this build.
+Artifact completion retires zero paths. Evidence is retained in
+`target/rom-data-world-road-model/`: independent model/probes/source plan,
+build/Wine logs, decoded model/result, source preimages and final/preservation/
+cleanup receipts. No game fixture, checkpoint or cartridge data was changed.
+
+Schema/extractor/decoder remain 1/78/77. Next are managed publication and typed
+guest source reads, actual CLI and one positive ordinary case. The source/model
+and already closed world-node cases require no replay. Global catalog extent,
+opaque meaning, Linux, USA, native Windows, new 32:9 and the full ROM TODO
+remain pending. No performance measurement, Android/package, assistant commit
+or push occurs.
+
+
+## Managed world roads and typed guest reads
+
+EUR e79-d78 publishes `gameplay.world-roads`, `world-roads.json` and
+`world-roads-v1-json` at resource index70. The generation contains 72 files and
+71 resources; all 70 previous resource records and decoded files remain exact.
+USA remains e8-d7. Schema1 and the Machine/C API, save-state and native-cache
+formats are unchanged. Parsing, source authentication, coherent full-set
+validation, publication/startup attachment and resource/usage logging share the
+model's 46-span plan. Original movement, facing and pathfinding remain guest
+algorithms.
+
+The immutable runtime owner reconstructs header counts, exact encoded pointers,
+signed sample bytes and opaque bytes from typed fields. Its seven usage fields
+are bus_reads, source_bytes, count_bytes, pointer_bytes, sample_bytes,
+opaque_bytes and paths_used. Width/mirror reads compose bytewise with previous
+owners and raw source bytes. In particular, the byte immediately before the
+sample region remains owned by world nodes; the right boundary at397180 is raw.
+Header indices45..255 stay outside this owner and retain prior-owner/raw fallback. No opaque-zero, endpoint correction or source-reader
+index clamp is introduced.
+
+Two warning-free Windows test builds (accepted `52be2981..`) use a stable 506-file
+source copy, excluding the parallel Debug audit/frontend work. Only the two
+affected old core-library/recomp-test fingerprints are isolated to avoid
+cross-copy dep-info reuse; no failed build, global clean or old-source change
+occurs. The first reduced Wine filter passes new-file publication/interruption,
+12 attach guards and two full-set guards, preserving the prior owner and full
+machine state on failure. It then finds a real routing bug at native case3: global source-page filtering
+omits page396, so three output RAM bytes leak the poisoned source. Adding the
+road source-page gate fixes it. A second filter resumes only native/bus/lifecycle
+against the already accepted dataset; publication/12attach/fullset are not
+repeated. Twelve original/interpreter/native prefixes now match
+complete state and guest clock with all4,736raw source bytes poisoned after
+state load. The prefixes cover forward/reverse packing, a retained short
+endpoint, exhaustion/pointer skip, low-byte aliases, outside-owner headers and
+unsigned node-order helpers. They execute 67
+compiled instructions and observe 44 explicit
+compiled source bytes; this is correctness coverage, not a timing result.
+
+The same filter checks all4,736typed bytes, all four field classes
+(45count/180pointer/4,376sample/135opaque bytes) and all45paths. Byte/halfword/word
+reads, ROM mirrors, adjacent old ownership, the right raw boundary and a prior
+separate owner pass. Dataset-unavailable Load/slot-Undo retains the same owner.
+DMA, CpuSet and CpuFastSet each match full state and guest clock across the new
+source region and following raw bytes. No model/original-reader oracle, world-
+node ordinary case, navigation or gameplay fixture is replayed.
+
+All 221 actual input/output/old-dataset/executable guards, 506 integration
+source hashes and 504 closed-model source preimages pass. Artifact completion
+retires only the disposable interrupted publication; accepted offline data,
+source preimages, executables, logs and receipts remain. Evidence is in
+`target/rom-data-world-road-runtime/`: build/run results,
+`windows-managed-europe/offline dataset/`, final/preservation/cleanup receipts.
+Dataset identity is `14970175f018122fb4235dec3410d236d3f960ca2acc9018eedaf044ff768781`; manifest hash is
+`282808e5580b4e5cae3ae5665401bb173f993bcd87fcac36861263dcc67a4230` and new JSON hash is
+`f19748d8807a78027a7e595bf14bc4c93acaa4fb52afa956c98bdd469c93203d`.
+
+Actual production CLI creation/reuse/startup and one positive ordinary case
+remain open. Native prefixes establish selected routine coverage, not full
+facing/pathfinder ABI, gameplay or global archive/index extent. Linux, USA,
+native Windows, new32:9and the full ROM TODO remain pending. No new game or
+checkpoint, performance/storage campaign, Android/package, assistant commit or
+push occurs.
+
+
+## Actual sampled-road CLI and ordinary consumption
+
+The actual e79-d78 Windows production CLI now passes three Wine commands:
+`rom-data prepare` creates the generation, a second prepare reuses it without
+writes, and `runc` executes the normal retained Giza360 travel input. The build
+is warning-free and frozen as `1a86d341..` from the accepted506-file runtime
+source copy. The canonical executable's hash and mtime are restored exactly.
+Only the affected production fingerprint is isolated; unchanged core artifacts
+are reused. Preparation initially finds several historical production
+fingerprints; the exact prior copied source path in dep-info selects only the
+one relevant fingerprint. Existing normal copies are validated without
+recreating fixtures; no failed build or global cache clean occurs.
+
+All72generation files match the accepted runtime dataset. All71logged resource
+IDs/hashes match the manifest, and all74managed files retain hashes/mtimes
+through reuse and normal startup. The original28859-block
+native cache loads. Exact normal state/input copies cover guest19049→19409,
+with 2976road reads/5067source bytes:
+885count, 2788encoded-pointer,
+1394signed-sample and 0opaque bytes,
+40paths used. Count/pointer/sample consumption is positive before
+selecting the ordinary equivalence pair; opaque usage stays a separate targeted
+proof. This is one normal travel bound, not all45path payloads/maps/entities,
+full facing/pathfinder ABI or global catalog extent.
+
+All180actual input/output/executable/dataset guards and506frozen
+source hashes pass; artifact completion retires zero paths. Evidence is in
+`target/rom-data-world-road-cli/`: exact normal copies, build and three process
+logs, CLI summary/no-write receipt and final/preservation/cleanup receipts.
+No new navigation or checkpoint, source/model/native/lifecycle/node acceptance
+replay, guest/cart edit or performance measurement occurs. The next criterion
+is one ordinary full pair with the same positive counts. Linux, USA, native
+Windows, new32:9and the full ROM TODO remain pending; no Android/package,
+assistant commit or push occurs.
+
+
+## Ordinary sampled-road travel equivalence
+
+The ordinary EUR world-road case is now closed: exact retained normal Giza01
+state and02travel input, with the actual CLI e79-d78dataset, pass one Wine360
+pair at guest19049→19409. All360complete states and guest clocks, classic/
+central/wide images, OAM, native/fallback dispatch and five audio streams match
+the raw-ROM machine. All seven road usage counts equal the actual production
+CLI: 2976reads/5067bytes, 885count,
+2788pointer, 1394sample, 0opaque,
+40paths touched by any field. The path counter includes header-
+only reads; it does not prove40sample payloads. Dispatch counts are
+[2006894, 3620371]; audio sample counts are[790020, 790020, 95040, 95040, 789942]. These are
+correctness counts, with no host performance measurement.
+
+The validator adds one five-line optional
+`FFTA_STATE_TEST_REQUIRE_WORLD_ROADS` guard requiring count/pointer/sample
+consumption and reporting all seven statistics. Removing that exact block
+reproduces the previous validator byte for byte, including prior family guards.
+One warning-free Windows test build (`4c453f07..`) uses the accepted506-file
+source copy with only this validator overlay; only the affected old test
+fingerprint is isolated, leaving unchanged core artifacts and earlier source
+copies intact. No source/model/native/lifecycle/CLI-registration or old world-
+node acceptance is replayed.
+
+All100actual guards, 506 pair-source hashes and180closed CLI guards
+pass. Artifact completion retires zero paths. Evidence is retained in
+`target/rom-data-world-road-travel-ordinary/`: validator preimage/block proof,
+build/run results, source copy and final/preservation/cleanup receipts. The
+same normal state/input and accepted actual CLI generation are retained by the
+CLI unit. No new game/checkpoint/navigation fixture or manual guest/cart edit
+occurs. Source/model/runtime/actual CLI and this ordinary case are closed.
+This is one conditional travel scene; all45payloads/maps/entities, opaque
+ordinary use, full facing/pathfinder ABI and global catalog extent remain
+unproved. Linux, USA, native Windows, new32:9and the full ROM TODO remain pending.
+No performance/storage campaign, Android/package, assistant commit or push
+occurs; the parallel Debug work is preserved.
+
+
+## European encounter headers and shared ownership
+
+The declared EUR encounter-header catalog now has independent physical
+boundary evidence. The indexing origin is70C8CC, but the first physical header
+is70C8F4(index1), independently referenced at98E4andD2558. The next family begins
+at710E04; its independent roots24540/C6D0Cand arithmetic use28-byte records.
+The intervening17,680bytes contain exactly442ordered40-byte headers, indices
+1..442. All442unit-template backlinks form one continuous136,800-byte chain of
+2,85048-byte templates from6EA048to70B6A8. The physical partition follows these
+independent root/type/backlink witnesses, rather than treating the earlier
+observed maximum442or unrelated constant300as an array bound. No442guest-input
+check is introduced; original callers narrow indices to16bits.
+
+A new PC-relative-loader query reuses the27cached aligned70C8CCroot literals,
+without repeating their ROM census. It identifies one candidate load for each.
+Selected indirect consumers additionally establish a u16unit-template count at
++0and an encodedu32pointer at+4; the importerCE18Calso respects its live r2limit
+and advances templates by48. Byte+2is the default map argument. The inspected
+placement readers use bytes8/10as parameters, bytes12/14as search counts,
+byte13as a random-selection range, and encoded pointers16/20/24/28for coordinate
+lists; signed XY and first-XY accesses remain distinct. Byte32is compared with
+live unit count,33is tested for nonzero,34is an original switch selector,36a
+zero gate and38a script default operand. These17fields account for33bytes per
+header. Bytes3/9/11/15/35/37/39remain opaque: no zero policy, enum restriction,
+boolean canonicalization or null-pointer safety assumption is inferred.
+
+Index0is outside that physical header span. Its last16bytes are the actual
+coordinate payloads selected by header442:14bytes at70C8E4and two at70C8F2,
+ending exactly at the first header. Decoding index0as a valid header would
+misinterpret coordinate bytes as counts/pointers. Preserve raw/prior-owner
+fallback for index0and indices443..65535, with their original low16aliases.
+This does not prove global absence of other/synthesized/indirect consumers.
+
+One header field is already owned: header29's pointer at70CD58..70CD5Cbelongs
+to `gameplay.constructor-alternate-templates`, as do its192template bytes at
+6ECA78..6ECB38. The new header plan therefore contains two disjoint fragments,
+70C8F4..70CD58and70CD5C..710E04, totaling17,676new bytes(14,582semantic and
+3,094opaque). Future managed/runtime integration must declare that dependency,
+validate shared encoded-pointer coherence and skip those four bytes in the new
+owner so the existing owner/statistics remain authoritative. All other header
+bytes are disjoint from49,793spans of71accepted e79owners. Unit-template payload
+schema/ownership and full coordinate-pool coverage remain separate work; the
+computed contiguous pools are source leads, not migrated resources.
+
+Forty source windows(39new/one reused),54instruction pins and68actual guards
+pass. All442headers reconstruct exactly, with full header hash
+`580d0702d55d148643c3d920282eb52f73afc2514e0f1f95564e0e0e0b569ee6`.
+Evidence is under `target/rom-data-encounter-catalog-readers/`: root loader and
+boundary candidates, field witnesses, header/template partition analysis,
+reconstructable private records, source contract/two-span plan and final/
+preservation/cleanup receipts. Artifact completion retires zero paths. No
+build, Wine/Linux test, game run, checkpoint, decoder or runtime change occurs;
+the previous road/node/constructor proofs stay closed.
+
+Next is a strict lossless442-header model with the shared-pointer dependency,
+then one focused Wine original-reader proof and managed/runtime integration.
+Nested payloads, all indirect readers/full ABI/global archive coverage, Linux,
+USA, native Windows, new32:9and the full ROM TODO remain pending. There is no
+new navigation, guest/cart edit, performance/storage campaign, Android/package,
+assistant commit or push.

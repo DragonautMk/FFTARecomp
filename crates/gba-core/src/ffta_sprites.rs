@@ -173,7 +173,7 @@ fn peek(mem: &crate::mem::MemMap, addr: u32, len: usize) -> Option<&[u8]> {
     };
     let bytes = data.get(offset..offset.checked_add(len)?)?;
     #[cfg(feature = "rom-data-read-audit")]
-    crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::SpritePeek, addr, len);
+    crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::SpritePeek, addr, len, false);
     Some(bytes)
 }
 enum DescriptorObjects<'a> {
@@ -192,7 +192,7 @@ impl<'a> DescriptorObjects<'a> {
 fn list_count(mem: &crate::mem::MemMap, address: u32) -> Option<u16> {
     if let Some(list) = mem.rom_resources().and_then(|r| r.obj_list(address)) {
         #[cfg(feature = "rom-data-read-audit")]
-        crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::SpriteList, address, 2);
+        crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::SpriteList, address, 2, true);
         return Some(list.objects.len() as u16);
     }
     Some(u16::from_le_bytes(peek(mem, address, 2)?.try_into().ok()?))
@@ -201,7 +201,7 @@ fn list_objects(mem: &crate::mem::MemMap, address: u32, count: usize) -> Option<
     if let Some(list) = mem.rom_resources().and_then(|r| r.obj_list(address)) {
         if list.objects.len() != count { return None; }
         #[cfg(feature = "rom-data-read-audit")]
-        crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::SpriteList, address + 2, count * 6);
+        crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::SpriteList, address + 2, count * 6, true);
         return Some(DescriptorObjects::Typed(&list.objects));
     }
     Some(DescriptorObjects::Raw(peek(mem, address.checked_add(2)?, count.checked_mul(6)?)?))

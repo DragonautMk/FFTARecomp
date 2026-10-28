@@ -187,13 +187,15 @@ impl<'a> MemView<'a> {
     /// Read values through the typed audio owner while preserving RAM and raw-gap behavior.
     pub fn bytes<const N: usize>(&self, addr: u32) -> Option<[u8; N]> {
         let raw = self.slice(addr, N)?;
-        #[cfg(feature = "rom-data-read-audit")]
-        crate::rom_data::read_audit::record(crate::rom_data::read_audit::Reader::AudioValue, addr, N);
         if matches!(addr >> 24, 0x08..=0x0d) {
             if let Some(value) = self.resources.and_then(|r| r.audio_host_read::<N>((addr & 0x01ff_ffff) as usize, self.rom)) {
+                #[cfg(feature = "rom-data-read-audit")]
+                crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::AudioValue, addr, N, true);
                 return Some(value);
             }
         }
+        #[cfg(feature = "rom-data-read-audit")]
+        crate::rom_data::read_audit::record_served(crate::rom_data::read_audit::Reader::AudioValue, addr, N, false);
         Some(std::array::from_fn(|i| raw[i]))
     }
     pub fn u8(&self, addr: u32) -> Option<u8> {

@@ -89,6 +89,11 @@ When copying progress between Windows and Linux editions, copy saves/settings
 and slot directories rather than executables; let each edition build its own
 cache. Linux native translations use `.so`, Windows uses `.dll`.
 
+For debugging, [isolated sessions](debug_sessions.md) create a separate portable
+copy from the selected case. Their saves, settings, snapshots, resources and
+cache stay inside the copy, and the normal game remains paused. Menu-created
+copies live under `Data/debug-sessions/`; retain or move the whole closed folder.
+
 ## Import existing progress and settings
 
 Nothing is silently moved from an earlier installation. With both games closed:

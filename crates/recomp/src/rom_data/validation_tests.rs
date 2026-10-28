@@ -312,6 +312,21 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_WORLD_ROADS").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().world_roads_stats().expect("decoded EUR world roads");
+        assert!(i.count_bytes > 0 && i.pointer_bytes > 0 && i.sample_bytes > 0, "ordinary scene must consume road counts, pointers and samples");
+        eprintln!("ROM_DATA_WORLD_ROADS_SCENE frames={frames} bus_reads={} source_bytes={} count_bytes={} pointer_bytes={} sample_bytes={} opaque_bytes={} paths_used={}",i.bus_reads,i.source_bytes,i.count_bytes,i.pointer_bytes,i.sample_bytes,i.opaque_bytes,i.paths_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_WORLD_NODES").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().world_nodes_stats().expect("decoded EUR world nodes");
+        assert!(i.coordinate_bytes > 0 && i.path_id_bytes > 0 && i.neighbor_bytes > 0, "ordinary scene must consume world-node coordinates, paths and neighbors");
+        eprintln!("ROM_DATA_WORLD_NODES_SCENE frames={frames} bus_reads={} source_bytes={} coordinate_bytes={} path_id_bytes={} neighbor_bytes={} opaque_bytes={} nodes_used={}",i.bus_reads,i.source_bytes,i.coordinate_bytes,i.path_id_bytes,i.neighbor_bytes,i.opaque_bytes,i.nodes_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_WORD_TASK_OBJ").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().word_task_obj_stats().expect("decoded u16-task OBJ banks");
+        assert!(i.index_bytes > 0 && i.count_bytes > 0 && i.attribute_bytes > 0 && i.sequence_header_bytes > 0 && i.frame_list_bytes > 0 && i.duration_bytes > 0 && i.host_reads > 0, "ordinary scene must consume new u16-task OBJ fields and host lists");
+        eprintln!("ROM_DATA_WORD_TASK_OBJ_SCENE frames={frames} bus_reads={} source_bytes={} index_bytes={} count_bytes={} attribute_bytes={} sequence_header_bytes={} frame_list_bytes={} duration_bytes={} host_reads={}",i.bus_reads,i.source_bytes,i.index_bytes,i.count_bytes,i.attribute_bytes,i.sequence_header_bytes,i.frame_list_bytes,i.duration_bytes,i.host_reads);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_TASK_CYCLE_DELTAS").is_some() {
         let i = decoded.bus.rom_resources().unwrap().task_cycle_deltas_stats().expect("decoded signed task-cycle deltas");
         assert!(i.source_bytes > 0 && i.phases_used == 48, "ordinary scene must consume all48 signed cycle rows");

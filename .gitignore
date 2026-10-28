@@ -31,3 +31,7 @@ ffta-input-diagnostic*.txt
 /saves.zip
 /saves/
 /debug_saves/
+
+# Private third-party cheat compilations and local derived catalogs.
+# Sources include explicit copyright notices; redistribution rights are unverified.
+/cheats/

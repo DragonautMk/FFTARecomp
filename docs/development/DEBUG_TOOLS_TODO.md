@@ -84,22 +84,36 @@ non significano che siano già raccolte in un unico debugger.
   e Linux restano da verificare. Native prima dell'avvio è una richiesta esplicita,
   non una compilazione già eseguita. [Record](../changes/2026-10-27-add-shared-session-diagnosis.json).
 
-- [ ] **DBG-02 — Sessione di debug isolata.**
+- [x] **DBG-02 — Sessione di debug isolata.**
   Avviare una copia di lavoro del caso scelto, indicando chiaramente la partita
   attiva. Snapshot load, Undo, autosave, backup e uscita devono restare nella
   sessione; tornare alla partita normale deve essere esplicito.
   **Chiusura:** hash degli originali invariati dopo Load/Undo/riavvio/errore e
   percorso portable trasferibile. **Dipende da:** DBG-01; riusa gli slot esistenti.
+  **Completato:** [sessioni isolate](../debug_sessions.md), menu Start/Close
+  debug session e CLI `debug-session create/open/inspect`. Copie portable con
+  input autenticati, scritture locali e override esterni esclusi. Verificati
+  64 test Wine, i 41 del menu finale, sette casi CLI e le prove GUI di operazioni,
+  spostamento e ritorno esplicito alla partita normale; 73 input protetti invariati.
+  Native Windows/Linux e gameplay native nella copia restano da verificare.
+  [Record](../changes/2026-10-27-add-isolated-debug-sessions.json).
 
-- [ ] **DBG-03 — Catalogo DS navigabile e interrogabile.**
+- [x] **DBG-03 — Catalogo DS navigabile e interrogabile.**
   Mostrare nome scena, regione, slot, variante, fonte, stato e prova disponibile;
   filtrare dal menu e ottenere gli stessi dati in JSON. Importare in uno slot
   libero con anteprima, senza confondere DS, IN, GEN e numeri delle varianti.
   **Chiusura:** selezionare DS-20 apre il punto previsto nella copia EUR;
   DS-03/DS-15 restano non coperti finché manca una nuova prova. Rilevare cataloghi
   con file mancanti o checksum diversi. **Dipende da:** DBG-01/02.
+  **Completato:** [catalogo condiviso](../debug_catalog.md), menu Debug catalog
+  e CLI `debug-catalog list/open/import`, filtri, provenienza, checksum e anteprime.
+  Verificati 61 test Wine, 15 casi CLI e apertura DS-20/importazione nello slot 2/
+  caricamento/ritorno in GUI Wine/Xvfb; 140 input protetti invariati. Le 92 voci
+  mantengono distinti DS, varianti e fonti; DS-03/15 restano non coperti.
+  Windows nativo, Linux e controller fisici restano da verificare.
+  [Record](../changes/2026-10-28-add-shared-debug-save-catalog.json).
 
-- [ ] **DBG-04 — Registrazione semplice a partire da uno snapshot.**
+- [x] **DBG-04 — Registrazione semplice a partire da uno snapshot.**
   Comandi «Registra/Termina» e corrispondente avvio CLI: associare snapshot
   iniziale, origine dei frame, tasti già premuti e sequenza ordinata degli input.
   In caso di Load/Undo durante la registrazione, arrestare con un messaggio o
@@ -107,16 +121,34 @@ non significano che siano già raccolte in un unico debugger.
   una registrazione apparentemente valida.
   **Chiusura:** il replay raggiunge l'endpoint atteso con stato/clock coerenti,
   anche iniziando con un tasto tenuto premuto. **Dipende da:** DBG-02/03.
+  **Completato:** [registrazione da snapshot](../debug_recordings.md), menu
+  Start/Stop input recording e CLI `debug-record start/verify`. Snapshot iniziale,
+  frame relativi, tasti iniziali espliciti, eventi ordinati ed endpoint autenticato;
+  limiti senza eliminazione automatica. Load/Undo load salvano la cattura e
+  rifiutano il primo rewind. Verificati 57 test Wine e cinque catture reali DS-20
+  con replay identico per stato completo/clock, più spostamento, file alterati,
+  sessione attiva, chiusura e fallimento di scrittura. 140 input originali invariati.
+  Verifica native, Windows nativo e controller fisici restano aperti.
+  [Record](../changes/2026-10-28-add-snapshot-input-recording.json).
 
-- [ ] **DBG-05 — Riproduzione con un comando o un pulsante.**
+- [x] **DBG-05 — Riproduzione con un comando o un pulsante.**
   Un profilo locale contiene caso, binario e dataset selezionati, input, numero
   di frame, condizione d'arresto e timeout. L'utente sceglie «Riproduci caso»;
   l'assistente esegue lo stesso profilo e riceve progressione ed esito JSON.
   Non attivare misure di performance per un controllo funzionale.
   **Chiusura:** ripetibilità dell'endpoint; errore chiaro su input incompatibile,
   timeout e interruzione, senza scritture personali. **Dipende da:** DBG-01…04.
+  **Completato:** [profili di replay](../debug_replays.md), menu Replay case/
+  Choose replay profile/Cancel replay e CLI `debug-replay create/run/cancel`.
+  Worker isolato senza writer di gioco, endpoint esatto, JSON di avanzamento/
+  risultato e codici distinti. Verificati 60 test Wine, ripetibilità/spostamento,
+  errori/timeout/annullamento/doppio avvio e menu con genitore invariato;
+  171 input selezionati invariati. La vecchia libreria native locale completa
+  il caso con clock identico e stato diverso: divergenza segnalata, parità
+  non accettata. Windows nativo/Linux/controller restano da verificare.
+  [Record](../changes/2026-10-28-add-supervised-debug-replay-profiles.json).
 
-- [ ] **DBG-06 — Audit delle letture ROM utilizzabile senza test ad hoc.**
+- [x] **DBG-06 — Audit delle letture ROM utilizzabile senza test ad hoc.**
   Esporre i collector esistenti con preset, intervallo di frame, filtro indirizzi
   e limite di eventi. Distinguere bus/host, letture typed/raw, fetch esclusi e
   accessi non osservati. Quando disponibile riportare PC/modalità, mantenendo
@@ -125,6 +157,15 @@ non significano che siano già raccolte in un unico debugger.
   noti e scarto dei mirror duplicati; controllo di stato/clock con audit spento
   e acceso. Una lettura fuori owner è una pista, non una nuova famiglia provata.
   **Dipende da:** DBG-01/05 e chiusura delle estensioni audit già in lavorazione.
+  **Completato:** [audit ROM](../debug_rom_audit.md), CLI
+  `debug-rom-audit create/run/cancel` e menu Audit replay su profili isolati.
+  Filtri, finestra, eventi limitati, servizio typed/raw effettivo, scope PC/modo,
+  unioni fisiche e confronto con un piano identificato. Troncatura e finestre
+  parziali esplicite; feature assente rifiutata. Verificati 61 test Wine, casi CLI
+  raw/typed con stato/clock identici, conti indipendenti, menu/cancel e genitore
+  invariato; 238 input protetti invariati. Due frame DS20: 12.416 B distinti,
+  11.495 B serviti typed con il dataset e76. Nessuna nuova accettazione ROM/DS.
+  [Record](../changes/2026-10-28-add-bounded-rom-read-audit-tools.json).
 
 - [ ] **DBG-07 — Collegare scene, letture e ROM coverage.**
   Importare gli audit per caso DS ed esporre i livelli «identificato», «servito

@@ -170,6 +170,18 @@ impl Slots {
         Ok(())
     }
 
+    /// Exact checkpoint import with transactional validation and one-step file undo.
+    pub fn import(&mut self, machine: &Machine, slot: u8, bytes: &[u8]) -> Result<(), String> {
+        let mut scratch = crate::make_machine(machine.bus.rom.clone(), machine.bus.real_bios.then_some(machine.bus.bios.as_slice()));
+        load_bytes(&mut scratch, bytes)?;
+        let path = self.path(slot)?;
+        if path.exists() { return Err("Import requires an empty snapshot slot".into()); }
+        std::fs::create_dir_all(&self.directory).map_err(|e| e.to_string())?;
+        atomic_write(&path, bytes, false)?;
+        self.undo = Some(Undo::Save { slot, previous: None, written: Sha256::digest(bytes).into() });
+        Ok(())
+    }
+
     pub fn load(&mut self, machine: &mut Machine, slot: u8) -> Result<(), String> {
         let path = self.path(slot)?;
         let previous = machine.save_state()?;
@@ -266,9 +278,29 @@ fn validate_prefix(data: &[u8]) -> Result<usize, String> {
     Ok(len as usize)
 }
 
+/// Check envelope integrity without loading a machine or reading guest I/O.
+pub(crate) fn preview(bytes: &[u8]) -> Result<Vec<[u8;4]>, String> {
+    let (core, preview) = if bytes.starts_with(SLOT_MAGIC) {
+        let length = validate_prefix(bytes)?;
+        if bytes.len() != PREFIX + length { return Err("Incomplete state file".into()); }
+        (&bytes[PREFIX..], bytes[HEADER..PREFIX].chunks_exact(4).map(|p|p.try_into().unwrap()).collect())
+    } else { (bytes, Vec::new()) };
+    if core.len() < 108 || core.len() > MAX_STATE_BYTES || &core[..8] != b"FFTA-ST\0"
+        || u32::from_le_bytes(core[8..12].try_into().unwrap()) != 1 {
+        return Err("Invalid or incompatible snapshot header".into());
+    }
+    if core[76..108] != Sha256::digest(&core[108..])[..] { return Err("Snapshot checksum mismatch".into()); }
+    Ok(preview)
+}
+
 /// Read a desktop slot or legacy raw snapshot through the same transactional validator.
 pub(crate) fn load(machine: &mut Machine, path: &Path) -> Result<(), String> {
     let bytes = read_file(path).map_err(|e| e.to_string())?;
+    load_bytes(machine, &bytes)
+}
+
+pub(crate) fn load_bytes(machine: &mut Machine, bytes: &[u8]) -> Result<(), String> {
+    if bytes.len() > MAX_FILE_BYTES { return Err("State exceeds the size limit".into()); }
     if bytes.starts_with(SLOT_MAGIC) {
         let len = validate_prefix(&bytes)?;
         if bytes.len() != PREFIX + len {

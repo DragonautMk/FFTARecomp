@@ -5,10 +5,12 @@ repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 rom_path='rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba'
 dataset_dir=''
 translation_path=''
+audit_paths=()
+comparison_path=''
 output_dir='docs/development/rom-coverage'
 evidence_path='docs/development/rom-coverage/evidence.json'
 usage() {
-    printf 'Usage: %s [--rom FILE] [--dataset DIR] [--translation FILE] [--output DIR] [--evidence FILE]\n' "$0"
+    printf 'Usage: %s [--rom FILE] [--dataset DIR] [--translation FILE] [--output DIR] [--evidence FILE] [--audit REPORT ...] [--compare COVERAGE_JSON]\n' "$0"
     printf 'Default: prepare the latest committed extractor dataset and use versioned code-entry metadata.\n'
     printf 'All relative paths start at the project root. Logs: target/build-logs/rom-coverage-*.log\n'
 }
@@ -16,7 +18,7 @@ main() {
 while (( $# )); do
     case "$1" in
         --help|-h) usage; exit 0 ;;
-        --rom|--dataset|--translation|--output|--evidence)
+        --rom|--dataset|--translation|--output|--evidence|--audit|--compare)
             if (( $# < 2 )) || [[ -z "$2" ]]; then
                 printf 'Missing value for %s\n' "$1" >&2; exit 2
             fi
@@ -26,6 +28,8 @@ while (( $# )); do
                 --translation) translation_path=$2 ;;
                 --output) output_dir=$2 ;;
                 --evidence) evidence_path=$2 ;;
+                --audit) audit_paths+=("$2") ;;
+                --compare) comparison_path=$2 ;;
             esac
             shift 2 ;;
         *) printf 'Unknown argument: %s\n' "$1" >&2; usage >&2; exit 2 ;;
@@ -51,6 +55,14 @@ fi
 if [[ -n "$translation_path" ]]; then
     translation_path=$(resolve_path "$translation_path")
     inputs+=("$translation_path")
+fi
+for i in "${!audit_paths[@]}"; do
+    audit_paths[$i]=$(resolve_path "${audit_paths[$i]}")
+    inputs+=("${audit_paths[$i]}")
+done
+if [[ -n "$comparison_path" ]]; then
+    comparison_path=$(resolve_path "$comparison_path")
+    inputs+=("$comparison_path")
 fi
 for path in "${inputs[@]}"; do
     if [[ ! -f "$path" ]]; then printf 'Required input file does not exist: %s\n' "$path" >&2; exit 2; fi
@@ -82,6 +94,17 @@ if [[ -n "$translation_path" ]]; then
     mounts+=(--mount "type=bind,source=$translation_path,target=/input/translation.dll,readonly")
     args+=(--translation /input/translation.dll)
 fi
+for i in "${!audit_paths[@]}"; do
+    path=${audit_paths[$i]}
+    path=$(resolve_path "$(cd -- "$(dirname -- "$path")" && pwd -P)/$(basename -- "$path")")
+    mounts+=(--mount "type=bind,source=$path,target=/input/audit-$i.json,readonly")
+    args+=(--audit "/input/audit-$i.json")
+done
+if [[ -n "$comparison_path" ]]; then
+    comparison_path=$(resolve_path "$(cd -- "$(dirname -- "$comparison_path")" && pwd -P)/$(basename -- "$comparison_path")")
+    mounts+=(--mount "type=bind,source=$comparison_path,target=/input/previous.json,readonly")
+    args+=(--compare /input/previous.json)
+fi
 image=ffta-rom-coverage:local
 source_revision=$(git -C "$repo_dir" rev-parse --verify HEAD)
 context_dir=$(mktemp -d -- "$repo_dir/target/rom-coverage-context-XXXXXX")
@@ -91,7 +114,8 @@ git -C "$repo_dir" archive --format=tar --output "$context_dir/runtime.tar" "$so
     Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
 mkdir -p -- "$context_dir/scripts" "$context_dir/docs/changes" "$context_dir/docs/development/rom-coverage"
 cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" \
-    "$repo_dir/scripts/local_artifacts.py" "$context_dir/scripts/"
+    "$repo_dir/scripts/local_artifacts.py" "$repo_dir/scripts/rom_coverage_audit.py" \
+    "$repo_dir/scripts/rom_coverage_ranges.py" "$context_dir/scripts/"
 cp -- "$repo_dir/docs/changes/"*.json "$context_dir/docs/changes/"
 cp -- "$repo_dir/docs/development/rom-coverage/evidence.json" \
     "$repo_dir/docs/development/rom-coverage/code-seeds.json" "$context_dir/docs/development/rom-coverage/"

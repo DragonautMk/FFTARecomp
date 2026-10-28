@@ -4,6 +4,8 @@ param(
     [string]$RomPath = 'rom/1194 - Final Fantasy Tactics Advance (E)(Surplus).gba',
     [string]$DatasetDir,
     [string]$TranslationPath,
+    [string[]]$AuditPath = @(),
+    [string]$ComparePath,
     [string]$OutputDir = 'docs/development/rom-coverage',
     [string]$EvidencePath = 'docs/development/rom-coverage/evidence.json',
     [switch]$OpenReport
@@ -31,7 +33,10 @@ $dataset = if ($DatasetDir) { Get-ProjectPath $DatasetDir } else { $null }
 $translation = if ($TranslationPath) { Get-ProjectPath $TranslationPath } else { $null }
 $evidence = Get-ProjectPath $EvidencePath
 $output = Get-ProjectPath $OutputDir
-$inputs = @($romFile, $evidence)
+$audits = @($AuditPath | ForEach-Object { Get-ProjectPath $_ })
+$comparison = if ($ComparePath) { Get-ProjectPath $ComparePath } else { $null }
+$inputs = @($romFile, $evidence) + $audits
+if ($comparison) { $inputs += $comparison }
 if ($dataset) { $inputs += Join-Path $dataset 'manifest.toml' }
 if ($translation) { $inputs += $translation }
 foreach ($file in $inputs) {
@@ -55,7 +60,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Cannot archive the committed extraction source
 foreach ($directory in @('scripts', 'docs/changes', 'docs/development/rom-coverage')) {
     [IO.Directory]::CreateDirectory((Join-Path $contextDir $directory)) | Out-Null
 }
-foreach ($name in @('rom_coverage.py', 'rom_coverage.html', 'local_artifacts.py')) {
+foreach ($name in @('rom_coverage.py', 'rom_coverage.html', 'local_artifacts.py', 'rom_coverage_audit.py', 'rom_coverage_ranges.py')) {
     Copy-Item -LiteralPath (Join-Path $repoDir "scripts/$name") -Destination (Join-Path $contextDir 'scripts')
 }
 Get-ChildItem -LiteralPath (Join-Path $repoDir 'docs/changes') -Filter '*.json' -File |
@@ -90,6 +95,14 @@ if ($dataset) {
 if ($translation) {
     $runArgs += @('--mount', "type=bind,source=$translation,target=/input/translation.dll,readonly")
     $generatorArgs += @('--translation', '/input/translation.dll')
+}
+for ($i = 0; $i -lt $audits.Count; $i++) {
+    $runArgs += @('--mount', "type=bind,source=$($audits[$i]),target=/input/audit-$i.json,readonly")
+    $generatorArgs += @('--audit', "/input/audit-$i.json")
+}
+if ($comparison) {
+    $runArgs += @('--mount', "type=bind,source=$comparison,target=/input/previous.json,readonly")
+    $generatorArgs += @('--compare', '/input/previous.json')
 }
 $runArgs += @($image) + $generatorArgs
 & docker @runArgs

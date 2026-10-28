@@ -158,6 +158,15 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod world_roads;
+use world_roads::WorldRoadsResources;
+pub use world_roads::WorldRoadsStats;
+mod world_nodes;
+use world_nodes::WorldNodesResources;
+pub use world_nodes::WorldNodesStats;
+mod word_task_obj_animations;
+use word_task_obj_animations::WordTaskObjResources;
+pub type WordTaskObjStats = ObjAnimationStats;
 mod map_raster_palettes;
 use map_raster_palettes::MapRasterPaletteResources;
 pub use map_raster_palettes::MapRasterPaletteStats;
@@ -288,6 +297,9 @@ pub struct RuntimeResources {
     observed_task_parameters: Option<Box<ObservedTaskParametersResources>>,
     constructor_obj_animation: Option<Box<ConstructorObjAnimationResources>>,
     task_cycle_deltas: Option<Box<TaskCycleDeltasResources>>,
+    word_task_obj_animations: Option<Box<WordTaskObjResources>>,
+    world_nodes: Option<Box<WorldNodesResources>>,
+    world_roads: Option<Box<WorldRoadsResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -551,6 +563,15 @@ impl RuntimeResources {
         if let Some((data,_))= files.task_cycle_deltas {
             resources.task_cycle_deltas = Some(Box::new(TaskCycleDeltasResources::new(data.clone(), &source.task_cycle_deltas.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.word_task_obj_animations {
+            resources.word_task_obj_animations = Some(Box::new(WordTaskObjResources::new(data.clone(), &source.word_task_obj_animations.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.world_nodes {
+            resources.world_nodes = Some(Box::new(WorldNodesResources::new(data.clone(), &source.world_nodes.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))= files.world_roads {
+            resources.world_roads = Some(Box::new(WorldRoadsResources::new(data.clone(), &source.world_roads.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -644,6 +665,9 @@ impl RuntimeResources {
             observed_task_parameters: None,
             constructor_obj_animation: None,
             task_cycle_deltas: None,
+            word_task_obj_animations: None,
+            world_nodes: None,
+            world_roads: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -738,6 +762,9 @@ impl RuntimeResources {
             + self.observed_task_parameters.as_ref().map_or(0, |i| i.resident_bytes())
             + self.constructor_obj_animation.as_ref().map_or(0, |i| i.resident_bytes())
             + self.task_cycle_deltas.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.word_task_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.world_nodes.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.world_roads.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -857,6 +884,9 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn world_roads_stats(&self) -> Option<WorldRoadsStats> {self.world_roads.as_ref().map(|m|m.stats())}
+    pub fn world_nodes_stats(&self) -> Option<WorldNodesStats> {self.world_nodes.as_ref().map(|m|m.stats())}
+    pub fn word_task_obj_stats(&self) -> Option<WordTaskObjStats> {self.word_task_obj_animations.as_ref().map(|m|m.stats())}
     pub fn map_raster_palettes_stats(&self) -> Option<MapRasterPaletteStats> {self.map_raster_palettes.as_ref().map(|m|m.stats())}
     pub fn auxiliary_commands_stats(&self) -> Option<AuxiliaryCommandStats> {self.auxiliary_scripts.as_ref().map(|m|m.command_stats())}
     pub fn auxiliary_archive_stats(&self) -> Option<AuxiliaryArchiveStats> {self.auxiliary_scripts.as_ref().map(|m|m.archive_stats())}
@@ -893,6 +923,7 @@ impl RuntimeResources {
         if !matches!(address >> 24, 8 | 9) { return None; }
         self.obj_lists.as_ref().and_then(|l| l.host_list(address & 0x1ffffff))
             .or_else(|| self.obj_animations.as_ref()?.host_list(address & 0x1ffffff))
+            .or_else(|| self.word_task_obj_animations.as_ref()?.host_list(address & 0x1ffffff))
     }
 
     pub fn font_keyboard_stats(&self) -> Option<FontKeyboardStats> { self.font_keyboard.as_ref().map(|f| f.stats()) }
@@ -1182,7 +1213,19 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.task_cycle_deltas {
+            let prior = match &self.task_cycle_deltas {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.word_task_obj_animations {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            let prior = match &self.world_nodes {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.world_roads {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1269,13 +1312,13 @@ impl crate::MemMap {
         if let Some(rows) = self.rom_resources.as_ref()
             .and_then(|resources| resources.name_keyboard_row_widths(root, page)) {
             #[cfg(feature = "rom-data-read-audit")]
-            super::read_audit::record(super::read_audit::Reader::KeyboardWidths, 0x08000000 + (root + page * 6) as u32, 6);
+            super::read_audit::record_served(super::read_audit::Reader::KeyboardWidths, 0x08000000 + (root + page * 6) as u32, 6, true);
             return Some(rows);
         }
         let start = root.checked_add(page.checked_mul(6)?)?;
         let rows = self.rom.get(start..start.checked_add(6)?)?;
         #[cfg(feature = "rom-data-read-audit")]
-        super::read_audit::record(super::read_audit::Reader::KeyboardWidths, 0x08000000 + start as u32, 6);
+        super::read_audit::record_served(super::read_audit::Reader::KeyboardWidths, 0x08000000 + start as u32, 6, false);
         Some(rows)
     }
     /// Transactional source binding. Base resources preserve the original image
@@ -1313,13 +1356,13 @@ impl crate::MemMap {
         if let Some(resources) = &self.rom_resources {
             if let Some(bytes) = resources.source_table(offset) {
                 #[cfg(feature = "rom-data-read-audit")]
-                super::read_audit::record(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48);
+                super::read_audit::record_served(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48, true);
                 return Some(bytes);
             }
         }
         let bytes = self.rom.get(offset..offset.checked_add(48)?)?;
         #[cfg(feature = "rom-data-read-audit")]
-        super::read_audit::record(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48);
+        super::read_audit::record_served(super::read_audit::Reader::ObjSourceTable, 0x08000000 + offset as u32, 48, false);
         Some(bytes)
     }
 
@@ -1337,6 +1380,8 @@ impl crate::MemMap {
             || FontKeyboardResources::source_page(index)
             || ObjListResources::source_page(index)
             || ObjAnimationResources::source_page(index)
+            || WordTaskObjResources::source_page(index)
+            || WorldRoadsResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

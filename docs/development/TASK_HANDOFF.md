@@ -6,18 +6,47 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
-- **DBG-07 — selected (2026-10-28).** Latest user: “prosegui” with the
-  shared debug checklist. DBG01-06 and prior ROM-COVERAGE-LIVE-GENERATION are
-  complete; their evidence is reused, not reopened. Existing generator separates
-  static code, authenticated data/runtime extents, positive-family extents,
-  sharing and unknown bytes but has no scene-audit import. Missing deliverable:
-  validated same-ROM DBG06 audit unions, case/resource/evidence drilldown,
-  explicit collector/truncation limits and dated generation comparison in the
-  existing HTML/JSON and Docker launchers. Next: add bounded metadata import
-  and focused synthetic/retained-report checks, then browser/Docker validation.
-  Use retained raw-short/typed/full-cap reports and explicit e76 dataset; no
-  gameplay replay, extraction acceptance, normal runtime replacement or Godot.
-  Concurrent extraction/cheat/debug changes remain user-owned and preserved.
+- **DBG-07 — complete (2026-10-28).** Latest user: “prosegui” with the
+  shared debug checklist. Reused closed DBG06 reports and the existing e76
+  authenticated atlas; no replay, extraction acceptance or old native parity
+  rerun. Schema3 imports bounded same-ROM audit metadata and validates event
+  unions, widths/mirrors/filter/window/service/drop arithmetic. Correlation uses
+  the selected authenticated manifest; foreign known plans are provenance only.
+  Runtime availability/positive-family extents/static sharing/code/unknown stay
+  separate from actual observed/Typed/Raw/cross-case unions. No DS promotion.
+  Existing HTML adds audit selection, resource/case/evidence links, collector
+  gaps, explicit TRUNCATED/PARTIAL and dated same-ROM comparison including
+  added/removed ranges and changed audit selection. Docker Bash/PowerShell use
+  explicit readonly mounts; host Python remains unnecessary. Missing audit args
+  produce an explicit unavailable inventory, not stale imported evidence.
+  26 generator/import and8 Bash tests plus12 PowerShell7.4 mocked checks pass.
+  Real Docker launcher publishes docs/development/rom-coverage/index.html and
+  coverage.json, generated2026-10-28T10:33:24.343936+00:00. During work, a
+  concurrent actor committed7691a93 (including partial tool files); no commit
+  was issued by this unit. Image freezes that commit/e79 while the explicit
+  e76-d75 dataset stays historical and labeled; no new extraction is selected.
+  Three DS20 reports:31061B union with full report TRUNCATED; two-frame raw/typed
+  each12416B, typed11495/raw997 overlap76. One case means0cross-case shared B.
+  Independent event sets and all68resource intersections pass; old static/
+  historical layers unchanged. All75 selected input hash-mtimes, including both
+  normal runtimes, stay unchanged. Real-container missing-audit/reuse/new-date/
+  wrong-ROM audit+comparison rejection/output-hash-mtime preservation and image
+  privacy/current-tool identity pass. Final Chrome1400/620 interaction/visual
+  checks plus no-audit UI pass. Retained blank post-scroll screenshot attempts
+  are a harness limitation; tall first-viewport capture succeeds without a
+  product rendering change. Valid navigation clears stale offset feedback.
+  Evidence: target/debug-tools-coverage/{selection,protected-before,
+  report-verification,container-results,browser-results,powershell-results}.json,
+  final-publication.log and final screenshots. No managed/native disposable
+  fixture trees: ROM-only completion cleanup does not apply. Retired seven exited
+  temporary Chrome profiles with browser-cleanup.json; reports/logs/screens kept.
+  No missing DBG07 acceptance; DBG08 capture triggers remain unstarted. No normal
+  runtime replacement, gameplay/DS acceptance, Android or Godot development.
+  Native Windows/PowerShell5.1/Docker Desktop remain unverified. Workspace/base
+  memory and whitespace checks pass after the concurrent extraction unit supplied
+  its own record; its code/outcome are not attributed to DBG07.
+  [Usage](ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07),
+  [record](../changes/2026-10-28-link-rom-coverage-to-scene-audits.json).
 
 - **DBG-06 — complete (2026-10-28).** Latest user asked to continue the
   shared debug checklist. Bus/host/Bank collector extensions were already closed;
@@ -12609,3 +12638,59 @@ preservation guards remainexact. EarlierallPASS timestamp is validhistorically,
 not currentglobalcoverage. Preserve/waitforaccurateexternalrecord, don'tcoverit
 with ROM source record or claim its checks. This is not a blocker to newmodel
 work and does not reopen anyclosedacceptance. No livejobs owned bythisunit.
+
+**Selection checkpoint — ROMDATA-02-ENCOUNTER-HEADERS-MODEL (2026-10-28).** Latest
+wholeROM/EUR/Wine-only/no metrics unchanged. Previousgoalturn PROGRESS: declared
+442header physicalsource/twofragments/sharedconstructorpointer/33semantic7opaque
+contract CLOSED40windows54pins68guards. Cheap terminal/status/STATE reads confirm
+no livejobs. Missingstrictlossless typed442headers/dependencycoherence/shared
+2spanplan andonefocusedWineoriginal-reader proof. NEXT modelnewleaf/moduleonly;
+sourceauth full17680B but ownership17676B excludesold70CD58len4. Preserveu16alias/
+Noneoutside1..442/opaque7/fullu8-u16-u32 values. One core-onlyWindowsbuild/Wine
+filter: reconstructallbytes/strictJSON/dependency guards, originalC0034 returns
+andactualoriginalload-site prefixes for17fields; distinguishprefix fromfullABI.
+No oldsource/road/node/constructor/game/fixture/native-runtime acceptance replay.
+Private target/rom-data-encounter-headers-model/. Parallelcoverage/DBGaudit WIP
+preserved/excludedfrombuild; latestmemorygap includescoverage.py/audit.py/ranges.py,
+notblocker. Linux-USA-nativeWindows-new32:9/fullTODO/nestedpayloadspending.
+
+
+**ROMDATA-02-ENCOUNTER-HEADERS-MODEL closed/PASS (2026-10-28).** Newcoreleaf
+encounter_headers.rs/tests +onehubmodule only; exactEUR/6windows/full17680Bsha
+sourceauth, strictlossless442headers1..442 with17typedfields+opaque7. Sharedplan
+2spans17676B skipsconstructor_alternates::POINTER_OFFSET70CD58len4; header29ptr
+coherence viaoldowner.source_offset. Testededitedsharedptr leavesnewspanssame,
+butdependency/fullmodelsourceauth rejects. No count/pointer/enum/opaque policies;
+u16aliases/Noneoutside0/443..65535/priorraw preserved, nonzero field33fullu8.
+One warningfree core-onlyWindowsbuild exec35544 freshfalse frozen
+ 5855af92d760c9a58818e2adadebefc1380bba312ccc7120e8070f5a34c4a3b4;
+exact300bcoretestfingerprint isolated/no failedbuild/globalclean/oldsource edits.
+Stable508buildfiles221coreinputs excludeparallelcoverage/DBGaudit/frontend.
+OneWinefilter terminalPASS execfe7fd6:29guards/7523originalprobes=7072one-load
+prefixes16fields +451completeC0034(442declared+6low16aliases+3outside). Exact
+actualeffectiveaddresses/widths/loadedvalues/gatereturns;14586semanticB incl4old
+shared/14582newobserved,3094opaque preserved-unread. Prefixregs/flags/PC and
+fullgatecallee/SP/LR plusRAMoutside4Bstack/VRAM/OAM/palette checked. NotfullABI/
+importer/native-state-clock/payload/ordinary/runtime acceptance.33actualguards/
+508frozenhashes exact/helper0. Schema1/e79-d78 unchanged, no newgame/fixture/
+checkpoint/sourcecatalog/road-node-constructor priororacle replay ormetrics.
+Evidence target/rom-data-encounter-headers-model/{windows-core-build,windows-
+model-result,final-summary,preservation-result,artifact-cleanup}.json, independent
+inputs/windows-model-europe/source-snapshot. Record docs/changes/2026-10-28-model-european-encounter-headers.json;
+feature maps#typed-encounter-headers-and-original-reader-proof. NEXT managed
+publication/typedguestbus e80-d79/newindex71/encounter-headers.json, mandatory
+constructor-alternatesdependency/coherence, skipshared4B, globalresource_page
+70C..710 (don'trepeatroad396omission), all17676newtypedB andprior4Bcomposition/
+nativefullstate-clock/lifecycle/DMA; actualCLI/ordinary later. No repeat7523
+model/sourcewindows/road-node-constructor proofs. Nextintegration NOTselected.
+FullgoalACTIVE/PROGRESS, Linux-USA-nativeWindows-new32:9/nestedtemplate-coordinate
+payloads/global/allcaller/fullABI pending, no livejobs/metrics/Android/package/
+assistantcommit/push; preserveparallelcoverage/DBG/u16. Memorychecks next.
+ENCOUNTER-HEADERS-MODEL final memoryrender/default/base2fbf9f7/metadata-only/
+CRLFdiff PASS; 33actualguards508buildhashes +current3implementationhashes exact.
+Parallelcoverageowner published its record, resolving earlierglobal memorygap.
+SharedHEAD advanced externally to7691a936a3ecf5d117a45d7bc4c38d02b367a53f during
+work (ROMagentissuedno gitcommit); preservethiscommit andnewparallelcoverage
+edits. Newmodel/source proofinputs unchanged; ownpendingmodule+leaf/test/record
+remainuncommitted. No reason to reopenoldsource/runtime/ordinary becauseHEADmoved.
+Modelselection CLOSED, no livejobs. Nextintegration NOTselected; fullgoalactive.

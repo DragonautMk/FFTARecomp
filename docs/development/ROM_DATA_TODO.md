@@ -4395,3 +4395,20 @@ Prossimo modello lossless442header/sharedpointer+unoracoloWine; estrazione/runti
 CLI/ordinary, allindirect/globalextent/Linux/USA/Windows nativo/nuovo32:9/fullTODO
 pendenti, nessuna misura.
 [Header e ownership](../rom_data_maps.md#european-encounter-headers-and-shared-ownership).
+
+
+**ROMDATA-02-ENCOUNTER-HEADERS-MODEL completato EUR/Wine (2026-10-28).**
+Modelloencounter_headers lossless442header1..442:17campi/opaque7,17680Bfull;
+2span17676B escludono70CD58len4delownerconstructor-alternates. JSONstretto/shape
+separato daautenticità/coerenzadependency; sharedptrmodificato lascia span
+immutati maè rifiutato. lowu16alias/None0-443..65535/priorraw, nessun capcount/
+ptrnull/enum/opaquezero dedotto. Un buildWindows core-only senzaavvisi5855af92..
+e un filtroWine passano29guardie/7523probes:7072prefixsingolocaricamento e451
+C0034completi(442+6alias+3fuori), tutti14586semanticB incl4shared osservati,
+3094opaqueB ricostruiti/nonletti. Reg/flags/PCprefix, callee/SP/LRgate, RAM fuori
+stack4/VRAM/OAM/palette verificati; nonfullABI/importer/nativeclock/ordinary.
+33guardie508file(221core) esatti/helper0, e79-d78invariato, niente vecchioracoli/
+scena/fixture/misure. Prossimo managed/typedbus/sourcepage70C..710/dependency,
+poiCLI/ordinary; nestedpayload/allcaller/global/Linux/USA/Windows nativo/nuovo32:9/
+fullTODO ancora pendenti.
+[Modello e prova](../rom_data_maps.md#typed-encounter-headers-and-original-reader-proof).

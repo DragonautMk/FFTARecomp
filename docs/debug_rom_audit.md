@@ -160,3 +160,12 @@ Windows nativo, Linux/Wayland e controller fisici restano non verificati.
 Non sono stati riaperti confronti di parità native, campagne Bank/F09, estrazione,
 nuove prove DS, performance o Android/Godot. Il collegamento dei report alla ROM
 coverage resta il successivo DBG-07.
+
+## Collegamento alla mappa ROM
+
+La [ROM coverage](development/ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07)
+importa i report conservati con `--audit` / `-AuditPath`, senza un nuovo replay.
+Permette di selezionare le finestre, vedere byte distinti per risorsa/caso,
+risalire alle prove dalla mappa e confrontare due fotografie. Gli intervalli
+osservati restano distinti dalle famiglie positive; limiti, filtri, troncamento
+e manifest diversi restano visibili. I report devono appartenere alla stessa ROM.

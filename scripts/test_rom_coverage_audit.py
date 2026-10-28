@@ -170,8 +170,28 @@ class AuditImportTests(unittest.TestCase):
         self.assertEqual(r['layers']['scene_observed'],[])
         self.assertIsNone(r['totals']['ordinary_distinct_read_bytes'])
 
+    def test_no_entered_frames_is_partial_zero_inventory_not_complete_coverage(self):
+        d=fixture();d['events']=[];d['retained_events']=0;d['matched_requests']=0
+        d['physical_intervals']=[];d['observed_distinct_bytes']=0;d['bus_host_shared_distinct_bytes']=0
+        d['bus']=dict(physical_intervals=[],distinct_bytes=0);d['host']=copy.deepcopy(d['bus'])
+        d['serving']={s.lower():copy.deepcopy(d['bus']) for s in audit.SERVICES}
+        d['window'].update(frames_entered=0,replay_completed=0,complete=False,replay_outcome='invalid')
+        r=report();audit.attach_audits(r,[self.save(d)])
+        self.assertTrue(r['audits'][0]['partial'])
+        self.assertEqual(r['totals']['scene_observed'],0)
+        self.assertIsNone(r['totals']['ordinary_distinct_read_bytes'])
+
+    def test_unknown_payload_fields_cannot_enter_metadata_output(self):
+        d=fixture()
+        for section in ('window','filter','coverage'):
+            d[section]['unknown_payload']='DO_NOT_PUBLISH_PRIVATE_DATA'
+        d['unknown_payload']='DO_NOT_PUBLISH_PRIVATE_DATA'
+        r=report();audit.attach_audits(r,[self.save(d)])
+        self.assertNotIn('DO_NOT_PUBLISH_PRIVATE_DATA',json.dumps(r))
+        self.assertNotIn('unknown_payload',json.dumps(r))
+
     def test_comparison_shows_churn_even_when_total_is_equal(self):
-        old=report();new=report();new['layers']['identified_data']=[[10,26]]
+        old=report();old['generation']='e0-d0';new=report();new['layers']['identified_data']=[[10,26]]
         new['totals']['identified_data']=16
         c=audit.compare_reports(new,old,'e'*64)['layers']['identified_data']
         self.assertEqual((c['before'],c['after'],c['delta']),(16,16,0))

@@ -70,7 +70,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   existing 16 MiB project limit. Raw/typed DS20 replay preserves full state/clock;
   the two-frame inventory is12,416B with11,495B actually served typed using e76.
   Plan overlap and outside-plan reads do not establish new resources or DS
-  acceptance. Dataset comparison remains explicit; ROM coverage linkage is DBG-07.
+  acceptance. DBG-07 links those retained reports to the [ROM atlas](ROM_COVERAGE.md)
+  with explicit readonly Docker inputs, per-audit selection, physical unions,
+  resource/case/evidence drilldown and dated same-ROM generation comparisons.
+  Positive-family extents, actual observed/Typed bytes and collector gaps remain
+  distinct; imports never promote new DS acceptance.
   EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
@@ -850,8 +854,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   backlinks contiguous2850*48B6EA048..70B6A8; nestedpayload schema separate.
   Index0prefix ends in header442coordinatepayloads, notvalidheader/rawfallback.
   Header29pointer70CD58alreadyconstructor-alternates-owned:2newspans17676B,
-  dependency/sharedcoherence/skip4oldbytes required. Typedmodel/extraction/
-  runtime/CLI/ordinary remainopen; no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
+  dependency/sharedcoherence/skip4oldbytes required. Standaloneencounter_headers
+  model nowlossless442typedheaders/full17680B/shared2span17676B; strictJSON/shape
+  separate fromsourceauth/constructorpointercoherence, byte_at skipsold4B,
+  lowu16alias/Noneoutside retained. One core-onlyWindows build5855af92.. and
+  oneWinefilter pass29guards/7523originalprobes(7072one-loadprefixes/451fullgate),
+  all14586semanticB incl4shared/3094opaque preserved-unread, registers/RAM/VRAM/
+  OAM/palette checked.33guards508frozenbuildfiles221coreinputs/helper0 exact;
+  no game/frontendbuild. e79-d78 unchanged; extraction/runtime/CLI/ordinary
+  remainopen; no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global
   phase cap; runtimephase/correction coverage partitions3/4bits. One first
@@ -1121,7 +1132,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   PowerShell -OpenReport uses a versioned URL. Host requires Git/Docker and EUR ROM,
   no Python/Rust/old DLL. Runtime source counters do not establish distinct bytes
   read; speculative code/data conflicts remain explicit. Direct Python and the
-  old working-tree Docker target remain developer alternatives. Native Windows/
+  old working-tree Docker target remain developer alternatives. DBG07 imports
+  explicit bounded DBG06 metadata reports (--audit / -AuditPath) into schema3,
+  recomputing physical byte unions against the selected authenticated manifest.
+  Per-audit checkboxes, resource/scene/evidence drilldown, actual Typed/Raw read
+  layers and cross-case sharing stay separate from positive-family extents and
+  speculative code. Truncated/partial reports and collector gaps remain lower
+  bounds, never new DS acceptance. Same-ROM --compare / -ComparePath and default
+  prior output expose dates/identities plus added/removed intervals and changed
+  audit selection. Inputs are read-only Docker mounts outside the image/context.
+  Retained e76/DS20 audit validation needs no gameplay or extraction replay. Native Windows/
   PowerShell5.1/Docker Desktop are unverified.
   EUR `v1/e14-d13` adds [static OBJ lists](../rom_data_obj.md):107direct literal
   roots reference66lists/160objects. Source-authenticated JSON fields now feed

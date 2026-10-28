@@ -7,34 +7,35 @@ Aprire il file HTML in un browser; funziona offline, senza server o dipendenze.
 I [dati JSON](rom-coverage/coverage.json) contengono gli intervalli esatti,
 mentre il colore delle celle ne riassume la densità.
 
-La fotografia del **26 ottobre 2026 è aggiornata a EUR e65-d64**:
+La verifica **DBG-07 del 28 ottobre 2026** usa la fotografia EUR **e76-d75**
+già autenticata, senza nuova estrazione:
 SHA-256 ROM `8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632`,
-manifest `7ec5b72ccbd4abc40bb69ecb26a6a0eb7ee086194f43c56435e501253b8841c8`.
-La generazione segue automaticamente l’estrattore dell’ultimo commit; la revisione
-delle prove di uso ordinario resta distinta. La precedente e61-d60 rimaneva
-bloccata dalla versione del registro delle prove, anche dopo una rigenerazione.
+manifest `bd0881e0c16abbf9602a1faefd2243defbd64be3c884b37962b24081060ddf3b`.
+L'estrattore committato durante la verifica è e79-d78: la pagina segnala quindi
+esplicitamente il **dataset storico**. Il percorso predefinito continua a seguire
+l'ultimo commit; generazione del dataset e revisione delle prove restano distinte.
 
-- **Codice candidato:** 260.472 B, **1,55%**, stessi 28.455 ingressi ROM
-  conservati in `code-seeds.json`; 404 ingressi RAM esclusi all’origine.
-  Non è codice eseguito né una percentuale di decompilazione completata.
-- **Dati identificati e disponibili al runtime:** 10.224.490 B, **60,94%**,
-  in **60 famiglie**. Rispetto a e61: +17.142 B identificati e +23.578 B runtime.
-  La proiezione solo sorgente di 6.436 B è ora migrata: nessun doppio conteggio.
-  Ogni file decoded e intervallo ROM è verificato per hash; il runtime resta opt-in.
-- **Consumo ordinario positivo:** **52 delle 60 famiglie runtime**, ereditate
-  dalle prove revisionate e61 solo a parità di file decoded e mappa delle sorgenti.
-  Quattro famiglie già revisionate hanno solo prove mirate (testi brevi, tastiera
-  del nome, flag globali, pose alternative di battaglia). Quattro nuove famiglie
-  hanno prove da revisionare: script-special-normal, script-special-alternate,
-  script-override e script-registry-special. I byte distinti letti restano **N/D**.
+- **Codice candidato:** 260.472 B, **1,55%**, da 28.455 ingressi ROM conservati;
+  404 ingressi RAM esclusi. Non misura codice eseguito o decompilazione completata.
+- **Dati identificati e disponibili al runtime:** 10.325.073 B, **61,54%**,
+  in **68 famiglie**. Ogni file decoded e intervallo ROM è verificato per hash;
+  il runtime resta opt-in. Nessun residuo solo sorgente in questa fotografia.
+- **Consumo ordinario positivo:** **51 delle 68 famiglie**, ereditate dalle
+  prove e61 solo a parità di file decoded e sorgenti. Tredici famiglie hanno prove
+  da revisionare; una nuova mappa non promuove automaticamente i record storici.
+  Gli intervalli delle famiglie positive misurano 9.789.234 B, non byte letti.
+- **Audit importati:** tre report esistenti di **DS-20-EUR**, unione di
+  **31.061 B osservati**; l'audit lungo è **TRONCATO**. I due brevi completi
+  osservano entrambi **12.416 B**. Selezionando il solo breve typed: 11.495 B
+  Typed e 997 B Raw, con 76 B sovrapposti. Non sono nuove scene validate.
 - **Dati condivisi per riferimento:** almeno 1.359.934 B, **8,11%**, in
-  **294 intervalli**: riferimenti BG, alias manifest, song/header e tone/wave.
-  Copie uguali a indirizzi diversi restano distinte.
-- **Non classificato:** 6.353.546 B, **37,87%**, dopo dati, header e candidati
-  codice; 17.142 B in meno. Non significa spazio libero o inutilizzato.
+  **294 intervalli**. La lettura comune fra casi DS diversi è un altro livello;
+  tre report del solo DS-20 non dimostrano condivisione fra scene diverse.
+- **Non classificato:** 6.253.479 B, **37,27%**, dopo dati, header e candidati
+  codice. Non significa spazio libero o inutilizzato. Gli audit non lo riducono.
 
 Le categorie **non vanno sommate**. Restano 24.120 B con più famiglie proprietarie
-ed emergono **61.480 B di sovrapposizione codice/dati**, da esaminare come
+ed emergono **61.996 B di sovrapposizione codice/dati**, da esaminare come
 conflitti di classificazione. L'analizzatore può interpretare dati come
 istruzioni. Il database distribuito contiene zero funzioni per questa ROM;
 non si deducono estensioni dal simbolo successivo. I 188 B dell'header tecnico
@@ -67,6 +68,78 @@ consumer le leggano. Non sono ancora enumerati tutti i riferimenti testuali,
 dinamici e indiretti. Il nuovo censimento audio resta limitato ai collegamenti
 song/header e tone/wave: non esaurisce sequenze, banche o altri grafi. I blocchi copiati in RAM non vengono interamente
 colorati come codice ROM solo perché ne è noto il contenitore misto.
+
+## Scene, letture e confronto (DBG-07)
+
+I report `rom-audit.json` di [DBG-06](../debug_rom_audit.md) si importano
+esplicitamente; non viene scandita la raccolta privata e non serve rieseguire
+il gioco. I checkbox della pagina scelgono gli audit da visualizzare, anche
+singolarmente per distinguere raw/typed o una finestra troncata. Il clic sulla
+mappa e il salto per offset mostrano famiglie, intervalli nella cella, casi DS,
+prove storiche e collegamenti all'identità/limiti dell'audit. La colonna delle
+famiglie conta soltanto i byte osservati nella selezione corrente.
+
+I livelli restano separati:
+
+- `runtime_available`: intervalli autenticati delle risorse disponibili al runtime;
+- `ordinary_resource_extents`: intere famiglie con una prova storica positiva;
+- `scene_observed`: unione fisica delle letture conservate negli audit scelti;
+- `scene_typed`, `scene_raw`, `scene_unclassified`: servizio dichiarato dai collector;
+- `scene_shared`: byte osservati da almeno due **casi DS distinti**, non due run
+  dello stesso caso; `shared_references` continua a censire i riferimenti statici;
+- `scene_outside_identified`: letture esterne ai dati identificati, comprese
+  eventuali sovrapposizioni con candidati codice, senza inventare proprietari.
+
+Le unioni deduplicano riletture, larghezze e mirror. Bus/host, Typed/Raw,
+risorse e scene possono sovrapporsi: non sommare i loro contatori. Un filtro
+che interseca una lettura conserva la larghezza intera della lettura reale.
+`ordinary_distinct_read_bytes` resta N/D: gli audit selezionati non sostituiscono
+l'inventario mancante delle vecchie prove ordinarie.
+
+Il generatore ricalcola le unioni dagli eventi, verifica ROM, schema, intervalli,
+mirror, collector, filtri, frame e aritmetica richieste/scarti. Attribuisce le
+letture agli intervalli del **manifest della mappa**; un piano noto diverso resta
+solo provenienza. Se coincide, verifica anche le intersezioni dichiarate.
+L'hash del report identifica il contenuto importato; esito e run sono dichiarati
+dal collector, senza autenticare retroattivamente una nuova accettazione di scena.
+Non incorpora eventi, byte del gioco o percorsi host nel risultato.
+
+Limiti: massimo 32 report, 32 MiB per file e 128 MiB complessivi; schema audit 1,
+sei reader noti e massimo 50.000 eventi per audit. `TRONCATO` e `PARZIALE` restano
+visibili anche con replay riuscito. La finestra completa riguarda solo il thread,
+i collector e i filtri dichiarati: mancano altri accessi host/HLE, altri thread,
+costanti native, letture di autenticazione e altri percorsi elencati nel report.
+I fetch interprete sono esclusi; il contesto PC può essere ereditato da HLE/DMA.
+Assenze, scarti e hook mancanti non dimostrano byte mai letti.
+
+Ogni generazione confronta il precedente `coverage.json` presente nell'output.
+`--compare` / `-ComparePath` sceglie una fotografia diversa della stessa ROM.
+La pagina mostra date, generazioni, commit, manifest e hash del report precedente,
+più byte aggiunti/rimossi per livello, anche quando il totale non cambia.
+Una selezione di audit diversa è segnalata: un delta osservato non è
+avanzamento dell'estrazione. Un confronto esplicito incompatibile fallisce
+preservando l'output; un vecchio output non confrontabile viene segnalato e
+sostituito da una nuova fotografia valida. Il JSON passa a **schema 3**.
+
+Esempio (sostituire i percorsi con i propri report):
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1 `
+  -AuditPath 'target/caso-a/Data/config/replay/rom-audit.json','target/caso-b/Data/config/replay/rom-audit.json' `
+  -ComparePath 'target/fotografia-precedente/coverage.json' -OpenReport
+```
+
+```bash
+bash scripts/linux/rom_coverage_docker.sh \
+  --audit target/caso-a/Data/config/replay/rom-audit.json \
+  --audit target/caso-b/Data/config/replay/rom-audit.json \
+  --compare target/fotografia-precedente/coverage.json
+```
+
+Audit e confronto vengono montati in sola lettura a runtime e restano fuori dal
+contesto Docker. Python non serve sull'host. Senza questi argomenti si genera
+una mappa **senza audit**: non si riutilizza silenziosamente la vecchia selezione.
+Per ripetere la selezione passare nuovamente gli stessi report.
 
 ## Rigenerazione
 
@@ -184,3 +257,9 @@ coprono generazioni nuove/storiche, risorse in attesa di revisione, migrazione
 source-only, isolamento Git, timestamp, conservazione del report su errore e
 conteggi indipendenti. Il launcher PowerShell è verificato con Docker simulato
 su Linux; Windows nativo/PowerShell 5.1/Docker Desktop restano non provati direttamente.
+
+DBG-07 è verificato con 26 test del generatore/importazione, otto test Bash e
+12 controlli PowerShell 7.4 in container (Docker simulato), importazione Docker
+reale degli audit conservati, rifiuto di identità errate e controlli browser
+1400/620 px. Il dataset e76 e gli audit restano in sola lettura; nessuna scena
+viene rieseguita. Windows nativo/PowerShell 5.1/Docker Desktop restano da provare.

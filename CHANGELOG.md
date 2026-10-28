@@ -366,6 +366,60 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](doc
 
 [Change record](docs/changes/2026-10-28-model-european-world-node-records.json)
 
+## 2026-10-28 — Model European encounter headers and preserve shared constructor ownership
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add source-authenticated EncounterHeaders/442ordered typed headers with17reader fields/seven opaque bytes, full17680B reconstruction and two-span17676B ownership plan excluding the existing constructor pointer. StrictJSON/shape/source/dependency checks remain distinct; changedsharedptr withunchanged newspans is rejected by coherence/authentication.
+- Preserve fullbyte/halfword/encoded-pointer values, low16aliases and Noneoutside1..442/priorraw. Nonzero field33remains u8, and guest import/placement/facing plus nestedpayloads remain separate. Standalone model only, schema/extractor/decoder1/79/78 unchanged.
+
+**Validation**
+
+- One warningfree core-onlyWindows build5855af92.. and one focusedWine filter pass29guards/7523originalprobes:7072one-load prefixes atactualsites across16fields plus451fullC0034returns(442headers/sixaliases/threeoutside). All14586semanticB incl4shared observed,14582new;3094opaqueB reconstructed/unread. Prefixeffectiveaddresses/widths/values/registers/flags/PC, fullgatecallee/SP/LR andRAMoutside4Bstack/VRAM/OAM/palette checked.
+- All33actual input/output/executable guards and508frozenbuild hashes(221coreinputs) pass; artifactcompletion0paths. Onlyaffectedoldcoretest fingerprint isolated, no failedbuild/globalclean/oldsource changes. ParallelDebug/coverage/frontend excluded; originalROM/cache/states/inputs/canonicalexe preserved. No newgame/fixture/metrics/oldsource-model-runtime acceptance replay.
+
+**Limitations**
+
+- Managed extraction/runtime/actualCLI/ordinary andnestedunit-coordinatepayloads pending. Originalprefixes are notfullimporter/callerABI/native-clock/payload/gameplay or globalarchive/allcaller proof; fullROM_DATA_TODOactive.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage campaign, Android/package, assistantcommit/push; existinguser/parallelwork preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-model-european-encounter-headers.json)
+
+## 2026-10-28 — Link ROM coverage to bounded scene read audits
+
+Type: added. Platforms: Docker/Linux; offline HTML; PowerShell mocked on Linux.
+
+**Changes**
+
+- Import explicit DBG06 metadata-only audit reports into schema3 ROM coverage. Reconstruct and validate physical unions from retained events, mirror/width/filter/window/service/request/drop invariants and same-ROM identity; correlate resources against the authenticated selected atlas manifest, without promoting ownership or DS acceptance.
+- Separate observed bytes, actual Typed/Raw service and cross-case sharing from authenticated runtime availability, historical positive-family extents, static shared references, speculative code and unknown regions. Deduplicate repeated inputs and multiple runs; bound files/events and omit private paths, raw events and unknown payload fields.
+- Add per-audit browser selection, region/resource/scene/evidence drilldown, collector and truncation/partial limits. Compare dated same-ROM generations including hashes, commits, changed audit selection and added/removed intervals even with equal byte totals.
+- Extend both Docker launchers with explicit readonly audit/comparison mounts, keeping private files outside image/context and preserving host Python-free operation, runtime source isolation and failed-output behavior.
+
+**Validation**
+
+- 26 ROM-free generator/import tests and eight Bash launcher tests pass, including independent physical-byte sets, overlapping service domains, repeated requests/mirrors, case sharing, malformed/mismatched metadata, bounded inputs, partial/truncated evidence, metadata whitelist and explicit comparison failure preserving both existing outputs.
+- Twelve PowerShell7.4.6 checks pass in a network-disabled Linux container with mocked Docker, including array arguments, spaced readonly mounts, missing inputs, failure propagation and versioned OpenReport URL. Native Windows/PowerShell5.1/Docker Desktop remain unverified.
+- Real Docker launcher on committed7691a93 imports three retained DS20 audit reports with the explicit already authenticated e76-d75 dataset. Union31061B with the full report marked truncated; two complete short reports each12416B; typed short11495B Typed/997B Raw overlap76B. No gameplay replay or dataset extraction is performed.
+- Chrome headless interaction checks pass at1400/620px: selection unions, service overlap, same-case nonsharing, resource byte counts/evidence links, identity/date comparison, offset bounds and no horizontal overflow. Tall viewport screenshots are visually inspected; blank post-scroll screenshot attempts are a retained harness limitation, not a product failure.
+- Final Docker image matches all four current generator/template modules and contains no private ROM/save/recording/library payloads. Missing-audit generation and repeat produce an explicit unavailable inventory, fresh HTML and unchanged feedback; wrong-ROM audit and comparison both fail with existing HTML/JSON hashes and mtimes preserved.
+- Independent reconstruction of retained event byte sets and all68resource intersections matches the final canonical HTML/JSON; all prior static/historical layers remain unchanged. All75 selected original input hash-mtimes, including the existing dataset, three reports, ROM and both production runtimes, are unchanged. Final generated timestamp2026-10-28T10:33:24.343936+00:00; browser QA checks the actual published HTML and separate no-audit output.
+- A concurrent actor advanced HEAD to7691a93 during development, including partial tool files. This unit issued no commit. Image source identity is fixed to7691a93/e79; explicit e76 inputs stay separate from ongoing encounter-header extraction.
+- Final workspace and base2fbf9f7 project-memory checks and git diff --check pass after the concurrent extraction unit supplied its own record. 401 local document links and exactly DBG01-07 checked tools pass; personal debug_saves stays ignored/untracked. Retired 7 disposable exited Chrome profiles (32589660B) with a local cleanup receipt, retaining metadata reports, logs, screenshots and failed harness evidence.
+
+**Limitations**
+
+- Only schema1 DBG06 reports and the six declared current-thread collectors are supported; frame/address/preset filters, missing hooks, fetch exclusions, native folded constants and dropped events remain lower-bound evidence. Report fingerprints and self-reported outcomes do not authenticate new scene acceptance.
+- Validation deliberately reuses the e76 snapshot while the committed extractor is e79. The HTML labels the historical dataset; old native-parity and extraction acceptances remain closed. No normal runtime replacement, Android, Godot, game-data publication, commit or push is performed by this unit.
+
+Documentation: [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [debug_rom_audit.md](docs/debug_rom_audit.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-link-rom-coverage-to-scene-audits.json)
+
 ## 2026-10-28 — Identify an eligible European quest through the normal pub menu
 
 Type: docs. Platforms: Windows.

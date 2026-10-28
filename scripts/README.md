@@ -112,3 +112,10 @@ pass on Wine, with72files/71resources/74managedpaths unchanged and full states/
 clock/images/OAM/dispatch/fiveaudio. All seven road counts match CLI, including
 positive count/pointer/sample bytes. See [the scoped result](../docs/rom_data_maps.md#ordinary-sampled-road-travel-equivalence).
 Linux/USA/nativeWindows and broader coverage remain pending; no measurements.
+
+I launcher ROM coverage accettano audit DBG-06 ripetibili (`--audit FILE` su Bash,
+`-AuditPath @('a.json','b.json')` su PowerShell) e una fotografia precedente
+(`--compare FILE` / `-ComparePath FILE`). Importano soltanto metadati locali,
+con mount in sola lettura; nessun replay. La mappa distingue unioni osservate,
+servizio Typed/Raw e intere famiglie positive, con filtri e limiti espliciti.
+Vedi [istruzioni ed esempi](../docs/development/ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07).

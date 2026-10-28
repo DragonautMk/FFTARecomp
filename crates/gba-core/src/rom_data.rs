@@ -74,6 +74,7 @@ pub mod observed_task_parameters;
 pub mod task_cycle_deltas;
 pub mod world_nodes;
 pub mod world_roads;
+pub mod encounter_headers;
 pub mod unit_obj_byte_property_words;
 pub mod unit_obj_alternate_battle;
 pub mod color_mode_palettes;

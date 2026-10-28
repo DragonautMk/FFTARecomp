@@ -71,6 +71,7 @@ def read_audit(path, report):
         digest(data[name])
     digest(data['dataset_manifest_sha256'], optional=True)
     window, filters = data['window'], data['filter']
+    require(isinstance(window, dict) and isinstance(filters, dict), 'missing window/filter')
     start = integer(window['relative_from']); end = integer(window['relative_to_exclusive'])
     completed = integer(window['replay_completed']); entered = integer(window['frames_entered'])
     require(start < end and type(window['complete']) is bool and
@@ -82,6 +83,7 @@ def read_audit(path, report):
     ranges = spans(filters['physical_ranges'], size)
     limit = integer(filters['unique_event_limit'], 1, 50000)
     collector = data['coverage']
+    require(isinstance(collector, dict), 'missing collector coverage')
     require(collector['readers'] == list(READERS), 'unsupported collector inventory')
     for name in ('absence', 'fetches', 'instruction_scope'):
         require(isinstance(collector[name], str) and len(collector[name]) <= 2048,
@@ -95,7 +97,10 @@ def read_audit(path, report):
     by_reader = {r: [] for r in READERS}; by_service = {s: [] for s in SERVICES}
     seen, requests = set(), 0
     for event in events:
-        key = event['key']; read = key['read']
+        require(isinstance(event, dict), 'invalid event')
+        key = event['key']
+        require(isinstance(key, dict) and isinstance(key['read'], dict), 'invalid read key')
+        read = key['read']
         reader, service = read['reader'], key['service']
         require(reader in READERS and service in SERVICES and reader in collector['readers'],
                 'unknown reader/service')
@@ -109,6 +114,7 @@ def read_audit(path, report):
         scope = key['instruction']
         scope_key = None
         if scope is not None:
+            require(isinstance(scope, dict), 'invalid instruction scope')
             scope_key = (integer(scope['pc'], 0, 0xffffffff), scope['thumb'])
             require(type(scope['thumb']) is bool, 'invalid instruction mode')
         event_key = (reader, service, guest, a, count, scope_key)
@@ -142,10 +148,13 @@ def read_audit(path, report):
         if overlap:
             resources.append(dict(id=resource['id'], ranges=overlap, distinct_bytes=length(overlap)))
     known = data['known_plan']
+    require(isinstance(known, dict), 'invalid known-plan inventory')
     require(type(known['compared']) is bool, 'invalid known-plan status')
     digest(known.get('manifest_sha256'), optional=True)
     known_matches = known['compared'] and known['manifest_sha256'] == report['manifest_sha256']
     if known_matches:
+        require(isinstance(known['resources'], list) and len(known['resources']) <= 4096,
+                'invalid known resource inventory')
         expected = {r['id']: r['ranges'] for r in resources if next(
             x['runtime_available'] for x in report['resources'] if x['id'] == r['id'])}
         claimed = {}
@@ -160,12 +169,16 @@ def read_audit(path, report):
                 'known-plan totals differ')
     return dict(id=identity, report_sha256=identity, case=data['case'], run=data['run'],
                 runtime_sha256=data['runtime_sha256'], input_sha256=data['input_sha256'],
-                dataset_manifest_sha256=data['dataset_manifest_sha256'], window=window, filter=filters,
+                dataset_manifest_sha256=data['dataset_manifest_sha256'],
+                window={k: window[k] for k in ('relative_from', 'relative_to_exclusive', 'frames_entered',
+                        'replay_completed', 'complete', 'replay_outcome')},
+                filter={k: filters[k] for k in ('preset', 'physical_ranges', 'unique_event_limit')},
                 truncated=data['truncated'], partial=not window['complete'] or window['replay_outcome'] != 'passed',
                 matched_requests=matched, dropped_requests=dropped, retained_events=len(events),
                 fetch_bus_requests_excluded=data['fetch_bus_requests_excluded'],
                 ranges=observed, distinct_bytes=length(observed), readers=by_reader, serving=by_service,
-                collector=collector, known_manifest_sha256=known.get('manifest_sha256'),
+                collector={k: collector[k] for k in ('readers', 'absence', 'fetches', 'instruction_scope', 'not_observed')},
+                known_manifest_sha256=known.get('manifest_sha256'),
                 known_matches_atlas=known_matches, resources=resources), byte_size
 
 
@@ -226,7 +239,9 @@ def compare_reports(current, previous, identity):
                                  removed=intersection(old, complement(new, size)))
     for key in ('generated_at', 'generation', 'source_revision', 'manifest_sha256'):
         require(isinstance(previous[key], str) and len(previous[key]) <= 256, 'invalid comparison identity')
-    old_audits = sorted(a['id'] for a in previous.get('audits', []))
+    require(isinstance(previous.get('audits', []), list) and len(previous.get('audits', [])) <= 32,
+            'invalid comparison audit inventory')
+    old_audits = sorted(digest(a['id']) for a in previous.get('audits', []))
     new_audits = sorted(a['id'] for a in current.get('audits', []))
     return dict(report_sha256=identity, generated_at=previous['generated_at'], generation=previous['generation'],
                 source_revision=previous['source_revision'], manifest_sha256=previous['manifest_sha256'],

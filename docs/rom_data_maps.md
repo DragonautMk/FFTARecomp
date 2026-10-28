@@ -1282,3 +1282,58 @@ Nested payloads, all indirect readers/full ABI/global archive coverage, Linux,
 USA, native Windows, new32:9and the full ROM TODO remain pending. There is no
 new navigation, guest/cart edit, performance/storage campaign, Android/package,
 assistant commit or push.
+
+
+## Typed encounter headers and original-reader proof
+
+`encounter_headers::Catalog` authenticates the exact EUR image, six source-root/
+reader windows and the full17,680-byte header hash. `EncounterHeaders` retains
+442ordered `Header` values, indices1..442, with named u16count, u8map/placement/
+comparison/gate/default fields, exact encoded u32template/position pointers and
+seven opaque bytes. Strict JSON rejects unknown fields, wrong array lengths and
+out-of-range integers. Shape validation checks the physical source, count and
+order; it imposes no inferred count caps, pointer-validity/null rules, enum sets
+or opaque-zero requirements. Byte33remains a full byte, even though the original
+reader and typed helper test it for nonzero.
+
+The shared two-span plan reconstructs17,676newly owned bytes. `byte_at()` returns
+`None` for70CD58..70CD5Cso existing constructor-alternate ownership remains
+untouched. Full header reconstruction and source verification include that
+shared field. `validate_constructor_alternates()` checks its encoded-pointer
+coherence against the already authenticated owner. A changed header29pointer
+can leave both new spans unchanged; dependency/source authentication still
+reject it. Index helpers preserve original low16aliases and return `None` for
+0and443..65535, requiring prior-owner/raw fallback. Unit/coordinate payloads and
+live import/placement/facing algorithms remain separate.
+
+One warning-free core-only Windows build, frozen as5855af92.., and one focused
+Wine filter pass29shape/JSON/content/dependency guards and7,523original probes.
+Independent private model/source/probe files confirm exact17,680-byte
+reconstruction and the two source-fragment hashes. There are7,072one-instruction
+prefixes at actual original load sites across16fields, and451completeC0034gate
+calls(442declared headers, six low16aliases and three outside indices). Their
+actual effective addresses, widths, loaded values and gate returns match the
+model. All14,586semantic source bytes are observed, including four shared bytes;
+14,582belong to the new fragments. The3,094opaque bytes are reconstructed/hash
+checked and remain unread. Registers/flags/PC for each load prefix, callee
+registers/SP/LR for full gate calls, and RAM outside the original four-byte stack,
+VRAM/OAM/palette are checked. Prefixes are not a full importer/caller ABI or
+native/state-clock/ordinary gameplay proof.
+
+All33actual input/output/executable guards and508frozen build-file hashes,
+including221core inputs, pass. Only the affected old core-test fingerprint is
+isolated to avoid copied-source dep-info reuse; no failed build, global clean
+or old-source mutation occurs. The parallel Debug audit/coverage/frontend work
+is excluded from this build. Artifact completion retires zero paths. Evidence
+is under `target/rom-data-encounter-headers-model/`: independent model/probes/
+source plan, build/Wine results, decoded model/result, source preimages and
+final/preservation/cleanup receipts. No game, checkpoint, fixture or closed
+road/node/constructor source/model/runtime acceptance is replayed.
+
+Schema/extractor/decoder remain1/79/78. Next is managed publication and immutable
+typed guest reads with the constructor-alternate dependency, shared-four-byte
+skip and global source-page coverage70C..710, followed by actual CLI and one
+positive ordinary case. Nested template/coordinate schema and global/all-caller/
+full ABI coverage remain open, as do Linux, USA, native Windows, new32:9and the
+full ROM TODO. No performance/storage campaign, Android/package, assistant
+commit or push occurs.

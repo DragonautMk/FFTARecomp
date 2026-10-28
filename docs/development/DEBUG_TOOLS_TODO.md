@@ -1,6 +1,6 @@
 # TODO — Strumenti di debug condivisi
 
-Aggiornato il **27 ottobre 2026**. La checklist segue progettazione e sviluppo:
+Aggiornato il **28 ottobre 2026**. La checklist segue progettazione e sviluppo:
 le spunte identificano gli strumenti completati. Gli strumenti devono servire sia
 all'utente, attraverso menu e procedure brevi, sia all'assistente, attraverso
 comandi riproducibili e risultati strutturati.
@@ -167,7 +167,7 @@ non significano che siano già raccolte in un unico debugger.
   11.495 B serviti typed con il dataset e76. Nessuna nuova accettazione ROM/DS.
   [Record](../changes/2026-10-28-add-bounded-rom-read-audit-tools.json).
 
-- [ ] **DBG-07 — Collegare scene, letture e ROM coverage.**
+- [x] **DBG-07 — Collegare scene, letture e ROM coverage.**
   Importare gli audit per caso DS ed esporre i livelli «identificato», «servito
   dal runtime», «letto nelle scene selezionate», «condiviso» e «sconosciuto».
   Clic su una regione → risorsa, scene e prove; confronto tra due generazioni
@@ -175,6 +175,15 @@ non significano che siano già raccolte in un unico debugger.
   **Chiusura:** contare le unioni senza sommare riletture, separare intervalli
   delle famiglie positive da byte osservati, rifiutare report con ROM diversa
   e dichiarare la copertura dei collector. **Dipende da:** DBG-06.
+  **Completato:** [mappa e istruzioni](ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07),
+  importazione esplicita via Docker, unioni ricostruite dagli eventi, selezione
+  dei report e dettaglio risorsa/caso/prove. Schema 3 con confronto datato,
+  identità e intervalli aggiunti/rimossi; filtri, gap, TRONCATO/PARZIALE visibili.
+  26 test generatore, otto Bash e 12 controlli PowerShell passano; Docker reale
+  e browser 1400/620 px verificati. Tre audit DS20 esistenti: 31.061 B come
+  minimo troncato; brevi completi 12.416 B, typed 11.495 B. Nessun nuovo replay,
+  dato estratto o caso DS promosso; snapshot e76 esplicitamente storico.
+  [Record](../changes/2026-10-28-link-rom-coverage-to-scene-audits.json).
 
 - [ ] **DBG-08 — Arresto e cattura quando si raggiunge un caso.**
   Permettere condizioni come prima lettura di una risorsa, ingresso in un PC

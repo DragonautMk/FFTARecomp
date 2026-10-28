@@ -174,6 +174,13 @@ All relative paths start at the repository root. The older direct
 these launchers’ committed-source isolation.
 See [inputs, interpretation and commands](development/ROM_COVERAGE.md#rigenerazione).
 
+Coverage launchers also accept explicit DBG-06 audit reports: repeat `--audit FILE`
+on Bash or pass `-AuditPath @('a.json','b.json')` on PowerShell. `--compare FILE` /
+`-ComparePath FILE` selects an older same-ROM coverage.json. These files are
+read-only runtime mounts, excluded from the image and build context. No gameplay
+replay is performed; no host Python is needed. Without audit arguments the new
+report has no scene inventory. See [scene coverage](development/ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07).
+
 ## Environment and compatibility
 
 `Dockerfile.windows` copies the pinned Rust 1.94.0 toolchain from the same

@@ -125,7 +125,7 @@ fn run_fixture(path: &Path, control: impl FnMut(u64) -> Option<(&'static str, St
     let bytes = read(&root.join("input.input"), MAX_INPUT).unwrap();
     let input = crate::debug_recording::script(&bytes, p.frames).unwrap();
     let end = read(&root.join("expected.ffstate"), 64 * 1024 * 1024).unwrap();
-    execute(&p, "fixture-run", &mut m, &input, &end, None, None, control)
+    execute(&p, "fixture-run", &mut m, &input, &end, None, None, None, control)
 }
 #[test]
 fn profile_pins_selected_inputs_and_repeats_full_endpoint_without_save_writes() {
@@ -182,6 +182,7 @@ fn endpoint_divergence_never_becomes_a_success() {
         &mut m,
         &input,
         b"different expected endpoint",
+        None,
         None,
         None,
         |_| None,
@@ -288,4 +289,64 @@ fn wrong_session_rom_and_malformed_origin_are_rejected_before_destination_creati
     .unwrap_err()
     .contains("ROM/BIOS/dataset"));
     assert!(!destination.exists());
+}
+
+#[cfg(feature="rom-data-read-audit")]
+fn trigger_profile(f: &Fixture, name: &str, condition: crate::debug_capture::Condition, limit: u64) -> PathBuf {
+    let args=vec!["--recording".into(),f.recording.to_string_lossy().into_owned(),"--session".into(),f.session.to_string_lossy().into_owned(),
+        "--dir".into(),f.temp.path().join(name).to_string_lossy().into_owned(),"--case".into(),"DS-20-EUR".into()];
+    create_cmd_captured(&args,&crate::debug_capture::Request{settings:crate::debug_capture::Settings{condition,limit_frames:limit},manifest:None,dataset:None}).unwrap()
+}
+#[cfg(feature="rom-data-read-audit")]
+fn triggered(path:&Path) -> (Report, Machine, crate::debug_capture::Observer) {
+    let(root,p)=load(path).unwrap();let mut m=machine();m.load_state(&fs::read(root.join("seed.ffstate")).unwrap()).unwrap();
+    let input=crate::debug_recording::script(&fs::read(root.join("input.input")).unwrap(),p.frames).unwrap();
+    let mut observer=crate::debug_capture::Observer::start(&root,p.capture.as_ref().unwrap(),&m.bus.rom).unwrap();
+    let r=execute(&p,"fixture-trigger",&mut m,&input,&[],None,None,Some(&mut observer),|_|None);
+    (r,m,observer)
+}
+#[cfg(feature="rom-data-read-audit")]
+#[test]
+fn frame_capture_is_exact_at_boundary_catalog_ready_reusable_and_never_overwrites() {
+    let f=Fixture::new();let original=f.inputs();
+    let path=trigger_profile(&f,"frame capture",crate::debug_capture::Condition::Frame{completed:2},3);
+    assert!(Job::require_capture(&path).is_ok());
+    let(r,m,observer)=triggered(&path);assert_eq!(r.outcome,"captured");assert_eq!(r.code(),0);assert_eq!(r.completed,2);assert_eq!(r.frames,3);
+    let mut reference=machine();for _ in 0..2 {reference.run_frame(5_000_000);drain(&mut reference);}
+    assert_eq!(m.save_state().unwrap(),reference.save_state().unwrap());assert_eq!(r.clock,Some(reference.bus.clock));
+    let root=path.parent().unwrap();let seed=fs::read(root.join("seed.ffstate")).unwrap();let used_input=fs::read(root.join("input.input")).unwrap();
+    let provenance=serde_json::json!({"relative_completed":2,"start_sha256":digest(&seed),"input_sha256":digest(&used_input)});
+    // A later external edit must not change the bytes that actually produced the point.
+    fs::write(root.join("input.input"),b"changed after execution").unwrap();
+    let relative=crate::debug_capture::publish(root,"fixture-trigger","DS-20-EUR",&m,&observer,provenance.clone(),crate::debug_capture::Inputs{state:&seed,input:&used_input}).unwrap();
+    assert_eq!(fs::read(root.join(&relative).parent().unwrap().join("input.input")).unwrap(),used_input);
+    let catalog=crate::debug_catalog::Catalog::load(&root.join(&relative)).unwrap();
+    assert_eq!(catalog.entries.len(),1);assert_eq!(catalog.entries[0].status,"variante");assert!(catalog.entries[0].available);
+    let bytes=catalog.bytes(0).unwrap();let mut restored=machine();crate::save_state::load_bytes(&mut restored,&bytes).unwrap();
+    assert_eq!(restored.save_state().unwrap(),reference.save_state().unwrap());
+    restored.bus.keys=0x3ff;reference.bus.keys=0x3ff;
+    restored.run_frame(5_000_000);drain(&mut restored);reference.run_frame(5_000_000);drain(&mut reference);
+    assert_eq!(restored.save_state().unwrap(),reference.save_state().unwrap());
+    assert!(crate::debug_capture::publish(root,"fixture-trigger","DS-20-EUR",&m,&observer,provenance.clone(),crate::debug_capture::Inputs{state:&seed,input:&used_input}).is_err());
+    assert_eq!(catalog.bytes(0).unwrap(),bytes);assert_eq!(f.inputs(),original);
+    assert!(crate::debug_capture::publish(root,"../escape","DS-20-EUR",&m,&observer,provenance.clone(),crate::debug_capture::Inputs{state:&seed,input:&used_input}).is_err());
+}
+#[cfg(feature="rom-data-read-audit")]
+#[test]
+fn real_instruction_entry_triggers_and_never_reached_is_bounded_without_promotion() {
+    let f=Fixture::new();let original=f.inputs();
+    let path=trigger_profile(&f,"PC capture",crate::debug_capture::Condition::Instruction{pc:0x08000000,thumb:false,opcode:0xeafffffe},4);
+    let(r,m,observer)=triggered(&path);assert_eq!(r.outcome,"captured");assert_eq!(r.completed,1);assert!(observer.hit.is_some());
+    let mut reference=machine();reference.run_frame(5_000_000);drain(&mut reference);assert_eq!(m.save_state().unwrap(),reference.save_state().unwrap());
+    drop(observer);
+    let never=trigger_profile(&f,"never PC",crate::debug_capture::Condition::Instruction{pc:0x08000010,thumb:false,opcode:0},2);
+    let(r,m,observer)=triggered(&never);assert_eq!(r.outcome,"not-reached");assert_eq!(r.code(),7);assert_eq!(r.completed,2);assert!(observer.hit.is_none());
+    reference.run_frame(5_000_000);drain(&mut reference);assert_eq!(m.save_state().unwrap(),reference.save_state().unwrap());
+    assert!(r.capture_catalog.is_none());assert!(!never.parent().unwrap().join("captures").exists());assert_eq!(f.inputs(),original);
+}
+#[test]
+fn capture_action_refuses_plain_profile_and_legacy_profile_has_no_capture_side_effects() {
+    let f=Fixture::new();let path=f.create();assert!(Job::require_capture(&path).is_err());
+    assert!(!fs::read_to_string(&path).unwrap().contains("capture"));
+    assert!(!path.parent().unwrap().join("captures").exists());
 }

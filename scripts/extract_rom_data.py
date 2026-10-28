@@ -54,6 +54,7 @@ DESCRIPTIONS = {
     'task-cycle-deltas.json': 'European conditional48signed-i8 task increments; original unchecked old-u8 lookup, stored-byte wrapping and remainder48 retained',
     'world-nodes.json': 'European typed world-node coordinates, ordered path-neighbor links and opaque bytes; original placement, pathfinding and raw outside reads retained',
     'world-roads.json': 'European typed world-road sample counts, encoded pointers, signed XY samples and opaque bytes; original movement and raw outside reads retained',
+    'encounter-headers.json': 'European typed encounter-header fields and opaque bytes with shared constructor-pointer dependency; original routines and prior/raw outside reads retained',
     'word-task-obj-animations.json': 'European four relative OBJ banks for u16 task selectors-ticks-phases; original old-list return, counter wrap, repeat and raw outside reads retained',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',

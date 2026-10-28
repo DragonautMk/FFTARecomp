@@ -158,6 +158,9 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod encounter_headers;
+use encounter_headers::EncounterHeadersResources;
+pub use encounter_headers::EncounterHeadersStats;
 mod world_roads;
 use world_roads::WorldRoadsResources;
 pub use world_roads::WorldRoadsStats;
@@ -300,6 +303,7 @@ pub struct RuntimeResources {
     word_task_obj_animations: Option<Box<WordTaskObjResources>>,
     world_nodes: Option<Box<WorldNodesResources>>,
     world_roads: Option<Box<WorldRoadsResources>>,
+    encounter_headers: Option<Box<EncounterHeadersResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -572,6 +576,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.world_roads {
             resources.world_roads = Some(Box::new(WorldRoadsResources::new(data.clone(), &source.world_roads.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))= files.encounter_headers {
+            resources.encounter_headers = Some(Box::new(EncounterHeadersResources::new(data.clone(), &source.encounter_headers.as_ref().unwrap().sources, files.constructor_alternates.ok_or("Missing encounter constructor dependency")?.0)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -668,6 +675,7 @@ impl RuntimeResources {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -765,6 +773,7 @@ impl RuntimeResources {
             + self.word_task_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
             + self.world_nodes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.world_roads.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.encounter_headers.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -884,6 +893,7 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn encounter_headers_stats(&self) -> Option<EncounterHeadersStats> {self.encounter_headers.as_ref().map(|m|m.stats())}
     pub fn world_roads_stats(&self) -> Option<WorldRoadsStats> {self.world_roads.as_ref().map(|m|m.stats())}
     pub fn world_nodes_stats(&self) -> Option<WorldNodesStats> {self.world_nodes.as_ref().map(|m|m.stats())}
     pub fn word_task_obj_stats(&self) -> Option<WordTaskObjStats> {self.word_task_obj_animations.as_ref().map(|m|m.stats())}
@@ -1225,7 +1235,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.world_roads {
+            let prior = match &self.world_roads {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.encounter_headers {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1382,6 +1396,7 @@ impl crate::MemMap {
             || ObjAnimationResources::source_page(index)
             || WordTaskObjResources::source_page(index)
             || WorldRoadsResources::source_page(index)
+            || EncounterHeadersResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

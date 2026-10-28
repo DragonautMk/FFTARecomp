@@ -82,8 +82,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 79;
-pub const DECODER_REV: u32 = 78;
+pub const EXTRACTOR_REV: u32 = 80;
+pub const DECODER_REV: u32 = 79;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -272,6 +272,10 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const ENCOUNTER_HEADERS_ID: &str = "gameplay.encounter-headers";
+pub const ENCOUNTER_HEADERS_FILE: &str = "encounter-headers.json";
+pub const ENCOUNTER_HEADERS_FORMAT: &str = "encounter-headers-v1-json";
+pub const MAX_ENCOUNTER_HEADERS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const WORLD_ROADS_ID: &str = "gameplay.world-roads";
 pub const WORLD_ROADS_FILE: &str = "world-roads.json";
 pub const WORLD_ROADS_FORMAT: &str = "world-roads-v1-json";
@@ -535,6 +539,7 @@ pub struct Extraction {
     pub word_task_obj_animations: Option<word_task_obj_animations::Catalog>,
     pub world_nodes: Option<world_nodes::Catalog>,
     pub world_roads: Option<world_roads::Catalog>,
+    pub encounter_headers: Option<encounter_headers::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -612,6 +617,7 @@ pub struct BaseFiles<'a> {
     pub word_task_obj_animations: Option<(&'a word_task_obj_animations::WordTaskObjAnimations, &'a [u8])>,
     pub world_nodes: Option<(&'a world_nodes::WorldNodes, &'a [u8])>,
     pub world_roads: Option<(&'a world_roads::WorldRoads, &'a [u8])>,
+    pub encounter_headers: Option<(&'a encounter_headers::EncounterHeaders, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1156,6 +1162,13 @@ impl Extraction {
                 sha256: String::new(), dependencies: vec![], sources: metadata.sources.clone(),
             });
             result.world_roads = Some(metadata);
+            let metadata = encounter_headers::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(ENCOUNTER_HEADERS_ID.into());
+            result.manifest.resources.push(Resource {
+                id: ENCOUNTER_HEADERS_ID.into(), path: ENCOUNTER_HEADERS_FILE.into(), format: ENCOUNTER_HEADERS_FORMAT.into(),
+                sha256: String::new(), dependencies: vec![CONSTRUCTOR_ALTERNATES_ID.into()], sources: metadata.sources.clone(),
+            });
+            result.encounter_headers = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1261,6 +1274,7 @@ impl Extraction {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1367,6 +1381,7 @@ impl Extraction {
             || self.task_cycle_deltas.is_some() != self.word_task_obj_animations.is_some()
             || self.word_task_obj_animations.is_some() != self.world_nodes.is_some()
             || self.world_nodes.is_some() != self.world_roads.is_some()
+            || self.world_roads.is_some() != self.encounter_headers.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -1998,6 +2013,15 @@ impl Extraction {
             (None, None) => {}
             _ => return Err("Missing or unexpected world_roads resource".into()),
         }
+        match (&self.encounter_headers, files.encounter_headers) {
+            (Some(_), Some((_, bytes))) => {
+                if bytes.len() as u64 > MAX_ENCOUNTER_HEADERS_FILE_BYTES { return Err("EncounterHeaders file exceeds input guard".into()); }
+                total = total.saturating_add(bytes.len());
+                expected.resources[71].sha256 = ffta_rom::digest(bytes);
+            }
+            (None, None) => {}
+            _ => return Err("Missing or unexpected encounter_headers resource".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2382,6 +2406,10 @@ impl Extraction {
             decoded.validate()?;
             if decoded != &expected.decoded {return Err("Decoded world_roads differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_))) = (&self.encounter_headers, files.encounter_headers) {
+            decoded.validate_constructor_alternates(files.constructor_alternates.ok_or("Missing encounter constructor dependency")?.0)?;
+            if decoded != &expected.decoded {return Err("Decoded encounter_headers differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2464,6 +2492,7 @@ impl Extraction {
             + usize::from(self.word_task_obj_animations.is_some())
             + usize::from(self.world_nodes.is_some())
             + usize::from(self.world_roads.is_some())
+            + usize::from(self.encounter_headers.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2589,6 +2618,7 @@ mod tests {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2667,6 +2697,7 @@ mod tests {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2755,6 +2786,7 @@ mod tests {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2832,6 +2864,7 @@ mod tests {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

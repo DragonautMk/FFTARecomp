@@ -1686,3 +1686,27 @@ identical to CLI. Positive count/pointer/sample use covers5,067source bytes;
 40paths means any field, not40sample payloads. Opaqueordinary0remains targeted-
 only. Linux/USA/nativeWindows and broader catalog/scenes pending. See
 [ordinary road equivalence](rom_data_maps.md#ordinary-sampled-road-travel-equivalence).
+
+
+EUR e80-d79 adds `gameplay.encounter-headers` / `encounter-headers.json`, with
+an explicit constructor-alternate dependency. Two source fragments provide
+17,676new header bytes; the existing owner retains the four shared pointer
+bytes. Global dispatch covers70C..710. Eleven usage fields distinguish eight
+byte classes and442header IDs without altering guest indexing or algorithms.
+One reduced Wine integration filter passes73files/72resources/all71prior exact,
+14attach/three full-set guards,26native fullstate-clock prefixes, all owned and
+shared bytes/widths/mirrors/LoadUndo and DMA/CpuSet/CpuFastSet. Actual CLI/ordinary
+and Linux/USA/nativeWindows remain next. See [managed encounter headers](rom_data_maps.md#managed-encounter-headers-and-typed-guest-reads).
+
+
+## Encounter-header ordinary scene guard
+
+`FFTA_STATE_TEST_REQUIRE_ENCOUNTER_HEADERS=1` adds positive-use assertions for
+unit counts, map arguments, unit-template pointers, placement counts, position
+pointers and control bytes in the existing per-frame equivalence validator. It
+reports all eleven header usage fields, including placement parameters and
+opaque bytes. The accepted Wine700 Giza battle-entry pair matches all11 fields
+to production CLI usage and every complete state/guest clock/image/OAM/audio;
+placement parameters and opaque bytes remain zero in this ordinary case. The
+five-line optional block preserves older guards and the validator preimage
+exactly. [Proof and limits](rom_data_maps.md#ordinary-encounter-header-battle-entry-equivalence).

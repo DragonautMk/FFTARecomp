@@ -1337,3 +1337,148 @@ positive ordinary case. Nested template/coordinate schema and global/all-caller/
 full ABI coverage remain open, as do Linux, USA, native Windows, new32:9and the
 full ROM TODO. No performance/storage campaign, Android/package, assistant
 commit or push occurs.
+
+
+## Managed encounter headers and typed guest reads
+
+EUR e80-d79 now publishes `gameplay.encounter-headers`, `encounter-headers.json`
+and `encounter-headers-v1-json` at resource index71. The generation contains
+73files/72resources; all71prior resource records and decoded files remain exact.
+The explicit dependency is `gameplay.constructor-alternate-templates`.
+Shape, full model/source authentication and constructor-pointer coherence are
+checked before attachment; schema1and USAe8-d7remain unchanged. Parsing,
+publication, startup attachment and usage logging use the model's two-fragment
+17,676-byte source plan. Guest import/placement/facing and nested payloads
+remain original operations.
+
+The immutable runtime owner rebuilds header fields from the decoded model and
+excludes70CD58..70CD5Cfrom its byte projection. Those four bytes still come from
+the existing constructor owner, with that owner's counters. The global ROM page
+dispatch explicitly covers70C..710. Eight byte classes record unit count, map,
+template pointer, placement parameter, placement count, position pointer,
+control and opaque reads; a seven-word mask records442headers. Together with
+bus_reads/source_bytes/headers_used there are11usage fields. Byte/halfword/word
+reads compose with the shared old pointer and raw boundaries. Original low16
+aliases and raw/prior-owner behavior for index0and443..65535remain intact.
+
+One warning-free Windows integration build, frozen as `1c4135f5..`, and one
+reduced Wine filter pass publication/new-file interruption,14attach guards and
+three full-set guards with failed-owner/full-state retention. The guards include
+shared-pointer changes whose new source fragments stay unchanged, missing
+dependency declarations, counterfeit shared ownership, source reordering and
+strict JSON failures. Twenty-six original/interpreter/native calls or prefixes
+match complete state and guest clock with all17,680raw header bytes poisoned
+after state load. They cover selected field loads, fullC0034returns, low16
+aliases, outside indices, mirrors and the shared pointer. There are
+31compiled instructions,
+37explicit new compiled source bytes and
+4explicit shared bytes from the old owner.
+These counts are correctness evidence, not performance measurements.
+
+The same filter verifies every17,676new byte and all four prior bytes, all442
+headers, and class totals884/442/1764/884/1326/7072/2210/3094. Widths/mirrors,
+reads crossing the shared hole and either raw edge, plus an older separate
+owner pass. Dataset-unavailable Load and slot-Undo retain the same owner. DMA,
+CpuSet and CpuFastSet each match full state and clock across both fragments,
+the shared pointer and following raw bytes. This is selected native coverage,
+not a full importer/caller ABI, payload or ordinary gameplay proof.
+
+All206actual input/output/old-dataset/executable guards,510frozen integration
+source hashes and508closed-model source preimages pass. The accepted source
+copy excludes the parallel Debug/coverage/frontend work; only the two affected
+old core-library/recomp-test fingerprints are isolated before the build. No
+failed build, global clean or old-source modification occurs. Artifact
+completion retires only the disposable interrupted publication; accepted offline
+data, executable, logs and source preimages remain. Evidence is in
+`target/rom-data-encounter-headers-runtime/`, including build/run results,
+`windows-managed-europe/offline dataset/` and final/preservation/cleanup receipts.
+Dataset identity is `a6f4094e6f3998cb308bd8db24a0bcecf1e06da246082987592be3e1420dfac9`, manifest hash
+`b064dc975f0a7f49c60809768bbfcd10ff9b9c86d737c00b5aa6be35ba850b67` and header JSON hash
+`626c910741e2c796908c40b03ced73a8c6bb9284df92e8df58e12dfa2ae368fc`.
+
+Actual production CLI creation/reuse/startup and one positive ordinary pair
+remain next. No new game/checkpoint/navigation fixture or old7523-probe model,
+road/node/constructor source/runtime/ordinary acceptance is replayed. Nested
+unit/coordinate payloads, global/all-caller/full ABI coverage, Linux, USA,
+native Windows, new32:9and the full ROM TODO remain pending. No performance/
+storage campaign, Android/package, assistant commit or push occurs.
+
+
+## Actual encounter-header CLI and ordinary consumption
+
+The actual e80-d79 Windows production CLI passes three Wine commands: prepare
+creates the generation, a second prepare reuses it, and normal `runc` enters
+White Flowers from the retained Giza menu. All73 generation files match the
+accepted runtime dataset; all72 logged resource IDs/hashes match its manifest.
+All75 managed files retain hashes and mtimes through reuse and game startup.
+The header resource retains its mandatory constructor-alternate dependency and
+two source fragments, leaving the existing four shared pointer bytes with their
+prior owner. The original 28859 translated blocks load.
+
+Exact normal state/input copies cover guest19409→20109 (700 frames), with
+17 header reads/41 source bytes:
+12 unit-count, 1 map,
+4 unit-template-pointer,
+0 placement-parameter,
+1 placement-count,
+20 position-pointer,
+3 control and 0 opaque bytes;
+1 headers are touched. Six semantic byte classes have
+positive ordinary use before selecting the full equivalence pair. Placement-parameter and opaque-byte
+coverage remain the separate targeted source/native/bus proof. Neither is read
+in this bounded ordinary scene; no extra navigation is added to obtain usage. This single battle-entry
+case does not establish all442 headers, nested payloads or full guest ABI.
+
+One warning-free production build `9d0a772d..` uses the accepted510-file runtime
+source copy, excluding parallel Debug/frontend work. Only the affected production
+fingerprint is isolated; the canonical executable's hash and mtime are restored
+exactly. All184 actual guards and510 frozen source hashes pass; artifact
+completion retires zero paths. Evidence is retained under
+`target/rom-data-encounter-headers-cli/`: the build, three process logs,
+no-write and final/preservation/cleanup receipts, exact normal copies and CLI.
+No new navigation/checkpoint, closed source/model/runtime/road-node proof replay
+or performance measurement occurs. One ordinary full pair with the same counts
+is next; Linux, USA, native Windows, new32:9 and the full ROM TODO stay pending.
+
+
+## Ordinary encounter-header battle-entry equivalence
+
+One Wine ordinary equivalence pair now closes the same retained normal700-frame
+Giza menu→White Flowers deployment bound, guest19409→20109, using the actual
+e80-d79 CLI dataset. Every complete machine state and guest clock matches the
+original ROM path. Classic, central and wide images, OAM, native/fallback
+dispatch and all five audio streams also match. Dispatch counts are
+`[3316146, 8054486]` and audio sample counts are `[1536150, 1536150, 184800, 184800, 1536026]`; these are
+correctness/coverage evidence, with no performance measurement.
+
+All eleven resource usage fields equal the preceding production CLI exactly:
+17 reads/41 source bytes,
+12 count, 1 map,
+4 template-pointer,
+0 placement-parameter,
+1 placement-count,
+20 position-pointer,
+3 control, 0 opaque,
+1 header touched. The six observed semantic classes are positive.
+Placement-parameter and opaque ordinary consumption are unobserved in this case;
+the earlier targeted source/native/bus proofs remain separate. The initial CLI
+seven-class criterion was recorded as partial, then this six-class bounded case
+was explicitly selected; no extra navigation or counter forcing was performed.
+
+An optional five-line `FFTA_STATE_TEST_REQUIRE_ENCOUNTER_HEADERS` guard enforces
+positive use of the six observed classes and reports all eleven fields. Removing
+only that guard reproduces the previous validator byte-for-byte, preserving all
+older scene requirements. One warning-free510-source Windows test build
+`43fcc614..`, with only the affected test fingerprint isolated, and one Wine
+filter pass. Core sources are unchanged from the accepted runtime. All
+103 ordinary guards/510 frozen pair-source hashes and the closed
+184 CLI guards/510 production-source hashes remain exact;
+artifact completion retires zero paths. Evidence is retained under
+`target/rom-data-encounter-headers-battle-ordinary/`, including preimage/guard,
+build, full-pair result and final/preservation/cleanup receipts.
+
+This closes one ordinary battle-entry case, not all442 headers, placement/facing
+ABI, nested unit/coordinate payloads or global archive coverage. No new fixture,
+checkpoint, navigation, prior source/model/runtime/CLI/road-node acceptance
+replay or performance measurement occurs. Linux, USA, native Windows, new32:9
+and the remaining ROM TODO stay pending.

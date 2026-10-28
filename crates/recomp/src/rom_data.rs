@@ -47,6 +47,7 @@ use gba_core::rom_data::{
     observed_task_parameters::ObservedTaskParameters, OBSERVED_TASK_PARAMETERS_ID, OBSERVED_TASK_PARAMETERS_FILE, MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES,
     obj_lists::constructor_animation::Animation as ConstructorObjAnimation, CONSTRUCTOR_OBJ_ANIMATION_ID, CONSTRUCTOR_OBJ_ANIMATION_FILE, MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES,
     task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
+    encounter_headers::EncounterHeaders, ENCOUNTER_HEADERS_ID, ENCOUNTER_HEADERS_FILE, MAX_ENCOUNTER_HEADERS_FILE_BYTES,
     world_roads::WorldRoads, WORLD_ROADS_ID, WORLD_ROADS_FILE, MAX_WORLD_ROADS_FILE_BYTES,
     world_nodes::WorldNodes, WORLD_NODES_ID, WORLD_NODES_FILE, MAX_WORLD_NODES_FILE_BYTES,
     word_task_obj_animations::WordTaskObjAnimations, WORD_TASK_OBJ_ANIMATIONS_ID, WORD_TASK_OBJ_ANIMATIONS_FILE, MAX_WORD_TASK_OBJ_ANIMATIONS_FILE_BYTES,
@@ -255,6 +256,8 @@ mod observed_task_parameters_model_tests;
 mod task_cycle_deltas_model_tests;
 #[cfg(test)]
 mod task_cycle_deltas_runtime_tests;
+#[cfg(test)]
+mod encounter_header_runtime_tests;
 #[cfg(test)]
 mod world_road_runtime_tests;
 #[cfg(test)]
@@ -770,6 +773,11 @@ fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
     value.validate()?;Ok(value)
 }
 fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
+fn parse_encounter_headers(bytes:&[u8])->Result<EncounterHeaders,String> {
+    let value:EncounterHeaders=serde_json::from_slice(bytes).map_err(|e|format!("Invalid encounter_headers: {e}"))?;
+    value.validate()?;Ok(value)
+}
+fn encode_encounter_headers(value:&EncounterHeaders)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode encounter_headers: {e}"))}
 fn parse_world_roads(bytes:&[u8])->Result<WorldRoads,String> {
     let value:WorldRoads=serde_json::from_slice(bytes).map_err(|e|format!("Invalid world_roads: {e}"))?;
     value.validate()?;Ok(value)
@@ -980,6 +988,7 @@ struct Dataset {
     word_task_obj_animations: Option<WordTaskObjAnimations>,
     world_nodes: Option<WorldNodes>,
     world_roads: Option<WorldRoads>,
+    encounter_headers: Option<EncounterHeaders>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -1033,6 +1042,7 @@ struct Dataset {
     word_task_obj_animations_bytes: Option<Vec<u8>>,
     world_nodes_bytes: Option<Vec<u8>>,
     world_roads_bytes: Option<Vec<u8>>,
+    encounter_headers_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1112,6 +1122,7 @@ impl Dataset {
             word_task_obj_animations: self.word_task_obj_animations.as_ref().zip(self.word_task_obj_animations_bytes.as_deref()),
             world_nodes: self.world_nodes.as_ref().zip(self.world_nodes_bytes.as_deref()),
             world_roads: self.world_roads.as_ref().zip(self.world_roads_bytes.as_deref()),
+            encounter_headers: self.encounter_headers.as_ref().zip(self.encounter_headers_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1271,6 +1282,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(CONSTRUCTOR_OBJ_ANIMATION_FILE),MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES)).transpose()?;
     let task_cycle_deltas_bytes=manifest.coverage.iter().any(|id|id==TASK_CYCLE_DELTAS_ID)
         .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
+    let encounter_headers_bytes=manifest.coverage.iter().any(|id|id==ENCOUNTER_HEADERS_ID)
+        .then(||read_bounded(&path.join(ENCOUNTER_HEADERS_FILE),MAX_ENCOUNTER_HEADERS_FILE_BYTES)).transpose()?;
     let world_roads_bytes=manifest.coverage.iter().any(|id|id==WORLD_ROADS_ID)
         .then(||read_bounded(&path.join(WORLD_ROADS_FILE),MAX_WORLD_ROADS_FILE_BYTES)).transpose()?;
     let world_nodes_bytes=manifest.coverage.iter().any(|id|id==WORLD_NODES_ID)
@@ -1353,6 +1366,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         word_task_obj_animations_bytes.as_ref().map_or(0, Vec::len),
         world_nodes_bytes.as_ref().map_or(0, Vec::len),
         world_roads_bytes.as_ref().map_or(0, Vec::len),
+        encounter_headers_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1422,6 +1436,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let observed_task_parameters=observed_task_parameters_bytes.as_deref().map(parse_observed_task_parameters).transpose()?;
     let constructor_obj_animation=constructor_obj_animation_bytes.as_deref().map(parse_constructor_obj_animation).transpose()?;
     let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
+    let encounter_headers=encounter_headers_bytes.as_deref().map(parse_encounter_headers).transpose()?;
     let world_roads=world_roads_bytes.as_deref().map(parse_world_roads).transpose()?;
     let world_nodes=world_nodes_bytes.as_deref().map(parse_world_nodes).transpose()?;
     let word_task_obj_animations=word_task_obj_animations_bytes.as_deref().map(parse_word_task_obj_animations).transpose()?;
@@ -1514,6 +1529,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         word_task_obj_animations,
         world_nodes,
         world_roads,
+        encounter_headers,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1567,6 +1583,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         word_task_obj_animations_bytes,
         world_nodes_bytes,
         world_roads_bytes,
+        encounter_headers_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1645,6 +1662,7 @@ fn check_dataset_budget(
     word_task_obj_animations: usize,
     world_nodes: usize,
     world_roads: usize,
+    encounter_headers: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1717,6 +1735,7 @@ fn check_dataset_budget(
         || word_task_obj_animations as u64 > MAX_WORD_TASK_OBJ_ANIMATIONS_FILE_BYTES
         || world_nodes as u64 > MAX_WORLD_NODES_FILE_BYTES
         || world_roads as u64 > MAX_WORLD_ROADS_FILE_BYTES
+        || encounter_headers as u64 > MAX_ENCOUNTER_HEADERS_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1792,6 +1811,7 @@ fn check_dataset_budget(
         .saturating_add(word_task_obj_animations)
         .saturating_add(world_nodes)
         .saturating_add(world_roads)
+        .saturating_add(encounter_headers)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -1976,6 +1996,9 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)= &dataset.task_cycle_deltas {
         eprintln!("ROM_DATA runtime=decoded resource={TASK_CYCLE_DELTAS_ID} file={} phases={}",dataset.manifest.resources[67].sha256,data.entries.len());
+    }
+    if let Some(data)= &dataset.encounter_headers {
+        eprintln!("ROM_DATA runtime=decoded resource={ENCOUNTER_HEADERS_ID} file={} headers={}",dataset.manifest.resources[71].sha256,data.headers.len());
     }
     if let Some(data)= &dataset.world_roads {
         eprintln!("ROM_DATA runtime=decoded resource={WORLD_ROADS_ID} file={} paths={}",dataset.manifest.resources[70].sha256,data.paths.len());
@@ -2208,6 +2231,9 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.task_cycle_deltas_stats() {
             eprintln!("ROM_DATA_USE resource={TASK_CYCLE_DELTAS_ID} dataset={} bus_reads={} source_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.phases_used);
         }
+        if let Some(i)=resources.encounter_headers_stats() {
+            eprintln!("ROM_DATA_USE resource={ENCOUNTER_HEADERS_ID} dataset={} bus_reads={} source_bytes={} unit_count_bytes={} map_bytes={} template_pointer_bytes={} placement_parameter_bytes={} placement_count_bytes={} position_pointer_bytes={} control_bytes={} opaque_bytes={} headers_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.unit_count_bytes,i.map_bytes,i.template_pointer_bytes,i.placement_parameter_bytes,i.placement_count_bytes,i.position_pointer_bytes,i.control_bytes,i.opaque_bytes,i.headers_used);
+        }
         if let Some(i)=resources.world_roads_stats() {
             eprintln!("ROM_DATA_USE resource={WORLD_ROADS_ID} dataset={} bus_reads={} source_bytes={} count_bytes={} pointer_bytes={} sample_bytes={} opaque_bytes={} paths_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.count_bytes,i.pointer_bytes,i.sample_bytes,i.opaque_bytes,i.paths_used);
         }
@@ -2402,6 +2428,7 @@ fn write_dataset(
     let observed_task_parameters_data=source.observed_task_parameters.as_ref().map(|catalog|encode_observed_task_parameters(&catalog.decoded)).transpose()?;
     let constructor_obj_animation_data=source.constructor_obj_animation.as_ref().map(|catalog|encode_constructor_obj_animation(&catalog.decoded)).transpose()?;
     let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
+    let encounter_headers_data=source.encounter_headers.as_ref().map(|catalog|encode_encounter_headers(&catalog.decoded)).transpose()?;
     let world_roads_data=source.world_roads.as_ref().map(|catalog|encode_world_roads(&catalog.decoded)).transpose()?;
     let world_nodes_data=source.world_nodes.as_ref().map(|catalog|encode_world_nodes(&catalog.decoded)).transpose()?;
     let word_task_obj_animations_data=source.word_task_obj_animations.as_ref().map(|catalog|encode_word_task_obj_animations(&catalog.decoded)).transpose()?;
@@ -2475,6 +2502,7 @@ fn write_dataset(
     if let Some(bytes) = &word_task_obj_animations_data {files.push(bytes);}
     if let Some(bytes) = &world_nodes_data {files.push(bytes);}
     if let Some(bytes) = &world_roads_data {files.push(bytes);}
+    if let Some(bytes) = &encounter_headers_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2548,6 +2576,7 @@ fn write_dataset(
         word_task_obj_animations_data.as_ref().map_or(0, Vec::len),
         world_nodes_data.as_ref().map_or(0, Vec::len),
         world_roads_data.as_ref().map_or(0, Vec::len),
+        encounter_headers_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2620,6 +2649,7 @@ fn write_dataset(
     if let Some(bytes) = &word_task_obj_animations_data {write(&path.join(WORD_TASK_OBJ_ANIMATIONS_FILE),bytes)?;}
     if let Some(bytes) = &world_nodes_data {write(&path.join(WORLD_NODES_FILE),bytes)?;}
     if let Some(bytes) = &world_roads_data {write(&path.join(WORLD_ROADS_FILE),bytes)?;}
+    if let Some(bytes) = &encounter_headers_data {write(&path.join(ENCOUNTER_HEADERS_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -2915,6 +2945,7 @@ mod tests {
             word_task_obj_animations: None,
             world_nodes: None,
             world_roads: None,
+            encounter_headers: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3242,8 +3273,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

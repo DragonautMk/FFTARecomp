@@ -170,3 +170,10 @@ Evidenza sotto `target/debug-tools-replay/`: `test-results.json`,
 controller fisici, Ctrl+C sui terminali reali e replay con dataset non vuoto non
 sono verificati da questa unità. Nessun benchmark, nuova accettazione DS,
 estrazione ROM, pacchetto o modifica ad Android/Godot.
+
+I [profili di cattura DBG-08](debug_captures.md) estendono il formato con una
+condizione esplicita e `stop: "capture-trigger"`. Condividono lease, supervisione,
+annullamento e selezione del runtime, ma si fermano al confine sicuro dopo il
+primo match o al limite. `captured` (0) e `not-reached` (7) non sono una verifica
+dell'endpoint completo né una nuova accettazione DS. I profili senza condizione
+mantengono il precedente comportamento `exact-endpoint`.

@@ -24,6 +24,7 @@ mod diagnostics;
 mod debug_session;
 mod debug_catalog;
 mod debug_recording;
+mod debug_capture;
 mod debug_replay;
 mod debug_rom_audit;
 mod rom_data;
@@ -70,6 +71,7 @@ fn main() -> ExitCode {
         print_help(topic);
         return ExitCode::SUCCESS;
     }
+    if args.first().is_some_and(|s|s=="debug-capture") { return ExitCode::from(debug_capture::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-rom-audit") { return ExitCode::from(debug_rom_audit::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
     let result = match args.first().map(String::as_str) {
@@ -134,6 +136,15 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-capture", "recomp debug-capture <create|run|cancel> [options]", &[
+        "create: debug-replay create options (interpreter only) plus exactly one:",
+        "--resource ID --manifest FILE [--preset all|bus|host]",
+        "--pc HEX --mode arm|thumb --opcode HEX  verify bytes against selected ROM",
+        "--frame N  completed relative frame event",
+        "--limit-frames N  bounded by recorded input; --dataset DIR optional",
+        "run/cancel replay.json; codes 0 captured, 7 not reached, 3/4/5/6 as replay",
+        "At most eight derived bundles per profile; no DS validation promotion",
+    ], "Feature-gated first-hit capture at a safe completed-frame boundary, with origin/input/condition metadata and a local debug catalog. Requires rom-data-read-audit; no normal save writes."),
     ("debug-rom-audit", "recomp debug-rom-audit <create|run|cancel> [options]", &[
         "create: debug-replay create options plus:",
         "--preset all|bus|host --from N --to N  relative frame window [from,to)",

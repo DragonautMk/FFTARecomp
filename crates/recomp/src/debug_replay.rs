@@ -41,6 +41,8 @@ pub(crate) struct Profile {
     stop: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub audit: Option<crate::debug_rom_audit::Settings>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub capture: Option<crate::debug_capture::Settings>,
 }
 #[derive(Clone, Serialize, Deserialize)]
 pub(crate) struct Report {
@@ -65,6 +67,8 @@ pub(crate) struct Report {
     pub audit_truncated: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub audit_window_complete: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub capture_catalog: Option<String>,
 }
 impl Report {
     fn new(p: &Profile, run: &str, outcome: &str, completed: u64, message: &str) -> Self {
@@ -75,7 +79,7 @@ impl Report {
             case: p.case.clone(),
             outcome: outcome.into(),
             completed,
-            frames: p.frames,
+            frames: p.capture.as_ref().map_or(p.frames, |s| s.limit_frames),
             message: message.chars().take(2048).collect(),
             runtime_sha256: p.runtime_sha256.clone(),
             rom_sha256: p.rom_sha256.clone(),
@@ -87,11 +91,13 @@ impl Report {
             audit_report: None,
             audit_truncated: None,
             audit_window_complete: None,
+            capture_catalog: None,
         }
     }
     pub fn code(&self) -> u8 {
         match self.outcome.as_str() {
-            "passed" => 0,
+            "passed" | "captured" => 0,
+            "not-reached" => 7,
             "diverged" => 2,
             "incompatible" => 3,
             "timeout" => 4,
@@ -101,6 +107,13 @@ impl Report {
         }
     }
     pub fn short(&self) -> String {
+        if let Some(path) = &self.capture_catalog {
+            let _ = path;
+            return format!("CAPTURED {}/{} | Catalog in profile/captures", self.completed, self.frames);
+        }
+        if self.outcome == "not-reached" {
+            return format!("NOT REACHED {}/{} | No snapshot", self.completed, self.frames);
+        }
         if self.audit_report.is_some() {
             let status = if self.audit_truncated == Some(true) {
                 "TRUNCATED"
@@ -172,7 +185,7 @@ fn load(path: &Path) -> Result<(PathBuf, Profile), String> {
         || p.kind != "ffta-debug-replay-profile"
         || p.frames > MAX_FRAMES
         || !(1..=120000).contains(&p.timeout_ms)
-        || p.stop != "exact-endpoint"
+        || p.stop != if p.capture.is_some() {"capture-trigger"} else {"exact-endpoint"}
         || p.case.is_empty()
         || p.case.len() > 64
         || p.case.chars().any(char::is_control)
@@ -183,6 +196,12 @@ fn load(path: &Path) -> Result<(PathBuf, Profile), String> {
     }
     if let Some(audit) = &p.audit {
         crate::debug_rom_audit::validate(audit, p.frames)?;
+    }
+    if let Some(capture) = &p.capture {
+        crate::debug_capture::validate(capture, p.frames)?;
+        if p.audit.is_some() || p.library_sha256.is_some() {
+            return Err("Capture profiles require interpreter-only replay without a simultaneous audit".into());
+        }
     }
     Ok((path.parent().unwrap().into(), p))
 }
@@ -220,6 +239,7 @@ pub(crate) fn create(
         runtime,
         library,
         None,
+        None,
     )
 }
 
@@ -232,6 +252,7 @@ fn create_inner(
     runtime: &Path,
     library: Option<&Path>,
     audit: Option<&crate::debug_rom_audit::Request>,
+    capture: Option<&crate::debug_capture::Request>,
 ) -> Result<PathBuf, String> {
     if case.is_empty()
         || case.len() > 64
@@ -239,6 +260,9 @@ fn create_inner(
         || !(1..=120000).contains(&timeout_ms)
     {
         return Err("Case must be 1..64 printable characters; timeout must be 1..120000 ms".into());
+    }
+    if capture.is_some() && (library.is_some() || audit.is_some()) {
+        return Err("Capture profiles require interpreter-only replay without a simultaneous audit".into());
     }
     let session = crate::debug_session::open(session)?;
     let data = crate::debug_recording::export(recording)?;
@@ -263,7 +287,7 @@ fn create_inner(
     {
         return Err("Recording and session ROM/BIOS/dataset differ".into());
     }
-    let dataset = audit.and_then(|r| r.dataset.clone()).or(dataset);
+    let dataset = capture.and_then(|r| r.dataset.clone()).or_else(||audit.and_then(|r| r.dataset.clone())).or(dataset);
     let dataset_sha256 = dataset
         .as_ref()
         .map(|p| {
@@ -290,6 +314,9 @@ fn create_inner(
     let audit_prepared = audit
         .map(|request| crate::debug_rom_audit::prepare(request, &rom, m.frames, dataset.as_deref()))
         .transpose()?;
+    let capture_prepared = capture
+        .map(|request| crate::debug_capture::prepare(request, &rom, m.frames, dataset.as_deref()))
+        .transpose()?;
     let root = crate::debug_session::create(
         destination,
         crate::debug_session::Source {
@@ -315,6 +342,9 @@ fn create_inner(
     if let Some((_, Some(bytes))) = &audit_prepared {
         put(&root, "known-plan.toml", bytes)?;
     }
+    if let Some((_, Some(bytes))) = &capture_prepared {
+        put(&root, "capture-plan.toml", bytes)?;
+    }
     let p = Profile {
         schema: 1,
         kind: "ffta-debug-replay-profile".into(),
@@ -336,8 +366,9 @@ fn create_inner(
         extra: m.extra,
         extra_y: m.extra_y,
         timeout_ms,
-        stop: "exact-endpoint".into(),
+        stop: if capture_prepared.is_some() {"capture-trigger"} else {"exact-endpoint"}.into(),
         audit: audit_prepared.map(|(settings, _)| settings),
+        capture: capture_prepared.map(|(settings, _)| settings),
     };
     // Published last: partial copies never look runnable.
     put(
@@ -390,12 +421,26 @@ fn execute(
     end: &[u8],
     table: Option<&crate::BlockTable>,
     mut audit: Option<&mut crate::debug_rom_audit::Audit>,
+    mut capture: Option<&mut crate::debug_capture::Observer>,
     mut control: impl FnMut(u64) -> Option<(&'static str, String)>,
 ) -> Report {
     let mut completed = 0;
     let outcome = loop {
         if let Some((kind, message)) = control(completed) {
             break Report::new(p, run, kind, completed, &message);
+        }
+        if let Some(capture) = capture.as_deref_mut() {
+            let reached = capture.reached(completed, machine.bus.frames);
+            if reached || completed >= capture.settings.limit_frames {
+                let mut r = Report::new(p, run, if reached {"captured"} else {"not-reached"}, completed,
+                    if reached {"Trigger observed; stopped at the next completed-frame boundary. Derived variant only."}
+                    else {"Trigger not observed within the recorded frame limit; no snapshot or scene promotion."});
+                let state = match machine.save_state() {
+                    Ok(state)=>state, Err(e)=>break Report::new(p,run,"error",completed,&e),
+                };
+                r.state_sha256=Some(digest(&state));r.clock=Some(machine.bus.clock);
+                break r;
+            }
         }
         if completed == p.frames {
             let actual = match machine.save_state() {
@@ -423,6 +468,7 @@ fn execute(
         if let Some(audit) = audit.as_deref_mut() {
             audit.frame(completed, machine.bus.frames);
         }
+        if let Some(capture) = capture.as_deref_mut() {capture.frame(machine.bus.frames);}
         machine.bus.keys = input.keys_at(completed);
         if let Err(e) = input.apply_mouse(&mut machine.bus, completed) {
             break Report::new(p, run, "incompatible", completed, &e);
@@ -540,6 +586,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         .as_ref()
         .map(|s| crate::debug_rom_audit::Audit::start(&root, s, &machine.bus.rom))
         .transpose()?;
+    let mut capture = p.capture.as_ref().map(|s|crate::debug_capture::Observer::start(&root,s,&machine.bus.rom)).transpose()?;
     let mut report = execute(
         &p,
         run,
@@ -548,6 +595,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         &end,
         native.as_ref().map(|n| &n.1),
         audit.as_mut(),
+        capture.as_mut(),
         |completed| {
             if INTERRUPTED.load(Ordering::Relaxed)
                 || read(&out.join("cancel.json"), 1024)
@@ -597,6 +645,16 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
                 " ROM audit window incomplete."
             });
     }
+    if report.outcome == "captured" {
+        let context=serde_json::json!({"profile_settings_sha256":digest(&serde_json::to_vec(&p).map_err(|e|e.to_string())?),
+            "runtime_sha256":p.runtime_sha256,"recording_runtime_sha256":p.recording_runtime_sha256,
+            "rom_sha256":p.rom_sha256,"bios_sha256":p.bios_sha256,"dataset_manifest_sha256":p.dataset_sha256,
+            "start_sha256":p.start_sha256,"input_sha256":p.input_sha256,"first_frame":p.first_frame,
+            "first_clock":p.first_clock,"initial_keys":p.initial_keys,"relative_completed":report.completed,
+            "input_end_exclusive":report.completed,"extra":p.extra,"extra_y":p.extra_y});
+        report.capture_catalog=Some(crate::debug_capture::publish(&root,run,&p.case,&machine,
+            capture.as_ref().ok_or("Missing capture observer")?,context,crate::debug_capture::Inputs{state:&start,input:&bytes})?);
+    }
     json(&out.join("result.json"), &report)?;
     Ok(report)
 }
@@ -629,6 +687,7 @@ impl Job {
             .map_err(|_| "This replay profile is already running")?;
         let session = crate::debug_session::open(&root)?; // Acquire the supervisor lease first; duplicates cannot race the worker's session lease.
         checked(&root, executable(), 256 * 1024 * 1024, &p.runtime_sha256)?;
+        if p.capture.is_some() {crate::debug_capture::capacity(&root)?;}
         let out = outputs(&root);
         fs::create_dir_all(&out).map_err(|e| e.to_string())?;
         let run = format!(
@@ -663,6 +722,13 @@ impl Job {
             last: Some(initial),
             done: false,
         })
+    }
+    pub fn require_capture(path: &Path) -> Result<(), String> {
+        if load(path)?.1.capture.is_none() {return Err("Choose a capture profile created with debug-capture create".into());}
+        Ok(())
+    }
+    pub fn start_capture(path: &Path) -> Result<Self, String> {
+        Self::require_capture(path)?;Self::start(path)
     }
     pub fn require_audit(path: &Path) -> Result<(), String> {
         let (_, p) = load(path)?;
@@ -791,6 +857,12 @@ pub(crate) fn create_cmd_audited(
     args: &[String],
     audit: Option<&crate::debug_rom_audit::Request>,
 ) -> Result<PathBuf, String> {
+    create_cmd_inner(args, audit, None)
+}
+pub(crate) fn create_cmd_captured(args: &[String], capture: &crate::debug_capture::Request) -> Result<PathBuf,String> {
+    create_cmd_inner(args,None,Some(capture))
+}
+fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Request>, capture: Option<&crate::debug_capture::Request>) -> Result<PathBuf,String> {
     let mut recording = None;
     let mut session = None;
     let mut directory = None;
@@ -821,6 +893,7 @@ pub(crate) fn create_cmd_audited(
         &runtime.unwrap_or(std::env::current_exe().map_err(|e| e.to_string())?),
         library.as_deref(),
         audit,
+        capture,
     )
 }
 

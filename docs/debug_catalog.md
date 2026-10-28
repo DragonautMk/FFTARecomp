@@ -144,3 +144,9 @@ Risultati locali: `test-results.json`, `cli-results.json`, `cli-summary.json` e
 `gui-results.json` sotto `target/debug-tools-catalog/`. Windows nativo, Linux,
 controller fisici e gameplay native nella copia non sono verificati da questa
 unità. Nessuna nuova accettazione DS, prova di performance o estrazione ROM.
+
+DBG-08 produce un [bundle di cattura](debug_captures.md#riutilizzare-il-punto)
+con `debug-catalog.json` locale, snapshot, origine e input autenticati. Aprirlo
+con il selettore o con `debug-catalog list/open/import`. L'entrata ha chiave
+`CAP/<run>`, tipo variante e stato `variante`; il nome DS resta provenienza e
+non viene promosso a caso validato. Il catalogo personale resta invariato.

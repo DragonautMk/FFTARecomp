@@ -97,6 +97,53 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](
 
 [Change record](docs/changes/2026-10-28-verify-european-world-node-cli.json)
 
+## 2026-10-28 — Verify European encounter-header production CLI and ordinary data use
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify actual e80-d79 CLI creation, no-write reuse and normal Giza battle-entry startup:73generation files exactruntime/72logged resource IDs-hashes/75managed paths unchanged, mandatory shared constructor dependency retained.
+- Close positive ordinary use of six semantic header byte classes from existing normal state/input copies before selecting one full equivalence pair.
+
+**Validation**
+
+- One warning-free Windows production build 9d0a772d.. from510 accepted source files. Only affected production fingerprint isolated, unchanged core reused, canonical executable hash/mtime restored; parallel Debug/frontend excluded.
+- Three Wine children exit0 preparecreated/reused/runc700 guest19409→20109. Old28859native blocks load; counts={"bus_reads": 17, "control_bytes": 3, "headers_used": 1, "map_bytes": 1, "opaque_bytes": 0, "placement_count_bytes": 1, "placement_parameter_bytes": 0, "position_pointer_bytes": 20, "source_bytes": 41, "template_pointer_bytes": 4, "unit_count_bytes": 12}. All184guards/510source hashes exact, artifacthelper0paths. No new navigation/checkpoint/performance or closedsource-model-runtime-road-node acceptance replay.
+
+**Limitations**
+
+- Placement-parameter ordinary use is unobserved (zero bytes); targeted source/native/bus proof remains valid. One ordinary fullstate-clock/pixel/OAM/dispatch/audio pair remains next. One battle-entry case does not prove all442headers/opaqueordinary/nestedpayload/fullABI/globalarchive or complete ROM_DATA_TODO.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage campaign, Android/package, assistantcommit/push; existingparallelwork preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-header-cli.json)
+
+## 2026-10-28 — Verify European encounter headers in ordinary battle entry
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add optional five-line positive-use guard for the six observed semantic encounter-header byte classes in the existing ordinary scene validator; report all eleven usage fields while retaining the prior validator exactly after guard removal.
+- Close one retained normal Giza menu-to-White Flowers deployment case with the actual e80-d79 production dataset and exact CLI usage counts. Placement-parameter and opaque ordinary use remain unobserved; targeted proofs remain separate.
+
+**Validation**
+
+- One warning-free510-source Windows test build 43fcc614.., only affectedtest fingerprint isolated/core unchanged, one Wine700 per-frame fullpair19409→20109. All complete states/guest clocks/classic-central-wide images/OAM/native-fallback/fiveaudio match. Dispatch=[3316146, 8054486]; audio=[1536150, 1536150, 184800, 184800, 1536026]; counts={"bus_reads": 17, "control_bytes": 3, "headers_used": 1, "map_bytes": 1, "opaque_bytes": 0, "placement_count_bytes": 1, "placement_parameter_bytes": 0, "position_pointer_bytes": 20, "source_bytes": 41, "template_pointer_bytes": 4, "unit_count_bytes": 12} exactCLI.
+- All103ordinary guards/510pairsource hashes and184closedCLI guards/510productionsource hashes exact; preimage guard removal byteexact/artifacthelper0paths. No new fixture/checkpoint/navigation/performance or closed source-model-runtime-CLI/road-node acceptance replay.
+- Project-memory render/metadata-only and CRLF whitespace diff pass. Default/baseacd086e/base2fbf9f7 initially reported parallel Debug record gaps; after that owner published its bounded-trigger-capture record, all three checks pass. No runtime acceptance rerun or claim about parallel Debug test results.
+
+**Limitations**
+
+- One battle-entry case does not prove all442headers/placement-parameter or opaque ordinary use/nestedpayload/placement-facing fullABI/globalarchive or complete ROM_DATA_TODO.
+- Linux/USA/nativeWindows/new32:9 pending. No performance/storage campaign, Android/package, assistantcommit/push; existingparallelwork preserved.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-verify-european-encounter-header-battle-entry.json)
+
 ## 2026-10-28 — Verify ordinary European constructor animation through the Giza scene
 
 Type: docs. Platforms: Windows.
@@ -493,6 +540,30 @@ Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](
 
 [Change record](docs/changes/2026-10-28-consume-european-world-node-records.json)
 
+## 2026-10-28 — Publish and consume European encounter headers with shared source ownership
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish encounter-headers.json/gameplay.encounter-headers at e80-d79/index71:73files72resources/all71prior records-files exact, explicit constructor-alternate dependency/coherence. Wire strict parsing/authentication/fullset/startup and immutable typed guest reads through two-fragment17676B plan, preserving the four existing pointer bytes and original guest algorithms/indices/ABI.
+- Add global source-page coverage70C..710 and eleven usage fields for eight byte classes/442header IDs. Preserve u16aliases, shared-hole/mirror/rawedge/prior-owner composition; USAe8-d7/schema1 unchanged, nestedpayloads separate.
+
+**Validation**
+
+- One warningfree Windows build1c4135f5.. from510stablefiles and one reducedWine filter pass publication/interruption,14attach/threefullset guards with failedowner-state retention.26original/interpreter/native prefixes match complete state-clock with17680rawheaderBpoisoned afterLoad; 31compiledinstructions/37explicitnewB+fourpriorpointerB, fields/C0034/aliases/rawoutside/mirrors.
+- All17676newtypedB+4oldB/eightclasses442headers pass widths/sharedhole/rawedges/olderowner, unavailabledatasetLoad-slotUndo and three DMA/CpuSet/CpuFastSet fullstate-clock cases. All206actualguards/510integrationhashes/508modelpreimages exact. Artifacthelper retiresonlyinterruptedcopy, keepingaccepteddata/source/executable/logs.
+- Only affectedcore/test fingerprints isolated before build; no failedbuild/globalclean/oldsource changes. ParallelDebug/coverage/frontend excluded. No newgame/checkpoint/fixture/performance or closed7523model/road-node-constructor acceptance replay.
+
+**Limitations**
+
+- ActualproductionCLI/create-reuse/startup/positiveordinaryfullpair next. Selectednative prefixes are not fullimporter/placement/facingABI/payload/gameplay/globalarchive/allcaller proof; fullROM_DATA_TODO active.
+- Linux/USA/nativeWindows/new32:9/nestedtemplate-coordinatepayloads pending. No performance/storage campaign, Android/package, assistantcommit/push; preserveexistinguser/parallelwork.
+
+Documentation: [rom_data_maps.md](docs/rom_data_maps.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-28-consume-european-encounter-headers.json)
+
 ## 2026-10-28 — Classify European world node links and preserve opaque record bytes
 
 Type: docs. Platforms: Windows.
@@ -698,6 +769,37 @@ Type: added. Platforms: Windows (Wine validation).
 Documentation: [debug_rom_audit.md](docs/debug_rom_audit.md), [debug_replays.md](docs/debug_replays.md), [debug_recordings.md](docs/debug_recordings.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
 
 [Change record](docs/changes/2026-10-28-add-bounded-rom-read-audit-tools.json)
+
+## 2026-10-28 — Capture reusable debug points when bounded replay triggers are observed
+
+Type: added. Platforms: Windows cross build validated under Wine/Xvfb.
+
+**Changes**
+
+- Add debug-capture create/run/cancel and Debug > Capture on trigger on the existing isolated replay supervisor. Authenticate resource source ranges or ROM PC/mode/opcode, or select a completed relative-frame event; bound replay by recorded input frames and wall timeout, distinguishing captured0 from not-reached7.
+- Add an independent feature-gated thread-bound constant-space first-hit collector for instrumented resource reads or actual condition-passed interpreter instruction entry. Fetches remain excluded, mirrors normalize physical addresses, and inherited HLE/DMA read scope cannot become an invented instruction-entry trigger. No Machine fields, guest clocks, save version or native ABI are changed.
+- Stop only after a guarded completed frame. Publish a new private bundle with full snapshot, authenticated executed origin/input buffers, normalized effective profile identity, condition, first observation, actual boundary/clock and a variant-only catalog. Refuse a ninth retained bundle before spawn and never overwrite earlier captures. Keep native and simultaneous-audit capture profiles unsupported explicitly.
+- Keep CLI/menu supervisor leases, progress/result identity, timeout/cancel and owner-close teardown. Normal game stays paused and personal game-save writers remain outside the worker. Existing plain replay profiles retain exact-endpoint behavior; default clients can supervise an explicitly selected feature worker.
+
+**Validation**
+
+- Frozen public acd086e plus eight selected task files builds locked offline Windows feature/default frontends and targeted tests without warnings, excluding concurrent extraction changes. Final feature candidate SHA25692a669b75f62e324d3b963d31ebb30a8dc1cf08da51cfc79c0d93a98f8e92b5c; default candidate SHA256ce3bfb984c56acefebe49173d5c28819da59bd9f8cf4b7827f2d44a8e0740dc1. Both normal production executables remain unchanged.
+- Wine passes66 targeted tests:5 capture,11 replay,3 core trigger,2 bounded-audit regression and45 menu. Checks cover exact safe-boundary full state/clock, catalog reuse/load and subsequent frame, no-match bounded outcomes, first-hit stability/fetch/mirror/filter/mode behavior, authenticated source/PC rejection, capacity and no overwrite. After publication refinement, only affected capture/replay binaries are rebuilt/rechecked; unchanged accepted core/menu identities are retained.
+- Self-review finds that late rereads could mislabel capture origin/input if profile files change during execution. Publication is corrected to use and fingerprint the authenticated in-memory buffers actually executed, and normalized loaded Profile settings replace a late file hash. A synthetic external input edit after execution proves the bundle keeps executed bytes. Preimage source/logs/candidate identity remain under target/debug-tools-capture/publication-preimage; initial pre-refinement build is not treated as final source evidence.
+- 25 CLI command checks, a controlled cancellation runner and4 feature-boundary cases pass on retained DS20 input. Resource/frame/verified-PC captures all produce full-state hash283c3470414cd0e2e25ad859a401e831a4d2dfb1143db8fe311e1b0f6ec3f6c7 at one completed frame/clock6241425344. Not-reached stops at2frames and matches the frame2 control state/clock, without a snapshot. Catalog lists verified variant and opens an isolated session with identical seed. Invalid opcode/window/ambiguous/native conditions, modified plan, timeout, duplicate, idle cancellation and ninth-bundle capacity are refused.
+- Initial harness incorrectly expects ObjSourceTable to be the first host reader of graphics.obj-dimensions. Actual first hit is SpritePeek at the authenticated resource offset, with the same one-frame endpoint. Correct the reader-specific harness expectation to the declared host/filter/source condition and reuse the already successful captures; retain the failed expectation log without a product change or replay.
+- Dedicated Wine/Xvfb GUI passes Capture on trigger with the same CLI state/clock, visible CAPTURED/NOT REACHED, cancel and owner-close worker teardown. Parent full-state/frame/clock and save/progress identities remain unchanged while paused; final screenshots inspected and parent exits0. All203 selected original ROM/session/recording/collection/manifest/production input hash-mtimes are unchanged.
+- Final independent checks verify all8 live/compiled overlay hashes, both production runtimes,203 original hash-mtimes, six derived bundles with state/origin/input fingerprints and boundary consistency, ignored/untracked personal collection,405 local links and only DBG01-08 checked. Workspace/base acd086e project-memory and whitespace checks pass; final owner-close worker is terminal interrupted. No managed/native disposable fixture trees are created, so ROM-only completion cleanup does not apply.
+
+**Limitations**
+
+- Native Windows, Linux/Wayland, physical controllers and explicit typed-dataset capture are unverified. Real checks use raw serving plus retained e76 source metadata; newer concurrent extraction implementation is outside the frozen tool build. No old native-parity, Bank/F09, DS acceptance, performance, extraction or Godot campaign is resumed.
+- Only the six existing instrumented readers/current thread and condition-passed interpreter ROM entries are observed; native/RAM/BIOS execution, missing host/HLE hooks, failed/out-of-image/GPIO/EEPROM paths and filtered cases remain outside scope. Non-observation is not unread proof; the snapshot is at the next completed-frame boundary, not the exact instruction/read.
+- Derived points remain local variants, without DS status or ownership promotion. Original input may contain later unapplied events; input_end_exclusive identifies the used prefix. Keep the profile source plan for full resource-selector provenance. Captures retain at most eight bundles and do not delete old or partial diagnostic evidence automatically.
+
+Documentation: [debug_captures.md](docs/debug_captures.md), [debug_replays.md](docs/debug_replays.md), [debug_catalog.md](docs/debug_catalog.md), [debug_rom_audit.md](docs/debug_rom_audit.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-28-add-bounded-debug-trigger-captures.json)
 
 ## 2026-10-28 — Verify normal European White Flowers acceptance and retain battle-navigation limits
 

@@ -312,6 +312,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_ENCOUNTER_HEADERS").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().encounter_headers_stats().expect("decoded EUR encounter headers");
+        assert!([i.unit_count_bytes, i.map_bytes, i.template_pointer_bytes, i.placement_count_bytes, i.position_pointer_bytes, i.control_bytes].into_iter().all(|n| n > 0), "ordinary battle-entry scene must consume all six observed semantic header classes");
+        eprintln!("ROM_DATA_ENCOUNTER_HEADERS_SCENE frames={frames} bus_reads={} source_bytes={} unit_count_bytes={} map_bytes={} template_pointer_bytes={} placement_parameter_bytes={} placement_count_bytes={} position_pointer_bytes={} control_bytes={} opaque_bytes={} headers_used={}",i.bus_reads,i.source_bytes,i.unit_count_bytes,i.map_bytes,i.template_pointer_bytes,i.placement_parameter_bytes,i.placement_count_bytes,i.position_pointer_bytes,i.control_bytes,i.opaque_bytes,i.headers_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_WORLD_ROADS").is_some() {
         let i = decoded.bus.rom_resources().unwrap().world_roads_stats().expect("decoded EUR world roads");
         assert!(i.count_bytes > 0 && i.pointer_bytes > 0 && i.sample_bytes > 0, "ordinary scene must consume road counts, pointers and samples");

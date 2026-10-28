@@ -49,6 +49,7 @@ thread_local! {
     static FETCH_DEPTH: Cell<usize> = const { Cell::new(0) };
     static SITE_READS: RefCell<Option<SiteReads>> = const { RefCell::new(None) };
     static TRACE: RefCell<Option<TraceState>> = const { RefCell::new(None) };
+    static TRIGGER: RefCell<Option<TriggerState>> = const { RefCell::new(None) };
     static EXECUTION_SITE: Cell<Option<ExecutionSite>> = const { Cell::new(None) };
 }
 
@@ -95,7 +96,13 @@ impl Drop for SiteCapture {
 pub(crate) struct InstructionExecution(Option<ExecutionSite>);
 impl InstructionExecution {
     pub(crate) fn enter(pc: u32, thumb: bool) -> Self {
-        Self(EXECUTION_SITE.with(|cell| cell.replace(Some(ExecutionSite { pc, thumb }))))
+        let site = ExecutionSite { pc, thumb };
+        TRIGGER.with(|cell| {
+            if let Some(state) = cell.borrow_mut().as_mut() {
+                state.instruction(site);
+            }
+        });
+        Self(EXECUTION_SITE.with(|cell| cell.replace(Some(site))))
     }
 }
 impl Drop for InstructionExecution {
@@ -179,6 +186,11 @@ fn record_with_service(reader: Reader, address: u32, length: usize, service: Ser
     TRACE.with(|trace| {
         if let Some(state) = trace.borrow_mut().as_mut() {
             state.record(read, service);
+        }
+    });
+    TRIGGER.with(|cell| {
+        if let Some(state) = cell.borrow_mut().as_mut() {
+            state.read(read, service);
         }
     });
     READS.with(|cell| {
@@ -400,5 +412,228 @@ mod bounded_tests {
         assert_eq!(result.fetch_requests_excluded, 1);
         drop(TraceCapture::start(filter.clone(), 1).unwrap());
         assert!(TraceCapture::start(filter, 1).is_ok());
+    }
+}
+
+/// Constant-space first-hit observation, separate from bounded audit inventories.
+/// Never stops in a memory/HLE/DMA callback; the owner stops at a safe boundary.
+#[derive(Clone, Debug)]
+pub enum TriggerCondition {
+    Read {
+        ranges: Vec<(u32, u32)>,
+        readers: Vec<Reader>,
+    },
+    Instruction(ExecutionSite),
+}
+#[derive(Clone, Debug, serde::Serialize)]
+#[serde(tag = "kind", rename_all = "kebab-case")]
+pub enum TriggerEvent {
+    Read {
+        read: Read,
+        service: Service,
+        instruction: Option<ExecutionSite>,
+    },
+    Instruction {
+        site: ExecutionSite,
+    },
+}
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct TriggerHit {
+    pub guest_frame: u64,
+    pub event: TriggerEvent,
+}
+struct TriggerState {
+    condition: TriggerCondition,
+    frame: Option<u64>,
+    hit: Option<TriggerHit>,
+}
+impl TriggerState {
+    fn instruction(&mut self, site: ExecutionSite) {
+        if let Some(frame) = self.frame.filter(|_| self.hit.is_none()) {
+            if matches!(&self.condition, TriggerCondition::Instruction(expected) if *expected == site)
+            {
+                self.hit = Some(TriggerHit {
+                    guest_frame: frame,
+                    event: TriggerEvent::Instruction { site },
+                });
+            }
+        }
+    }
+    fn read(&mut self, read: Read, service: Service) {
+        let Some(frame) = self.frame.filter(|_| self.hit.is_none()) else {
+            return;
+        };
+        let TriggerCondition::Read { ranges, readers } = &self.condition else {
+            return;
+        };
+        if !readers.is_empty() && !readers.contains(&read.reader) {
+            return;
+        }
+        let index = ranges.partition_point(|&(_, end)| end <= read.physical_offset);
+        if ranges.get(index).is_some_and(|&(start, _)| {
+            u64::from(start) < u64::from(read.physical_offset) + read.length as u64
+        }) {
+            self.hit = Some(TriggerHit {
+                guest_frame: frame,
+                event: TriggerEvent::Read {
+                    read,
+                    service,
+                    instruction: EXECUTION_SITE.with(Cell::get),
+                },
+            });
+        }
+    }
+}
+/// Thread-bound, non-nestable; one immutable match, no event list or guest writes.
+pub struct TriggerCapture(PhantomData<Rc<()>>);
+impl TriggerCapture {
+    pub fn start(condition: TriggerCondition) -> Result<Self, String> {
+        match &condition {
+            TriggerCondition::Read { ranges, readers }
+                if ranges.is_empty()
+                    || ranges.len() > 100000
+                    || readers.len() > 6
+                    || ranges.iter().any(|&(a, b)| a >= b || b > 0x02000000)
+                    || ranges.windows(2).any(|w| w[0].1 >= w[1].0) =>
+            {
+                return Err("Invalid trigger ranges/readers".into())
+            }
+            TriggerCondition::Instruction(site)
+                if !(0x08000000..0x0e000000).contains(&site.pc)
+                    || site.pc % if site.thumb { 2 } else { 4 } != 0 =>
+            {
+                return Err("Invalid ROM instruction trigger".into())
+            }
+            _ => {}
+        }
+        TRIGGER.with(|cell| {
+            let mut state = cell.borrow_mut();
+            if state.is_some() {
+                return Err("Trigger already active on this thread".into());
+            }
+            *state = Some(TriggerState {
+                condition,
+                frame: None,
+                hit: None,
+            });
+            Ok(Self(PhantomData))
+        })
+    }
+    pub fn frame(&self, guest: Option<u64>) {
+        TRIGGER.with(|cell| {
+            if let Some(state) = cell.borrow_mut().as_mut() {
+                state.frame = guest;
+            }
+        });
+    }
+    pub fn hit(&self) -> Option<TriggerHit> {
+        TRIGGER.with(|cell| cell.borrow().as_ref().and_then(|s| s.hit.clone()))
+    }
+}
+impl Drop for TriggerCapture {
+    fn drop(&mut self) {
+        TRIGGER.with(|cell| *cell.borrow_mut() = None);
+    }
+}
+
+#[cfg(test)]
+mod trigger_tests {
+    use super::*;
+    #[test]
+    fn first_hit_excludes_fetches_deduplicates_mirrors_and_does_not_grow() {
+        let c = TriggerCapture::start(TriggerCondition::Read {
+            ranges: vec![(0x100, 0x104)],
+            readers: vec![],
+        })
+        .unwrap();
+        record_served(Reader::Bus, 0x08000100, 4, false);
+        assert!(c.hit().is_none());
+        c.frame(Some(10));
+        {
+            let _fetch = InstructionFetch::enter();
+            record_served(Reader::Bus, 0x08000100, 4, false);
+        }
+        assert!(c.hit().is_none());
+        record_served(Reader::AudioValue, 0x0a0000ff, 2, true);
+        let first = serde_json::to_string(&c.hit().unwrap()).unwrap();
+        for _ in 0..10000 {
+            record_served(Reader::Bus, 0x08000100, 4, false);
+        }
+        assert_eq!(serde_json::to_string(&c.hit().unwrap()).unwrap(), first);
+        assert!(matches!(
+            c.hit().unwrap().event,
+            TriggerEvent::Read {
+                read: Read {
+                    physical_offset: 0xff,
+                    ..
+                },
+                service: Service::Typed,
+                ..
+            }
+        ));
+        assert!(
+            TriggerCapture::start(TriggerCondition::Instruction(ExecutionSite {
+                pc: 0x08000000,
+                thumb: false
+            }))
+            .is_err()
+        );
+        drop(c);
+        assert!(
+            TriggerCapture::start(TriggerCondition::Instruction(ExecutionSite {
+                pc: 0x08000000,
+                thumb: false
+            }))
+            .is_ok()
+        );
+    }
+    #[test]
+    fn instruction_trigger_requires_matching_entry_mode_not_an_inherited_read_site() {
+        let c = TriggerCapture::start(TriggerCondition::Instruction(ExecutionSite {
+            pc: 0x08000010,
+            thumb: true,
+        }))
+        .unwrap();
+        c.frame(Some(7));
+        {
+            let _wrong = InstructionExecution::enter(0x08000010, false);
+            record_served(Reader::Bus, 0x08000010, 4, false);
+        }
+        assert!(c.hit().is_none());
+        {
+            let _entry = InstructionExecution::enter(0x08000010, true);
+        }
+        assert!(matches!(
+            c.hit().unwrap().event,
+            TriggerEvent::Instruction {
+                site: ExecutionSite {
+                    pc: 0x08000010,
+                    thumb: true
+                }
+            }
+        ));
+    }
+    #[test]
+    fn reader_filter_and_bad_ranges_are_explicit() {
+        assert!(TriggerCapture::start(TriggerCondition::Read {
+            ranges: vec![],
+            readers: vec![]
+        })
+        .is_err());
+        assert!(TriggerCapture::start(TriggerCondition::Read {
+            ranges: vec![(4, 8), (6, 10)],
+            readers: vec![]
+        })
+        .is_err());
+        let c = TriggerCapture::start(TriggerCondition::Read {
+            ranges: vec![(4, 8)],
+            readers: vec![Reader::Bus],
+        })
+        .unwrap();
+        c.frame(Some(0));
+        record_served(Reader::AudioValue, 0x08000004, 4, false);
+        assert!(c.hit().is_none());
+        record_served(Reader::Bus, 0x08000003, 2, false);
+        assert!(c.hit().is_some());
     }
 }

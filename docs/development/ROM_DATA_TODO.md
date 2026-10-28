@@ -4412,3 +4412,44 @@ scena/fixture/misure. Prossimo managed/typedbus/sourcepage70C..710/dependency,
 poiCLI/ordinary; nestedpayload/allcaller/global/Linux/USA/Windows nativo/nuovo32:9/
 fullTODO ancora pendenti.
 [Modello e prova](../rom_data_maps.md#typed-encounter-headers-and-original-reader-proof).
+
+
+**ROMDATA-03-04-ENCOUNTER-HEADERS-RUNTIME completato EUR/Wine (2026-10-28).**
+e80-d79/index71/encounter-headers.json:73file72risorse, tutti71precedenti esatti,
+dependencyconstructor-alternates e coerenzasharedpointer. Owner2span17676B
+esclude4Bvecchi, sourcepage70C..710,8classi/442headermask/11stats; guestalgoritmi/
+indici/ABI/cache/save invariati, USA8-7/schema1. Un buildWindows senzaavvisi
+1c4135f5.. da510file stabili, un filtroWine:14guardieattach/3fullset/failedowner-
+state,26prefix original/interpreter/native fullstate-clock con17680Brawpoison,
+31istruzionicompilate/37Bnuovi+4Bvecchi. Tutti17676nuovi+4sharedB/8classi/442header/
+widths/mirrors/bordi/priorowner/LoadUndo/DMA3 PASS. 206guardie510hash+508preimage
+modello esatti/helperritira solo interrupted. Nessuna scena/fixture/misura/prova
+modello7523/nodi-road-constructor giàchiusa ripetuta. Prossimo CLIreale/ordinary;
+nestedpayload/allcaller/global/Linux/USA/Windowsnativo/nuovo32:9/fullTODO pendenti.
+[Consumo e prove](../rom_data_maps.md#managed-encounter-headers-and-typed-guest-reads).
+
+
+**ROMDATA-04-ENCOUNTER-HEADERS-CLI completato EUR/Wine (2026-10-28).** Un build
+produzione Windows senzaavvisi/9d0a772d.. da510sorgenti accettati; canonicalhashmtime
+ripristinati. Tre comandi Wine preparecreated/reused/runc700 passano:73file esatti
+alruntime/72IDhash/75path no-write, 28859blocchi cache caricati. Copie normali
+Giza02menu/03input19409→20109: 17letture/41B, sei classi semantiche
+positive/1header/0opaque. 184guardie510hash/helper0; nessuna nuova navigazione,
+checkpoint, misura o prova chiusa ripetuta. Prossimo unico fullpair con conteggiCLI
+identici; non tutti442header/payload/opaqueordinari/fullABI/globalcatalogo.
+Linux/USA/Windows nativo/nuovo32:9/fullTODO pendenti.
+[CLI e consumo](../rom_data_maps.md#actual-encounter-header-cli-and-ordinary-consumption).
+
+
+**ROMDATA-05-ENCOUNTER-HEADERS-BATTLE-ORDINARY completato EUR/Wine (2026-10-28).**
+Un solo fullpair700 normale Giza02menu/03input19409→20109 con datasetCLI e80-d79:
+ogni stato completo/clock/immagine classic-central-wide/OAM/dispatch/5audio passa.
+Tutti11conteggi esatti allaCLI:17letture41B=12count/1map/4templateptr/0parameter/
+1placementcount/20positionptr/3control/0opaque, unheader; sei classi positive.
+Parameterordinary e opaque non osservati, prove mirate precedenti distinte.
+Una guardia facoltativa5righe/vecchio validator byteexact, un buildWindows senza
+avvisi/43fcc614.. da510sorgenti e un filtroWine. 103guardieordinarie+184CLI/510hash
+ciascuno esatti/helper0. Nessuna nuova fixture/navigazione/prova chiusa ripetuta
+oppure misura. Caso ordinario chiuso; tutti442header/payload/fullABI/globalcatalogo,
+Linux/USA/Windows nativo/nuovo32:9/fullTODO restano pendenti.
+[Equivalenza](../rom_data_maps.md#ordinary-encounter-header-battle-entry-equivalence).

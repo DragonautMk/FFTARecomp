@@ -119,3 +119,19 @@ I launcher ROM coverage accettano audit DBG-06 ripetibili (`--audit FILE` su Bas
 con mount in sola lettura; nessun replay. La mappa distingue unioni osservate,
 servizio Typed/Raw e intere famiglie positive, con filtri e limiti espliciti.
 Vedi [istruzioni ed esempi](../docs/development/ROM_COVERAGE.md#scene-letture-e-confronto-dbg-07).
+
+
+EUR e80-d79 extraction publishes `encounter-headers.json`
+(`gameplay.encounter-headers`) with a constructor-alternate dependency. Its two
+fragments migrate17,676bytes while retaining existing ownership of the shared
+four-byte pointer. The reduced Wine integration result is documented under
+[managed encounter headers](../docs/rom_data_maps.md#managed-encounter-headers-and-typed-guest-reads).
+Actual CLI/ordinary coverage and Linux/USA/nativeWindows remain pending; no
+performance measurement is included.
+
+Il comando runtime `debug-capture create/run/cancel` e Debug > Capture on trigger
+producono punti derivati da replay isolati: prima lettura di una risorsa,
+ingresso interprete in un PC ROM verificato, oppure N frame completati.
+Richiedono `rom-data-read-audit`, input registrato e limite esplicito; il risultato
+è un bundle/catalogo privato o `not-reached` senza snapshot. Vedi
+[uso, provenienza e limiti](../docs/debug_captures.md).

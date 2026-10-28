@@ -75,6 +75,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   resource/case/evidence drilldown and dated same-ROM generation comparisons.
   Positive-family extents, actual observed/Typed bytes and collector gaps remain
   distinct; imports never promote new DS acceptance.
+  DBG-08 adds [trigger captures](../debug_captures.md), CLI debug-capture
+  create/run/cancel and menu Capture on trigger, reusing isolated replay workers.
+  Feature-gated first-hit observation covers authenticated resource source
+  reads, verified conditional interpreter ROM instruction entry, or completed
+  relative-frame events. It stops at the next safe completed-frame boundary,
+  with explicit frame/timeout limits and distinct captured/not-reached outcomes.
+  Bundles preserve executed origin/input buffers, identities, first-hit versus
+  boundary metadata and a variant-only catalog; at most eight per profile,
+  without overwriting earlier points or promoting DS status. Capture profiles
+  are interpreter-only and separate from simultaneous audit inventories. Machine
+  state/save/native ABI remain unchanged. Wine CLI/GUI/reload and raw DS20 checks
+  pass; native platforms/controllers/typed dataset capture remain unverified.
   EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
@@ -861,8 +873,24 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   oneWinefilter pass29guards/7523originalprobes(7072one-loadprefixes/451fullgate),
   all14586semanticB incl4shared/3094opaque preserved-unread, registers/RAM/VRAM/
   OAM/palette checked.33guards508frozenbuildfiles221coreinputs/helper0 exact;
-  no game/frontendbuild. e79-d78 unchanged; extraction/runtime/CLI/ordinary
-  remainopen; no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
+  no game/frontendbuild for model. Now e80-d79/index71 publishesencounter-headers:
+  73files72resources/all71prior exact, constructor-alternatesdependency/coherence;
+  USA8-7/schema1 unchanged. Immutable2span17676B owner skipsold4B, sourcepage70C..710,
+  8classes/442headermask/11stats. One warningfree510source build1c4135f5../oneWine
+  filter pass14attach3fullset/26native fullstate-clock poisoned17680B,
+  31compiledinstructions/37newB+4oldsharedB; all17676new+4oldB/8classes442headers/
+  widths/mirrors/mixedborders/LoadUndo/DMA3. 206guards510hashes508modelpreimages
+  exact/helperonlyinterruptedcopy. ActualCLI nowpasses prepare/reuse/startup700:
+  73files exactruntime/72IDhash/75managedpaths no-write, 28859oldcacheblocks;
+  17headerreads/41B, 6semanticclassespositive/1headers/0opaqueB.
+  Warningfree510source productionbuild 9d0a772d../canonicalhashmtime restored;
+  184guards/helper0. One Wine700ordinaryfullpair nowpasses allstates-clock/
+  classic-central-wide/OAM/dispatch/5audio, all11usagecounts exactCLI/sixclasses
+  positive/oneheader; placementparameter0/opaque0ordinary unobserved. One5line
+  optionalguard/oldvalidatorbyteexact, warningfree510source build43fcc614..;
+  103ordinaryguards+184closedCLIguards/510sourcehasheseach exact/helper0.
+  OrdinarybattleentryCASEclosed; nestedpayloads/all442/fullABI remainopen;
+  no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global
   phase cap; runtimephase/correction coverage partitions3/4bits. One first

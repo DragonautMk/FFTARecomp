@@ -169,3 +169,9 @@ Permette di selezionare le finestre, vedere byte distinti per risorsa/caso,
 risalire alle prove dalla mappa e confrontare due fotografie. Gli intervalli
 osservati restano distinti dalle famiglie positive; limiti, filtri, troncamento
 e manifest diversi restano visibili. I report devono appartenere alla stessa ROM.
+
+Per fermarsi alla prima lettura di una risorsa o a un ingresso PC verificato,
+usare le [catture DBG-08](debug_captures.md). Riutilizzano gli hook con un
+collector indipendente che conserva il solo primo match e pubblica lo snapshot
+al confine di frame successivo. Non serve un inventario di eventi completo;
+i profili di cattura e quelli di audit restano distinti.

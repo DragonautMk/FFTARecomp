@@ -185,13 +185,23 @@ non significano che siano già raccolte in un unico debugger.
   dato estratto o caso DS promosso; snapshot e76 esplicitamente storico.
   [Record](../changes/2026-10-28-link-rom-coverage-to-scene-audits.json).
 
-- [ ] **DBG-08 — Arresto e cattura quando si raggiunge un caso.**
+- [x] **DBG-08 — Arresto e cattura quando si raggiunge un caso.**
   Permettere condizioni come prima lettura di una risorsa, ingresso in un PC
   verificato o evento noto. Fermarsi a un confine sicuro e creare uno snapshot
   derivato con origine, input e motivo della cattura, pronto per il catalogo.
   **Chiusura:** un trigger noto produce un punto riutilizzabile; un trigger mai
   raggiunto termina al limite dichiarato senza promuovere il caso. Le scene
   ordinarie si raggiungono tramite input reali. **Dipende da:** DBG-03/05/06.
+  **Completato:** [catture su trigger](../debug_captures.md), CLI
+  `debug-capture create/run/cancel` e menu «Capture on trigger». Prima lettura
+  di risorsa autenticata, ingresso interprete in un PC/opcode verificato o
+  evento di frame; snapshot al confine sicuro con origine/input/motivo e catalogo
+  variante. Limite senza match → `not-reached` (7), nessuno snapshot; otto bundle
+  per profilo, senza sovrascrittura. 66 test Wine, 25 casi CLI più annullamento
+  e quattro controlli feature, GUI reached/not-reached/cancel/owner-close passano.
+  DS20: tre trigger concordano su stato completo/clock dopo un frame; catalogo
+  riutilizzabile. 203 originali invariati, nessuna nuova accettazione DS.
+  [Record](../changes/2026-10-28-add-bounded-debug-trigger-captures.json).
 
 ## P1 — Capire dove e perché compare una differenza
 

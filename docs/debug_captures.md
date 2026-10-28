@@ -176,3 +176,9 @@ sorgente e76 già conservato e il percorso raw; il modello runtime committato
 successivo resta distinto. Log, punti derivati e risultati locali si trovano
 in `target/debug-tools-capture/`; la loro indisponibilità futura non richiede
 ricreare o ripetere prove già chiuse.
+
+Per localizzare una differenza fra interprete/native o raw/typed, usare i
+[confronti DBG-09](debug_comparisons.md). Le catture qui descritte producono
+varianti riutilizzabili su trigger; il confronto conserva invece stati e stream
+osservati prima del drain frontend soltanto al primo confine diverso, con nomi
+dei campi e immagini affiancate. I due tipi di profilo restano distinti.

@@ -38,6 +38,7 @@ pub mod rdrv;
 pub mod rom_data;
 pub mod rtc;
 pub mod save_state;
+pub mod state_diagnostics;
 pub mod shadow;
 
 pub use bus::Bus;

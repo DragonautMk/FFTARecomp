@@ -1710,3 +1710,16 @@ to production CLI usage and every complete state/guest clock/image/OAM/audio;
 placement parameters and opaque bytes remain zero in this ordinary case. The
 five-line optional block preserves older guards and the validator preimage
 exactly. [Proof and limits](rom_data_maps.md#ordinary-encounter-header-battle-entry-equivalence).
+
+
+## Encounter unit-template typed owner
+
+EUR e81-d80 registers `gameplay.encounter-unit-templates` / `encounter-unit-templates.json`
+with header/constructor/item/metadata14/metadata52 dependencies. The immutable
+136,608-byte two-fragment owner skips192 prior constructor bytes and composes
+reads per byte, with global/local page routing6EA..70B. Nine byte-class counters
+and record/header usage retain shared-only ownership. One reduced Wine filter
+passes74-file publication/72prior exact/14attach/sevenfullset guards,27 poisoned
+native fullstate-clock prefixes, every new/prior source byte, Load/Undo and
+DMA/CpuSet/FastSet. Actual CLI and ordinary use are next. No guest algorithm or
+save/native ABI changes. [Proof and limits](rom_data_gameplay.md#managed-encounter-unit-templates-and-typed-guest-reads).

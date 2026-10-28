@@ -87,6 +87,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   are interpreter-only and separate from simultaneous audit inventories. Machine
   state/save/native ABI remain unchanged. Wine CLI/GUI/reload and raw DS20 checks
   pass; native platforms/controllers/typed dataset capture remain unverified.
+  DBG-09 adds [first-difference comparisons](../debug_comparisons.md), CLI
+  `debug-compare create/run/cancel` and menu Compare first difference. One worker
+  steps two independent Machines from identical snapshot/input: interpreter/raw
+  reference and interpreter/native candidate with optional authenticated dataset.
+  Every completed frame compares full state, clock, central/wide buffers, OAM
+  and exact audio bits/events. Readonly diagnostics name actual serialized CPU/
+  Bus fields without changing save/native ABI. The first different boundary
+  retains paired snapshots/images/audio and the prior matching point; matching
+  or interrupted prefixes retain only metadata. Frames are bounded to 3,600 and
+  reports to eight per profile. This is prefix evidence, separate from exact
+  endpoint verification and instruction-level cause. The old native cache shows
+  clock/r15 differences at frame1, with images/OAM/audio equal; its parity stays
+  unaccepted. Wine CLI/GUI and offline browser checks pass without replacing
+  normal runtimes; native platforms/controllers remain unverified.
   EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
@@ -889,7 +903,28 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   positive/oneheader; placementparameter0/opaque0ordinary unobserved. One5line
   optionalguard/oldvalidatorbyteexact, warningfree510source build43fcc614..;
   103ordinaryguards+184closedCLIguards/510sourcehasheseach exact/helper0.
-  OrdinarybattleentryCASEclosed; nestedpayloads/all442/fullABI remainopen;
+  OrdinarybattleentryCASEclosed. Nestedunittemplates nowhave sourcecontract:
+  2850*48B136800B6EA048..70B6A8,442cachedheadergroups/8windows5new3reuse/39pins/
+  4BLtargets/41guards. Full48projection/equipment14250refs/metadata14-job owners
+  checked; two newfragments136608B skipoldconstructor192B/records225..228/header29,
+  fullsharedcoherence required. Dynamicbitset14+index/8 has no20B/160bitguestcap;
+  tail2E..2F opaque/fullu8-u16 retained. No build/game/test/oldproof replay.
+  Strictencounter_unit_templates model nowlossless2850records/full136800B:
+  headerpartition/complete48sharedcoherence/item-metadata14-job reference checks
+  separatefromshape/sourceauth; byte_at skipsold192B, opaque2/fullfields retained.
+  One core-onlyWindows builde0ae0d5c.. from512files/224coreinputs +oneWinefilter
+  passes38guards/2100selectedoriginalprefixes(1020LDR/1080bit,120outside20B),
+  distinctreads1531new/102old/4rawoutside; notallrecordssemanticcoverage/fullABI.
+  AllRAM/VRAM/OAM/palette/ROM exact; 34modelguards512hashes+41sourceguards/helper0.
+  No game/frontendbuild/oldacceptance replay. Now e81-d80/index72 publishesunit
+  templates:74files73resources/all72prior exact/fiveownerdependencies; immutable
+  twofragment136608B/shared192skip/sourcepages6EA..70B/globalOR/9classes andrecord-
+  headerstats. One warningfree514source build3d4b2af2../oneWine filter14attach7fullset/
+  27native fullstates-clock with136800rawBpoisoned, 25compilednewB/8oldB;
+  all136608new+192oldB/2846newrecords441headers/mixedwidths-mirrors-edges/LoadUndo/
+  DMAword34202-CpuSet68404halfword-FastSet34208word allPASS. 215guards514hashes/
+  512modelpreimages exact/helperonlyinterruptedcopy. ActualCLI/ordinary unit
+  payloads andcoordinatepool/all442/fullABI remainopen;
   no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global

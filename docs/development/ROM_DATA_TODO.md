@@ -4453,3 +4453,50 @@ ciascuno esatti/helper0. Nessuna nuova fixture/navigazione/prova chiusa ripetuta
 oppure misura. Caso ordinario chiuso; tutti442header/payload/fullABI/globalcatalogo,
 Linux/USA/Windows nativo/nuovo32:9/fullTODO restano pendenti.
 [Equivalenza](../rom_data_maps.md#ordinary-encounter-header-battle-entry-equivalence).
+
+
+**ROMDATA-01-ENCOUNTER-UNIT-TEMPLATES completato per il contratto sorgente EUR
+(2026-10-28).** I442link header già autenticati partizionano2.850record48B,
+6EA048..70B6A8/136.800B; proiezione completa indipendente. Nuovi lettori separano
+selettori/argomenti, cinque equipmentu16, halfword12, bitsetfisico14..27 con
+indice dinamico senza cap20B/160bit, controlli28/29/flags2A/2C/2D e opaque2E..2F.
+Tutti14.250riferimenti equipment entro376item, selettori coerenti con proprietari
+metadata14/metadata52; valori osservati non sono cap. Vecchi192B constructor
+6ECA78..6ECB38/record225..228/header29 esclusi dai nuovi136.608B/two-span;
+full48coherence e dipendenze header/constructor richieste, nessuna duplicazione
+tra49.795span/72owner. Ottofinestre5nuove3riusate/39pin/4BL/41guardie passano,
+nessun build/game/testWine-Linux/fixture/vecchia prova o censimento ripetuto/misura.
+Prossimo modello rigoroso+un oracoloWine mirato; managed/runtime/CLI/ordinary/
+coordinatepool/global/fullABI/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti.
+[Contratto](../rom_data_gameplay.md#european-encounter-unit-templates-and-shared-ownership).
+
+
+**ROMDATA-02-ENCOUNTER-UNIT-TEMPLATE-MODEL completato EUR/Wine (2026-10-28).**
+Modello rigoroso lossless2.850record48B, full136.800B/two-span136.608nuovi,
+192B constructorprecedenti esclusi da byte_at ma confrontati integralmente.
+Shape/JSON/partitionheader/sharedcoherence/riferimenti item-metadata14-job e
+sourceauth separati; fullu8/u16/opaque2, nessun capvalori o160bitguest inventato.
+Un buildWindows core-only senzaavvisi/e0ae0d5c.. da512sorgenti/224coreinputs,
+un filtroWine passa38guardie/2.100prefissi originali selezionati:1.020LDR,
+1.080bit incl120indici oltre20B.1531byte nuovi/102old/4raw distinti osservati,
+registri/indirizzi/valori e tuttaRAM/VRAM/OAM/palette/ROM esatti; proiezioneintera
+indipendente, nonfullABI/coverage semantica ditutti2.850record. 34guardie512hash+
+41sourceguard esatti/helper0; niente nuova fixture, misura o prova chiusa ripetuta.
+Prossima pubblicazione e81-d80/index72+consumo tipizzato, poiCLI/ordinary;
+Linux-USA/Windowsnativo/nuovo32:9/coordinatepool/global/fullABI/fullTODO pendenti.
+[Modello e prove](../rom_data_gameplay.md#typed-encounter-unit-templates-and-original-reader-proof).
+
+
+**ROMDATA-03-04-ENCOUNTER-UNIT-TEMPLATE-RUNTIME completato EUR/Wine (2026-10-28).**
+e81-d80/index72/encounter-unit-templates.json,74file73risorse/tutti72precedenti
+esatti/cinque dipendenze;192B constructorrestano al vecchioproprietario. Owner
+immutabile136.608B/two-span, noveclassi e record/headerstats, routing6EA..70B
+locale/globale. Un buildWindows senzaavvisi/3d4b2af2.. da514sorgenti e un filtroWine
+passano14attach/7fullset/fallimentitransazionali,27prefissi original-interpreter-
+native con stato completo/clock e136800Brawalterati dopoLoad, 25Bnuovi/8Bprior
+compilati. Ogni136608Bnuovo+192old/9classi/2846record441header, larghezze/mirror/
+confini/LoadUndo e DMAword34202/CpuSet68404halfword/FastSet34208word passano.
+215guardie514hash512modelpreimages esatti/helper solo interrupted. ABI/algoritmi
+invariati; USA8-7/schema1. ProssimiCLI reale+ordinary; coordinatepool/allcaller/
+fullABI/global/Linux-USA/Windowsnativo/nuovo32:9/fullTODO pendenti, niente misure.
+[Consumo e prove](../rom_data_gameplay.md#managed-encounter-unit-templates-and-typed-guest-reads).

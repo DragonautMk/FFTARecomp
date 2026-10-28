@@ -20,6 +20,8 @@ let unit play animation during battles, for fun and other debug feature like spr
 
 text effect to simulate speach
 
+ffta wiki with precise unit and equipments.
+
 Long term:
 
 Extract data from FFTA2

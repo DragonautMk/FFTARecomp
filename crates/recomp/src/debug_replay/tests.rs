@@ -350,3 +350,11 @@ fn capture_action_refuses_plain_profile_and_legacy_profile_has_no_capture_side_e
     assert!(!fs::read_to_string(&path).unwrap().contains("capture"));
     assert!(!path.parent().unwrap().join("captures").exists());
 }
+
+#[test]
+fn comparison_profile_is_explicit_bounded_and_separate_from_plain_replay(){
+    let f=Fixture::new();let plain=f.create();assert!(Job::require_comparison(&plain).is_err());
+    let args=vec!["--recording".into(),f.recording.to_string_lossy().into_owned(),"--session".into(),f.session.to_string_lossy().into_owned(),"--dir".into(),f.temp.path().join("comparison").to_string_lossy().into_owned(),"--case".into(),"DS-20-EUR".into()];
+    let profile=create_cmd_comparison(&args,&crate::debug_compare::Request{settings:crate::debug_compare::Settings{frames:2,backend:"interp".into(),audio:"preserve".into()},dataset:None}).unwrap();
+    let(_,p)=load(&profile).unwrap();assert_eq!(p.stop,"first-divergence");assert_eq!(p.comparison.as_ref().unwrap().frames,2);assert_eq!(Report::new(&p,"test","running",0,"running").frames,2);assert!(Job::require_comparison(&profile).is_ok());assert!(Job::require_capture(&profile).is_err());
+}

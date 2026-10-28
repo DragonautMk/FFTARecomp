@@ -66,6 +66,7 @@ pub enum MenuAction {
     SaveState { slot: u8, overwrite: bool },
     LoadState(u8),
     UndoState,
+    CompareReplay,
     CaptureReplay,
     AuditReplay,
     ReplayCase,
@@ -158,6 +159,7 @@ enum Page {
 enum Row {
     DebugMenu,
     ExtendedSaves,
+    CompareReplay,
     CaptureReplay,
     AuditReplay,
     ReplayCase,
@@ -312,7 +314,7 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
-        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::Back],
+        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::Back],
         Page::DebugCatalog => &[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry,Row::CatalogImport,Row::CatalogOpen,Row::CatalogChoose,Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
         Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
@@ -342,6 +344,7 @@ impl Row {
         match self {
             Row::DebugMenu => "Debug",
             Row::ExtendedSaves => "Extended saves",
+            Row::CompareReplay => "Compare first difference",
             Row::CaptureReplay => "Capture on trigger",
             Row::AuditReplay => "Audit replay",
             Row::ReplayCase => "Replay case",
@@ -428,7 +431,7 @@ impl Row {
         matches!(
             self,
             Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-                | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
+                | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
                 | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
                 | Row::Backup(_) | Row::ConfirmRestoreBackup
                 | Row::SaveStateConfirm
@@ -919,6 +922,7 @@ impl Menu {
             }
             MenuInput::Confirm => match row {
                 Row::DebugCatalog => Some(MenuAction::OpenDebugCatalog),
+                Row::CompareReplay => Some(MenuAction::CompareReplay),
                 Row::CaptureReplay => Some(MenuAction::CaptureReplay),
                 Row::AuditReplay => Some(MenuAction::AuditReplay),
                 Row::ReplayCase => Some(MenuAction::ReplayCase),
@@ -1345,7 +1349,7 @@ fn value_of(
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
         Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
+            | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardMenu | Row::SaveStatesMenu | Row::SaveBackupsMenu => ">".to_string(),
@@ -1469,7 +1473,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             Some(Changed::Debug)
         },
         Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+            | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
         Row::MouseMode => None,
@@ -2039,7 +2043,7 @@ mod tests {
     #[test]
     fn replay_actions_are_available_in_the_normal_menu_without_extended_saves() {
         let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
-        for (row,action) in [(Row::CaptureReplay,MenuAction::CaptureReplay),(Row::AuditReplay,MenuAction::AuditReplay),(Row::ReplayCase,MenuAction::ReplayCase),(Row::ChooseReplayProfile,MenuAction::ChooseReplayProfile),(Row::CancelReplay,MenuAction::CancelReplay)] {
+        for (row,action) in [(Row::CompareReplay,MenuAction::CompareReplay),(Row::CaptureReplay,MenuAction::CaptureReplay),(Row::AuditReplay,MenuAction::AuditReplay),(Row::ReplayCase,MenuAction::ReplayCase),(Row::ChooseReplayProfile,MenuAction::ChooseReplayProfile),(Row::CancelReplay,MenuAction::CancelReplay)] {
             at(&mut menu,row);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(action));assert_eq!(menu.page,Page::Debug);
         }
         for(w,h)in[(640,480),(852,480),(1280,720)]{let l=menu.page_layout(w,h);assert!(menu.first_visible(l)>0);assert!(l.rows_y+l.visible_rows*l.line_h<=h);}

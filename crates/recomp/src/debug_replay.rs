@@ -43,6 +43,8 @@ pub(crate) struct Profile {
     pub audit: Option<crate::debug_rom_audit::Settings>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub capture: Option<crate::debug_capture::Settings>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub comparison: Option<crate::debug_compare::Settings>,
 }
 #[derive(Clone, Serialize, Deserialize)]
 pub(crate) struct Report {
@@ -69,6 +71,8 @@ pub(crate) struct Report {
     pub audit_window_complete: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub capture_catalog: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub comparison_report: Option<String>,
 }
 impl Report {
     fn new(p: &Profile, run: &str, outcome: &str, completed: u64, message: &str) -> Self {
@@ -79,7 +83,7 @@ impl Report {
             case: p.case.clone(),
             outcome: outcome.into(),
             completed,
-            frames: p.capture.as_ref().map_or(p.frames, |s| s.limit_frames),
+            frames: p.comparison.as_ref().map_or_else(||p.capture.as_ref().map_or(p.frames, |s| s.limit_frames),|s|s.frames),
             message: message.chars().take(2048).collect(),
             runtime_sha256: p.runtime_sha256.clone(),
             rom_sha256: p.rom_sha256.clone(),
@@ -92,11 +96,12 @@ impl Report {
             audit_truncated: None,
             audit_window_complete: None,
             capture_catalog: None,
+            comparison_report: None,
         }
     }
     pub fn code(&self) -> u8 {
         match self.outcome.as_str() {
-            "passed" | "captured" => 0,
+            "passed" | "captured" | "matched" => 0,
             "not-reached" => 7,
             "diverged" => 2,
             "incompatible" => 3,
@@ -107,6 +112,10 @@ impl Report {
         }
     }
     pub fn short(&self) -> String {
+        if self.comparison_report.is_some() {
+            return if self.outcome=="diverged"{format!("DIFF FRAME {} | Report in profile/comparisons",self.completed)}
+                else{format!("{} {}/{} | Report in profile/comparisons",self.outcome.to_ascii_uppercase(),self.completed,self.frames)};
+        }
         if let Some(path) = &self.capture_catalog {
             let _ = path;
             return format!("CAPTURED {}/{} | Catalog in profile/captures", self.completed, self.frames);
@@ -185,7 +194,7 @@ fn load(path: &Path) -> Result<(PathBuf, Profile), String> {
         || p.kind != "ffta-debug-replay-profile"
         || p.frames > MAX_FRAMES
         || !(1..=120000).contains(&p.timeout_ms)
-        || p.stop != if p.capture.is_some() {"capture-trigger"} else {"exact-endpoint"}
+        || p.stop != if p.comparison.is_some() {"first-divergence"} else if p.capture.is_some() {"capture-trigger"} else {"exact-endpoint"}
         || p.case.is_empty()
         || p.case.len() > 64
         || p.case.chars().any(char::is_control)
@@ -202,6 +211,10 @@ fn load(path: &Path) -> Result<(PathBuf, Profile), String> {
         if p.audit.is_some() || p.library_sha256.is_some() {
             return Err("Capture profiles require interpreter-only replay without a simultaneous audit".into());
         }
+    }
+    if let Some(comparison)=&p.comparison {
+        crate::debug_compare::validate(comparison,p.frames,p.library_sha256.is_some())?;
+        if p.audit.is_some() || p.capture.is_some(){return Err("Comparison profiles cannot also audit or capture triggers".into());}
     }
     Ok((path.parent().unwrap().into(), p))
 }
@@ -240,6 +253,7 @@ pub(crate) fn create(
         library,
         None,
         None,
+        None,
     )
 }
 
@@ -253,6 +267,7 @@ fn create_inner(
     library: Option<&Path>,
     audit: Option<&crate::debug_rom_audit::Request>,
     capture: Option<&crate::debug_capture::Request>,
+    comparison: Option<&crate::debug_compare::Request>,
 ) -> Result<PathBuf, String> {
     if case.is_empty()
         || case.len() > 64
@@ -264,6 +279,7 @@ fn create_inner(
     if capture.is_some() && (library.is_some() || audit.is_some()) {
         return Err("Capture profiles require interpreter-only replay without a simultaneous audit".into());
     }
+    if comparison.is_some() && (audit.is_some() || capture.is_some()) {return Err("Comparison profiles cannot also audit or capture triggers".into());}
     let session = crate::debug_session::open(session)?;
     let data = crate::debug_recording::export(recording)?;
     let m = &data.manifest;
@@ -287,7 +303,7 @@ fn create_inner(
     {
         return Err("Recording and session ROM/BIOS/dataset differ".into());
     }
-    let dataset = capture.and_then(|r| r.dataset.clone()).or_else(||audit.and_then(|r| r.dataset.clone())).or(dataset);
+    let dataset = comparison.and_then(|r| r.dataset.clone()).or_else(||capture.and_then(|r| r.dataset.clone())).or_else(||audit.and_then(|r| r.dataset.clone())).or(dataset);
     let dataset_sha256 = dataset
         .as_ref()
         .map(|p| {
@@ -317,6 +333,7 @@ fn create_inner(
     let capture_prepared = capture
         .map(|request| crate::debug_capture::prepare(request, &rom, m.frames, dataset.as_deref()))
         .transpose()?;
+    let comparison_prepared=comparison.map(|request|crate::debug_compare::prepare(request,m.frames,native.is_some())).transpose()?;
     let root = crate::debug_session::create(
         destination,
         crate::debug_session::Source {
@@ -366,9 +383,10 @@ fn create_inner(
         extra: m.extra,
         extra_y: m.extra_y,
         timeout_ms,
-        stop: if capture_prepared.is_some() {"capture-trigger"} else {"exact-endpoint"}.into(),
+        stop: if comparison_prepared.is_some() {"first-divergence"} else if capture_prepared.is_some() {"capture-trigger"} else {"exact-endpoint"}.into(),
         audit: audit_prepared.map(|(settings, _)| settings),
         capture: capture_prepared.map(|(settings, _)| settings),
+        comparison: comparison_prepared,
     };
     // Published last: partial copies never look runnable.
     put(
@@ -587,16 +605,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         .map(|s| crate::debug_rom_audit::Audit::start(&root, s, &machine.bus.rom))
         .transpose()?;
     let mut capture = p.capture.as_ref().map(|s|crate::debug_capture::Observer::start(&root,s,&machine.bus.rom)).transpose()?;
-    let mut report = execute(
-        &p,
-        run,
-        &mut machine,
-        &input,
-        &end,
-        native.as_ref().map(|n| &n.1),
-        audit.as_mut(),
-        capture.as_mut(),
-        |completed| {
+    let control = |completed| {
             if INTERRUPTED.load(Ordering::Relaxed)
                 || read(&out.join("cancel.json"), 1024)
                     .ok()
@@ -618,8 +627,18 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
                 last = Instant::now();
             }
             None
-        },
-    );
+        };
+    let mut report=if let Some(settings)=&p.comparison {
+        let origin=serde_json::json!({"case":p.case,"profile_settings_sha256":digest(&serde_json::to_vec(&p).map_err(|e|e.to_string())?),
+            "runtime_sha256":p.runtime_sha256,"recording_runtime_sha256":p.recording_runtime_sha256,
+            "rom_sha256":p.rom_sha256,"bios_sha256":p.bios_sha256,"dataset_manifest_sha256":p.dataset_sha256,
+            "reference_dataset":null,"library_sha256":p.library_sha256,"start_sha256":p.start_sha256,"input_sha256":p.input_sha256,
+            "first_frame":p.first_frame,"first_clock":p.first_clock,"initial_keys":p.initial_keys,"extra":p.extra,"extra_y":p.extra_y,
+            "recorded_frames":p.frames,"recorded_endpoint":"not verified by this comparison"});
+        let result=crate::debug_compare::run(&root,run,settings,origin,&mut machine,&start,&input,native.as_ref().map(|n|&n.1),control)?;
+        let mut report=Report::new(&p,run,&result.outcome,result.completed,&result.message);
+        report.comparison_report=Some(result.report);report.state_sha256=Some(result.state_sha256);report.clock=Some(result.clock);report
+    }else{execute(&p,run,&mut machine,&input,&end,native.as_ref().map(|n|&n.1),audit.as_mut(),capture.as_mut(),control)};
     if let Some(audit) = audit {
         let mut result = audit.finish(
             report.completed,
@@ -688,6 +707,7 @@ impl Job {
         let session = crate::debug_session::open(&root)?; // Acquire the supervisor lease first; duplicates cannot race the worker's session lease.
         checked(&root, executable(), 256 * 1024 * 1024, &p.runtime_sha256)?;
         if p.capture.is_some() {crate::debug_capture::capacity(&root)?;}
+        if p.comparison.is_some() {crate::debug_compare::capacity(&root)?;}
         let out = outputs(&root);
         fs::create_dir_all(&out).map_err(|e| e.to_string())?;
         let run = format!(
@@ -723,6 +743,10 @@ impl Job {
             done: false,
         })
     }
+    pub fn require_comparison(path:&Path)->Result<(),String>{
+        if load(path)?.1.comparison.is_none(){return Err("Choose a comparison profile created with debug-compare create".into());}Ok(())
+    }
+    pub fn start_comparison(path:&Path)->Result<Self,String>{Self::require_comparison(path)?;Self::start(path)}
     pub fn require_capture(path: &Path) -> Result<(), String> {
         if load(path)?.1.capture.is_none() {return Err("Choose a capture profile created with debug-capture create".into());}
         Ok(())
@@ -857,12 +881,13 @@ pub(crate) fn create_cmd_audited(
     args: &[String],
     audit: Option<&crate::debug_rom_audit::Request>,
 ) -> Result<PathBuf, String> {
-    create_cmd_inner(args, audit, None)
+    create_cmd_inner(args, audit, None, None)
 }
 pub(crate) fn create_cmd_captured(args: &[String], capture: &crate::debug_capture::Request) -> Result<PathBuf,String> {
-    create_cmd_inner(args,None,Some(capture))
+    create_cmd_inner(args,None,Some(capture),None)
 }
-fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Request>, capture: Option<&crate::debug_capture::Request>) -> Result<PathBuf,String> {
+pub(crate) fn create_cmd_comparison(args:&[String],comparison:&crate::debug_compare::Request)->Result<PathBuf,String>{create_cmd_inner(args,None,None,Some(comparison))}
+fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Request>, capture: Option<&crate::debug_capture::Request>, comparison: Option<&crate::debug_compare::Request>) -> Result<PathBuf,String> {
     let mut recording = None;
     let mut session = None;
     let mut directory = None;
@@ -894,6 +919,7 @@ fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Requ
         library.as_deref(),
         audit,
         capture,
+        comparison,
     )
 }
 

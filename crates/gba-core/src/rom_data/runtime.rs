@@ -158,6 +158,9 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod encounter_unit_templates;
+use encounter_unit_templates::EncounterUnitTemplatesResources;
+pub use encounter_unit_templates::EncounterUnitTemplatesStats;
 mod encounter_headers;
 use encounter_headers::EncounterHeadersResources;
 pub use encounter_headers::EncounterHeadersStats;
@@ -304,6 +307,7 @@ pub struct RuntimeResources {
     world_nodes: Option<Box<WorldNodesResources>>,
     world_roads: Option<Box<WorldRoadsResources>>,
     encounter_headers: Option<Box<EncounterHeadersResources>>,
+    encounter_unit_templates: Option<Box<EncounterUnitTemplatesResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -579,6 +583,9 @@ impl RuntimeResources {
         if let Some((data,_))= files.encounter_headers {
             resources.encounter_headers = Some(Box::new(EncounterHeadersResources::new(data.clone(), &source.encounter_headers.as_ref().unwrap().sources, files.constructor_alternates.ok_or("Missing encounter constructor dependency")?.0)?));
         }
+        if let Some((data,_))= files.encounter_unit_templates {
+            resources.encounter_unit_templates = Some(Box::new(EncounterUnitTemplatesResources::new(data.clone(), &source.encounter_unit_templates.as_ref().unwrap().sources, files.encounter_headers.ok_or("Missing encounter header dependency")?.0, files.constructor_alternates.ok_or("Missing encounter constructor dependency")?.0, files.items.ok_or("Missing encounter item dependency")?.0, files.metadata14.ok_or("Missing encounter descriptor dependency")?.0, files.metadata52.ok_or("Missing encounter job dependency")?.0)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -676,6 +683,7 @@ impl RuntimeResources {
             world_nodes: None,
             world_roads: None,
             encounter_headers: None,
+            encounter_unit_templates: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -774,6 +782,7 @@ impl RuntimeResources {
             + self.world_nodes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.world_roads.as_ref().map_or(0, |i| i.resident_bytes())
             + self.encounter_headers.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.encounter_unit_templates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -893,6 +902,7 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn encounter_unit_templates_stats(&self) -> Option<EncounterUnitTemplatesStats> {self.encounter_unit_templates.as_ref().map(|m|m.stats())}
     pub fn encounter_headers_stats(&self) -> Option<EncounterHeadersStats> {self.encounter_headers.as_ref().map(|m|m.stats())}
     pub fn world_roads_stats(&self) -> Option<WorldRoadsStats> {self.world_roads.as_ref().map(|m|m.stats())}
     pub fn world_nodes_stats(&self) -> Option<WorldNodesStats> {self.world_nodes.as_ref().map(|m|m.stats())}
@@ -1239,7 +1249,11 @@ impl RuntimeResources {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
-            return match &self.encounter_headers {
+            let prior = match &self.encounter_headers {
+                Some(data) => data.guest_read(index, rom, prior),
+                None => prior,
+            };
+            return match &self.encounter_unit_templates {
                 Some(data) => data.guest_read(index, rom, prior),
                 None => prior,
             };
@@ -1397,6 +1411,7 @@ impl crate::MemMap {
             || WordTaskObjResources::source_page(index)
             || WorldRoadsResources::source_page(index)
             || EncounterHeadersResources::source_page(index)
+            || EncounterUnitTemplatesResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

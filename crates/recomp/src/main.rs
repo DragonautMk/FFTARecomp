@@ -24,6 +24,7 @@ mod diagnostics;
 mod debug_session;
 mod debug_catalog;
 mod debug_recording;
+mod debug_compare;
 mod debug_capture;
 mod debug_replay;
 mod debug_rom_audit;
@@ -71,6 +72,7 @@ fn main() -> ExitCode {
         print_help(topic);
         return ExitCode::SUCCESS;
     }
+    if args.first().is_some_and(|s|s=="debug-compare") { return ExitCode::from(debug_compare::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-capture") { return ExitCode::from(debug_capture::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-rom-audit") { return ExitCode::from(debug_rom_audit::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
@@ -136,6 +138,14 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-compare", "recomp debug-compare <create|run|cancel> [options]", &[
+        "create: debug-replay create options plus --frames 1..3600 (within recorded input)",
+        "--backend interp|native  candidate; reference is always interpreter/raw",
+        "--library FILE selects an existing native cache; no compilation",
+        "--dataset DIR  optional authenticated candidate typed dataset",
+        "--audio preserve|arm-hle  source settings or explicit symmetric tap/HLE setup",
+        "run/cancel replay.json; code 0 matched prefix, 2 first difference, 3/4/5/6 as replay",
+    ], "Compare every aligned frame with full state, clock, central/wide buffers, OAM and exact audio streams. First difference produces named fields, paired images and private snapshots/audio; at most eight reports. Does not certify the recorded endpoint or full native/ROM parity."),
     ("debug-capture", "recomp debug-capture <create|run|cancel> [options]", &[
         "create: debug-replay create options (interpreter only) plus exactly one:",
         "--resource ID --manifest FILE [--preset all|bus|host]",

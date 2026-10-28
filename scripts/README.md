@@ -135,3 +135,17 @@ ingresso interprete in un PC ROM verificato, oppure N frame completati.
 Richiedono `rom-data-read-audit`, input registrato e limite esplicito; il risultato
 è un bundle/catalogo privato o `not-reached` senza snapshot. Vedi
 [uso, provenienza e limiti](../docs/debug_captures.md).
+
+
+EUR e81-d80 extraction adds `encounter-unit-templates.json`
+(`gameplay.encounter-unit-templates`) with five explicit header/constructor/item/
+metadata14/job dependencies. Two source fragments skip the192 bytes already
+owned by constructor alternates; strict coherence and typed reads preserve
+original live initialization. [Contract and checks](../docs/rom_data_gameplay.md#managed-encounter-unit-templates-and-typed-guest-reads).
+
+`recomp debug-compare create/run/cancel` e Debug > Compare first difference
+confrontano ogni frame dal medesimo snapshot/input: interprete/raw come
+riferimento e interprete/native con dataset opzionale come candidato. Il primo
+confine diverso produce un report HTML/JSON privato con campi CPU/Bus esatti,
+immagini affiancate e stream; un prefisso uguale conserva solo metadati.
+Non richiede la feature audit. Vedi [uso, ambito e verifiche](../docs/debug_comparisons.md).

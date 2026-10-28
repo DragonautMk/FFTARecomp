@@ -2874,3 +2874,207 @@ initializer/task lifetime, complete physical extent/all-use and other scenes
 are unproved. Constructor-animation ordinary coverage remains independently
 partial; its four negative routes are not reopened. Linux/USA/native Windows/
 new32:9 remain pending; no performance or storage campaign.
+
+
+## European encounter unit templates and shared ownership
+
+The authenticated442 encounter-header backlinks now define a complete physical
+partition of2,850 unit templates at `6EA048..70B6A8`:48 bytes per record,
+136,800 bytes with SHA-256 `15cc1b488912bf0609d6e2bc45cd3f8b28fcb5eb414b1aa3b32fac60199d636e`. The cached header counts and
+pointers match every contiguous group and the original CE18C importer advances
+by48. Observed counts1..13 are data values, not a guest limit. The importer
+still uses its live `r2` bound and skips occupied264-byte unit slots. This is the
+header-linked catalog; no census of all possible template sources is claimed.
+
+All records reconstruct independently, preserving the following layout:
+
+- Five separate bytes00..04, with descriptor/job selectors and original zero
+  fallback/override/generated-level branches retained.
+- Three bytes05..07 copied to live unit fieldsF6..F8; five equipment halfwords
+  08..10, also copied as exactly10 bytes by the original helper; one full
+  halfword12 loaded before truncation to live unit byte105.
+- Twenty physical bytes14..27 used by the dynamic bit reader, separate bytes28
+  and29 for optional live substructure fields, and full16-bit flags2A ORed into
+  the existing live flags.
+- Separate control bytes2C and2D: nonzero2C gates the original callback that
+  replaces live unit word0 and sets flag106; nonzero2D writes live unit byte100.
+  Bytes2E..2F remain opaque for the inspected importer/helpers. Their original
+  zero values do not authorize rejecting or normalizing edited nonzero bytes.
+
+The bit reader uses `template[0x14 + (i >> 3)] & (1 << (i & 7))`, with `i`
+derived from the live unit/job count. There is no proven20-byte or160-bit guest
+cap; retain out-of-projection prior/raw behavior. The physical20-byte field is
+not permission to replace the original loop, randomness or live rules. Full
+importer/all-caller execution remains a later verification scope.
+
+All14,250 equipment references fit the existing376 parsed items. Actual byte00
+values are special1 or valid metadata14 IDs2..94; actual byte01 values fit the
+116 metadata52 job owners. These are source/reference checks, not observed-value
+caps for a lossless model. Byte01 zero is still an original fallback branch.
+The later unconditional metadata14 lookup for descriptor1 reaches the unowned
+row1 prefix; no typed fallback or extra metadata row is invented.
+
+The existing `gameplay.constructor-alternate-templates` owner already has
+`6ECA78..6ECB38` (192 bytes), records225..228 in zero-based physical order,
+all four in encounter header29. Their full48-byte projections match. The new
+ownership plan must skip these bytes, retain their prior owner/statistics and
+validate full-record coherence, with mandatory encounter-header and constructor
+alternate dependencies. Its two new fragments are:
+
+- `6EA048..6ECA78`,10,800 bytes,
+  SHA-256 `4bc593217bf764f851ffd363838e7463d70ccbeac02eba50d534e0833ead53c5`.
+- `6ECB38..70B6A8`,125,808 bytes,
+  SHA-256 `bbbead1d73e9cf995a8f3a15a1d81c3dc5210fd628c4c353bf2415cb6b00e7d5`.
+
+Together they add136,608 bytes disjoint from all49,795 source spans of the72
+accepted e80 owners. The full source authentication includes the192 shared
+bytes; the new byte projection must omit them. Item, metadata14 and metadata52
+owners are identified separately from shared physical ownership.
+
+Five new bounded windows complete the importer tail and its two template
+helpers, reusing three closed header/constructor/metadata14 windows. All39
+instruction pins, four direct BL targets, complete record projections, shared
+coherence and41 actual preservation guards pass. No new build, Wine/game test,
+checkpoint, global root census, old acceptance replay or performance measurement
+occurs. Private evidence is in `target/rom-data-encounter-unit-templates/`:
+`source-contract.json`, `reader-fields.json`, `source-windows.json`,
+`partition-analysis.json`, reconstructable `template-records.json`, header groups,
+two-span plan and final/preservation/cleanup receipts.
+
+The next criterion is a strict lossless model with header/shared/reference
+coherence and one focused Wine original-reader proof, followed by managed
+publication, typed consumption and ordinary use. Schema1/e80-d79 and USAe8-d7
+are unchanged. Coordinate payloads, global/all-caller/full-ABI proof, Linux,
+USA, native Windows, new32:9 and the full ROM TODO remain pending.
+
+
+## Typed encounter unit templates and original-reader proof
+
+`encounter_unit_templates::{Record,EncounterUnitTemplates,Catalog}` now models
+all2,850 header-linked48-byte records losslessly. Each record retains its
+physical index/offset and encounter-header/ordinal metadata. Separate u8, u16,
+fixed arrays and opaque-tail fields reconstruct the full136,800 source bytes.
+Strict JSON rejects unknown fields, wrong fixed-array lengths and numeric types;
+structural validation checks fixed physical count/order/offsets. It does not
+require observed value ranges, zero opaque bytes or canonical flags.
+
+Dependency validation is separate:442 encounter headers must partition the
+records with matching pointers/counts/header IDs/ordinals; all four constructor
+alternate records must match their complete48 bytes; equipment, descriptor and
+resolved job selectors must reference actual parsed item/metadata14/metadata52
+owners. Byte01 zero retains the descriptor fallback or descriptor1's direct
+job0 path. Descriptor1's later raw metadata14-row1 prefix stays unowned. Full
+source authentication checks the exact EUR ROM, original reader windows, full
+source digest and decoded model. No guest constructor, live importer, random
+rule or dynamic bit loop is replaced.
+
+Two source spans contain136,608 newly owned bytes. `byte_at` deliberately
+returns `None` for the old192-byte constructor range, preserving prior ownership.
+A shared-record edit leaves both new spans unchanged, but fails full48-byte
+constructor coherence and source authentication. Header grouping/reference
+checks also remain distinct from lossless shape checks. The physical `record`
+lookup is diagnostic; it does not introduce guest index truncation or a cap.
+
+One warning-free core-only Windows build `e0ae0d5c..` uses512 stable source files
+(224 core inputs), based on the accepted ordinary source copy plus
+only the new model/test and module wiring. Only the affected core-test fingerprint
+is isolated; no global clean, old source edit or frontend build occurs. One
+focused Wine filter passes38 guards and2,100 selected original prefixes:
+1,020 actual single-load cases across distinct source field values and boundary/
+shared records, plus1,080 original dynamic-bit prefixes. The latter include120
+indices beyond the physical20-byte bit field, exercising control/tail/next-record
+and raw-after-catalog bytes without inventing a160-bit guest cap. Opaque means
+no dedicated field interpretation: the generic dynamic reader can still alias
+these bytes at out-of-field indices.
+
+Actual addresses/widths/destinations/values, single-load register/flag/PC
+preservation and dynamic-bit results/register bounds are checked. RAM, VRAM,
+OAM, palette and the ROM remain exact. The selected reads cover1,531 distinct
+newly owned bytes,102 prior-owned shared bytes and four raw bytes outside the
+catalog; this sample does not establish execution coverage of every field in
+all2,850 records. The full source projection is independently checked for all
+136,800 bytes, including the192 prior-owned bytes. The17,232 guest instructions
+are coverage only, not performance measurements or full importer ABI proof.
+
+All34 actual model-unit guards,512 frozen source hashes and
+41 closed source-contract guards remain exact; artifact completion retires zero
+paths. Evidence is retained under `target/rom-data-encounter-unit-template-model/`:
+independent model/probes/coverage/spans, source snapshot, build and Wine results,
+static probe-input check and final/preservation/cleanup receipts. No new ordinary
+fixture/navigation, prior constructor/header/source/ordinary acceptance replay
+or performance campaign occurs.
+
+Managed publication and typed consumption are next: e81-d80/index72,
+`encounter-unit-templates.json`, with explicit header/constructor/item/metadata14/
+metadata52 dependencies, source pages6EA..70B and the shared192-byte hole.
+Actual CLI and an ordinary positive pair follow. Current schema1/e80-d79 and
+USAe8-d7 remain unchanged. Linux, USA, native Windows, new32:9, coordinate
+payloads, global/all-caller/full-ABI verification and the full ROM TODO stay open.
+
+
+## Managed encounter unit templates and typed guest reads
+
+EUR e81-d80 adds `encounter-unit-templates.json`, resource
+`gameplay.encounter-unit-templates` at index72:74 generation files and73 resources.
+All72 previous resource records/files remain exact, and USAe8-d7/schema1 remain
+unchanged. Five explicit dependencies bind encounter headers, constructor
+alternates, item records, metadata14 descriptors and metadata52 jobs. Strict
+parsing, full source authentication, header partition/full48 shared coherence and
+reference checks precede transactional activation.
+
+The immutable owner projects the two authenticated fragments (136,608 bytes),
+leaving the192 constructor bytes with their existing owner. Nine byte classes
+separate selectors, argument triples, equipment, auxiliary halfwords, ability
+bits, optional bytes, flags, controls and opaque bytes. Record/header usage masks
+count newly owned reads; a shared-only read does not claim a new record or header.
+Per-byte composition retains prior owners/raw bytes through mixed reads and ROM
+mirrors. Both the global routing gate and local owner cover source pages6EA..70B.
+Original guest algorithms, dynamic bit indexing, live importer limits, randomness,
+Machine/C API, native-cache and save ABI remain unchanged. The64MiB parser input
+guard bounds malformed files; no storage/performance campaign is performed.
+
+One warning-free Windows integration build `3d4b2af2..` uses514 stable source
+files from the accepted512-file model copy plus integration paths. Parallel state
+diagnostics/Debug/frontend work is excluded. Only affected core-library/test
+fingerprints are isolated, preserving old sources and executables. Private edit
+preparation stopped on mismatched inherited presence/constructor anchors and an
+isolated-script variable; only unfinished edits resumed from saved preimages.
+Budget-call arity was checked statically before this first build. No failed build
+or replay of the closed source/model/header/constructor/ordinary proofs occurs.
+
+One reduced Wine filter passes new-file interrupted publication,14 attach guards
+and seven full-set guards, retaining the prior owner and complete machine state
+on activation failure. The27 original-ROM/interpreter/compiled-native prefixes
+match complete states and guest clocks with all136,800 raw template bytes
+poisoned after Load/setup. They include actual byte/halfword loads and dynamic
+bit indices beyond the physical20-byte field, shared/next-record/raw-after-end
+reads and ROM mirrors. Native calls explicitly consume
+25 newly owned bytes and8 prior-owned bytes;
+32 compiled instructions are coverage only, not full importer ABI proof.
+
+The full bus proof reads all136,608 new bytes plus192 old bytes while raw source
+is poisoned. Exact class counts are14,230 selector,8,538 argument,28,460 equipment,
+5,692 auxiliary,56,920 bit,5,692 optional,5,692 flags,5,692 control and5,692 opaque
+bytes. It touches2,846 new records and441 headers; the four old records/header29
+stay with the constructor owner. Widths, mirrors, shared-hole crossings, page
+boundaries, changed raw outer bytes and an older owner also pass. Load, slot
+save/load and Undo retain the immutable owner while dataset files are unavailable.
+
+DMA3, CpuSet and CpuFastSet match complete states/clocks across the full template
+range and a raw suffix. DMA uses34,202 words in32-bit mode, CpuSet68,404 halfwords
+and CpuFastSet34,208 words. All destinations start at EWRAM10000 and fit; no
+oversized16-bit DMA length or wrapping destination is used. All215 actual
+guards,514 integration source hashes and512 closed model source preimages remain
+exact. Artifact completion retires only the interrupted dataset copy, retaining
+the accepted offline dataset, source preimages, executable and results.
+
+Private evidence is retained under `target/rom-data-encounter-unit-template-runtime/`:
+build/filter results, native and bus/lifecycle result, final/preservation/cleanup
+receipts, accepted dataset and source snapshot. Dataset identity is
+`2b624164053d24680f9a7914a5a1469ef38a62f813c78217456488379079af90`, manifest SHA-256
+`7b2e21ae7690aa07028599957faaa74dfe4fe46d4e395632b088ddbb94824d53` and new JSON SHA-256
+`037cd9f9783fc98b95fb9b69d05fb1e09bf2f3888072c7bd17f9ef6e42153788`.
+Actual production CLI/create-reuse/no-write/startup and one positive ordinary
+pair are next. This integration is not full importer/ABI, all-caller/global
+archive or coordinate-payload proof. Linux, USA, native Windows, new32:9 and the
+full ROM TODO remain pending; no new ordinary fixture/navigation or metrics.

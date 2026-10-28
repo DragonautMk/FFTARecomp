@@ -513,6 +513,8 @@ fn key_name(code: KeyCode) -> Option<&'static str> {
 /// in; the window, GPU presenter, and software-blit surface are created in
 /// [`ApplicationHandler::resumed`] (window creation is only valid once the
 /// event loop is active).
+enum ReplayKind { Plain, Audit, Capture, Comparison }
+
 struct PlayApp {
     // Core machine + persistence.
     machine: Machine,
@@ -1703,7 +1705,7 @@ impl PlayApp {
         self.next_frame = Instant::now();
     }
 
-    fn start_replay(&mut self, choose_only: bool, audit: bool, capture: bool) {
+    fn start_replay(&mut self, choose_only: bool, kind: ReplayKind) {
         if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
         if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
         if choose_only || self.replay_path.is_none() {
@@ -1713,7 +1715,7 @@ impl PlayApp {
         }
         if choose_only { self.menu.diagnosis_result("Replay profile selected. Choose Replay case.".into()); self.menu_dirty=true; return; }
         let path=self.replay_path.as_deref().unwrap();
-        let result=if capture {crate::debug_replay::Job::start_capture(path)} else if audit {crate::debug_replay::Job::start_audit(path)} else {crate::debug_replay::Job::start(path)};
+        let result=match kind {ReplayKind::Comparison=>crate::debug_replay::Job::start_comparison(path),ReplayKind::Capture=>crate::debug_replay::Job::start_capture(path),ReplayKind::Audit=>crate::debug_replay::Job::start_audit(path),ReplayKind::Plain=>crate::debug_replay::Job::start(path)};
         match result {
             Ok(job)=>{self.replay_path=Some(job.profile.clone());self.replay_message.clear();self.menu.diagnosis_result("Replay running in an isolated worker. Cancel replay stops it.".into());self.replay_job=Some(job);},
             Err(e)=>self.menu.diagnosis_result(format!("Cannot replay: {e}")),
@@ -3028,10 +3030,11 @@ impl ApplicationHandler for PlayApp {
                     menu::MenuAction::CatalogSelection(index) => self.catalog_preview(index),
                     menu::MenuAction::CatalogImport(index) => self.catalog_import(index),
                     menu::MenuAction::CatalogOpen(index) => self.catalog_open(index),
-                    menu::MenuAction::CaptureReplay => self.start_replay(false,false,true),
-                    menu::MenuAction::AuditReplay => self.start_replay(false,true,false),
-                    menu::MenuAction::ReplayCase => self.start_replay(false,false,false),
-                    menu::MenuAction::ChooseReplayProfile => self.start_replay(true,false,false),
+                    menu::MenuAction::CompareReplay => self.start_replay(false,ReplayKind::Comparison),
+                    menu::MenuAction::CaptureReplay => self.start_replay(false,ReplayKind::Capture),
+                    menu::MenuAction::AuditReplay => self.start_replay(false,ReplayKind::Audit),
+                    menu::MenuAction::ReplayCase => self.start_replay(false,ReplayKind::Plain),
+                    menu::MenuAction::ChooseReplayProfile => self.start_replay(true,ReplayKind::Plain),
                     menu::MenuAction::CancelReplay => self.cancel_replay(),
                     menu::MenuAction::StartInputRecording => self.start_input_recording(),
                     menu::MenuAction::StopInputRecording => { self.stop_input_recording("user stopped", true); },

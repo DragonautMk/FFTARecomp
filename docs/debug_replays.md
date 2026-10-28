@@ -177,3 +177,12 @@ annullamento e selezione del runtime, ma si fermano al confine sicuro dopo il
 primo match o al limite. `captured` (0) e `not-reached` (7) non sono una verifica
 dell'endpoint completo né una nuova accettazione DS. I profili senza condizione
 mantengono il precedente comportamento `exact-endpoint`.
+
+I [confronti DBG-09](debug_comparisons.md) estendono il profilo con `comparison`
+e `stop: "first-divergence"`. Il worker avanza due macchine indipendenti dal
+medesimo stato/input e confronta ogni frame: riferimento interprete/raw,
+candidato interprete/native con dataset opzionale. `matched` (0) certifica il
+solo prefisso dichiarato; `diverged` (2) pubblica campi, immagini e audio al primo
+confine diverso. L'endpoint registrato resta una verifica separata. Supervisione,
+lock, annullamento e limite temporale sono condivisi; audit e trigger simultanei
+vengono rifiutati. I profili ordinari mantengono `exact-endpoint`.

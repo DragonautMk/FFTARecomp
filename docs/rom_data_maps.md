@@ -1482,3 +1482,9 @@ ABI, nested unit/coordinate payloads or global archive coverage. No new fixture,
 checkpoint, navigation, prior source/model/runtime/CLI/road-node acceptance
 replay or performance measurement occurs. Linux, USA, native Windows, new32:9
 and the remaining ROM TODO stay pending.
+
+
+The nested encounter unit-template source contract is now closed for the
+header-linked2,850-record physical partition, retaining the192 bytes already
+owned by constructor alternates. Its strict model and managed/runtime/ordinary
+migration remain next. [Layout, readers and shared ownership](rom_data_gameplay.md#european-encounter-unit-templates-and-shared-ownership).

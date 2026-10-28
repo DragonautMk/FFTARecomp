@@ -205,13 +205,25 @@ non significano che siano già raccolte in un unico debugger.
 
 ## P1 — Capire dove e perché compare una differenza
 
-- [ ] **DBG-09 — Confronto al primo punto di divergenza.**
+- [x] **DBG-09 — Confronto al primo punto di divergenza.**
   Confrontare interprete/native oppure dati raw/typed riutilizzando i controlli
   esistenti: stato completo, clock, framebuffer centrale/wide, OAM e stream audio.
   Evidenziare il primo frame e i campi diversi, con immagini affiancate e JSON.
   **Chiusura:** localizzare una differenza nota senza limitarsi all'hash finale;
   indicare esattamente quali componenti sono state confrontate.
   **Dipende da:** DBG-05; output pesanti solo attorno alla divergenza.
+  **Implementato (2026-10-28):** [confronto per frame](../debug_comparisons.md),
+  `debug-compare create/run/cancel` e menu «Compare first difference».
+  Riferimento interprete/raw e candidato interprete/native con dataset opzionale;
+  campi CPU/Bus serializzati esatti, registri, immagini affiancate e stream audio.
+  Finestra massima 3.600 frame, otto report per profilo; snapshot/PNG/audio soltanto
+  al primo confine diverso, metadati per prefisso uguale o interrotto.
+  Passano 67 test Wine, 20 casi CLI più annullamento, tre controlli default,
+  GUI e browser desktop/mobile. DS20: primo frame diverso, clock +4 cicli e
+  solo r15; immagini/OAM/audio coincidono. È una localizzazione del confine,
+  senza verdetto sulla causa o accettazione della parità native. Tutti i 276
+  originali controllati e i normali eseguibili restano invariati.
+  [Record](../changes/2026-10-28-add-first-frame-debug-comparisons.json).
 
 - [ ] **DBG-10 — Pausa, avanzamento di un frame e ripresa controllata.**
   Fornire scorciatoie e comandi equivalenti per fermarsi e avanzare di N frame.

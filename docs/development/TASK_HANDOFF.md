@@ -6,6 +6,18 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **REPO-ALIGN-MAIN — complete (2026-10-29).** Latest request: make main
+  point to decomp too. Local main/decomp/optimizations now all equal 08b89d3,
+  which includes the previously committed alignment documentation. Recovery ref
+  `refs/backup/main-before-decomp-2026-10-29` preserves main's former 124de1f.
+  One atomic expected-old-value transaction created the backup and moved main;
+  decomp/optimizations were verified in that transaction. No checkout, reset,
+  cleanup or deletion; active branch stays decomp and local files stay in place.
+  All remote-tracking refs remain unchanged; no push/build/runtime work.
+  Evidence: target/main-branch-alignment-2026-10-29/{refs-before,result}.json.
+  No remaining local alignment deliverable.
+  [Record](../changes/2026-10-29-align-main-with-decomp.json).
+
 - **REPO-ALIGN-OPTIMIZATIONS — complete (2026-10-29).** Latest request:
   make optimizations equal to decomp (name confirmed), preserving temporary
   and ignored local files. Both local tips now equal edb8b06; recovery ref

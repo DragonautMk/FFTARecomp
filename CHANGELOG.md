@@ -717,6 +717,29 @@ Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md), [TASK_
 
 [Change record](docs/changes/2026-10-29-align-optimizations-with-decomp.json)
 
+## 2026-10-29 — Align local main with decomp without changing local files
+
+Type: docs. Platforms: Development.
+
+**Changes**
+
+- Moved local main from 124de1f to decomp at 08b89d3; main, decomp and optimizations now share the same commit.
+- Created refs/backup/main-before-decomp-2026-10-29 and updated main atomically with expected-old-value and target guards, without checkout or cleanup.
+- Documented reference-only alignment for branches not checked out in any worktree.
+
+**Validation**
+
+- Verified all three local branch tips are identical and the recovery reference retains the old main commit.
+- Verified the active decomp checkout, implementation diff and all origin/upstream tracking refs remained unchanged.
+
+**Limitations**
+
+- Local references only; no remote push, build or runtime validation was performed.
+
+Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-29-align-main-with-decomp.json)
+
 ## 2026-10-29 — Select targeted debug campaigns and reuse pinned results without automatic sweeps
 
 Type: added. Platforms: Python3.11 Linux, existing offline Docker image, offline Chrome; public synthetic POSIX dispatch.

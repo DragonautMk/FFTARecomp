@@ -13,6 +13,9 @@ paths for collisions, and use `git switch --no-overwrite-ignore` so Git refuses
 to overwrite an ignored file. Do not use `git clean -fdx` or `git clean -fdX`.
 
 When replacing a divergent local branch tip, retain a recovery reference first.
+If that branch is not checked out in any worktree, update only its reference
+with an expected-old-value guard; this leaves the checkout and local files in
+place. Create the recovery reference and update the branch atomically.
 Let checkout remove only obsolete tracked paths absent from the target tree;
 verify local files remain afterwards. Delete disposable local artifacts only
 through a separately selected, successful unit and the preview/receipt rules

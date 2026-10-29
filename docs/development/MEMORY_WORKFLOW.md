@@ -133,6 +133,13 @@ Use `--base` for a branch/PR range. A clean working tree checked against HEAD
 has no pending implementation coverage to assess. `--metadata-only` is for
 validating a snapshot without Git history; it does not check change coverage.
 
+After aligning branches, also check against the destination branch's previous
+remote tip, retained before updating it. That is the push event's comparison
+base and can span many imported commits. A check against HEAD or the source's
+latest parent does not cover that range. Include any omitted implementation
+paths in an accurate correction record and validate against the original base
+before publishing; keep the existing checker and coverage requirements.
+
 The [CI workflow](../../.github/workflows/project-memory.yml) runs tests and
 checks PR changes against their base commit, or push changes against the
 previous commit. An initial push without an available base validates metadata

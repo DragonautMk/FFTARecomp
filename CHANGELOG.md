@@ -372,6 +372,30 @@ Documentation: [debug_selector.md](docs/debug_selector.md), [debug_content.md](d
 
 [Change record](docs/changes/2026-10-29-migrate-debug-tool-input-selection.json)
 
+## 2026-10-29 — Complete artifact retention change coverage across branch alignment
+
+Type: docs. Platforms: Development.
+
+**Changes**
+
+- Backfill missing change coverage for the existing AGENTS.md bounded artifact retention instructions and scripts/tests/test_local_artifacts.py synthetic tests introduced in e2a1d37.
+- Require branch alignment validation against the destination branch previous remote tip, matching the GitHub push comparison range rather than only HEAD.
+
+**Validation**
+
+- Read the failed GitHub Project memory run95 log: base2193457 to commit08b89d3 reports exactly AGENTS.md and scripts/tests/test_local_artifacts.py; reproduced the same two omissions locally.
+- All five existing project memory tests and all nine synthetic artifact retention tests pass using temporary fixtures.
+- Project memory checks pass against HEAD and the original failed push base2193457, covering the entire imported range without weakening the checker.
+
+**Limitations**
+
+- Documentation coverage correction only; no runtime implementation, cleanup, CI checker or branch reference changes. No build, commit or push performed.
+- The original run95 uses commit08b89d3 and remains historical evidence; rerunning that unchanged commit cannot include this correction.
+
+Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md), [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md).
+
+[Change record](docs/changes/2026-10-29-document-retention-files-across-branch-alignment.json)
+
 ## 2026-10-29 — Distribute the shared portable debug tools with a complete guide and private-data guards
 
 Type: added. Platforms: Windows GNU release via Wine/Xvfb; Linux Python/Bash/Docker/Chrome; public PowerShell7.4.6 Linux mocks.

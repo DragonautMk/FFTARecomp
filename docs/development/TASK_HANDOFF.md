@@ -6,6 +6,22 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **CI-MEMORY-BRANCH-ALIGNMENT — complete locally (2026-10-29).** Latest request:
+  investigate the failed Project memory run95 on optimizations/08b89d3.
+  GitHub failed-step log and local reproduction both identify AGENTS.md and
+  scripts/tests/test_local_artifacts.py as uncovered against2193457. Added an
+  accurate correction record for the existing retention instructions and nine
+  synthetic tests; documented checking a branch's previous remote tip after
+  alignment. Checker/workflow/implementation remain unchanged. All5memory and
+  9artifact Python tests pass; checks against HEAD and original2193457 both pass.
+  Later decomp runs96/97 pass narrower ranges and do not repair95. Publishing a
+  new commit with the correction is still needed for remote coverage; re-running
+  unchanged08b89d3 cannot include it. No commit/push/runtime build/cleanup/branch
+  mutation; no remaining local implementation or validation criterion.
+  Evidence: target/memory-ci-branch-alignment-2026-10-29/{before-check.log,
+  memory-tests.log,artifact-tests.log,head-check.log,original-ci-base-check.log,
+  result.json}. [Record](../changes/2026-10-29-document-retention-files-across-branch-alignment.json).
+
 - **REPO-ALIGN-MAIN — complete (2026-10-29).** Latest request: make main
   point to decomp too. Local main/decomp/optimizations now all equal 08b89d3,
   which includes the previously committed alignment documentation. Recovery ref

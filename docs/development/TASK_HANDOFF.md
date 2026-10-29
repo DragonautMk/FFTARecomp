@@ -6,6 +6,29 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **DBG2-PLAN — complete (2026-10-29).** Latest request fulfilled as a new
+  planning checklist, not runtime implementation. Added DEBUG_TOOLS_V2_TODO.md
+  with28unchecked DBG2items: internal content/script selectors and parameters,
+  external picker only from explicit button, optional event/selection console,
+  typed command console/shared local assistant API, bounded recipes, isolated
+  cheat menu and further trigger/watch/timeline improvements. Existing DBG01-22
+  remain closed; no unrelated queue resumed. Grounded in actual implicit
+  FileDialog/default settings gaps and local341CHcatalog/23EUR/all untested,
+  with17existing CH references, device/region/master/source anomalies preserved.
+  Plan includes dependencies, exact closure criteria, portability/input handling,
+  caps, cheat disable versus restore and modified-case replay provenance.
+  New/old checklist, common guide, cheat docs, state, scripts index, record and
+  changelog linked. Checks pass:28ordered IDs/28criteria/68backward dependency
+  edges/249local links;22oldDBGstillchecked, cheat catalog ignored/untracked,
+  no raw cheat blocks copied. Project-memory workspace/metadata and diff-check
+  pass. Git clean at selection; only planned documentation changed.
+  No build/replay/benchmark/game or cheat execution, package refresh, live
+  process, commit or push. No remaining planning deliverable; implementation
+  is unselected until requested. If selected later, start DBG2-01 with a fresh
+  checkpoint and reuse completed tool evidence.
+  [Checklist](DEBUG_TOOLS_V2_TODO.md),
+  [record](../changes/2026-10-29-plan-integrated-debug-menus-consoles-and-cheats.json).
+
 - **Full debugtools goal / DBG-22 — complete (2026-10-29).** Latest request
   “esegui il todo debugtools” fulfilled: all stable DBG01-22 checked and audited
   against linked records, retained terminal outputs and current source entry

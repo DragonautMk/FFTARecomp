@@ -40,9 +40,11 @@ and Debug > Audit replay, with an explicit `rom-data-read-audit` worker feature.
 They add bounded events, frame/address/reader filters, actual typed/raw service
 and physical-byte unions without re-extraction or automatic coverage promotion.
 
-The [debug-tools checklist](../docs/development/DEBUG_TOOLS_TODO.md) maps existing
-CLI/debug capabilities to planned user-facing and machine-readable workflows.
-It distinguishes available commands from proposed tools and DS scene cases.
+The [completed debug-tools checklist](../docs/development/DEBUG_TOOLS_TODO.md)
+records the DBG01–22 scope. The new [integrated-debug TODO](../docs/development/DEBUG_TOOLS_V2_TODO.md)
+plans in-menu content/script selection, event and command consoles, and a cheat
+debug menu. Its 28 DBG2 items are planning only; they remain distinct from existing
+commands and DS scene acceptance.
 
 From the repository root, extract readable ROM data with Docker:
 

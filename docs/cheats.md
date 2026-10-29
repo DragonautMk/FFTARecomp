@@ -7,6 +7,11 @@ compilations include an explicit copyright notice and their redistribution
 permissions have not been established. This documentation contains no cheat
 payloads and does not assign a license to the source material.
 
+The [integrated-debug follow-up checklist](development/DEBUG_TOOLS_V2_TODO.md)
+plans a local cheat menu using these stable CH identifiers, with EUR candidates,
+format validation, isolated application and replay provenance. These are future
+steps; the reference catalog still provides no runtime cheat execution.
+
 ## Organization
 
 The initial collection contains 341 distinct code blocks from five supplied

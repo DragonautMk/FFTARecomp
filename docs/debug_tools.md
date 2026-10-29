@@ -4,6 +4,11 @@ Usare una copia isolata e un caso scelto esplicitamente. Questi percorsi non
 modificano automaticamente lo stato delle prove DS e non avviano campagne
 generali. I dati di gioco si aggiungono localmente dopo l'estrazione del pacchetto.
 
+Il [nuovo TODO Debug integrato](development/DEBUG_TOOLS_V2_TODO.md) descrive
+le estensioni pianificate: scelte e script dal menu senza picker automatici,
+console eventi/comandi e cheat. Questa guida continua a descrivere le funzioni
+attuali; le voci DBG2 non sono ancora implementate.
+
 ## Prerequisiti e cartella spostabile
 
 Estrarre tutto il pacchetto in una cartella scrivibile, con spazi/Unicode ammessi.

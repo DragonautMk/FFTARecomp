@@ -28,6 +28,15 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   source-specific master codes remain distinct; static preservation checks do
   not establish runtime compatibility. This adds no cheat execution support.
 
+- The [integrated debug follow-up](DEBUG_TOOLS_V2_TODO.md) is a new planning-only
+  checklist with 28 unchecked DBG2 IDs. It specifies built-in selection of existing
+  inputs/profiles/scripts with external file dialogs only from explicit buttons,
+  editable tool parameters, optional live event and textual command consoles,
+  shared menu/CLI/local-control operations and an isolated cheat menu grounded in
+  the private CH catalog. EUR candidates remain unverified; decoding, mutation
+  semantics and replay provenance are prerequisites. The planning request does
+  not start implementation, reopen DBG01-22, or resume unrelated runtime work.
+
 - The desktop debug-tools checklist DBG-01…DBG-22 is complete within its declared
   scope. Start with the [common portable guide](../debug_tools.md): recording,
   reproducible bug context, two selected runtimes, uncovered ROM reads and

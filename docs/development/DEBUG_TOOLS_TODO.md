@@ -15,6 +15,10 @@ seguono l'attuale percorso Wine, indicando separatamente quelle native ancora
 mancanti. Nessun benchmark è richiesto da questo piano. Il
 [frontend Godot](GODOT_FRONTEND_TODO.md) resta rinviato e non è un prerequisito.
 
+Il successore [Debug integrato — DBG2](DEBUG_TOOLS_V2_TODO.md) pianifica
+selettori interni, parametri/script da menu, console eventi/comandi e cheat
+per il debug. Le sue voci sono nuove e non riaprono DBG-01…DBG-22.
+
 ## Basi già disponibili da riutilizzare
 
 Le spunte qui indicano capacità esistenti, con l'ambito documentato nei link;

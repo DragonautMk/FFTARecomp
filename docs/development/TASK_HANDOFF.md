@@ -6,6 +6,23 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **REPO-ALIGN-OPTIMIZATIONS — complete (2026-10-29).** Latest request:
+  make optimizations equal to decomp (name confirmed), preserving temporary
+  and ignored local files. Both local tips now equal edb8b06; recovery ref
+  `refs/backup/optimizations-before-decomp-2026-10-29` retains b43f943.
+  Safe switches used `--no-overwrite-ignore`; no broad clean or hard reset.
+  Only 12 obsolete tracked script paths disappeared (target reorganizes scripts).
+  All 139930 previously ignored/untracked files remain with identical mode,
+  size, mtime, inode and device; no incoming tracked path collided with them.
+  Target .gitignore now also protects cheats/, debug_saves/ and index.html.
+  Working tree was clean immediately after alignment. Origin refs unchanged;
+  optimizations is 63 commits ahead of its remote. No push/build/runtime work.
+  Evidence: target/branch-alignment-2026-10-29/{refs-before,local-files-before,
+  preservation-result}.json and checkpoint-before-switch.md. No remaining local
+  alignment deliverable. Record: [branch alignment](../changes/2026-10-29-align-optimizations-with-decomp.json).
+
+## Previous pending request (not selected by branch alignment)
+
 - **DBG2-06 — selected / script and tool library (2026-10-29).** Latest request
   remains fullDBG2goal;01..05closed and all their terminal acceptance retained.
   Missing deliverable: internal library with version/hash, typed arguments,

@@ -4,6 +4,20 @@ ROMs, saves, input recordings, accepted datasets and test evidence have distinct
 lifetimes. Do not delete the entire `target/` tree or run a global Docker prune
 to clean one unit. The root workspace and AndroidPort remain separate.
 
+## Preserve local files when aligning branches
+
+Aligning branches does not select a validation unit for cleanup. Preserve
+ignored and untracked local files, including files newly covered by the target
+branch's `.gitignore`. Inventory them before switching, check incoming tracked
+paths for collisions, and use `git switch --no-overwrite-ignore` so Git refuses
+to overwrite an ignored file. Do not use `git clean -fdx` or `git clean -fdX`.
+
+When replacing a divergent local branch tip, retain a recovery reference first.
+Let checkout remove only obsolete tracked paths absent from the target tree;
+verify local files remain afterwards. Delete disposable local artifacts only
+through a separately selected, successful unit and the preview/receipt rules
+below. An ignored file is not evidence that it is no longer needed.
+
 ## Session manager and activity coordination
 
 [DBG-18](../debug_artifacts.md) adds bounded preview/apply with keep-selection,

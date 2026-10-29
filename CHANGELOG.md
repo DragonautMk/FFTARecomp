@@ -693,6 +693,30 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-29-classify-european-conditional-records8.json)
 
+## 2026-10-29 — Align local optimizations with decomp while preserving local artifacts
+
+Type: docs. Platforms: Development.
+
+**Changes**
+
+- Aligned local optimizations and decomp at edb8b06 after confirming the target branch; retained b43f943 under refs/backup/optimizations-before-decomp-2026-10-29.
+- Used safe branch switches without overwriting ignored files; removed only 12 obsolete tracked script paths absent from decomp and preserved local artifacts.
+- Documented branch alignment separately from selective artifact cleanup; files newly ignored by the target branch remain protected.
+
+**Validation**
+
+- Compared both local branch tips and confirmed exact equality; tracked worktree and index were clean immediately after alignment.
+- Verified all 139930 previously ignored or untracked files still exist with identical mode, size, mtime, inode and device; no incoming tracked paths collided with local files.
+- Confirmed cheats/, debug_saves/ and index.html are ignored by the target rules; origin tracking refs were unchanged.
+
+**Limitations**
+
+- Local alignment only; no remote push, builds or runtime tests. File preservation compared metadata rather than hashing every generated artifact.
+
+Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-29-align-optimizations-with-decomp.json)
+
 ## 2026-10-29 — Select targeted debug campaigns and reuse pinned results without automatic sweeps
 
 Type: added. Platforms: Python3.11 Linux, existing offline Docker image, offline Chrome; public synthetic POSIX dispatch.

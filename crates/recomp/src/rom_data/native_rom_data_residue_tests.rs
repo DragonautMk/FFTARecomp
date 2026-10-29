@@ -120,6 +120,7 @@ fn wrapped(original: &crate::BlockTable) -> crate::BlockTable {
             .collect()
     };
     crate::BlockTable {
+        source: None,
         rom: entries(&original.rom),
         iwram: entries(&original.iwram),
         ewram: entries(&original.ewram),

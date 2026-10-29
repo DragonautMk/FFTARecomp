@@ -22,10 +22,16 @@ mod play;
 mod rom_switch;
 mod diagnostics;
 mod debug_session;
+mod artifact_lease;
 mod debug_control;
 mod debug_probe;
 mod debug_graphics;
 mod debug_ui;
+mod debug_audio;
+mod debug_code;
+mod debug_gameplay;
+mod debug_recent;
+mod debug_issue;
 mod debug_catalog;
 mod debug_recording;
 mod debug_compare;
@@ -77,6 +83,8 @@ fn main() -> ExitCode {
         return ExitCode::SUCCESS;
     }
     if args.first().is_some_and(|s|s=="debug-compare") { return ExitCode::from(debug_compare::cmd(&args[1..])); }
+    if args.first().is_some_and(|s|s=="debug-audio") { return ExitCode::from(debug_audio::cmd(&args[1..])); }
+    if args.first().is_some_and(|s|s=="debug-report") { return ExitCode::from(debug_issue::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-capture") { return ExitCode::from(debug_capture::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-rom-audit") { return ExitCode::from(debug_rom_audit::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
@@ -143,9 +151,24 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
-    ("debug-control", "recomp debug-control <status|pause|resume|step|inspect|break|watch> SESSION [options]", &[
+    ("debug-report", "recomp debug-report create PROFILE/replay.json [--symptom TEXT]", &[
+        "Readonly pinned-input preflight and retained result/comparison; no replay started",
+        "Private HTML/JSON/metadata summary and movable PowerShell/POSIX launchers",
+        "At most8reports inside profile; incompatible preflight still publishes, exits3",
+    ], "Build a local issue report with an exact replay command, private attachment links and next check. No automatic send."),
+    ("debug-control", "recomp debug-control ACTION SESSION [options]", &[
         "step N: exactly 1..600 completed frames, then remain paused",
         "inspect SESSION ADDRESS LENGTH: readonly backing1..256bytes/registers/labels/owners",
+        "code-start SESSION [--frames 1..60] [--events 1..512] [--start HEX --end HEX] [--mode arm|thumb|all] [--kind all|native|missing|system|hook|interpreter]",
+        "issue-report SESSION [--profile FILE --symptom TEXT]: local report, no replay",
+        "gameplay-start SESSION [--frames 1..60] [--events 1..512] [--family all|task|script|unit] [--context HEX]",
+        "status/cancel use a separate local query mailbox; cancel SESSION --request ID; all commands --timeout-ms N (20..120000ms, default120000)",
+        "recent-start SESSION [--events 1..1024] [--reads on|off --start HEX --end HEX --on-error on|off]",
+        "recent-freeze SESSION / recent-report SESSION: freeze recent window; report writes private HTML/JSON",
+        "gameplay-report SESSION: bounded task/script/unit fields and source provenance",
+        "code-report SESSION: bounded PC/disassembly/static-label/actual dispatch report",
+        "audio-start SESSION [--frames 1..180] [--streams mixed,psg,hle,fifo0,fifo1]",
+        "audio-report SESSION: private guest/producer/callback WAV/raw report",
         "ui-start / ui-report SESSION: bounded menu/text/input trace and offline report",
         "graphics SESSION [--compare-last]: private offline PPU/frontend report, at most8",
         "Report requires idle paused copy; no guest rendering/IO writes or new snapshot",
@@ -157,7 +180,13 @@ const HELP: &[(&str, &str, &[&str], &str)] = &[
         "status: guest frame/clock/reason, exact state hash and host audio queues",
         "Open a debug session with: debug-session open SESSION --paused",
         "F6 pause/resume, F7 one frame, F8 ten frames in the isolated window",
-    ], "Control an active isolated interactive copy through an acknowledged local mailbox. No normal-game control or new private snapshots. Step acknowledgement waits for completion; 120s timeout is not cancellation."),
+    ], "Control an active isolated interactive copy through an acknowledged local mailbox. No normal-game control or new private snapshots. Step acknowledgement waits for completion; queries/cancel remain available. Deadlines stop budgets at frontend polls; unacknowledged timeout requires status inspection."),
+    ("debug-audio", "recomp debug-audio states --rom ROM --left STATE --right STATE --dir NEW [options]", &[
+        "Read existing snapshots only; no guest replay or native execution",
+        "--streams mixed,psg,hle,fifo0,fifo1   select distinct source buffers",
+        "--start EVEN --count EVEN          raw value/event window, count up to262144",
+        "--bios FILE                       if snapshots use an explicit BIOS",
+    ], "Offline exact audio comparison, local WAV audition and waveform report; physical listening unknown."),
     ("debug-compare", "recomp debug-compare <create|run|cancel> [options]", &[
         "create: debug-replay create options plus --frames 1..3600 (within recorded input)",
         "--backend interp|native  candidate; reference is always interpreter/raw",
@@ -1405,12 +1434,14 @@ fn load_native(lib_path: &Path) -> Result<(NativeLibrary, BlockTable), String> {
         && u16::from_le_bytes([header[16], header[17]]) == 1;
     if object {
         let code = recomp_core::tcc_memory::NativeCode::load(lib_path)?;
-        let table = BlockTable::from_blocks(code.blocks()?)?;
+        let mut table = BlockTable::from_blocks(code.blocks()?)?;
+        table.source = Some(lib_path.to_owned());
         return Ok((NativeLibrary::TinyCc(code), table));
     }
     let lib = unsafe { libloading::Library::new(lib_path) }
         .map_err(|e| format!("{}: {e}", lib_path.display()))?;
-    let table = BlockTable::load(&lib)?;
+    let mut table = BlockTable::load(&lib)?;
+    table.source = Some(lib_path.to_owned());
     Ok((NativeLibrary::Dll(lib), table))
 }
 
@@ -1421,6 +1452,7 @@ fn load_native(lib_path: &Path) -> Result<(NativeLibrary, BlockTable), String> {
 #[derive(Default)]
 struct AudioStreams {
     profile: Option<audio_profile::Profile>,
+    diagnostic: Option<debug_audio::Capture>,
     mixed: std::collections::VecDeque<i16>,
     psg: std::collections::VecDeque<f32>,
     fifo: [std::collections::VecDeque<(i8, u32)>; 2],
@@ -1491,6 +1523,7 @@ impl AudioStreams {
         self.normal_audio = None;
         self.fast_produced = 0;
         self.epoch = self.epoch.wrapping_add(1);
+        if let Some(capture)=self.diagnostic.as_mut(){capture.reset(self.epoch);}
     }
 }
 
@@ -1584,7 +1617,7 @@ fn start_audio(streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>) -> Optio
 /// device sample format — everything renders in f32 and converts on
 /// write, so i16/u16-only devices work identically. Both audio paths run
 /// every callback; the menu crossfades between them.
-fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
+fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32> + debug_audio::OutputSample>(
     device: &cpal::Device,
     cfg: &cpal::SupportedStreamConfig,
     streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
@@ -1610,7 +1643,7 @@ fn build_stream<T: cpal::SizedSample + cpal::FromSample<f32>>(
 
 /// The actual device renderer, also callable without a device for parity and
 /// starvation checks. Diagnostics only observe; DSP and queue policy are shared.
-fn output_callback<T: cpal::SizedSample + cpal::FromSample<f32>>(
+fn output_callback<T: cpal::SizedSample + cpal::FromSample<f32> + debug_audio::OutputSample>(
     rate: f64,
     channels: usize,
     streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
@@ -1630,7 +1663,7 @@ fn output_callback<T: cpal::SizedSample + cpal::FromSample<f32>>(
     }
 }
 
-fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSERVE: bool>(
+fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_audio::OutputSample, const OBSERVE: bool>(
     rate: f64,
     channels: usize,
     streams: std::sync::Arc<std::sync::Mutex<AudioStreams>>,
@@ -1839,6 +1872,14 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32>, const OBSE
                 [] => {}
             }
         }
+        }
+        if st.diagnostic.is_some() {
+            let context=debug_audio::Delivery{epoch:st.epoch,consumed:st.consumed,holds:st.holds,drops:st.drops,
+                temporary_mute:st.muted,user_mute:st.user_muted,target_gain:st.volume_target(),current_gain:vol_cur,
+                enhanced:st.enhanced_on,hle:st.hle_on,speed:requested_speed,normal:st.normal_audio.is_some(),
+                fast_estimate:fast_plan.map(|p|p.estimate),fast_speed:fast_plan.map(|p|p.speed),fast_ready:fast_plan.map(|p|p.ready),
+                queue_values:[st.mixed.len(),st.psg.len(),st.hle.len(),st.fifo[0].len(),st.fifo[1].len()]};
+            st.diagnostic.as_mut().unwrap().callback(out,rate as u32,channels,context);
         }
         if let (Some(begin), Some(acquired), Some((holds, mixed))) = (begin, acquired, observation) {
             let end = std::time::Instant::now();
@@ -2657,6 +2698,7 @@ type BlockFn = extern "C" fn(*const gba_core::capi::RtApi, *mut std::ffi::c_void
 /// those get dense tables — lookup is a subtract, compare, and load —
 /// with a HashMap holding any stragglers.
 struct BlockTable {
+    source: Option<std::path::PathBuf>,
     rom: Vec<Option<BlockFn>>,
     iwram: Vec<Option<BlockFn>>,
     /// Dense EWRAM table, allocated only when an EWRAM block exists
@@ -2697,6 +2739,7 @@ impl BlockTable {
             .any(|b| (b.key.wrapping_sub(EWRAM_BASE) as usize) < 0x4_0000);
         let any_bios = blocks.iter().any(|b| b.key < 0x4000);
         let mut t = BlockTable {
+            source: None,
             rom: vec![None; rom_max],
             iwram: vec![None; 0x8000],
             ewram: vec![None; if any_ewram { 0x4_0000 } else { 0 }],
@@ -2760,6 +2803,17 @@ impl BlockTable {
     }
 }
 
+/// Same bounded interpreter frame loop; the opt-in observer only receives shared state.
+fn run_frame_interpreter_observed(m: &mut Machine, max_steps: u64, mut observe: impl FnMut(&Machine)) {
+    m.bus.frame_ready = false;
+    let mut steps = 0;
+    while !m.bus.frame_ready && steps < max_steps {
+        observe(m);
+        m.step();
+        steps += 1;
+    }
+}
+
 /// Drive the machine to the next completed frame using translated blocks
 /// where available and the interpreter elsewhere, with interrupt
 /// machinery serviced at block boundaries — the same execution sequence
@@ -2790,6 +2844,18 @@ fn run_frame_native_observed(
     table: &BlockTable,
     mptr: *mut std::ffi::c_void,
     max_steps: u64,
+    observe: impl FnMut(NativeDispatch, u32, u64),
+) -> (u64, u64) {
+    run_frame_native_traced(m, table, mptr, max_steps, |_, _| {}, observe)
+}
+
+/// Opt-in readonly entry observation; no-op specialization preserves normal dispatch.
+fn run_frame_native_traced(
+    m: &mut Machine,
+    table: &BlockTable,
+    mptr: *mut std::ffi::c_void,
+    max_steps: u64,
+    mut before: impl FnMut(&Machine, NativeDispatch),
     mut observe: impl FnMut(NativeDispatch, u32, u64),
 ) -> (u64, u64) {
     use gba_core::capi::RT_API;
@@ -2819,6 +2885,7 @@ fn run_frame_native_observed(
                 && m.cpu.mode() == gba_core::Mode::Irq)
             || (m.bus.irq_pending() && !m.cpu.flag(gba_core::cpu::FLAG_I))
         {
+            before(m, NativeDispatch::System);
             m.step();
             observe(
                 NativeDispatch::System,
@@ -2832,6 +2899,7 @@ fn run_frame_native_observed(
         if m.bus.ffta_battle_mouse.interprets(m.cpu.regs[15])
             || m.ffta_sprite_interpret(m.cpu.regs[15])
         {
+            before(m, NativeDispatch::Hook);
             m.step();
             observe(
                 NativeDispatch::Hook,
@@ -2868,6 +2936,7 @@ fn run_frame_native_observed(
         }
         let kind = match table.get(key) {
             Some(f) => {
+                before(m, NativeDispatch::Native);
                 // Diagnostic: census of executed IWRAM natives.
                 if trace_iwram && key >> 24 == 3 {
                     IWRAM_HITS.with(|h| *h.borrow_mut().entry(key).or_insert(0u64) += 1);
@@ -2888,6 +2957,7 @@ packager (it becomes a label; the rebuilt package covers it).",
                     );
                     std::process::exit(2);
                 }
+                before(m, NativeDispatch::Missing);
                 // Diagnostic (RECOMP_TRACE_FALLBACK): census of fallback
                 // *entries* — the dispatch keys that would be labels.
                 // Straight-line continuation inside a fallback run is not
@@ -4617,9 +4687,36 @@ mod tests {
     }
 
     #[test]
+    fn debug_audio_capture_preserves_callback_output_queues_and_reset_modes() {
+        use std::sync::{Arc,Mutex};
+        fn check<T:cpal::SizedSample+cpal::FromSample<f32>+debug_audio::OutputSample+PartialEq+std::fmt::Debug>() {
+            for rate in [44_100.,48_000.] {
+                let create=||{let mut s=AudioStreams{playback_speed:1.,route:[3,3],..Default::default()};
+                    s.mixed.extend(vec![7000;32768]);s.psg.extend(vec![0.15;32768]);s.hle.extend(vec![0.1;32768]);s.fifo[0].extend(vec![(64,512);16000]);s};
+                let plain=Arc::new(Mutex::new(create()));let observed=Arc::new(Mutex::new(create()));
+                let mut capture=debug_audio::Capture::start(Default::default(),serde_json::json!({"synthetic_callback":true}),0).unwrap();
+                let mut m=Machine::new(vec![0;256]);m.bus.frames=1;capture.generated(&m,"synthetic-rings");observed.lock().unwrap().diagnostic=Some(capture);
+                let mut a=output_callback::<T>(rate,2,plain.clone());let mut b=output_callback::<T>(rate,2,observed.clone());
+                for phase in 0..8 {
+                    for s in [&plain,&observed]{let mut st=s.lock().unwrap();st.user_muted=phase==1;st.muted=phase==2;st.enhanced_on=phase==3;st.hle_on=phase==3;
+                        if phase==4{st.discard_pending();st.mixed.extend(vec![4000;32768]);}
+                        if phase==5{st.playback_speed=4.;st.fast_produced=32768;}
+                        if phase==6{let mut queue=ff_audio::NormalAudio::new().unwrap();queue.push(&vec![3000;4000]).unwrap();st.normal_audio=Some(queue);}
+                        if phase==7{st.discard_pending();}
+                    }
+                    let mut left=vec![T::EQUILIBRIUM;2048];let mut right=left.clone();a(&mut left);b(&mut right);assert_eq!(left,right);
+                    let p=plain.lock().unwrap();let o=observed.lock().unwrap();assert_eq!(p.mixed,o.mixed);assert_eq!(p.psg,o.psg);assert_eq!(p.hle,o.hle);assert_eq!(p.fifo,o.fifo);assert_eq!((p.holds,p.drops,p.clipped,p.consumed,p.epoch),(o.holds,o.drops,o.clipped,o.consumed,o.epoch));
+                }
+                let st=observed.lock().unwrap();assert!(st.diagnostic.as_ref().unwrap().status()["output_values"].as_u64().unwrap()>0);
+            }
+        }
+        check::<f32>();check::<i16>();check::<u16>();
+    }
+
+    #[test]
     fn callback_profile_preserves_samples_queues_and_legacy_counters() {
         use std::sync::{Arc, Mutex};
-        fn check<T: cpal::SizedSample + cpal::FromSample<f32> + PartialEq + std::fmt::Debug>() {
+        fn check<T: cpal::SizedSample + cpal::FromSample<f32> + debug_audio::OutputSample + PartialEq + std::fmt::Debug>() {
             for (rate, channels) in [(44_100., 1), (48_000., 2), (48_000., 6)] {
                 let plain = Arc::new(Mutex::new(AudioStreams::default()));
                 let observed = Arc::new(Mutex::new(AudioStreams {

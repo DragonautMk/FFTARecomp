@@ -60,7 +60,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Cannot archive the committed extraction source
 foreach ($directory in @('scripts', 'docs/changes', 'docs/development/rom-coverage')) {
     [IO.Directory]::CreateDirectory((Join-Path $contextDir $directory)) | Out-Null
 }
-foreach ($name in @('rom_coverage.py', 'rom_coverage.html', 'local_artifacts.py', 'rom_coverage_audit.py', 'rom_coverage_ranges.py')) {
+foreach ($name in @('rom_coverage.py', 'rom_coverage.html', 'local_artifacts.py', 'artifact_coordinator.py', 'rom_coverage_audit.py', 'rom_coverage_ranges.py')) {
     Copy-Item -LiteralPath (Join-Path $repoDir "scripts/$name") -Destination (Join-Path $contextDir 'scripts')
 }
 Get-ChildItem -LiteralPath (Join-Path $repoDir 'docs/changes') -Filter '*.json' -File |
@@ -86,6 +86,12 @@ $generatorArgs = @('--rom', '/input/source.gba', '--evidence', '/input/evidence.
 if ($dataset) {
     $runArgs += @('--mount', "type=bind,source=$dataset,target=/input/dataset,readonly")
     $generatorArgs += @('--dataset', '/input/dataset')
+    $datasetInfo = Get-Item -LiteralPath $dataset
+    if ($datasetInfo.Name -match '^e[0-9]+-d[0-9]+$' -and $datasetInfo.Parent.Name -match '^[0-9a-f]{64}$') {
+        $leaseRoot = $datasetInfo.Parent.Parent.FullName
+        $runArgs += @('--mount', "type=bind,source=$leaseRoot,target=/cache-lease")
+        $generatorArgs += @('--cache-lease', '/cache-lease')
+    }
 } else {
     $cache = Get-ProjectPath 'target/rom-data/coverage'
     [IO.Directory]::CreateDirectory($cache) | Out-Null

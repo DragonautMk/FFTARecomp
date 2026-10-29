@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 import sys
 import tempfile
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 SKIP_DIRS = {'.git', '.hg', '.svn', 'node_modules', '__pycache__', '.gradle', '.cxx'}
 MAX_ENTRIES = 1_000_000
@@ -18,6 +18,13 @@ GROUPS = {
     'coverage': 'Copertura ROM',
     'graphics': 'Ispettore grafico',
     'ui': 'Menu, testo e input',
+    'audio': 'Diagnostica audio',
+    'code': 'Codice e fallback',
+    'issues': 'Report dei problemi',
+    'gameplay': 'Task, script e unità',
+    'artifacts': 'Sessioni e artefatti',
+    'recent': 'Eventi recenti',
+    'campaigns': 'Campagne mirate',
     'comparisons': 'Confronti',
     'other': 'Altri indici',
 }
@@ -72,13 +79,13 @@ def discover(root):
                     parser.feed(source.read(65_536).decode('utf-8', errors='replace'))
                 title = ' '.join(''.join(parser.parts).split())[:240] or 'Indice HTML'
                 group = 'other'
-                for sidecar, kind in [('coverage.json', 'coverage'), ('graphics.json', 'graphics'), ('ui.json', 'ui'), ('comparison.json', 'comparisons')]:
+                for sidecar, kind in [('coverage.json', 'coverage'), ('graphics.json', 'graphics'), ('ui.json', 'ui'), ('audio.json', 'audio'), ('code.json', 'code'), ('gameplay.json', 'gameplay'), ('recent.json', 'recent'), ('campaign.json', 'campaigns'), ('issue.json', 'issues'), ('plan.json', 'artifacts'), ('comparison.json', 'comparisons')]:
                     if (path.parent / sidecar).is_file():
                         group = kind
                         break
                 if relative == 'docs/development/rom-coverage/index.html':
                     name = 'Mappa principale della ROM'
-                elif group in ('graphics', 'ui') and 'Data' in parts and parts.index('Data') > 0:
+                elif group in ('graphics', 'ui', 'audio', 'code', 'gameplay', 'recent', 'issues') and 'Data' in parts and parts.index('Data') > 0:
                     name = parts[parts.index('Data') - 1]
                 elif group == 'comparisons' and path.parent.parent.name == 'comparisons':
                     name = path.parent.parent.parent.name
@@ -95,7 +102,17 @@ def stamp(seconds):
     return datetime.fromtimestamp(seconds, timezone.utc).isoformat(timespec='seconds')
 
 
-def render(reports, template):
+def render(reports, template, root=None):
+    # A portable bundle intentionally omits repository-only evidence/state.
+    # Show guide links only when their public document exists at this root.
+    if root is not None:
+        def guides(match):
+            body = re.sub(r'<a href="([^"]+)">.*?</a>',
+                          lambda a: a.group(0) if (root / unquote(a.group(1))).is_file() else '',
+                          match.group(2))
+            return match.group(1) + body + match.group(3)
+        template = re.sub(r'(<div class="guides">)(.*?)(</div>)', guides, template, count=1, flags=re.S)
+
     esc = html.escape
     shortcuts = []
     for group in ('coverage', 'graphics', 'comparisons'):
@@ -143,7 +160,7 @@ def main():
     root = args.root.resolve(strict=True)
     try:
         template = Path(__file__).with_suffix('.html').read_text(encoding='utf-8')
-        output = render(discover(root), template)
+        output = render(discover(root), template, root)
         if args.stdout:
             sys.stdout.buffer.write(output.encode('utf-8'))
         else:

@@ -19,6 +19,7 @@ import sys
 import tempfile
 import tomllib
 
+from artifact_coordinator import Lease
 from local_artifacts import prune_coverage_cache
 from rom_coverage_ranges import union, length, intersection, complement, multiple_owners, checked_span
 from rom_coverage_audit import attach_audits, bounded_json, compare_reports
@@ -349,6 +350,7 @@ def main():
     dataset_group = parser.add_mutually_exclusive_group(required=True)
     dataset_group.add_argument("--dataset", help="existing dataset, read-only")
     dataset_group.add_argument("--dataset-cache", help="prepare/reuse the built extractor's generation in this cache directory")
+    parser.add_argument("--cache-lease", help="writable coordination root for an explicit dataset mounted read-only from an evictable cache; no pruning")
     parser.add_argument("--extractor", help="recomp CLI for automatic dataset preparation")
     parser.add_argument("--cache-keep", type=int, default=0,
                         help="after success, keep this many automatic cache generations; 0 disables pruning")
@@ -360,6 +362,8 @@ def main():
     parser.add_argument("--compare", help="previous coverage.json, same ROM; default compares the existing output")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
+    if args.cache_lease and (args.dataset_cache or not args.dataset):
+        parser.error("--cache-lease belongs to an explicit --dataset, not automatic preparation")
     if args.cache_keep < 0:
         parser.error("--cache-keep must not be negative")
     try:
@@ -369,7 +373,27 @@ def main():
         return 1
 
 
+def explicit_cache_root(dataset):
+    if not dataset:
+        return None
+    path = pathlib.Path(dataset).resolve()
+    if re.fullmatch(r"e[0-9]+-d[0-9]+", path.name) and re.fullmatch(r"[0-9a-f]{64}", path.parent.name):
+        return str(path.parent.parent)
+    return None
+
+
 def generate(args):
+    automatic = getattr(args, "dataset_cache", None)
+    cache = automatic or getattr(args, "cache_lease", None) or explicit_cache_root(getattr(args, "dataset", None))
+    if cache:
+        if automatic:
+            pathlib.Path(cache).mkdir(parents=True, exist_ok=True)
+        with Lease(cache, "coverage-generate") as lease:
+            return _generate(args, lease)
+    return _generate(args, None)
+
+
+def _generate(args, lease):
     prepare_dataset(args)
     report = build(args)
     output = pathlib.Path(args.output)
@@ -416,7 +440,7 @@ def generate(args):
     print(f"HTML: {output / 'index.html'}\nJSON: {output / 'coverage.json'}", flush=True)
     if getattr(args, "dataset_cache", None) and getattr(args, "cache_keep", 0):
         try:
-            removed = prune_coverage_cache(args.dataset_cache, args.dataset, args.cache_keep)
+            removed = prune_coverage_cache(args.dataset_cache, args.dataset, args.cache_keep, lease=lease)
             if removed:
                 print(f"Cache coverage: rimosse {len(removed)} generazioni superate; "
                       f"conservate fino a {args.cache_keep}.", flush=True)

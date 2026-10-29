@@ -47,6 +47,8 @@ use gba_core::rom_data::{
     observed_task_parameters::ObservedTaskParameters, OBSERVED_TASK_PARAMETERS_ID, OBSERVED_TASK_PARAMETERS_FILE, MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES,
     obj_lists::constructor_animation::Animation as ConstructorObjAnimation, CONSTRUCTOR_OBJ_ANIMATION_ID, CONSTRUCTOR_OBJ_ANIMATION_FILE, MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES,
     task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
+    conditional_records8::Records8, CONDITIONAL_RECORDS8_ID, CONDITIONAL_RECORDS8_FILE, MAX_CONDITIONAL_RECORDS8_FILE_BYTES,
+    records4::Records4, RECORDS4_ID, RECORDS4_FILE, MAX_RECORDS4_FILE_BYTES,
     metadata28::Metadata28, METADATA28_ID, METADATA28_FILE, MAX_METADATA28_FILE_BYTES,
     encounter_coordinates::EncounterCoordinates, ENCOUNTER_COORDINATES_ID, ENCOUNTER_COORDINATES_FILE, MAX_ENCOUNTER_COORDINATES_FILE_BYTES,
     encounter_unit_templates::EncounterUnitTemplates, ENCOUNTER_UNIT_TEMPLATES_ID, ENCOUNTER_UNIT_TEMPLATES_FILE, MAX_ENCOUNTER_UNIT_TEMPLATES_FILE_BYTES,
@@ -262,7 +264,13 @@ mod task_cycle_deltas_runtime_tests;
 #[cfg(test)]
 mod metadata28_scene_tests;
 #[cfg(test)]
+mod records4_scene_tests;
+#[cfg(test)]
 mod metadata28_runtime_tests;
+#[cfg(test)]
+mod records4_runtime_tests;
+#[cfg(test)]
+mod conditional_records8_runtime_tests;
 #[cfg(test)]
 mod encounter_coordinate_runtime_tests;
 #[cfg(test)]
@@ -784,6 +792,10 @@ fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
     value.validate()?;Ok(value)
 }
 fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
+fn parse_conditional_records8(bytes:&[u8])->Result<Records8,String> {let value:Records8=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_records8: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_records8(value:&Records8)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_records8: {e}"))}
+fn parse_records4(bytes:&[u8])->Result<Records4,String> {let value:Records4=serde_json::from_slice(bytes).map_err(|e|format!("Invalid records4: {e}"))?;value.validate()?;Ok(value)}
+fn encode_records4(value:&Records4)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode records4: {e}"))}
 fn parse_metadata28(bytes:&[u8])->Result<Metadata28,String> {let value:Metadata28=serde_json::from_slice(bytes).map_err(|e|format!("Invalid metadata28: {e}"))?;value.validate()?;Ok(value)}
 fn encode_metadata28(value:&Metadata28)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode metadata28: {e}"))}
 fn parse_encounter_coordinates(bytes:&[u8])->Result<EncounterCoordinates,String> {let value:EncounterCoordinates=serde_json::from_slice(bytes).map_err(|e|format!("Invalid coordinates: {e}"))?;value.validate()?;Ok(value)}
@@ -1012,6 +1024,8 @@ struct Dataset {
     encounter_unit_templates: Option<EncounterUnitTemplates>,
     encounter_coordinates: Option<EncounterCoordinates>,
     metadata28: Option<Metadata28>,
+    records4: Option<Records4>,
+    conditional_records8: Option<Records8>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -1069,6 +1083,8 @@ struct Dataset {
     encounter_unit_templates_bytes: Option<Vec<u8>>,
     encounter_coordinates_bytes: Option<Vec<u8>>,
     metadata28_bytes: Option<Vec<u8>>,
+    records4_bytes: Option<Vec<u8>>,
+    conditional_records8_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1152,6 +1168,8 @@ impl Dataset {
             encounter_unit_templates: self.encounter_unit_templates.as_ref().zip(self.encounter_unit_templates_bytes.as_deref()),
             encounter_coordinates: self.encounter_coordinates.as_ref().zip(self.encounter_coordinates_bytes.as_deref()),
             metadata28: self.metadata28.as_ref().zip(self.metadata28_bytes.as_deref()),
+            records4: self.records4.as_ref().zip(self.records4_bytes.as_deref()),
+            conditional_records8: self.conditional_records8.as_ref().zip(self.conditional_records8_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1311,6 +1329,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(CONSTRUCTOR_OBJ_ANIMATION_FILE),MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES)).transpose()?;
     let task_cycle_deltas_bytes=manifest.coverage.iter().any(|id|id==TASK_CYCLE_DELTAS_ID)
         .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
+    let conditional_records8_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_RECORDS8_ID).then(||read_bounded(&path.join(CONDITIONAL_RECORDS8_FILE),MAX_CONDITIONAL_RECORDS8_FILE_BYTES)).transpose()?;
+    let records4_bytes=manifest.coverage.iter().any(|id|id==RECORDS4_ID).then(||read_bounded(&path.join(RECORDS4_FILE),MAX_RECORDS4_FILE_BYTES)).transpose()?;
     let metadata28_bytes=manifest.coverage.iter().any(|id|id==METADATA28_ID).then(||read_bounded(&path.join(METADATA28_FILE),MAX_METADATA28_FILE_BYTES)).transpose()?;
     let encounter_coordinates_bytes=manifest.coverage.iter().any(|id|id==ENCOUNTER_COORDINATES_ID).then(||read_bounded(&path.join(ENCOUNTER_COORDINATES_FILE),MAX_ENCOUNTER_COORDINATES_FILE_BYTES)).transpose()?;
     let encounter_unit_templates_bytes=manifest.coverage.iter().any(|id|id==ENCOUNTER_UNIT_TEMPLATES_ID)
@@ -1403,6 +1423,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         encounter_unit_templates_bytes.as_ref().map_or(0, Vec::len),
         encounter_coordinates_bytes.as_ref().map_or(0, Vec::len),
         metadata28_bytes.as_ref().map_or(0, Vec::len),
+        records4_bytes.as_ref().map_or(0, Vec::len),
+        conditional_records8_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1472,6 +1494,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let observed_task_parameters=observed_task_parameters_bytes.as_deref().map(parse_observed_task_parameters).transpose()?;
     let constructor_obj_animation=constructor_obj_animation_bytes.as_deref().map(parse_constructor_obj_animation).transpose()?;
     let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
+    let conditional_records8=conditional_records8_bytes.as_deref().map(parse_conditional_records8).transpose()?;
+    let records4=records4_bytes.as_deref().map(parse_records4).transpose()?;
     let metadata28=metadata28_bytes.as_deref().map(parse_metadata28).transpose()?;
     let encounter_coordinates=encounter_coordinates_bytes.as_deref().map(parse_encounter_coordinates).transpose()?;
     let encounter_unit_templates=encounter_unit_templates_bytes.as_deref().map(parse_encounter_unit_templates).transpose()?;
@@ -1572,6 +1596,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         encounter_unit_templates,
         encounter_coordinates,
         metadata28,
+        records4,
+        conditional_records8,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1629,6 +1655,8 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         encounter_unit_templates_bytes,
         encounter_coordinates_bytes,
         metadata28_bytes,
+        records4_bytes,
+        conditional_records8_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1711,6 +1739,8 @@ fn check_dataset_budget(
     encounter_unit_templates: usize,
     encounter_coordinates: usize,
     metadata28: usize,
+    records4: usize,
+    conditional_records8: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1787,6 +1817,8 @@ fn check_dataset_budget(
         || encounter_unit_templates as u64 > MAX_ENCOUNTER_UNIT_TEMPLATES_FILE_BYTES
         || encounter_coordinates as u64 > MAX_ENCOUNTER_COORDINATES_FILE_BYTES
         || metadata28 as u64 > MAX_METADATA28_FILE_BYTES
+        || records4 as u64 > MAX_RECORDS4_FILE_BYTES
+        || conditional_records8 as u64 > MAX_CONDITIONAL_RECORDS8_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1866,6 +1898,8 @@ fn check_dataset_budget(
         .saturating_add(encounter_unit_templates)
         .saturating_add(encounter_coordinates)
         .saturating_add(metadata28)
+        .saturating_add(records4)
+        .saturating_add(conditional_records8)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -2051,6 +2085,8 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     if let Some(data)= &dataset.task_cycle_deltas {
         eprintln!("ROM_DATA runtime=decoded resource={TASK_CYCLE_DELTAS_ID} file={} phases={}",dataset.manifest.resources[67].sha256,data.entries.len());
     }
+    if let Some(data)=&dataset.conditional_records8 {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_RECORDS8_ID} file={} records={}",dataset.manifest.resources[76].sha256,data.records.len());}
+    if let Some(data)=&dataset.records4 {eprintln!("ROM_DATA runtime=decoded resource={RECORDS4_ID} file={} records={}",dataset.manifest.resources[75].sha256,data.records.len());}
     if let Some(data)=&dataset.metadata28 {eprintln!("ROM_DATA runtime=decoded resource={METADATA28_ID} file={} records={}",dataset.manifest.resources[74].sha256,data.records.len());}
     if let Some(data)=&dataset.encounter_coordinates {eprintln!("ROM_DATA runtime=decoded resource={ENCOUNTER_COORDINATES_ID} file={} lists={}",dataset.manifest.resources[73].sha256,data.lists.len());}
     if let Some(data)= &dataset.encounter_unit_templates {
@@ -2290,6 +2326,8 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.task_cycle_deltas_stats() {
             eprintln!("ROM_DATA_USE resource={TASK_CYCLE_DELTAS_ID} dataset={} bus_reads={} source_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.phases_used);
         }
+        if let Some(i)=resources.conditional_records8_stats() {eprintln!("ROM_DATA_USE resource={CONDITIONAL_RECORDS8_ID} dataset={} bus_reads={} source_bytes={} gate_bytes={} filter_bytes={} first_key_bytes={} first_operand_bytes={} second_key_bytes={} second_operand_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.gate_bytes,i.filter_bytes,i.first_key_bytes,i.first_operand_bytes,i.second_key_bytes,i.second_operand_bytes,i.records_used);}
+        if let Some(i)=resources.records4_stats() {eprintln!("ROM_DATA_USE resource={RECORDS4_ID} dataset={} bus_reads={} source_bytes={} field00_bytes={} field01_bytes={} field02_bytes={} field03_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.field00_bytes,i.field01_bytes,i.field02_bytes,i.field03_bytes,i.records_used);}
         if let Some(i)=resources.metadata28_stats() {eprintln!("ROM_DATA_USE resource={METADATA28_ID} dataset={} bus_reads={} source_bytes={} halfword_bytes={} byte_bytes={} inline_bytes={} flag_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.halfword_bytes,i.byte_bytes,i.inline_bytes,i.flag_bytes,i.opaque_bytes,i.records_used);}
         if let Some(i)=resources.encounter_coordinates_stats() {eprintln!("ROM_DATA_USE resource={ENCOUNTER_COORDINATES_ID} dataset={} bus_reads={} source_bytes={} placement0_bytes={} random_bytes={} placement2_bytes={} default_bytes={} x_bytes={} y_bytes={} lists_used={} headers_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.placement0_bytes,i.random_bytes,i.placement2_bytes,i.default_bytes,i.x_bytes,i.y_bytes,i.lists_used,i.headers_used);}
         if let Some(i)=resources.encounter_unit_templates_stats() {
@@ -2492,6 +2530,8 @@ fn write_dataset(
     let observed_task_parameters_data=source.observed_task_parameters.as_ref().map(|catalog|encode_observed_task_parameters(&catalog.decoded)).transpose()?;
     let constructor_obj_animation_data=source.constructor_obj_animation.as_ref().map(|catalog|encode_constructor_obj_animation(&catalog.decoded)).transpose()?;
     let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
+    let conditional_records8_data=source.conditional_records8.as_ref().map(|c|encode_conditional_records8(&c.decoded)).transpose()?;
+    let records4_data=source.records4.as_ref().map(|c|encode_records4(&c.decoded)).transpose()?;
     let metadata28_data=source.metadata28.as_ref().map(|c|encode_metadata28(&c.decoded)).transpose()?;
     let encounter_coordinates_data=source.encounter_coordinates.as_ref().map(|c|encode_encounter_coordinates(&c.decoded)).transpose()?;
     let encounter_unit_templates_data=source.encounter_unit_templates.as_ref().map(|catalog|encode_encounter_unit_templates(&catalog.decoded)).transpose()?;
@@ -2573,6 +2613,8 @@ fn write_dataset(
     if let Some(bytes) = &encounter_unit_templates_data {files.push(bytes);}
     if let Some(bytes)=&encounter_coordinates_data {files.push(bytes);}
     if let Some(bytes)=&metadata28_data {files.push(bytes);}
+    if let Some(bytes)=&records4_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_records8_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2650,6 +2692,8 @@ fn write_dataset(
         encounter_unit_templates_data.as_ref().map_or(0, Vec::len),
         encounter_coordinates_data.as_ref().map_or(0, Vec::len),
         metadata28_data.as_ref().map_or(0, Vec::len),
+        records4_data.as_ref().map_or(0, Vec::len),
+        conditional_records8_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2726,6 +2770,8 @@ fn write_dataset(
     if let Some(bytes) = &encounter_unit_templates_data {write(&path.join(ENCOUNTER_UNIT_TEMPLATES_FILE),bytes)?;}
     if let Some(bytes)=&encounter_coordinates_data {write(&path.join(ENCOUNTER_COORDINATES_FILE),bytes)?;}
     if let Some(bytes)=&metadata28_data {write(&path.join(METADATA28_FILE),bytes)?;}
+    if let Some(bytes)=&records4_data {write(&path.join(RECORDS4_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_records8_data {write(&path.join(CONDITIONAL_RECORDS8_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -3025,6 +3071,8 @@ mod tests {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3352,8 +3400,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

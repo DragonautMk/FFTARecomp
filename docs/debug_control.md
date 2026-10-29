@@ -1,4 +1,4 @@
-# Pausa e avanzamento controllato — DBG-10
+# Controllo locale, pausa e avanzamento — DBG-10/20
 
 Nelle [sessioni isolate](debug_sessions.md), **F6** mette in pausa o riprende,
 **F7** avanza un frame e **F8** dieci. Il menu **Debug** offre Step 1 frame,
@@ -55,13 +55,65 @@ Una richiesta incompatibile viene rifiutata senza applicarla e restituisce esito
 nonzero; durante l'esecuzione libera il gioco continua comunque ad avanzare.
 Un errore di esecuzione parziale non viene contato come frame completato.
 
-Un solo client può attendere il risultato. `step` risponde al completamento,
-non all'inserimento in coda. Il timeout client di 120 secondi **non annulla**
-un comando: controllare la finestra prima di ritentare. Non esiste un retry
-automatico. F6/Escape possono interrompere un budget in corso; Load/Undo/Restart
-cambiano esplicitamente la timeline e interrompono il budget. La chiusura segnala
-l'interruzione del comando in attesa. Durante un replay separato si può leggere
-lo stato, ma pausa/passi/ripresa sono rifiutati.
+Un solo client può attendere un comando operativo. **status** e **cancel**
+usano un secondo mailbox con lock/risposta separati: restano disponibili durante
+step o ricerca senza sovrascrivere il risultato in attesa. Nessun retry
+automatico. F6/Escape e Load/Undo/Restart possono ancora interrompere il budget;
+durante replay separato lo stato è leggibile, pausa/passi/ripresa sono rifiutati.
+
+## Richieste, cancellazione e scadenza — DBG-20
+
+Gli accessi sono espliciti alla cartella della copia isolata. Nessuna porta,
+socket o servizio di rete viene aperto; la partita principale non crea il canale.
+Chi può scrivere nella cartella può controllare la copia: non è un confine di
+autenticazione verso altri utenti del sistema.
+
+**ready.json** dichiara schema1, run univoco per avvio, PID, capability e identità
+della sessione (SHA256 del manifest e label limitata). Ogni richiesta/risposta
+porta run e ID; il nuovo client confronta anche l'identità del manifest.
+Una vecchia copia senza queste capability richiede una nuova sessione creata
+con il runtime corrente; non sostituire eseguibili già autenticati.
+
+Per interrogare un comando lungo e annullare soltanto quello osservato:
+
+~~~powershell
+.\recomp.exe debug-control step 'target\caso-debug' 600 --timeout-ms 120000
+# Da un altro terminale, leggere status.pending_control.request_id:
+.\recomp.exe debug-control status 'target\caso-debug'
+.\recomp.exe debug-control cancel 'target\caso-debug' --request 'ID_ESATTO'
+~~~
+
+**cancel** ferma il budget step/ricerca CLI al prossimo rientro del frontend e
+lascia la copia in pausa. Un ID vecchio/diverso viene rifiutato, senza annullare
+un altro comando. L'operativo termina con outcome **cancelled**, remaining0 e
+stato parziale effettivo; la query cancel conferma separatamente. Non riavvolge
+i frame già completati. Alla chiusura una risposta senza stato finale non inventa un confine guest:
+status è null e l’esito è closed. Un replay in altro processo usa il proprio Cancel replay;
+un budget da menu/tastiera resta interrompibile con F6/Escape.
+
+Tutti i comandi accettano **--timeout-ms N**,20–120.000ms, default120.000.
+La richiesta include deadline_unix_ms: una richiesta già scaduta non viene
+eseguita; un budget pendente scaduto viene fermato dal frontend con motivo
+control-timeout. L'attesa del client usa un clock monotono. La scadenza server
+è di tempo civile e può risentire di cambi dell'orologio; non interrompe
+un'istruzione, un frame, una callback bloccata o un'operazione sincrona a metà.
+Un'operazione sincrona già completata dopo scadenza restituisce timeout con
+lo stato osservato, senza rollback.
+
+Il client restituisce JSON anche per errori locali o assenza di conferma:
+outcome **ok / refused / cancelled / timeout / closed**, ok, error, run/id/session
+quando disponibili. Un timeout client con server_acknowledged=false non prova
+che il frontend abbia già fermato il lavoro. Usare status e l'ID per controllare
+prima di ritentare. La risposta server successiva può essere in result.json;
+viene conservata solo l'ultima di ciascun mailbox. Query concorrenti vengono
+rifiutate dal proprio lock OS; la morte del client lo rilascia automaticamente.
+
+Le richieste schema1 senza i nuovi campi opzionali restano decodificabili per
+compatibilità locale, senza deadline garantita. Il client corrente pubblica
+sempre deadline e manifest. Canale primario e query rifiutano azioni incompatibili;
+richieste stale/malformate vengono consumate senza applicarle e diagnosticate
+nel log della copia. La riapertura cambia run, quindi un risultato precedente
+non conferma una richiesta nuova.
 
 ## Audio, pacing e file locali
 
@@ -73,7 +125,8 @@ parte della normale emulazione. L'ascolto e il ritardo del dispositivo fisico
 sono distinti dalle verifiche delle code.
 
 Il canale locale vive in `Data/config/debug-control/` della copia portable:
-`ready.json`, `request.json`, `result.json` e lock client. Pubblicazione atomica,
+`ready.json`, `request.json`, `result.json` e lock client; query usa query.json, query-result.json e query.lock.
+Pubblicazione atomica,
 identità per processo e richiesta e lock OS separano avvii e client; vecchi
 risultati non valgono come conferma di un nuovo comando. Si conserva soltanto
 l'ultima risposta, senza timeline, nuovi slot o raccolte di snapshot. Tutti i file
@@ -128,7 +181,7 @@ la cache di build e sostituendo soltanto i candidati locali superati.
 
 Windows nativo, Linux/Wayland, controller fisici, altre scene/ROM/dataset e passi
 con traduzione native restano da verificare. Il controllo audio riguarda buffer
-e callback, senza prova d'ascolto o latenza del dispositivo fisico. Il timeout
+e callback, senza prova d'ascolto o latenza del dispositivo fisico. In questa prima verifica DBG-10, il timeout
 client reale da 120 secondi e la morte forzata del server non sono stati simulati;
 i risultati di un processo ucciso possono restare locali fino alla riapertura.
 
@@ -148,3 +201,81 @@ usare [DBG-12: ispettore grafico](debug_graphics.md), dal menu o con
 report offline. Il campo `status.host_menu` espone anche il dropdown e la scheda
 effettivamente attiva. Vedi [DBG-13: uso e limiti](debug_ui.md).
 
+## Cattura audio
+
+`debug-control audio-start SESSION [--frames 1..180] [--streams mixed,psg,hle,fifo0,fifo1]`
+arma una finestra breve; `audio-report SESSION` pubblica il report dopo la pausa.
+`status.audio_diagnostic` distingue raccolta, limiti e motivo di stop, mentre
+`audio_report` indica l'ultimo HTML. Menu e CLI condividono la raccolta.
+Vedi [DBG-14: buffer guest, callback, confronto e WAV locali](debug_audio.md).
+
+
+## Codice, label e fallback
+
+`debug-control code-start SESSION [--frames N --events N --start HEX --end HEX --mode arm|thumb|all --kind TIPO]`
+arma il prefisso; `code-report SESSION` salva PC/modo/backing/disassemblato/label
+e la scelta native/interprete. `status.code_trace` riporta limiti e filtri.
+Vedi [DBG-15: significato del dispatch e limiti](debug_code.md).
+
+## Report locale del problema
+
+`debug-control issue-report SESSION [--profile FILE --symptom TEXT]` usa il profilo
+selezionato e salva un indice locale, senza avviare il replay o inviare allegati.
+`status.issue_report` indica il file. [DBG-16](debug_issues.md) descrive comando
+riproducibile, metadati e allegati privati.
+
+
+## Task, script e unità
+
+`debug-control gameplay-start SESSION [--frames N --events N --family all|task|script|unit --context HEX]`
+arma la raccolta nella copia in pausa; `gameplay-report SESSION` salva gli eventi
+con provenienza per campo e correlazioni alle risorse. `status.gameplay_trace`
+espone filtri e limiti; `gameplay_report` indica l'HTML.
+[DBG-17](debug_gameplay.md) distingue contesti RAM, proiezioni ROM, sentinelle e
+campi sconosciuti, senza inventare identità persistenti delle unità.
+
+## Finestra recente e trigger d'errore
+
+recent-start SESSION [--events N --reads on|off --start HEX --end HEX --on-error on|off]
+arma il registro circolare. recent-freeze SESSION ferma la raccolta;
+recent-report SESSION salva nella copia in pausa. Lo stato recent distingue
+finestra, totali di espulsioni/scarti, stop e scrittura; recent_report conserva
+l'ultimo percorso. [DBG-19](debug_recent.md) descrive letture e copertura parziale,
+salvataggio automatico su errore e limiti.
+
+
+## Verifica DBG-20 del 29 ottobre 2026
+
+L'audit riusa i risultati già conclusi DBG-10/11/12/16 su pausa/passi, ispezioni,
+catture, menu e profili spostati. Aggiunge soltanto le lacune reali: query durante
+l'attesa, annullamento mirato, scadenza del budget e identità del manifest.
+
+**30 test Wine distinti passati** (16protocollo,14frontend, un frontend già
+ignorato): lock/risposte separati, ID/run/sessione/schema, azioni nel canale
+sbagliato, richiesta scaduta/client timeout, ack tardivo e retry della sola
+risposta query. La revisione della prova GUI corregge l'etichetta di chiusura
+da refused a closed; il solo test protocollo interessato viene rieseguito
+sul build finale, senza rifare i frame GUI o i30test già conclusi.
+
+**19 invocazioni CLI sulla GUI default Wine/Xvfb**: query mentre un client
+attende step600, ID errato rifiutato mantenendo il budget, cancellazione esatta
+dopo10frame, stato fermo e audio vuoto/muto. Una scadenza250ms restituisce
+timeout non confermato al client; la successiva query prova controllo fermo,
+remaining0/control-timeout e risposta server con stesso ID. Cattura grafica
+readonly via protocollo, manifest diverso rifiutato prima di pubblicare,
+chiusura con lavoro pendente e rifiuto a finestra chiusa verificati.
+
+Il primo runtime GUI resta autenticato nella copia; le sole differenze finali
+sono classificazione della risposta closed, spaziatura help e relativo test.
+Nessuna variazione del ciclo guest o comportamento di annullamento/scadenza.
+Screenshot ispezionato, sei input/runtime normali con hash/mtime invariati.
+Sorgenti, preimages, risultati, report e log conservati sotto
+**target/debug-tools-control/**; nessuna nuova fixture ROM disposable o vecchia
+accettazione ricreata. Nessun server di rete aggiunto.
+
+Build Windows GNU release feature/default locked/offline senza warning.
+Windows nativo/Linux GUI nativa, controller fisici, annullamento durante native
+e cambio reale dell'orologio restano non verificati; timeout lungo120s non atteso
+di nuovo, prova reale nuova250ms. Cancellazione di una ricerca usa lo stesso
+rientro con interrupt_probe; nuova prova GUI focalizzata sui passi.
+[Record DBG-20](changes/2026-10-29-complete-local-session-control.json).

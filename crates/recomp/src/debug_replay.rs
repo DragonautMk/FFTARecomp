@@ -225,6 +225,25 @@ fn checked(root: &Path, name: &str, limit: u64, expected: &str) -> Result<Vec<u8
     }
     Ok(bytes)
 }
+
+/// Readonly report preflight. Does not acquire a lease, execute or load native code.
+pub(crate) fn issue_metadata(path: &Path) -> Result<serde_json::Value, String> {
+    let (root,p)=load(path)?;
+    let _unstarted=crate::debug_session::replay_command(&root)?;
+    checked(&root,executable(),256*1024*1024,&p.runtime_sha256)?;
+    checked(&root,"ffta.gba",32*1024*1024,&p.rom_sha256)?;
+    checked(&root,"seed.ffstate",gba_core::save_state::MAX_STATE_BYTES as u64,&p.start_sha256)?;
+    checked(&root,"expected.ffstate",gba_core::save_state::MAX_STATE_BYTES as u64,&p.end_sha256)?;
+    let bytes=checked(&root,"input.input",MAX_INPUT,&p.input_sha256)?;
+    let _script=crate::debug_recording::script(&bytes,p.frames)?;
+    if let Some(hash)=&p.library_sha256 {checked(&root,"native.bin",256*1024*1024,hash)?;}
+    if let Some(hash)=&p.dataset_sha256 {checked(&root,"Data/dataset/manifest.toml",gba_core::rom_data::MAX_MANIFEST_FILE_BYTES,hash)?;}
+    let bios=if root.join("gba_bios.bin").exists(){read(&root.join("gba_bios.bin"),16384)?}else{Machine::new(vec![0;256]).bus.bios};
+    if digest(&bios)!=p.bios_sha256{return Err("Replay BIOS mismatch".into());}
+    let manifest=read(&root.join("debug-session.json"),1024*1024)?;
+    Ok(serde_json::json!({"profile":p,"session_manifest":serde_json::from_slice::<serde_json::Value>(&manifest).map_err(|e|e.to_string())?,
+        "session_manifest_sha256":digest(&manifest),"scope":"Profile bounds, session pins, payload hashes and input parser checked without guest execution. Worker still validates decoded snapshots, runtime compatibility and actual endpoint"}))
+}
 fn executable() -> &'static str {
     if cfg!(windows) {
         "recomp.exe"

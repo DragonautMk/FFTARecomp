@@ -312,6 +312,11 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_RECORDS4").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().records4_stats().expect("decoded EUR records4");
+        assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && [i.field00_bytes, i.field01_bytes, i.field02_bytes, i.field03_bytes].into_iter().any(|n| n > 0), "ordinary scene must consume a records4 field");
+        eprintln!("ROM_DATA_RECORDS4_SCENE frames={frames} bus_reads={} source_bytes={} field00_bytes={} field01_bytes={} field02_bytes={} field03_bytes={} records_used={}",i.bus_reads,i.source_bytes,i.field00_bytes,i.field01_bytes,i.field02_bytes,i.field03_bytes,i.records_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_METADATA28").is_some() {
         let i = decoded.bus.rom_resources().unwrap().metadata28_stats().expect("decoded EUR metadata28");
         assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && [i.halfword_bytes, i.byte_bytes, i.inline_bytes, i.flag_bytes].into_iter().any(|n| n > 0), "ordinary scene must consume an interpreted metadata28 field");

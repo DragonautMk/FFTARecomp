@@ -75,7 +75,10 @@ def main():
         extra = [source / 'win32/lib/chkstk.S']
     else:
         flags, extra = ['-fPIC'], ['-ldl', '-lm']
-    run([*compiler, '-shared', '-O2', '-I' + str(source), *flags,
+    # Keep assertion/debug file locations distributable on host builds too.
+    path_maps = ['-ffile-prefix-map=' + str(source) + '=/tinycc',
+                 '-ffile-prefix-map=' + str(HERE) + '=/tinycc-adapter']
+    run([*compiler, '-shared', '-O2', *path_maps, '-I' + str(source), *flags,
          source / 'libtcc.c', HERE / 'desktop_abi.c', *extra, '-o', output])
     print(f'TINYCC_BUILT platform={args.platform} bytes={output.stat().st_size} path={output}', flush=True)
 

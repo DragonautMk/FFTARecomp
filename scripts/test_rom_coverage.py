@@ -223,7 +223,7 @@ class CoverageRefreshTests(unittest.TestCase):
 
     def test_cache_retention_runs_only_after_successful_automatic_publication(self):
         with tempfile.TemporaryDirectory() as tmp:
-            args = SimpleNamespace(dataset='kept',dataset_cache='cache',cache_keep=2,output=tmp)
+            args = SimpleNamespace(dataset='kept',dataset_cache=str(Path(tmp)/'cache'),cache_keep=2,output=tmp)
             report = dict(generation='e65-d64',generated_at='now',reviewed_generation='e61-d60',
                           evidence_date='2026-10-25',pending_review=[],historical_dataset=False,
                           totals=dict(runtime_families=60))
@@ -232,9 +232,10 @@ class CoverageRefreshTests(unittest.TestCase):
                 with mock.patch.object(coverage, 'build', side_effect=ValueError('failed validation')):
                     with self.assertRaises(ValueError): coverage.generate(args)
                 prune.assert_not_called()
-                def cleanup(cache,current,keep):
+                def cleanup(cache,current,keep,*,lease):
                     self.assertTrue((Path(tmp)/'index.html').is_file())
-                    self.assertEqual((cache,current,keep), ('cache','kept',2))
+                    self.assertEqual((cache,current,keep), (str(Path(tmp)/'cache'),'kept',2))
+                    lease.check(cache)
                     raise PermissionError('read-only cache')
                 prune.side_effect = cleanup
                 with mock.patch.object(coverage, 'build', return_value=report), \

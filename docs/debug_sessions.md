@@ -146,3 +146,12 @@ Per mettere in pausa la copia, avanzare di un numero esatto di frame e riprender
 usare [DBG-10: menu, F6/F7/F8 e CLI debug-control](debug_control.md).
 `debug-session open DIR --paused` parte dal seed senza eseguire frame prima
 della prima richiesta; il normale `open DIR` mantiene l'avvio diretto.
+
+
+## Coordinamento con la pulizia — DBG-18
+
+Le nuove copie dichiarano il protocollo host directory-v1 e mantengono un lease
+anche durante creazione e uso della sessione. Un contesto attivo o interrotto
+resta protetto; una vecchia copia senza protocollo non viene considerata sicura
+per la pulizia automatica. Il normale lock della sessione resta presente.
+[Gestore, ricevute e recupero dei lease](debug_artifacts.md).

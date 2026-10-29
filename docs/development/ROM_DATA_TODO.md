@@ -4711,3 +4711,129 @@ managed/runtime poi CLI/uso ordinario di questa famiglia; nativeclock/fullABI/
 Linux/USA/Windows nativo/nuovo32:9/cataloghi indiretti/fullTODO pendenti. Nessun
 gioco/checkpoint/misura/ripetizione di prove precedenti chiuse.
 [Modello e lettori](../rom_data_gameplay.md#typed-four-byte-linked-records-and-original-reader-proof).
+
+
+**ROMDATA-03-04-LINKED-RECORDS4-RUNTIME completato EUR/Wine (2026-10-29).**
+e84-d83/index75/linked-records4.json:77 file76 risorse, tutti75 record/payload
+precedenti esatti, uno span844 byte senza dipendenze inventate. Owner tipizzato
+immutabile/quattro campi/211 posizioni/sette contatori; pagina713 locale+globale,
+composizione per byte con metadata28 precedente e successore grezzo. Nessun
+nuovo cap/null/limite ai selettori, ABI save/native/CAPI e USA8-7 invariati.
+Tre buildWindows: primo fallito per riferimento del test e cache menu obsoleta,
+secondo senza avvisi mai eseguito, terzo senza avvisi33144a8c.. da551 sorgenti
+correnti; sole attese di allineamento LDR corrette prima di Wine. Un filtro Wine
+passa pubblicazione/interruzione14attach2fullset/owner-stato intatti/21casi nativi
+stato-clock completi con tutti844 byte grezzi alterati dopoLoad:13load4getter,
+un prefisso doppio e3setter/quattro gruppi;41 istruzioni/21byte nuovi6precedenti.
+Tutti844byte/quattro campi211posizioni/tutti211bordi/LoadUndo stessoArc e DMA3/
+CpuSet424halfword/FastSet216word passano. 237 guardie551hash +due551diagnostici/
+525preimmagini modello/sette hash correnti esatti; helper ritira solo copia
+interrotta. Prossimo CLI reale/uso ordinario; Linux/USA/Windows nativo/nuovo32:9/
+fullABI/cataloghi esterni/fullTODO pendenti. Nessuna misura/gioco/fixture nuova/
+ripetizione di vecchie prove chiuse.
+[Consumo diretto](../rom_data_gameplay.md#managed-four-byte-linked-records-and-typed-runtime-reads).
+
+
+**ROMDATA-04-LINKED-RECORDS4-CLI registrazione completata EUR/Wine;
+uso ordinario positivo pendente (2026-10-29).** Un buildWindows produzione senza
+avvisi/bcf632fa.. da551 sorgenti identiche al runtime, senza overlay; soli
+fingerprint corelib/prod isolati e canonical hashmtime ripristinati. Tre figli
+CLI Wine escono0 (creazione/riuso/nuovo avvio120):77 file esatti al runtime,
+76 ID/hash caricati,79 percorsi gestiti hashmtime no-write,28859 blocchi cache.
+Copia del menu Steal22711 con Armor selezionato, A8hold12→22831 mostra puntamento
+ma tutti7 contatori nuovi sono0. Caso negativo chiuso, nessun fullpair o uso
+positivo dedotto; checkpoint finale non salvato dal comando CLI. 187 guardie/
+551 hash CLI+551 runtime esatti/helper0, originali invariati; nessuna nuova
+fixture o ripetizione di vecchie prove chiuse. Prossimo: risoluzione normale di
+combattimento/bersaglio con letture positive e poi equivalenza completa. Linux/
+USA/Windows nativo/nuovo32:9/fullABI/cataloghi esterni/fullTODO pendenti, nessuna
+misura o modifica Android/package/commit/push dell'assistente.
+[CLI e limiti](../rom_data_gameplay.md#actual-linked-four-byte-record-cli-registration).
+
+
+**ROMDATA-04-05-LINKED-RECORDS4-COMBAT completato per un caso ordinario EUR/Wine
+(2026-10-29).** Normali comandi Fight/Doit/facing portano al turno seguente;
+suffix40 frame24755→24795,223 letture/223 byte serviti, campi64/132/11/16 e due
+posizioni fisiche. Tutti7 contatori identici tra cattura, CLI BCF esistente e
+un fullpairWine; ogni40 stato completo/clock/pixel classic-wide/OAM/5audio passa.
+Un buildWindows senza avvisi/a5b2fc84.. da552 sorgenti: solo osservatore normale,
+modulo test e guardia facoltativa5righe; inverse validator esatto/core invariato.
+Dieci catture2084 frame su copie autorizzate, nessun edit manuale guest/ROM/cart;
+un frameCLI classico soloUI, poi proiezioni framebuffer readonly autenticate senza
+altra esecuzione. All76IDhash/79path no-write/28859cache, 210 guardie552hash+
+187CLIguardie551hash esatti/helper0. Zero-case precedenti restano chiusi; nessuna
+ripetizione di source/model/native/lifecycle/registrazione. Tutti4 campi osservati,
+non tutte211 posizioni o successo attacco/fullABI. Nuova famiglia8B/cataloghi
+indiretti/Linux-USA/Windows nativo/nuovo32:9/fullTODO pendenti, nessuna misura.
+[Equivalenza](../rom_data_gameplay.md#ordinary-linked-four-byte-turn-equivalence).
+
+
+**ROMDATA-01-CONDITIONAL-RECORDS8 contratto sorgente EUR completato
+(2026-10-29).** Scansione D56A0 a root713744, passo8 e ordinali1..127:
+127 posizioni/1016 byte fino al distinto root713B3C, i cui due lettori usano
+passo70. Byte00 zero salta la posizione, byte01 zero wildcard; chiavi LE16 a
++2/+5 e operandi u8 a+4/+7. Flag live fino05FF e contatori u8 per key-0600:
+primo flag richiede uguaglianza per operandi0/1 e counter>=operand; secondo flag
+richiede disuguaglianza e counter<operand, solo seconda key0 bypassa. Nessuna
+coercizione booleana/cap/indice header inventato.76righe abilitate/51zero,
+105riferimenti live104flag1counter/63chiavi/24gruppi alias; operand2 preservato,
+47secondkey0. Output puntatori ROM originali in ordine, count; capacità/filtro
+u32 senza entryguard capacità0, entrambi chiamanti osservati passano64/filtro u8.
+Helper370EB0/145C10 resta supporto eseguibile già classificato, non nuovo asset.
+SHA256d52e829c2ae2e3f8a519fc1fe28797a1005fcdc0e2afc81201e872024608b18b,
+ricostruzione completa/disgiunto76owner50490span;8finestre6nuove2riusate/93pin/
+96guardie esatti/helper0. Query parole puntatore allineate:1root/38successore,
+nessun interno/origin-8 in quella rappresentazione;2callsite verificati.
+Solo analisi statica, nessuna build/Wine/gioco/fixture/vecchia prova ripetuta;
+schema1/e84-d83/77file76risorse invariati. Prossimo modello e lettori Wine della
+famiglia; managed/runtime/CLI/uso ordinario/Linux-USA/Windows nativo/nuovo32:9/
+fullABI/caller indiretti/estensione successore/fullTODO pendenti. Nessuna misura.
+[Contratto](../rom_data_gameplay.md#european-conditional-eight-byte-record-source-contract).
+
+
+**ROMDATA-02-CONDITIONAL-RECORDS8 modello/oracolo EUR/Wine completato
+(2026-10-29).** Modello core lossless127posizioni/1016byte/uno span; parser,
+shape/ordine stretti separati dall'autenticazione baseROM+8finestre. Gate/filter/
+chiavi LE16/operandi u8 conservati senza enum/cap/null inventati; select conserva
+puntatori originali/ordine/capacità u32 zero-wrap/filtro fullu32 e molteplicità
+chiamate live, polarità primo/secondo diverse. Un buildWindows core senza avvisi
+c6f5406d.. da554sorgenti/239inputcore; sola nuova foglia+test+modulo, inversehub
+byteexact, isolato fingerprintcoretest. Un filtroWine passa24guardie e109cicli
+originali D56CE..D57A4 con veri lettori CCE98/CCF00:16scenari base,93varianti
+sintetiche isolate con chiavi0/05FF/0600/0682/FFFF, operandi0..255, header255,
+filtro128/255 vs contesto completo, capacità0/1/64/FFFFFFFF. OraclePython e
+modello concordano con output/count/capacità/posizioni/chiamate effettive;
+612byte base e134posizioni sintetiche osservate, non tutti1016byte letti.
+EWRAM esatta salvo output atteso/IWRAM salvo scratch4byte returnlink/stack-r11r12/
+VRAM-OAM-palette/ROMfinale esatti;198372istruzioni sola copertura.120guardie554hash/
+3hashcorrenti+96guardiesorgente esatti/helper0; nessun gioco/checkpoint/navigazione/
+vecchia prova o helperIWRAM ricostruito. Helperentry/epilogo/fullABI esclusi;
+schema1/e84-d83/76risorse/save/native/CAPI invariati. Prossimo managed/runtime
+poi CLI/uso ordinario; Linux-USA/Windows nativo/nuovo32:9/indiretti/successore70B/
+fullTODO pendenti. Nessuna misura di performance o spazio.
+[Modello e ciclo originale](../rom_data_gameplay.md#typed-conditional-records-and-original-selection-loop-proof).
+
+
+**ROMDATA-03-04-CONDITIONAL-RECORDS8-RUNTIME completato EUR/Wine con prove
+combinate (2026-10-29).** e85-d84/index76/conditional-records8.json:78file77risorse,
+76precedenti esatte/uno span1016B/nodeps. Owner immutabile6classi/127slot/9contatori,
+pagina713 locale+globale e composizione records4 precedente/successore grezzo;
+logica guest/live/indirizzi e ABI save/native/CAPI invariati. Quattro buildWindows
+senza avvisi da568sorgenti correnti coerenti; primo mai eseguito dopo correzione
+pre-Wine del solo limite di iterazioni test. Primo filtro Wine passa pubblicazione/
+interruzione14attach2fullset+16casi nativi stato-clock completi, poi fallisce nel
+17esimo per osservatore607vs609. Diagnosi solo caso residuo prova stato-clock
+raw/typed/native e609byte reali identici, completa bus/lifecycle; finale solo
+osservatore passa609callback=607diretti+2fallback interp_one, nessun byte non
+attribuito. Solo test corretto; non si ripetono pubblicazione/attach/16casi/bus.
+17casi distinti:14load2prefissi LE1scansione; tutti1016byte grezzi alterati DOPO
+Load/setup. Totale631byte serviti dal percorso nativo=629diretti2fallback e5byte
+records4, non unione distinta o tutto compilato. Tutti1016busB/6classi127slot/
+127bordi/failedowner-fullstate/LoadUndo stessoArc e DMA3/CpuSet510halfword/
+FastSet256word fullstate-clock passano.261guardie568hash accettati+tre568diagnostici/
+554preimmagini modello/7hashcorrenti/77vecchi78nuovi file esatti; helper ritira
+solo copia interrotta. Exe accettato f60055e6.., primo fallimento conservato;
+nessun gioco/checkpoint/navigazione/prova precedente o misura di performance.
+Prossimi CLI reale e uso ordinario; Linux-USA/Windows nativo/nuovo32:9/fullABI/
+indiretti/successore70B/fullTODO pendenti.
+[Consumo e prove combinate](../rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).

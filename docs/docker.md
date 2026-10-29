@@ -386,3 +386,40 @@ The resource route remains opt-in; USA initializer/native Windows gates are
 separate. A prior Linux BUILD-INFO metadata hash variation, with unchanged
 archive/canonical bytes, is retained rather than claimed preserved.
 [Detailed scope and evidence](development/ROM_DATA_VALIDATION.md#actual-portable-archives).
+
+
+## Offline artifact manager
+
+[DBG-18](debug_artifacts.md) provides reviewed preview/apply and logged Bash/
+PowerShell launchers. Dockerfile.debug-tools derives from the existing public
+coverage image and adds Git for tracked-file guards; it performs no Cargo or
+game-data build/copy. Initial image preparation needs Debian package access;
+tool invocations use network none. The selected checkout bind is writable for
+leases and explicitly reviewed cleanup; dataset reader mounts stay readonly
+with a separate cache coordination root where needed. Host Python and Docker
+plans use different absolute namespaces: use one launcher for preview/apply and
+regenerate after moving folders. Native Windows/PowerShell remains unverified.
+
+
+## Public debug tools in portable packages
+
+Both desktop build sources now copy the explicit public tool/doc dependency
+set required by the portable packager. Docker context allowlists include those
+files only; no session/recording/result payloads are added. The package manifest
+verifies staged bytes and preserves empty Data. This source/COPY closure is
+checked by public packaging tests; the DBG-22 validation does not rebuild the
+unrelated full Rust Docker images.
+
+Offline homepage/artifact/campaign launchers reuse already available images
+without network. The [common guide](debug_tools.md) lists prerequisites and
+Windows/Wine/Linux scopes. Current-package verification builds an archive with
+the existing offline-tools image, checkout mounted readonly and a separate
+output mount; it executes no game or Cargo build.
+
+Host distribution builds should remap compiler source paths before packaging:
+Rust --remap-path-prefix for checkout/home/cache roots, and TinyCC/build.py
+maps its source and adapter roots with -ffile-prefix-map. The shared packager
+accepts repeatable --private-prefix PREFIX to reject embedded UTF-8/UTF-16LE
+private paths before replacing the previous archive. It never rewrites binaries;
+the manifest records only the number of prefix checks. DBG-22 uses this guard
+with its isolated remapped Windows binaries.

@@ -58,6 +58,8 @@ DESCRIPTIONS = {
     'encounter-unit-templates.json': 'European typed encounter unit-template fields with header/reference/full48 shared-constructor coherence; original live initialization and prior/raw reads retained',
     'encounter-coordinates.json': 'European typed encounter XY lists with header pointer/count coherence; original placement, RNG and signed/unsigned readers retained',
     'linked-metadata28.json': 'European indexed 28-byte records with unsigned fields, inline source views, full flag words and opaque bytes; original live readers retained',
+    'linked-records4.json': 'European ordered four-byte slots with four unsigned fields and original encoded u8-index pointers; zero slots retained, live readers unchanged',
+    'conditional-records8.json': 'European ordered eight-byte conditional slots with live predicate keys, unsigned operands and original output pointers; zero gates skip, guest live logic unchanged',
     'word-task-obj-animations.json': 'European four relative OBJ banks for u16 task selectors-ticks-phases; original old-list return, counter wrap, repeat and raw outside reads retained',
     'unit-obj-alternate-battle.json': 'European alternate actor battle poses with explicit shared index-root views, commands, OAM and decoded indexed tiles; original tasks and DMA retained',
     'unit-obj-normal-battle.json': 'European normal actor battle poses, shared source dependencies, commands, OAM and decoded indexed tiles; original tasks and DMA retained',

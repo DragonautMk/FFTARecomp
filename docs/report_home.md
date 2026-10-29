@@ -3,7 +3,7 @@
 Aprire `index.html` nella root del progetto: riunisce tutti i file `index.html`
 e `index.htm` trovati nella copia locale, comprese le fotografie storiche e i
 report privati sotto `target/`. Ricerca per nome/titolo/percorso e filtri separano
-coverage ROM, ispettore grafico, menu/testo/input, confronti e altri indici. I collegamenti
+coverage ROM, ispettore grafico, menu/testo/input, diagnostica audio, codice/fallback, task/script/unità, eventi recenti, campagne mirate, sessioni/artefatti, report dei problemi, confronti e altri indici. I collegamenti
 funzionano anche con JavaScript disattivato; ricerca e filtri lo richiedono.
 
 I tre accessi rapidi aprono la coverage nel percorso principale e i file grafico/
@@ -89,3 +89,21 @@ l'esecuzione autorizzata passa, senza build o estrazioni.
 Il launcher PowerShell non è stato eseguito: questo host Linux non dispone di
 PowerShell. Windows nativo e altri browser restano da verificare. Evidenze locali
 sotto `target/report-home-validation/`.
+
+
+## Launcher e distribuzione aggiornata — DBG-22
+
+Con Python host: PowerShell report_home.ps1 -Python [-OpenReport] oppure
+Bash report_home.sh --python. Senza flag si riusa l'immagine Docker già presente.
+Entrambi risolvono la propria root e mostrano il log persistente in
+target/build-logs; un errore preserva la pagina precedente e ritira soltanto
+il temporaneo della pubblicazione. PowerShell usa un nullo tipizzato per Replace,
+senza convertirlo in nome di backup vuoto.
+
+Il catalogo distribuito mostra link di guida soltanto se il documento esiste:
+non introduce collegamenti a stato/prove private del checkout assenti dal bundle.
+La [guida comune](debug_tools.md) raccoglie cinque procedure complete.
+La verifica del bundle spostato copre host Python/Docker, errore con vecchia
+pagina intatta e browser1400/620con6report nuovi; non riaccetta gli altri output.
+PowerShell7.4.6 è verificato con fixture pubbliche su Linux, Windows nativo resta
+non verificato. Dettagli nel [record](changes/2026-10-29-distribute-shared-debug-tools.json).

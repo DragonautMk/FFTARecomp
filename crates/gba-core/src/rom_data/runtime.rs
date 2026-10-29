@@ -158,6 +158,12 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod conditional_records8;
+use conditional_records8::ConditionalRecords8Resources;
+pub use conditional_records8::ConditionalRecords8Stats;
+mod records4;
+use records4::Records4Resources;
+pub use records4::Records4Stats;
 mod metadata28;
 use metadata28::Metadata28Resources;
 pub use metadata28::Metadata28Stats;
@@ -316,6 +322,8 @@ pub struct RuntimeResources {
     encounter_unit_templates: Option<Box<EncounterUnitTemplatesResources>>,
     encounter_coordinates: Option<Box<EncounterCoordinatesResources>>,
     metadata28: Option<Box<Metadata28Resources>>,
+    records4: Option<Box<Records4Resources>>,
+    conditional_records8: Option<Box<ConditionalRecords8Resources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -600,6 +608,12 @@ impl RuntimeResources {
         if let Some((data,_))=files.metadata28 {
             resources.metadata28=Some(Box::new(Metadata28Resources::new(data.clone(),&source.metadata28.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))=files.records4 {
+            resources.records4=Some(Box::new(Records4Resources::new(data.clone(),&source.records4.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.conditional_records8 {
+            resources.conditional_records8=Some(Box::new(ConditionalRecords8Resources::new(data.clone(),&source.conditional_records8.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -700,6 +714,8 @@ impl RuntimeResources {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -801,6 +817,8 @@ impl RuntimeResources {
             + self.encounter_unit_templates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.encounter_coordinates.as_ref().map_or(0, |i| i.resident_bytes())
             + self.metadata28.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.records4.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_records8.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -920,6 +938,8 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn conditional_records8_stats(&self)->Option<ConditionalRecords8Stats> {self.conditional_records8.as_ref().map(|d|d.stats())}
+    pub fn records4_stats(&self)->Option<Records4Stats> {self.records4.as_ref().map(|d|d.stats())}
     pub fn metadata28_stats(&self)->Option<Metadata28Stats> {self.metadata28.as_ref().map(|d|d.stats())}
     pub fn encounter_coordinates_stats(&self)->Option<EncounterCoordinatesStats> {self.encounter_coordinates.as_ref().map(|d|d.stats())}
     pub fn encounter_unit_templates_stats(&self) -> Option<EncounterUnitTemplatesStats> {self.encounter_unit_templates.as_ref().map(|m|m.stats())}
@@ -1278,7 +1298,9 @@ impl RuntimeResources {
                 None => prior,
             };
             let prior = match &self.encounter_coordinates {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
-            return match &self.metadata28 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.metadata28 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.records4 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.conditional_records8 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1436,6 +1458,8 @@ impl crate::MemMap {
             || EncounterUnitTemplatesResources::source_page(index)
             || EncounterCoordinatesResources::source_page(index)
             || Metadata28Resources::source_page(index)
+            || Records4Resources::source_page(index)
+            || ConditionalRecords8Resources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

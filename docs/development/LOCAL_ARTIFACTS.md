@@ -4,6 +4,24 @@ ROMs, saves, input recordings, accepted datasets and test evidence have distinct
 lifetimes. Do not delete the entire `target/` tree or run a global Docker prune
 to clean one unit. The root workspace and AndroidPort remain separate.
 
+## Session manager and activity coordination
+
+[DBG-18](../debug_artifacts.md) adds bounded preview/apply with keep-selection,
+HTML/JSON estimates and per-operation receipts. It preserves every session's
+inputs/reports/errors and selects only generated native cache libraries; explicit
+completed ROM units reuse the disposable-copy rules below. New sessions and
+Python tools share directory-v1 activity leases across Wine/native/container
+processes. Active/interrupted/legacy/unattested/failed scopes remain protected.
+Automatic coverage preparation/read/pruning holds one cache lease and retains
+receipts in `.retention/`;64receipts stops further pruning until archived.
+Old uncoordinated tools/readers must not run against an evictable shared cache.
+
+The `complete` CLI below now takes the same unit lease; duplicate/concurrent
+cleanup refuses before removal. No automatic stale-lease reclamation, global
+prune or deletion of original/accepted data. Portable Python/PowerShell/Docker
+entry points, logs, retained payload availability and exact limits are in the
+linked guide. Root/staged coverage Docker contexts include every Python import.
+
 ## Complete a validation unit
 
 Managed validation deliberately creates several large dataset copies to test

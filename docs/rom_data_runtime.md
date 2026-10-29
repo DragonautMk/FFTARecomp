@@ -1778,3 +1778,37 @@ checks the original ROM identity, and retains normal endpoints and a pre-read
 suffix for later CLI/equivalence verification. It makes no guest state edits.
 A successful capture alone is not equivalence; positive counters and the separate
 full pair remain required. [Case, provenance and limits](rom_data_gameplay.md#ordinary-metadata28-steal-menu-equivalence).
+
+
+## Linked four-byte record ownership
+
+EUR e84-d83 adds `gameplay.linked-records4` / `linked-records4.json` to the managed
+generation:77 files/76 resources, all75 prior records and payloads unchanged.
+An immutable typed owner serves7133F8..713744 through the guest bus, with
+per-byte composition against prior metadata28 and raw successor bytes. One
+targeted Wine filter verifies native complete states/guest clocks, all844 source
+bytes, all211 record ends, Load/Undo and three transfers. Actual CLI registration
+is verified through create/reuse/startup; the initial120-frame target-screen
+locator remains a closed zero-use observation. A later following-turn40-frame
+case now observes all four fields and passes complete state/guest-clock/pixel/
+OAM/five-audio equality with all seven counts matching capture and CLI.
+Linux/USA remain pending.
+[Binding, proof and limits](rom_data_gameplay.md#managed-four-byte-linked-records-and-typed-runtime-reads).
+
+[Ordinary case and limits](rom_data_gameplay.md#ordinary-linked-four-byte-turn-equivalence).
+
+
+## Conditional eight-byte gameplay records
+
+EUR e85-d84 adds `gameplay.conditional-records8` at index76, one1016-byte span
+in `conditional-records8.json`; all preceding76 resources and payloads remain
+exact. An immutable owner serves six logical field classes and127 physical
+slots, composing page713 with records4 and raw successor bytes. Live predicates
+and selection remain original guest code. Combined Wine proofs cover17 native
+state/clock cases, all source bytes/record ends, failed attachment, Load/Undo
+and three transfers. Native-path accounting includes the real `interp_one`
+fallback:607 direct plus two fallback bytes in the selection case equal609
+actual bytes in both typed and native arms. The initial observer failure stays
+recorded; passing earlier scopes are preserved rather than repeated. Actual CLI
+and ordinary consumption, Linux and USA remain pending.
+[Binding, evidence and limits](rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).

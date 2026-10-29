@@ -1,6 +1,6 @@
 # TODO — Strumenti di debug condivisi
 
-Aggiornato il **28 ottobre 2026**. La checklist segue progettazione e sviluppo:
+Aggiornato il **29 ottobre 2026**. La checklist segue progettazione e sviluppo:
 le spunte identificano gli strumenti completati. Gli strumenti devono servire sia
 all'utente, attraverso menu e procedure brevi, sia all'assistente, attraverso
 comandi riproducibili e risultati strutturati.
@@ -41,8 +41,8 @@ non significano che siano già raccolte in un unico debugger.
 - [x] **Audit ROM opzionale:** collector bus/host e catture filtrate con contesto
   di esecuzione, dietro la feature `rom-data-read-audit`;
   [capacità e limiti](../rom_data_runtime.md#optional-bus-and-host-rom-read-audit).
-  Non è ancora un comando generale accessibile dal menu. Le estensioni Bank
-  hanno una prova circoscritta separata, descritta nello stesso documento.
+  Ora esposto dal menu e dalla CLI in DBG-06; le estensioni Bank mantengono
+  una prova circoscritta separata, descritta nello stesso documento.
 - [x] **Gestione artefatti:** helper e regole di
   [conservazione locale](LOCAL_ARTIFACTS.md) già presenti. La chiusura delle
   verifiche della pulizia interrotta rimane distinta dalla loro esistenza;
@@ -295,41 +295,80 @@ non significano che siano già raccolte in un unico debugger.
   separati dai prefissi accettati; controller fisici/testo guest non certificati.
   [Record](../changes/2026-10-28-add-bounded-menu-text-input-diagnostics.json).
 
-- [ ] **DBG-14 — Diagnostica audio circoscritta.**
+- [x] **DBG-14 — Diagnostica audio circoscritta.**
   Rendere selezionabili le catture mixed/PSG/FIFO/HLE, i relativi eventi e un
   intervallo breve attorno al difetto; confronto e riproduzione locale dei dump.
   Esporre mute, Fast e reset rilevanti senza avviare benchmark.
   **Chiusura:** individuare una divergenza nota e distinguere audio generato da
   audio effettivamente consegnato al dispositivo; I/O fuori dal callback audio.
   **Dipende da:** DBG-05/09; limiti di byte/durata e listener hardware dichiarato.
+  **Esito:** [catture e confronto audio](../debug_audio.md), menu Start/Save e
+  CLI con selezione stream/finestra, WAV/raw/HTML/JSON privati. Buffer guest,
+  decisione producer e buffer callback effettivo restano distinti; mute/Fast/
+  gain/code/reset espliciti. Nessun I/O/clock/allocazione/lock nuovo nel callback.
+  Divergenza conservata al frame8514: mixed81918/81919 −704 contro −576, senza
+  riesecuzione.66test Wine distinti e2riesecuzioni mirate, registrazione4frame
+  con endpoint esatto, menu/default e CLI/feature, browser desktop/mobile con
+  WAV/seek e homepage37indici/8audio passano;197originali e runtime normali
+  invariati. Report finale identifica anche seed/BIOS/dataset/build/input.
+  Windows/Linux nativi, hardware/listener e altre scene restano non verificati.
+  [Record](../changes/2026-10-29-add-bounded-audio-diagnostics.json).
 
-- [ ] **DBG-15 — Codice, label e fallback nello stesso rapporto.**
+- [x] **DBG-15 — Codice, label e fallback nello stesso rapporto.**
   Collegare PC osservato, disassemblato, label, blocco compilato e motivo del
   fallback, con filtri e catture limitate. Distinguere codice ROM, codice in RAM,
   candidati statici ed esecuzione osservata.
   **Chiusura:** una transizione interprete/native è ricostruibile e l'import di
   label per ROM diversa è segnalato; nessuna percentuale di codice estratto viene
   dedotta dal solo numero di ingressi. **Dipende da:** DBG-01/06/11.
+  **Esito:** [trace codice/label/fallback](../debug_code.md), Start/Save menu/CLI,
+  PC/modo/backing/disassemblato e scelta effettiva, filtri e prefisso limitato.
+  Label ROM diversa rifiutata; ROM/RAM e candidati statici restano distinti.
+  Nel prefisso native reale gli eventi17/18 passano da08145c10Thumb compilato a
+  0801bde8Thumb mancante:41native/470missing/1IRQ. Stessa libreria con observer
+  spento/acceso conserva stato completo e6547blocchi/14991passi nell'intero frame.
+  74test Wine, menu/CLI con endpoint registrato2frame esatto, errori/capacità,
+  browser desktop/mobile e4report passano; sei input/runtime originali invariati.
+  Nessuna nuova parità interprete/native o percentuale di codice estratto.
+  [Record](../changes/2026-10-29-add-bounded-code-dispatch-diagnostics.json).
 
-- [ ] **DBG-16 — Report del problema pronto da leggere insieme.**
+- [x] **DBG-16 — Report del problema pronto da leggere insieme.**
   Generare indice HTML locale, riepilogo e JSON con sintomo, caso, frame, input,
   identità, confronto e prossima verifica suggerita. Pulsanti per aprire cartella
   e copiare il comando esatto; distinguere allegati privati e metadati condivisibili.
   **Chiusura:** l'utente può indicare un report e l'assistente riprodurlo senza
   ricostruire a mano le variabili d'ambiente; nessun invio automatico di file.
   **Dipende da:** DBG-01/05/09; report presente anche in caso di errore.
+  **Esito:** [report locale del problema](../debug_issues.md), menu/CLI e indice
+  HTML/JSON con sintomo, identità, frame registrati/finestra/completati, prima
+  differenza, allegati privati e prossima verifica. Preflight incompatibile salva
+  comunque; otto report/2MiB con lock, nessun replay/invio automatico. Launcher
+  relativo dopo spostamento con spazi/apostrofo/Unicode raggiunge endpoint2frame
+  esatto; clipboard/cartella reali e browser desktop/mobile passano.72test Wine
+  distinti+1riesecuzione mirata, menu/CLI con stato guest invariato,28input
+  originali intatti; homepage49indici/8issue. PowerShell/Windows e Linux nativi
+  restano da verificare. [Record](../changes/2026-10-29-add-reproducible-local-issue-reports.json).
 
 ## P2 — Estendere la diagnosi senza accumulare lavoro e dati
 
-- [ ] **DBG-17 — Ispettore di task, script e unità.**
+- [x] **DBG-17 — Ispettore di task, script e unità.**
   Esporre strutture già verificate, cursori, attori e collegamenti alle risorse,
   con provenienza per campo. Lasciare sconosciuti i campi non decodificati e
   distinguere dati ROM da stato RAM e valori sentinella.
   **Chiusura:** una sequenza nota è ricostruibile da eventi osservati senza
   inventare limiti globali o identità fisse delle unità. **Dipende da:** DBG-06/11
   e dai contratti ROM specifici già completati.
+  **Esito:** menu/CLI condivisi, filtri famiglia/contesto e report offline con
+  provenienza per campo, risorse dei modelli EUR autenticati e campi sconosciuti.
+  Limiti30s/60frame/512eventi/1MiB, otto cartelle2MiBJSON, nessun nuovo snapshot.
+  79test Wine, GUI con traccia codice simultanea e stato completo identico:
+  70eventi ricostruiscono countdown10→9→8 dello stesso indirizzo task in due
+  frame, senza identità persistente. Report menu/filtro vuoto/contesto selezionato
+  e browser passano; nessuno script osservato in questa finestra, senza inferire
+  non-uso globale. Native Windows/Linux e cattura gameplay native restano aperti.
+  [Uso](../debug_gameplay.md), [record](../changes/2026-10-29-add-bounded-gameplay-inspection.json).
 
-- [ ] **DBG-18 — Gestore delle sessioni e degli artefatti di debug.**
+- [x] **DBG-18 — Gestore delle sessioni e degli artefatti di debug.**
   Riutilizzare la pulizia esistente e completarne verifica/distribuzione:
   contesti Docker con tutti i moduli richiesti, ricevuta di rimozione, scelta
   delle sessioni da conservare, spazio stimato e limiti per trace/catture.
@@ -338,31 +377,67 @@ non significano che siano già raccolte in un unico debugger.
   **Chiusura:** preview/apply coerenti, nuova sessione e pulizia concorrente non
   si danneggiano, test di errore/interruzione e percorsi con spazi superati.
   **Dipende da:** DBG-01; applicabile fin dai primi strumenti P0.
+  **Esito:** preview/apply/--keep con spazio stimato, limiti e ricevute;
+  lease comuni per creazione/runtime/pulizia/cache e letture storiche readonly.
+  Contesti legacy, falliti, attivi/interrotti e unità con marker annidati protetti;
+  nessuna rimozione automatica dei lease o degli originali. Moduli Docker completi,
+  derivata con Git e launcher con log. Passano33test Python e34Wine, contesa
+  Windows/Python reale in pausa, creazione distinta concorrente, errore/interruzione,
+  Docker keep/apply/piano obsoleto/lettore readonly e browser1400/620.
+  Tutte le rimozioni nuove sono fixture sintetiche; nessun vecchio sweep o
+  replay ROM rieseguito. PowerShell/Windows nativo restano da verificare.
+  [Uso](../debug_artifacts.md), [record](../changes/2026-10-29-coordinate-debug-artifact-retention.json).
 
-- [ ] **DBG-19 — Registro circolare degli eventi recenti.**
+- [x] **DBG-19 — Registro circolare degli eventi recenti.**
   Conservare una quantità limitata di input, cambi scena, letture selezionate,
   fallback ed errori; congelarla su richiesta o trigger, senza dump continui
   dell'intera macchina. Indicare eventi scartati e finestra effettiva.
   **Chiusura:** limite rispettato anche su un'esecuzione lunga e contesto utile
   salvato su un errore controllato. **Dipende da:** DBG-08/16/18.
+  **Verificato (29 ottobre):** finestra mobile1.024eventi/256KiB,8KiB/evento;
+  input effettivo, firma UI parziale,16chiavi ROM/frame e dispatch/errori.
+  Menu/CLI Freeze/Save e trigger errore salvano HTML/JSON senza snapshot.
+  Un milione di eventi sintetici rispetta i cap; GUI resta attiva dopo31s,
+  espelle60eventi e salva contesto utile su errore controllato senza cambiare
+  stato guest.81test Windows/Wine e11Python passano, observer interprete due
+  frame identico e browser desktop/stretto verificati. Default letture non
+  disponibili distinto da zero; piattaforme native non verificate.
+  [Uso](../debug_recent.md), [record](../changes/2026-10-29-add-recent-event-ring.json).
 
-- [ ] **DBG-20 — Controllo locale di una sessione aperta.**
+- [x] **DBG-20 — Controllo locale di una sessione aperta.**
   Valutare un canale strutturato locale per interrogare stato, mettere in pausa,
   avanzare e catturare, condiviso con i comandi del menu. Preferire la soluzione
   più piccola che consenta all'assistente di operare senza clic fragili.
   **Chiusura:** comandi versionati, timeout/cancellazione, identificazione della
   sessione e risposta strutturata; accesso locale esplicito e nessun servizio
   esposto per impostazione predefinita. **Dipende da:** DBG-01/02/10/16.
+  **Verificato (29 ottobre):** esteso il canale su file già condiviso dal menu,
+  senza networking. Query status/cancel separate dal client operativo in attesa;
+  cancellazione con ID preciso, deadline e timeout configurabile20–120000ms,
+  identità manifest/run/richiesta e risposte JSON anche su errore locale.
+  30test Wine distinti e un rerun mirato sulla classificazione closed; GUI reale
+  default19CLI prova stato durante attesa, ID errato, annullamento parziale,
+  scadenza250ms con arresto server, cattura readonly e sessione errata/chiusa.
+  Prove DBG10/11/12/16 riusate, nessun vecchio replay riaperto.
+  [Uso](../debug_control.md), [record](../changes/2026-10-29-complete-local-session-control.json).
 
-- [ ] **DBG-21 — Campagne mirate di casi e regressioni.**
+- [x] **DBG-21 — Campagne mirate di casi e regressioni.**
   Selezionare DS, famiglie o transizioni interessate da una modifica; mostrare
   esiti positivo/negativo/incompatibile/non eseguito e prove precedenti riusate.
   I dati di gioco restano locali: i test pubblici del runner usano fixture sintetiche.
   **Chiusura:** il rapporto distingue «zero letture in questa scena» da
   «funzionalità non usata nel gioco»; nessun replay automatico di tutte le prove
   concluse per ricostruire il contesto. **Dipende da:** DBG-03/05/07/09/18.
+  **Verificato (29 ottobre):** manifest/pin e selezione esplicita DS/famiglia/
+  transizione, quattro esiti e riuso delle prove. Report senza esecuzione;
+  run-case delega un solo profilo al supervisore esistente con motivo/receipt
+  e riapertura esplicita per prove precedenti.32casi/8output/2MiB, zero nella
+  finestra distinto dall'uso globale sconosciuto.23test Python, dispatch pubblico
+  sintetico, due prove DS20 riusate readonly, Bash/Docker e browser passano;
+  zero nuovi frame guest, nessun build/runtime/vecchia accettazione ripetuto.
+  [Uso](../debug_campaigns.md), [record](../changes/2026-10-29-add-targeted-debug-campaigns.json).
 
-- [ ] **DBG-22 — Distribuzione e guida comune degli strumenti.**
+- [x] **DBG-22 — Distribuzione e guida comune degli strumenti.**
   Documentare pochi percorsi completi: segnalare un bug, registrare una scena,
   confrontare due runtime, cercare letture non coperte e liberare i temporanei.
   Allineare help/menu/CLI; prevedere avvio PowerShell e Docker per gli strumenti
@@ -371,18 +446,26 @@ non significano che siano già raccolte in un unico debugger.
   espliciti, pacchetti senza dati personali e matrice Wine/Windows nativo/Linux
   dichiarata. **Dipende da:** gli strumenti effettivamente selezionati; non
   richiede completare tutto il piano né il frontend Godot.
+  **Verificato (29 ottobre):** [guida comune](../debug_tools.md) con cinque
+  percorsi completi, prerequisiti/matrice e log persistenti; help allineato,
+  launcher PS/Bash/Python/Docker. Dieci test pubblici packager,13PowerShell7.4.6
+  Linux simulati, due TinyCC sintetici e ZIP offline readonly passano. Bundle
+  spostato con spazi/Unicode: registrazione/menu, due runtime, bug/audit/pulizia,
+  browser1400/620;5frame nuovi totali, endpoint completo/clock identico anche
+  col binario finale rimappato.76file pubblici/75payload autenticati, Data vuota,
+  nessun ROM/BIOS/progresso/log/fixture/traduzione, prefissi personali rifiutati.
+  Windows nativo/PS5.1 e runtime Linux recente non certificati; normali runtime
+  e input originali invariati. [Record](../changes/2026-10-29-distribute-shared-debug-tools.json).
 
-## Primo gruppo consigliato e gestione degli avanzamenti
+## Mantenere gli strumenti completati
 
-Partire da **DBG-01 → DBG-02 → DBG-03 → DBG-04 → DBG-05**: scegliere una scena,
-registrare il problema e riprodurlo con lo stesso contesto. Poi **DBG-06/07**
-collegano quel caso all'estrazione, mentre **DBG-09** aiuta a spiegare le differenze.
-I requisiti di conservazione di **DBG-18** si applicano da subito a ogni nuovo
-output; la sua interfaccia completa può arrivare dopo.
+DBG-01…DBG-22 sono completati nell'ambito e sulle piattaforme dichiarate nei
+record. Partire dalla [guida comune](../debug_tools.md) per scegliere un percorso;
+la numerazione resta stabile. Le limitazioni native/hardware e le divergenze
+segnalate non sono prove superate e non riaprono automaticamente le unità concluse.
 
-Per ogni voce selezionata aggiungere nel relativo record: ambito minimo,
-dipendenze soddisfatte, comando/procedura utente, prova eseguita, limiti e
-criterio restante. Aggiornare [TASK_HANDOFF.md](TASK_HANDOFF.md) e i documenti
-esistenti; un parent aperto non riapre le basi già validate. Questa checklist
-non autorizza lo sviluppo simultaneo di tutti gli strumenti e non sostituisce
-le priorità del lavoro ROM in corso.
+Per nuovi lavori scegliere un criterio mancante o una regressione concreta,
+registrando motivo, input cambiato e prossimo controllo nel
+[TASK_HANDOFF.md](TASK_HANDOFF.md). Riusare le prove esistenti; non riprodurre
+tutti i casi per ricostruire il contesto. Aggiornare documento e record coerenti
+con l'esito effettivo. Questa checklist non sostituisce le priorità ROM in corso.

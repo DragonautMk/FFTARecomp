@@ -605,6 +605,15 @@ struct PlayApp {
     inspection: Option<serde_json::Value>,
     graphics_report: Option<String>,
     ui_trace: crate::debug_ui::Trace,
+    audio_diagnostic: bool,
+    last_audio_report: Option<String>,
+    code_trace: Option<crate::debug_code::Trace>,
+    gameplay_trace: Option<crate::debug_gameplay::Trace>,
+    last_gameplay_report: Option<String>,
+    recent: Option<crate::debug_recent::Buffer>,
+    last_recent_report: Option<String>,
+    last_code_report: Option<String>,
+    last_issue_report: Option<String>,
     control_server: Option<crate::debug_control::Server>,
     menu_dirty: bool,
     cursor_visible: bool,
@@ -1745,10 +1754,139 @@ impl PlayApp {
         eprintln!("UI report: {}",root.join(&path).display());
         self.menu.diagnosis_result("UI report saved. Open Data/config/ui/<run>/index.html".into());self.menu_dirty=true;Ok(())
     }
+    fn recent_scene(&self)->serde_json::Value{
+        let state=&self.machine.bus.ffta_dialogue;
+        let recognized=self.game_mouse.scene(&self.machine.bus).map(|scene|serde_json::json!({"selected":scene.selected,"target_ids":scene.targets.iter().take(128).map(|t|t.index).collect::<Vec<_>>(),"targets_total":scene.targets.len()}));
+        serde_json::json!({"recognized_selector":recognized,"name_input":self.game_mouse.is_name_input(&self.machine.bus),
+            "dialogue_flags":{"separate":state.separate,"action":state.action_layout,"town":state.town_layout,"shop":state.shop_layout,"site":state.site_layout,"laws":state.laws_layout},
+            "panel_kind":format!("{:?}",state.extra.kind),"scope":"Partial readonly frontend UI signature; disabled/unrecognized is unknown, no global scene ID"})
+    }
+    fn recent_error(&mut self,error:&str){
+        let triggered=self.recent.as_mut().is_some_and(|b|b.error(&self.machine,error));
+        if triggered{
+            let result=(||{
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;
+                self.recent.as_mut().unwrap().save(&root,&self.machine)
+            })();
+            match result{Ok(path)=>{eprintln!("Recent error context: {path}");self.last_recent_report=Some(path);},
+                Err(error)=>eprintln!("Recent context frozen but not saved: {error}")}
+        }
+    }
     fn debug_action(&mut self, action: &crate::debug_control::Action) -> Result<(),String> {
+        let observed=!matches!(action,crate::debug_control::Action::Status);
+        if observed{if let Some(buffer)=self.recent.as_mut(){buffer.event(&self.machine,"control-request",serde_json::json!({"command":action,"source":"Shared menu/control action"}));}}
+        let result=self.debug_action_inner(action);
+        if observed{
+            match &result{Ok(())=>{if let Some(buffer)=self.recent.as_mut(){buffer.event(&self.machine,"control-result",serde_json::json!({"command":action,"outcome":"accepted"}));}},
+                Err(error)=>self.recent_error(error)}
+        }
+        result
+    }
+    fn debug_action_inner(&mut self, action: &crate::debug_control::Action) -> Result<(),String> {
         if !self.debug_session { return Err("Open an isolated debug copy first".into()); }
         if self.ui_trace.enabled(){self.ui_event("control-request",serde_json::json!({"command":action,"paused":self.paused}));}
         match action {
+            crate::debug_control::Action::IssueReport{profile,symptom}=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Issue report requires an idle paused copy".into());}
+                let path=profile.as_ref().or(self.replay_path.as_ref()).ok_or("Choose a replay profile first")?;
+                let report=crate::debug_issue::create(path,symptom)?;
+                self.replay_path=Some(path.clone());self.last_issue_report=Some(report.path.to_string_lossy().into_owned());
+                self.menu.diagnosis_result(if report.compatible{"Issue saved. Open its index.html; replay was not started."}else{"Error issue saved. Inspect preflight in its index.html."}.into());self.menu_dirty=true;
+                return if report.compatible{Ok(())}else{Err("Issue report saved with incompatible inputs".into())};
+            },
+            crate::debug_control::Action::RecentStart{settings}=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Recent capture requires an idle paused copy".into());}
+                if self.recent.as_ref().is_some_and(|b|!b.saved()){return Err("Save the previous recent window first".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;
+                let scene=self.recent_scene();
+                let origin=serde_json::json!({"runtime_sha256":gba_core::ffta_rom::digest(&crate::diagnostics::read(&std::env::current_exe().map_err(|e|e.to_string())?,256*1024*1024)?),
+                    "backend":if self.native.is_some(){"native-with-fallback"}else{"interpreter"},"native_table_entries":self.native.as_ref().map(|(_,t)|t.len),
+                    "native_scope":"Loaded code-memory identity and block interiors are not authenticated here",
+                    "av":self.av.serialize(),"input_config":self.icfg.serialize(),
+                    "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
+                    "build":{"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")}});
+                self.recent=Some(crate::debug_recent::Buffer::start(&root,&self.machine,settings.clone(),origin,scene)?);
+                self.menu.diagnosis_result("Recent events rolling. Errors freeze/save; use Freeze / save for review.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::RecentFreeze=>{
+                self.recent.as_mut().ok_or("Start recent events first")?.freeze(&self.machine,"freeze-request");
+                self.menu.diagnosis_result("Recent window frozen; pause and Save recent events.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::RecentReport=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Recent report requires an idle paused copy".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;let before=self.machine.save_state()?;
+                let path=self.recent.as_mut().ok_or("Start recent events first")?.save(&root,&self.machine)?;
+                if self.machine.save_state()?!=before{return Err("Recent report changed guest state".into());}
+                self.last_recent_report=Some(path);self.menu.diagnosis_result("Recent events saved. Open Data/config/recent/<run>/index.html".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::GameplayStart{settings}=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Gameplay trace requires an idle paused copy".into());}
+                if self.gameplay_trace.is_some(){return Err("Save the previous gameplay trace first".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;
+                let origin=serde_json::json!({"runtime_sha256":gba_core::ffta_rom::digest(&crate::diagnostics::read(&std::env::current_exe().map_err(|e|e.to_string())?,256*1024*1024)?),
+                    "backend":if self.native.is_some(){"native-with-fallback"}else{"interpreter"},"av":self.av.serialize(),"input_config":self.icfg.serialize(),"keys":self.machine.bus.keys,
+                    "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
+                    "build":{"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")}});
+                self.gameplay_trace=Some(crate::debug_gameplay::Trace::start(&root,&self.machine,settings.clone(),origin)?);
+                self.menu.diagnosis_result("Gameplay trace armed. Reproduce, pause, Save gameplay report.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::GameplayReport=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Pause and finish current budget before gameplay report".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;let before=self.machine.save_state()?;
+                let current=serde_json::json!({"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"keys":self.machine.bus.keys,"state_sha256":gba_core::ffta_rom::digest(&before)});
+                let path=self.gameplay_trace.as_mut().ok_or("Start a gameplay trace first")?.save(&root,current)?;
+                if self.machine.save_state()?!=before{return Err("Gameplay report changed guest state".into());}
+                self.gameplay_trace=None;self.last_gameplay_report=Some(path);self.menu.diagnosis_result("Gameplay saved. Open Data/config/gameplay/<run>/index.html".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::CodeStart{settings}=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Code trace requires an idle paused copy".into());}
+                if self.code_trace.is_some(){return Err("Save the previous code trace first".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;
+                let origin=serde_json::json!({"runtime_sha256":gba_core::ffta_rom::digest(&crate::diagnostics::read(&std::env::current_exe().map_err(|e|e.to_string())?,256*1024*1024)?),
+                    "av":self.av.serialize(),"input_config":self.icfg.serialize(),"keys":self.machine.bus.keys,
+                    "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
+                    "build":{"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")}});
+                self.code_trace=Some(crate::debug_code::Trace::start(&root,&self.machine,self.native.as_ref().map(|(_,t)|t),settings.clone(),origin)?);
+                self.menu.diagnosis_result("Code trace armed. Reproduce, pause, Save code report.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::CodeReport=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Pause and finish current budget before code report".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;let before=self.machine.save_state()?;
+                let current=serde_json::json!({"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"keys":self.machine.bus.keys,"state_sha256":gba_core::ffta_rom::digest(&before)});
+                let path=self.code_trace.as_mut().ok_or("Start a code trace first")?.save(&root,current)?;
+                if self.machine.save_state()?!=before{return Err("Code report changed guest state".into());}
+                self.code_trace=None;self.last_code_report=Some(path);self.menu.diagnosis_result("Code saved. Open Data/config/code/<run>/index.html".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::AudioStart{settings}=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Audio capture requires an idle paused copy".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;crate::debug_audio::capacity(&root)?;
+                let manifest=crate::diagnostics::read(&root.join("debug-session.json"),1024*1024)?;
+                let session_manifest:serde_json::Value=serde_json::from_slice(&manifest).map_err(|e|e.to_string())?;
+                let origin=serde_json::json!({"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"state_sha256":gba_core::ffta_rom::digest(&self.machine.save_state()?),
+                    "keys":self.machine.bus.keys,"input_config":self.icfg.serialize(),"backend":if self.native.is_some(){"native-with-fallback"}else{"interpreter"},
+                    "bios":{"real":self.machine.bus.real_bios,"sha256":gba_core::ffta_rom::digest(&self.machine.bus.bios)},
+                    "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
+                    "session_manifest_sha256":gba_core::ffta_rom::digest(&manifest),"session_manifest":session_manifest,
+                    "recording_directory":self.capture.as_ref().map(|c|c.directory.strip_prefix(&root).unwrap_or(&c.directory).to_string_lossy()),
+                    "build":{"version":env!("CARGO_PKG_VERSION"),"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")},
+                    "av":self.av.serialize(),"device_stream_present":self.stream.is_some(),"pending_audio":[self.machine.bus.audio_buf.len(),self.machine.bus.psg_tap.len(),self.machine.bus.hle_tap.len(),self.machine.bus.fifo_tap[0].len(),self.machine.bus.fifo_tap[1].len()]});
+                let mut st=self.streams.lock().unwrap();if st.diagnostic.is_some(){return Err("Save the previous audio capture first".into());}
+                st.diagnostic=Some(crate::debug_audio::Capture::start(settings.clone(),origin,self.machine.bus.frames)?);self.audio_diagnostic=true;
+                self.menu.diagnosis_result("Audio capture armed. Reproduce, then Save report.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::AudioReport=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Pause and finish current budget before audio report".into());}
+                let root=input_config::exe_dir().ok_or("Missing isolated root")?;crate::debug_audio::capacity(&root)?;
+                let before=self.machine.save_state()?;
+                let runtime_sha=gba_core::ffta_rom::digest(&crate::diagnostics::read(&std::env::current_exe().map_err(|e|e.to_string())?,256*1024*1024)?);
+                let mut capture=self.streams.lock().unwrap().diagnostic.take().ok_or("Start an audio capture first")?;capture.freeze("report-request");self.audio_diagnostic=false;
+                let metadata=serde_json::json!({"rom_sha256":gba_core::ffta_rom::digest(&self.machine.bus.rom),"runtime_sha256":runtime_sha,
+                    "current":{"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"state_sha256":gba_core::ffta_rom::digest(&before),"av":self.av.serialize(),"device_stream_present":self.stream.is_some()}});
+                // Publish with the callback mutex released. Failed output retains the frozen capture.
+                let result=capture.save(&root,metadata);
+                if self.machine.save_state()?!=before{self.streams.lock().unwrap().diagnostic=Some(capture);return Err("Audio reporting changed guest state".into());}
+                match result{Ok(path)=>{eprintln!("Audio report: {}",root.join(&path).display());self.last_audio_report=Some(path);self.menu.diagnosis_result("Audio saved. Open Data/config/audio/<run>/index.html".into());self.menu_dirty=true;return Ok(());},Err(error)=>{self.streams.lock().unwrap().diagnostic=Some(capture);return Err(error);}}
+            },
             crate::debug_control::Action::UiStart|crate::debug_control::Action::UiReport=>{
                 if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("UI trace/report requires an idle paused copy".into());}
                 if matches!(action,crate::debug_control::Action::UiStart){
@@ -1783,6 +1921,13 @@ impl PlayApp {
                 if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some() || self.recording_active() {return Err("Search requires an idle paused copy without recording or replay".into());}
                 let search=crate::debug_probe::Search::start(settings.clone(),self.native.is_some())?;
                 self.frame_control.stop("searching");self.probe_result=None;self.probe=Some(search);self.debug_audio_boundary();self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::Cancel{request_id}=>{
+                if !self.control_server.as_ref().is_some_and(|s|s.pending_matches(request_id)){
+                    return Err("No pending command with that exact request ID".into());
+                }
+                if self.replay_job.is_some(){return Err("Use replay cancellation for a separate worker".into());}
+                self.interrupt_probe();
             },
             crate::debug_control::Action::Step{..} if self.probe.is_some()=>return Err("Interrupt or finish the search before stepping frames".into()),
             crate::debug_control::Action::Pause | crate::debug_control::Action::Resume=>self.interrupt_probe(),
@@ -1844,27 +1989,45 @@ impl PlayApp {
             "pc":self.machine.cpu.regs[15],"keys":self.machine.bus.keys,"state_sha256":state,
             "backend":if self.native.is_some(){"native"}else{"interp"},
             "registers":self.machine.cpu.regs,"cpsr":self.machine.cpu.cpsr,"thumb":self.machine.cpu.thumb(),
-            "probe":self.probe_result,"search_remaining_steps":self.probe.as_ref().map(|p|p.remaining()),"inspection":self.inspection,"graphics_report":self.graphics_report,"ui_trace":self.ui_trace.status(),"host_menu":self.ui_focus(),
+            "probe":self.probe_result,"search_remaining_steps":self.probe.as_ref().map(|p|p.remaining()),"inspection":self.inspection,"graphics_report":self.graphics_report,"ui_trace":self.ui_trace.status(),"host_menu":self.ui_focus(),"audio_diagnostic":st.diagnostic.as_ref().map(|d|d.status()),"audio_report":self.last_audio_report,
+            "pending_control":self.control_server.as_ref().map(|s|s.pending_status()),
+            "recent":self.recent.as_ref().map(|b|b.status()),"recent_report":self.last_recent_report,
+            "gameplay_trace":self.gameplay_trace.as_ref().map(|t|t.status()),"gameplay_report":self.last_gameplay_report,
+            "code_trace":self.code_trace.as_ref().map(|t|t.status()),"code_report":self.last_code_report,
+            "issue_report":self.last_issue_report,
             "host_audio":{"mixed":st.mixed.len(),"psg":st.psg.len(),"hle":st.hle.len(),
                 "fifo":[st.fifo[0].len(),st.fifo[1].len()],"normal":st.normal_audio.is_some(),"muted":st.muted,"epoch":st.epoch},
             "guest_audio":[self.machine.bus.audio_buf.len(),self.machine.bus.psg_tap.len(),self.machine.bus.hle_tap.len(),self.machine.bus.fifo_tap[0].len(),self.machine.bus.fifo_tap[1].len()]}))
     }
 
     fn poll_control(&mut self) {
-        let request=match self.control_server.as_mut().map(|s|s.poll()) {
-            Some(Ok(request))=>request,
-            Some(Err(error))=>{eprintln!("debug control: {error}");None},
-            None=>None,
-        };
-        if let Some(request)=request {
-            let result=if self.control_server.as_ref().is_some_and(|s|s.pending.is_some()) {
-                Err("A frame step is still pending".into())
-            }else{self.debug_action(&request.command)};
-            if result.is_ok() && matches!(request.command,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}) {
-                self.control_server.as_mut().unwrap().pending=Some(request);
-            }else{
-                let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
-                if let Err(error)=self.control_server.as_mut().unwrap().reply(&request,status.unwrap_or_default(),error){eprintln!("debug control: {error}");}
+        // Deadline/cancel/status run on the frontend thread, between existing
+        // bounded guest frame/search ticks. No thread interrupts guest execution.
+        if self.control_server.as_ref().is_some_and(|s|s.deadline_expired()){
+            self.interrupt_probe();self.frame_control.stop("control-timeout");
+            self.paused=true;self.debug_audio_boundary();self.menu_dirty=true;
+            self.finish_control();
+        }
+        // Separate query response cannot overwrite a waiting command's result.
+        for query in [true,false] {
+            let request=match self.control_server.as_mut().map(|s|if query{s.poll_query()}else{s.poll()}){
+                Some(Ok(request))=>request,
+                Some(Err(error))=>{self.recent_error(&format!("Control channel: {error}"));eprintln!("debug control: {error}");None},
+                None=>None,
+            };
+            if let Some(request)=request{
+                let result=if request.expired(){
+                    Err("Command deadline expired before execution".into())
+                }else if !query && self.control_server.as_ref().is_some_and(|s|s.pending.is_some()){
+                    Err("A frame step/search is still pending; use query status or targeted cancel".into())
+                }else{self.debug_action(&request.command)};
+                if result.is_ok() && matches!(request.command,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}){
+                    self.control_server.as_mut().unwrap().pending=Some(request);
+                }else{
+                    self.finish_control();
+                    let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+                    if let Err(error)=self.control_server.as_mut().unwrap().reply(&request,status.unwrap_or_default(),error){eprintln!("debug control: {error}");}
+                }
             }
         }
         self.finish_control();
@@ -1879,6 +2042,10 @@ impl PlayApp {
     }
 
     fn start_replay(&mut self, choose_only: bool, kind: ReplayKind) {
+        if self.recent.as_ref().is_some_and(|b|!b.saved()){self.menu.diagnosis_result("Save the recent window before starting a separate replay.".into());self.menu_dirty=true;return;}
+        if self.gameplay_trace.is_some(){self.menu.diagnosis_result("Save the gameplay trace before starting a separate replay.".into());self.menu_dirty=true;return;}
+        if self.code_trace.is_some(){self.menu.diagnosis_result("Save the code trace before starting a separate replay.".into());self.menu_dirty=true;return;}
+        if self.audio_diagnostic || self.streams.lock().unwrap().diagnostic.is_some() {self.menu.diagnosis_result("Save the audio capture before starting a separate replay.".into());self.menu_dirty=true;return;}
         if self.frame_control.remaining>0 || self.probe.is_some() {self.menu.diagnosis_result("Finish the frame step/search before starting a replay.".into());self.menu_dirty=true;return;}
         if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
         if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
@@ -2228,6 +2395,10 @@ impl PlayApp {
     }
 
     fn after_state_restore(&mut self) {
+        if let Some(buffer)=self.recent.as_mut(){buffer.freeze(&self.machine,"state-restored");}
+        if let Some(trace)=self.code_trace.as_mut(){trace.freeze("state-restored");}
+        if let Some(trace)=self.gameplay_trace.as_mut(){trace.freeze("state-restored");}
+        if self.audio_diagnostic{if let Some(capture)=self.streams.lock().unwrap().diagnostic.as_mut(){capture.freeze("state-restored");}self.audio_diagnostic=false;}
         if self.ui_trace.enabled(){self.ui_event("timeline-restored",serde_json::json!({"scope":"trace prefix ended; report may show a later restored state"}));self.ui_trace.freeze("state-restored");}
         self.interrupt_probe();
         self.frame_control.stop("state-restored");
@@ -2462,29 +2633,47 @@ impl PlayApp {
         let ppu_capture = gba_core::ppu_profile::Capture::start_detailed(
             self.profile.enabled(), self.profile.detailed_ppu(),
         );
+        let recent_on=self.recent.as_ref().is_some_and(|b|b.enabled());
+        if recent_on{let scene=self.recent_scene();self.recent.as_mut().unwrap().scene(&self.machine,scene);}
+        let mut recent_frame=if recent_on{Some(crate::debug_recent::Frame::start(self.recent.as_mut().unwrap(),&self.machine,self.native.is_some()))}else{None};
+        let code_observed=self.code_trace.as_ref().is_some_and(|t|t.enabled());
+        let gameplay_observed=self.gameplay_trace.as_ref().is_some_and(|t|t.enabled());
         match &self.native {
             Some((_lib, table)) => {
                 let mptr = &mut self.machine as *mut Machine as *mut std::ffi::c_void;
-                let (n, f) = run_frame_native(&mut self.machine, table, mptr, 5_000_000);
+                let (n, f) = if code_observed || gameplay_observed || recent_on {
+                    let code=&mut self.code_trace;let gameplay=&mut self.gameplay_trace;
+                    super::run_frame_native_traced(&mut self.machine,table,mptr,5_000_000,|m,k|{
+                        if let Some(t)=code.as_mut(){t.native(m,k);}if let Some(t)=gameplay.as_mut(){t.native(m,k);}
+                        if let Some(frame)=recent_frame.as_mut(){frame.native(k);}
+                    },|_,_,_|{})
+                }else{run_frame_native(&mut self.machine, table, mptr, 5_000_000)};
                 self.native_run += n;
                 self.fallback_run += f;
             }
-            None => self.machine.run_frame(5_000_000),
+            None => if gameplay_observed {
+                let code=&mut self.code_trace;let gameplay=self.gameplay_trace.as_mut().unwrap();
+                super::run_frame_interpreter_observed(&mut self.machine,5_000_000,|m|{if let Some(t)=code.as_mut(){t.interpreter(m);}gameplay.observe(m,"interpreter");});
+            }else if code_observed{self.code_trace.as_mut().unwrap().run_interpreter(&mut self.machine,5_000_000)}else{self.machine.run_frame(5_000_000)},
         }
         let ppu_timings = ppu_capture.finish();
         self.profile.finish(Phase::Core, core_start);
         // A guard hit is an incomplete frame, not a new temporal-history entry.
         // Stop cleanly instead of presenting/counting partially advanced state.
+        if let Some(frame)=recent_frame.take(){frame.finish(self.recent.as_mut().unwrap(),&self.machine,self.machine.bus.frames!=frames_before);}
         if self.machine.bus.frames == frames_before {
             self.error = Some("emulation step guard exceeded before a complete frame".into());
             return false;
         }
+        if code_observed{self.code_trace.as_mut().unwrap().completed_frame();}
+        if gameplay_observed{self.gameplay_trace.as_mut().unwrap().completed_frame(&self.machine);}
         if self.ui_trace.enabled(){self.ui_event("guest-frame",serde_json::json!({"keys":self.machine.bus.keys,"from_frame":frames_before,"completed_frame":self.machine.bus.frames,"recording":self.capture.is_some()}));}
         self.profile.record_ppu(ppu_timings);
         self.fps.emulated(self.machine.bus.frames.saturating_sub(frames_before));
         gba_core::ffta_sprites::trace_frame(&self.machine.bus);
         let ui_start = self.profile.start();
         self.refresh_ui_layers();
+        if recent_on{let scene=self.recent_scene();self.recent.as_mut().unwrap().scene(&self.machine,scene);}
         self.profile.finish(Phase::UiPrepare, ui_start);
         // Advance the screen's temporal response once per EMULATED frame —
         // never per presented frame, or flicker-transparency titles lock onto
@@ -2575,6 +2764,10 @@ impl PlayApp {
     /// discarded (not a defect — reported when the device died) so the rings
     /// can't overflow into permanent DEGRADED spam.
     fn handoff_audio(&mut self) {
+        if self.audio_diagnostic {
+            let decision=if self.paused{"discard-paused"}else if self.stream.is_none(){"discard-no-stream"}else if self.ff_active&&self.av.ff_audio=="silent"{"discard-fast-silent"}else if self.ff_active&&self.av.ff_audio=="normal"{"normal-queue"}else{"rings"};
+            if let Some(capture)=self.streams.lock().unwrap().diagnostic.as_mut(){capture.generated(&self.machine,decision);}
+        }
         let bus = &mut self.machine.bus;
         if self.paused || self.stream.is_none() || (self.ff_active && self.av.ff_audio == "silent") {
             // Silent fast-forward still advances guest frames. Only diagnostics
@@ -2955,6 +3148,9 @@ impl ApplicationHandler for PlayApp {
             return;
         }
         self.poll_control();
+        if let Some(trace)=self.code_trace.as_mut(){trace.tick();}
+        if let Some(trace)=self.gameplay_trace.as_mut(){trace.tick();}
+        if self.audio_diagnostic {let mut st=self.streams.lock().unwrap();if let Some(capture)=st.diagnostic.as_mut(){capture.tick();self.audio_diagnostic=capture.enabled();}}
 
         // Pointer policy, reconciled live: visible in windowed mode (users
         // need it to drag/resize/close the window) and while the pause menu is
@@ -3226,6 +3422,18 @@ impl ApplicationHandler for PlayApp {
             for action in acts {
                 if self.ui_trace.enabled(){self.ui_event("host-action",serde_json::json!({"action":format!("{action:?}"),"menu":self.ui_focus()}));}
                 match action {
+                    menu::MenuAction::CreateIssueReport=>{
+                        if self.replay_path.is_none(){self.replay_path=rfd::FileDialog::new().set_title("Choose replay.json for issue report").add_filter("Replay profile",&["json"]).pick_file();}
+                        if let Err(e)=self.debug_action(&crate::debug_control::Action::IssueReport{profile:None,symptom:self.replay_message.clone()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}
+                    },
+                    menu::MenuAction::StartRecentEvents=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::RecentStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::SaveRecentEvents=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::RecentReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartGameplayTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::GameplayStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::SaveGameplayReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::GameplayReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartCodeTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::CodeStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::SaveCodeReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::CodeReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartAudioCapture=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::SaveAudioReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::Resume => {
@@ -3554,6 +3762,7 @@ impl ApplicationHandler for PlayApp {
                 self.error = Some("Cannot finish input recording; inspect the retained recording folder and session log".into());
             }
         }
+        if let Some(error)=self.error.clone(){self.recent_error(&error);}
         // run_app consumes/drops the event loop before PlayApp is dropped.
         // In particular, wgpu's EGL backend must release its Wayland objects
         // while that display connection still exists (even with Vulkan selected).
@@ -3571,6 +3780,7 @@ impl ApplicationHandler for PlayApp {
             if self.error.is_none() {
                 if let Err(error) = benchmark.report(&self.machine, self.native_run, self.fallback_run) { self.error = Some(error); }
             }
+            if let Some(error)=self.error.clone(){self.recent_error(&error);}
             return; // Developer replay never writes cartridge saves or backups.
         }
 
@@ -3587,6 +3797,7 @@ impl ApplicationHandler for PlayApp {
                 Ok(()) => eprintln!("saved {}", self.sav_path),
                 Err(e) => {
                     self.error = Some(format!("{}: {e}", self.sav_path));
+                    if let Some(error)=self.error.clone(){self.recent_error(&error);}
                     return;
                 }
             }
@@ -3598,6 +3809,7 @@ impl ApplicationHandler for PlayApp {
                 &rom_sha256(&self.machine.bus.rom),
             ) {
                 self.error = Some(e);
+                if let Some(error)=self.error.clone(){self.recent_error(&error);}
             }
         }
     }
@@ -4080,6 +4292,15 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         inspection: None,
         graphics_report: None,
         ui_trace: Default::default(),
+        audio_diagnostic: false,
+        last_audio_report: None,
+        code_trace: None,
+        gameplay_trace: None,
+        last_gameplay_report: None,
+        recent: None,
+        last_recent_report: None,
+        last_code_report: None,
+        last_issue_report: None,
         control_server: session.map(|s|crate::debug_control::Server::new(&s.root)).transpose()?,
         menu_dirty: true,
         // Starts visible (windowed); the loop reconciles against fullscreen.

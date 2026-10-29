@@ -6,6 +6,9 @@ Preview is the default. Paths containing links, private files, unexpected files
 or tracked content are refused. No Docker/global cache or Cargo cleanup occurs.
 """
 import argparse
+import contextlib
+import tempfile
+import time
 import datetime
 import json
 import os
@@ -14,6 +17,7 @@ import re
 import shutil
 import subprocess
 import sys
+from artifact_coordinator import Lease, NAME, ordinary
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRATCH_GROUPS = ("interrupted", "moved resources")
@@ -28,6 +32,8 @@ def inventory(path, *, binary=False):
         raise ValueError(f"symlink refused: {path}")
     if path.is_dir():
         for parent, children, names in os.walk(path, followlinks=False):
+            if NAME in children or NAME in names:
+                raise ValueError(f"active/interrupted activity marker refused: {Path(parent) / NAME}")
             for name in children:
                 p = Path(parent) / name
                 if p.is_symlink():
@@ -48,7 +54,8 @@ def inventory(path, *, binary=False):
             raise ValueError(f"unexpected fixture file refused: {p}")
         st = p.stat()
         result.append({"path": str(p), "size": st.st_size, "mtime_ns": st.st_mtime_ns,
-                       "allocated": getattr(st, "st_blocks", 0) * 512,
+                       "allocated": st.st_blocks * 512 if hasattr(st, "st_blocks") else st.st_size,
+                       "allocation_estimated": not hasattr(st, "st_blocks"),
                        "identity": [st.st_dev, st.st_ino]})
     return sorted(result, key=lambda r: r["path"]), sorted(map(str, dirs))
 
@@ -90,21 +97,34 @@ def completion_plan(units, root=ROOT, retire_executables=False):
         if retire_executables:
             paths += [(p, "executable") for p in unit.iterdir()
                       if p.is_file() and p.suffix == ".exe" and EXECUTABLE.fullmatch(p.stem)]
+        unit_candidates, skipped_before = [], len(skipped)
         for path, kind in paths:
             if not path.exists() and not path.is_symlink():
                 continue
             try:
                 ensure_untracked(path, root)
                 files, dirs = inventory(path, binary=kind == "executable")
-                candidates.append({"path": str(path), "kind": kind, "files": files,
+                unit_candidates.append({"path": str(path), "kind": kind, "files": files,
                                    "directories": dirs, "bytes": sum(f["size"] for f in files),
                                    "allocated": sum(f["allocated"] for f in files)})
             except ValueError as error:
                 skipped.append(str(error))
+        if len(skipped) == skipped_before:
+            candidates.extend(unit_candidates)
     return candidates, skipped
 
 
-def prune_coverage_cache(cache, current, keep):
+def prune_coverage_cache(cache, current, keep, *, lease=None):
+    if keep < 1:
+        return []
+    if lease is None:
+        with Lease(cache, 'coverage-prune') as held:
+            return prune_coverage_cache(cache, current, keep, lease=held)
+    lease.check(cache)
+    return _prune_coverage_cache(cache, current, keep)
+
+
+def _prune_coverage_cache(cache, current, keep):
     """Bound only authenticated-layout coverage caches after a successful run.
 
     Explicit datasets never call this. Callers retaining a read-only cache use
@@ -138,14 +158,44 @@ def prune_coverage_cache(cache, current, keep):
         if len(survivors) >= keep:
             break
         survivors.add(path)
-    removed = []
+    candidates = []
     for _, path in datasets:
         if path in survivors:
             continue
         files, dirs = inventory(path)
-        remove_candidate(dict(path=str(path), files=files, directories=dirs, kind="fixture"))
-        removed.append(str(path))
-    return removed
+        candidates.append(dict(path=str(path), files=files, directories=dirs, kind="fixture"))
+    if not candidates:
+        return []
+    receipts = cache / ".retention"
+    receipts.mkdir(exist_ok=True)
+    ordinary(receipts, directory=True)
+    if len(list(receipts.iterdir())) >= 64:
+        raise ValueError("64 cache-retention receipts retained; archive before more pruning")
+    receipt_path = receipts / f"{time.time_ns()}-{os.getpid()}.json"
+    with receipt_path.open("x") as f:
+        f.write("{}\n"); f.flush(); os.fsync(f.fileno())
+    receipt = dict(schema=1, kind="ffta-cache-retention-receipt", current=str(current),
+                   keep=keep, status="preflight", candidates=candidates, removed=[], pending=None)
+    def save():
+        with tempfile.NamedTemporaryFile(dir=receipts, delete=False) as f:
+            temporary = Path(f.name)
+            try:
+                f.write((json.dumps(receipt, indent=2)+"\n").encode()); f.flush(); os.fsync(f.fileno())
+                f.close(); os.replace(temporary, receipt_path)
+            finally:
+                temporary.unlink(missing_ok=True)
+    save()
+    try:
+        for item in candidates:
+            receipt.update(status="removing", pending=item["path"]); save()
+            remove_candidate(item)
+            receipt["removed"].append(item["path"])
+            receipt.update(status="applying", pending=None); save()
+        receipt.update(status="complete"); save()
+    except BaseException as error:
+        receipt.update(status="failed", error=str(error)); save(); raise
+    return receipt["removed"]
+
 
 
 def main():
@@ -158,34 +208,37 @@ def main():
     parser.add_argument("--report", type=Path, help="write a JSON cleanup manifest under target")
     args = parser.parse_args()
     try:
-        candidates, skipped = completion_plan(args.units, root=ROOT,
-                                               retire_executables=args.retire_executables)
-        report = {"date": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                  "applied": args.apply, "candidates": candidates, "skipped": skipped,
-                  "bytes": sum(c["bytes"] for c in candidates),
-                  "allocated": sum(c["allocated"] for c in candidates), "removed": []}
-        report_path = args.report.resolve() if args.report else None
-        if report_path and (not report_path.is_relative_to(ROOT / "target") or
-                            any(report_path == Path(c["path"]) or report_path.is_relative_to(c["path"])
-                                for c in candidates)):
-            raise ValueError("report must be under target, outside removal candidates")
-        if report_path:
-            report_path.parent.mkdir(parents=True, exist_ok=True)
-            report_path.write_text(json.dumps(report, indent=2) + "\n")
-        if args.apply:
-            for item in candidates:
-                ensure_untracked(Path(item["path"]), ROOT)
-                remove_candidate(item)
-                report["removed"].append(item["path"])
-                if report_path:
-                    report_path.write_text(json.dumps(report, indent=2) + "\n")
-        print(f"{'Removed' if args.apply else 'Preview'}: {len(candidates)} paths, "
-              f"{report['allocated'] / 10**9:.2f} GB allocated; {len(skipped)} skipped")
-        for reason in skipped:
-            print(reason)
-        if report_path:
-            print(f"Manifest: {report_path}")
-        return 0
+        with contextlib.ExitStack() as leases:
+            for unit in sorted(set(map(lambda p: Path(os.path.abspath(p)), args.units))):
+                leases.enter_context(Lease(unit, "rom-unit-complete"))
+            candidates, skipped = completion_plan(args.units, root=ROOT,
+                                                   retire_executables=args.retire_executables)
+            report = {"date": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                      "applied": args.apply, "candidates": candidates, "skipped": skipped,
+                      "bytes": sum(c["bytes"] for c in candidates),
+                      "allocated": sum(c["allocated"] for c in candidates), "removed": []}
+            report_path = args.report.resolve() if args.report else None
+            if report_path and (not report_path.is_relative_to(ROOT / "target") or
+                                any(report_path == Path(c["path"]) or report_path.is_relative_to(c["path"])
+                                    for c in candidates)):
+                raise ValueError("report must be under target, outside removal candidates")
+            if report_path:
+                report_path.parent.mkdir(parents=True, exist_ok=True)
+                report_path.write_text(json.dumps(report, indent=2) + "\n")
+            if args.apply:
+                for item in candidates:
+                    ensure_untracked(Path(item["path"]), ROOT)
+                    remove_candidate(item)
+                    report["removed"].append(item["path"])
+                    if report_path:
+                        report_path.write_text(json.dumps(report, indent=2) + "\n")
+            print(f"{'Removed' if args.apply else 'Preview'}: {len(candidates)} paths, "
+                  f"{report['allocated'] / 10**9:.2f} GB allocated; {len(skipped)} skipped")
+            for reason in skipped:
+                print(reason)
+            if report_path:
+                print(f"Manifest: {report_path}")
+            return 0
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print(f"Artifact cleanup failed: {error}", file=sys.stderr)
         return 1

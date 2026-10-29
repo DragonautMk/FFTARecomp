@@ -32,6 +32,7 @@ pub mod metadata4;
 pub mod metadata2;
 pub mod metadata28;
 pub mod records4;
+pub mod conditional_records8;
 pub mod default48;
 pub mod constructor_alternates;
 pub mod metadata14;
@@ -86,8 +87,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 83;
-pub const DECODER_REV: u32 = 82;
+pub const EXTRACTOR_REV: u32 = 85;
+pub const DECODER_REV: u32 = 84;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -276,6 +277,14 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const CONDITIONAL_RECORDS8_ID: &str = "gameplay.conditional-records8";
+pub const CONDITIONAL_RECORDS8_FILE: &str = "conditional-records8.json";
+pub const CONDITIONAL_RECORDS8_FORMAT: &str = "conditional-records8-v1-json";
+pub const MAX_CONDITIONAL_RECORDS8_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const RECORDS4_ID: &str = "gameplay.linked-records4";
+pub const RECORDS4_FILE: &str = "linked-records4.json";
+pub const RECORDS4_FORMAT: &str = "linked-records4-v1-json";
+pub const MAX_RECORDS4_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const METADATA28_ID: &str = "gameplay.linked-metadata28";
 pub const METADATA28_FILE: &str = "linked-metadata28.json";
 pub const METADATA28_FORMAT: &str = "linked-metadata28-v1-json";
@@ -559,6 +568,8 @@ pub struct Extraction {
     pub encounter_unit_templates: Option<encounter_unit_templates::Catalog>,
     pub encounter_coordinates: Option<encounter_coordinates::Catalog>,
     pub metadata28: Option<metadata28::Catalog>,
+    pub records4: Option<records4::Catalog>,
+    pub conditional_records8: Option<conditional_records8::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -640,6 +651,8 @@ pub struct BaseFiles<'a> {
     pub encounter_unit_templates: Option<(&'a encounter_unit_templates::EncounterUnitTemplates, &'a [u8])>,
     pub encounter_coordinates: Option<(&'a encounter_coordinates::EncounterCoordinates, &'a [u8])>,
     pub metadata28: Option<(&'a metadata28::Metadata28, &'a [u8])>,
+    pub records4: Option<(&'a records4::Records4, &'a [u8])>,
+    pub conditional_records8: Option<(&'a conditional_records8::Records8, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1206,6 +1219,14 @@ impl Extraction {
             result.manifest.coverage.push(METADATA28_ID.into());
             result.manifest.resources.push(Resource {id:METADATA28_ID.into(),path:METADATA28_FILE.into(),format:METADATA28_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
             result.metadata28 = Some(metadata);
+            let metadata = records4::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(RECORDS4_ID.into());
+            result.manifest.resources.push(Resource {id:RECORDS4_ID.into(),path:RECORDS4_FILE.into(),format:RECORDS4_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.records4 = Some(metadata);
+            let metadata = conditional_records8::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_RECORDS8_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_RECORDS8_ID.into(),path:CONDITIONAL_RECORDS8_FILE.into(),format:CONDITIONAL_RECORDS8_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_records8 = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1315,6 +1336,8 @@ impl Extraction {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1425,6 +1448,8 @@ impl Extraction {
             || self.encounter_headers.is_some() != self.encounter_unit_templates.is_some()
             || self.encounter_unit_templates.is_some() != self.encounter_coordinates.is_some()
             || self.encounter_coordinates.is_some() != self.metadata28.is_some()
+            || self.encounter_coordinates.is_some() != self.records4.is_some()
+            || self.records4.is_some() != self.conditional_records8.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2082,6 +2107,14 @@ impl Extraction {
             (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_METADATA28_FILE_BYTES {return Err("Metadata28 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[74].sha256=ffta_rom::digest(bytes);}
             (None,None)=>{},_=>return Err("Missing or unexpected metadata28".into()),
         }
+        match (&self.records4, files.records4) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_RECORDS4_FILE_BYTES {return Err("Records4 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[75].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected records4".into()),
+        }
+        match (&self.conditional_records8, files.conditional_records8) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_RECORDS8_FILE_BYTES {return Err("ConditionalRecords8 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[76].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_records8".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2484,6 +2517,14 @@ impl Extraction {
             decoded.validate()?;
             if decoded!=&expected.decoded {return Err("Decoded metadata28 differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.records4,files.records4) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded records4 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_records8,files.conditional_records8) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_records8 differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2570,6 +2611,8 @@ impl Extraction {
             + usize::from(self.encounter_unit_templates.is_some())
             + usize::from(self.encounter_coordinates.is_some())
             + usize::from(self.metadata28.is_some())
+            + usize::from(self.records4.is_some())
+            + usize::from(self.conditional_records8.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2699,6 +2742,8 @@ mod tests {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2781,6 +2826,8 @@ mod tests {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2873,6 +2920,8 @@ mod tests {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2954,6 +3003,8 @@ mod tests {
             encounter_unit_templates: None,
             encounter_coordinates: None,
             metadata28: None,
+            records4: None,
+            conditional_records8: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

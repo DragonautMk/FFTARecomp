@@ -28,7 +28,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   source-specific master codes remain distinct; static preservation checks do
   not establish runtime compatibility. This adds no cheat execution support.
 
-- [Shared debugging tools](DEBUG_TOOLS_TODO.md) is a planning checklist with
+- The desktop debug-tools checklist DBG-01…DBG-22 is complete within its declared
+  scope. Start with the [common portable guide](../debug_tools.md): recording,
+  reproducible bug context, two selected runtimes, uncovered ROM reads and
+  reviewed cleanup. Bundles include an explicit public script/template/doc
+  closure and per-payload manifest with empty Data; prefix-rejection checks and
+  compiler path remapping prevent builder-home leakage in the selected DBG22
+  archive. Runtime/PS/Bash/offline launchers retain logs. Wine integration,
+  Linux-host offline tools and public PS7.4 mocks are verified separately;
+  native Windows/PS5.1, recent native Linux runtime and physical hardware remain
+  unverified. Preserved divergences do not become parity acceptance. Further
+  work requires a concrete missing criterion or regression, not reopening the
+  completed checklist. See the guide and individual records for exact limits.
+
+- [Shared debugging tools](DEBUG_TOOLS_TODO.md) is the completed checklist with
   stable DBG-01..DBG-22 IDs, separate from DS scene cases. It inventories existing
   tooling before prioritizing shared menu/CLI diagnostics, isolated sessions,
   snapshot/input replay, bounded ROM audits, coverage linkage and first-divergence
@@ -162,6 +175,127 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   exact source-body preservation. Native platforms/physical pads and raw
   Gilrs/DirectInput/mouse stages remain unverified or uncovered. Homepage groups
   these reports separately; failed harness prefixes remain local diagnostics.
+  DBG-14 adds [bounded audio diagnostics](../debug_audio.md): isolated Start/Save
+  menu actions and debug-control audio-start/audio-report observe selected guest
+  mixed/PSG/HLE/FIFO buffers before handoff and actual post-DSP/gain/native-format
+  callback buffers. Producer decisions, mute/Fast, queue sizes and bounded reset
+  contexts remain separate from physical delivery/listening, which is unknown.
+  Preallocated callback storage performs no new IO/clock/allocation/lock; private
+  WAV/raw/HTML/JSON output occurs outside its mutex. Limits30s/180frames/2MiB per
+  source,3s/524288callback values/512blocks/64resets/eight reports. Live reports
+  identify ROM/BIOS/runtime/build, seed/session pins, effective dataset/input/AV
+  and actual keys; no new snapshot. Offline debug-audio states compares exact
+  selected buffers in existing same-frame snapshots without guest execution;
+  exit0equal/2diverged/3incompatible, local lossy previews and raw exact bits.
+  A retained mixed difference at frame8514 is localized without replay; Wine
+  menu/CLI and a complete4frame recorded endpoint pass. Native platforms and
+  hardware listening remain unverified; no new ROM/DS/native/performance claim.
+  DBG-15 adds [bounded code/label/dispatch diagnostics](../debug_code.md),
+  menu Start code trace / Save code report and debug-control code-start/code-report.
+  Pre-dispatch PC/mode, current readonly ROM/RAM bytes and entry disassembly join
+  strict same-ROM declared labels and actual Native/Missing/System/Hook choices;
+  interpreter-selected execution remains distinct from native lookup failure.
+  No-op specialization preserves normal/cost dispatch and no guest/save/native
+  ABI changes. Filters cover address/mode/kind, limits30s/60frames/512events,
+  eight private reports/2MiBJSON, no new snapshot or automatic overwrite/pruning.
+  Native table keys prove selection only, not block extents or extracted-code
+  percentages; file identity read at trace start is not loaded-memory identity.
+  A retained native DS20 prefix shows real native-to-missing transitions with
+  exact observed/unobserved state/count parity using the same old library,
+  separate from interpreter/native correctness. Wine menu/CLI/foreign-label/
+  recorded2frame endpoint and offline browser checks pass; native platforms,
+  physical controllers and live native GUI capture remain unverified.
+  DBG-16 adds [local issue reports](../debug_issues.md), menu Create issue report,
+  standalone debug-report create and paused debug-control issue-report. Readonly
+  profile/pin/input preflight and retained result/comparison metadata produce
+  HTML/JSON, reviewable summary and private attachment links without replay,
+  payload copies or sending. Eight folders/2MiBJSON with writer lock and no
+  automatic overwrite/pruning; incompatible preflight still publishes a report.
+  Summary separates recorded frames, selected window, completion and first
+  difference/components. Relative PowerShell/POSIX launchers use the pinned
+  runtime/profile after a whole-folder move; browser copies the current command
+  and opens local folders. Shareable-candidate metadata still needs review of
+  symptom/case; old result freshness/settings and loaded native compatibility
+  are not certified by report presence. Wine moved-folder SH replay reaches an
+  exact2frame endpoint; GUI report leaves guest state/clock intact and browser
+  clipboard/folder/error/comparison checks pass. Native Windows/PowerShell runtime
+  and Linux-native execution remain unverified; earlier acceptance stays closed.
+  DBG-17 adds [bounded task/script/unit inspection](../debug_gameplay.md), menu
+  Start task / script trace / Save gameplay report and gameplay-start/report.
+  Exact EUR catalogs authenticate descriptor loadsites, primary/aux cursor/
+  dispatch/advance points and narrow unit graphics/sprite fields. Per-field
+  register/RAM/ROM backing provenance, signed cursors and sentinel/unknown values
+  remain separate from projection links and typed service. Addresses identify
+  observations, never persistent unit/allocator identities or global domain caps.
+  Shared readonly code/gameplay entry collectors preserve the ordinary step loop;
+  native interiors remain unobserved. Limits30s/60frames/512events/1MiB event
+  bytes/eight2MiBJSON folders, no new snapshot or automatic pruning/overwrite.
+  Same-interpreter observer parity plus Wine menu/CLI coexistence preserves
+  complete state;70observed events reconstruct a two-frame task countdown.
+  That window has no script events, without implying global non-use. Browser
+  sequence/context/resource filtering passes; native platforms/live native
+  gameplay and physical controllers remain unverified.
+  DBG-18 adds [bounded session/artifact retention](../debug_artifacts.md):
+  preview/apply/keep-selection with HTML/JSON byte estimates and per-operation
+  receipts. Preserve all session inputs/proofs/errors/pinned runtimes/datasets;
+  select only generated native libraries and existing explicit completed ROM
+  disposable copies. New session manifest attests directory-v1 coordination;
+  atomic directory leases span creation/runtime/cleanup and coverage cache
+  generation/read/prune across Python/Wine/container namespaces. Active,
+  interrupted, legacy/unattested, failed, linked/shared or unexpected scopes
+  remain protected; nested activity protects the entire ROM unit. No automatic
+  stale-lease reclamation. Explicit historical cache reads coordinate via
+  detected layout or --cache-lease; Docker keeps dataset mounts readonly with
+  a separate coordination-root mount. Cache pruning retains current generation
+  and receipts, stopping at64receipts. Manager scopes/entries/leaf-file counts/
+  JSON and existing capture limits remain bounded. Root/staged Docker Python
+  imports are complete; an optional Git-enabled offline-tools image and logged
+  Bash/PowerShell launchers are provided without a new Cargo/ROM build.
+  Synthetic Python lifecycle/error/interruption/concurrency, affected Wine
+  session/replay tests and real paused Windows/Python lease contention pass;
+  Docker keep/apply/stale-plan/readonly-reader and browser checks pass.
+  Native Windows/PowerShell, Linux-native GUI and physical controllers remain
+  unverified. Original runtime/input/proof preservation is independently checked.
+  DBG-19 adds [recent-event rolling context](../debug_recent.md): opt-in shared
+  menu/CLI Start, Freeze/Save and observed-error autosave. Keep actual input,
+  partial readonly UI/signature changes,16selected ROM read keys/frame and actual
+  dispatch/error metadata within1.024events/256KiB (8KiB/event). Continue rolling
+  past prefix time limits; evictions/drops/lifetime counters and effective window
+  remain explicit. No continuous snapshots or guest state/ABI changes. Reads
+  unavailable/disabled/collision differ from zero; sorted aggregates are not
+  within-frame chronology, native internals remain unknown. Start/Save hash
+  full state at explicit boundaries only. Eight private2MiBJSON folders;
+  save failure retains frozen context, repeated Save returns published path.
+  Wine synthetic million-event/controlled-error, actual menu/CLI after31s,
+  two-frame observer full-state parity and default unavailable/browser checks
+  pass. Native Windows/Linux GUI and physical controllers remain unverified.
+  DBG-20 completes the existing [local file control channel](../debug_control.md)
+  with separate status/cancel query lock/mailbox/result, leaving operational
+  completion independent. Cancel targets the exact pending request; deadline
+  and20..120000msclient timeout distinguish unacknowledged waits from frontend
+  budget stop. Check expiry between existing frame/search ticks, never interrupt
+  guest execution mid-call. Ready/results identify manifest hash/label/run/request;
+  wrong sessions/IDs refuse. Shared Pause boundary handles cancellation, no
+  networking service or normal-game channel. Structured outcomes cover local
+  errors, cancelled/timeout/closed; closed status can remain unknown/null.
+  Legacy requests without optional identity/deadline remain decodable, while
+  current CLI requires new capabilities. Wine protocol/frontend and actual
+  pending-step query/cancel/deadline/readonly capture pass; native platforms
+  remain unverified. Clock changes affect server civil-time deadline; no hard
+  interruption guarantee for blocked/synchronous operations.
+  DBG-21 adds [targeted campaign selection/reporting](../debug_campaigns.md):
+  explicit case/DS/family/transition filters, pinned profile/result/audit metadata,
+  positive/negative/incompatible/not-executed and reused evidence. No default
+  sweep or payload opening; zero selected-window reads never implies global
+  feature non-use. One-case explicit dispatch authenticates runtime/profile,
+  records intent and execs existing supervised replay; old declared/undeclared
+  result requires reopening reason.32cases/eightoutputs/2MiBreport, strict bounded
+  JSON, coordinated attested readers and legacy exclusion unknown. Logged host/
+  Docker-report-only entry points, homepage and limits integrate without Rust
+  changes/builds.23Python checks, public fake dispatch, actual readonly reuse of
+  two retained DS20 proofs, Docker/browser pass; no new guest frames or old
+  acceptance replay. Windows/PowerShell/real profile dispatch remain unverified
+  in this unit; existing replay supervisor evidence is reused.
   EUR extraction retains priority,
   Godot stays deferred and performance measurement stays separate.
 
@@ -1073,7 +1207,49 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   512full global-instance setters/all256indices/low8aliases/outsideaddresses),
   2isolatedhighbitvariants10prefixes/RAM-callee-SP-LR-IWRAM-VRAM-OAM-palette-ROM
   exact.125guards525hash+112sourceguards/helper0. Schema1/e83-d82 unchanged;
-  managed/runtime/nativeclock/LoadUndo/DMA/CLI/ordinary for this family next;
+  Managed e84-d83/index75 now77files76resources/all75prior exact/one844Bspan;
+  immutable four-field owner/211slotmask/sevencounters/page713/local-global,
+  prior metadata28/raw successor composition. ThreeWindowsbuilds firstfailed
+  borrow+stale menu cache/secondwarningfree-unused/thirdwarningfree33144a8c..
+  current551source baseline; pre-Wine LDR-alignment expectation fix only.
+  OneWinefilter publication14attach2fullset/21nativefullstates-clock/all844rawB
+  poisonedafterLoad:41compiledinstr/21new6priorB/fourstop-safe groups. All844busB/
+  fourfields211slots/all211ends/LoadUndo sameArc/DMA3fullstates-clock pass.
+  237guards551accepted+two551diagnostics/525modelpreimages/helperonlyinterrupted.
+  ActualCLI registration nowPASS: one warningfree551source productionbuild
+  bcf632fa../no overlays/canonicalhashmtime restored; threeWinechildren all0,
+  all77runtime files/76IDhashes/79managed paths no-write/28859nativecacheblocks.
+  New normalStealArmor A8hold12/120f22711→22831 reachesTARGETscreen/all7counts0;
+  closednegative, no fullpair or endpointffstate.187guards551CLI+551runtimehash
+  exact/helper0. Positive following-turn case nowCLOSED:40frames24755→24795,
+  223reads/servedB/fieldcounts64-132-11-16/twoslots, all7capture-CLI-fullpair counts
+  exact. OneWinepair every40fullstates-clock/classic-wide/OAM/5audio passes.
+  Onewarningfree552source hosttestbuilda5b2fc84../normalobserver+optional5lineguard/
+  inversevalidator exact/coreunchanged;10normalcaptures2084f oncopies, no guestedit.
+  210uniqueguards552hash+187closedCLIguards551hash/helper0; allfourfields observed,
+  notall211/fullABI/attack-success/global. Following8Bfamily now has its own
+  [source contract](../rom_data_gameplay.md#european-conditional-eight-byte-record-source-contract):
+  713744..713B3C/127x8/1016B, zero-gate skips, distinct first/second flag and
+  counter predicates, live encoded keys and original output pointers. Fullu32
+  filter/capacity retained; no entry capacity0 guard, two callers pass64.
+  76enabled/51zero slots,105live references63keys/onecounteroperand2; allbytes
+  exact/disjoint76owners50490spans/8windows6new2reuse93pins96guards/helper0.
+  Standalone conditional_records8 model nowstrict/lossless127rows1016B/onespan,
+  baseauth/8windows separatefromshape; select retainsfullu32context/capacity,
+  originalpointers/livecallmultiplicity/oppositepredicates, no clear-helper model.
+  Onewarningfree corebuildc6f5406d../554frozen239coreinputs andoneWinefilter pass
+  24guards/16base+93synthetic original D56CE..D57A4loops/realflag-countercallees;
+  612actualbaseB/134syntheticB/all8lastslot vs1016B roundtrip. EWRAMexactexcept
+  expectedoutputs/IWRAMexcept4Breturnlinkscratch/stack-r11r12/VRAM-OAM-palette-ROM
+  exact;120guards554hash+96sourceguards/helper0. Entryclearhelper/epilogue/fullABI
+  excluded. Managed runtime now e85-d84/index76/conditional-records8.json with
+  one1016Bspan/nodeps/78files77owners/all76prior exact; immutable6fieldclasses/
+  127slotmask/9counters/page713 composes priorrecords4/rawsuccessor.17distinctnative
+  fullstate-clock cases/all1016busB/all127ends/failedattach/LoadUndo/DMA3 pass.
+  Native path631servedB includes2existing interp_one fallback reads; testobserver
+  counts thatcallback too, preserving original strict totals/state/clock.
+  No runtime/CAPI/guest fix or ABIchange; [combined evidence and limits](../rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).
+  ActualCLI/ordinary use pending;
   no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global

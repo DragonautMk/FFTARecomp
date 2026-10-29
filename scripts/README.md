@@ -183,3 +183,80 @@ Start UI / input trace / Save UI / input report raccolgono osservazioni limitate
 di focus, font, input/rimappatura e dispatch host/guest nella copia isolata.
 `status.host_menu` espone il focus reale prima di automatizzare la navigazione.
 I report privati sono riconosciuti dalla homepage. [DBG-13](../docs/debug_ui.md).
+
+`recomp debug-control audio-start SESSION [--frames 1..180] [--streams LIST]` /
+`audio-report SESSION` e le voci Start audio capture / Save audio report raccolgono
+buffer guest e callback con contesto mute/Fast/reset nella copia isolata.
+`debug-audio states --rom ROM --left STATE --right STATE --dir NEW` confronta
+buffer già conservati senza eseguire il gioco; exit0equal/2diverged/3incompatible.
+WAV/raw/report privati sono indicizzati dalla homepage. [DBG-14](../docs/debug_audio.md).
+
+`recomp debug-control code-start SESSION` / `code-report SESSION` osservano
+un prefisso PC/modo, istruzione al punto, label statiche e scelta dispatch
+native/missing/system/hook/interpreter nella copia isolata. Filtri e limiti
+espliciti, nessun nuovo snapshot o percentuale di codice dedotta dai conti.
+[DBG-15](../docs/debug_code.md).
+
+`recomp debug-report create PROFILO/replay.json --symptom TESTO` e il menu
+Create issue report riuniscono contesto, input/identità ed evidenza conservata
+in un HTML/JSON locale con launcher relativi, senza avviare il caso o inviare dati.
+`debug-control issue-report SESSION` è l’equivalente sulla finestra aperta.
+[DBG-16 e privacy](../docs/debug_issues.md).
+
+`recomp debug-control gameplay-start SESSION [--frames N --events N --family FAMIGLIA --context HEX]` /
+`gameplay-report SESSION` e Start task / script trace / Save gameplay report
+osservano campi verificati di task, script e unità con provenienza RAM/ROM/registri,
+filtri e limiti espliciti. Link alle risorse e campi sconosciuti rimangono distinti
+dalle identità persistenti degli attori. [DBG-17](../docs/debug_gameplay.md).
+
+`debug_artifacts.py preview --session DIR --keep DIR --unit target/rom-data-NOME --out NEW`
+produce un piano HTML/JSON; `apply PLAN --receipt NEW.json` lo verifica sotto
+coordinamento e registra ogni rimozione. Input/report/errori e sessioni tenute
+restano conservati. Launcher `windows/debug_artifacts.ps1` e
+`linux/debug_artifacts.sh [--docker]` salvano i log. Docker usa la derivata
+`Dockerfile.debug-tools` con Git, senza build runtime. [DBG-18](../docs/debug_artifacts.md).
+
+**recomp debug-control recent-start SESSION** / **recent-freeze SESSION** /
+**recent-report SESSION** e Start recent events / Freeze / save recent events
+mantengono una finestra mobile1.024eventi/256KiB. Il trigger errore osservato salva
+contesto utile; disponibilità delle letture, espulsioni e limiti restano espliciti.
+Nessun nuovo snapshot. [DBG-19](../docs/debug_recent.md).
+
+**recomp debug-control status SESSION** funziona anche mentre un comando attende.
+**cancel SESSION --request ID** annulla quel budget al prossimo rientro frontend;
+**--timeout-ms N** (20–120000) aggiunge attesa limitata e scadenza server.
+JSON distingue timeout non confermato, stato server e identità manifest/run/ID.
+Nessun servizio di rete. [DBG-20](../docs/debug_control.md#richieste-cancellazione-e-scadenza--dbg-20).
+
+**debug_campaign.py report MANIFEST --case ID --out NEW** seleziona DS/famiglie/
+transizioni e riusa prove JSON con pin, senza replay automatici. Esiti positivo/
+negativo/incompatibile/non eseguito e zero letture nella sola finestra restano
+espliciti. **run-case MANIFEST ID --reason TEXT --out NEW** delega un solo profilo
+al replay esistente; una prova precedente richiede --reopen-reason. Launcher
+**windows/debug_campaign.ps1** e **linux/debug_campaign.sh [--docker]** conservano
+log; Docker offre solo report/help. [DBG-21](../docs/debug_campaigns.md).
+
+
+The [shared debug guide](../docs/debug_tools.md) covers recording, bug reports,
+runtime comparison, uncovered ROM reads and retention from a moved portable
+bundle. **windows/debug_runtime.ps1** and **linux/debug_runtime.sh** preserve
+command logs in Data/config/debug-logs and select the adjacent runtime.
+Offline launcher logs remain in target/build-logs; home launchers accept
+-Python / --python, retain the old page on failure and hide absent bundle docs.
+PowerShell artifact/campaign -Docker comes first; --out and other tool flags
+are forwarded literally. Public checks: **tests/test_package_ffta_portable.py**
+and **tests/test_debug_windows_launchers.ps1** (Linux PowerShell container,
+public mocked applications only; see its prerequisites).
+
+The portable packager selects public docs/tools/notices explicitly and writes
+PACKAGE-MANIFEST.json; no existing Data, ROM/save/input/dump/cache/test files are
+copied. Shell execute permissions survive the Linux tar. Both Docker source
+stages include the same module/template/doc closure.
+
+Host distribution builds should remap compiler source paths before packaging:
+Rust --remap-path-prefix for checkout/home/cache roots, and TinyCC/build.py
+maps its source and adapter roots with -ffile-prefix-map. The shared packager
+accepts repeatable --private-prefix PREFIX to reject embedded UTF-8/UTF-16LE
+private paths before replacing the previous archive. It never rewrites binaries;
+the manifest records only the number of prefix checks. DBG-22 uses this guard
+with its isolated remapped Windows binaries.

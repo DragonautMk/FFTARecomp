@@ -82,6 +82,12 @@ if [[ -n "$dataset_dir" ]]; then
     dataset_dir=$(resolve_path "$(cd -- "$dataset_dir" && pwd -P)")
     mounts+=(--mount "type=bind,source=$dataset_dir,target=/input/dataset,readonly")
     args+=(--dataset /input/dataset)
+    dataset_parent=$(dirname -- "$dataset_dir")
+    if [[ $(basename -- "$dataset_dir") =~ ^e[0-9]+-d[0-9]+$ && $(basename -- "$dataset_parent") =~ ^[0-9a-f]{64}$ ]]; then
+        lease_root=$(resolve_path "$(dirname -- "$dataset_parent")")
+        mounts+=(--mount "type=bind,source=$lease_root,target=/cache-lease")
+        args+=(--cache-lease /cache-lease)
+    fi
 else
     cache_dir=$(resolve_path "$repo_dir/target/rom-data/coverage")
     mkdir -p -- "$cache_dir"
@@ -114,7 +120,7 @@ git -C "$repo_dir" archive --format=tar --output "$context_dir/runtime.tar" "$so
     Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
 mkdir -p -- "$context_dir/scripts" "$context_dir/docs/changes" "$context_dir/docs/development/rom-coverage"
 cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" \
-    "$repo_dir/scripts/local_artifacts.py" "$repo_dir/scripts/rom_coverage_audit.py" \
+    "$repo_dir/scripts/artifact_coordinator.py" "$repo_dir/scripts/local_artifacts.py" "$repo_dir/scripts/rom_coverage_audit.py" \
     "$repo_dir/scripts/rom_coverage_ranges.py" "$context_dir/scripts/"
 cp -- "$repo_dir/docs/changes/"*.json "$context_dir/docs/changes/"
 cp -- "$repo_dir/docs/development/rom-coverage/evidence.json" \

@@ -1,10 +1,485 @@
 # Task handoff
 
-Updated: 2026-10-28. Latest user instructions take precedence. Follow
+Updated: 2026-10-29. Latest user instructions take precedence. Follow
 [resume/repeat decisions](MEMORY_WORKFLOW.md#resume-and-repeat-decisions).
 An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
+
+- **Full debugtools goal / DBG-22 — complete (2026-10-29).** Latest request
+  “esegui il todo debugtools” fulfilled: all stable DBG01-22 checked and audited
+  against linked records, retained terminal outputs and current source entry
+  points;0remaining criteria in declared scope. No old build/replay/fixture
+  rerun to reconstruct context; native divergence/rejected UI attempt remain
+  explicit. Future work needs a concrete regression/missing criterion, not this
+  closed queue.
+  DBG22 common five-flow guide/public whitelist/75payloads in76files/manifest/
+  empty Data, logged runtime/home/offline PS/Bash launchers, literal --out and
+  leading -Docker, Docker source/module/doc closure and help-only Rust alignment
+  complete.10distinct Python packaging tests,13standalone PS7.4.6Linux public
+  mock checks,2synthetic TinyCC Wine ABI/cache/error-lock tests pass. Windows
+  GNU build locked/offline/warningfree from e8bd939+19frozen overlays separate
+  from concurrent ROM work; all19still match current source. Actual privacy
+  finding610/3/1builder-home occurrences justified only final compiler-path
+  remapping builds. Final runtime4d4f9b2a6d3b25ef777d27607da9f505e36eb902cc3ff6404e32db1223cfa1f4,
+  launcher dc5bec7505d853d3bfb942e61b5d2e33ee64c00e9409488ddf03225533f8dc4a,
+  TinyCC76249d257e76dd7fcc2a7ca28b7c8c6fd42e81bdda79bfd6d172b200969aa43b.
+  All3zero scanned private prefix, PE resources/system imports/export ABI pass;
+  normal DLL/notices/executables unchanged. Packager rejects UTF8/UTF16LE
+  --private-prefix without publishing prefix text or rewriting binaries.
+  Moved spaced/apostrophe/Unicode preliminary bundle19WineCLI/menu recording,
+  A/B exact endpoint and audit =4newframes; same new1frame recording replayed
+  ONCE with final remapped extracted candidate =>5DBG22frames total. Exact
+  endpoint283c3470414cd0e2e25ad859a401e831a4d2dfb1143db8fe311e1b0f6ec3f6c7/
+  clock6241425344, audit27403requests/885outside distinct bytes. Initial wrong
+  diagnosis nesting corrected by resuming after3successes; transient Windows
+  sharing denial recovered. Recent may freeze on that observed error before
+  later refusal, do not relabel trigger. PS failed prerequisites/Replace/hidden
+  temp/common-parameter attempts retained, final13checks pass.
+  Offline10host/Docker calls reuse3proofs/noextra frames, refuse unguarded repeat/
+  stale apply; ONLY66B synthetic never-loaded cache removed,28actualcasefiles
+  and11source/input/normal-runtime guards hash+mtime exact. Chrome1400/620six
+  reports/guide/filter/search/reset/links/nooverflow and GUI screenshots inspected.
+  Final offline readonly Docker ZIP dist/debug-tools/FFTARecomp-windows-debug-tools.zip
+  SHA25649f8fa0eb9b54485e7e876e18572cc8d3910d51b6c0cbea43590bcb90373c237,
+ 10802749bytes, CRC/source+staged hashes/doc links/Python closure/privacy pass.
+  Document-only refresh changed guide/checklist/manifest ONLY; binaries/tools
+  identical to final replay. Retired2exited Chrome profiles,2superseded ZIPs,
+ 3unremapped duplicate binaries after exact extracted proof copies authenticated:
+ 51159065B. Keep all actual inputs/recordings/profiles/current+pinned runtimes,
+  frozen/preimage source/failed fixtures/logs/results/screenshots/shared caches.
+  No managed ROM unit; ROM-only completion helper inapplicable. Final verifier
+  helper path typo corrected to actual staged PS inputs; no runtime rerun.
+  Guide/checklist/state/record/changelog/handoff updated. Workspace/basee8bd939/
+  metadata-only memory and git diff --check ALL PASS, including latest user ROM
+  records; preserve/unattribute concurrent ROM implementation. No live helper/
+  GUI. Native Windows/PS5.1, recent native Linux runtime, physicalcontrollers/
+  hardwareaudio remain unverified as declared, no native parity/DS promotion.
+  No normal replacement/Android/Godot/release/commit/push; no next work selected.
+  Evidence target/debug-tools-distribution/{final-verification,final-package,
+  goal-completion-audit,memory-results,artifact-retention,document-only-repackage,
+  final-replay,guide-results,offline-results,browser-results,tinycc-tests}.json
+  and powershell-output/powershell-results.json, source-current and preimages.
+  [Usage](../debug_tools.md),
+  [record](../changes/2026-10-29-distribute-shared-debug-tools.json).
+
+- **DBG-21 — complete (2026-10-29).** Full debugtools goal continues01-20
+  closed. New explicit campaign manifest/case/DS/family/transition selection,
+  bounded metadata-only report with positive/negative/incompatible/not-executed,
+  pinned reused profile/result/audit identities and honest zero/partial/unknown
+  scope. No default all/automatic replay/payload read/status promotion. Optional
+  single-case dispatch authenticates runtime/profile, writes intent and execs
+  accepted replay supervisor; any declared proof OR existing result requires
+  reopening reason. No alternate supervisor/core/Rust/build change.
+ 32cases/256KiBmanifest/128KiBprofile-result/16MiBaudit/64KiBsummary/2MiBreport/
+ 8storeentries; strict JSON/ordinary files, directory-v1 readers/legacy exclusion
+  unknown, private outputs/no overwrite/prune. Logged PS/Bash and existing
+  Docker report/help only, homepage/limits integrated.
+ 23distinct Python pass:11refined campaign +1strict addition +11affected artifact
+  tests; preserve initial/refined logs (repetitions not extra distinct tests).
+  Actual dispatch test ONLY PUBLIC SYNTHETIC POSIX fake runtime, no game data.
+  Real private report reuses existing filtered DS20 audit4requests/102passed and
+  historical native102diverged metadata; adds synthetic zero/incompatible plus
+  DS03unprepared. Five statuses positive/negative/positive/incompatible/notexecuted.
+  Zero new guest frames/snapshots/ROM/native/performance acceptance. Eleven actual
+  metadata/originalinput/normalruntime guards hash+mtime exact. Bash from unrelated
+  cwd selected1; existing Docker networknone/readonlycontainer selected2 no build.
+  Four Chrome views1400/620/empty/home filter/search/reset/details/relativelinks/
+  zero-globalunknown/nooverflow pass, screenshots inspected; home72indices/
+ 4campaigns snapshot only. Final-verification authenticates8livepublic snapshots,
+  four exactHTMLJSON, evidencepins/links/23tests/11guards. Only4exitedChrome
+  profiles retired; actualinputs/proofs/metadatafixtures/manifests/reports/
+  source/preimages/logs/screenshots/shared caches kept. No managed disposable
+  unit/newruntimebuild; ROM completion helper inapplicable.
+  Docs/checklist/state/README/record/changelog/links/22ordered IDs(01-21checked),
+  metadata-only memory/diff pass. Workspace/base memory exit1 ONLY concurrent
+  gba-core/rom_data/runtime/conditional_records8.rs and recomp/rom_data/
+  conditional_records8_runtime_tests.rs needing own runtime record. Preserve/
+  unattribute all concurrent ROM work. No live helper. NativeWindows/PowerShell/
+  realWine-or-Linuxprofiledispatch/controllers unverified in this unit; accepted
+  supervisor evidence reused. No normalruntime replacement/Android/Godot/
+  release/commit/push. No21remainingcriterion.
+  Evidence target/debug-tools-campaign/{final-verification,memory-results,
+  artifact-retention,source-current,real-report-results,browser-results}.json,
+  tests-refined/strict-addition/artifact-limit logs and CLI/Docker/screenshots.
+  [Usage](../debug_campaigns.md),
+  [record](../changes/2026-10-29-add-targeted-debug-campaigns.json).
+  Successor DBG22 is now closed in the current checkpoint; no remaining queue.
+  Reuse closed outcomes rather than rebuild/replay old acceptances for context.
+
+- **DBG-20 — complete (2026-10-29).** Full debugtools goal continues01-19
+  closed. Audit reused accepted DBG10/11/12/16; filled actual gaps only:
+  separate status/cancel query lock/mailbox/result/outbox, exact pending ID,
+ 20..120000msclient wait/deadline and manifest hash/label/run/request identity.
+  Expiry checked at frontend poll; shared Pause/audio/suppression and probe
+  interrupt, no networking/listener, normal game channel or guest/core/dispatch/
+  save/native ABI change. CurrentCLI structured errors/outcomes/old-capability
+  refusal; optional old raw fields still decode without deadline guarantees.
+  Frozen publice8bd939+19overlays excludes concurrent ROM work. Final warning-free
+  locked/offline featureaf3890937f40b9851ab3707576f552f7db45507e8aaefe754087b92bd29d7ccf,
+  defaultdf4a78a864c0552b6bf9a12c2a986f2831748871e99101836438bbe7a10b84bd.
+  30distinct Wine pass (16protocol/14frontend,1existing ignored);1affected
+  protocol rerun after real review of closed response label =31executions.
+  Actual defaultGUI19CLI: status while step600client locked; wrongID preserves
+  pending, exact cancel stops at10partialframes, stable paused state/audioempty;
+ 250msclienttimeout unacknowledged distinct from serverstop/remaining0/
+  control-timeout/sameID; readonlygraphics/mismatchedmanifest/closedrefusal pass.
+  Appclosed0/inactive/leasegone. GUI exposed correct closeerror/statusnull but
+  refused label after work began; final only closed-classification/help spacing/
+  test change, no need repeat unchanged GUI/30tests/guestframes. Pre-review
+  sources/receipts/results retained; actualGUI pinned oldruntime authenticated.
+  Final-verification proves19live/frozen overlays/3currentpublic snapshots/
+  candidate receipts/restrictedproductiondelta/unchanged whole frame+native
+  helpers/30tests+1rerun/19CLI/sixoriginal+normalruntime hash-mtime guards.
+  Screenshot inspected. Retain inputs/graphics/report/source/preimages/review/
+  logs/candidates/shared caches; final candidates supersede oldunitexecutables.
+  No managed disposable trees/browserprofiles; ROM-only completion inapplicable.
+  Docs/checklist/state/README/record/changelog/links/22ordered IDs(01-20checked),
+  metadata-only memory/diff pass. Workspace/base checks exit1 ONLY concurrent
+  gba-core/rom_data/runtime/conditional_records8.rs and recomp/rom_data/
+  conditional_records8_runtime_tests.rs lacking updated runtime record. Previous
+  model leaves separately documented during20; preserve all/unattribute.
+  NativeWindows/LinuxGUI/controllers/nativecancel/clockchange unverified;
+  realnewtimeout250ms,120snotwaitedagain; probe uses shared route, actualGUIsteps.
+  No old ROM/DS/native/performance proof/newfixture, normalruntime replacement/
+  Android/Godot/package/commit/push. No remaining20criterion or live helper.
+  [Usage](../debug_control.md),
+  [record](../changes/2026-10-29-complete-local-session-control.json).
+  Evidence target/debug-tools-control/{final-verification,memory-results,
+  artifact-retention,build-selection,test-results-final,closed-outcome-test-result,
+  gui-results,gui-cli-results}.json and retained source/logs/review/screenshot.
+  Next select DBG21 targeted campaigns with fresh checkpoint;22common guide/
+  distribution follows, no01-20reopen.
+
+- **DBG-19 — complete (2026-10-29).** Full debugtools goal continues01-18closed.
+  Opt-in rolling recent metadata shared menu/control Start/Freeze/Save and
+  observed-error autosave:1024events/256KiB/8KiB each,16ROM keys/frame, partial
+  readonly UI transitions/actual input/dispatch/errors. Explicit loss/window/
+  lifetime/unavailable; no snapshots/core/guest/save/nativeABI/DSP changes.
+  Frozen publice8bd939+19overlays, feature d9b0266893a4a8fd4b01f47f4e3afd8ec34d0ee1817eed9bf32b49659c61d45c,
+  default6ca740ad3e91dd2cd761e07bf85ffc8b0cb3586bb7f0010477c61585c564bcc9,
+  warning-free locked/offline.81distinct Wine passing tests (79feature,1new real
+  observer,1default);11affected Python. Initial trait compile and two cfg(test)
+  event-position failures corrected/preserved; feature production unchanged
+  after test-only correction, do not rebuild for pin synchronization.
+  Same retained seed2A/release interpreter off/on exact per-frame full state,
+  frame22221clock6241706243 SHA5dc38f52e57eb12140bbbe2b1f4cbf8b07f429e351dc6108e01053f5d75775af.
+  FeatureGUI25CLI:26frames/max8/60evictions useful error context autosaved with
+  unchanged guest state; menu28/29 collecting31s/report33237ms, runningfreeze/
+  disabled/idempotence/capacity pass. DefaultGUI5CLI unavailable notzero/error
+  passes; application closed0 before old smoke helper NameError, cheap verifier
+  independently proves ready/lease/report/pins; no repeat. Attempts retained.
+  Five Chrome views filters/error/window/unavailable/nooverflow pass, screenshots
+  inspected; home67indices/5recent catalog snapshot only. Final-verification
+  proves19overlays/10public snapshots/two candidates/five exactHTMLJSON/count/
+  bytes/window/six actualinput+normalruntime guards/helpersinactive/dispatch
+  unchanged. Only5exitedChrome profiles retired; inputs/reports/currentcandidates/
+  source/preimages/logs/tests retained. No managed disposable unit/ROM completion.
+  Usage/control/home/README/checklist/state/record/changelog/local links/22ordered
+  IDs(only01-19checked), metadata-only memory/diff pass. Workspace/base memory
+  exit1 ONLY separate conditional_records8.rs/tests.rs missing updated model
+  record; preserve/unattribute. NativeWindows/LinuxGUI/nativeexecution/physical
+  controllers unverified. No old ROM/native/scene/performance acceptance,
+  normalruntime replacement/Android/Godot/package/commit/push. No remaining19.
+  Evidence target/debug-tools-recent/{final-verification,memory-results,
+  artifact-retention,build-selection,test-results-final,observer-results,
+  gui-results,gui-default-results,browser-results}.json plus source/logs/attempts.
+  [Usage](../debug_recent.md),
+  [record](../changes/2026-10-29-add-recent-event-ring.json).
+  Next select DBG20 existing local-channel criteria audit with fresh checkpoint;
+  do not reopen01-19.21campaigns/22common guide remain afterward.
+
+- **DBG-18 — complete (2026-10-29).** Latest full user goal “esegui il todo
+  debugtools” continues closed01-17; preceding turn is real progress. Implemented
+  directory-v1 atomic mkdir/owner-token leases in new host-only artifact_lease.rs
+  and Python coordinator. Session creation/lifetime attest coordination in host
+  manifest, retain existing file lock; no guest/save/native ABI/runner change.
+  Python preview/apply/keep selection/HTML/JSON estimates/capture limits/receipts,
+  32scopes/8192entries per tree/8192candidate leaves/16MiBJSON. Rebuild plan before
+  and under all leases before first unlink; stale/tampered/changed preserved
+  identities refuse. Keep all inputs/proofs/errors/datasets/pinned runtimes/
+  source preimages/unknown files; select only generated native libraries and
+  old explicit completed ROM disposable copies. Whole sessions not deleted.
+  Active/interrupted/unattested/legacy/failed/link/shared scopes protected; any
+  nested activity/unexpected candidate protects entire ROM unit. No auto reclaim.
+  Old complete now leases unit, coverage preparation/read/prune leases cache and
+  journals .retention receipts64cap, current generation retained. Explicit
+  historical reads infer cache layout or use --cache-lease; both Docker launchers
+  mount readonly dataset plus separate coordination root, without enabling prune.
+  Frozen publice8bd939+16overlays excludes concurrent ROM work. Warning-free locked/
+  offline Windows feature68b06042bab965fb2bd1cae710e80a9b860a5f1488730df2920da965cb205fc3,
+  defaultfcd1db9b3ee2bdc332dcc8568af9ffaa78a3ae806e2f1eb95e7fe3c8774617b0.
+  34Wine synthetic checks1lease/6session/8catalog/7recording/12replay pass;
+  no Rust edits since, no redundant rebuild/test after Python-only reviews.
+  33distinct Python checks11new/9cleanup/13coverage plus targeted review reruns
+  pass (all logs), including killed worker, partial error, protected inventory,
+  kept/legacy/error/linked/tracked/unknown/source files, incomplete/distinct
+  creation, nested marker, leaf/metadata budgets, explicit cache reader,64receipt
+  cap. Expected failures retain receipts and old inputs, not open blockers.
+  Actual Wine GUI Artifact case ' à stays paused frame22219, runtime lease blocks
+  Python preview; close0/inactive. Cleaner lease blocks real runtime open while
+  distinct real session creation succeeds. Four CLI calls, zero new guest frames.
+  Reviewed apply removes ONLY70B SYNTHETIC cache,16other case files unchanged.
+  Six original input/normal Windows/Linux runtime hash-mtimes remain exact.
+  Existing Docker image lacks Git (actual probe); new Dockerfile.debug-tools
+  adds Git only to derivative ffta-debug-tools:local, no Cargo/ROM build/copy.
+  Root filtered/staged/both coverage-launcher module closure and final import/
+  help smoke pass. Bash Docker preview/apply on PUBLIC SYNTHETIC spaced-path
+  sessions/--keep removes ONLY25Bcache;21other files exact. Deliberate stale
+  reapply1/failed receipt/zero removals. Host Bash works from unrelated cwd.
+  Actual Docker reader readonly mount refuses write and competing prune with
+  shared lease; manifest hash/mtime exact, marker released. No old coverage or
+  scene/native/performance acceptance rerun. Old26Oct sweep receipt inspected
+  cheap only, no retired payload reconstruction or new sweep.
+  Chrome1400/620 completed/protected/kept/filter/search/reset/limits/JSON/overflow
+  checks pass, screenshots inspected; homepage62indices/5artifact previews at
+  capture time (catalog presence is not other acceptance). Final-verification
+  authenticates19public source snapshots/16Rust overlays/candidates/five exact
+  HTML-plans/three receipts/6original+16case+21Docker guards/reader/ready/runner.
+  Four exitedChrome profiles retired; current source/preimages/candidates/two
+  real new copies/public fixtures/proofs/receipts/logs/shared caches retained.
+  No live helper or managed disposable fixture trees; ROM-only completion is
+  inapplicable to this unit. Root normal runtimes and separate ROM work preserved.
+  Usage/local retention/sessions/Docker/homepage/README/checklist/state/record/
+  changelog/local links/22ordered IDs(only01-18checked), metadata-only memory
+  and diff checks pass. Workspace/base memory identifies ONLY separate concurrent
+  conditional_records8.rs and its tests.rs needing their own model record;
+  DBG18 source coverage complete. Preserve/unattribute those. Exact command
+  results retain the integration limit. Next select DBG19(recent-event ring)
+  with a fresh checkpoint; no old01-18 criterion remains.
+  Native Windows/PowerShell/Linux-native GUI/physical controllers unverified.
+  Plans are position/tool-bound; regenerate after move/update. Manual stale
+  recovery needs actual process/log verification; no power-loss claim.
+  No remaining DBG18 criterion, package release/Android/Godot/commit/push.
+  Evidence target/debug-tools-artifacts: selections/source snapshots/build/
+  test/GUI/receipts/Docker/reader/browser/final-verification/retention logs+JSON.
+  [Usage](../debug_artifacts.md),
+  [record](../changes/2026-10-29-coordinate-debug-artifact-retention.json).
+
+- **DBG-17 — complete (2026-10-29).** Latest user goal “esegui il todo
+  debugtools” continues closed01-16. Menu Start task / script trace / Save gameplay
+  report and gameplay-start/report share opt-in family/context-filtered readonly
+  observations at verified EUR task descriptor, primary/aux script and narrow
+  actor sprite/unit-graphics sites. Exact original catalogs authenticate source;
+  per-field register/RAM/ROM backing, signed/wrapping cursors, sentinels/unknowns
+  and physical resource-to-contract links never infer global bounds, pool/ABI or
+  persistent unit identities. Normal native runner remains exact; shared bounded
+  interpreter helper differs only by immutable observer call. Code/gameplay
+  collectors compose; no guest/save/native ABI/snapshot/performance change.
+  Limits30s/60frames/512events/1MiBevent bytes/eight2MiBJSON folders, restore
+  freezes, unsaved blocks separate replay, writer failure retains frozen trace.
+  Frozen publice8bd939 plus14overlays excludes concurrent extraction. Initial
+  test compile unexecuted; pre-pin-review retains that source/logs before fixing
+  actual manifest.pins location and adding optional fixture exe identity. Final
+  locked/offline warning-free feature5840493e4aee2e3de3e0a3f34b320885e891d12a977d32e6bd46400deac80d26,
+  default4e3ae6b736ae94d40e4fec6cf64567a3f2493490dfcb308c04bc4b8168c91f80.
+  79distinct Wine tests:2gameplay/2code/11control/49menu/14frontend/1explicit
+  retained-seed observer. Signed/wrap/mirror/protocol/unknown/opcode200/FFFF/
+  filters/events/bytes/time/capacity failure pass; old native acceptance not run.
+  Same interpreter off/on observer2A/release frames exact full state/clock at
+  frame22221clock6241706243, pre-frontend SHA5dc38f52e57eb12140bbbe2b1f4cbf8b07f429e351dc6108e01053f5d75775af.
+  Prefix70/200710B across14addresses:28entry/14countdown/28exit. Known-sequence
+  events0,1,2,35,36,37 at one task pointer reconstruct countdown10,9,9,9,8,8
+  with exact RAM provenance/stable sequence cursor/current-frame pointer. No
+  script events in this window; criterion satisfied by known unit sequence,
+  so no extra snapshot/scene/oracle selection or old acceptance rerun.
+  Actual default GUI29CLI invocations incl navigation: CLI70/menu35/empty0+35
+  filtered/selected-context3events. Simultaneous code prefix8, frontend2frame
+  endpointdd841ef6dba845974625e7e5ae5839f86069000066f876a32d0a86bf6fcb0b81.
+  Start/Save guest state unchanged; unarmed/invalid/duplicate/full preserving
+  old reports/running/closed refusals. Six actual inputs and normal Windows/
+  Linux exe hash-mtimes exact; private apostrophe/Unicode case exits0/inactive.
+  Chrome1400/620/context/empty views and homepage55indices/5gameplay pass actual
+  filters/resource targets/unknowns/provenance/reset/no document overflow.
+  Screenshot menu/browser inspected; narrow table scrolls internally.
+  Final-verification authenticates14overlays/two candidates/five exact JSON-HTML/
+  bounded byte accounting/per-field PCs/pins/runtime/ready and guest loops.
+  Five exitedChrome profiles retired with receipt; source/preimages/current
+  candidates/closed GUI/observer fixture/reports/logs/results/shared caches kept.
+  No managed disposable trees, live helper, original mutation or runtime
+  replacement. Usage/checklist/state/record/changelog/local links/22ordered IDs
+  (only01-17checked), metadata-only memory and diff checks pass. Workspace/base
+  memory identifies ONLY separate concurrent conditional_records8.rs and its
+  tests.rs missing their own model record; DBG17 coverage complete. Preserve/
+  unattribute those files. Exact command results retain this integration limit.
+  Native platforms/live native gameplay/physical controllers/other scenes remain
+  unverified. No new ROM/DS/native/performance acceptance, Android/Godot/package/
+  commit/push. No remaining DBG17 criterion; next unfinished DBG18, then19..22
+  require fresh selection checkpoints, reuse closed01-17 evidence.
+  Evidence target/debug-tools-gameplay/{build-selection,protected-before,
+  test-results,observer-results,known-sequence,gui-results,browser-results,
+  final-verification,artifact-retention}.json plus source/logs/screenshots.
+  [Usage](../debug_gameplay.md),
+  [record](../changes/2026-10-29-add-bounded-gameplay-inspection.json).
+
+- **DBG-16 — complete (2026-10-29).** Latest “/goal esegui il todo debugtools”
+  follows closed01-15. Menu Create issue report, debug-control issue-report and
+  standalone debug-report create share readonly pinned-profile preflight plus
+  retained result/comparison, symptom/case/frame/input/identities/next check.
+  HTML/JSON/metadata-only summary with private links, no payload copy/replay/send.
+  Relative PS/SH launchers resolve own folder/pinned runtime after whole profile
+  move; browser copies current quoted command and opens real local directories.
+  Eight profile-local folders/2MiBJSON, OS writer lock, no overwrite/pruning.
+  Incompatible preflight still publishes/exits3; malformed/busy/full/unwritable
+  destinations can refuse. Old result freshness/settings and native loaded-memory
+  compatibility remain unknown. Review symptom/case before sharing summary.
+  Frozen publice8bd939 plus12overlays preserves earlier tools/excludes extraction.
+  Final featuref0df93af18575c913587c3191045dd7f71b12547934310619680c1ad14250e9f;
+  default8d3200e0f3ccdbca2892da6c6e34b24c65e576923fbfd450cfc72581a8a8cb18.
+  Locked/offline builds warning-free;72distinct Wine tests1issue/10control/49menu/
+  12frontend,1affected issue rerun =73executions. Initial compile unexecuted;
+  pre-mailbox-review preserves correction of misplaced menu assertion/escaped
+  request3500B/writer-lock tests. No test failure/old acceptance replay.
+  Five first standalone CLI plus one new moved-profile SH/Wine launcher pass:
+  accepted DBG15 two-frame recording ->fresh pinned profile, first report without
+  execution; rename to moved issue profile ' à, launch from unrelated cwd gives
+  exact endpointdd841ef6dba845974625e7e5ae5839f86069000066f876a32d0a86bf6fcb0b81.
+  Retained old native-diagnosis first-difference1 imported readonly, never replayed.
+  Small malformed-profile fixture publishes error HTML/JSON/summary, exits3.
+  Default GUI37CLI invocations incl navigation: selected profile vs GUI builder
+  correctly distinct, CLI/menu unchanged complete guest state/frame/clock,
+  no-selection/capacity preserving reports/running/closed refusals; owner0/inactive.
+  Actual source guards26extended28 before borrowing SRAM/input.cfg; all hash-
+  mtimes and normal Windows/Linux runtimes exact. Chrome clipboard equals argv
+  of already-tested recipe, folder opens local directory, PS quoting/error/
+  comparison/layout1400/620 pass, inspected screenshots. First homepage47/6.
+  Visual review finds recorded102 vs selected2 ambiguity; pre-window-summary-
+  review preserves source/results. Add explicit recorded/selected/completed/
+  first_difference/components, rebuild and rerun only affected issue test; two
+  new readonly reports verify positive2/2 and comparison102/2/first1 without guest
+  replay/menu/launcher repetition. Old9ed5/1338builders remain pinned in moved
+  profile/closed parent. Final homepage49indices/8issues and updated views pass.
+  Independent final-verification authenticates12overlays/final+old builders/eight
+  exact HTML-JSON/summary/attachment hashes/fixed recipes/moved endpoint/ready.
+  Guest/native runners unchanged; removing only new readonly replay helper plus
+  its blank line restores old source exactly (cheap verifier blank-line mismatch
+  corrected, no code/acceptance rerun). All private payloads ignored/untracked.
+  Seven exitedChrome profiles retired; keep current candidates/source/preimages,
+  pinned old builders/moved profile/error fixture/closed GUI/eightreports/shared
+  caches. No managed interrupted/moved-resource trees; ROM-only helper inapplicable.
+  No live helper. Feature/checklist/durable-state/record/changelog/local links/
+  22ordered IDs(only01-16checked), metadata/own-source coverage and diff checks pass.
+  Global workspace/base memory currently identifies ONLY parallel new ROM-model
+  conditional_records8.rs and conditional_records8/tests.rs needing their own
+  record. Preserve/unattribute those; this does not reopen passed DBG16 criteria.
+  Exact command outputs/documentation-verification record this integration limit.
+  Evidence target/debug-tools-issue: build/fixture/protection/test/CLI/GUI/window-
+  summary/browser/final-verification/docs/command results, logs/screens/preimages.
+  Native Windows/PowerShell runtime/Linux-native/other browsers/pads unverified;
+  Wine SH verified. No new ROM/DS/native/performance acceptance, save/ABI/normal
+  runtime replacement/Android/Godot/package/commit/push. No remaining DBG16
+  criterion. Next unfinished DBG17(task/script/unit inspector), then18..22;
+  select a new checkpoint before implementation, reuse all closed01-16 evidence.
+  [Usage](../debug_issues.md),
+  [record](../changes/2026-10-29-add-reproducible-local-issue-reports.json).
+
+- **DBG-15 — complete (2026-10-29).** Latest request “/goal esegui il todo
+  debugtools” follows closed01-14. Menu Start code trace / Save code report and
+  code-start/code-report join pre-dispatch PC/mode/current readonly ROM-RAM bytes/
+  entry disassembly, declared same-ROM labels and actual Native/Missing/System/
+  Hook choice; interpreter-selected is distinct. Filters address/mode/kind,
+  30s/60frames/512events/eightfolders/2MiBJSON, no new snapshot/guest fields/ABI,
+  automatic overwrite/pruning or benchmark. Normal/cost native no-op observer
+  specialization and exact lookup preserved; observed interpreter same step loop.
+  Native source path/hash at trace start is not authenticated loaded memory;
+  labels remain static hints, no code percentage/function extent claim.
+  Frozen publice8bd939 plus9selected overlays preserves audio tool/excludes
+  concurrent extraction. Final featurea9edeb85898f20380a03408d225b179e04826dceed8980b881638f9f33a7d629;
+  default791f1094fdbef3ecd55cffb52c63aa184ef08c71f8f70334daefcc6c248bb52a.
+  Locked/offline builds warning-free. First test compile missing optional source
+  in old synthetic BlockTable fixture; add None only, keep table-source-build-
+  attempt. Intermediate compile no tests; final optional fixture compiled next.
+  74distinct Wine tests pass:2collector/9control/49menu/12frontend/1cost-wrapper/
+  1optional retained-native. Initial optional lacks test TinyCC discovery before
+  frame execution; native-loader-attempt retained. Existing explicit TinyCC path
+  fixes test environment, rerun only missing test,73prior tests remain closed.
+  Actual old ELF ET_REL library ab7aa180.. from selected out/.dll,28859entries:
+  observer off/on same full state/clock at frame22220/clock6241425350 and same
+  6547native/14991fallback. Prefix512shows41native/470missing/1IRQ; events17/18
+  08145c10Thumb ->0801bde8Thumb/no exact table key. Synthetic6/6mixed transition
+  also exact. No new interpreter/native parity or prior ROM acceptance reopened.
+  Default GUI50CLI invocations incl navigation pass:16IWRAM/ARM/interpreter
+  filtered events with authenticated declared IRQ entry,512menu prefix and empty
+  region106554explicitly filtered dispatches. Foreign-ROM/invalid/unarmed/
+  duplicate/capacity preserving reports/running/closed refusals pass. Two-frame
+  A/release recording explicitly Stop/close then verify gives exact endpoint
+  dd841ef6dba845974625e7e5ae5839f86069000066f876a32d0a86bf6fcb0b81.
+  Copy exits0/inactive; six actual ROM/seed/save/library/normal-runtime hash-mtimes
+  preserved. Source maps guard these actual inputs, not historical mutable copies.
+  Chrome1400/620/native/label/empty reports and homepage41indices/4code pass
+  PC/label/kind filters/details/reset/no document overflow, screenshots inspected.
+  Independent final-verification authenticates9overlays/candidates/four exact
+  JSON-HTML reports/limits/labels/library/recording/ready. Removing hooks restores
+  original native dispatch tokens/lookup and exact prior frontend guest runner.
+  Four exitedChrome profiles retired; current candidates/source/failures/native
+  fixture/closed GUI/recording/reports/shared caches kept. No managed disposable
+  dataset trees; ROM-only cleanup helper inapplicable, no live helper.
+  Feature/checklist/durable-state/record/changelog/local links/22ordered IDs
+  (only01-15checked), workspace/basee8bd939/metadata memory and diff checks pass.
+  Concurrent records4 now supplies its own turn record, resolving earlier shared
+  memory gap; its implementation remains untouched/unattributed. Evidence under
+  target/debug-tools-code: selections/protected/build/tests/GUI/browser/final-
+  verification/docs/command-results JSON, logs/screenshots/failed attempts.
+  Native platforms/physical pads/other scenes/live native GUI unverified. No
+  normal runtime replacement, new ROM/DS/native/performance acceptance, save/ABI/
+  Android/Godot/package/commit/push. No remaining DBG15 criterion. Next unfinished
+  DBG16 requires a new selection checkpoint before implementation.
+  [Usage](../debug_code.md),
+  [record](../changes/2026-10-29-add-bounded-code-dispatch-diagnostics.json).
+
+- **DBG-14 — complete (2026-10-29).** Latest user “/goal esegui il todo
+  debugtools” resumes checklist after closed01-13. Isolated menu Start/Save audio
+  capture and CLI audio-start/audio-report collect selected mixed/PSG/HLE/FIFO,
+  producer decisions and actual post-DSP/gain/native-format callback samples.
+  No new callback IO/clock/allocation/lock; publish outside mutex. Limits30s/
+  180frames/2MiB per source/3s or524288callback values/512blocks/64resets/eight
+  folders, explicit limits/omissions, no new snapshot/overwrite/pruning. ROM/
+  runtime/BIOS/build/seed/session pins/effective dataset/input/AV/actual frame keys
+  identified. Physical buffering/XRUN/listening unknown. Offline debug-audio
+  states reads same-frame existing buffers, selected even window, exact raw bits,
+  bounded lossy WAV/HTML and exit0equal/2diverged/3incompatible; no guest execution.
+  Frozen publice8bd939 plus6overlays excludes concurrent extraction. Final feature
+  fd6a5ed7326800a6ceaf65280e96bb2cad9152bd5df4ecd73c423a5bf74b056f;
+  default861d2f7f6a82d50d64b710bc11eb1a6613551ebd89bf6c0fec4944ecbd3db95b.
+  Locked/offline Windows builds warning-free,66distinct initial Wine tests plus
+  2affected collector reruns. BIOS-view type error fixed before accepted builds;
+  retain bios-view-build-attempt. Existing frame8514/clock2391464782 identifies
+  exactly mixed81918/81919 −704 versus −576, including256window, no replay.
+  First GUI shortened-label assertion precedes all guest/capture/recording;
+  wrapper/Xvfb killed, no clean claim. navigation-label-attempt kept; SAME seed
+  copy reopened paused.49successful expected CLI invocations including navigation,
+  three default-runtime reports4CLI/2menu/68Fast frames, source peak0.16015625
+  versus muted callback,68Fast contexts/4resets. Complete4frame recording exact
+  endpoint8be18cca83d3bb430e003c793259825bce67a3b5fbdb2705a378d3d38ebcaaee;
+  explicitly Stop/close before verify, owner exits0/inactive. Initial offline
+  publication-only exit0 is historical; pre-identity-review retains sources/
+  candidates/results. Final feature identity2frame copy verifies seed/runtime/
+  BIOS/build/dataset/input keys1022/1023 and unchanged state; exits0/inactive.
+  Nine identityCLI include changed offline exit2/0/3; no old acceptance repeated.
+  Chrome1400/620 real-time CDP WAV decode/play/pause/seek and no overflow pass;
+  browser muted, no physical listener. Virtual-time decoder wait and homepage
+  early-null-DOM harness attempts retained; only missing homepage retried.
+  Homepage37indices/eightaudio,51local links/guide/filter/search/reset pass;
+  screenshots inspected. final-verification authenticates6overlays/eightreports/
+  raw/WAV/template limits/recording/twoinactive copies and197original hash-mtimes/
+  normal Windows-Linux runtimes. Removing observer restores exact guest runner,
+  producer and callback/DSP. Five exitedChrome profiles retired via receipt;
+  keep candidates/source/reports/failures/shared cache. No managed disposable
+  trees; ROM-only helper preview explicitly inapplicable. No live helper.
+  Feature/checklist/durable-state/record/changelog and own implementation memory
+  coverage complete, metadata-only/diff/local-link checks pass. Global workspace/
+  basee8bd939 memory identifies ONLY concurrent records4_scene_tests.rs and
+  rom_data/validation_tests.rs needing their own changed extraction record;
+  preserve those files, never cover them with DBG14. This integration limitation
+  does not reopen passed audio acceptance. docs and command-results record it.
+  Evidence target/debug-tools-audio: build/fixture/protection maps, tests/states/
+  GUI/identity/browser/final-verification, docs/command-results, logs/screenshots.
+  Native Windows/Linux/hardware/listener/other scenes remain unverified. No new
+  ROM/DS/native/performance acceptance, normal runtime/ABI/save/Android/Godot/
+  commit/push/package change. No remaining DBG14 criterion. Next unfinished
+  checklist item DBG15; choose a new checkpoint before implementation.
+  [Usage](../debug_audio.md),
+  [record](../changes/2026-10-29-add-bounded-audio-diagnostics.json).
 
 - **DBG-13 — complete (2026-10-28).** Latest user “prosegui il todo” resumes
   shared debugging after closed DBG01-12/REPORT-HOME. Added isolated menu/CLI
@@ -73,7 +548,7 @@ An open parent never reopens completed children or rejected experiments.
   22ordered DBG IDs/only01-13checked, workspace/base07be4d2 memory coverage and
   git diff --check pass. Concurrent extraction now supplies its own missing
   metadata28 scene record; prior historical integration warnings do not reopen it.
-  No remaining DBG13 criterion. Next DBG14 audio diagnostics stays unstarted.
+  No remaining DBG13 criterion. DBG14 outcome is recorded above.
   [Usage](../debug_ui.md),
   [record](../changes/2026-10-28-add-bounded-menu-text-input-diagnostics.json).
 
@@ -14449,3 +14924,611 @@ composition, then targeted native fullstates-clock/LoadUndo/DMA, actualCLI and
 ordinarycase. None of those is yet claimed. Full goal ACTIVE/PROGRESS;
 Linux/USA/nativeWindows/new32:9/fullABI/global/fullTODO pending, no metrics,
 fixture/navigation/source replay/parallelDBG changes/commit/push/Android/package.
+
+
+**Selection checkpoint — ROMDATA-03-04-LINKED-RECORDS4-RUNTIME (2026-10-29).**
+Latest request: full ROM_DATA_TODO, EUR focus, new runtime checks Wine only, no
+performance/space campaign. Previous turn PROGRESS: standalone211x4 model and
+one Wine original-reader filter CLOSED/PASS (1567+10 prefixes/all844B); terminal
+summary/current source hashes agree. Source/model not reopened. Workspace now
+clean at user/external commit e8bd939, which includes prior ROM/DBG work and new
+DBG memory record; older pending coverage queue may be superseded, cheap check
+next. Missing deliverable: managed e84-d83/index75 linked-records4.json, immutable
+typed owner/source-byte/field/record counters, correct prior-metadata28 left and
+raw successor right composition, attach/LoadUndo/failed-owner retention/DMA and
+native full-state guest-clock equivalence. Next preserve real inputs/preimages,
+wire seven selected files from accepted525 snapshot (all five existing overlay
+hubs currently byte-identical), add runtime leaf/test, one Windows host-test
+build and one new focused Wine filter. No game/fixture/navigation/old acceptance
+replay or metrics. Actual CLI and ordinary case remain separate missing units;
+Linux/USA/nativeWindows/new32:9/fullABI/global/fullTODO remain pending.
+RUNTIME baseline selection refined BEFORE build: current clean committed
+ e8bd939 includes additional DBG/state-diagnostic sources beyond frozen525 model
+baseline. Cheap hash/path inventory shows19 changed old paths (five are new
+integration overlays) and24 relevant new compile-tree paths; do not omit current
+committed modules by cloning the older snapshot. Freeze current tracked compile
+inputs plus new runtime/test leaves (expected551 files), preserve all525 model
+preimages independently, and run only the NEW runtime filter. This changes the
+new build baseline, does not reopen any source/model/DBG acceptance or execute
+DBG test queue. Prior pending memory gap is superseded: --base07be4d2 nowPASS.
+Integration generator corrected one stale predecessor anchor before any code
+write; no build/test has failed or started. Same e84/index75 owner plan.
+RECORDS4 runtime build started once exec94589: current551-file frozen snapshot,
+525 closed model source preimages retained,76 real prior dataset inputs guarded.
+Exact97d2 corelib/f928 host-test fingerprints isolated only. Seven implementation
+paths frozen; expected77files76resources/e84-d83/one844Bspan/no dependencies,
+14attach2fullset/21native cases across4stop-safe families/844busB/LoadUndo/DMA3.
+Logs target/rom-data-linked-records4-runtime/windows-runtime-build.{jsonl,log,json}.
+No Wine/game process yet. Check this handle/terminal evidence before retry.
+RUNTIME first build94589 terminal101 BEFORE Wine. Own error: new iterator
+predicate passed &&Call to family(Call); fixed one line family(**c). Other36
+errors are stale menu dependency API: JSON says libmenu07ad fresh, while frozen
+and root menu source contain diagnostics/catalog APIs. Preserve failed551 snapshot
+unchanged; new source-snapshot-fixed551 differs only that test line. Isolate exact
+menu07ad + failedhostf928 fingerprints (no globalclean/core rebuild request),
+rebuild once using build-runtime-fixed.py. This is affected-input/failure retry,
+not previous model/source or DBG test replay. prepare-test helper correction has
+explicit old preimage/rebased guard. No code changes to menu/DBG; no Wine yet.
+RUNTIME second build26369 terminalPASS warningfree, edd6c8b5.. retained UNUSED,
+no Wine/log/dataset exists. Before Wine, static exec.rs571 confirms unaligned
+LDRword aligns physical bus access then rotates; two native expected counters
+need0new4prior and4new0raw, not2/2 and2/0. Corrected ONLY test expectations/comment
+(total21new6prior), no production change. Preserve second551 snapshot/exe, create
+source-snapshot-aligned551 and isolate exact f928hosttest only. Third build
+build-runtime-aligned.py is justified by this uncovered hardware-semantic check,
+not an old acceptance replay; one future Winefilter remains planned. Generator
+helper old preimage/rebased guard explicit; original failed551 still retained.
+RUNTIME third build2293 terminalPASS warningfree; accepted candidate
+33144a8c39e141e46d78ecce60a8128353c7a96aaffb7f3fa3cfe4088beec716,
+source-snapshot-aligned551. One actual Wine filter started exec91585, logs/result
+ target/rom-data-linked-records4-runtime/windows-runtime{.log,-result.json}, output
+windows-managed-europe/. No native/runtime result claimed until terminal handle.
+Do not rerun any completed portion or restart for lost observation.
+RUNTIME Wine91585 observed LIVE via write_stdin, latest stage publication77/
+prior75exact/interruption PASS. D-Bus host assertion appeared at startup but
+process continued into real dataset stages; not a test result or restart reason.
+Attach/native/lifecycle still pending; no final-summary or helper completion.
+Accepted candidate33144a8c../aligned551, diagnostic failed551+unused551 retained.
+One actual Wine invocation only; poll91585 or read terminal result before retry.
+
+**ROMDATA-03-04-LINKED-RECORDS4-RUNTIME CLOSED/PASS (2026-10-29).** Terminal
+Wine91585 PASS oneactualfilter. e84-d83/index75/linked-records4.json now77files/
+76resources, all75prior records/files exact, one844Bspan/nodeps. Immutable typed
+owner fourfield classes/211slot mask/seven counters/page713 local+global;
+prior metadata28 left/raw8Bsuccessor right compose perbyte. Original index/
+selector/live dispatch/save/native/CAPI layouts unchanged; USA8-7 untouched.
+Three Windows build attempts:94589 failed own &&Call borrow+stale menu07ad;
+26369 warningfree UNUSED edd6c8b5..;2293 warningfree accepted33144a8c39e141e46d78ecce60a8128353c7a96aaffb7f3fa3cfe4088beec716.
+Pre-Wine alignment-expectation correction only (exec.rs571 word align/rotate),
+no menu/DBG production edit. Current551-file baseline includescommittedDBG;
+failed551+unused551 snapshots preserved, old525model inputs exact.
+Onefilter passespublication77/14attach2fullset/failedownerfullstate/21native
+fullstates-clock withall844rawB poisonedAFTERLoad/setup:13loads4fullgetters1dual
+fieldprefix3fullsetters/fourstop-safe groups; compiled41instructions,
+21newtypedB6priormetadata28B/21dispatch coverageonly. All844busB/211slots/fourfields/
+all211recordends/widths/mirrors/rawoutside/priorleft; unavailabledataset/failed
+attach/Load/privateSlotsLoadUndo sameArcowner; DMA3/CpuSet424halfwords,
+FastSet216words fullstates-clock PASS. Actual237guards/551accepted+two551diagnostic
+hashsets/525modelpreimages/7rootimplementationhashes exact; helper retires only
+interrupted disposable copy. Evidence target/rom-data-linked-records4-runtime/
+{windows-runtime-build*,windows-runtime-result,final-summary,preservation-result,
+artifact-cleanup}.json+windows-managed-europe/offline dataset and native objects.
+Datasete285ffd1c2b595b07515d6d300e668d6b8fb16027b97c305348af40efce75917, manifest5a9456200ae5b219e9dc7f3805a403e6dbc2c42c18b6dfabdf4ef6952637fd4b, newJSONe9c1dc49c709f8821d7702b067a68590c11c904b27c812113d122a1b17362c20.
+Selection CLOSED immediately; feature/gameplay+runtime docs, TODO/inventory,
+PROJECT_STATE and docs/changes/2026-10-29-consume-european-linked-records4.json
+recorded, CHANGELOG rendered. Default/basee8bd939/base07be4d2/metadata-only/CRLF
+checks initially allPASS, final237guards/551accepted+two551diagnostics/525model/
+7current hashes exact. After render, new PARALLEL debug_audio.rs/report.html
+appeared (plus ROM-coverage docs changed): final default/basee8bd939 now report
+only those two uncovered new implementation paths. Metadata-only/CRLFdiff PASS.
+Do not cover those unrelated files with this record or replay our runtime proof;
+older DBG coverage gap is resolved, new audio work is separate. No livejobs or
+new unit selected. Next DISTINCTunit:
+actualCLI registration/create/reuse/normal startup usinge84dataset, then one
+positive ordinarycase. No source/model/native/closed scene rerun merely for
+context. No livejobs, metrics, fixture/navigation/oldproof replay, assistant
+commit/push/Android/package. Linux/USA/nativeWindows/new32:9/fullcallerABI/global/
+fullTODO pending; whole goal ACTIVE/PROGRESS.
+
+
+**Selection checkpoint — ROMDATA-04-LINKED-RECORDS4-CLI (2026-10-29).** Latest
+request unchanged: full ROM_DATA_TODO, EUR focus, Wine-only new checks, no metrics
+or space budgets. Previous turn PROGRESS: e84-d83 managed/native/lifecycle unit
+CLOSED/PASS (77files76resources/all844B/21native fullstates-clock/LoadUndo/DMA3),
+terminal summary reconciled, no livejobs or old proof reopened. Missing: actual
+production CLI registration/create/reuse/no-write/normal startup and observed
+ordinary use. Next: copy accepted aligned551 source bytes unchanged, one Windows
+production build (only exact prod fingerprint; core/menu artifacts already
+validated), canonical exe preimage/hashmtime restore, then three CLI Wine children
+prepare/reuse/new120-frame normal command. Grounded seed: original retained
+07-open-steal/navigation-end.ffstate guest22711, viewed gold StealArmor selection.
+Copy only; normal A at8 held12,120frames to22831 selects that command without
+manual guest edits. This differs from closed Steal42 opening and does not replay
+four negative metadata28 locators. Positive use/fullpair not presumed: inspect
+all seven new counters and resulting image. No new checkpoint derivation yet.
+Current e8bd939 plus own runtime files; parallel debug_audio/ROM-coverage work
+preserved/excluded from accepted551 snapshot, its new memory gap remains separate.
+Linux/USA/nativeWindows/new32:9/fullABI/global/fullTODO remain pending.
+CLI preparation complete: sourcecopy551 is byte-identical to accepted runtime,
+77 real runtime dataset files guarded, normal Stealend22711 copied with hashmtime
+exact, new sparse A8..20 input120 created. Core labels already correct, no source
+overlay or new implementation. Refined cache selection to exact97d2corelib plus
+c665production only, so the new production artifact links the accepted source
+rather than relying on concurrent shared core-library cache state; menu artifact
+was already rebuilt/verified by runtime unit, no globalclean. This is one new
+production build criterion, no prior runtime/model test replay. Canonicalpreimage
+protected; parallel audio files excluded/preserved. Build next.
+CLI build running exec87882, one production build from exact551 accepted bytes,
+logs target/rom-data-linked-records4-cli/windows-cli-build.{jsonl,log,json}; canonical
+preimage saved/finally restore included. No Wine CLI child yet. New run-cli.py
+plans exactlyprepare/reuse/StealArmor120 children,79 managed paths no-write and
+all76 loggedIDhashes/7counts; no positive/fullpair assumption. Check build handle
+before launch/retry. No changes to core/host/model/runtime implementation.
+CLI build87882 terminalPASS warningfree, frozen production
+bcf632fa30c6cb5c31c3d2f34e49dbb4ad3064cec87fcdc2a8dff6c3a1c3b64a,
+canonical hashmtime restored exact. Wine orchestration77415 now LIVE, first child
+prepare observed START. Logs/windows-cli-processes.json in
+ target/rom-data-linked-records4-cli/. Exactlyprepare/reuse/newStealArmor120 planned;
+no new test build/filter or previous proof replay. Inspect same handle/artifacts
+before any restart, no positive consumption/fullpair claim yet.
+
+**ROMDATA-04-LINKED-RECORDS4-CLI CLOSED/PASS-registration; ordinary positive
+PENDING (2026-10-29).** One warning-free production build87882, bcf632fa30c6cb5c31c3d2f34e49dbb4ad3064cec87fcdc2a8dff6c3a1c3b64a;
+551source copy byte-identical to accepted runtime (no overlays), exactcorelib+
+prod fingerprints only, canonicalhashmtime restored. One Wine orchestration77415
+terminalPASS withTHREEchildren prepare/reuse/newStealArmor120, all0. Newgeneration
+77files exactruntime/76IDhashes/79managedpaths hashmtime no-write/old28859native
+cache. Datasettarget/rom-data-linked-records4-cli/windows-cli/resources/8fab1e390cb9d5e695bfdb86e81246892e1aa8c0cb4014db8235ff76538ea632/v1/e84-d83/generation-ginqZq. NormalretainedStealend22711 seed SHA67f2ed33ea6d586615cdf06d19c37204ec8c4b0b5c9c9f4f6784ca6d97f62cfd, viewedgoldStealArmor.
+New inputA8hold12 normal120→22831 reaches TARGETscreen (viewedwidePPM/PNG), ALL
+SEVENnewcounters0. This locator CLOSED negative: no consumption/fullpair claim,
+no reason toreplay identical120 or priorSteal42/fourmetadata28negative locators.
+No newcheckpoint derived; original/copy unchanged. All187guards/551current+
+551runtime frozenhashes exact/helper0. Evidence target/rom-data-linked-records4-cli/
+{windows-cli-build,windows-cli-summary,final-summary,preservation-result,
+artifact-cleanup}.json,3childlogs,normalinput/seedcopy and target image.
+Selectionclosedimmediately; feature/gameplay+runtime docs, TODO/inventory/state,
+CHANGELOG and docs/changes/2026-10-29-verify-european-linked-records4-cli.json
+recorded. Metadata-only/CRLFdiff PASS; default/basee8bd939 report six PARALLEL
+menu/lib, debug_audio.rs/report.html, debug_control.rs, main.rs and play.rs paths
+awaiting their owner's record. Do not add those to our source-only CLI record or
+replay accepted proofs. Final187guards551CLI+551runtime hashes/77runtime files
+exact, no livejobs. No new unit selected. Next DISTINCT criterion:
+normal combat/target resolution with positive records4 reads, using currentprod/
+existingdataset and a normalinput observer/fullpair guard if needed. Current
+CLI runc did NOT save an endpoint ffstate; target image alone is not a new
+checkpoint. A new differing normal plan from retainedseed may include target
+selection/confirmation, but don'trepeat closed120 merely to reconstruct it.
+User authorizationfor normal copied checkpoints persists; no manualguest edits.
+No livejobs,metrics/source-model-runtime replay/assistantcommit/push/Android/
+package; Linux-USA/nativeWindows/new32:9/fullABI/global/fullTODO pending.
+Whole goal ACTIVE/PROGRESS. Parallel debug_audio/ROM-coverage edits untouched.
+
+
+**Selection checkpoint — ROMDATA-04-05-LINKED-RECORDS4-COMBAT (2026-10-29).**
+Latest request unchanged: full ROM_DATA_TODO/EUR, Wine-only new checks/no metrics
+or space budgets. Previous turn PROGRESS: actual e84CLI registration/create/
+reuse/startup CLOSED/PASS,77files76IDs79paths unchanged/old28859cache, one new
+StealArmor-target120 locator all7counts0 CLOSED negative (no saved endpoint).
+Missing: normal target/combat resolution with positive records4 use and one
+complete equivalence pair. Next: normal-input observer plus optional positive
+fullpair guard, one Windows host-test build from accepted551CLI+new leaf. Preserve
+core unchanged, old validator preimage/CLI/runtime proofs and parallel audio.
+Grounded initial plan: retained Stealmenu22711 copy, A8 opens target screen
+already observed, NEW A80 attempts current target confirmation; capture bound180
+with rolling checkpoints/stop after firstread+32 continuation. This differing
+plan adds a new game command, not a repeat of the closed identical120 merely
+for context. If target invalid, inspect the new endpoint/current UI before
+further keys. All actions normal input only; user's checkpoint-copy authorization
+persists. No manual guest RAM/register/task/ROM/cart edit. Source/model/native/
+CLIregistration closed; Linux-USA/nativeWindows/new32:9/fullABI/global pending.
+COMBAT prepared552 acceptedCLI551+normalobserverleaf, hostmodule+5lineoptional
+positive guard; inverse validator byte-exact, core unchanged. Source image now
+uses existing CLI dump_frame for actualwide pixels, no oldclassic-only mistake.
+Exact hostf928 plus menu07ad fingerprints isolated: parallel WIP menu differs
+from accepted551, so new helper links exact accepted dependency rather than
+reuse newer shared cache; no menu/DBG source changed or oldtest rerun. Next one
+hosttest build, then new A8/A80 targetconfirmation normalcapture180. All79managed
+paths/currentprodBCF/core/data/original seeds protected.
+COMBAT onebuild running exec92557;552 frozenfiles/5lineguard+normalobserver,
+exacthost+menu dependencies only. Readonly seed inspection (old authenticated
+EWRAM parser, no execution/mutation) shows live records4 context0200F3F0 all13
+words0 atStealmenu22711, consistent with no resolution yet. Manager0200F4E8,
++DC u16=4B/depth1 (do not reuse older DC25/DC2F labels without semantics).
+NextnewA8/A80 plan stillpendingbuild; no capture process started. Build output
+ windows-ordinary-build.{jsonl,log,json}; check same handle before retry.
+COMBAT build92557 terminalPASS warningfree552/source frozen
+ a5b2fc8428c13280aa4d7910d6b89fb4f23a3b6b391de9ca068114caf0636522.
+First NEW normalcapture exec60060 running01-confirm-current-target, A8/A80 bound180
+fromcopiedSteal22711. Observer wide endpoint+ffstate and rollingpositive suffix;
+no othercapture/fullpair/positiveCLI yet. Samehandle/01 log-result mustbe checked
+before retry; not a replay of oldnegativeA8-only120.
+COMBAT01exec60060 terminalPASS/NEGATIVE180→22891, all7counts0/contextF3F0still0,
+actualtargetstate31depth3/cursor6,5. CLOSED negative, do not rerun sameA8/A80.
+Readonly current actor projection (same proven+8/+A/+C coords, savedunitF6F7)
+finds seven90B-spaced live candidates:3,6height4 (visibleblueGoblin),2,2h4,
+8,10h2,12,9h2,14,4h2,Marche6,5h2,13,2h4. Unitptrs enemy region02002FC4..34EC,
+notonlyparty00080..1F68; first restricted scan missed NPCs and is not liveness
+proof. Grid root02007CB0/16x16 confirms3,5height2flags0dry. NEW route fromsaved01
+endpoint: B8/B64/B120 cancels target/Steal/Action, Up176 selectsMove, A232opens
+Movegrid, Left288/344/400 chooses3,5, bound460. Inspectactualhighlight/cursor
+beforeconfirm; no movement/target index forced. No newbuild; same552testexe.
+COMBAT02exec87647 terminalPASS/NEGATIVE460→23351, all7counts0. Actualwideimage
+shows bluevalidMovegrid/cursor3,5; readonly actorstill6,5/state27depth1. Dryroute
+selection CLOSED (do not replay). COMBAT03 confirmdrymove A8bound180 started
+exec79592 from02endpoint; same552binary/no rebuild. Inspectimage/state after
+movement before menu keys (focus may defaultWait, don't assume Actiongold).
+COMBAT03exec79592 terminalPASS/NEGATIVE180→23531: actualactor3,5h2flags0,
+state25depth5. Wide raw buffer lacks menus; classic oneframeCLI73255 confirms
+Actiongold (UI-only observation, no checkpoint). Discovered serialized framebuffer
+vectors: private readonly project-framebuffers.py authenticates FFSTATE checksum,
+38400classic/1228800wide, matches fullwidePPMbyteexact, exportsclassic without
+moreWine/build/frame replay.03/04/05 projections retained. COMBAT04exec77397
+80→23611 opensAction, actualStealGoldrow1 remembered, FightWhiterow0. COMBAT05
+exec43635 Up8/A80 140→23751 opensFighttarget, source0; cursor stillown3,5. All
+stepsclosed asnavigation/negative activation, no fullpair. NEXT NEW Down8 to
+adjacent3,6Goblin, bound100; inspectactualtarget/HUD or firstpositive before A.
+Same552a5b2fc84 binary, core/79managed paths immutable, no newbuild.
+COMBAT06exec44618 terminalPASS/NEGATIVE100→23851, Down selectsactual3,6h4;
+HUDname Dandree (earlier visual 'Goblin' was only a sprite guess, useactualname).
+COMBAT07exec25602 terminalPASS/NEGATIVE160→24011/contextF3F0still0. 4xnearest
+readonly image clearlyshowsHIT60dmg/80% prediction, HPtargetstill74, actorJP4:
+NO executedattack/effect claim. Both06/07 source0 closednegative phase locators.
+NEXT NEW A8 bound240 from07endpoint CONFIRMS prediction and executes actualFight;
+observe firsttypedread+32frames or endpoint/facing/nextturn. Same552binary; do
+notbranchtoability or recheckold phases before finishing this visibleconfirmation.
+
+
+**Resume selection checkpoint — ROMDATA-04-05-LINKED-RECORDS4-COMBAT
+(2026-10-29).** Latest goal unchanged EUR/Wine/no metrics. Interrupted previous
+turn made PROGRESS: normal observer+5lineguard built once552a5b2fc84.., eight
+captures1540frames and authenticated readonly classic/wide framebuffer projection;
+no positive yet. Cheap current git/state/terminal08 result reconciled. No live
+capture remains:08exec17539 terminalPASS/negative240→24251, all7counts0, saved
+classic image shows DO IT gold / Cancel white. Correct stale intent:08 opened
+finalconfirmation, it did NOT executeFight. Steps01..08 are closed observations,
+not permission to rerun. Source/model/runtime/CLI acceptances stayclosed. Missing:
+normal positive records4 consumption and one fullpair. NEXT NEW step09 A8 on
+visibleDoit, bound360 from08endpoint; same552binary/currentprodBCF/e84dataset,
+no build or navigation replay. Then inspect actualeffect/endturn/facing if not
+positive; normal checkpoint authorization persists, no manualguest edits.
+Parallel audio/debug/ROM-coverage work preserved. Linux-USA/nativeWindows/
+new32:9/fullcallerABI/global/fullTODO pending; whole goal ACTIVE/PROGRESS.
+COMBAT09exec45860 terminalPASS/NEGATIVE360→24611, all7counts0. ActualDoit
+confirmed, managerstate now2Fdepth7 (was31depth7) with actor idleflags0/anim0;
+image no confirmation menu, now familiar final-facing phase. No hit-success or
+AI-table use inferred. Step09 closed. NEXT NEW A8bound800 from09endpoint accepts
+facing/endturn and allows following turn to start; passive stop firstread+32.
+If nextcontrolledunit/menu stops progression, inspect before Wait keys. Same552
+binary, no rebuild, no earlier phase or source/model/native acceptance replay.
+COMBAT10exec48618 terminalPASS/POSITIVE184frames24611→24795 afternormalfacingA8.
+Firsttypedreadrel152 then32frames; rolling144 givesbefore-activation.ffstate +
+activation.input suffix40 guest24755→24795 (neutralkeys, no furthernavigation).
+All7counts223reads223SERVEDbytes/field00=64/01=132/02=11/03=16/tworecords; not
+223distinctB. Actualclassicendpoint shows followingturn Lalle, allfourfields
+positive. Discovery stops now. NewpositiveCLI40 mustreuseBCF/e84generation-ginqZq,
+then SAMEa5b2fc84 compiled testexe onefullpair40/REQUIRE_RECORDS4, all7counts exact.
+No newbuild/prepare/negative/navigation/source-model-runtime replay. All earlier
+phase0 observations stayclosed. One additionalclassicUICLIframe73255 wasonlyUI;
+readonly framebuffer projections avoid furtherWineUIreplays and mutate no state.
+COMBAT positiveCLI exec8443 terminalPASS: sameBCF/e84generation-ginqZq,40f
+24755→24795, all7counts EXACT capture223/223/64/132/11/16/tworecords,76IDhash/
+79paths no-write/old28859cache. No prepare/build/navigation replay. NEXT one
+samecompileda5b2fc84 fullpair40/FFTA_STATE_TEST_REQUIRE_RECORDS4; no furthergame
+inputs/captures, allfourfields alreadypositive. ClosedCLI/source-model-native
+proofs not reopened. No CLI process live.
+
+**ROMDATA-04-05-LINKED-RECORDS4-COMBAT CLOSED/PASS (2026-10-29).** One warningfree
+hosttest build92557 frozena5b2fc8428c13280aa4d7910d6b89fb4f23a3b6b391de9ca068114caf0636522,552copyfrom551acceptedCLI+normalobserverleaf/hostmodule/optional5lineguard;
+coreunchanged, inversevalidator byteexact, exacthost+menufingerprint only. Ten
+normalcaptures2084frames onauthorizedcopies, no manualguest/RAM/reg/task/ROM/cart
+edit: invalidownStealtarget, normalcancel, dry3,5move, Fightselection/adjacent
+Dandree3,6, prediction60dmg80%, Doitconfirmation, facing/endturn.01..09zero phases
+remainclosed; no source/model/runtime/CLIregistration or oldnegative replay.
+One classicUICLIframe73255 UIonly; subsequent readonly FFSTATE framebuffer
+projections authenticatechecksum/38400classic1228800wide andmatchwidePPMexact,
+no furtherWineUI/rebuild/guest changes. Last10exec48618 positive184f24611→24795,
+firstreadrel152+32continuation; rolling144 givesneutral suffix40/24755→24795,
+followingturnLalle visible. COUNTS={"bus_reads": 223, "field00_bytes": 64, "field01_bytes": 132, "field02_bytes": 11, "field03_bytes": 16, "records_used": 2, "source_bytes": 223}.
+223SERVED bytes, notdistinctunion; two physicalslots/allfourfields positive,
+notall211/hit-success/fullABI claim. One sameprodBCF actualCLI40exec8443 PASS:
+all76IDhash/79paths no-write/28859cache andall7counts exactcapture. SAME552testexe
+onefullpair40exec68594 PASS every40fullstates-clock/classic-wide/OAM/5audio;
+all7counts exactCLI. Dispatch[325898, 579939], audio[87780, 87780, 10560, 10560, 87686] coverageonly.
+All210uniqueactualguards552sourcehashes+187closedCLIguards551hashes/3root
+implementationhashes exact; helper0. Evidence target/rom-data-linked-records4-combat/
+{windows-ordinary-build,windows-positive-cli-result,windows-ordinary40-result,
+final-summary,preservation-result,artifact-cleanup}.json and10-finish-facing-next-turn/
+{before-activation.ffstate,activation.input,observation.json}; allnormalplans/
+endpoints/classicprojections/preimages/552snapshot/currentexe preserved.
+Selection CLOSED immediately; feature/gameplay+runtime docs, TODO/inventory/state,
+CHANGELOG and docs/changes/2026-10-29-verify-european-linked-records4-turn.json
+completed. Render/default/basee8bd939/base07be4d2/metadata-only/CRLFdiff allPASS;
+final210uniqueguards552hash+187closedCLIguards551hash/3current hashes exact.
+Prior parallel audio memory-gap queue is superseded by these passing checks;
+its source/coverage work remains untouched. No livejobs or new unit selected. Next NEW sourcefamily lead713744: cached independent8Breader
+D56C2..D57A0 advances8, firstbyte0 SKIPS notterminates, original loop1..127,
+nextindependentroot713B3C. Need its OWN fields/boundary/reference/alias/ownership
+contract; no classification/model/runtime claim yet. Reusecachedsourcewindows/
+rootquery/accepted77data; don'treopenclosed4B/28B/old8Bunrelatedparents. Wholegoal
+ACTIVE/PROGRESS; Linux-USA/nativeWindows/new32:9/fullcallerABI/global/fullTODO
+pending. No metrics/assistantcommit/push/Android/package; parallelaudio untouched.
+
+
+**Selection checkpoint — ROMDATA-01-CONDITIONAL-RECORDS8 (2026-10-29).** Latest
+request unchanged: execute fullROM_DATA_TODO/EUR focus/Wine-only new runtime
+checks/no performance or storage campaigns. Previous turn PROGRESS: declared4B
+source/model/runtime/CLI/ordinary40 case CLOSED/PASS, terminal summary/current
+facts reconciled; no prior acceptance reopened and no livejobs. Missing: OWN
+source contract for independently rooted713744 eight-byte scan. Cached reader
+D56C2..D57A0 shows8stride, skip-zero header, loop ordinal1..127; next713B3C root
+query retained. Next preserve actual ROM/static disassembler/accepted77dataset/
+cached witnesses and inspect only missing prologue/live callees/output consumers/
+successor type; prove fields, extent, pointer identity, aliases and overlap.
+Neutral proposedfamily conditional-records8 until semantics independently shown.
+No build/game/fixture/navigation/proof replay. Linux/USA/nativeWindows pending;
+parallel audio/coverage/report-home edits preserved, HEAD e8bd939.
+
+**Resume checkpoint — ROMDATA-01-CONDITIONAL-RECORDS8 (2026-10-29).** Same latest
+EUR/Wine-only/no-metrics goal and authorized normal-input checkpoint copies;
+source-only selection remains OPEN, no game/build/fixture underway. Cheap reads
+confirm eight retained windows (two cached/six new),92 protected inputs, candidate
+BL callers5F530/5FA20 and both inspected capacity64/u8-filter call sites. Previous
+records4 ordinary40 terminalPASS remains closed. Missing source deliverables:
+exact pins/field semantics/reference and overlap inventory/roundtrip/memory.
+Important verified polarity: first Boolean gate rejects flag1/operand0 and
+flag0/operand1; SECOND rejects flag1/operand1 and flag0/operand0 (opposite), with
+second key0 bypass only. Do not propagate the earlier conversational shorthand
+that both predicates compare alike. Next write private checked source evidence,
+then close this unit and memory; no runtime or prior proof replay. Parallel audio/
+report-home/coverage work preserved; no helper-IWRAM reclassification reopened.
+
+**ROMDATA-01-CONDITIONAL-RECORDS8 CLOSED/PASS source contract (2026-10-29).**
+Declared713744..713B3C/127physicalslots8B/1016B, originalD56A0 maximumordinal127,
+independentnextroot70stride. Allbytes roundtrip SHA d52e829c2ae2e3f8a519fc1fe28797a1005fcdc0e2afc81201e872024608b18b;
+disjoint76accepted e84-d83 owners50490spans. Byte00nonzero gate (zeroSKIPS),
+byte01zero wildcard else equalsfullincomingu32; LE16keys+2/+5, u8operands+4/+7.
+Key<=05ff flag at02001F70+(key>>3), highercounteru8 at02002030+low16(key-0600).
+Firstflag rejects1/0 or0/1; secondflag rejects1/1 or0/0; otheroperands passbool
+branches. Firstcounter>=operand, secondcounter<operand. ONLYsecondkey0 bypasses;
+firstkey0 queriesflag0; firstflagpath mayquerytwice.76enabled/51entirezero rows,
+105live refs104flag1counter/63distinctkeys24aliasgroups; singlecounteroperand2,
+47secondkey0 bypasses. Equalkeys aliaslive predicates, notdistinctphysicalrows.
+Header==index+1/allfilter0 onlyobservations, notvalidationenums/caps. Accepted
+output originalROMpointers/count, capacity decremented AFTERwrite; NOentryguard
+capacity0, fullu32 retained; twoverifiedcallers5F530/5FA20pass64/low8context.
+370EB0/145C10 executablehelper dependencyalreadyclosed; notfillvalue/newasset,
+IWRAMbody/fullABI notreauthenticated. Alignedpointerquery71373C..713B44:1root
+D570C/38nextroot/nointerior-originminus8 inthatrepresentation, notallindirect.
+Eightauthenticatedwindows6new2cached/93pins/96inputhashmtimeguards exact;
+77accepteddata/ROM/statictool/closedreceipts unchanged, artifacthelper0.
+Evidence target/rom-data-conditional-records8/{final-summary,source-contract,
+records,references,reference-aliases,root-references,callers-candidates,
+authenticated-windows,instruction-pins,source-spans,preservation-result,
+artifact-cleanup,memory-check-result}.json; classify-source.py checked oncePASS.
+Staticonly: no build/Wine/game/test/checkpoint/navigation/metrics/proofreplay.
+Source selection CLOSED immediately; feature/TODO/inventory/state + record
+2026-10-29-classify-european-conditional-records8.json updated, changelog rendered.
+CRLF whitespace PASS; final metadata check follows. Default/basee8bd939/base07be4d2
+checks currently identify THREE PARALLEL memory gaps: debug_code.rs,
+debug_code/report.html, rom_data/native_rom_data_residue_tests.rs (all under
+crates/recomp/src). No ownership/testclaim or inventedcoverage added; audio's
+previous record retained. Newdefault/basefail replaces earlier allPASSworkspace
+snapshot; it does NOT reopen ROM acceptances. No livejobs. Next NEW unit is
+ROMDATA-02-CONDITIONAL-RECORDS8: strict standalone model vs exactbaseauth andone
+original-reader Wineproof, preserve raw widths/gates/oppositepredicates/zero
+capacity semantics; ownsource evidence nowclosed. No managed/runtime/CLI/ordinary
+implementation yet. Linux-USA/nativeWindows/new32:9/fullABI/indirect/successor70B
+extent/fullTODO pending. Wholegoal ACTIVE/PROGRESS; sourceonlyunit complete.
+Source final metadata-only/render/CRLF PASS. Default coverage still exactlythree
+parallel paths above; no ROM unit gap. No source proof rerun.
+
+**Selection checkpoint — ROMDATA-02-CONDITIONAL-RECORDS8 (2026-10-29).** Latest
+EUR/Wine-only/no-metrics goal unchanged. Source unit now CLOSED/PASS1016B/127slots/
+8windows93pins96guards, final results/memory reconciled. Missing: standalone
+strict model, exactbase authentication and original selection/predicate oracle.
+Next preserve current core hub preimage, closed source evidence/accepted77dataset
+and frozen accepted552combat snapshot; add ONLY new core model/tests+module,
+freeze554files, one coreWindows build and one Winefilter. Original-loop oracle
+will executeD56CE..D57A2 plus actual flag/counter callees, excluding entry clear
+helper/epilogue/fullABI; no IWRAM helper reconstruction or prior proof replay.
+Synthetic probes may initialize isolatedMachine live RAM/registers/ROM variants,
+never ordinary fixtures. Cover raw widths, distinct gate polarities/key0 rules,
+physical order/original pointer identity, capacity0/1/64; no game/checkpoint/
+ordinary use or managed/runtime claim. Parallel debug/audio/report/coverage work
+preserved, workspace memory gaps remain recorded. Wholegoal ACTIVE/PROGRESS.
+
+**ROMDATA-02-CONDITIONAL-RECORDS8 CLOSED/PASS (2026-10-29).** One warningfree
+core-onlyWindows build25511 exe c6f5406d1f0e91595791aa90d606bf018edd555af4e8d07d2281679962485b44,
+554immutablefiles fromaccepted552combat+twoleaves/onehubmodule,239coreinputs;
+exact300bfingerprintonly, inversehubpreimagebyteexact. Strict Records8 model
+127orderedphysicalslots1016B/onespan/source-byteownership andexactbaseauth
+(fullEURROM/sourceSHA/eightwindows) separatefromshape; no header==index+1/filter0/
+bool/semantic restriction. LivePredicates keepsmutablelive stateoutsidebase;
+eligible/select keepfirstvssecondpolarity/key0difference/repeatedfirstflagquery/
+u8operand/u16key/fullu32context-capacity/zero-wrap/originalROMpointers/order.
+One Winefilter51338 PASS24guards/16base+93isolatedsynthetic original loops,
+D56CE..D57A4 plusactualCCE98/CCF00callees. IndependentPython oracle/typed model/
+actual pointers,count,remainingcapacity,visitedslots,livecalltraces agree.
+Baseflagpatterns/counters0-255/caps0,1,64,FFFFFFFF; syntheticflagkeys0,05FF,
+secondkey0bypass/counterkeys0600,0682,FFFF/operands0,1,2,128,255/header255/
+filter128-255/fullcontextmismatch/zeroheadersuppresscalls. Actualbasebyteunion612,
+synthetic134positions/all8lastslot; NOT all1016B originalreads, all1016Broundtrip
+is separate. EWRAMexactexceptexpectedoutput/IWRAMexceptactualflagreader4Breturnlink
+scratch/SP-r11r12/VRAM-OAM-palette-finalROM exact;198372instructionscoverageonly.
+Noentryclearhelper/epilogue/fullABI/nativeclock proof.120inputguards554frozenhashes/
+3currentimplementationhashes+96closedsourceguards exact; canonical/77datafiles/
+originalinputs/closedproofs unchanged, artifacthelper0 usingcurrentleasehelper.
+Evidence target/rom-data-conditional-records8-model/{windows-core-build,
+windows-model-result,compiled-core-source-hashes,final-summary,preservation-result,
+artifact-cleanup}.json pluswindows-model-europe/result.json, independentcases/model/
+sources, preimages554snapshot/currentexe. Selection CLOSED immediately; finishing
+feature/TODO/inventory/state/record/changelog/memory, no livejobs/newunitselected.
+Schema1/e84-d83/76managedresources/Machine-save-native-CAPI unchanged. No gameplay/
+checkpoint/navigation/closedproof replay/metrics. Next NEW remaining unit:
+ROMDATA-03-04-CONDITIONAL-RECORDS8-RUNTIME (notstarted): proposed e85-d84/index76/
+conditional-records8.json/formatconditional-records8-v1-json, one1016Bspan,
+immutabletyped sixfieldclasses/127slots/page713 local-global composition with
+priorrecords4left/next70Brawright; adapt affected publication/failedattach/
+original-clocknative/LoadUndo/DMA then actualCLI/ordinary. Keep allprior77files/
+76resources exact; preserve current parallelDBG/report/retention edits and use
+currentbaselinecore+matchedhost dependencies, notstalefrontend snapshot. Linux/
+USA/nativeWindows/new32:9/fullABI/indirect/successor70Bextent/fullTODO pending.
+Wholegoal ACTIVE/PROGRESS. Do not rerun source/model acceptance to resume.
+Model final memory/render/metadata/default/basee8bd939/base07be4d2/CRLFdiff ALLPASS;
+parallel owners supplied code-dispatch record and further DBG/retention records,
+resolving earlier three-path memory gap without attributing their tests. Final
+120guards554hashes/3rootimplementation+96sourceguards remainexact; no proofreplay.
+Feature/TODO/inventory/state/CHANGELOG/record2026-10-29-model-european-conditional-records8.json
+complete; source+model selections CLOSED. No livejob or nextunitmutation. Next
+onlyremaining managed/runtime criterion above (notstarted); wholegoalACTIVE.
+
+**Selection checkpoint — ROMDATA-03-04-CONDITIONAL-RECORDS8-RUNTIME
+(2026-10-29).** Latest EUR/Wine-only/no-metrics goal unchanged. Previous goalturn
+PROGRESS: source+strict model/original selection-loop Wine proofs CLOSED/PASS;
+cheap final receipts/status/HEADe8bd939 reconciled, no livejob. Missing: managed
+publication/strictbinding and immutable typed runtime service for713744..713B3C.
+Next preserve model120guards/554sources/currentcore+hostpreimages/accepted77files,
+add e85-d84/index76/conditional-records8.json/1span1016B/nodeps, sixlogicalfield
+counters/127slotmask/page713 composition. One focused Wine integration after
+one Windows hosttest build with current complete matched workspace sources;
+freeze before build, isolate exact corelib/hosttest/menu cachefingerprints.
+Current build inventory565 files vs554 model snapshot:12parallelDBG files and
+model's extractscripting separate; preserve ALL parallel code, don'texecuteits
+queues. Native original-load/predicate-prefix cases plus allbytes/borders/
+failedattach/LoadUndo/DMA state-clock; no ordinarygame/checkpoint yet, no helper
+or closed proof replay. Linux-USA/nativeWindows/new32:9/fullABI/fullTODO pending.
+Runtime implementation nowe85-d84/index76/one1016Bspan/nodeps/78files77resources:
+core/host/budget/file-table integration +immutable6fieldclasses/127slotmask
+(page713) andnewtestleaf. Precompile generatedimport/statfield names corrected
+beforefreezing. First current matched568-source Windows build99811 TERMINALPASS,
+warningfree exe695eac2cda69ae421c7713744d9d6e67cf5af6d16e458a4a26ebeb274bc66204,
+NEVER EXECUTED. Static pre-Wine review found inherited native dispatch ceiling4096
+insufficient for new full127slot selection loop (no runtime failure). Preserve
+first568snapshot/exe and dispatch-budget-preimage.rs; root testbound ONLY now20000,
+no other implementation change. New immutable568source-snapshot-fixed and exact
+hosttestfingerprint invalidation; second build started frombuild-runtime-fixed.py.
+No Wine process/log/windows-managed-europe exists yet. Selectedscope17native
+state-clock cases:14loads (8realfieldLDRB+2width+4edges),2key prefixes,1full
+D56CE..D57A4selection loop+actualflag-countercallees. Five stop-safe groups:
+singleop separatedbyPCbit1, twoLEkeyprefixes, onefullscan; stops never compiled
+within their family. Need terminalbuild then SAMEfixedexe ONE Winefilter; do
+not run unusedfirstexe/recreate snapshots or rerunclosedsource/model. Keep
+current565baseline+twoleaves+extractscript568 vs554model receipts and77priorfiles.
+Runtime Wine47100 TERMINALFAIL101 after publication78/prior76 exact/interruption,
+14attach2fullset/failedownerfullstate PASS and first16native cases PASS (each
+already compared complete states-clock); case16 fullselection failed BEFORE its
+fullstatecheck on callback-source count607 vs rawPC-observer609. No globalPASS,
+no bus/lifecycle run yet; retain livefailed diagnostics/interruptedcopy. Exact
+reason not yet established: must compare real typed/native owner deltas and
+actual source-reading PCs, then fullstate vsraw. Do NOT assumecompilerfault or
+silently change expected609to607. Next NEW diagnostic continuation will reuse
+accepted78dataset and5existing objects/closedfirst16cases, skippublication/
+attach/first16; instrument onlyfullselection per-dispatch owner-vs-CAPI deltas,
+check fullstates first, then remainingbus/lifecycle. Newbuildtest-only changes,
+all runtimeimplementation unchanged; don'treplay source/model/oldtests. First
+unused4096build695e.. and secondfailedtestbuildf9ff.., both568snapshots retained.
+Prepared remaining-only diagnostic test and thirdbuild72782 via
+build-runtime-remaining.py, source-snapshot-remaining568. priorsecond568snapshot/
+failedf9ffexe/log/result/native-count-preimage retained asfailed_native_build;
+firstunused568snapshot695e asdiagnostic_build. Onlytestleaf changed: env
+FFTA_CONDITIONAL_RECORDS8_REMAINING retains fullcaseonly, skips emptygroupobjects,
+records rawPC-observer/typedactual/nativeactual/CAPI andperdispatch gaps into
+windows-managed-europe/remaining-native-observations.json, comparesfullstates,
+then runs once-uncoveredbus/lifecycle. Diagnostic bypasses original callbackcount
+assert ONLY underexplicitremainingenv; default fulltest stillstrict andunaccepted.
+remaining-result.json mustbe labeled PASS-remaining-diagnostics, NOT globalPASS;
+need sourceexplanation orfix afteractualtrace. Dataset78hashmtime guards pinned
+beforeretry; no publication/14attach/first16 repeats, no oldsource/model tests.
+Afterterminalbuild run ONE exact test
+european_conditional_records8_remaining_native_and_lifecycle withremainingenv1,
+FFTA_CONDITIONAL_RECORDS8_RUNTIME_ROOT existingwindows-managed-europe andsame
+TinyCC/ROM/Wine environment. run-runtime.py isOLDFAILED ORCHESTRATOR; don'treuse
+it (asserts noexistingroot andrunsfullpublication). No Wine retry startedyet.
+Remaining Wine64297 TERMINALPASS-DIAGNOSTIC: one fulloriginal selection loop matches
+raw BOTH typed/native complete serialized states/clock. Realtyped609/native609/
+rawPCobserver609; wrapped directread callbacks607. Exactlytwo native dispatches
+at080D5732/080D5772 serveactual2B vswrapped1B each (remaining-native-observations).
+All1016busB/sixclasses127slots/all127ends/LoadUndo sameArc/unavailablefiles and
+DMA3/CpuSet510halfword/FastSet256word fullstates-clock PASS. No publication/
+14attach/first16 repeated. Rootmodel/runtimebytes unchanged, onlyharness evolves.
+Fivefailed native objects copied tofailed-native-objects/ beforediag overwrite;
+new static native-gap-disassembly.txt shows bothPC wrappers enter grouped
+'g_080cce99', no newgameexecution. Source emit_shell uses realinterp_one andits
+Bus bypasses directread wrappers, motivating completecallback observation.
+Finalpreparation adds observerwrapper for RT_API.interp_one (callsoriginal,
+countsowner delta+separateFALLBACK, no ABI/runtime change), keeps strict original
+609count assertions plus typed/nativeactual equality/no unattributed dispatches.
+Final test onlyfullcase, noalreadyacceptedbus/repub/attach/first16. Preserves
+successfuldiagnostic568snapshot/exee9f78b50.. asdiagnostic_remaining_build; final
+source-snapshot-final568, rootleaf formattedbeforefreeze, exacthosttest cache.
+FourthWindows build62085 via build-runtime-final.py started; no finalWine yet.
+Next exactremainingenv1+FINAL_OBSERVER1 test
+rom_data::conditional_records8_runtime_tests::european_conditional_records8_final_native_observer
+withsameexistingroot/TinyCC/Wine; expect609total/607direct/2fallback andfullstate
+clock again. Verifyactualfallbacktrace before accepting; stillNOglobalPASS.
+Old run-runtime/oldclose-runtime unsuitableforcombinedfinalresult; write updated
+remainingfinalrunner/closure integrating preserved14attach+16cases andalready
+PASSbus, notrerunningthem. All4builds sofarwarningfree (fourthnotterminalyet),
+firstunused; source/model receipts remainclosed. WholegoalACTIVE/PROGRESS.
+
+**ROMDATA-03-04-CONDITIONAL-RECORDS8-RUNTIME CLOSED/PASS combined scopes
+(2026-10-29).** Finalstrict observer Wine33590 terminalPASS: actualtyped609=
+actualnative609=rawPC609=allcallback609;607direct+2realinterp_one fallback, no
+unattributeddispatch. State/clock exact; observeronlyfix, runtime/core/CAPI ABI
+unchanged. Initial607vs609 failure isnowexplainedandclosed: directread wrappers
+omittedrealinterp_one; two groupeddispatches5732/5772. FourWindowsbuilds all
+warningfree: first695e..unused(dispatchboundpreflight), secondf9ff..firstfilter
+observerfailafter16acceptedcases, thirde9f78b50..remainingdiag/fullstate+busPASS,
+fourthacceptedf60055e6d77ae4039bc0fdfa872a3182c47f14d40991c10307ae604576eb1371.
+ThreeWinefilters: publication14attach2fullset+first16nativePASS then17thcounterFAIL;
+remainingfullcaseactualowner/fullstate-clock+buslifecyclePASS; finalcompletecallback
+observer/fullstate-clockPASS. Publication/attach/first16/bus notrerun onfinal.
+Logical17nativecases allcomplete-state/clock (14loads+2LEkey+1selection); native
+path631SERVEDnewB=629direct+2fallback and5priorrecords4B, notdistinctunion or
+fullycompiled-instruction claim. Fivepreservedobjects118entrypoints; fullcase
+100entries/392dispatchcoverageonly. e85-d84/index76/conditional-records8.json/
+formatconditional-records8-v1-json,78files77resources/all76priorrecords+payloads
+exact/one1016Bspan/nodeps. Immutable6classes/127slots/twowordmask/9counters,
+local-globalpage713/records4left/rawsuccessorright composition. All1016typedbusB/
+6classes127slots/all127ends, unavailablefiles/failedattach fullstate-owner,
+LoadSlotsLoadUndo sameArc and DMA3/CpuSet510halfwords/FastSet256words fullstates-
+clockPASS.261actualguards/568acceptedfrozen+three568diagnostics/554modelpreimages/
+7rootimplementationhashes/77old78accepteddata exact. close-final.py terminalPASS;
+legacyclose-runtime.py unexecuted obsolete (wouldwronglyrequireinitialfullPASS).
+Dataset windows-managed-europe/offline dataset SHA3f13d6e5432b0dbff85284d15013b5c6179d877f3f9c4532f953acb81e5db004,
+manifest2b4221213ebed5a65d55642e66743cf9ce0b02cb27563c30906b2e82167abbb6,
+JSONed324120046a3e854da483d311c23822cdb68aa860449ca986887fa99836c254.
+Source selection/model remainsclosed, no game/checkpoint/navigation/metrics or
+oldproof replay. Selection CLOSED immediately, no livejobs/newunitmutation.
+Finishingfeature/TODO/inventory/state/record/changelog/checks andretention;
+actualCLI/ordinary consumption nextNEWunits (notstarted). Linux-USA/nativeWindows/
+new32:9/fullABI/indirect/successor70Bextent/fullTODO pending; wholegoalACTIVE.
+Runtime closure documentation/TODO/inventory/state/record
+2026-10-29-consume-european-conditional-records8.json andCHANGELOG complete.
+Requiredretention helper retired ONLY interruptedcopy; accepted78files, all
+preimages/3diagnostic568snapshots+568accepted/554model/objects/logs/exes retained.
+Final261guards/568accepted+3x568diagnostic/554model/7roothashes exact. Metadata/
+render/CRLFdiff PASS. Default/basee8bd939/base07be4d2 checks currently report ONE
+PARALLEL uncovered scripts/package_ffta_portable.py; inspected diff packages
+publicDBGdocs/tools, outsideROMunit/noteditedortested here. No inventedrecord
+coverage or packaging/tests undertaken. Earlier3debug-code memory gap stays
+resolved; this newscriptgap supersedes it, doesn'treopenROMacceptances.
+No livejobs. NextNEW ROMDATA-04-CONDITIONAL-RECORDS8-CLI (notstarted): freeze same
+accepted568 source-snapshot-final byteexact withNOoverlays (testmodules cfgtest
+only), oneproductionWindowsbuild/exactcorelib+prodfingerprints/canonicalpreimage
+hashmtime restore, actualWine prepare/reuse/startup e85generation. Reuse accepted
+78dataset comparison/all77IDhash/managedpaths no-write/existing28859nativecache.
+Ordinarypositive newfamily remainsseparate; don'trepeat closedrecords4/metadata28
+capture or model/source/native/registration results. Last40battle seed may be
+negative fornew8B; don'tinferuse. Later normalpub/list route may be a locator,
+but familyname remainsneutral untilproven; checkpoint normal-input authorization
+persists, no manualguestedits. Reconcilecurrentrootparallelchanges/caches before
+build; testsaccept onlythisfrozenROMscope. Linux-USA/nativeWindows/new32:9/fullABI/
+indirect/successor70Bextent/fullTODO pending. WholegoalACTIVE/PROGRESS.
+Latestdefault memorycheck (afterrender) now lists FIVE concurrent paths:
+scripts/{package_ffta_portable.py,linux/debug_runtime.sh,linux/report_home.sh,
+windows/debug_runtime.ps1,windows/report_home.ps1}. Launcher diffs inspected,
+preserved; separate packaging work, noROMunit implementation gap. Metadata/
+CRLFdiff stillPASS; earlierbasechecks recordedonepackagerbeforelauncherchanges.
+This latestfivepathstatus replaces onepathline above. Record/receipt updated
+withoutfabricatedcoverage. No newruntimejobs/proofreplay; nextCLI queue unchanged.

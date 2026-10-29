@@ -33,12 +33,15 @@ pub(crate) struct Manifest {
     has_dataset: bool,
     // Session-relative names only. Mutable progress/config/cache are never pinned.
     pins: BTreeMap<String, String>,
+    #[serde(default, skip_serializing_if="Option::is_none")]
+    artifact_coordination: Option<String>,
 }
 
 pub(crate) struct Session {
     pub root: PathBuf,
     pub manifest: Manifest,
     _lease: File,
+    _artifact_lease: crate::artifact_lease::Lease,
 }
 
 pub(crate) fn present() -> bool {
@@ -140,11 +143,13 @@ pub(crate) fn current() -> Result<Option<Session>, String> {
 }
 
 pub(crate) fn open(root: &Path) -> Result<Session, String> {
+    let artifact_lease=crate::artifact_lease::Lease::acquire(root,"runtime")?;
     let manifest = read_manifest(root)?;
+    if manifest.artifact_coordination.as_deref().is_some_and(|p|p!=crate::artifact_lease::PROTOCOL){return Err("Unsupported artifact coordination protocol".into());}
     let lease = OpenOptions::new().create(true).truncate(false).read(true).write(true)
         .open(root.join("session.lock")).map_err(|e| e.to_string())?;
     lease.try_lock().map_err(|_| "This debug session is already running")?;
-    Ok(Session { root: root.to_owned(), manifest, _lease: lease })
+    Ok(Session { root: root.to_owned(), manifest, _lease: lease, _artifact_lease:artifact_lease })
 }
 
 impl Session {
@@ -196,6 +201,7 @@ pub(crate) fn create(destination: &Path, source: Source<'_>) -> Result<PathBuf, 
     let root = std::path::absolute(destination).map_err(|e| e.to_string())?;
     fs::create_dir_all(root.parent().ok_or("Session needs a parent directory")?).map_err(|e| e.to_string())?;
     fs::create_dir(&root).map_err(|e| e.to_string())?;
+    let _artifact_lease=crate::artifact_lease::Lease::acquire(&root,"session-create")?;
     // Manifest is published last. I/O failures retain an incomplete private folder.
     fs::write(root.join(".gitignore"), "*\n").map_err(|e| e.to_string())?;
     let mut pins = BTreeMap::new();
@@ -235,7 +241,7 @@ pub(crate) fn create(destination: &Path, source: Source<'_>) -> Result<PathBuf, 
     }
     let label = root.file_name().unwrap_or_default().to_string_lossy().chars().filter(|c| !c.is_control()).take(48).collect();
     let manifest = Manifest { schema:1, kind:"ffta-debug-session".into(), label, interp:source.interp,
-        real_bios:source.bios.is_some(), has_state:source.state.is_some(), has_dataset:source.dataset.is_some(), pins };
+        real_bios:source.bios.is_some(), has_state:source.state.is_some(), has_dataset:source.dataset.is_some(), pins, artifact_coordination:Some(crate::artifact_lease::PROTOCOL.into()) };
     fs::write(root.join(MANIFEST), serde_json::to_vec_pretty(&manifest).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
     Ok(root)
 }

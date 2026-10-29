@@ -193,3 +193,35 @@ exited with status 0. This used native Wayland/Vulkan and the real audio stream
 (muted). The temporary injection was removed before packaging; this was an
 automated close-event test, not a physical title-bar click. Physical-controller
 and native Windows shutdown checks remain unverified for this change.
+
+
+## Shared debugging tools in the portable archive
+
+The package now includes the [common five-flow guide](debug_tools.md), detailed
+debug docs, offline Python/templates and PowerShell/Bash launchers. The runtime
+does not require Python for its built-in commands. Python3.11 or an explicitly
+prepared Docker image is needed only for offline homepage/artifact/campaign tools.
+Read the guide's Wine/native-Windows/Linux matrix; packaging alone establishes
+no platform or gameplay acceptance. Audit/watch require an audit-enabled runtime.
+
+Run scripts/windows/debug_runtime.ps1 COMMAND... or
+bash scripts/linux/debug_runtime.sh COMMAND... from any working directory;
+relative runtime paths resolve from the selected bundle. Runtime command logs
+live in Data/config/debug-logs; offline launcher logs in target/build-logs.
+PowerShell artifact/campaign -Docker precedes the tool command and all Python
+flags are forwarded without PowerShell common-parameter interception.
+
+PACKAGE-MANIFEST.json lists exact distributed file hashes and original-input
+hashes. Public files/licenses/scripts/docs are selected explicitly, without
+scanning personal Data or the runtime directory. Data is created empty.
+Repository-only references in distributed docs become labelled plain text;
+third-party notices remain byte-identical. No ROM/BIOS, snapshots, SRAM,
+recordings, diagnostics, native cache or generated game source is packaged.
+
+Host distribution builds should remap compiler source paths before packaging:
+Rust --remap-path-prefix for checkout/home/cache roots, and TinyCC/build.py
+maps its source and adapter roots with -ffile-prefix-map. The shared packager
+accepts repeatable --private-prefix PREFIX to reject embedded UTF-8/UTF-16LE
+private paths before replacing the previous archive. It never rewrites binaries;
+the manifest records only the number of prefix checks. DBG-22 uses this guard
+with its isolated remapped Windows binaries.

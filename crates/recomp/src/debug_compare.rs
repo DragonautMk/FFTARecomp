@@ -538,6 +538,9 @@ pub(crate) fn cmd(args: &[String]) -> u8 {
     error("Use debug-compare create [replay create options] [--frames N] [--backend interp|native] [--dataset DIR] [--audio preserve|arm-hle], then run/cancel replay.json".into())
 }
 fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
+    create_from_menu(args,false)
+}
+pub(crate) fn create_from_menu(args:&[String],validate_only:bool)->Result<PathBuf,String>{
     let (mut frames, mut backend, mut dataset, mut audio) =
         (u64::MAX, None, None, "preserve".to_owned());
     let mut rest = Vec::new();
@@ -557,9 +560,9 @@ fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
             }
         }
     }
-    crate::debug_replay::create_cmd_comparison(
-        &rest,
-        &Request {
+    crate::debug_replay::create_dispatch(
+        &rest,None,None,
+        Some(&Request {
             settings: Settings {
                 frames,
                 backend: backend
@@ -567,7 +570,7 @@ fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
                 audio,
             },
             dataset,
-        },
+        }),validate_only,
     )
 }
 #[cfg(test)]

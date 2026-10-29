@@ -22,7 +22,8 @@ DEBUG_DOCS = ('debug_tools', 'debug_diagnostics', 'debug_sessions', 'debug_catal
               'debug_recordings', 'debug_replays', 'debug_rom_audit', 'debug_captures',
               'debug_comparisons', 'debug_control', 'debug_probes', 'debug_graphics',
               'debug_ui', 'debug_audio', 'debug_code', 'debug_issues', 'debug_gameplay',
-              'debug_artifacts', 'debug_recent', 'debug_campaigns', 'report_home')
+              'debug_artifacts', 'debug_recent', 'debug_campaigns', 'report_home',
+              'debug_operations', 'debug_content', 'debug_selector')
 DEVELOPMENT_DOCS = ('LOCAL_ARTIFACTS', 'MEMORY_WORKFLOW', 'DEBUG_TOOLS_TODO')
 TOOL_FILES = (
     'scripts/artifact_coordinator.py', 'scripts/local_artifacts.py',

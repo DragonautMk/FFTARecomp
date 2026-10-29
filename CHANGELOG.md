@@ -3,6 +3,113 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-29 — Verify ordinary European selection-threshold travel equivalence
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a test-only passive six-counter normal-input observer and optional positive-use guard; preserve core/runtime and verify inverse integration edits against accepted preimages.
+- Close one new ordinary e87 threshold-use case from an authorized copy of the retained Giza map checkpoint, with discovery stopped at the first positive capture.
+
+**Validation**
+
+- Eight new bounded caller windows/354 opcode pins authenticate directD3724 toD3228 and low8 nonzero caller gating. Four readonly checksum-authenticated EUR seeds locate guard6/count1-2; cached Giza map image inspected.
+- One warning-free579-source Windows test build8f3bee9797a1bb3666697ba487ae67b83584537646d9ef05ba9d2c7642b0d7de uses578 accepted CLI files plus one leaf; core/runtime unchanged and inverse hub/optional five-line validator guard exact.
+- One normal A12 capture executes129frames19049 to19178, first source relative97/guest19147; rolling96 yields33-frame suffix19145 to19178. One bus read/one served threshold byte/one threshold position, weight counters zero.
+- Same22af4132 production CLI/e87ZloxMx runs the positive33 suffix; same8f3bee97 test executable passes every33 complete states/clocks/central-wide pixels/OAM/five audio streams. All six counts exact across capture/CLI/pair,79ID hashes/82 managed path hashes-mtimes/28859 native cache retained.
+- Fullwide284x160 PPM authenticated against complete FFSTATE, readonly classic PNG inspected as world-map/calendar near Giza.140 guards/579frozen/578CLI/three current hashes/original seeds/ROM/canonical/native cache/TinyCC exact; artifact helper retires zero paths.203258/519441dispatch and audio counts are coverage only.
+- Final changelog/default/base999d0a6/metadata project-memory checks and CRLF-aware whitespace all pass.
+
+**Limitations**
+
+- Ordinary proof covers one threshold position only, no weight position or event/mission outcome; wider ordinary use remains pending. Both arms use the same old native cache, no whole interpreter/native parity claim.
+- Full routine ABI, numeric-helper internals/distribution, indirect references, opaque gap/event-catalog extent, Linux, USA, native Windows, new32:9 and full ROM TODO remain pending.
+- No manual guest RAM/register/task/ID/ROM/cartridge edit, numeric/RNG forcing, source/model/native/registration proof replay or performance/storage campaign. Parallel frontend edits remain outside the frozen snapshot.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-selection-threshold-travel.json)
+
+## 2026-10-29 — Verify actual European selection-byte CLI registration and reuse
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Close actual e87-d86/index78 CLI registration/create/reuse/startup acceptance using the same578 accepted runtime sources and80-file dataset; retain ordinary positive/equivalence as pending.
+
+**Validation**
+
+- One warning-free Windows production build22af4132047c497ec11c461cd911f7a531b50062113578b841c4aa5be37da1d1 from578 runtime-identical files/no overlays; canonical executable hash/mtime restored.
+- One Wine orchestration runs create/reuse/startup1, all exit0.80 generation files equal accepted runtime,79 logged ID/hash pairs exact,82 managed paths hash/mtime unchanged; old28859-block native cache retained.
+- Normal copied checkpoint advances24755 to24756 on one neutral frame; all six usage counters zero, no positive scene acceptance or new checkpoint derivation.192 guards/578CLI+578runtime source hashes/ROM/native cache/TinyCC/original seed/canonical pass; artifact completion retires zero paths.
+- Final changelog/default/base999d0a6/metadata project-memory checks and CRLF-aware whitespace all pass.
+
+**Limitations**
+
+- One positive ordinary suffix and complete state/clock/image/OAM/audio equivalence remain pending; neutral startup is attachment evidence only.
+- Full routine ABI, numeric-helper internals/RNG distribution, indirect references, opaque gap/event-catalog extent, Linux, USA, native Windows, new32:9 and full ROM TODO remain pending.
+- No source/model/runtime proof replay, navigation, ordinary fixture edit or performance/storage measurement. Parallel frontend work remains outside this build.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-selection-byte-tables-cli.json)
+
+## 2026-10-29 — Verify ordinary European mission-record use on the Giza information page
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add a passive13-counter normal-input observer and optional positive-use guard; verify the33-frame Giza Plains information suffix using actual CLI and complete state/clock/image/OAM/audio replay.
+
+**Validation**
+
+- One warning-free574-source Windows host-test build3d21e89cd252485aed02065e58c158712772c6e677582ff284e7af800172528e derives from CLI573 with one new leaf/module and five-line guard; inverse hubs byte-exact, core/runtime unchanged.
+- One normal81-frame capture from retained Missions-list14969 uses Down3/A12, first read relative49/guest15019 and rolling48 produce33frames15017to15050. Actual Wine child/test pass; a missing postcapture steps list is repaired only by registering completed outputs, without replay.
+- Cached classic240x160/scale seed proof is reused; endpoint fullwide284x160/bitrep PPM matches authenticated FFSTATE and derived classic PNG shows Giza Plains mission information page1/3/rank1. No manual guest RAM/register/task/ROM edits or cartridge writes.
+- Five served bytes/five requests/allpacked/one physical record; other nine classes zero. All13 counters agree between capture, existing738b7f20 CLI/e86 generationhu7Ei8 and one same-test-executable33-frame Wine full pair; every complete state/clock/classic-wide pixels/OAM/five audio streams agrees.
+- All133 guards/574 frozen hashes/573 CLI hashes/three current hashes/78 logged ID/hash pairs/81 no-write paths/old28859-block cache remain exact; artifact helper retires zero paths. Dispatch168998/217502 and audio72418/72418/8712/8712/72342 are coverage only.
+- Initial generated changelog/metadata/default/base999d0a6/CRLF checks pass. Latest default/base checks now report four new concurrent tool-input paths without their own changed record; metadata/CRLF and all133 source/preservation guards still pass.
+
+**Limitations**
+
+- This covers packed-byte use by one mission-information case; no all-fields/all512-record coverage, distinct-byte union, mission acceptance or battle outcome is inferred.
+- Both ordinary arms use the same old native cache; whole interpreter/native parity, full caller ABI, indirect references, other ordinary field classes, successor-array/event-catalog contracts, Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+- No source/model/runtime/registration or old620/397-frame route is repeated. Parallel menu/content/debug/package changes are preserved and excluded from the frozen builds; no performance/storage campaign, Android/package/assistant commit/push.
+- Workspace-wide memory coverage awaits separate records for crates/menu/src/tool_inputs.rs and crates/recomp/src/{debug_code.rs,debug_inputs.rs,save_state.rs}. Their parameter/editor changes are preserved, excluded from frozen574 sources and not validated by this unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-mission-records70-giza-info.json)
+
+## 2026-10-29 — Verify production CLI registration and startup for European mission records
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record actual e86-d85 production CLI create/reuse/startup against the accepted79-file/78-resource runtime generation, preserving closed source/model/native/lifecycle proofs.
+
+**Validation**
+
+- One warning-free Windows production build738b7f204da2fb45b0615c3673114ec604fb72a654810edbb3567be3d996f382 uses573 byte-identical runtime sources without overlays; affected core-library/production/menu fingerprints isolated, canonical executable hash/mtime restored.
+- Three Wine CLI children exit0: prepare created/reused and runc neutral startup1. All79 files equal the accepted runtime, all78 logged ID/hash pairs match,81 managed paths retain hashes/mtimes and the old28859-block native library is loaded unchanged.
+- Private helper generation initially asserts on the wrong dictionary-index token before any Wine child. Only generator-section correction follows; no repeated source copying, build or actual CLI preparation.
+- One neutral frame on an exact normal seed copy24755to24756 reports all13 mission-record counters0. All195guards/573CLI and573runtime hashes/79accepted files/originals/canonical/cache/loader remain exact; artifact helper retires zero paths.
+- Generated changelog, metadata, default/base999d0a6 project-memory coverage and CRLF-aware whitespace checks all pass.
+
+**Limitations**
+
+- Positive ordinary consumption and complete state/clock/image/OAM/audio equivalence for this family remain pending. One neutral frame proves registration/startup and is not a new locator acceptance.
+- Linux, USA, native Windows, new32:9, full caller ABI, indirect references, successor-array/event-catalog contracts and full ROM TODO remain pending. No performance/storage campaign, Android/package/assistant commit/push.
+- Parallel menu/content/debug/package work is preserved and excluded from the frozen CLI sources; its tests are not attributed to this unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-mission-records70-cli.json)
+
 ## 2026-10-29 — Verify European linked four-byte records during a normal following turn
 
 Type: added. Platforms: Windows.
@@ -53,6 +160,61 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runt
 
 [Change record](docs/changes/2026-10-29-verify-european-linked-records4-cli.json)
 
+## 2026-10-29 — Verify ordinary European conditional-record use at the Pub Rumors entry
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a passive normal-input observer and optional positive-use guard for the nine conditional-record counters, preserving original ROM/guest state and existing validator behavior.
+- Close one ordinary Rumors-entry use and complete per-frame equivalence for the declared127-slot/1016-byte family, using retained normal menu inputs/checkpoints and the existing e85 production CLI/data/native cache.
+
+**Validation**
+
+- One warning-free Windows host-test build63584945ab7a1ff6d0cdbf9ddc98b6b274ae0b86ec6640caf8915ee0250e54ba from569 frozen files: CLI568 plus observer leaf/module/optional5lineguard; both inverse preimages byte-exact, core/runtime unchanged, exact host-test fingerprint isolated.
+- Two normal captures254frames: B180zero from retained Missions list14969, then Up3/A12positive74to15223. First source readrel42 plus32continuation yields rollingrel32 suffix42/15181to15223. All6classes positive:468reads468servedB/gate127/filter76/key02152/operand0476/key0534/operand073/127physicalslots including zero heads.
+- Same72d44985 CLI/e85generation-hw22uM replay42 passes all77IDhashes/80managedpath no-write/28859oldcache and all9counts equal capture. Same63584945 executable one full Wine pair passes every42complete state/clock/classic-wide/OAM/5audio with exact CLI counts; both arms use the same old native cache.
+- Read-only classic projection authenticates full FFSTATE payload/ROM hash/38400classic1228800wide vectors and complete matching native PPM. Older seed PPM isclassic240x160 with5bit*255//31, correcting recent-wide-only assumption without game execution; unlisted old PPM/PNG treated as auxiliary, original guarded FFSTATE/observation remain exact.
+- All143actualguards/569frozen/568CLI/threecurrent hashes and80managedfiles/canonical/ROM/loader/cache/original normal seeds exact; artifact helper retires zero paths. No old620/397route or source/model/runtime/registration proof replay, no manual guest edit/cart writer/performance or storage campaign.
+- Generated changelog/metadata, initial default/base999d0a6 coverage and CRLF-aware whitespace checks pass; debug-operation records resolve the earlier gap. A later final default check identifies five newly concurrent menu implementation paths without their changed record; this ROM unit remains covered.
+
+**Limitations**
+
+- 127 touched physical slots include51zero-gate headers;468served bytes are not a distinct union, all fields of all rows, all flag/counter branches or full caller ABI. Endpoint shows Heard the latest rumors; displayed rumor list, selected rumor and completed-mission outcome are not inferred.
+- The ordinary pair uses the same old native cache in both arms, so it does not establish whole interpreter/native parity. Dispatch202704/276411 and audio counts92168/92168/11088/11088/92106 are coverage only.
+- Linux, USA, native Windows, new32:9, all indirect references, successor70-byte extent and full ROM TODO remain pending. No Android/package/assistant commit/push; parallel debug-operation changes remain outside the frozen validation scope.
+- Latest workspace-wide memory coverage awaits separate concurrent menu canvas/content-selector/lib/theme records. Those inspected changes are preserved, outside this frozen ROM validation; earlier debug-operation gaps are resolved.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-conditional-records8-pub.json)
+
+## 2026-10-29 — Verify production CLI registration and startup for European conditional records
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Register the actual e85-d84 production CLI create/reuse/startup outcome against the accepted78-file/77-resource runtime dataset, preserving earlier source/model/native/lifecycle outcomes.
+
+**Validation**
+
+- One warning-free Windows production build72d44985a5e6531605990cb7769378195c5eb65cf1894de099b8764ad4d22c9f from568 byte-identical runtime sources/no overlays; exact corelib/production fingerprints isolated, unchanged selected menu source, canonical executable hash/mtime restored.
+- Three actual Wine CLI children exit0: prepare created/reused and runc startup. All78 files equal the accepted runtime dataset, all77 logged resource ID/hashes match,80 managed paths retain hashes/mtimes and the old28859-block native library is loaded unchanged.
+- Successful prepare precedes a stale private helper index75 assertion; correcting it to76 resumes only reuse/startup without repeating creation or compilation. Initial helper/log/child receipt is retained; no resource or runtime code changes.
+- One neutral frame on an exact normal seed copy24755to24756 reports all9new-family counters0. All189guards/568CLI and568runtime hashes/78accepted files/originals/canonical/cache/loader remain exact; artifact helper retires zero paths. No game action/navigation/new checkpoint/source-model-native proof replay or performance/storage campaign.
+- Initial memory checks identified six concurrent debug-operation paths; the later ordinary-unit default/base999d0a6 checks now pass after their separate records were supplied. CLI scope and its actual build/process results are unchanged.
+
+**Limitations**
+
+- Actual CLI registration/startup is complete; positive ordinary use and full state/clock/image/OAM/audio equivalence for this family remain pending. The one-frame startup does not establish new-family consumption.
+- Linux, USA, native Windows, new32:9, full caller ABI, indirect references, successor70-byte extent and full ROM TODO remain pending. No Android/package/assistant commit/push; concurrent debug-operation changes are preserved and not included in this frozen CLI validation.
+- Concurrent debug-operation changes and their separate records remain outside the frozen CLI validation scope; their tests are not attributed to this unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-verify-european-conditional-records8-cli.json)
+
 ## 2026-10-29 — Plan integrated debug selectors, event and command consoles, and a local cheat menu
 
 Type: docs. Platforms: Desktop planning; current menu/control sources and local cheat reference metadata.
@@ -82,6 +244,61 @@ Documentation: [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md)
 
 [Change record](docs/changes/2026-10-29-plan-integrated-debug-menus-consoles-and-cheats.json)
 
+## 2026-10-29 — Model European selection-byte tables and verify original stages
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict lossless4+30 unsigned-byte model with two physical source spans, separate shape/source authentication, live-query diagnostic count/sum/choice projections and no invented RNG/value caps.
+- Preserve every raw live-byte query, physical order, zero-weight participation and full32-bit wrapping signed-rank subtraction; keep the opaque two-byte gap unowned.
+
+**Validation**
+
+- One warning-free Windows core build b40503b87caafceae22f9b023a498df868e6fa31a7e49c71868f9d0b187d1ebc uses576 frozen files/245 selected core inputs;574 accepted preimages and inverse core hub remain exact.
+- One Wine filter passes18 guards,45 base and24 isolated synthetic original count/sum/choice stages with actual377BC live reader. Independent Python/model/actual results, query order and unsigned source-load order agree.
+- All34 bytes/two spans reconstruct; actual original stages observe34 base and32 synthetic bytes. EWRAM/IWRAM/VRAM/OAM/palette, SP/R8..R12 and final ROM are exact;30480 instructions are coverage only.
+- All123 preservation guards,576 frozen hashes,three current hashes,574 prior accepted hashes and96 closed-source guards pass; artifact completion retires zero paths.
+- Final changelog render, default/base999d0a6/metadata project-memory checks and CRLF-aware whitespace check all pass; no parallel implementation coverage gap.
+
+**Limitations**
+
+- Schema1/e86-d85/79 managed files remain unchanged; managed publication/runtime/native-clock/lifecycle checks, actual CLI and ordinary use remain pending.
+- Numeric helpers/RNG distribution, prologue/epilogue/full routine ABI, all indirect references, opaque gap/event-catalog extent, Linux, USA, native Windows,new32:9 and full ROM TODO remain pending.
+- Synthetic stage inputs do not establish reachability through the full routine; no ordinary checkpoint is edited, no closed proof is repeated and no performance/storage measurement is performed. Parallel frontend changes stay outside the frozen core build.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-model-european-selection-byte-tables.json)
+
+## 2026-10-29 — Model European mission records and verify the original getter
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict lossless512-record/35840-byte core model with raw packed/inline storage, original unsigned selector projections and separate shape/source authentication.
+- Preserve low16-index/low8-selector behavior, invalid-selector zero, original encoded inline views/aliases outside physical ownership and diagnostic absence for unowned scalar reads.
+
+**Validation**
+
+- One warning-free core-only Windows build663e8b87330b587bae353fb103acdf0bf39f3ef55c153cd218c31de6500ae72a uses571 frozen files/242 core inputs;569 accepted preimages and inverse core hub remain exact.
+- One Wine filter passes21 format/authentication guards,438 base and260 isolated synthetic calls through the original D1F30 getter and real CEEEC helper; independent Python/model/results and actual unsigned-byte read order match.
+- All35840 bytes roundtrip exactly; original getter observes324 distinct base bytes and54 synthetic bytes. EWRAM/VRAM/OAM/palette unchanged, IWRAM exact including return links, SP/R4..R12/Thumb/final ROM checked;17213 instructions are coverage only.
+- All139 preservation guards/571 frozen hashes/three current hashes/569 accepted preimages/110 source guards pass; artifact helper retires zero paths. No ordinary checkpoint/game/navigation or performance/storage measurements.
+- Earlier changelog render, metadata and CRLF-aware whitespace checks pass. Default/base999d0a6 memory coverage reports only seven concurrent menu/content-picker paths; the three new model implementation paths are covered.
+- Final default/base999d0a6 project-memory checks now pass after parallel menu/content-picker records were supplied. Their implementation and tests remain outside this frozen unit.
+
+**Limitations**
+
+- Schema1/e85-d84/77 managed resources/78 accepted files remain unchanged; managed runtime/native-clock/lifecycle checks, actual CLI and ordinary use remain pending.
+- Full caller ABI, unnamed field meanings, indirect references, successor-array/event-catalog contracts, Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+- Parallel menu/content/debug/package changes are preserved and not compiled or validated by this frozen core-only unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-model-european-mission-records70.json)
+
 ## 2026-10-29 — Model European conditional records and verify the original selection loop
 
 Type: added. Platforms: Windows.
@@ -108,6 +325,52 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-29-model-european-conditional-records8.json)
+
+## 2026-10-29 — Migrate existing debug input choices to typed internal selectors
+
+Type: changed. Platforms: Windows GNU build, Wine.
+
+**Changes**
+
+- DBG2-04 implementation removes all three implicit frontend FileDialog sites. Choose profile/catalog and missing replay/audit/capture/compare/issue/catalog inputs open the internal selector and never auto-run after a choice.
+- Add Tool inputs / current selections with12 constrained roles, pinned content references, hash/context/type rechecks and existing readonly preflight for profiles, catalogs, sessions, recordings, snapshots, sequences, labels and resource manifests. Refused choices preserve previous references.
+- Expose raw input sequences, native.bin and debug-labels.toml in the common index; authenticate selected snapshot ROM identity without loading a Machine. Runtime/library references are hashed without executing/loading code; actual ABI remains worker preflight.
+- Route selected label references into code tracing while retaining the existing default label path. Keep profile payloads immutable and input choices separate from future DBG2-05 profile preparation.
+- Update operation descriptors/census for zero implicit dialogs and one new typed input operation. Classify output-only --json as not-applicable to menu controls.
+
+**Validation**
+
+- First selected587-source Windows GNU test/runtime compilation is warning-free. Its final harness rejects source/current mismatch after a registry classification correction and formatting changed root overlays; no stale snapshot runtime acceptance is claimed.
+- Three Python source-census tests pass after the --json metadata correction; source has zero FileDialog sites in play.rs and only the two explicit picker buttons.
+- Matching587-source Windows GNU test/runtime build passes warning-free, with19 current host/UI overlays and canonical runtime hash+mtime exact. Initial accepted candidate fa08da6f67d3bbb1e86a9852e65a21d1b53c516d902ea1f7aa5967cefde32bb0.
+- Wine menu56/57 passes; the new Tool inputs Cancel case exposes generic return-to-Main behavior. Restore only the new page parent return; changed Windows test/runtime build passes warning-free, candidate10713e7fcc62c79c1ce04290f07607bce9b51a3713202584e3bb433248277f46.
+- Wine3reference+5picker+10content and2contract cases pass. The third old contract test still expects an automatic replay dialog; its test-only assertion is updated to zero automatic dialog descriptors.
+- Test-only rebuild is warning-free and preserves the production candidate. The explicit public fixture factory now supplies a zero-frame replay and a controlled one-frame synthetic recording for audit/capture/compare positive ingress cases; no private game data.
+- Targeted repaired menu parent and contract assertion pass; combined terminal scopes cover all57 menu and3contract cases. Two synthetic code-observer tests pass; the ignored private one-frame observer is not invoked.
+- GUI fixture preparation initially fails before recording because the recordings parent is absent. A warning-free test-only helper repair validates and resumes the existing public seed; no GUI or guest frame was started by that failed attempt. Production runtime remains10713e7fcc62c79c1ce04290f07607bce9b51a3713202584e3bb433248277f46.
+- Corrected factory finish helper passes on the existing partial public seed, creating zero-frame plain and one-frame audit/capture/compare profiles; preparation executes one controlled public self-loop frame in a test Machine.
+- Actual Wine GUI passes seven missing/choose routes with empty cached internal lists, no replay worker or automatic OS dialog and complete frame0/clock0 state preserved. Present default catalog opens; Choose catalog is internal and Cancel preserves its catalog parent.
+- The subsequent harness incorrectly sends ordinary Escape in the legacy catalog, resuming the synthetic main. Follow-up detects drift and emergency-pauses at24824/clock6972878532, then closes with input pins exact. This is a harness pause-toggle mistake, not a native-dialog regression; negative evidence remains separate. The same immutable seed is restarted in pause with exact original state/frame0/clock0, without fixture recreation. Remaining checks use Back outside the selector and automatic origin validation on every status query.
+- Remaining GUI Tool inputs navigation passes internal profile page/cancel and keyboard scroll to Back with the Debug parent restored; same full origin/frame0/clock0 state. Every status query now checks this origin automatically.
+- Actual Wine GUI selects compatible pinned profiles, returns without starting workers, then separately invokes Replay/Audit/Capture/Compare. Plain zero-frame replay passes; audit completes1frame and retains an explicit endpoint divergence with complete audit inventory; capture triggers at1frame; interpreter comparison matches through1frame. These are input-routing/result proofs, not new runtime/DS acceptance.
+- The audit harness initially expected passed; retained result is diverged at the same declared clock. The fixture endpoint includes undrained audio_buf while replay clears frontend audio buffers; this explains a concrete endpoint difference in the synthetic producer. No rerun or endpoint rewrite is used to convert it to a pass. Remaining capture/comparison cases continue once.
+- Explicit issue creation consumes the same selected plain profile, creates one compatible issue bundle and starts no replay. All these actual GUI queries preserve complete main guest state/frame0/clock0. Controlled public preparation executes1frame, audit/capture1each and comparison two independent1frame copies (5guest-machine frames total), separately from the earlier failed pause-toggle harness run.
+- The negative-profile output guard initially includes debug-control/result.json, so an intentional UI report changes that mailbox and triggers a false-positive guard. Actual replay outputs retain their original run IDs/outcomes; the finally block restores profile bytes. Correct the harness to include only ffta-debug-replay-result and resume the remaining cases without repeating the first two refusals.
+- Actual GUI completes10 changed/missing profile entrances across Replay/Audit/Capture/Compare/Issue plus foreign-ROM refusal; prior selection survives, profile bytes are restored exactly, all four replay result files retain hash+mtime and complete main state/frame0/clock0 remains exact. Changed/missing reasons are captured in real UI text reports and screenshots.
+- Actual GUI exercises Choose and Open catalog with changed, missing and unsupported future-schema files. All6 cases refuse, preserve the current reference and replay outputs, restore original catalog bytes and retain full main state/frame0/clock0.
+- Actual GUI selects all12 constrained input roles; current choices are visible, runtimeA/B keep distinct IDs with equal bytes and no library/runtime is loaded by selection. Selected Data/config/debug-labels.toml is consumed by code trace and appears with matching hash in its report while the default root label path is absent. All queries retain complete main state/frame0/clock0.
+- Role-scoped explicit Browse file and Add folder each open exactly once, verified by the real UI action trace. Cancel retains all12 references, roots, generation and complete main origin state without starting any tool.
+- Passing GUI main is closed at exact origin; all5 public session manifests immutable pins, restored profile/catalog bytes and four replay outputs hash+mtime are exact; private Xvfb is terminated. Final preservation verifies all587 frozen files/19current overlays, with only2documented test-only source deltas from production, and canonical Windows/Linux runtime hash+mtime exact.
+
+**Limitations**
+
+- Parameter editors, profile/preset preparation and consuming preparatory input roles are DBG2-05; persistence remains DBG2-07. This change adds the typed selection boundary without rewriting authenticated profile payloads. Runtime/native-library ABI and full dataset compatibility stay action preflight.
+- Wine/synthetic-controller results are distinct from native Windows/Linux runtime and physical controllers. No release refresh, benchmark, private game or DS acceptance, commit or push.
+- The earlier harness pause-toggle mistake advanced a public synthetic main24824frames; negative evidence remains separate from the exact-origin passing run. Concurrent ROM work remains preserved/excluded. Metadata/UI units contain no managed disposable interrupted/moved datasets, so the rom-data-only retention helper is inapplicable.
+
+Documentation: [debug_selector.md](docs/debug_selector.md), [debug_content.md](docs/debug_content.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-29-migrate-debug-tool-input-selection.json)
 
 ## 2026-10-29 — Distribute the shared portable debug tools with a complete guide and private-data guards
 
@@ -175,6 +438,62 @@ Type: added. Platforms: Python 3.11 Linux and Docker; Windows GNU cross builds a
 Documentation: [debug_artifacts.md](docs/debug_artifacts.md), [debug_sessions.md](docs/debug_sessions.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [docker.md](docs/docker.md).
 
 [Change record](docs/changes/2026-10-29-coordinate-debug-artifact-retention.json)
+
+## 2026-10-29 — Consume European selection-byte tables through authenticated runtime data
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Register e87-d86/index78 selection-byte-tables.json with two4/30-byte spans and no dependency; preserve all78 prior resource records and payloads.
+- Add immutable fixed-array bus ownership, prior70-byte/raw-gap composition and six nonserialized read/byte/physical-position counters; original live eligibility, numeric helpers and choice remain guest instructions.
+
+**Validation**
+
+- One warning-free Windows host-test build e5b4566884e6e4d3c41565c5e0aefef0c808842c3f3bd181e6e04c8826ebd29d uses578 frozen files/246 core inputs from576 accepted model sources plus two leaves.
+- One reduced Wine filter passes80-file publication/all78 prior records and payloads exact, new-file interrupted publication,14 attach guards/two incomplete sets, same-owner/complete-state preservation on failed attachment.
+- Twenty native complete-state/clock cases cover12 original load prefixes and eight count/sum/choice stages including actual377BC. All34 raw bytes/four prior bytes are altered after Load;76 new and five prior served bytes match all read/interp_one callback deltas, fallback-source deltas zero. Four stop-safe families/91 entries/119 dispatches are coverage only.
+- All34 typed bus bytes/two classes/4+30positions, unaligned widths/mirrors/borders/prior/raw composition, unavailable-file Load/slotLoad/Undo same Arc and DMA3/CpuSet20halfwords/CpuFastSet16words complete-state-clock comparisons pass.
+- All243 guards/578 frozen hashes/576 model hashes/seven current paths/79 old files exact; artifact helper retires only successful interrupted publication copy, retaining accepted80-file dataset and all proof inputs/results.
+- Final changelog render/default/base999d0a6/metadata project-memory checks and CRLF-aware whitespace all pass.
+
+**Limitations**
+
+- Actual production CLI registration/reuse and one ordinary positive suffix/full pair remain pending. Served-byte counts are not a distinct-byte union or full-routine/ABI acceptance.
+- Numeric-helper internals/distribution, full routine ABI, indirect references, opaque gap/event-catalog extent, Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending; USA stays e8-d7.
+- Source/model/old proofs are not repeated; no ordinary game/checkpoint/navigation, performance/RSS/storage measurement or Machine/save/native/C API ABI change. Parallel frontend work remains excluded from this frozen build.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-consume-european-selection-byte-tables.json)
+
+## 2026-10-29 — Consume European mission records through authenticated runtime data
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Register e86-d85 resource index77/mission-records70.json with one35840-byte source span, immutable typed reads, ten physical classes/thirteen counters and512-slot identity masks; preserve all77 prior resources.
+- Remove historical shared/OBJ1KiB and BG64KiB attach allocation caps and three legacy allocation assertions per the requested deferral of space limits; retain parsing bounds, full source authentication and transactional attachment.
+
+**Validation**
+
+- Two warning-free573-source/243-core-input Windows host-test builds. Initial73326ad9 passes publication79/prior77/interruption, then first attach fails the old shared-structure allocation cap before later tests start.
+- Accepted455bdb1cd8aef0ccd72df16ceafbb0f483d6b4cebb36891c492251efaccf7276 runs one remaining-only Wine filter on the same generation:14 attach guards/two full-set cases,41 native complete-state/clock cases, all35840 typed bytes/ten classes/512 records/512 boundaries, failed owner/Load/Undo and three full-state/clock transfers pass; publication is not repeated.
+- Native16load+25getter cases alter all35840 raw bytes after Load/setup. Three stop-safe families account52 new served bytes/five prior bytes, including real interp_one callback observation with zero fallback-source deltas;168 entries/69 dispatches are coverage only.
+- DMA/CpuSet17922halfwords and CpuFastSet8968words compare complete states/clocks. All860 guards/573 accepted+573 diagnostic frozen hashes/571 model preimages/eight current hashes/78 old and79 new files pass; artifact helper retires only the successful publication interrupted copy.
+- No source/model/old ordinary proof, normal checkpoint/game/navigation, performance/RSS/storage campaign or Machine/save/native/C API ABI change. Initial failed logs/executable/snapshot and allocation-fix preimages remain retained.
+- Generated changelog, metadata, default/base999d0a6 project-memory coverage and CRLF-aware whitespace checks all pass; parallel records resolved their earlier seven-path gap without attributing their tests to this unit.
+
+**Limitations**
+
+- Actual production CLI registration/reuse and one ordinary positive suffix/full pair remain pending; acceptance combines two distinct Wine scopes, not a passing initial whole filter.
+- Native52 served bytes are not a distinct-byte union or full-catalog native coverage. Full caller ABI, indirect references, successor-array/event-catalog contracts, Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending.
+- Parallel menu/content/debug/package edits are preserved and excluded from the matched frozen source snapshots; their validation is not attributed to this unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-consume-european-mission-records70.json)
 
 ## 2026-10-29 — Consume European linked four-byte records through managed typed ownership
 
@@ -263,6 +582,89 @@ Documentation: [debug_control.md](docs/debug_control.md), [debug_probes.md](docs
 
 [Change record](docs/changes/2026-10-29-complete-local-session-control.json)
 
+## 2026-10-29 — Classify European count thresholds and ordinal byte weights
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish neutral EUR selection-byte-table views: four count thresholds at71C73C and30 ordinal weights at71C740,34bytes/two source spans, with exact original reader bounds and live state kept separate.
+- Preserve unsigned values, independent live queries, signed/wrapping rank mechanics, numeric zeros and physical identities without inventing RNG formulas, percentage caps or global ordinal semantics.
+
+**Validation**
+
+- All34 bytes roundtrip exactly, SHA256d758af5f1a07613f1c2047257d42ef9cbfac83b63783ee6fd0e7b3879370b8dd; no overlap with78 accepted e86-d85 resources/50492 source spans.
+- Six authenticated static windows(two new/four cached),95 instruction/literal pins and96 input hash/mtime guards pass. New context proves live header base and raw eligibility helper; no old source/model/ordinary proof is replayed.
+- Four-threshold bounds derive from five low3-bit RAM headers and original count<=3 guard. Two weight scans include all30 ordinals; raw live eligibility is02002CC3+12*(low8ordinal-1), not bool-normalized or exported.
+- Two-byte gap71C75E..71C760 stays opaque/unowned; next12-byte root is independently identified without inferring its extent. Static inspection only, no build/Wine/game/fixture/navigation or performance/storage measurement; artifact helper retires zero paths.
+- Changelog render, metadata, default/base999d0a6 project-memory coverage and CRLF-aware whitespace checks pass; parallel records have resolved their earlier coverage gap.
+
+**Limitations**
+
+- Strict typed model/original-prefix Wine proof, managed runtime, actual CLI and ordinary use remain pending. Schema1/e86-d85/79 accepted files unchanged.
+- Full routine ABI, numeric-helper implementation/distribution, indirect/unaligned references, semantic ordinal names, opaque-gap classification, event-catalog extent, Linux, USA, native Windows, new32:9 and full ROM TODO remain pending.
+- Parallel tool-input/menu/content/debug/package work is preserved and excluded from this source-only unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-classify-european-selection-byte-tables.json)
+
+## 2026-10-29 — Classify European mission-record source data
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish EUR713B3C..71C73C as512 ordered70-byte mission records using two independent1..511 scans, getter-index0 and separately rooted successor arrays.
+- Document all65 getter selectors, unsigned packed and little-endian fields, raw scaled/mapped operands, original inline pointer aliases and the previously closed numeric event-row join without inventing guest caps or semantic field names.
+
+**Validation**
+
+- All512 records reconstruct35840 bytes exactly, SHA256bbdbc955b9b3f7ed678123aa6bea8b6098f25f6a13a4ab94de669d1e103253dc; no overlap with77 accepted e85-d84 resources/50491 source spans.
+- Nineteen authenticated static windows (nine new/ten cached),157 instruction/literal pins and110 input hash/mtime guards pass. Cached legacy text is authenticated by full opcode/ROM equality and current text hash, not an unavailable historical text guard.
+- Seven address selectors preserve six inline offsets, exact19/20 pointer alias and24/32 shared scalar storage;512 numeric event references have173 values/four repeated-value groups. Residual bits, zero values and all physical identities remain intact.
+- Static inspection only: no build, Wine/game/test/fixture/navigation, completed-proof replay or performance/storage measurement. Existing78 accepted files remain exact; artifact helper retires zero paths.
+- Earlier changelog render and CRLF-aware whitespace checks pass; default/base999d0a6 memory checks report only seven concurrent menu/content-picker paths without their own changed record.
+- Final default/base999d0a6 project-memory checks now pass after parallel menu/content-picker records were supplied. Their implementation and tests remain outside this frozen unit.
+
+**Limitations**
+
+- Strict typed model/original-getter Wine proof, managed runtime/publication, actual CLI and ordinary use of this family remain pending. Schema1/e85-d84 and77 resources remain unchanged.
+- No guest512 bound is inferred; low16 index/low8 selector behavior remains original. Full caller ABI, all indirect/unaligned references, meanings of unnamed fields and global inline-view element counts remain unverified; two interior data-word candidates are not classified as proven readers.
+- Successor byte arrays and the12-byte event catalog require their own source contracts. Numeric event-row zero remains caller-specific.
+- Linux, USA, native Windows, new32:9 and the full ROM TODO remain pending. Parallel menu/content/debug/package changes are preserved and are not validated by this source-only unit.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-classify-european-mission-records70.json)
+
+## 2026-10-29 — Classify European event records and their shared interior view
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Establish a source-only contract for256 ordered12-byte European event records/3072bytes with structural unsigned fields, raw flag bits and opaque two-byte tails.
+- Keep71D1EC as physical row225 of the same owner, preserve uncapped low8 conditional alias arguments and original highest-match255..1 script-key scan; separate the independent next27-byte catalog.
+
+**Validation**
+
+- Physical extent71C760..71D360 combines explicit backward255..1 stride12 scan, liveu8 index including0 and independent next root used with stride27; all3072bytes roundtrip/no overlap79 prior owners50494spans.
+- Fifteen authenticated static windows/ten new-five cached,67 instruction/literal pins and112 hash-mtime guards pass. Cached windows authenticated by declared ROM hashes/every opcode; older absent text-map key corrected before outputs without redoing disassembly or any acceptance.
+- Reused full-ROM aligned encoded-word census finds36base/two interior/25next literals. Eight duplicate-key groups/one identical-record group preserve physical order; helper applies full16-bit script key and excludesrow0.
+- All80 accepted e87-d86 files, source preimages/cached windows/ROM/static tool preserved; artifact completion retires zero paths. No build/Wine/game/fixture/navigation/old-proof replay or performance/storage measurement.
+- Final changelog/default/base999d0a6/metadata project-memory checks and CRLF-aware whitespace all pass.
+
+**Limitations**
+
+- Strict typed model/original-prefix Wine proof, managed runtime/native lifecycle, actual CLI and ordinary use remain pending; schema1/e87-d86 unchanged.
+- Physical256/31-view lengths do not impose guest caps; u16 index views and high alias arguments can read outside the owner. No unconditional primary/alternate/next-catalog foreign-key cap, zero-null rule, enum or opaque-tail padding claim.
+- Full routine ABI/live script-event effects, indirect/unaligned references, preceding opaque two-byte gap, next27-byte catalog extent, Linux, USA, native Windows, new32:9 and full ROM TODO remain pending.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-29-classify-european-event-records12.json)
+
 ## 2026-10-29 — Classify European conditional eight-byte records
 
 Type: docs. Platforms: Windows.
@@ -321,6 +723,39 @@ Type: added. Platforms: Python3.11 Linux, existing offline Docker image, offline
 Documentation: [debug_campaigns.md](docs/debug_campaigns.md), [debug_replays.md](docs/debug_replays.md), [debug_artifacts.md](docs/debug_artifacts.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md).
 
 [Change record](docs/changes/2026-10-29-add-targeted-debug-campaigns.json)
+
+## 2026-10-29 — Inventory debug operations and share stable action identities
+
+Type: added. Platforms: Windows GNU build, Wine, Linux host tooling.
+
+**Changes**
+
+- DBG2-01 adds a version-1 embedded readonly registry of 65 operations and 242 parameters, 43 current menu routes, 46 fixed/live bindings, source handlers, prerequisites, effects, result formats, caps and explicit open menu work.
+- Expose debug-operations list/show with text or JSON and strict malformed/unknown-query rejection; queries do not read selected content, execute commands or touch the guest.
+- Exhaustive menu/control mappings share stable operation IDs in existing observed UI events, pending status and acknowledged local replies while preserving existing handlers and schema-1 compatibility.
+- Inventory all debug CLI flags and three implicit FileDialog sites; existing catalog filters remain available and selector/parameter/console execution work stays explicitly pending.
+- Include the new public guide in the portable whitelist, both Docker COPY closures and dockerignore; retain synthetic private-content exclusion and source-preservation tests.
+
+**Validation**
+
+- Three Python source-census tests pass, including CLI parameter coverage, exhaustive menu mappings and the exact three dialog sites.
+- Windows GNU locked/offline release test and runtime builds pass without compiler warnings from 577 frozen source files. Two descriptor-only clarification builds also pass; final candidate SHA256 99564c44bad32be2f9d14983eb21c7ce8fd8acafa883b039c96f997b743753b5.
+- Wine passes 21 distinct synthetic tests: 3 contract, 16 local-control and 2 UI trace tests. Only the 3 affected contract tests repeat against the final descriptor text.
+- Wine CLI smoke passes 9 positive and 8 negative calls, including help, exact JSON registry equality, unknown IDs, malformed arguments and a moved spaced Unicode folder with unrelated cwd; no guest files or frames.
+- Ten portable packaging tests pass after fixing an initially missing dockerignore entry; synthetic Windows/Linux payloads include the new public guide and continue excluding unlisted personal data.
+- All 577 frozen source hashes, five affected current implementation hashes and canonical Windows/Linux executable hash-and-mtime guards remain exact.
+- Required project-memory coverage check passes after including the changed scripts README in this record; generated changelog and diff whitespace checks pass.
+
+**Limitations**
+
+- DBG2-02 through DBG2-28 remain open. Internal selectors, editable tool preparation, consoles, scripts and cheat execution are not implemented by this metadata contract.
+- Execution outputs retain their current per-handler formats; shared execution envelopes and assistant capabilities remain DBG2-13/15. Three existing automatic file-dialog sites remain pending DBG2-04.
+- Native Windows, Linux runtime and physical-controller checks are unverified for this increment; no GUI rendering changed. No game/replay/benchmark, real release archive refresh or commit/push was performed.
+- The retention helper refuses this debug-tools-v2-contract directory because complete accepts only target/rom-data-* units. This metadata unit created no managed interrupted/moved dataset copies; evidence, source preimages, candidates and isolated Wine prefix are retained.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-29-add-shared-debug-operation-contract.json)
 
 ## 2026-10-29 — Create portable local issue reports with pinned replay commands and private evidence links
 
@@ -387,6 +822,91 @@ Documentation: [debug_recent.md](docs/debug_recent.md), [debug_control.md](docs/
 
 [Change record](docs/changes/2026-10-29-add-recent-event-ring.json)
 
+## 2026-10-29 — Add an internal debug content selector with guarded host selection
+
+Type: added. Platforms: Windows GNU build, Wine.
+
+**Changes**
+
+- DBG2-03 implementation adds Debug > Content selector with list/search/type/status/sort/favorite/recent/detail areas, exact shared-font wrapping, controller search keyboard and distinct select/refresh/external/back actions.
+- Add an asynchronous host-only bridge with catalog generation and view identity; selection and snapshot preview reuse readonly recheck and never execute tools or load a Machine. Late results are discarded after cancellation.
+- Add explicit single-file catalog roots and CLI --add-file without sibling enumeration; preserve existing schema-1 roots through an optional field. Stable IDs identify all new host operations; registry now 73 operations and 255 parameters.
+- Route focused search text and IME into the host editor before guest bindings or debugger shortcuts; expose bounded picker status on the existing local-control status query.
+- Include the new selector guide in the public package and Docker source/ignore closures without refreshing a real release archive.
+- Drain native modal closing and focus-synthetic events before returning to menu dispatch; require a 400 ms quiet boundary and two neutral controller polls, drop the old action batch and expose host_modal_input status. Completed previews display terminal feedback even if the highlight changed.
+
+**Validation**
+
+- First menu-only Windows build is warning-free and six Wine widget tests pass: exact same-name identities, Unicode search/cancel, filters/sorts/favorites/recent, explicit empty/busy refusals, controller keyboard, mouse/scroll and measured text wrapping.
+- Selected 583-file Windows GNU test/runtime build passes locked/offline without warnings, using accepted DBG2-02 base plus 13 host/UI overlays while excluding live unrelated ROM discovery work. Candidate SHA256 b19f4b5748a8eaf64f7fbeb2c2e1cc6cccf3bc1db74aa93d1093bebb5953992e.
+- Initial full menu suite passes 54 of 55 cases; the sole failing test assumed Extended saves was Debug row0. Its test-only repair selects Row::ExtendedSaves explicitly, rebuilds warning-free and passes the targeted case; all55 distinct menu cases are now covered across the terminal runs.
+- Wine passes 3 picker bridge tests, 10 affected content catalog tests, 3 operation-contract tests and 2 UI collector tests; the explicit synthetic GUI-fixture factory remains ignored until invoked deliberately.
+- Three Python source-census tests pass, retaining distinction between the three old implicit dialog sites and two new explicit picker sites.
+- Ten synthetic portable packaging tests pass with the new selector guide in the explicit whitelist and Docker COPY/ignore closure.
+- Actual isolated Wine GUI stage1 passes empty/explicit refresh, focused text shortcut consumption, held confirm exactly once and two same-name/same-hash profile selections with distinct IDs and paths. Full guest state/frame0/clock0 remain exact.
+- Actual isolated Wine GUI stage2 passes favorites/recent order, simulated XInput1_4 search keyboard/draft cancel/back/reopen, embedded snapshot preview and detail scrolling with full state/frame0/clock0 exact.
+- Initial file-dialog Cancel exposed Escape leaking through selector/back into menu resume: first observed84frames, explicitly paused at63484/clock17832317892, then closed with all immutable input pins exact. Negative trace and diagnostics are retained; this run is not a no-guest-frame proof.
+- Changed modal/preview scope builds warning-free from584 frozen source files; final candidate SHA2567ddad3f6b0a0bf36372c2840c7f98ca185d23f3db1ec000522fd3d506ecd13d9. Wine2modal+4picker tests pass, including terminal feedback after highlight changes; unchanged earlier menu/content/contract scopes are retained.
+- Fresh public synthetic Wine GUI passes exactly one explicit file dialog and one folder dialog Cancel with roots/generation/selection/full state/frame0/clock0 preserved. The harness initially waited for the configured folder title; Wine displays Select Folder instead, so the already-open dialog was resumed and cancelled without restarting the case.
+- Actual explicit external HTML import adds one file without selection/execution; shared CLI confirms1entry/1visitednode and excludes a sibling host script. No script sentinel is produced.
+- Fixed GUI snapshot preview and terminal text are confirmed by the real UI text report and visual inspection at940x620,620x480 and1180x760 Win32 client sizes; full state/frame0/clock0 remains exact. Passing synthetic copy closed, immutable pins exact and private Xvfb terminated.
+- Final preservation verifies all584 frozen source files, all14 current host/UI overlays, both synthetic cases immutable pins and canonical Windows/Linux runtime hash+mtime exact; original failed runtime retained. No old acceptance fixtures reconstructed.
+
+**Limitations**
+
+- Native Windows/Linux runtime, physical controllers and native keyboard layout/IME coverage remain unverified. Persistence and migration of existing debug tools remain DBG2-07/04.
+- No game or DS acceptance, private gameplay input, benchmark, real release refresh, commit or push. One pre-fix public synthetic case advanced after a modal-cancel regression; negative evidence is preserved separately from the corrected frame0 validation. Separate concurrent ROM source changes are preserved outside the selected build.
+- DBG2 metadata/UI directories have no managed interrupted/moved-resource datasets; local_artifacts complete only accepts rom-data units, so no retention rename/bypass or diagnostic fixture deletion was performed.
+
+Documentation: [debug_selector.md](docs/debug_selector.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-29-add-integrated-debug-content-selector.json)
+
+## 2026-10-29 — Add menu drafts, bounded presets and explicit debug profile preparation
+
+Type: added. Platforms: Windows GNU build, Wine.
+
+**Changes**
+
+- DBG2-05 implementation adds Parameters / prepare profiles with12 tool forms, typed input rows, text/IME/controller keyboard, choice controls and an explicit punctuation keyboard page for multi-value streams/ranges, measured detail wrapping and distinct Verify/Save preset/Load preset/Prepare NEW/Start/Back actions.
+- Wire scalar drafts into the existing local-control CLI parser for configured steps, memory inspection, audio/code/gameplay/recent/graphics and issue reporting; existing fixed start rows open their form. Editing focused text consumes debugger shortcuts before guest dispatch.
+- Profile forms prepare replay/audit/capture/compare from the typed recording/session/runtime/library/dataset/known-plan references, with exact existing create parsers and read-only validation mode. Preparation creates unique pinned output, refuses existing destinations and never starts a worker.
+- Permit readonly immutable input preflight from the running UI only when canonical source root, process ID and runtime directory lease match its own session. Other active source sessions retain exclusive-source refusal. No live save-writer lease is granted.
+- Presets contain scalar values only, with bounded schema/tool/choice checks,8KiB values/16KiB files/eight new presets per tool and eight new profile outputs. Input paths are not persisted by these presets.
+- Add workbench view/revision guards: late preset reads cannot replace a reopened draft; completed prepared output is retained without applying a late selection. A visible summary distinguishes the separately pinned profile from current draft edits.
+
+**Validation**
+
+- Initial591-source Windows build fails on a stale multiline InspectPC arm tail after routing it to the form; remove only that tail. Corrected Windows GNU test/runtime compilation passes warning-free with29 frozen host/UI overlays and canonical runtimes hash+mtime exact. Candidate a68ddacb776c24e5d4144d2828a9bd1fdb9b1b105c90b1e8a3b5bc703404c5da.
+- Wine60menu/3workbench/3contract/12replay/16control/5picker/6audit/5capture/8compare tests pass (118total), covering editor cancel/OSK/layout, bounded scalar presets/shared validation and retained active-other-session refusal.
+- Three Python operation source-census tests and diff check pass. Correct the initial descriptor draft that listed every field on every form to accurate per-tool sets:92operations/320parameters.
+- Subsequent view/revision guard and its deterministic regression test are implemented; changed-scope build/tests and actual GUI pipeline remain in progress. Earlier accepted01..04 scopes are not rerun for context.
+- View/revision guard build passes warning-free, candidatec5850336840d993c167d42b3cf0a8565cb1e2a2d55050150de81338db7cd7a23; Wine4workbench+3contract tests pass. First public GUI factory passes; old-title-only resize helper is corrected in place without recreating its seed.
+- Actual GUI functional stage1 passes text/shortcut consumption/cancel, invalid step rejection, scalar preset save/load with full main state/frame0/clock0. Visual inspection then rejects its black form: draw omitted Canvas.finish. That scope is negative visual evidence; no recording/guest frame ran in the black-form candidate, closed with pins exact.
+- Corrected Canvas.finish and actual pixel assertion build warning-free,591frozenfiles/29overlays, candidate5d79030b7ea085684a77bbcb8fea6f287d7687f54a37f9d3c00618f34a977a08; Wine3form tests pass. New public GUI shows the form, simulated XInput text keyboard/cancel and620x480/940x620/1180x760 clients with full state0. Visual inspection identifies a remaining HUD/title overlap from generic page geometry; only that layout/irrelevant editor footer is being corrected.
+- Actual GUI recording→one explicit main frame→Stop→selected recording/session rows→Verify→Prepare NEW replay→Run passes. Verify creates nothing, preparation starts no worker, saved case/timeout/frame values match the fields and explicit worker matches its full endpoint at1frame. Main remains exactly at its authorized frame1 boundary afterward.
+- Actual GUI prepares and explicitly runs audit/capture/comparison from that same recording: audit passed with presetbus/from0/to1/range0:512/limit128, frame capture captured at1, and comparison matched through1 with interp/preserve. Native-library capture combination is refused by Verify before output. Issue report retains its configured public symptom; no external editor or typed input path is used. Main complete state remains fixed at its explicit frame1 boundary.
+- Custom page layout and editor footer correction builds warning-free, candidatefcc71243fe347f886092861b0d44b5521e93d187275a3a7dc3f262c58595d160, canonical runtimes unchanged. Wine1identity/geometry+7selector+3form tests pass; no unchanged pipeline repeat is requested for the geometry-only fix.
+- GUI pipeline closes at its exact authorized boundary: main1frame plus replay/audit/capture1each and comparison two1frame Machines (6public Machine frames total). All5session immutable pins and four replay outputs are preserved.
+- Four fresh CLI profiles have JSON values exactly equal to the GUI-prepared profiles; their replay/audit/capture/comparison outcomes, completed frames, full state hash and clock match. Additional5public worker-Machine frames. First CLI replay completes but pipe EOF is delayed until harness timeout; retained completed result is reused and remaining3cases use direct log files, with no first-worker repeat.
+- Final layout GUI passes visible inside-panel debug identity, no overlapping generic badge, editor footer removal and three actual client sizes. Audio frames2/mixed,psg is validated by the shared parser. Harness comma-key mapping is fixed in the same open field without recreating the case.
+- Static controller review finds comma unavailable on the existing on-screen keyboard; add a bounded fourth punctuation page and regression test so stream/range lists are enterable without a physical keyboard. Only changed input/visual checks remain before closing05.
+- CLI equivalence completes all4profiles with exact parameter JSON and paired outcome/completed/state/clock; source GUI results remain hash+mtime exact. Final layout/audio GUI closes with full state0 and immutable pins preserved; only the punctuation-page build/test and controller check remain.
+- Final punctuation build is warning-free, candidatec223f4b79101fa20669dfa0353ba618ee5770dee67d605a15b99afffa59565fb; Wine8selector+3form tests pass. Across accepted terminal scopes121distinct Rust behavioral cases are covered (62menu,4workbench,3contract,12replay,16control,5picker,6audit,5capture,8compare), with only changed scopes rerun.
+- Actual final GUI uses only simulated XInput for Clear/page/comma/Done, commits a comma to the stream draft and refuses the incomplete list before execution. Full main state/frame0/clock0 remains exact. Final GUI closes and the private Xvfb is terminated.
+- Final preservation verifies591frozen source files/29current host/UI overlays, canonical Windows/Linux runtime hash+mtime, all12public source/prepared/CLI session pins, closed GUI statuses and original pipeline output hash+mtime. Negative black-form evidence and its exact-origin input pins remain retained.
+
+**Limitations**
+
+- Native Windows/Linux runtime, physical controllers and native IME/layout coverage remain unverified. No private game data, DS acceptance, real release refresh, commit or push.
+- Feature gates known to the selected build are shown before preparation; arbitrary runtime/native-library binary ABI and unadvertised runtime features remain explicit worker preflight. Saving a preset does not persist typed input paths; UI/input persistence is DBG2-07.
+- GUI/CLI paired pipeline executes11public Machine frames (one main,10worker copies), separate from synthetic Rust test execution. Rejected black-form and HUD/title overlap are retained as earlier visual findings, corrected in later candidates.
+- Separate concurrent ROM development is preserved/excluded from selected builds. Metadata/UI unit has no managed interrupted/moved-resource datasets; rom-data-only retention helper is inapplicable, and failed diagnostic cases remain available.
+
+Documentation: [debug_selector.md](docs/debug_selector.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-29-add-debug-parameter-workbench.json)
+
 ## 2026-10-29 — Inspect observed task, script and unit fields with authenticated source provenance
 
 Type: added. Platforms: Windows cross builds and Wine/Xvfb; offline Chrome.
@@ -418,6 +938,41 @@ Type: added. Platforms: Windows cross builds and Wine/Xvfb; offline Chrome.
 Documentation: [debug_gameplay.md](docs/debug_gameplay.md), [rom_data_tasks.md](docs/rom_data_tasks.md), [rom_data_scripts.md](docs/rom_data_scripts.md), [rom_data_unit_obj.md](docs/rom_data_unit_obj.md), [debug_control.md](docs/debug_control.md), [DEBUG_TOOLS_TODO.md](docs/development/DEBUG_TOOLS_TODO.md), [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
 
 [Change record](docs/changes/2026-10-29-add-bounded-gameplay-inspection.json)
+
+## 2026-10-29 — Index debug content with bounded readonly discovery and stale selection checks
+
+Type: added. Platforms: Windows GNU build, Wine, Linux host tooling.
+
+**Changes**
+
+- DBG2-02 adds common Index::scan/recheck and debug-content scan/check over declared portable/app subtrees or explicitly added folders; no background refresh, script launch, guest execution, repair or input mutation.
+- Index 16 content families with stable root/type/relative-path IDs, selection refs, names/descriptions, content hashes where budget permits, declared ROM/region, availability, compatibility and verification scope. Preserve distinct same-name and duplicate-byte entries.
+- Bound roots, entries, visited nodes, depth, hashing, metadata, issue reports and duplicate links; explain truncation and unknown verification instead of claiming complete authentication.
+- Reject changed/missing/nonordinary files and wrong content types on explicit recheck. Reuse existing unshared-file guards and add canonical parent/component checks to reject filesystem aliases even when Wine hides their Windows symlink attributes.
+- Add scan/check descriptors to the shared operation contract, now 67 operations and 250 parameters. Include the new guide in public package and Docker source/ignore closures.
+
+**Validation**
+
+- Final locked/offline Windows GNU release test/runtime builds pass without compiler warnings from 579 frozen files; candidate SHA256 319d5fdf9f58d9d1a519478fd2f07d6a2273f07cf1cf304b958603a5f88733d7.
+- Wine passes all 9 content tests plus 3 operation-contract tests: empty/duplicate names and roots, all 16 types, portability, changed/missing/wrong-type refs, invalid/future metadata, caps, actual links/hardlinks and malformed commands.
+- Separate real host-created file/directory aliases and hardlink scan refuses all with zero hashed bytes, exactly 3 visited nodes and no directory enumeration; the file alias target is unshared to exercise the canonical guard independently of hardlink rejection.
+- Wine CLI smoke passes 8 positive, 3 refused and 5 malformed calls, including saved-index checks, duplicate roots, explicit-only scope, declared ROM mismatch and stable IDs after a spaced Unicode portable folder move from an unrelated cwd. No script sentinel or guest frames.
+- Three Python source-census tests and ten synthetic packaging tests pass; public guide is included while unlisted personal files remain excluded.
+- All 579 frozen source hashes, five affected current implementation hashes and normal Windows/Linux executable hash-and-mtime guards remain exact.
+- Initial sha2 Array LowerHex compile error was corrected with explicit bytehex conversion. Initial Wine link test failed; readonly host-link/path probes proved hidden attributes and traversal, leading to the canonical guard and actual filesystem fixture. Failed logs/probes/source preimages are retained.
+- Project-memory metadata and whitespace checks pass. The workspace coverage check reports only three separate concurrent ROM-work paths, inspected and preserved; all DBG2 implementation paths are covered by their new records.
+
+**Limitations**
+
+- Indexing hashes and declared-match metadata are not full profile, dataset, snapshot, executable, feature or native ABI authentication; existing operation preflight remains mandatory before execution.
+- The integrated selector, migration of existing actions and persistence remain DBG2-03/04/07. No automatic OS dialog was added; existing three dialog sites remain DBG2-04.
+- Native Windows, Linux runtime, native Windows symlink-creation API and physical controllers remain unverified. Wine tests use actual host-created link fixtures because its Windows API fixture was not reliable.
+- No real release archive refresh, private game input, old acceptance replay, benchmark, commit or push. This metadata unit has no managed disposable dataset copies; the ROM-only complete retention helper remains inapplicable without renaming or recreating fixtures.
+- Workspace-wide memory coverage currently remains pending for concurrent crates/recomp/src/rom_data.rs, crates/recomp/src/rom_data/conditional_records8_scene_tests.rs and crates/recomp/src/rom_data/validation_tests.rs. These changes belong to separate ROM work and were not attributed, modified, tested or covered by this DBG2 record.
+
+Documentation: [debug_content.md](docs/debug_content.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-29-add-bounded-debug-content-catalog.json)
 
 ## 2026-10-29 — Join observed PC, disassembly, declared labels and native fallback decisions in bounded reports
 

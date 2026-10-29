@@ -28,14 +28,46 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   source-specific master codes remain distinct; static preservation checks do
   not establish runtime compatibility. This adds no cheat execution support.
 
-- The [integrated debug follow-up](DEBUG_TOOLS_V2_TODO.md) is a new planning-only
-  checklist with 28 unchecked DBG2 IDs. It specifies built-in selection of existing
+- The [integrated debug follow-up](DEBUG_TOOLS_V2_TODO.md) is in implementation.
+  DBG2-01 adds the readonly [operation contract](../debug_operations.md):
+  `debug-operations list/show [--json]` initially inventories65operations/242
+  parameters (67/250 after DBG2-02), current/planned menu routes, prerequisites/effects/results/caps,
+  fixed/live menu bindings and remaining gaps. Stable IDs identify menu UI-trace
+  actions and local-control pending/results without replacing existing handlers.
+  DBG2-02 adds the readonly [content catalog](../debug_content.md), CLI
+  debug-content scan/check and reusable bounded Index: declared app/portable or
+  explicit roots,16content kinds, stable relative IDs, hashes/duplicate counts,
+  availability and declared-only compatibility. 8roots/512entries/8192nodes/
+  depth12/64MiBhash/8MiBmetadata, explicit truncation and stale/missing/type checks;
+  listing never executes or replaces action preflight. Canonical parent/component
+  guards also reject real Unix aliases hidden by Wine attributes. Wine synthetic
+  9content+3registry tests/16CLI cases and real alias refusal pass without guest
+  data/frames; nativeWindows/Linux runtime/controller checks remain unverified.
+  DBG2-03 adds the reusable [internal selector](../debug_selector.md),
+  explicit refresh/file/folder actions, stable guarded selection, Unicode search
+  and controller keyboard, filters/favorites/recent/details and readonly snapshot
+  preview. Wine GUI and simulated XInput pass; native platforms/physical pads
+  remain unverified. Native-dialog return events are drained for400ms and two
+  neutral polls after an observed synthetic Escape/resume regression; corrected
+  GUI keeps full state/frame0/clock0 exact. DBG2-04 removes all3legacy
+  frontend picker fallbacks; missing inputs open typed internal lists without
+  automatic execution.12host input roles retain hashed/context-bound references
+  and action rechecks; selected labels feed code tracing. Actual Wine GUI
+  exercises missing/present/changed/incompatible routes and explicit dialog
+  cancellation; runtime/library ABI remains worker preflight. Preparation of
+  profiles/parameters is implemented by DBG2-05 via12tool drafts over shared
+  CLI parsers, bounded scalar presets, readonly verification and unique pinned
+  profile preparation with explicit execution. Exact menu/CLI parameter/result
+  equivalence and controller punctuation are verified under Wine. Active UI
+  preparation reads its own immutable source pins under its existing runtime
+  lease; other active sources still refuse. Persistence remains07. The broader
+  checklist specifies built-in selection of existing
   inputs/profiles/scripts with external file dialogs only from explicit buttons,
   editable tool parameters, optional live event and textual command consoles,
   shared menu/CLI/local-control operations and an isolated cheat menu grounded in
   the private CH catalog. EUR candidates remain unverified; decoding, mutation
-  semantics and replay provenance are prerequisites. The planning request does
-  not start implementation, reopen DBG01-22, or resume unrelated runtime work.
+  semantics and replay provenance are prerequisites. DBG01-22 remain closed;
+  DBG2 implementation does not reopen unrelated runtime work.
 
 - The desktop debug-tools checklist DBG-01…DBG-22 is complete within its declared
   scope. Start with the [common portable guide](../debug_tools.md): recording,
@@ -1258,8 +1290,94 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Native path631servedB includes2existing interp_one fallback reads; testobserver
   counts thatcallback too, preserving original strict totals/state/clock.
   No runtime/CAPI/guest fix or ABIchange; [combined evidence and limits](../rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).
-  ActualCLI/ordinary use pending;
-  no guestcap inferred. No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
+  ActualCLI nowregistered: one warningfree568-source productionbuild72d44985../
+  nooverlays/canonicalhashmtime restore; create-reuse-neutral1 all0/78runtimefiles
+  exact/77IDhash/80managedpaths nowrite/old28859cache. Oneprivateindex75->76assert
+  correctedaftercreatedchild0, no prepare/buildrepeat;189guards568CLI+568runtime
+  hashes/helper0. Startup24755→24756 hasall9counts0. OrdinaryRumorsentry nowPASS:
+  42f15181→15223/468servedB/sixclasses127-76-152-76-34-3/127physicalheads inclzeros;
+  all9capture-CLI-fullpaircounts exact/every42fullstates-clock/classic-wide/OAM/
+  5audio. One569source testbuild63584945../normalobserver+optional5lineguard,
+  inversehub-validator exact/core-runtime unchanged;2normalcaptures254f oncopies,
+  no forcedguestedit/old620or397route replay.143guards569hash+568CLI/3roothashes/
+  80nowrite/helper0; no selectedrumor/outcome/allbranches/fullABI claim.
+  Declared8Bchain closed. The following [mission-record source contract](../rom_data_gameplay.md#european-mission-record-source-contract)
+  now establishes713B3C..71C73C/512x70/35840B from two independent1..511 scans,
+  getter-index0 and separately rooted successor byte arrays.65selectors retain
+  unsigned packed/LE/scaled/mapped values and7addressselectors/6inlineoffsets,
+  original aliases and residual bits; no guestindexcap512 or300 inferred.
+  Byte+45HEX69decimal retains the closed event join;512numeric references/
+  173values/fouraliasgroups, zero caller-specific. Allbytes reconstruct exactly,
+  disjoint77owners50491spans/19windows9new10cached/157pins110guards. Source-only:
+  no build/game/fixture/oldproof replay. Strictmission_records70 model nowpasses
+  full35840Broundtrip/strictshape vs exactROM+19windowauth; query retainslow16/8,
+  computedaddressesoutsideowner/defaultSome0/unownedscalarNone diagnostic.
+  One571source242coreinput Windowsbuild663e8b87../oneWinefilter21guards438base+
+  260synthetic originalgetter/helper calls pass results/actualbyte-readorder,
+  EWRAM/VRAM/OAM/palette/IWRAM exactincludingreturnlinks/SP-R4..R12/finalROM.
+  Actualbase324B/synthetic54B distinctreads are separatefromall35840roundtrip;
+  139guards571hash569preimages110sourceguards/helper0. e85-d84/78files unchanged;
+  Managedmission runtime nowe86-d85/index77/79files78owners/all77prior exact,
+  one35840span/10classes13stats/8maskwords/pages713..71c. Two573source Windows
+  builds:733firstpubPASSthenfirstattachFAILoldshared/OBJ1024cap; userno-space-
+  limits removeslegacyOBJ/BGallocationcaps+threeassertions, fullauthretained.
+  Remaining-only455bdb1c Wine reusesSAME79dataset, passes14attach2fullset/
+  41nativefullstate-clock(16load25getter)/all35kbus512ends/LoadUndo/DMA3; no pub
+  replay. Native52servednewB5priorB/allcallbacksattributed,168entries69dispatch
+  coverageonly, notwholecatalog native.860guards573accepted+573diagnostic/571
+  model/eightcurrenthashes/78priorfiles exact; helperonlyinterruptedcopy.
+  ActualCLI nowPASS: onewarningfree573source production738b7f20../nooverlays/
+  canonicalhashmtime restore; Winecreate-reuse-neutral1 all0,79files78IDhash/
+  81nowritepaths/28859oldcache. Privategeneratorindextoken fixedBEFOREWine, no
+  sourcecopy/build/actualprepare replay. Startup24755→24756 all13counts0, no
+  action/navigation/newcheckpoint/ordinaryacceptance.195guards573CLI+573runtime/
+  helper0. OrdinaryGizaPlainsinfo nowPASS33f15017→15050, fiveSERVEDpackedB/one
+  record/other9classes0; all13capture-CLI-fullpaircounts exact/every33fullstates-
+  clock/classic-wide/OAM/5audio. One574source testbuild3d21e89c../passiveobserver+
+  optional5lineguard/inversehubs/core-runtimeunchanged. One81fnormalDown3/A12
+  capture oncopies; postcapturehelpermissingsteps repairedregistrationONLY/no
+  replay. Cachedseedclassic/scale authenticated; newfullwide284x160/bitrep match
+  FFSTATE andclassicGizaMISSIONinfo page1/3Rank1 inspected, no missionoutcome.
+  133guards574hash+573CLI/3current/81nowrite/helper0; no allfields/all512 claim.
+  Declared70Bchainclosed. The next [selection-byte source contract](../rom_data_gameplay.md#european-selection-byte-table-source-contract)
+  now establishesC73C..C740/fourcountthresholds andC740..C75E/thirtyordinalweights,
+  34B/twospans/allbytesroundtrip/nooverlap78owners50492spans. Sixwindows2new4cached/
+  95pins96guards; firstfive-liveheader low3count0..5 guard<=3, live rawu8 status
+  02002CC3+12*(low8ordinal-1), two30ordinalscans/numericzero/wrappingsignedrank
+  mechanics preserved. Numerichelperinternals/RNG/fullABI unproven; gap2B remains
+  opaque, eventC760 needs owncontract. Sourcecontractclosed; [typedmodel/stageproof](../rom_data_gameplay.md#typed-selection-byte-tables-and-original-stage-proof)
+  nowPASS34B/twospans/one576source245coreinput buildb40503b8/oneWine18guards
+  45base24synthetic prefixes+actual377BC. Independent results/livequery/source
+  loadorder/fullRAM/SP-R8..R12/finalROM exact; all34base/32syntheticB observed
+  distinctfrom34Broundtrip.123guards/574preimages/96sourceguards PASS/helper0.
+  Fixed4/30u8/shape-source separate; full32wrappingsignedrank/nozero shortcut.
+  No numerichelper/fullABI claim. [Managedruntime](../rom_data_gameplay.md#managed-selection-byte-tables-and-typed-runtime-reads)
+  nowe87-d86/index78/80files79resources/78prior exact/twospans4-30B/no deps,
+  fixedowner page71C/6stats/4+30positionbits/prior70B-rawgap composition. One
+  warningfree578source246core e5b45668 build/oneWinepublication14attach2fullset/
+  20nativefullstate-clock/all34bus/LoadUndo/DMA3 PASS;76servednewB5prior/all
+  callbacksattributed/fallbacksource0, notdistinctunion.243guards578hash576model
+  sevenimplementation/79prior exact; helperonlyinterrupted. [ActualCLI](../rom_data_gameplay.md#actual-selection-byte-cli-registration)
+  nowPASS one578source production22af4132/canonicalhashmtime restore, create-reuse-
+  neutral1 all0/80payloadexact79IDhash82nowritepaths/cache28859exact/192guards.
+  Guest24755→24756 all6counts0; startupscopeonly. [Ordinarytravel33](../rom_data_gameplay.md#ordinary-selection-threshold-travel-equivalence)
+  nowPASS one579source8f3bee97 observer+5lineguard/inversehub/core-runtime exact.
+  Eightcallerwindows354pins/fourseedreadonlygates, normalGiza19049copy/A12 one
+  129fcapture first97/19147→suffix33/19145→19178; discoverySTOP. SAMECLI one
+  positive33/SAMEtestfullpair every33states-clock/classic-wide/OAM/5audio, all
+  sixcounts exact1bus1SERVEDthresholdB1position/weights0/notall4or30.140guards
+  579hash578CLI/threecurrent/82managed/oldcache-ROM-seed-canonical exact/helper0.
+  Chainclosed/unordinario. [Event12sourcecontract](../rom_data_gameplay.md#european-event-record-source-contract)
+  nowPASS71C760..71D360/256x12/3072B/onespan/allbytesroundtrip/nooverlap79owners
+  50494spans; explicit255..1stride12/liveu8zero/nextindependent27root, notglobal
+  indexcap.71D1EC=base+225*12/31physical SAMEowner, low8arguncapped/highoutside;
+  selection1..30maps226..255. Fullu16keycallback highestmatch255..1/excludes0,
+  conditionalprimary02/alternate04 andrawparam06-byte07-flags08/opaque0A2B retained.
+  Fifteenwindows10new5cached/67pins112guards/80acceptedfiles exact/helper0,
+  staticonly. Strictmodel/originalprefixWine next; e87runtimeunchanged/27Bnext
+  extent/fullABI/liveeffects/indirect/Linux-USA-nativeWindows pending. No old
+  proof/fixture recreation or metrics/ABIchange.
+  No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global
   phase cap; runtimephase/correction coverage partitions3/4bits. One first

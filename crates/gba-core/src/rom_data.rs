@@ -33,6 +33,8 @@ pub mod metadata2;
 pub mod metadata28;
 pub mod records4;
 pub mod conditional_records8;
+pub mod mission_records70;
+pub mod selection_byte_tables;
 pub mod default48;
 pub mod constructor_alternates;
 pub mod metadata14;
@@ -87,8 +89,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 85;
-pub const DECODER_REV: u32 = 84;
+pub const EXTRACTOR_REV: u32 = 87;
+pub const DECODER_REV: u32 = 86;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -277,6 +279,14 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const SELECTION_BYTE_TABLES_ID: &str = "gameplay.selection-byte-tables";
+pub const SELECTION_BYTE_TABLES_FILE: &str = "selection-byte-tables.json";
+pub const SELECTION_BYTE_TABLES_FORMAT: &str = "selection-byte-tables-v1-json";
+pub const MAX_SELECTION_BYTE_TABLES_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const MISSION_RECORDS70_ID: &str = "gameplay.mission-records70";
+pub const MISSION_RECORDS70_FILE: &str = "mission-records70.json";
+pub const MISSION_RECORDS70_FORMAT: &str = "mission-records70-v1-json";
+pub const MAX_MISSION_RECORDS70_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const CONDITIONAL_RECORDS8_ID: &str = "gameplay.conditional-records8";
 pub const CONDITIONAL_RECORDS8_FILE: &str = "conditional-records8.json";
 pub const CONDITIONAL_RECORDS8_FORMAT: &str = "conditional-records8-v1-json";
@@ -570,6 +580,8 @@ pub struct Extraction {
     pub metadata28: Option<metadata28::Catalog>,
     pub records4: Option<records4::Catalog>,
     pub conditional_records8: Option<conditional_records8::Catalog>,
+    pub mission_records70: Option<mission_records70::Catalog>,
+    pub selection_byte_tables: Option<selection_byte_tables::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -653,6 +665,8 @@ pub struct BaseFiles<'a> {
     pub metadata28: Option<(&'a metadata28::Metadata28, &'a [u8])>,
     pub records4: Option<(&'a records4::Records4, &'a [u8])>,
     pub conditional_records8: Option<(&'a conditional_records8::Records8, &'a [u8])>,
+    pub mission_records70: Option<(&'a mission_records70::Records70, &'a [u8])>,
+    pub selection_byte_tables: Option<(&'a selection_byte_tables::ByteTables, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1227,6 +1241,14 @@ impl Extraction {
             result.manifest.coverage.push(CONDITIONAL_RECORDS8_ID.into());
             result.manifest.resources.push(Resource {id:CONDITIONAL_RECORDS8_ID.into(),path:CONDITIONAL_RECORDS8_FILE.into(),format:CONDITIONAL_RECORDS8_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
             result.conditional_records8 = Some(metadata);
+            let metadata = mission_records70::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(MISSION_RECORDS70_ID.into());
+            result.manifest.resources.push(Resource {id:MISSION_RECORDS70_ID.into(),path:MISSION_RECORDS70_FILE.into(),format:MISSION_RECORDS70_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.mission_records70 = Some(metadata);
+            let metadata = selection_byte_tables::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SELECTION_BYTE_TABLES_ID.into());
+            result.manifest.resources.push(Resource {id:SELECTION_BYTE_TABLES_ID.into(),path:SELECTION_BYTE_TABLES_FILE.into(),format:SELECTION_BYTE_TABLES_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.selection_byte_tables = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1338,6 +1360,8 @@ impl Extraction {
             metadata28: None,
             records4: None,
             conditional_records8: None,
+            mission_records70: None,
+            selection_byte_tables: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1450,6 +1474,8 @@ impl Extraction {
             || self.encounter_coordinates.is_some() != self.metadata28.is_some()
             || self.encounter_coordinates.is_some() != self.records4.is_some()
             || self.records4.is_some() != self.conditional_records8.is_some()
+            || self.conditional_records8.is_some() != self.mission_records70.is_some()
+            || self.mission_records70.is_some() != self.selection_byte_tables.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2115,6 +2141,14 @@ impl Extraction {
             (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_RECORDS8_FILE_BYTES {return Err("ConditionalRecords8 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[76].sha256=ffta_rom::digest(bytes);}
             (None,None)=>{},_=>return Err("Missing or unexpected conditional_records8".into()),
         }
+        match (&self.mission_records70, files.mission_records70) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_MISSION_RECORDS70_FILE_BYTES {return Err("MissionRecords70 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[77].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected mission_records70".into()),
+        }
+        match (&self.selection_byte_tables, files.selection_byte_tables) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_SELECTION_BYTE_TABLES_FILE_BYTES {return Err("SelectionByteTables file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[78].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected selection_byte_tables".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2525,6 +2559,14 @@ impl Extraction {
             decoded.validate()?;
             if decoded!=&expected.decoded {return Err("Decoded conditional_records8 differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.mission_records70,files.mission_records70) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded mission_records70 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.selection_byte_tables,files.selection_byte_tables) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded selection_byte_tables differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2613,6 +2655,8 @@ impl Extraction {
             + usize::from(self.metadata28.is_some())
             + usize::from(self.records4.is_some())
             + usize::from(self.conditional_records8.is_some())
+            + usize::from(self.mission_records70.is_some())
+            + usize::from(self.selection_byte_tables.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2744,6 +2788,8 @@ mod tests {
             metadata28: None,
             records4: None,
             conditional_records8: None,
+            mission_records70: None,
+            selection_byte_tables: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2828,6 +2874,8 @@ mod tests {
             metadata28: None,
             records4: None,
             conditional_records8: None,
+            mission_records70: None,
+            selection_byte_tables: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2922,6 +2970,8 @@ mod tests {
             metadata28: None,
             records4: None,
             conditional_records8: None,
+            mission_records70: None,
+            selection_byte_tables: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3005,6 +3055,8 @@ mod tests {
             metadata28: None,
             records4: None,
             conditional_records8: None,
+            mission_records70: None,
+            selection_byte_tables: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

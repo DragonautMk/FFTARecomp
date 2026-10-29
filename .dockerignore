@@ -81,6 +81,9 @@
 !docs/debug_recent.md
 !docs/debug_campaigns.md
 !docs/report_home.md
+!docs/debug_operations.md
+!docs/debug_content.md
+!docs/debug_selector.md
 !docs/development/LOCAL_ARTIFACTS.md
 !docs/development/MEMORY_WORKFLOW.md
 !docs/development/DEBUG_TOOLS_TODO.md

@@ -293,6 +293,16 @@ pub(crate) fn preview(bytes: &[u8]) -> Result<Vec<[u8;4]>, String> {
     Ok(preview)
 }
 
+/// Authenticate a selectable snapshot's envelope and ROM without loading it.
+/// The eventual load still checks BIOS, decoded fields and live compatibility.
+pub(crate) fn reference_identity(bytes:&[u8],rom:Option<&str>)->Result<(),String>{
+    preview(bytes)?;
+    let core=if bytes.starts_with(SLOT_MAGIC){&bytes[PREFIX..]}else{bytes};
+    let actual=core[12..44].iter().map(|b|format!("{b:02x}")).collect::<String>();
+    if rom.is_some_and(|r|r!=actual){return Err("Snapshot belongs to a different ROM".into());}
+    Ok(())
+}
+
 /// Read a desktop slot or legacy raw snapshot through the same transactional validator.
 pub(crate) fn load(machine: &mut Machine, path: &Path) -> Result<(), String> {
     let bytes = read_file(path).map_err(|e| e.to_string())?;

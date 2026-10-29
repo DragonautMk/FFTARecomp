@@ -308,6 +308,9 @@ impl Audit {
     }
 }
 pub(crate) fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
+    create_from_menu(args,false)
+}
+pub(crate) fn create_from_menu(args:&[String],validate_only:bool)->Result<PathBuf,String>{
     let mut settings = Settings {
         preset: "all".into(),
         from: 0,
@@ -357,13 +360,13 @@ pub(crate) fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
             _ => common.push(arg.clone()),
         }
     }
-    crate::debug_replay::create_cmd_audited(
+    crate::debug_replay::create_dispatch(
         &common,
         Some(&Request {
             settings,
             known,
             dataset,
-        }),
+        }),None,None,validate_only,
     )
 }
 pub(crate) fn cmd(args: &[String]) -> u8 {

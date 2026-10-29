@@ -1,7 +1,7 @@
 # TODO — Debug integrato: selettori, console e cheat
 
-Creato il **29 ottobre 2026**. **Solo pianificazione: tutte le voci DBG2 sono
-da implementare.** La richiesta corrente è preparare questa checklist.
+Creato il **29 ottobre 2026**. **Implementazione avviata** dalla richiesta
+«esegui il todo debugtools v2»; le spunte sotto indicano le sole unità concluse.
 Il [primo piano DBG-01…DBG-22](DEBUG_TOOLS_TODO.md) rimane completato nel suo
 ambito; qui si definiscono estensioni con nuove prove, senza riaprire le vecchie.
 
@@ -75,7 +75,7 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
 
 ## P0 — Selezione e configurazione dal menu
 
-- [ ] **DBG2-01 — Inventario delle azioni e contratto comune.**
+- [x] **DBG2-01 — Inventario delle azioni e contratto comune.**
   Censire ogni azione DBG esistente e ogni parametro CLI, indicando selezione
   richiesta, prerequisiti, effetti, stato consentito e risultato. Individuare
   tutti i percorsi che aprono dialoghi e quelli con impostazioni fisse.
@@ -84,8 +84,12 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** ogni azione ha una destinazione nel nuovo menu e un esito
   leggibile/strutturato; gli eventuali parametri ancora non esposti sono elencati
   come lavoro aperto, non occultati. **Dipende da:** basi DBG-01/20.
+  Contratto e uso: [operazioni debug](../debug_operations.md), inclusi i tre
+  siti di dialogo e i parametri ancora fissi/non esposti. Chiuso con build Windows,
+  test Wine sintetici, query positive/negative e controllo dei payload pubblici;
+  [record](../changes/2026-10-29-add-shared-debug-operation-contract.json).
 
-- [ ] **DBG2-02 — Catalogo comune dei contenuti selezionabili.**
+- [x] **DBG2-02 — Catalogo comune dei contenuti selezionabili.**
   Indicizzare radici portable dichiarate e cartelle aggiunte esplicitamente:
   sessioni, registrazioni, profili, script/ricette, campagne, snapshot, runtime,
   dataset, librerie native, label, manifest noti e report. Conservare ID stabile,
@@ -95,8 +99,11 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** catalogo vuoto, duplicati, collegamenti non ordinari, file
   cambiati/mancanti e tipi incompatibili hanno esiti espliciti; nessun elemento
   viene eseguito per indicizzarlo. **Dipende da:** DBG2-01.
+  Implementato: [catalogo contenuti](../debug_content.md), `debug-content scan/check`;
+  fixture sintetiche Wine, rifiuto di link reali, limiti, omonimi e cartella
+  spostata verificati; [record](../changes/2026-10-29-add-bounded-debug-content-catalog.json).
 
-- [ ] **DBG2-03 — Selettore riutilizzabile dentro il menu.**
+- [x] **DBG2-03 — Selettore riutilizzabile dentro il menu.**
   Lista con ricerca, categorie, filtri, ordinamento, preferiti/recenti e pannello
   di dettagli; anteprima dove già disponibile. Navigazione completa con
   tastiera, mouse e controller; scroll, focus, testo lungo e ritorno coerenti.
@@ -104,8 +111,13 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** scegliere due elementi omonimi con identità diverse, cambiare
   filtro, annullare e gestire lista vuota senza dialoghi OS automatici né
   azioni involontarie. **Dipende da:** DBG2-02.
+  Implementato e verificato: [selettore interno](../debug_selector.md),
+  tastiera/mouse/XInput simulato, omonimi, ricerca/filtri, lista vuota,
+  preferiti/recenti e anteprima. Corretta la propagazione di Escape dopo Cancel
+  dei dialoghi; prova successiva con stato completo/frame0/clock0 invariati.
+  [Record](../changes/2026-10-29-add-integrated-debug-content-selector.json).
 
-- [ ] **DBG2-04 — Migrare tutte le scelte degli strumenti esistenti.**
+- [x] **DBG2-04 — Migrare tutte le scelte degli strumenti esistenti.**
   Portare al selettore interno Choose catalog/profile e i fallback di
   Replay/Audit/Capture/Compare/Create issue. Estendere la scelta a sessioni,
   snapshot/input, dataset, runtime A/B, librerie, label e piano noto usati dai
@@ -115,8 +127,12 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   assente, alterato e incompatibile; zero dialoghi automatici. Solo il pulsante
   esterno apre un picker, una volta, e Cancel non avvia nulla.
   **Dipende da:** DBG2-03.
+  Implementato: [scelte tipizzate](../debug_selector.md), dodici ruoli,
+  zero dialoghi automatici e avvio distinto dalla conferma. Verificati ingressi
+  mancanti/presenti, file alterati/assenti, ROM e schema incompatibili, dialoghi
+  espliciti singoli e Cancel; [record](../changes/2026-10-29-migrate-debug-tool-input-selection.json).
 
-- [ ] **DBG2-05 — Parametri, preset e preparazione dei profili nel menu.**
+- [x] **DBG2-05 — Parametri, preset e preparazione dei profili nel menu.**
   Esporre frame/timeout, maschere input, range, filtri, stream audio, trigger,
   confronto precedente, sintomo issue e opzioni delle tracce. Creare e salvare
   profili/preset con riepilogo degli input selezionati; distinguere modifica
@@ -125,6 +141,10 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** preparare registrazione → replay → audit/confronto/report senza
   editor esterno o percorso digitato; parametri ed esiti coincidono con CLI.
   **Dipende da:** DBG2-01/04.
+  Implementato il [workbench parametri](../debug_selector.md): bozze/preset,
+  input tipizzati, verifica/preparazione/avvio distinti e profili nuovi. Catena
+  GUI e quattro profili equivalenti CLI verificati con esiti/stato/clock uguali;
+  [record](../changes/2026-10-29-add-debug-parameter-workbench.json).
 
 - [ ] **DBG2-06 — Libreria di script e strumenti avviabili.**
   Menu «Script e strumenti» con ricette di debug e adattatori dichiarati per

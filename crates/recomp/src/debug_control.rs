@@ -206,7 +206,7 @@ impl Server {
             "capabilities":["query-status","targeted-cancel","request-deadline"]})
     }
     pub fn pending_status(&self)->Value{
-        self.pending.as_ref().map_or(Value::Null,|r|json!({"request_id":r.id,"command":r.command,"deadline_unix_ms":r.deadline_unix_ms}))
+        self.pending.as_ref().map_or(Value::Null,|r|json!({"request_id":r.id,"operation_id":r.command.operation_id(),"command":r.command,"deadline_unix_ms":r.deadline_unix_ms}))
     }
     pub fn pending_matches(&self,id:&str)->bool{self.pending.as_ref().is_some_and(|r|r.id==id)}
     pub fn deadline_expired(&self)->bool{self.pending.as_ref().is_some_and(Request::expired)}
@@ -237,7 +237,7 @@ impl Server {
         if request.expired() && error.is_none(){error=Some("Command completed after deadline; inspect returned state before retrying".into());}
         let outcome=if request.expired(){"timeout"}else if error.as_deref().is_some_and(|e|e.starts_with("Session closed")){"closed"}else if error.as_deref().is_some_and(|e|e.contains("control-cancelled")){"cancelled"}else if error.is_some(){"refused"}else{"ok"};
         let value=json!({"schema":1,"kind":"ffta-debug-control-result","run":self.run,"id":request.id,
-            "session":self.session,"outcome":outcome,"ok":error.is_none(),"error":error,"status":status});
+            "session":self.session,"operation_id":request.command.operation_id(),"outcome":outcome,"ok":error.is_none(),"error":error,"status":status});
         if request.query{self.query_outbox=Some(value)}else{self.outbox=Some(value)}
         self.flush_channel(request.query)
     }
@@ -265,7 +265,7 @@ impl Drop for Server {
     }
 }
 
-fn parse(args: &[String]) -> Result<(PathBuf, Action), String> {
+pub(crate) fn parse(args: &[String]) -> Result<(PathBuf, Action), String> {
     if args.len() < 2 {
         return Err(
             "Use debug-control <status|cancel|pause|resume|step|inspect|break|watch|graphics|ui-start|ui-report|audio-start|audio-report|code-start|code-report|gameplay-start|gameplay-report|recent-start|recent-freeze|recent-report|issue-report> SESSION [options]"
@@ -515,6 +515,8 @@ mod tests {
         let got=s.poll_query().unwrap().unwrap();
         s.reply(&got,json!({"pending_control":s.pending_status()}),None).unwrap();
         assert_eq!(read(&s.dir.join("query-result.json")).unwrap()["status"]["pending_control"]["request_id"],"step1");
+        assert_eq!(read(&s.dir.join("query-result.json")).unwrap()["operation_id"],"control.status");
+        assert_eq!(s.pending_status()["operation_id"],"control.step");
         assert!(s.pending_matches("step1")&&!s.pending_matches("old")&&!s.dir.join("result.json").exists());
         let cancel=synthetic_request(&s,"cancel1",Action::Cancel{request_id:"step1".into()},true);
         put(&s.dir,"query.json",&serde_json::to_value(&cancel).unwrap()).unwrap();
@@ -525,6 +527,7 @@ mod tests {
         assert_eq!(read(&s.dir.join("result.json")).unwrap()["id"],"step1");
         assert_eq!(read(&s.dir.join("result.json")).unwrap()["outcome"],"cancelled");
         assert_eq!(read(&s.dir.join("query-result.json")).unwrap()["id"],"cancel1");
+        assert_eq!(read(&s.dir.join("query-result.json")).unwrap()["operation_id"],"control.cancel");
         drop((primary,query_lock));
     }
     #[test]

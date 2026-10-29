@@ -43,8 +43,17 @@ and physical-byte unions without re-extraction or automatic coverage promotion.
 The [completed debug-tools checklist](../docs/development/DEBUG_TOOLS_TODO.md)
 records the DBG01–22 scope. The new [integrated-debug TODO](../docs/development/DEBUG_TOOLS_V2_TODO.md)
 plans in-menu content/script selection, event and command consoles, and a cheat
-debug menu. Its 28 DBG2 items are planning only; they remain distinct from existing
-commands and DS scene acceptance.
+debug menu. Implementation starts with the readonly
+[operation contract](../docs/debug_operations.md), available as
+`recomp debug-operations list/show [--json]`. It inventories existing commands,
+parameters and remaining menu gaps; it does not execute the listed operations.
+The readonly [content catalog](../docs/debug_content.md), `debug-content scan/check`,
+indexes only declared app roots and explicitly added folders, with stable IDs,
+hashes, availability, declared compatibility and bounded refresh; no content is
+executed. The [integrated content selector](../docs/debug_selector.md),
+Debug > Content selector, adds explicit search/filter/select/refresh/import
+controls over the same readonly catalog; tool migration remains DBG2-04.
+DBG2 development remains distinct from DS scene acceptance.
 
 From the repository root, extract readable ROM data with Docker:
 

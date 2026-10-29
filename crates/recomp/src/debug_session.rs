@@ -53,7 +53,7 @@ fn project_variable(name: &std::ffi::OsStr) -> bool {
     ["FFTA_", "RECOMP_", "GBA_"].iter().any(|p| name.starts_with(p))
 }
 
-fn regular(path: &Path) -> Result<fs::Metadata, String> {
+pub(crate) fn regular(path: &Path) -> Result<fs::Metadata, String> {
     let meta = fs::symlink_metadata(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let mut linked = meta.file_type().is_symlink();
     #[cfg(windows)] {
@@ -248,6 +248,19 @@ pub(crate) fn create(destination: &Path, source: Source<'_>) -> Result<PathBuf, 
 
 fn scrub(command: &mut Command, names: impl Iterator<Item = std::ffi::OsString>) {
     for name in names.filter(|name| project_variable(name)) { command.env_remove(name); }
+}
+
+/// Read only immutable source pins for preparing a NEW profile while its UI is open.
+/// Does not grant a runtime/save writer lease or launch the selected session.
+pub(crate) fn profile_source(root:&Path)->Result<(PathBuf,Option<PathBuf>,Option<PathBuf>,Option<Session>),String>{
+    let same_root=input_config::exe_dir().and_then(|p|fs::canonicalize(p).ok())==fs::canonicalize(root).ok();
+    let owner=crate::diagnostics::read(&root.join(crate::artifact_lease::NAME).join("owner.json"),4096).ok().and_then(|b|serde_json::from_slice::<serde_json::Value>(&b).ok());
+    let owned=same_root && owner.as_ref().is_some_and(|v|v["pid"]==std::process::id() && v["role"]=="runtime");
+    // Other sources retain their existing exclusive source lease; the active UI
+    // may read its own pinned inputs while it already holds that exact lease.
+    let lease=if owned{None}else{Some(open(root)?)};
+    let m=read_manifest(root)?;
+    Ok((root.join("ffta.gba"),m.real_bios.then(||root.join("gba_bios.bin")),m.has_dataset.then(||root.join("Data/dataset")),lease))
 }
 
 pub(crate) fn replay_command(root: &Path) -> Result<Command, String> {

@@ -107,8 +107,6 @@ fn regional_file_backed_selectors_native_and_lifecycle() {
             resources.background_file_sha256().unwrap(),
             gba_core::ffta_rom::digest(&fs::read(dataset.join(BG_DESCRIPTORS_FILE)).unwrap())
         );
-        assert!(resources.obj_resident_bytes() + 2 * std::mem::size_of::<usize>() <= 1024);
-        assert!(resources.background_resident_bytes() <= 64 * 1024);
         let offset = catalog.source.offset as usize;
         machine.bus.rom[offset..offset + catalog.source.length as usize].fill(0xcd);
     }

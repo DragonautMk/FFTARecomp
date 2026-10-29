@@ -111,6 +111,8 @@ pub(super) fn draw(
     if w < 32 || h < 32 || px.len() < w * h {
         return;
     }
+    if menu.page == Page::ContentSelector { super::content_selector::draw(&menu.content,px,w,h);return; }
+    if menu.tool_active(){super::debug_tool::draw(&menu.tool,px,w,h);return;}
     if menu.page == Page::DebugCatalog { super::debug_catalog::draw(menu,px,w,h);return; }
     if matches!(menu.page, Page::SaveStates | Page::ReplaceState) {
         super::save_states::draw(menu, px, w, h);
@@ -166,6 +168,8 @@ pub(super) fn draw(
     );
     if menu.page != Page::Main {
         let label = match menu.page {
+            Page::DebugTools => "PARAMETERS / PREPARE PROFILES",
+            Page::ToolInputs => "TOOL INPUTS / SELECT ONLY",
             Page::Debug => if menu.debug_message.is_empty() { "DEBUG OPTIONS" } else { &menu.debug_message },
             Page::Exit => "QUIT GAME?",
             Page::SaveStates => "SAVE STATES",
@@ -257,6 +261,12 @@ pub(super) fn draw(
         let fg = if sel { GOLD } else { INK };
         let ty = yy + (rh - fs) / 2.;
         let tx = xx + 18. * scale;
+        if let Row::ToolInput(slot)=row {
+            c.text(tx,yy+3.*scale,slot.label(),fg,fs*0.78,true,bw-36.*scale);
+            let current=menu.tool_inputs.iter().find(|(key,_)|*key==slot).map(|(_,v)|v.as_str()).unwrap_or("Not selected - choose an internal reference");
+            c.text(tx,yy+22.*scale,current,fg,fs*0.60,false,bw-36.*scale);
+            continue;
+        }
         if row==Row::MouseMode {
             c.text(tx,yy+3.*scale,"Enable (Experimental)",fg,fs*0.72,true,bw-104.*scale);
             c.text(tx,yy+17.*scale,"Keyboard-only is unavailable",fg,fs*0.50,false,bw-104.*scale);

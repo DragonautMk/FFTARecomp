@@ -20,6 +20,8 @@ let unit play animation during battles, for fun and other debug feature like spr
 
 text effect to simulate speach
 
+dividiere tipi di audio, musiche, suoni ed effetti (e magari voci se implementate)
+
 ffta wiki with precise unit and equipments.
 
 Long term:

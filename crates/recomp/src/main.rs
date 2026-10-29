@@ -24,6 +24,12 @@ mod diagnostics;
 mod debug_session;
 mod artifact_lease;
 mod debug_control;
+mod debug_operations;
+mod debug_content;
+mod content_picker;
+mod debug_inputs;
+mod debug_workbench;
+mod modal_input;
 mod debug_probe;
 mod debug_graphics;
 mod debug_ui;
@@ -82,6 +88,8 @@ fn main() -> ExitCode {
         print_help(topic);
         return ExitCode::SUCCESS;
     }
+    if args.first().is_some_and(|s|s=="debug-content") { return ExitCode::from(debug_content::cmd(&args[1..])); }
+    if args.first().is_some_and(|s|s=="debug-operations") { return ExitCode::from(debug_operations::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-compare") { return ExitCode::from(debug_compare::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-audio") { return ExitCode::from(debug_audio::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-report") { return ExitCode::from(debug_issue::cmd(&args[1..])); }
@@ -151,6 +159,16 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-content", "recomp debug-content <scan|check> [options]", &[
+        "scan [--root PORTABLE] [--add-root DIR ... --add-file FILE ...] [--rom-sha256 SHA] [--json]",
+        "check INDEX ID [--kind KIND] [--json] rechecks an explicit saved index entry",
+        "Bounded readonly discovery; no automatic scan, repair, launch or script execution",
+    ], "Index declared app/portable roots and explicitly added folders. Stable IDs, content hashes, duplicate links, declared ROM compatibility and availability remain distinct from full action preflight. Exit3 refuses a changed, missing, nonordinary or incompatible recheck."),
+    ("debug-operations", "recomp debug-operations [list | show ID] [--json]", &[
+        "Readonly versioned inventory of existing debug actions and CLI parameters",
+        "Includes current/planned menu routes, prerequisites, effects, results and limits",
+        "Fixed menu values, missing controls and implicit dialogs remain explicit open work",
+    ], "Inspect the shared operation contract without loading game data or executing a command. Stable IDs also identify menu/control diagnostics. Unknown IDs and extra arguments return invalid-request JSON and exit 1."),
     ("debug-report", "recomp debug-report create PROFILE/replay.json [--symptom TEXT]", &[
         "Readonly pinned-input preflight and retained result/comparison; no replay started",
         "Private HTML/JSON/metadata summary and movable PowerShell/POSIX launchers",

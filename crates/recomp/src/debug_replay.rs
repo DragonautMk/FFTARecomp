@@ -273,6 +273,7 @@ pub(crate) fn create(
         None,
         None,
         None,
+        false,
     )
 }
 
@@ -287,6 +288,7 @@ fn create_inner(
     audit: Option<&crate::debug_rom_audit::Request>,
     capture: Option<&crate::debug_capture::Request>,
     comparison: Option<&crate::debug_compare::Request>,
+    validate_only: bool,
 ) -> Result<PathBuf, String> {
     if case.is_empty()
         || case.len() > 64
@@ -299,12 +301,13 @@ fn create_inner(
         return Err("Capture profiles require interpreter-only replay without a simultaneous audit".into());
     }
     if comparison.is_some() && (audit.is_some() || capture.is_some()) {return Err("Comparison profiles cannot also audit or capture triggers".into());}
-    let session = crate::debug_session::open(session)?;
+    if destination.exists(){return Err("Profile destination already exists; prepare a new profile instead of overwriting.".into());}
+    let (session_rom,session_bios,session_dataset,_source_lease)=crate::debug_session::profile_source(session)?;
     let data = crate::debug_recording::export(recording)?;
     let m = &data.manifest;
-    let rom = read(&session.rom(), 32 * 1024 * 1024)?;
-    let bios = session.bios().map(|p| read(&p, 16384)).transpose()?;
-    let dataset = session.dataset();
+    let rom = read(&session_rom, 32 * 1024 * 1024)?;
+    let bios = session_bios.map(|p| read(&p, 16384)).transpose()?;
+    let dataset = session_dataset;
     let dataset_sha256 = dataset
         .as_ref()
         .map(|p| {
@@ -353,6 +356,10 @@ fn create_inner(
         .map(|request| crate::debug_capture::prepare(request, &rom, m.frames, dataset.as_deref()))
         .transpose()?;
     let comparison_prepared=comparison.map(|request|crate::debug_compare::prepare(request,m.frames,native.is_some())).transpose()?;
+    // Authenticate remaining source inputs before either validation returns or output exists.
+    read(runtime,256*1024*1024)?;
+    if let Some(dataset)=dataset.as_deref(){crate::rom_data::diagnosis::inspect(&rom,dataset)?;}
+    if validate_only{return Ok(destination.join(PROFILE));}
     let root = crate::debug_session::create(
         destination,
         crate::debug_session::Source {
@@ -900,13 +907,16 @@ pub(crate) fn create_cmd_audited(
     args: &[String],
     audit: Option<&crate::debug_rom_audit::Request>,
 ) -> Result<PathBuf, String> {
-    create_cmd_inner(args, audit, None, None)
+    create_cmd_inner(args, audit, None, None,false)
 }
+#[cfg(test)]
 pub(crate) fn create_cmd_captured(args: &[String], capture: &crate::debug_capture::Request) -> Result<PathBuf,String> {
-    create_cmd_inner(args,None,Some(capture),None)
+    create_cmd_inner(args,None,Some(capture),None,false)
 }
-pub(crate) fn create_cmd_comparison(args:&[String],comparison:&crate::debug_compare::Request)->Result<PathBuf,String>{create_cmd_inner(args,None,None,Some(comparison))}
-fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Request>, capture: Option<&crate::debug_capture::Request>, comparison: Option<&crate::debug_compare::Request>) -> Result<PathBuf,String> {
+#[cfg(test)]
+pub(crate) fn create_cmd_comparison(args:&[String],comparison:&crate::debug_compare::Request)->Result<PathBuf,String>{create_cmd_inner(args,None,None,Some(comparison),false)}
+pub(crate) fn create_dispatch(args: &[String], audit: Option<&crate::debug_rom_audit::Request>,capture:Option<&crate::debug_capture::Request>,comparison:Option<&crate::debug_compare::Request>,validate_only:bool)->Result<PathBuf,String>{create_cmd_inner(args,audit,capture,comparison,validate_only)}
+fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Request>, capture: Option<&crate::debug_capture::Request>, comparison: Option<&crate::debug_compare::Request>,validate_only:bool) -> Result<PathBuf,String> {
     let mut recording = None;
     let mut session = None;
     let mut directory = None;
@@ -939,6 +949,7 @@ fn create_cmd_inner(args: &[String], audit: Option<&crate::debug_rom_audit::Requ
         audit,
         capture,
         comparison,
+        validate_only,
     )
 }
 

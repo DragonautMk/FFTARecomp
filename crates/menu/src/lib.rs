@@ -22,6 +22,12 @@ mod save_states;
 mod game_saves;
 mod save_backups;
 mod debug_catalog;
+mod content_selector;
+mod tool_inputs;
+mod debug_tool;
+pub use debug_tool::{DebugTool,ToolRequest,ToolField,ToolFieldKind};
+pub use tool_inputs::ContentSlot;
+pub use content_selector::ContentEntry;
 pub use debug_catalog::CatalogEntry;
 pub use save_backups::BackupInfo;
 pub use save_states::StateSlot;
@@ -93,6 +99,16 @@ pub enum MenuAction {
     CopyDiagnosis,
     StartDebugSession,
     CloseDebugSession,
+    ContentOpen,
+    ChooseToolInput(ContentSlot),
+    OpenDebugTool(DebugTool),
+    ToolRequest(ToolRequest),
+    ContentRefresh,
+    ContentBrowseFile,
+    ContentAddFolder,
+    ContentSelect { index: usize, generation: u64 },
+    ContentPreview { index: usize, generation: u64 },
+    ContentCancel,
     OpenDebugCatalog,
     ChooseDebugCatalog,
     CatalogSelection(usize),
@@ -149,6 +165,10 @@ pub enum Bind {
 enum Page {
     Debug,
     DebugCatalog,
+    ContentSelector,
+    ToolInputs,
+    DebugTools,
+    DebugTool,
     GameSaves,
     SwitchGameSave,
     ReplaceGameSave,
@@ -202,6 +222,11 @@ enum Row {
     CopyDiagnosis,
     StartDebugSession,
     CloseDebugSession,
+    ContentPicker,
+    ToolInputsMenu,
+    DebugToolsMenu,
+    DebugTool(DebugTool),
+    ToolInput(ContentSlot),
     DebugCatalog,
     CatalogRegion, CatalogStatus, CatalogKind, CatalogCase, CatalogEntry, CatalogImport, CatalogOpen, CatalogChoose,
     GameSavesMenu,
@@ -346,7 +371,16 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
-        Page::Debug => &[Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
+        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
+        Page::DebugTools => &[Row::DebugTool(DebugTool::Replay),Row::DebugTool(DebugTool::Audit),Row::DebugTool(DebugTool::Capture),Row::DebugTool(DebugTool::Compare),Row::DebugTool(DebugTool::Step),Row::DebugTool(DebugTool::Inspect),Row::DebugTool(DebugTool::Audio),Row::DebugTool(DebugTool::Code),Row::DebugTool(DebugTool::Gameplay),Row::DebugTool(DebugTool::Recent),Row::DebugTool(DebugTool::Graphics),Row::DebugTool(DebugTool::Issue),Row::Back],
+        Page::DebugTool => &[Row::Back],
+        Page::ToolInputs => &[Row::ToolInput(ContentSlot::Replay), Row::ToolInput(ContentSlot::Catalog),
+            Row::ToolInput(ContentSlot::Session), Row::ToolInput(ContentSlot::Recording),
+            Row::ToolInput(ContentSlot::Snapshot), Row::ToolInput(ContentSlot::Input),
+            Row::ToolInput(ContentSlot::Dataset), Row::ToolInput(ContentSlot::RuntimeA),
+            Row::ToolInput(ContentSlot::RuntimeB), Row::ToolInput(ContentSlot::Library),
+            Row::ToolInput(ContentSlot::Labels), Row::ToolInput(ContentSlot::KnownPlan), Row::Back],
+        Page::ContentSelector => &[Row::Back],
         Page::DebugCatalog => &[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry,Row::CatalogImport,Row::CatalogOpen,Row::CatalogChoose,Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
         Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
@@ -375,6 +409,10 @@ impl Row {
     fn label(self) -> &'static str {
         match self {
             Row::DebugMenu => "Debug",
+            Row::ToolInputsMenu => "Tool inputs / current selections",
+            Row::DebugToolsMenu => "Parameters / prepare profiles",
+            Row::DebugTool(tool) => tool.label(),
+            Row::ToolInput(slot) => slot.label(),
             Row::ExtendedSaves => "Extended saves",
             Row::CaptureGraphics => "Capture graphics report",
             Row::CreateIssueReport => "Create issue report",
@@ -403,6 +441,7 @@ impl Row {
             Row::CopyDiagnosis => "Copy diagnosis",
             Row::StartDebugSession => "Start debug session",
             Row::CloseDebugSession => "Close debug session",
+            Row::ContentPicker => "Content selector",
             Row::DebugCatalog => "Debug catalog",
             Row::CatalogRegion => "Region", Row::CatalogStatus => "Recorded status",
             Row::CatalogKind => "Kind", Row::CatalogCase => "DS case",
@@ -478,7 +517,7 @@ impl Row {
     fn is_action(self) -> bool {
         matches!(
             self,
-            Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+            Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
                 | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
                 | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
                 | Row::Backup(_) | Row::ConfirmRestoreBackup
@@ -516,6 +555,8 @@ impl Row {
     fn opens(self) -> Option<Page> {
         match self {
             Row::DebugMenu => Some(Page::Debug),
+            Row::ToolInputsMenu => Some(Page::ToolInputs),
+            Row::DebugToolsMenu => Some(Page::DebugTools),
             Row::SaveStatesMenu => Some(Page::SaveStates),
             Row::SaveBackupsMenu => Some(Page::SaveBackups),
             Row::Quit => Some(Page::Exit),
@@ -679,6 +720,9 @@ pub struct Menu {
     debug_session: bool,
     debug_position: Vec<String>,
     catalog: debug_catalog::CatalogState,
+    content: content_selector::Selector,
+    tool_inputs: Vec<(ContentSlot,String)>,
+    tool: debug_tool::ToolForm,
     state_message: String,
     state_undo: Option<String>,
     save_backups: [BackupInfo;2],
@@ -733,6 +777,9 @@ impl Menu {
             debug_session: false,
             debug_position: Vec::new(),
             catalog: debug_catalog::CatalogState::default(),
+            content: content_selector::Selector::default(),
+            tool_inputs: Vec::new(),
+            tool: debug_tool::ToolForm::default(),
             state_message: String::new(),
             state_undo: None,
             save_backups: std::array::from_fn(|_| BackupInfo::default()),
@@ -746,6 +793,7 @@ impl Menu {
     /// doesn't persist a stale position across pauses).
     pub fn reset(&mut self) {
         self.navigation.reset();
+        self.content.finish_search(true);
         self.state_message.clear();
         self.backup_message.clear();
         self.session_message.clear();
@@ -776,8 +824,9 @@ impl Menu {
     pub fn game_save_result(&mut self, message: String) { self.game_save_message = message; }
 
     pub fn diagnosis_result(&mut self, message: String) { self.debug_message = message; }
+    pub fn diagnosis_message(&self)->&str{&self.debug_message}
 
-    pub fn set_debug_session(&mut self, active: bool) { self.debug_session = active; }
+    pub fn set_debug_session(&mut self, active: bool) { self.debug_session = active; self.content.debug_copy=active;self.tool.debug_copy=active; }
     pub fn set_debug_position(&mut self, frame: u64, clock: u64, reason: &str, remaining: u32) {
         self.debug_position = vec![format!("FRAME {frame}"), format!("CLOCK {clock}"), reason.to_uppercase(), format!("REMAINING {remaining}")];
     }
@@ -785,6 +834,8 @@ impl Menu {
     pub fn selected_state_slot(&self) -> u8 { self.state_slot as u8 + 1 }
 
     pub fn debug_focus(&self,w:usize,h:usize)->diagnostics::Focus {
+        if self.tool_active(){return self.tool.focus(w,h);}
+        if self.content_active(){return self.content.focus(w,h);}
         let l=self.page_layout(w,h);
         let first=self.first_visible(l);
         diagnostics::Focus {page:format!("{:?}",self.page),selected:self.selected,
@@ -804,6 +855,43 @@ impl Menu {
         self.catalog = debug_catalog::CatalogState::new(entries,region);
         self.open(Page::DebugCatalog);
     }
+    pub fn open_content(&mut self,title:String,entries:Vec<ContentEntry>,message:String,generation:u64) {
+        if !self.content_active(){self.open(Page::ContentSelector);}
+        self.content.set(title,entries,message,generation);
+    }
+    pub fn set_tool_inputs(&mut self, inputs:Vec<(ContentSlot,String)>){
+        for f in &mut self.tool.fields{if let ToolFieldKind::Input(slot)=f.kind{f.value=inputs.iter().find(|(key,_)|*key==slot).map(|(_,v)|v.clone()).unwrap_or("Not selected".into());}}
+        self.tool_inputs=inputs;
+    }
+    pub fn open_tool(&mut self,tool:DebugTool,fields:Vec<ToolField>,message:String){if !self.tool_active(){self.open(Page::DebugTool);}self.tool.set(tool,fields,message);self.set_tool_inputs(self.tool_inputs.clone());}
+    pub fn tool_active(&self)->bool{self.page==Page::DebugTool}
+    pub fn host_panel_active(&self)->bool{self.content_active()||self.tool_active()}
+    pub fn tool_values(&self)->(DebugTool,Vec<(String,String)>,u64){(self.tool.tool,self.tool.values(),self.tool.revision())}
+    pub fn tool_feedback(&mut self,message:String,summary:String,busy:bool){self.tool.message=message;self.tool.summary=summary;self.tool.busy=busy;}
+    fn tool_action(&mut self,a:Option<MenuAction>)->Option<MenuAction>{if a==Some(MenuAction::ToolRequest(ToolRequest::Back)){if let Some(parent)=self.navigation.parents.pop(){self.page=parent.page;self.selected=parent.selected;}else{self.navigation.reset();}}a}
+
+    pub fn content_scope(&mut self, kind:Vec<String>, current:Option<String>) {self.content.scope(kind,current);}
+    pub fn content_active(&self)->bool{self.page==Page::ContentSelector}
+    pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()}else{self.content_active() && self.content.editing()}}
+    pub fn content_start_search(&mut self){if self.tool_active(){self.tool.edit();}else if self.content_active(){self.content.start_search();}}
+    pub fn content_text(&mut self,text:&str){if self.tool_active(){self.tool.text(text);}else{self.content.text(text);}}
+    pub fn content_preedit(&mut self,text:&str){if self.tool_active(){self.tool.preedit(text);}else{self.content.preedit(text);}}
+    pub fn content_backspace(&mut self){if self.tool_active(){self.tool.backspace();}else{self.content.text_backspace();}}
+    pub fn content_finish_search(&mut self,cancel:bool){if self.tool_active(){self.tool.finish(cancel);}else{self.content.finish_search(cancel);}}
+    pub fn content_tab(&mut self,back:bool){if self.tool_active(){self.tool.tab(back);}else if self.content_active(){self.content.tab(back);}}
+    pub fn content_busy(&mut self,busy:bool){self.content.busy=busy;}
+    pub fn content_message(&mut self,message:String){self.content.message=message;}
+    pub fn content_selected(&mut self,id:&str){self.content.mark_selected(id);}
+    pub fn content_highlight(&self)->Option<&str>{self.content.highlighted_id()}
+    pub fn content_preview(&mut self,preview:Vec<[u8;4]>,message:String){self.content.preview=preview;self.content.preview_message=message;}
+    pub fn content_wheel(&mut self,up:bool){if self.tool_active(){self.tool.wheel(up);}else if self.content_active(){self.content.wheel(up);}}
+    fn content_input(&mut self,input:MenuInput)->Option<MenuAction>{
+        let action=self.content.handle(input);
+        if action==Some(MenuAction::ContentCancel){
+            if let Some(parent)=self.navigation.parents.pop(){self.page=parent.page;self.selected=parent.selected;}else{self.navigation.reset();}
+        }action
+    }
+
     pub fn catalog_selection(&self) -> Option<usize> { self.catalog.selected() }
     pub fn catalog_preview(&mut self, preview: Vec<[u8;4]>) { self.catalog.preview=preview; }
     pub fn catalog_result(&mut self, message: String) { self.catalog.message=message; }
@@ -820,7 +908,9 @@ impl Menu {
     pub fn session_result(&mut self, message: String) { self.session_message = message; }
 
     fn page_layout(&self, w: usize, h: usize) -> Layout {
-        if self.page == Page::DebugCatalog {
+        if matches!(self.page,Page::ContentSelector|Page::DebugTool) {
+            let g=content_selector::geometry(w,h); Layout{panel_x:g.panel[0],panel_y:g.panel[1],panel_w:g.panel[2],panel_h:g.panel[3],pad:0,line_h:g.row,rows_y:g.list[1],visible_rows:1}
+        } else if self.page == Page::DebugCatalog {
             debug_catalog::layout(w,h)
         } else if matches!(self.page, Page::GameSaves | Page::SwitchGameSave | Page::ReplaceGameSave) {
             game_saves::layout(rows_of(self.page).len(), w, h)
@@ -866,7 +956,7 @@ impl Menu {
     fn back_to_main(&mut self) {
         self.scroll.set(0);
         self.dropdown = None;
-        if matches!(self.page,Page::ReplaceState|Page::RestoreBackup|Page::SwitchGameSave|Page::ReplaceGameSave) {
+        if matches!(self.page,Page::DebugTools|Page::ToolInputs|Page::ReplaceState|Page::RestoreBackup|Page::SwitchGameSave|Page::ReplaceGameSave) {
             self.backup_selection = None;
             if let Some(parent) = self.navigation.parents.pop() {
                 self.navigation.page = parent.page;
@@ -930,6 +1020,8 @@ impl Menu {
     /// While a key capture is pending every event is ignored — the play
     /// loop decides what ends it.
     pub fn handle(&mut self, input: MenuInput, av: &mut AvConfig) -> Option<MenuAction> {
+        if self.tool_active(){let a=self.tool.handle(input);return self.tool_action(a);}
+        if self.content_active(){return self.content_input(input);}
         if self.capture.is_some() {
             return None;
         }
@@ -990,6 +1082,9 @@ impl Menu {
                 }
             }
             MenuInput::Confirm => match row {
+                Row::DebugTool(tool) => Some(MenuAction::OpenDebugTool(tool)),
+                Row::ToolInput(slot) => Some(MenuAction::ChooseToolInput(slot)),
+                Row::ContentPicker => Some(MenuAction::ContentOpen),
                 Row::DebugCatalog => Some(MenuAction::OpenDebugCatalog),
                 Row::StartRecentEvents|Row::SaveRecentEvents=>{if self.debug_session{Some(if row==Row::StartRecentEvents{MenuAction::StartRecentEvents}else{MenuAction::SaveRecentEvents})}else{self.debug_message="Open an isolated copy before recent-event capture.".into();None}},
                 Row::StartGameplayTrace|Row::SaveGameplayReport=>{if self.debug_session{Some(if row==Row::StartGameplayTrace{MenuAction::StartGameplayTrace}else{MenuAction::SaveGameplayReport})}else{self.debug_message="Open an isolated copy before gameplay tracing.".into();None}},
@@ -1226,6 +1321,8 @@ impl Menu {
     /// Pointer moved: highlight the row under it (ignored while a key
     /// capture is pending). `(x, y)` are frame pixels, `w`/`h` the frame size.
     pub fn hover(&mut self, x: usize, y: usize, w: usize, h: usize) {
+        if self.tool_active(){self.tool.hover(x,y,w,h);return;}
+        if self.content_active(){self.content.hover(x,y,w,h);return;}
         if self.capture.is_some() {
             return;
         }
@@ -1253,6 +1350,12 @@ impl Menu {
         left: bool,
         av: &mut AvConfig,
     ) -> Option<MenuAction> {
+        if self.tool_active(){let a=self.tool.click(x,y,w,h,left);return self.tool_action(a);}
+        if self.content_active(){
+            let action=self.content.click(x,y,w,h,left);
+            if action==Some(MenuAction::ContentCancel){return self.content_input(MenuInput::Cancel);}
+            return action;
+        }
         if self.capture.is_some() {
             return None;
         }
@@ -1437,7 +1540,7 @@ fn value_of(
         Row::DebugMenu => ">".into(),
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
-        Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+        Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
             | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
@@ -1561,7 +1664,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             av.debug_extended_saves = !av.debug_extended_saves;
             Some(Changed::Debug)
         },
-        Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+        Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
             | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
@@ -1740,6 +1843,7 @@ mod tests {
     #[test]
     fn debug_focus_reports_actual_dropdown_option_and_existing_geometry() {
         let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        at(&mut menu,Row::ExtendedSaves);
         assert!(menu.debug_focus(852,480).dropdown.is_none());
         menu.handle(MenuInput::Confirm,&mut av);
         let focus=menu.debug_focus(852,480);let dropdown=focus.dropdown.unwrap();
@@ -1749,7 +1853,7 @@ mod tests {
         menu.handle(MenuInput::Down,&mut av);
         let selected=menu.debug_focus(852,480).dropdown.unwrap();
         assert_eq!(selected.index,1);assert_eq!(selected.option,setting_options(Row::ExtendedSaves)[1]);
-        assert_eq!(menu.selected,0);
+        assert_eq!(rows_of(menu.page)[menu.selected],Row::ExtendedSaves);
     }
     #[test]
     fn physical_pixel_layout_scales_proportionally_from_1080p_to_4k() {
@@ -2552,11 +2656,43 @@ mod tests {
     }
 
     #[test]
+    fn tool_input_slots_keep_parent_cursor_and_only_request_internal_selection(){
+        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        at(&mut menu,Row::ToolInputsMenu);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
+        assert_eq!(menu.page,Page::ToolInputs);
+        for slot in ContentSlot::ALL {
+            at(&mut menu,Row::ToolInput(slot));assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::ChooseToolInput(slot)));
+            menu.open_content(slot.label().into(),Vec::new(),"No matching inputs; Refresh explicitly".into(),0);
+            menu.content_scope(vec!["snapshot".into()],None);
+            assert_eq!(menu.handle(MenuInput::Cancel,&mut av),Some(MenuAction::ContentCancel));
+            assert_eq!(menu.page,Page::ToolInputs);assert_eq!(rows_of(menu.page)[menu.selected],Row::ToolInput(slot));
+        }
+        menu.handle(MenuInput::Cancel,&mut av);assert_eq!(menu.page,Page::Debug);assert_eq!(rows_of(menu.page)[menu.selected],Row::ToolInputsMenu);
+    }
+
+    #[test]
+    fn tool_identity_and_editor_footer_use_their_actual_custom_geometry(){
+        let mut menu=Menu::new(true,true);menu.set_debug_session(true);
+        menu.open_tool(DebugTool::Step,vec![ToolField{key:"frames".into(),label:"frames".into(),value:"1".into(),help:String::new(),kind:ToolFieldKind::Text}],String::new());
+        let mut px=vec![[0,0,0,255];940*620];
+        for editing in [false,true]{
+            if editing{menu.content_start_search();}
+            let cap=diagnostics::capture(||menu.draw(&AvConfig::default(),&keys(),"","","","",&mut px,940,620)).unwrap();
+            assert!(cap.runs.iter().any(|r|r.text.starts_with("DEBUG COPY / ")));
+            assert!(!cap.runs.iter().any(|r|r.text=="DEBUG COPY"||r.text.starts_with("0 items")));
+            assert_eq!(menu.page_layout(940,620).panel_x,menu.debug_focus(940,620).panel[0]);
+        }
+    }
+
+    #[test]
     fn draw_does_not_panic_on_any_page() {
         let av = AvConfig::default();
         let mut menu = Menu::new(false, false);
         for page in [
             Page::Debug,
+            Page::ToolInputs,
+            Page::DebugTools,
+            Page::DebugTool,
             Page::GameSaves,
             Page::SwitchGameSave,
             Page::ReplaceGameSave,

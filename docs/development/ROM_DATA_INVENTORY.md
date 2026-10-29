@@ -3186,3 +3186,257 @@ nessun gioco/checkpoint/navigazione/prova precedente o misura di performance.
 Prossimi CLI reale e uso ordinario; Linux-USA/Windows nativo/nuovo32:9/fullABI/
 indiretti/successore70B/fullTODO pendenti.
 [Consumo e prove combinate](../rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).
+
+
+**ROMDATA-04-CONDITIONAL-RECORDS8-CLI registrazione/avvio EUR/Wine completati
+(2026-10-29).** Un buildWindows produzione senzaavvisi72d44985.. da568sorgenti
+byteidentiche alruntime/nooverlay, fingerprintcorelib+prod isolati e canonical
+hashmtime ripristinati. Tre figli CLI Wine escono0: creazione e85-d84/riuso/avvio
+neutro1;78file esatti alruntime/77IDhash caricati/80path gestiti nowrite/28859blocchi
+vecchi. Primo prepare0 ha successo; helperlocale controllavaindice75 anziché76:
+corretto e ripresi solo due figli rimanenti, senza rifare prepare o build.
+Copia normale before-activation24755→24756 coninputneutro, tutti9contatori nuovi0;
+nessuna azione/navigazione/checkpoint nuovo/endpoint salvato, nessun positivo
+ordinario/fullpair dedotto.189guardie568CLI+568runtimehash esatti/helper0, originali
+invariati. Source/model/native/lifecycle/vecchie scene restano chiusi. Prossimo
+uso ordinario positivo e confronto completo; Linux-USA/Windows nativo/nuovo32:9/
+fullABI/indiretti/successore70B/fullTODO pendenti, nessuna misura o modifica
+Android/package/commit/push dell'assistente.
+[CLI e limiti](../rom_data_gameplay.md#actual-conditional-record-cli-registration).
+
+
+**ROMDATA-04-05-CONDITIONAL-RECORDS8-PUB completato per un caso ordinario
+EUR/Wine (2026-10-29).** Ingresso normale Rumors nel pub; suffix42f15181→15223,
+468letture/468byte SERVITI, sei classi127/76/152/76/34/3 e127posizioni fisiche
+incluse51intestazioni zero, non127record attivi/tutti campi/tutti rami/unione byte.
+Tutti9contatori esatti tra cattura/CLI72d44985 efullpair63584945; ogni42stato/clock/
+pixel classic-wide/OAM/5audio uguale. Un buildWindows senzaavvisi da569sorgenti:
+CLI568+osservatore passivo+modulo+guardia opzionale5righe; inversehub-validator
+byteexact/core-runtime invariati. Due catture normali254frame: B180negativo poi
+Up3/A12positivo74, primo readrel42+32continuazione, rollingrel32→suffix42.
+Seed MissionsLIST14969 giàconservato, nessun vecchio620/397route replay; vecchio
+PPMclassic240x160 scalacolore*255//31 autenticato controFFSTATE, nonformato wide
+recente. Proiezioni readonly eimmagini verificate, nessun WineUI/guestedit/cart
+write; promptfinaleHeardlatestRumors, lista/selezione/esito non dedotti.
+143guardie569hash+568CLI/3roothashes/80managedpaths nowrite/28859cache esatti,
+helper0. CLIe85generationhw22uM riusata senza prepare/build/navigazione; primo
+B0case resta chiuso. Declaredsource/model/runtime/CLI/ordinario8B chiusi;
+prossimo nuovo root713B3C/passo70 richiedecontratto proprio. Linux-USA/Windows
+nativo/nuovo32:9/fullABI/indiretti/fullTODO pendenti; nessuna misura o modifica
+Android/package/commit/push dell'assistente.
+[Equivalenza](../rom_data_gameplay.md#ordinary-conditional-record-rumors-entry-equivalence).
+
+
+**ROMDATA-01-MISSION-RECORDS70 contratto sorgente EUR completato
+(2026-10-29).** Catalogo713B3C..71C73C/512recordx70/35840B, due scansioni
+indipendenti1..511 più getterindice0/confine successore con lettori propri;
+costante300 separata, nessun nuovo cap guest512. Getter65selettori indice low16/
+selettore low8: LE unsigned da byte, bit impacchettati, flag, mapping zero oppure
++0177 e scala200,7selettori indirizzo/6offset inline, alias19/20 e viste24/32 con
+scalari condivisi. Byte residui/valori grezzi/identità ordine preservati. Mission
+link giàchiuso riusato: campo+45HEX69decimale eventrow*12+71C760;512riferimenti/
+173valori/quattrogruppi alias, zero dipende dal chiamante; catalogo eventi distinto
+ancora da classificare. Tutti35840B ricostruiti, SHA256
+bbdbc955b9b3f7ed678123aa6bea8b6098f25f6a13a4ab94de669d1e103253dc, disgiunti
+77owner50491span/e85-d84/78file invariati.19finestre9nuove10cache/157pin110guardie
+esatti; vecchio testo autenticato opcode-per-opcode contro ROM e hash corrente,
+nessuna falsa guardia testo storica.38literalbase/2origin+70/2candidati interni
+in dati non classificati lettori, query allineata non esaustiva indiretti. Solo
+statica, nessuna build/Wine/gioco/fixture/navigazione/prova precedente ripetuta;
+helper ritira zero path. Prossimo modello rigoroso lossless/oracolo getter Wine,
+poi managed/runtime/CLI/ordinario. FullABI/semantiche campi ignoti/conteggi viste/
+successori/Linux-USA/Windows nativo/nuovo32:9/fullTODO pendenti. Nessuna misura di
+performance o spazio; lavoro parallelo menu/content/DBG/package preservato.
+[Contratto](../rom_data_gameplay.md#european-mission-record-source-contract).
+
+
+**ROMDATA-02-MISSION-RECORDS70 modello/oracolo EUR/Wine completato
+(2026-10-29).** Nuovo core mission_records70 lossless512record/35840B/unospan,
+shape/ordine/JSON rigorosi separati da autenticazione ROM esatta+19finestre.
+Byte residui/array inline/operandi grezzi e tutti65selettori preservati; query
+indice low16/selettore low8, Some0 invalido senza lookup, indirizzi calcolati
+anche fuoriowner, scalare nonpossedutoNone diagnostico senza nuovo cap guest.
+Un buildWindows core senzaavvisi663e8b87.. da571sorgenti/242inputcore,569preimmagini
+esatte e inversehub byteexact; sole duefoglie/pubmodule, nessun frontend parallelo.
+Un filtroWine passa21guardie e698chiamate getter originale D1F30 finoalreturn con
+vero helperCEEEC:438base/all65agliindici0/1/58/299/300/511/normalizzazione/default/
+viste fuoriowner/scalari512-65535,260varianti sintetiche isolate suquattro70Bpattern
+alrecord511. Pythonindipendente/modello/risultati eordine lettureLDRB effettivo
+esatti;324byte base distinti/54sintetici contro35840B ricostruiti separatamente,
+viste non dereferenziano16B inline. EWRAM/VRAM/OAM/palette invariati, IWRAM esatta
+inclusi linkreturn previsti, SP/R4..R12/Thumb/ROMfinale esatti;17213istruzioni
+solacopertura.139guardie571hash/3correnti569preimmagini+110guardiesorgente/helper0.
+Nessun gioco/checkpoint/cartwrite/navigazione/prova giàchiusa o misura. Schema1/
+e85-d84/77risorse78file/save/native/CAPI invariati. Prossimo managed/runtime/
+nativeclock/lifecycle poiCLI/ordinario; fullABI/campi ignoti/indiretti/successori/
+Linux-USA/Windows nativo/nuovo32:9/fullTODO pendenti. Lavoro parallelo preservato.
+[Modello e getter](../rom_data_gameplay.md#typed-mission-records-and-original-getter-proof).
+
+
+**ROMDATA-03-04-MISSION-RECORDS70-RUNTIME completato EUR/Wine con prove
+combinate (2026-10-29).** e86-d85/index77/mission-records70.json/79file78owner,
+77precedenti esatti/uno span35840B/nodeps; ownerimmutabile10classi13contatori/
+8maskword512posizioni/pagine713..71c, composizione8Bprecedente e successori grezzi.
+Due buildWindows senzaavvisi573sorgenti/243inputcore:73326ad9 prima pubblicazione/
+prior77/interruzione PASS poi primoattach FAIL cap storicoOBJ1024, altri test
+nonpartiti. Con richiesta no-limiti-spazio rimossi capattachOBJ1024/BG64KiB e
+treasserzioni di allocazione, parsebounds/sourceauth/binding invariati.455bdb1c
+secondo build/filtroWine SOLOresidui sulla STESSAgenerazione79file:14attach2fullset/
+failedownerfullstate/41nativi stato-clock(16load25getter) con35kgrezzi alterati
+DOPOload/setup/all35kbus10classi512slot/512bordi/LoadUndo stessoArc/DMA3passano.
+Pubblicazione nonripetuta, primo fallimento conservato; nessun capfix interpretato
+come ottimizzazione o misuraRSS. Tutti callback inclusointerp_one attribuiti:
+52byte nuoviserviti5precedenti/fallbackdelta0, nonunione distinta/tuttocatalogo
+nativo;3famiglie stop-safe/168entry69dispatch sola copertura. DMA/CpuSet17922
+halfword/FastSet8968word statocompleto-clock identici.860guardie573accettati+573
+diagnostici/571modello/8hashcorrenti/78vecchi79nuovifile esatti;helper ritira solo
+copiainterrotta. close-final.pyPASS-combined-scopes, vecchio close-runtime.py
+non eseguito. Source/modello/vecchie scene nonripetuti, nessun gioco/checkpoint/
+navigazione/cartwrite/ABI Machine-save-native-CAPI cambiato. ProssimoCLI reale
+poiordinario; Linux-USA/Windows nativo/nuovo32:9/fullABI/indiretti/successori/
+fullTODO pendenti. Nessuna misura performance/spazio, lavoro parallelo escluso
+dabuild e preservato.
+[Consumo e prove](../rom_data_gameplay.md#managed-mission-records-and-typed-runtime-reads).
+
+
+**ROMDATA-04-MISSION-RECORDS70-CLI registrazione/avvio EUR/Wine completati
+(2026-10-29).** Un buildWindows produzione senzaavvisi738b7f20.. da573sorgenti
+byteidentiche alruntime/nooverlay, fingerprintcorelib-prod-menu coerenti e
+canonicalhashmtime ripristinati. Tre figliWine tutti0: preparazionecreata/riuso/
+avvio neutro1,79file esatti alruntime/78IDhash/81path gestiti nowrite/28859vecchi
+blocchi nativi. Generatoreprivato fermato su assertiontokenindice prima diogni
+Wine: correttasola generazionehelper conindice77 verificato, nessuna copia
+sorgenti/build/preparazioneCLI ripetuta. Copianormale24755→24756 all13contatori0;
+nessuna azione/navigazione/checkpoint nuovo/endpoint salvato, positivoordinario
+fullpair o nuova fase negativa del locator dedotti.195guardie573CLI+573runtime/79file/
+originali/nativecache/loader/canonical esatti;helper0. Source/model/native/
+lifecycle/vecchieprove restanochiusi. Prossimo positivoordinario e confronto
+completo; Linux-USA/Windows nativo/nuovo32:9/fullABI/indiretti/successori/fullTODO
+pendenti, nessunamisura/Android/package/assistantcommit/push.
+[CLI e limiti](../rom_data_gameplay.md#actual-mission-record-cli-registration).
+
+
+**ROMDATA-04-05-MISSION-RECORDS70-MISSIONS completato per un caso ordinario
+EUR/Wine (2026-10-29).** Apertura normale informazioniGizaPlains, suffix33frame
+15017→15050:5letture/5byte SERVITI solo classepacked/una posizione fisica, altre
+9classi0. Tutti13contatori esatti cattura/CLI738b7f20/fullpair3d21e89c; ogni33stato
+completo-clock/pixelclassic-wide/OAM/5audio uguale, entrambelebraccia stessa
+vecchiacachenativa/nonparitàglobaleinterprete-nativo. UnbuildWindows senzaavvisi
+574sorgenti=CLI573+osservatorepassivo/pubmodule/guardiaopzionale5righe, inversehub
+byteexact/core-runtime invariati. UNA cattura81f daMissionsLIST14969 giàconservato:
+Down3at8/A12at40, primalettura rel49/guest15019, rolling48→suffix33 A4+neutral29;
+ricercaSTOP. TestWinechild0 PASS; helperpostcatturaKeyErrorsteps dopooutputcompleti
+riparatosoloregistrazione, nessuna cattura/input/Wine/build ripetuta. Seedclassico
+240x160/scale giàautenticato riusato; nuovoPPMwide284x160/bitrep verificatocontro
+FFSTATE completo, classicPNG mostraGizaMISSIONinfo page1/3Rank1. Nessuna missione
+accettata/battaglia/esito/tutticampi/all512/unione5bytedistinti dedotti.
+133guardie574hash+573CLI/3correnti/78IDhash81managedpaths nowrite28859cache esatti,
+helper0/originali invariati. Vecchie620/397route/source-model-runtime/registrazione
+non ripetute, nessunaforzaturaID/RAM/cartwrite. Declared70Bchain chiusa; nuovi
+arrayC73C/C740 eeventC760 richiedonocontratti propri. Linux-USA/Windows nativo/
+nuovo32:9/fullABI/indiretti/altreclassiordinarie/fullTODO pendenti; nessunamisura
+performance/spazio/Android/package/assistantcommit/push.
+[Equivalenza](../rom_data_gameplay.md#ordinary-mission-information-equivalence).
+
+
+**ROMDATA-01-SELECTION-BYTE-TABLES contratto sorgente EUR completato
+(2026-10-29).** C73C..C740 quattro soglie di conteggio eC740..C75E trenta pesi
+ordinali:34byte/two span, SHA256d758af5f1a07613f1c2047257d42ef9cbfac83b63783ee6fd0e7b3879370b8dd.
+Cinque header live02002E34+6*i contati solo low3bit nonzero, tutti esaminati;
+guard<=3 prima dellaloadu8 soglia,4/5escono. Secondoroot indipendente, duecicli
+stride1 ordinali1..30/posizioni0..29. Verohelper377BC leggeu8 grezzo live
+02002CC3+12*(low8ordinal-1), nessun guardglobale0/30 o normalizzazionebool;
+callertesta low8nonzero. Somma0esceprima secondo stadio; rangohelper full32
+meno peso unsigned conwrap e confrontosigned, primonegativosceglie,31esaurito
+esce; nessunguardnegativo/zero-weight/cachedeligibility inventato. Numerichelper
+2868/146314/RNG/distribuzione/fullABI nonmodellati. Tutti34B ricostruiti/posizioni
+conservate/valori ripetuti nondeduplicati/nopuntatori dati; disgiunti78owner
+50492span/e86-d85/79file invariati.6finestre2nuove4cache/95pin96guardie/helper0,
+sole2nuovecontestocount ehelper live; nessuna build/Wine/gioco/fixture/navigazione/
+vecchiaprova ripetuta o misura. GapC75E..C760 dueB opachi nonposseduti, next12Broot
+C760indipendente/estensione pendente. IDneutrogameplay.selection-byte-tables.
+Prossimo modello/oracoloWine poi managed/runtime/CLI/ordinario; Linux-USA/
+Windows nativo/nuovo32:9/indiretti/fullTODO pendenti.
+[Contratto](../rom_data_gameplay.md#european-selection-byte-table-source-contract).
+
+
+**ROMDATA-02-SELECTION-BYTE-TABLES completato modello/stadi EUR/Wine
+(2026-10-29).** Modello strict4+30u8/34B/due span, shape distinta da ROMesatta
++seiwindow; gap2B escluso/valori ripetuti distinti. Un buildcore Windows senza
+warning b40503b8..576file245input/574preimmagini; un filtro Wine18guard/45base+
+24sintetici esegue D323Ccount/D327Esomma-zero/D32B4scelta con vero377BC.
+Python/modello/risultati/ordine querylive e LDRB esatti; wrap32/rango firmato
+anche estremi, nessuno shortcutpeso0 o nuovocap. Tutti34Bbase/32sintetici osservati,
+ricostruzione34 separata, tutteRAM/SP-R8..R12/ROMfinale esatti;30480istruzioni
+solo copertura.123guard576hash/3correnti/574preimmagini/96sourceguard PASS,
+helper0. Schema1/e86-d85/79file invariati; runtime gestito/bus/nativeclock/
+LoadUndo/DMA/CLI/ordinario prossimi, helpernumerici/RNG/fullABI/Linux/USA/
+Windowsnativo/new32:9/TODOglobale pendenti. Nessuna fixtureordinaria o prova
+chiusa ripetuta/metriche.
+[Modello e prova](../rom_data_gameplay.md#typed-selection-byte-tables-and-original-stage-proof).
+
+
+**ROMDATA-03-04-SELECTION-BYTE-TABLES-RUNTIME completato EUR/Wine
+(2026-10-29).** e87-d86/index78/selection-byte-tables.json/80file79risorse,
+due span4/30B/nodeps, tutti78record/file precedenti identici/schema1-USAe8
+invariati. Ownerimmutabile page71C compone prior70B e rawgap/eventroot;
+6contatori/4+30posizioni distinte, nessun capallocazione o cambioABI. Un build
+Windows senza warning e5b45668..578file246core/576model, un filtro Wine
+pubblicazione/interruzione/14attach2fullset/20native fullstate-clock/all34bus/
+LoadUndo/DMA3 PASS.12load+8stadi/vero377BC, raw34+prior4 alterati solo dopoLoad;
+76nuoviBserviti+5prior tutti attribuiti a callback, fallbacksource0,91entry119
+dispatch solo copertura. Width/mirror/confini/prior/raw, tutte4+30posizioni e
+DMA-CpuSet20halfword/FastSet16word exactstate-clock.243guard578hash576model/
+7correnti/79prior exact; helper ritira solo interrupted riuscito. CLIreale/
+ordinario prossimi; numerichelpers/RNG/fullABI/gap-eventextent/Linux/USA/Windows
+nativo/new32:9/TODOglobale pendenti, nessuna vecchiaprova o fixture ripetuta/
+metriche. [Consumo](../rom_data_gameplay.md#managed-selection-byte-tables-and-typed-runtime-reads).
+
+
+**ROMDATA-04-SELECTION-BYTE-TABLES-CLI completato EUR/Wine registrazione-avvio
+(2026-10-29).** Un buildproduzione senza warning22af4132.. stesse578sorgenti
+runtime/nooverlay/canonico hashmtime ripristinato; una orchestrazioneWine tre
+comandi create-reuse-neutral1 exit0.80file datasetidentici/79IDhash/82percorsi
+hashmtime invariati/cache28859immutata. e87-d86/index78/two spans34B/no deps
+verificati;24755→24756 tutte6usage0, nessunaaccettazioneordinaria.192guard
+578CLI+578runtime/ROM-nativecache-TinyCC-seedoriginale-canonico exact/helper0.
+Nessunanavigazione/nuovocheckpoint/vecchiaprova/metriche. Positivoordinario e
+fullpair prossimi; Linux-USA-nativeWindows/new32:9/fullABI/RNG/indirect/gap-event/
+TODOglobale pendenti. [CLI](../rom_data_gameplay.md#actual-selection-byte-cli-registration).
+
+
+**ROMDATA-04-SELECTION-BYTE-TABLES-ORDINARY completato un caso EUR/Wine
+(2026-10-29).** Otto nuove window/354opcodepin direttiD3724→D3228/guardarglow8
+nonzero; wrapperD6970passes1, altri2callers0skip, indirectignoti. Quattroseed
+readonly guard6/count1-2; sceltonormaleGiza19049/cachedUI. Un579source8f3bee97
+build observer6stats+5lineguard/no core-runtimechanges/inversehub exact.
+UNA captureA12/129f19049→19178/first97-19147/rolling96→suffix33-19145→19178.
+SAME22afCLI/e87ZloxMx positivo33 eSAME8f3bee97 fullpair33 tuttecomplete states-
+clock/classic-wide/OAM/5audio PASS; counts6exact1bus1SERVEDthresholdB1position/
+weights0, non tutte4/30posizioni oevent/missionoutcome. DiscoverySTOPafterone.
+Fullwide284x160bitrep authenticated/classicmapcalendarPNG inspected.140guards
+579hash578CLI/3correnti/82managed/nativecache-ROM-seed-canonical exact/helper0.
+Dispatch203258/519441 eaudio[72418,72418,8712,8712,72342] solo copertura; stessa
+cache inentrambi arms/non globalinterpreter-nativeparity. Nessuna prova chiusa
+o fixture ricreata/metriche. Catena source-model-runtime-CLI/unordinario chiusa;
+event12BrootC760/alias71D1EC/next71D360 richiede contrattoproprio. Linux-USA-
+Windowsnativo/new32:9/fullABI/RNG/indirect/gap-event/TODOglobale pendenti.
+[Ordinario](../rom_data_gameplay.md#ordinary-selection-threshold-travel-equivalence).
+
+
+**ROMDATA-01-EVENT-RECORDS12 completato contratto sorgente EUR (2026-10-29).**
+71C760..71D360/256x12/3072B/onespan SHAe7454120.. disgiunto79owner50494spans;
+backscan255..1/stride12+liveu8zero+nextrootindipendente27stride provanoestensione,
+nonfitonly/globalcap. Layoutu8header00-key01/u16primary02-alternate04/u8param06-
+byte07/u16flags08/opaque0A2B, tutti3072roundtrip/noenums-FKcaps-zeropadding.
+71D1EC=base+225x12/31physicalpositions vistaINTERNA/sameowner, helper9D04low8arg
+noncappato31/puòuscireowner; sceltaordinal1..30→righe226..255. Callback127388
+keyu16completo/vsbyte01/highestmatch255..1/zeroexcluded/8keygroups1recordgroup.
+Alt04nonzero→aliasprimary02+originalalt04, zero→directprimary/alt0; key4Alive
+special/param06next27root/liveeffects originali.15window10new5cached/67pin/
+112guard/80acceptedfiles PASS/helper0; census36base2alias25next e nonindirectall.
+Solo statico/no build-Wine-game-fixture-navigation-oldproofreplay;
+schema1/e87-d86 invariati. Modello/originalprefixWine prossimi, poi managed/
+runtime/CLI/ordinario; fullABI/liveeffects/indirect/gap/next27extent/Linux-USA-
+Windowsnativo/new32:9/TODOglobale pendenti/no metrics.
+[Contratto](../rom_data_gameplay.md#european-event-record-source-contract).

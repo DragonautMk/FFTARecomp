@@ -523,6 +523,8 @@ struct PlayApp {
     diagnosis_clipboard: Option<arboard::Clipboard>,
     debug_session: bool,
     debug_catalog: Option<crate::debug_catalog::Catalog>,
+    content_picker: crate::content_picker::Picker,
+    workbench: crate::debug_workbench::Workbench,
     replay_path: Option<std::path::PathBuf>,
     replay_job: Option<crate::debug_replay::Job>,
     replay_message: String,
@@ -548,6 +550,7 @@ struct PlayApp {
     #[cfg(windows)]
     xinput: Option<XInputBackend>,
     menu_tap_filter: MenuTapFilter,
+    modal_input: crate::modal_input::ModalInput,
     active_controller: Option<ActiveController>,
     last_direct_activity: Option<(String, Vec<String>)>,
     pending_pad: Option<String>,
@@ -1788,7 +1791,8 @@ impl PlayApp {
         match action {
             crate::debug_control::Action::IssueReport{profile,symptom}=>{
                 if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Issue report requires an idle paused copy".into());}
-                let path=profile.as_ref().or(self.replay_path.as_ref()).ok_or("Choose a replay profile first")?;
+                let selected=if profile.is_none(){Some(self.selected_replay_profile()?)}else{None};
+                let path=profile.as_ref().or(selected.as_ref()).ok_or("Choose a replay profile first")?;
                 let report=crate::debug_issue::create(path,symptom)?;
                 self.replay_path=Some(path.clone());self.last_issue_report=Some(report.path.to_string_lossy().into_owned());
                 self.menu.diagnosis_result(if report.compatible{"Issue saved. Open its index.html; replay was not started."}else{"Error issue saved. Inspect preflight in its index.html."}.into());self.menu_dirty=true;
@@ -1846,7 +1850,8 @@ impl PlayApp {
                     "av":self.av.serialize(),"input_config":self.icfg.serialize(),"keys":self.machine.bus.keys,
                     "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
                     "build":{"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")}});
-                self.code_trace=Some(crate::debug_code::Trace::start(&root,&self.machine,self.native.as_ref().map(|(_,t)|t),settings.clone(),origin)?);
+                let labels=if self.content_picker.has_slot(menu::ContentSlot::Labels){Some(self.content_picker.slot_path(menu::ContentSlot::Labels,&gba_core::ffta_rom::digest(&self.machine.bus.rom))?)}else{None};
+                self.code_trace=Some(crate::debug_code::Trace::start(&root,&self.machine,self.native.as_ref().map(|(_,t)|t),settings.clone(),origin,labels.as_deref())?);
                 self.menu.diagnosis_result("Code trace armed. Reproduce, pause, Save code report.".into());self.menu_dirty=true;return Ok(());
             },
             crate::debug_control::Action::CodeReport=>{
@@ -1990,7 +1995,7 @@ impl PlayApp {
             "backend":if self.native.is_some(){"native"}else{"interp"},
             "registers":self.machine.cpu.regs,"cpsr":self.machine.cpu.cpsr,"thumb":self.machine.cpu.thumb(),
             "probe":self.probe_result,"search_remaining_steps":self.probe.as_ref().map(|p|p.remaining()),"inspection":self.inspection,"graphics_report":self.graphics_report,"ui_trace":self.ui_trace.status(),"host_menu":self.ui_focus(),"audio_diagnostic":st.diagnostic.as_ref().map(|d|d.status()),"audio_report":self.last_audio_report,
-            "pending_control":self.control_server.as_ref().map(|s|s.pending_status()),
+            "pending_control":self.control_server.as_ref().map(|s|s.pending_status()),"content_picker":self.content_picker.status(),"workbench":self.workbench.status(),"host_modal_input":self.modal_input.blocked(),
             "recent":self.recent.as_ref().map(|b|b.status()),"recent_report":self.last_recent_report,
             "gameplay_trace":self.gameplay_trace.as_ref().map(|t|t.status()),"gameplay_report":self.last_gameplay_report,
             "code_trace":self.code_trace.as_ref().map(|t|t.status()),"code_report":self.last_code_report,
@@ -2041,6 +2046,43 @@ impl PlayApp {
         }
     }
 
+    fn workbench_request(&mut self,request:menu::ToolRequest)->Result<(),String>{
+        use menu::ToolRequest;
+        if request==ToolRequest::Back{self.workbench.remember(&self.menu);self.workbench.cancel_view();return Ok(());}
+        if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some() || self.recording_active(){return Err("Tool draft actions require an idle paused copy without recording/replay/step/search.".into());}
+        let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+        let draft=self.workbench.draft(&self.menu,&self.content_picker,rom)?;
+        if request==ToolRequest::Run{
+            if self.workbench.busy(){return Err("A workbench host operation is still finishing".into());}
+            if draft.tool.creates_profile(){
+                let path=self.workbench.prepared_for(draft.tool)?;
+                let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+                self.content_picker.adopt(menu::ContentSlot::Replay,&path,&rom,&mut self.menu)?;
+                let kind=match draft.tool{menu::DebugTool::Audit=>ReplayKind::Audit,menu::DebugTool::Capture=>ReplayKind::Capture,menu::DebugTool::Compare=>ReplayKind::Comparison,_=>ReplayKind::Plain};
+                self.start_replay(false,kind);
+                if self.replay_job.is_none(){return Err(self.menu.diagnosis_message().into());}
+                self.workbench.last="Explicit prepared-profile request dispatched; inspect existing replay progress/result.".into();
+            }else{
+                let action=draft.control()?;self.debug_action(&action)?;
+                self.workbench.last=format!("Accepted by shared handler: {action:?}. Observers require explicit steps/resume and existing report action.");
+            }
+            self.menu.tool_feedback(self.workbench.last.clone(),String::new(),false);return Ok(());
+        }
+        self.workbench.request(&mut self.menu,draft,request)
+    }
+    fn choose_tool_input(&mut self,slot:menu::ContentSlot,message:String){
+        let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+        if let Err(error)=self.content_picker.open_for(&mut self.menu,rom,slot,message){self.menu.diagnosis_result(error);}
+        self.menu_dirty=true;
+    }
+    fn selected_replay_profile(&mut self)->Result<std::path::PathBuf,String>{
+        let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+        if !self.content_picker.has_slot(menu::ContentSlot::Replay){
+            if let Some(path)=self.replay_path.as_ref(){self.content_picker.adopt(menu::ContentSlot::Replay,path,&rom,&mut self.menu)?;}
+        }
+        let path=self.content_picker.slot_path(menu::ContentSlot::Replay,&rom)?;
+        self.replay_path=Some(path.clone());Ok(path)
+    }
     fn start_replay(&mut self, choose_only: bool, kind: ReplayKind) {
         if self.recent.as_ref().is_some_and(|b|!b.saved()){self.menu.diagnosis_result("Save the recent window before starting a separate replay.".into());self.menu_dirty=true;return;}
         if self.gameplay_trace.is_some(){self.menu.diagnosis_result("Save the gameplay trace before starting a separate replay.".into());self.menu_dirty=true;return;}
@@ -2049,14 +2091,9 @@ impl PlayApp {
         if self.frame_control.remaining>0 || self.probe.is_some() {self.menu.diagnosis_result("Finish the frame step/search before starting a replay.".into());self.menu_dirty=true;return;}
         if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
         if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
-        if choose_only || self.replay_path.is_none() {
-            let Some(path) = rfd::FileDialog::new().set_title("Choose replay.json")
-                .add_filter("Replay profile", &["json"]).pick_file() else { return; };
-            self.replay_path = Some(path);
-        }
-        if choose_only { self.menu.diagnosis_result("Replay profile selected. Choose Replay case.".into()); self.menu_dirty=true; return; }
-        let path=self.replay_path.as_deref().unwrap();
-        let result=match kind {ReplayKind::Comparison=>crate::debug_replay::Job::start_comparison(path),ReplayKind::Capture=>crate::debug_replay::Job::start_capture(path),ReplayKind::Audit=>crate::debug_replay::Job::start_audit(path),ReplayKind::Plain=>crate::debug_replay::Job::start(path)};
+        if choose_only {self.choose_tool_input(menu::ContentSlot::Replay,"Choose a profile; this does not start a replay.".into());return;}
+        let path=match self.selected_replay_profile(){Ok(path)=>path,Err(e)=>{self.choose_tool_input(menu::ContentSlot::Replay,e);return;}};
+        let result=match kind {ReplayKind::Comparison=>crate::debug_replay::Job::start_comparison(&path),ReplayKind::Capture=>crate::debug_replay::Job::start_capture(&path),ReplayKind::Audit=>crate::debug_replay::Job::start_audit(&path),ReplayKind::Plain=>crate::debug_replay::Job::start(&path)};
         match result {
             Ok(job)=>{self.replay_path=Some(job.profile.clone());self.replay_message.clear();self.menu.diagnosis_result("Replay running in an isolated worker. Cancel replay stops it.".into());self.replay_job=Some(job);},
             Err(e)=>self.menu.diagnosis_result(format!("Cannot replay: {e}")),
@@ -2127,11 +2164,16 @@ impl PlayApp {
     }
 
     fn open_debug_catalog(&mut self, choose: bool) {
-        let path = if choose || (self.debug_catalog.is_none() && !crate::debug_catalog::default_path().is_some_and(|p|p.is_file())) {
-            rfd::FileDialog::new().set_title("Choose debug-save catalog.json")
-                .add_filter("Debug-save catalog", &["json"]).pick_file()
-        } else { self.debug_catalog.as_ref().map(|c|c.path.clone()).or_else(crate::debug_catalog::default_path) };
-        let Some(path)=path else {return;};
+        if choose {self.choose_tool_input(menu::ContentSlot::Catalog,"Choose a save catalog; then open Debug save catalog separately.".into());return;}
+        let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+        let selected=(||{
+            if !self.content_picker.has_slot(menu::ContentSlot::Catalog){
+                let path=self.debug_catalog.as_ref().map(|c|c.path.clone()).or_else(crate::debug_catalog::default_path).filter(|p|p.is_file()).ok_or("Select a save catalog; Refresh lists declared roots.")?;
+                self.content_picker.adopt(menu::ContentSlot::Catalog,&path,&rom,&mut self.menu)?;
+            }
+            self.content_picker.slot_path(menu::ContentSlot::Catalog,&rom)
+        })();
+        let path=match selected{Ok(path)=>path,Err(error)=>{self.choose_tool_input(menu::ContentSlot::Catalog,error);return;}};
         match crate::debug_catalog::Catalog::load(&path) {
             Ok(catalog)=>{
                 let entries=catalog.entries.iter().map(|e|menu::CatalogEntry {key:e.key.clone(),name:e.name.clone(),kind:e.kind.clone(),case:e.case.clone(),region:e.region.clone(),status:e.status.clone(),slot:e.slot,source:e.source.clone(),evidence:e.evidence.clone(),available:e.available,error:e.error.clone().unwrap_or_default()}).collect();
@@ -3006,7 +3048,13 @@ impl ApplicationHandler for PlayApp {
             return; // Physical input must not alter a deterministic benchmark.
         }
         self.menu_dirty = true;
+        if self.modal_input.blocked() && matches!(&event,WindowEvent::KeyboardInput{..}|WindowEvent::MouseInput{..}|WindowEvent::MouseWheel{..}|WindowEvent::CursorMoved{..}) {
+            self.held.clear();self.pending_key=None;self.pending_pad=None;self.mouse_queue.clear();
+            if self.ui_trace.enabled(){self.ui_event("modal-input-consumed",serde_json::json!({"guest_input":false,"reason":"Returning from explicit host dialog"}));}
+            return;
+        }
         match event {
+            WindowEvent::Focused(true)=>self.modal_input.focus_return(Instant::now()),
             WindowEvent::CloseRequested => event_loop.exit(),
             // Lost focus: a key held during alt-tab might never deliver its
             // release, so drop the held set defensively (no stuck inputs).
@@ -3020,9 +3068,29 @@ impl ApplicationHandler for PlayApp {
                         text,
                         ..
                     },
+                is_synthetic,
                 ..
             } => {
-                if self.ui_trace.enabled(){self.ui_event("keyboard",serde_json::json!({"key":format!("{code:?}"),"pressed":state==ElementState::Pressed,"repeat":repeat,"paused":self.paused}));}
+                if self.ui_trace.enabled(){self.ui_event("keyboard",serde_json::json!({"key":format!("{code:?}"),"pressed":state==ElementState::Pressed,"repeat":repeat,"paused":self.paused,"synthetic":is_synthetic}));}
+                if self.paused && self.menu.host_panel_active() && is_synthetic {self.held.remove(&code);return;}
+                if self.paused && self.menu.host_panel_active() {
+                    if state==ElementState::Released {self.held.remove(&code);return;}
+                    if self.menu.content_text_focus() {
+                        match code {
+                            KeyCode::Enter|KeyCode::NumpadEnter if !repeat=>self.menu.content_finish_search(false),
+                            KeyCode::Escape if !repeat=>self.menu.content_finish_search(true),
+                            KeyCode::Backspace=>self.menu.content_backspace(),
+                            KeyCode::Tab if !repeat=>self.menu.content_tab(false),
+                            KeyCode::ArrowUp|KeyCode::ArrowDown|KeyCode::ArrowLeft|KeyCode::ArrowRight=>{let ev=match code{KeyCode::ArrowUp=>menu::MenuInput::Up,KeyCode::ArrowDown=>menu::MenuInput::Down,KeyCode::ArrowLeft=>menu::MenuInput::Left,_=>menu::MenuInput::Right};self.menu.handle(ev,&mut self.av);},
+                            _=>{if let Some(text)=text.as_ref(){self.menu.content_text(text.as_str());}},
+                        }
+                        self.held.remove(&code);self.pending_key=None;return;
+                    }
+                    if repeat {return;}
+                    if code==KeyCode::Tab {self.menu.content_tab(false);return;}
+                    if code==KeyCode::Escape {let action=self.menu.handle(menu::MenuInput::Cancel,&mut self.av);if action==Some(menu::MenuAction::ToolRequest(menu::ToolRequest::Back)){self.workbench.remember(&self.menu);self.workbench.cancel_view();}self.content_picker.cancel();self.held.clear();return;}
+                    if code==KeyCode::KeyF && (self.held.contains(&KeyCode::ControlLeft)||self.held.contains(&KeyCode::ControlRight)){self.menu.content_start_search();self.held.clear();return;}
+                }
                 match state {
                 ElementState::Pressed => {
                     // Consume debugger shortcuts before text input, bindings, Fast or menu capture.
@@ -3087,6 +3155,8 @@ impl ApplicationHandler for PlayApp {
                 }
             }
             },
+            WindowEvent::Ime(winit::event::Ime::Preedit(text,_)) if self.paused && self.menu.content_text_focus()=>{self.menu.content_preedit(&text);},
+            WindowEvent::Ime(winit::event::Ime::Commit(text)) if self.paused && self.menu.content_text_focus()=>{self.menu.content_preedit("");self.menu.content_text(&text);},
             WindowEvent::CursorMoved { position, .. } => {
                 let p = (position.x, position.y);
                 self.mouse_pos = Some(p);
@@ -3141,6 +3211,13 @@ impl ApplicationHandler for PlayApp {
 
     fn about_to_wait(&mut self, event_loop: &ActiveEventLoop) {
         self.poll_replay();
+        self.menu_dirty |= self.content_picker.poll(&mut self.menu);
+        let workbench_was_busy=self.workbench.busy();
+        if let Some(path)=self.workbench.poll(&mut self.menu){
+            let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+            if let Err(error)=self.content_picker.adopt(menu::ContentSlot::Replay,&path,&rom,&mut self.menu){self.workbench.last=format!("Profile prepared; selection refused: {error}");self.menu.tool_feedback(self.workbench.last.clone(),String::new(),false);}
+        }
+        self.menu_dirty |= workbench_was_busy!=self.workbench.busy();
         if self.benchmark.is_some() && self.window.is_some() {
             self.benchmark_tick(event_loop); return;
         }
@@ -3177,6 +3254,14 @@ impl ApplicationHandler for PlayApp {
             self.cursor_visible = want_cursor;
         }
 
+        if let Some(window)=self.window.as_ref(){window.set_ime_allowed(self.paused && self.menu.content_text_focus());}
+        if self.paused && self.menu.content_text_focus(){self.held.clear();self.pending_key=None;}
+        if self.modal_input.blocked(){
+            self.held.clear();self.pending_key=None;self.pending_pad=None;self.mouse_queue.clear();
+            self.menu_key_latch=Default::default();self.menu_pad_latch=Default::default();self.menu_shortcut_held=false;
+            let (_,nav)=self.gather_input();let neutral=!(nav.up||nav.down||nav.left||nav.right||nav.confirm||nav.cancel||nav.open);
+            self.nav_prev=nav;self.modal_input.observe(Instant::now(),neutral);return;
+        }
         let (mut keys, nav) = self.gather_input();
 
         // Drop any button from the suppression mask once observed released
@@ -3190,7 +3275,14 @@ impl ApplicationHandler for PlayApp {
         // edge quits instead, preserving the historical Escape = quit.
         // While the menu waits for a key, Escape cancels the capture
         // instead of closing the menu.
-        let capturing_now = self.paused && self.menu.capturing().is_some();
+        let selector_open=self.paused && self.menu.host_panel_active();
+        if selector_open && nav.open && !self.nav_prev.open {
+            let action=self.menu.handle(menu::MenuInput::Cancel,&mut self.av);
+            if action==Some(menu::MenuAction::ContentCancel){self.content_picker.cancel();}
+            if action==Some(menu::MenuAction::ToolRequest(menu::ToolRequest::Back)){self.workbench.remember(&self.menu);self.workbench.cancel_view();}
+            self.nav_prev=nav;self.menu_dirty=true;
+        }
+        let capturing_now = self.paused && (self.menu.capturing().is_some() || selector_open);
         let toggle_edge = self.replay_job.is_none() && !capturing_now && nav.open && !self.nav_prev.open;
         if toggle_edge {
             if !self.menu_enabled {
@@ -3408,6 +3500,7 @@ impl ApplicationHandler for PlayApp {
                         }
                     }
                     MouseEv::Wheel(up) => {
+                        if self.menu.host_panel_active(){self.menu.content_wheel(up);continue;}
                         let ev = if up {
                             menu::MenuInput::Up
                         } else {
@@ -3420,19 +3513,32 @@ impl ApplicationHandler for PlayApp {
                 }
             }
             for action in acts {
-                if self.ui_trace.enabled(){self.ui_event("host-action",serde_json::json!({"action":format!("{action:?}"),"menu":self.ui_focus()}));}
+                if self.ui_trace.enabled(){self.ui_event("host-action",serde_json::json!({"action":format!("{action:?}"),"operation_id":crate::debug_operations::menu_operation(&action),"menu":self.ui_focus()}));}
                 match action {
-                    menu::MenuAction::CreateIssueReport=>{
-                        if self.replay_path.is_none(){self.replay_path=rfd::FileDialog::new().set_title("Choose replay.json for issue report").add_filter("Replay profile",&["json"]).pick_file();}
-                        if let Err(e)=self.debug_action(&crate::debug_control::Action::IssueReport{profile:None,symptom:self.replay_message.clone()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}
+                    menu::MenuAction::OpenDebugTool(tool)=>self.workbench.open(&mut self.menu,tool),
+                    menu::MenuAction::ToolRequest(request)=>{if let Err(e)=self.workbench_request(request){self.workbench.last=format!("Refused: {e}");self.menu.tool_feedback(self.workbench.last.clone(),String::new(),false);}},
+                    menu::MenuAction::ChooseToolInput(slot)=>{if self.menu.tool_active(){self.workbench.remember(&self.menu);self.workbench.cancel_view();}self.choose_tool_input(slot,"Choose the input reference. Actual action preflight still applies.".into());},
+                    menu::MenuAction::ContentOpen=>{let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);if let Err(e)=self.content_picker.open(&mut self.menu,rom){self.menu.diagnosis_result(e);}},
+                    menu::MenuAction::ContentRefresh=>{if let Err(e)=self.content_picker.refresh(&mut self.menu){self.menu.content_message(e);}},
+                    menu::MenuAction::ContentBrowseFile|menu::MenuAction::ContentAddFolder=>{
+                        {
+                            self.modal_input.begin();
+                            let result=if action==menu::MenuAction::ContentBrowseFile{self.content_picker.browse_file(&mut self.menu)}else{self.content_picker.browse_folder(&mut self.menu)};
+                            self.modal_input.finish(Instant::now());if let Err(e)=result{self.menu.content_message(e);}
+                            self.held.clear();self.pending_key=None;self.pending_pad=None;self.mouse_queue.clear();self.nav_prev=Default::default();
+                        }
+                        break;
                     },
-                    menu::MenuAction::StartRecentEvents=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::RecentStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::ContentSelect{index,generation}|menu::MenuAction::ContentPreview{index,generation}=>{if let Err(e)=self.content_picker.choose(&mut self.menu,index,generation,matches!(action,menu::MenuAction::ContentPreview{..})){self.menu.content_message(e);}},
+                    menu::MenuAction::ContentCancel=>self.content_picker.cancel(),
+                    menu::MenuAction::CreateIssueReport=>self.workbench.open(&mut self.menu,menu::DebugTool::Issue),
+                    menu::MenuAction::StartRecentEvents=>self.workbench.open(&mut self.menu,menu::DebugTool::Recent),
                     menu::MenuAction::SaveRecentEvents=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::RecentReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
-                    menu::MenuAction::StartGameplayTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::GameplayStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartGameplayTrace=>self.workbench.open(&mut self.menu,menu::DebugTool::Gameplay),
                     menu::MenuAction::SaveGameplayReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::GameplayReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
-                    menu::MenuAction::StartCodeTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::CodeStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartCodeTrace=>self.workbench.open(&mut self.menu,menu::DebugTool::Code),
                     menu::MenuAction::SaveCodeReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::CodeReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
-                    menu::MenuAction::StartAudioCapture=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioStart{settings:Default::default()}){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::StartAudioCapture=>self.workbench.open(&mut self.menu,menu::DebugTool::Audio),
                     menu::MenuAction::SaveAudioReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
@@ -3440,11 +3546,8 @@ impl ApplicationHandler for PlayApp {
                         if self.replay_job.is_some() {self.menu.diagnosis_result("Finish or cancel the replay before resuming.".into());}
                         else {self.paused=false;}
                     },
-                    menu::MenuAction::CaptureGraphics=>{if let Err(error)=self.debug_action(&crate::debug_control::Action::Graphics{compare_last:false}){self.menu.diagnosis_result(error);self.menu_dirty=true;}},
-                    menu::MenuAction::InspectPC => {
-                        let pc=self.machine.cpu.regs[15];
-                        if let Err(error)=self.debug_action(&crate::debug_control::Action::Inspect{address:pc,length:16}){self.menu.diagnosis_result(error);self.menu_dirty=true;}
-                    },
+                    menu::MenuAction::CaptureGraphics=>self.workbench.open(&mut self.menu,menu::DebugTool::Graphics),
+                    menu::MenuAction::InspectPC=>self.workbench.open(&mut self.menu,menu::DebugTool::Inspect),
                     menu::MenuAction::DebugStep(frames) => {
                         if let Err(error)=self.debug_action(&crate::debug_control::Action::Step{frames,keys:0x3ff}){self.menu.diagnosis_result(error);}
                     },
@@ -4223,6 +4326,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         diagnosis_clipboard: None,
         debug_session: session.is_some(),
         debug_catalog,
+        content_picker: Default::default(),
+        workbench: Default::default(),
         replay_path,
         replay_job: None,
         replay_message: String::new(),
@@ -4246,6 +4351,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         #[cfg(windows)]
         xinput,
         menu_tap_filter: MenuTapFilter::default(),
+        modal_input: Default::default(),
         active_controller: None,
         last_direct_activity: None,
         pending_pad: None,

@@ -57,15 +57,16 @@ pub(crate) fn capacity(root: &Path) -> Result<(), String> {
     Ok(())
 }
 impl Trace {
-    pub fn start(root: &Path, m: &Machine, table: Option<&crate::BlockTable>, settings: Settings, mut origin: Value) -> Result<Self, String> {
+    pub fn start(root: &Path, m: &Machine, table: Option<&crate::BlockTable>, settings: Settings, mut origin: Value, selected_labels:Option<&Path>) -> Result<Self, String> {
         settings.validate()?;
         capacity(root)?;
-        let path = root.join("debug-labels.toml");
+        let default_path=root.join("debug-labels.toml");
+        let path=selected_labels.unwrap_or(&default_path);
         let (labels, label_identity) = if path.exists() {
             let bytes = crate::diagnostics::read(&path, 1024*1024)?;
             let labels = recomp_core::labels::Labels::parse(std::str::from_utf8(&bytes).map_err(|e|e.to_string())?, &path,
                 &gba_core::ffta_rom::digest(&m.bus.rom), m.bus.rom.len())?;
-            let identity = json!({"file":"debug-labels.toml","sha256":gba_core::ffta_rom::digest(&bytes),"rom_entries":labels.rom.len(),"iwram_entries":labels.iwram.len(),"reserved_entries":labels.reserved.len(),"skipped":labels.skipped,
+            let identity = json!({"file":path,"sha256":gba_core::ffta_rom::digest(&bytes),"rom_entries":labels.rom.len(),"iwram_entries":labels.iwram.len(),"reserved_entries":labels.reserved.len(),"skipped":labels.skipped,
                 "named_candidates":labels.names.iter().take(64).map(|(key,name)|json!({"key":key,"name":prefix(name,128),"name_truncated":name.chars().count()>128,"end":labels.ends.get(key)})).collect::<Vec<_>>(),
                 "named_candidates_omitted":labels.names.len().saturating_sub(64),"scope":"Declared static hints, not executed instructions, function extents or extracted-code coverage"});
             (labels, identity)
@@ -171,15 +172,15 @@ mod tests {
     #[test]
     fn readonly_entry_filters_bounds_and_foreign_labels() {
         let r=root();let mut m=Machine::new(0xeafffffeu32.to_le_bytes().to_vec());
-        let before=m.save_state().unwrap();let mut t=Trace::start(r.path(),&m,None,Settings{events:2,..Default::default()},json!({})).unwrap();
+        let before=m.save_state().unwrap();let mut t=Trace::start(r.path(),&m,None,Settings{events:2,..Default::default()},json!({}),None).unwrap();
         t.entry(&m,"interpreter");t.entry(&m,"interpreter");t.entry(&m,"interpreter");
         assert_eq!(before,m.save_state().unwrap());assert_eq!(t.events.len(),2);assert_eq!(t.reason,"event-limit");assert!(t.events[0]["disassembly"].as_str().unwrap().contains('b'));
         m.bus.iwram[..4].copy_from_slice(&0xe1a00000u32.to_le_bytes());m.cpu.regs[15]=0x03008000;
-        let mut t=Trace::start(r.path(),&m,None,Settings{start:0x03000000,end:0x04000000,..Default::default()},json!({})).unwrap();t.entry(&m,"interpreter");
+        let mut t=Trace::start(r.path(),&m,None,Settings{start:0x03000000,end:0x04000000,..Default::default()},json!({}),None).unwrap();t.entry(&m,"interpreter");
         assert_eq!(t.events[0]["backing"]["region"],"iwram");assert_eq!(t.events[0]["backing"]["physical_offset"],0);
         t.settings.thumb=Some(true);t.entry(&m,"interpreter");assert_eq!(t.filtered,1);
         fs::write(r.path().join("debug-labels.toml"),format!("gba-labels v1\nrom-sha256 {}\nrom 08000000 a\n","0".repeat(64))).unwrap();
-        assert!(Trace::start(r.path(),&m,None,Default::default(),json!({})).is_err());
+        assert!(Trace::start(r.path(),&m,None,Default::default(),json!({}),None).is_err());
     }
     #[test]
     fn mixed_native_transition_preserves_full_state_and_counts() {
@@ -188,13 +189,13 @@ mod tests {
         let table=crate::BlockTable::from_blocks(&[gba_core::capi::RcgBlock{key:crate::ROM_BASE,func:translated}]).unwrap();
         let mut plain=Machine::new(rom.clone());let mut traced=Machine::new(rom);
         let p=&mut plain as *mut Machine as *mut std::ffi::c_void;let expected=crate::run_frame_native(&mut plain,&table,p,12);
-        let mut trace=Trace::start(r.path(),&traced,Some(&table),Default::default(),json!({"synthetic_native":"Rust extern block invokes rt_interp_one; no generated-ROM parity claim"})).unwrap();
+        let mut trace=Trace::start(r.path(),&traced,Some(&table),Default::default(),json!({"synthetic_native":"Rust extern block invokes rt_interp_one; no generated-ROM parity claim"}),None).unwrap();
         let p=&mut traced as *mut Machine as *mut std::ffi::c_void;
         let actual=crate::run_frame_native_traced(&mut traced,&table,p,12,|m,k|trace.native(m,k),|_,_,_|{});
         assert_eq!(expected,actual);assert_eq!(actual,(6,6));assert_eq!(plain.save_state().unwrap(),traced.save_state().unwrap());
         assert_eq!(trace.events[0]["kind"],"native");assert_eq!(trace.events[1]["kind"],"missing");assert_eq!(trace.events[1]["reason"],"no-block-for-exact-pc-and-mode");
         let mut plain=Machine::new(0xeafffffeu32.to_le_bytes().to_vec());let mut traced=Machine::new(0xeafffffeu32.to_le_bytes().to_vec());
-        let mut trace=Trace::start(r.path(),&traced,None,Default::default(),json!({})).unwrap();plain.run_frame(20);trace.run_interpreter(&mut traced,20);
+        let mut trace=Trace::start(r.path(),&traced,None,Default::default(),json!({}),None).unwrap();plain.run_frame(20);trace.run_interpreter(&mut traced,20);
         assert_eq!(plain.save_state().unwrap(),traced.save_state().unwrap());
     }
 
@@ -211,7 +212,7 @@ mod tests {
         let mut observed=crate::make_machine(rom,None);crate::save_state::load_bytes(&mut observed,&seed).unwrap();
         let (_code,table)=crate::load_native(&library).unwrap();
         let p=&mut plain as *mut Machine as *mut std::ffi::c_void;let expected=crate::run_frame_native(&mut plain,&table,p,5_000_000);
-        let mut trace=Trace::start(&out,&observed,Some(&table),Settings::default(),json!({"snapshot_sha256":gba_core::ffta_rom::digest(&seed),"input":"Original snapshot keys, no host input or new recording", "validation":"Affected observer versus same existing native library, not interpreter/native parity","test_executable_sha256":gba_core::ffta_rom::digest(&fs::read(std::env::current_exe().unwrap()).unwrap())})).unwrap();
+        let mut trace=Trace::start(&out,&observed,Some(&table),Settings::default(),json!({"snapshot_sha256":gba_core::ffta_rom::digest(&seed),"input":"Original snapshot keys, no host input or new recording", "validation":"Affected observer versus same existing native library, not interpreter/native parity","test_executable_sha256":gba_core::ffta_rom::digest(&fs::read(std::env::current_exe().unwrap()).unwrap())}),None).unwrap();
         let p=&mut observed as *mut Machine as *mut std::ffi::c_void;
         let actual=crate::run_frame_native_traced(&mut observed,&table,p,5_000_000,|m,k|trace.native(m,k),|_,_,_|{});
         assert_eq!(expected,actual);assert!(observed.bus.frame_ready);assert!(actual.0>0);

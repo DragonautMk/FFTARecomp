@@ -6,8 +6,13 @@ generali. I dati di gioco si aggiungono localmente dopo l'estrazione del pacchet
 
 Il [nuovo TODO Debug integrato](development/DEBUG_TOOLS_V2_TODO.md) descrive
 le estensioni pianificate: scelte e script dal menu senza picker automatici,
-console eventi/comandi e cheat. Questa guida continua a descrivere le funzioni
-attuali; le voci DBG2 non sono ancora implementate.
+console eventi/comandi e cheat. L'implementazione inizia dal
+[contratto delle operazioni](debug_operations.md): `debug-operations list/show`
+elenca ingressi, parametri e lacune attuali senza eseguirli. Il
+[catalogo contenuti](debug_content.md), `debug-content scan/check`, aggiunge un
+indice readonly con radici esplicite, identità e stati.
+[Debug > Content selector](debug_selector.md) offre la nuova scelta interna;
+la migrazione degli strumenti, le console e i cheat restano attività successive.
 
 ## Prerequisiti e cartella spostabile
 

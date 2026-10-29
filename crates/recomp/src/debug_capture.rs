@@ -396,6 +396,9 @@ pub(crate) fn cmd(args: &[String]) -> u8 {
     error("Use debug-capture create [replay create options] --resource ID --manifest FILE [--preset all|bus|host], or --pc HEX --mode arm|thumb --opcode HEX, or --frame N; [--limit-frames N]. Then run/cancel replay.json".into())
 }
 fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
+    create_from_menu(args,false)
+}
+pub(crate) fn create_from_menu(args:&[String],validate_only:bool)->Result<PathBuf,String>{
     let (mut resource, mut manifest, mut dataset, mut pc, mut mode, mut opcode, mut frame) =
         (None, None, None, None, None, None, None);
     let (mut preset, mut limit) = ("all".to_owned(), u64::MAX);
@@ -461,16 +464,16 @@ fn create_cmd(args: &[String]) -> Result<PathBuf, String> {
             completed: frame.unwrap(),
         }
     };
-    crate::debug_replay::create_cmd_captured(
-        &rest,
-        &Request {
+    crate::debug_replay::create_dispatch(
+        &rest,None,
+        Some(&Request {
             settings: Settings {
                 condition,
                 limit_frames: limit,
             },
             manifest,
             dataset,
-        },
+        }),None,validate_only,
     )
 }
 

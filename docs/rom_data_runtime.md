@@ -1,5 +1,19 @@
 # Direct decoded resource consumption
 
+EUR e87-d86 adds [selection-byte tables](rom_data_gameplay.md#managed-selection-byte-tables-and-typed-runtime-reads):
+80files/79resources, two4/30-byte spans/no dependency, all78 previous records/
+payloads exact. The immutable owner serves both arrays while count, raw live
+eligibility, numeric helpers and selection remain guest instructions. One
+focused Wine filter passes publication/interruption,14attach/two full-set guards,
+20complete-state/clock native cases, all34bus bytes/4+30positions, raw gap/prior
+composition, Load/Undo and three DMA/SWI transfers. [Actual CLI create/reuse/startup](rom_data_gameplay.md#actual-selection-byte-cli-registration)
+now passes80identical payloads/79IDhash82unchanged managed paths; one neutral
+frame uses none of the new source. [One ordinary travel33 suffix](rom_data_gameplay.md#ordinary-selection-threshold-travel-equivalence)
+now passes every complete state/clock/central-wide image/OAM/five audio stream
+with one served threshold byte/one position and exact six CLI/pair counters.
+Weights and other positions remain targeted-only; Linux/USA/native Windows
+remain unverified. No performance measurement.
+
 EUR e78-d77 adds [world nodes](rom_data_maps.md#managed-world-nodes-and-typed-guest-reads):
 71files/70resources, all69prior records/files retained, USAe8-d7 unchanged.
 The600-byte typed owner supplies coordinates, ordered path/neighbor links and
@@ -638,6 +652,14 @@ measurements below retain their432byte scope. The machine also holds one optiona
 process RSS are separate ROMDATA-05 measurements. The resource contains no file
 handle, filesystem callback, translation pointer or serialized guest state.
 There is no allocation or I/O on resource reads.
+
+Those historical allocation caps no longer reject authenticated attachment.
+During the EUR mission-record integration, the shared structure's additional
+resource handle crossed the old OBJ cap. Per the requested deferral of space
+limits, e86-d85 removes the two attach allocation checks and three corresponding
+legacy assertions. Parsing bounds, source/format/dependency authentication and
+transactional attachment remain active. No new allocation/RSS or performance
+campaign is run; the old measurements retain their historical scope.
 
 The ROM arms of `MemMap::read8/read16/read32` check only fixed source
 pages:four for OBJ, four BG pages per region and fixed palette asset regions
@@ -1810,5 +1832,41 @@ and three transfers. Native-path accounting includes the real `interp_one`
 fallback:607 direct plus two fallback bytes in the selection case equal609
 actual bytes in both typed and native arms. The initial observer failure stays
 recorded; passing earlier scopes are preserved rather than repeated. Actual CLI
-and ordinary consumption, Linux and USA remain pending.
+creation/reuse/startup now passes with78 files/77 logged ID hashes/80 managed
+paths unchanged during reuse and one neutral frame. A later normal42-frame
+Rumors-entry case observes all six field classes and matches full state/clock,
+classic/wide pixels, OAM and five audio streams, with all nine counters identical
+between capture, CLI and pair. Linux and USA remain pending.
 [Binding, evidence and limits](rom_data_gameplay.md#managed-conditional-records-and-typed-runtime-reads).
+
+[Actual CLI registration and limits](rom_data_gameplay.md#actual-conditional-record-cli-registration).
+
+[Ordinary case and limits](rom_data_gameplay.md#ordinary-conditional-record-rumors-entry-equivalence).
+
+
+## Mission-record ownership
+
+EUR e86-d85 adds `gameplay.mission-records70` at index77, one35,840-byte span
+in `mission-records70.json`:79 files/78 resources, all77 prior payloads and
+records exact. The immutable owner covers512 physical records, ten storage
+classes and13 counters across pages713..71C. Guest getter/event logic remains
+original. Combined Wine scopes verify publication,14 attach/two full-set cases,
+41 native full-state/clock cases, all source bytes/512 boundaries, Load/Undo and
+three transfers. The old shared/OBJ and BG allocation caps are removed under the
+requested deferral of space limits; source/format/dependency authentication and
+transactional binding remain active.
+
+Actual production CLI creation/reuse/startup now passes with573 frozen sources,
+79 runtime-identical files,78 logged ID/hash pairs and81 managed paths unchanged
+during reuse/startup. One neutral frame24755..24756 has all13 new counters zero;
+a later33-frame Giza Plains mission-information case now passes complete
+state/clock/classic-wide pixels/OAM/five-audio equality with all13 counts exact
+across capture, CLI and pair. It observes five served packed bytes/one record,
+other nine classes zero, not all fields/512 records or mission outcome. No closed
+source/model/native/old ordinary proof or performance campaign is repeated.
+Linux and USA remain unverified.
+[Binding, evidence and limits](rom_data_gameplay.md#managed-mission-records-and-typed-runtime-reads).
+
+[Actual CLI registration](rom_data_gameplay.md#actual-mission-record-cli-registration).
+
+[Ordinary mission-information case](rom_data_gameplay.md#ordinary-mission-information-equivalence).

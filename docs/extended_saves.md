@@ -1,6 +1,7 @@
 # Extended saves (desktop debug option)
 
-Open the pause menu, choose **Debug**, then enable **Extended saves** with
+Open the pause menu, choose **Gioco > Salvataggi** (also available under
+**Debug > Sessioni e casi**), then enable **Extended saves** with
 Left/Right, or Confirm and the ON/OFF selector. The default is OFF. The choice
 is stored as `debug.extended_saves` in `av.cfg`, including portable
 `Data/config/av.cfg`.
@@ -45,7 +46,7 @@ translation compatibility are unchanged. See [Save states](save_states.md).
 
 ## Standard game saves
 
-With Extended saves enabled, **Debug > Game saves** selects up to 99 cartridge
+With Extended saves enabled, **Gioco > Salvataggi > Game saves** selects up to 99 cartridge
 save files. Left/Right changes the selected number; Confirm on Slot advances
 one number. The page shows the filename, whether the file is saved, empty or
 unreadable, and which slot is active.

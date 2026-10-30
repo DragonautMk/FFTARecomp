@@ -568,6 +568,12 @@ struct PlayApp {
     pad_zoom_prev: (bool, bool),
     pad_ff_held: bool,
     pad_ff_toggle_prev: bool,
+    atlas_down: [bool;7],
+    atlas_focus_prev: bool,
+    atlas_reference_prev: bool,
+    atlas_information_prev: bool,
+    atlas_shortcuts: menu::shortcuts::ControllerShortcuts,
+    atlas_clock: Instant,
     /// Physical keys currently held, reconstructed from key press/release
     /// events — winit's event-driven equivalent of minifb's `is_key_down`.
     held: HashSet<KeyCode>,
@@ -649,6 +655,7 @@ struct PlayApp {
     ff_active: bool,
     ff_latched: bool,
     ff_speed: u32,
+    ff_clock: input_config::fast_forward::FrameClock,
     ff_audio_active: String,
     /// Last key pressed while the menu is open (consumed by key capture).
     pending_key: Option<KeyCode>,
@@ -1083,6 +1090,7 @@ impl PlayApp {
         let mut pad_zoom_out = false;
         let mut pad_ff_held = false;
         let mut pad_ff_toggle = false;
+        self.atlas_down=[false;7];
         for (code, bit) in &self.key_pairs {
             if self.held.contains(code) {
                 keys &= !bit;
@@ -1406,6 +1414,7 @@ impl PlayApp {
                     if !blocked {
                         let dz = self.icfg.stick_deadzone;
                         let pressed = |name: &str| xinput_pressed(state, name, dz);
+                        self.atlas_down=[pressed("LeftTrigger"),pressed("RightTrigger"),pressed("LeftTrigger2"),pressed("RightTrigger2"),pressed("West"),pressed("North"),pressed("RightThumb")];
                         pad_zoom_in = pressed(&self.icfg.zoom_in_pad);
                         pad_zoom_out = pressed(&self.icfg.zoom_out_pad);
                         pad_ff_held = pressed(&self.icfg.ff_pad);
@@ -1482,6 +1491,7 @@ impl PlayApp {
                     combo_snapshot = Some((format!("gilrs:{id:?}"), input_config::PAD_CONTROLS.iter().filter(|token| pressed(token)).map(|s| s.to_string()).collect()));
                 }
                 if !pad_blocked {
+                    self.atlas_down=[pressed("LeftTrigger"),pressed("RightTrigger"),pressed("LeftTrigger2"),pressed("RightTrigger2"),pressed("West"),pressed("North"),pressed("RightThumb")];
                     pad_zoom_in = pressed(&self.icfg.zoom_in_pad);
                     pad_zoom_out = pressed(&self.icfg.zoom_out_pad);
                     pad_ff_held = pressed(&self.icfg.ff_pad);
@@ -1583,6 +1593,7 @@ impl PlayApp {
                     .is_some_and(input_config::PadGesture::blocked);
                 let dz = self.icfg.stick_deadzone;
                 if !pad_blocked {
+                    self.atlas_down=[gp.pressed("LeftTrigger",dz),gp.pressed("RightTrigger",dz),gp.pressed("LeftTrigger2",dz),gp.pressed("RightTrigger2",dz),gp.pressed("West",dz),gp.pressed("North",dz),gp.pressed("RightThumb",dz)];
                     pad_zoom_in = gp.pressed(&self.icfg.zoom_in_pad, dz);
                     pad_zoom_out = gp.pressed(&self.icfg.zoom_out_pad, dz);
                     pad_ff_held = gp.pressed(&self.icfg.ff_pad, dz);
@@ -2454,6 +2465,14 @@ impl PlayApp {
             }
         }).collect();
         self.menu.set_state_slots(slots);
+        let times=(1..=self.state_slots.count()).map(|slot|self.state_slots.path(slot).ok().and_then(|path|std::fs::metadata(path).ok()).and_then(|m|m.modified().ok()).and_then(|time|time.duration_since(std::time::UNIX_EPOCH).ok()).map(|d|d.as_secs())).collect();
+        self.menu.set_state_timestamps(times);
+        let standard=match std::fs::metadata(&self.sav_path) {
+            Ok(metadata)=>metadata.modified().ok().and_then(|time|time.duration_since(std::time::UNIX_EPOCH).ok()).and_then(|d|menu::clan_atlas::timestamp_utc(d.as_secs())).map(|stamp|format!("Ultima modifica file .sav: {stamp}")).unwrap_or_else(||"Ultima modifica file .sav: data non disponibile".into()),
+            Err(e) if e.kind()==std::io::ErrorKind::NotFound=>"Nessun salvataggio standard trovato".into(),
+            Err(_)=>"File .sav: metadati non disponibili".into(),
+        };
+        self.menu.set_standard_save_status(standard);
         self.menu.set_state_undo(self.state_slots.undo_label());
         let expected = self.machine.bus.save_data().map_or(0, |data| data.len());
         if self.av.debug_extended_saves {
@@ -2775,13 +2794,15 @@ impl PlayApp {
     fn set_fast_forward(&mut self, on: bool, speed: u32) {
         self.profile.presentation_boundary();
         self.ff_active = on;
+        self.ff_clock.reset();
+        let percent=if on {input_config::fast_forward::selected_percent(speed)}else{100};
         self.ff_audio_active = self.av.ff_audio.clone();
         {
             let mut st = self.streams.lock().unwrap();
             st.discard_pending();
             st.muted = on && self.av.ff_audio == "silent";
             st.playback_speed = if on && self.av.ff_audio == "fast" {
-                speed as f64
+                percent as f64/100.0
             } else {
                 1.0
             };
@@ -3207,6 +3228,7 @@ impl PlayApp {
                 ..
             } => {
                 if self.events_enabled(){self.ui_event("keyboard",serde_json::json!({"key":format!("{code:?}"),"pressed":state==ElementState::Pressed,"repeat":repeat,"paused":self.paused,"synthetic":is_synthetic}));}
+                let menu_key_member=self.icfg.menu_key.split('+').any(|token|winit_key(token)==Some(code));
                 if self.paused && self.menu.host_panel_active() && is_synthetic {self.host_consumed("Synthetic keyboard event while host panel owns input");self.held.remove(&code);return;}
                 if self.paused && self.menu.host_panel_active() {
                     if state==ElementState::Released {self.held.remove(&code);return;}
@@ -3223,12 +3245,23 @@ impl PlayApp {
                         self.held.remove(&code);self.pending_key=None;return;
                     }
                     if repeat {self.host_consumed("Host panel ignores repeated navigation");return;}
-                    if code==KeyCode::Tab {self.host_consumed("Host panel tab navigation");self.menu.content_tab(false);return;}
+                    if code==KeyCode::Tab && !menu_key_member {self.host_consumed("Host panel tab navigation");if self.held.contains(&KeyCode::ControlLeft)||self.held.contains(&KeyCode::ControlRight){self.menu.focus_next();}else{self.menu.content_tab(false);}return;}
                     if code==KeyCode::Escape {self.host_consumed("Host panel cancel");let action=self.menu.handle(menu::MenuInput::Cancel,&mut self.av);self.inline_action(action);if action==Some(menu::MenuAction::ToolRequest(menu::ToolRequest::Back)){self.workbench.remember(&self.menu);self.workbench.cancel_view();}self.content_picker.leave_view(&self.menu);self.observe_menu("keyboard-cancel");if let Some(action)=action{self.host_action_returned(action);}self.held.clear();return;}
                     if code==KeyCode::KeyF && (self.held.contains(&KeyCode::ControlLeft)||self.held.contains(&KeyCode::ControlRight)){self.host_consumed("Host panel search shortcut");self.menu.content_start_search();self.held.clear();return;}
                 }
+                if self.paused && !repeat && state==ElementState::Pressed && code==KeyCode::F1 && !menu_key_member && self.menu.capturing().is_none() && !self.menu.content_text_focus(){self.menu.information(&self.av,&self.icfg);self.menu_dirty=true;return;}
+                if self.paused && repeat && code==KeyCode::Escape && self.menu.capturing().is_none(){self.host_consumed("Escape repeat stays consumed by menu");return;}
+                // Escape cancels the current menu context before the recovery
+                // shortcut can resume the game. Binding capture stays exclusive.
+                if self.paused && !repeat && state==ElementState::Pressed && code==KeyCode::Escape && self.menu.capturing().is_none() && self.menu.escape_goes_back() {
+                    self.host_consumed("Escape cancels menu context");
+                    let action=self.menu.handle(menu::MenuInput::Cancel,&mut self.av);
+                    self.inline_action(action);self.observe_menu("keyboard-cancel");
+                    self.held.remove(&code);self.pending_key=None;self.menu_dirty=true;return;
+                }
                 match state {
                 ElementState::Pressed => {
+                    if self.paused && !repeat && code==KeyCode::Tab && !menu_key_member && self.menu.capturing().is_none() && !self.menu.content_text_focus() && (!self.menu.host_panel_active() || self.held.contains(&KeyCode::ControlLeft)||self.held.contains(&KeyCode::ControlRight)) {if self.held.contains(&KeyCode::ShiftLeft)||self.held.contains(&KeyCode::ShiftRight){self.menu.atlas_reference_tab();}else{self.menu.focus_next();}self.menu_dirty=true;return;}
                     // Consume debugger shortcuts before text input, bindings, Fast or menu capture.
                     if self.debug_session && matches!(code,KeyCode::F6|KeyCode::F7|KeyCode::F8) {
                         if self.events_enabled(){self.ui_event("shortcut-consumed",serde_json::json!({"key":format!("{code:?}"),"repeat":repeat,"guest_input":false}));}
@@ -3470,6 +3503,13 @@ impl PlayApp {
             }
         }
 
+        let atlas_edges=self.atlas_shortcuts.poll([self.atlas_down[0],self.atlas_down[1],self.atlas_down[2],self.atlas_down[3]],self.paused && !self.menu_shortcut_held && self.menu.capturing().is_none() && !self.menu.content_text_focus(),self.atlas_clock.elapsed().as_millis().min(u64::MAX as u128) as u64);
+        if self.paused && !self.menu_shortcut_held && self.atlas_down[4] && !self.atlas_focus_prev && self.menu.capturing().is_none() && !self.menu.content_text_focus(){self.menu.focus_next();self.menu_dirty=true;}
+        self.atlas_focus_prev=self.atlas_down[4];
+        if self.paused && !self.menu_shortcut_held && self.atlas_down[5] && !self.atlas_reference_prev && self.menu.capturing().is_none() && !self.menu.content_text_focus(){self.menu.atlas_reference_tab();self.menu_dirty=true;}
+        self.atlas_reference_prev=self.atlas_down[5];
+        if self.paused && !self.menu_shortcut_held && self.atlas_down[6] && !self.atlas_information_prev && self.menu.capturing().is_none() && !self.menu.content_text_focus(){self.menu.information(&self.av,&self.icfg);self.menu_dirty=true;}
+        self.atlas_information_prev=self.atlas_down[6];
         if self.paused {
             let previous_aspect = self.av.video_aspect.clone();
             self.menu_dirty |= self.pending_key.is_some()
@@ -3611,6 +3651,7 @@ impl PlayApp {
             // Actions from keyboard/pad edges and from the mouse, applied
             // together below.
             let mut acts: Vec<(menu::MenuAction,Option<crate::debug_events::Correlation>)> = Vec::new();
+            for edge in atlas_edges {if let Some(action)=self.menu.global_shortcut(edge,&mut self.av){acts.push((action,None));self.menu_dirty=true;}}
             for (fired, ev) in events {
                 if !fired {continue;}
                 if was_capturing {
@@ -3660,12 +3701,15 @@ impl PlayApp {
                     }
                     MouseEv::Click(p, left) => {
                         if let Some((x, y)) = self.window_to_frame(p) {
+                            if left && self.menu.information_hit(x,y,fw,fh){self.menu.information(&self.av,&self.icfg);self.menu_dirty=true;continue;}
                             if let Some(a) = self.menu.click(x, y, fw, fh, left, &mut self.av) {
                                 acts.push((a,correlation.clone()));
                             }
                         }
                     }
                     MouseEv::Wheel(up) => {
+                        let (fw,fh)=self.menu_dimensions();
+                        if let Some((x,y))=self.mouse_pos.and_then(|p|self.window_to_frame(p)){if self.menu.atlas_reference_wheel(up,x,y,fw,fh){continue;}}
                         if self.menu.host_panel_active(){self.menu.content_wheel(up);self.host_consumed("Host panel consumes mouse wheel");self.observe_menu("mouse-wheel");continue;}
                         let ev = if up {
                             menu::MenuInput::Up
@@ -3714,6 +3758,7 @@ impl PlayApp {
                     menu::MenuAction::SaveAudioReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::ToggleFastForward=>{self.ff_latched=!self.ff_latched;self.menu_dirty=true;},
                     menu::MenuAction::Resume => {
                         if self.replay_job.is_some() {self.menu.diagnosis_result("Finish or cancel the replay before resuming.".into());}
                         else {self.paused=false;self.lifecycle_emit(crate::debug_lifecycle::Family::Machine,"menu-resume",None,serde_json::json!({"paused":false}));}
@@ -3904,6 +3949,7 @@ impl PlayApp {
                 }}
                 self.pause_rgba=canvas;
             }}
+            self.menu.set_live_status(self.machine.bus.frames,self.ff_latched,input_config::fast_forward::effective_percent(self.av.ff_speed,self.ff_latched,false));
             self.menu
                 .draw_inputs(&self.av, &self.icfg, &mut self.pause_rgba, mw, mh);
             std::mem::swap(&mut self.rgba, &mut self.pause_rgba);
@@ -3929,8 +3975,8 @@ impl PlayApp {
         // momentary key inverts the session's permanent-toggle state.
         let ff_held = !self.menu_shortcut_held && (self.pad_ff_held
             || winit_key(&self.icfg.ff_key).is_some_and(|k| self.held.contains(&k)));
-        let ff_speed = input_config::fast_forward_speed(self.av.ff_speed, self.ff_latched, ff_held);
-        let ff_now = ff_speed > 1;
+        let ff_speed = input_config::fast_forward::effective_percent(self.av.ff_speed, self.ff_latched, ff_held);
+        let ff_now = self.ff_latched ^ ff_held;
         if ff_now != self.ff_active
             || ff_speed != self.ff_speed
             || self.av.ff_audio != self.ff_audio_active
@@ -3945,7 +3991,7 @@ impl PlayApp {
         let clock_pacing = self.clock_pacing;
         let smooth_normal = clock_pacing && self.primed && !self.ff_active;
         let frame_cap = if self.ff_active {
-            self.ff_speed
+            self.ff_clock.next_batch(self.ff_speed)
         } else if smooth_normal {
             1
         } else {
@@ -4631,6 +4677,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         pad_zoom_prev: (false, false),
         pad_ff_held: false,
         pad_ff_toggle_prev: false,
+        atlas_down:[false;7],atlas_focus_prev:false,atlas_reference_prev:false,atlas_information_prev:false,
+        atlas_shortcuts:Default::default(),atlas_clock:Instant::now(),
         held: HashSet::new(),
         av,
         screen_kind,
@@ -4653,7 +4701,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         sb_context: None,
         sb_surface: None,
         menu_enabled,
-        menu: menu::Menu::new(true, false),
+        menu: {let mut menu=menu::Menu::new(true,false);menu.set_operation_references(crate::debug_operations::atlas_references());menu},
         paused: false,
         frame_control: Default::default(),
         probe: None,
@@ -4704,7 +4752,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         audio_retry: None,
         ff_active: false,
         ff_latched: false,
-        ff_speed: 4,
+        ff_speed: 100,
+        ff_clock:Default::default(),
         ff_audio_active: String::new(),
         pending_key: None,
         base_extra,
@@ -4915,10 +4964,7 @@ mod gamepad_capture_simulation {
 
         let mut av = input_config::AvConfig::default();
         let mut menu = menu::Menu::new(true, false);
-        for _ in 0..7 {
-            menu.handle(menu::MenuInput::Down, &mut av);
-        }
-        menu.handle(menu::MenuInput::Confirm, &mut av); // Input page.
+        menu.atlas_section(menu::clan_atlas::Domain::Game,6); // Input section.
         menu.handle(menu::MenuInput::Right, &mut av); // Gamepad tab.
         menu.handle(menu::MenuInput::Confirm, &mut av); // Capture GBA A.
         assert!(menu.capturing().is_some());
@@ -4962,3 +5008,7 @@ mod gamepad_capture_simulation {
         assert!(xinput_new_press(Some(pressed), released, 0.2).is_none());
     }
 }
+
+#[cfg(test)]
+#[path="play_atlas_tests.rs"]
+mod atlas_tests;

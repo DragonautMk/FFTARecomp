@@ -76,6 +76,26 @@ pub(super) struct Geometry {
     pub scale: f32,
 }
 pub(super) fn geometry(w: usize, h: usize) -> Geometry {
+    if w<300 || h<150{return legacy_geometry(w,h);}
+    let scale=(w as f32/627.).min(h as f32/218.).clamp(0.85,6.);
+    let pad=(6.*scale).max(2.)as usize;let row=(22.*scale).max(18.)as usize;let gap=(3.*scale).max(2.)as usize;
+    let pw=w.saturating_sub(pad*2);let ph=h.saturating_sub(pad*2);let(x,y)=(pad,pad);let inner=pw.saturating_sub(pad*2);
+    let compact=w<440;let search_w=if compact{inner}else{inner/3};
+    let search=[x+pad,y+row,search_w,row];
+    let cw=if compact{inner.saturating_sub(3*gap)/4}else{inner.saturating_sub(search_w+4*gap)/4};
+    let controls=std::array::from_fn(|i|[if compact{x+pad+i*(cw+gap)}else{x+pad+search_w+gap+i*(cw+gap)},if compact{search[1]+row+gap}else{search[1]},cw,row]);
+    let top=controls[0][1]+row+gap;
+    let buttons_top=(y+ph).saturating_sub(pad+4*row+2*gap);
+    let area_h=buttons_top.saturating_sub(top+gap);
+    let (list,details)=if compact{
+        let height=area_h/2;([x+pad,top,inner,height],[x+pad,top+height+gap,inner,area_h.saturating_sub(height+gap)])
+    }else{
+        let left=inner.saturating_sub(gap)*52/100;([x+pad,top,left,area_h],[x+pad+left+gap,top,inner.saturating_sub(left+gap),area_h])
+    };
+    let bw=inner.saturating_sub(2*gap)/3;let actions=std::array::from_fn(|i|[x+pad+(i%3)*(bw+gap),buttons_top+(i/3)*(row+gap),bw,row]);
+    Geometry{panel:[x,y,pw,ph],search,controls,list,details,actions,row,visible:(list[3]/row).max(1),scale}
+}
+fn legacy_geometry(w: usize, h: usize) -> Geometry {
     let scale = (w as f32 / 940.).min(h as f32 / 620.).clamp(0.1, 2.5);
     let pad = (14. * scale).max(2.) as usize;
     let row = (32. * scale).max(5.) as usize;
@@ -156,6 +176,8 @@ pub(super) struct Selector {
     detail_scroll: Cell<usize>,
 }
 impl Selector {
+    pub(super) fn description(&self)->String{format!("{}\nRicerca: {}\nTipo: {}\nDisponibilità: {}\nOrdine: {}\nRaccolta: {}",self.title,self.query,self.kinds().get(self.kind).cloned().unwrap_or_default(),FILTERS[self.filter],SORTS[self.sort],COLLECTIONS[self.collection])}
+
     pub(super) fn selection_state(&self)->Vec<(String,String)>{
         let page=if self.editor_only{"ToolEditor"}else{"ContentSelector"};
         let label=self.focus_label();
@@ -584,11 +606,7 @@ impl Selector {
     }
     fn key_rect(&self, g: Geometry, i: usize) -> Rect {
         let gap = (5. * g.scale).max(1.) as usize;
-        let bw = g.list[2]
-            .saturating_add(g.details[2])
-            .saturating_add(gap)
-            .saturating_sub(6 * gap)
-            / 7;
+        let bw = (g.actions[2][0]+g.actions[2][2]).saturating_sub(g.actions[0][0]).saturating_sub(6*gap)/7;
         let row = (g.row * 3 / 4).max(5);
         [
             g.list[0] + (i % 7) * (bw + gap),
@@ -776,21 +794,21 @@ pub(super) fn button(c: &mut Canvas, r: Rect, text: &str, active: bool, size: f3
         h as f32,
         3.,
         if active {
-            [112, 72, 15]
+            [45, 78, 100]
         } else {
-            [253, 250, 240]
+            [28, 56, 78]
         },
-        if active { [64, 38, 9] } else { [239, 228, 207] },
-        [183, 147, 75],
+        if active { [35, 62, 82] } else { [28, 56, 78] },
+        [89, 121, 139],
     );
     c.text(
         x as f32 + 5.,
         y as f32 + (h as f32 - size) / 2. - 1.,
         text,
         if active {
-            [255, 230, 164]
+            [240, 215, 164]
         } else {
-            [46, 34, 22]
+            [233, 239, 236]
         },
         size,
         false,
@@ -803,20 +821,21 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
             *v = (*v as u16 / 4) as u8;
         }
     }
-    let g = geometry(w, h);
+    let mut g = geometry(w, h);
     let [x, y, pw, ph] = g.panel;
+    if s.editor_only{g.search[2]=pw.saturating_sub((g.search[0]-x)*2);}
     let mut c = Canvas::new(px, w, h);
     let size = (13. * g.scale).max(4.);
-    let ink = [45, 32, 20];
+    let ink = [233, 239, 236];
     c.rect(
         x as f32,
         y as f32,
         pw as f32,
         ph as f32,
         7.,
-        [252, 246, 231],
-        [240, 226, 200],
-        [183, 147, 75],
+        [28, 56, 78],
+        [28, 56, 78],
+        [89, 121, 139],
     );
     c.text(
         (x + 10) as f32,
@@ -863,7 +882,7 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
         }
         c.text(
             g.list[0] as f32,
-            (g.actions[0][1] + g.row) as f32,
+            (g.list[1]+6*((g.row*3/4).max(5)+(5.*g.scale).max(1.)as usize))as f32,
             "Type Unicode text or use arrows / controller. Done commits; Cancel restores.",
             ink,
             size,

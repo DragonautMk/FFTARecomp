@@ -546,6 +546,43 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-30-model-european-event-records12.json)
 
+## 2026-10-30 — Implement the native Clan Atlas desktop menu
+
+Type: added. Platforms: Windows (GNU cross-build; Wine validation).
+
+**Changes**
+
+- Add the permanent eight-section Game/Debug sidebar, native mineral-blue/brass shell, responsive internal columns and quick state overview with actual file timestamps.
+- Preserve the 190 legacy row occurrences, 54 actions, 97 operation safety/parameter contracts, save confirmations, DS/catalog selectors and isolated Debug handlers; expose current CLI and 28 V2 task metadata as read-only references.
+- Add menu-only shoulder chords with near-simultaneous grace/partial-release suppression and real100..800% fast-forward frame batches, fractional audio playback and additive ff.percent persistence.
+- Keep save-state, numbered-cartridge-save and backup forms readable inside the fixed body with native control/preview columns; preserve raw screenshot pixels and original confirmation handlers.
+- Add readonly complete-text details through F1/R3/mouse with parent focus/scroll restoration; keep capture, text editing, dropdown and busy host owner priority.
+- Adapt nested content selectors, virtual keyboards, tool forms and DS catalogs to the fixed body with shared paint/hit rectangles, readable native controls and explicit missing previews.
+- Preserve HD-to-4K font scaling and fix nested Escape cancellation/repeat priority; apply selected FF audio modes when logically ON even at100%.
+
+**Validation**
+
+- Pre-change Windows GNU/Wine baseline on945966c passed29 input-config and72 menu tests; retained all old tests and audited the newer DBG2 backends beyond the spec baseline999d0a6.
+- Final warning-free Windows GNU release production build includes recomp and ffta-play; Wine passed31 input-config and86 menu tests plus a separate explicit image export of45 native views across1280x720,1024x768,854x480,640x480,480x640.
+- Wine targeted frontend checks passed11 tests: synthetic guest complete-state/clock equality at100/120/140/200/400/800%, fractional audio history/transitions, simulated XInput capture, operation contracts and normal audio queue.
+- Actual pinned EUR GUI passed mouse/keyboard/simulated XInput, current97-operation readonly references, dropdown cancellation, near-simultaneous media chords/partial release, quick-slot save/overwrite Cancel/Undo,99slots, cartridge/backup forms and captured menu bindings; ROM/seed/original sav hashes unchanged.
+- Actual Wine presenter smoke passed OpenGL and Vulkan through llvmpipe plus GDI software fallback; held Escape cancels once without resuming or advancing the guest. Separate GUI passed100% logical ON with silent/fast/normal audio and OFF while retaining the percentage.
+- Wine GUI passed supported Tab menu-key priority, F1/R3/footer mouse details and exclusive binding/text capture; final selector/search keyboard/tool editor/cancel and explicit synthetic-empty DS catalog preserved full guest state/clock.
+- Geometry/hit-test/scroll tests cover3/9/28-entry lists, narrow stacks, parent restoration, full text over16000characters, busy-owner priority, HD/4K scaling and bounded nested forms. Programmatic inventory preserves190 legacy row occurrences/54 actions/97 operation contracts and exactly28 task references.
+- Actual Wine Win32 SetWindowPos/GetClientRect resize passed all five overview viewports and selector/tool/emptycatalog at854x480,640x480,480x640; X-surface-only cropped diagnostics are explicitly excluded from adaptive acceptance.
+- menu_atlas_tasks.py --check and menu_atlas_inventory.py --check passed; final build input hashes match the frozen draft12 source identity.
+- project_memory.py check, check --base945966c and render --check passed. Artifact completion helper refused this non-rom-data unit before deletion; retained current executables, private fixtures, source preimages and all failed/accepted diagnostic evidence.
+
+**Limitations**
+
+- Linux, native Windows, physical controllers, hardware-accelerated GPU drivers and USA ROM remain unverified for this change; Wine XInput is simulated and llvmpipe is a software implementation of the GPU APIs.
+- No performance measurements; Event/CMD live consoles, cheats and DBG2-10..28 remain planned. DBG2-01..09 were already implemented and remain available.
+- The migration preserves existing tool/save backends and guards; reduced checks do not rerun every CLI workflow or rebuild unrelated ROM-data acceptance. Private copies, screenshots, ROMs, saves and input doubles stay outside Git/packages; AndroidPort is unchanged.
+
+Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [MENU_ATLAS_BASELINE.json](docs/development/MENU_ATLAS_BASELINE.json), [MENU_ATLAS_INVENTORY.json](docs/development/MENU_ATLAS_INVENTORY.json), [FFTARecomp_Menu_Atlante_del_Clan_SPEC.md](docs/To_DO/FFTARecomp_Menu_Atlante_del_Clan_SPEC.md), [menu_shortcuts.md](docs/menu_shortcuts.md), [extended_saves.md](docs/extended_saves.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-30-implement-native-clan-atlas-menu.json)
+
 ## 2026-10-30 — Consume European world records through managed typed storage
 
 Type: added. Platforms: Windows.

@@ -12,6 +12,22 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- The desktop [Clan Atlas menu](../menu_clan_atlas.md) uses the existing native
+  Canvas/tiny-skia fonts with a permanent left sidebar (eight Game/eight Debug
+  sections), fixed shell and internal list/detail scrolling. Legacy handlers,
+  confirmations, DS/content selectors and 9/99 slots remain in use; the readonly
+  operation and 28-task references do not execute CLI strings or future tools.
+  DBG2-01..09 retain their current completed status; later tasks remain planned.
+  `ff.percent` adds100..800% in20-point steps while preserving legacy
+  `ff.speed`2/4/8. The rational frame batch clock preserves each complete guest
+  frame/clock; fast audio uses fractional playback ratios. Menu-only shoulder
+  chords preserve preferences and yield to binding capture/text editing.
+  Complete selected values are available through readonly Dettagli/F1/R3;
+  capture, editors, dropdowns and busy host owners keep priority. Native font
+  scaling follows HD/4K, with readable nested catalog/selector/tool controls.
+  Logical Fast Forward ON at100% still applies the selected FF audio mode.
+  See the programmatic [migration inventory](MENU_ATLAS_INVENTORY.json).
+
 - The [local report homepage](../report_home.md) is generated as ignored root
   `index.html`, indexing existing coverage/comparison/graphics/other HTML indices
   with search, filters, relative links and file modification dates. Reusable

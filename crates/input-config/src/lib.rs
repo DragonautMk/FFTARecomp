@@ -2,6 +2,8 @@
 //! runtime (which honors them). Plain `key = value` text under the user
 //! config dir. Native Windows controller support is isolated in directinput.
 
+pub mod fast_forward;
+
 pub mod storage;
 
 use std::collections::HashSet;
@@ -724,7 +726,7 @@ pub struct AvConfig {
     pub audio_volume: f32,
     /// Persistent user mute; retains volume and does not stop consumption.
     pub audio_mute: bool,
-    /// Persistent fast-forward multiplier: 2, 4 or 8. Activation is session-only.
+    /// Legacy multiplier2/4/8 or exact percentage100..800 in20-point steps. Activation is session-only.
     pub ff_speed: u32,
     /// silent, fast (accelerated audio), or normal (buffered 1x audio).
     pub ff_audio: String,
@@ -808,6 +810,7 @@ impl AvConfig {
                         cfg.ff_speed = speed;
                     }
                 }
+                "ff.percent" => {if let Ok(speed @ 100..=800)=v.parse::<u32>() {if speed%20==0 {cfg.ff_speed=speed;}}}
                 "ff.audio" if matches!(v, "silent" | "fast" | "normal") => {
                     cfg.ff_audio = v.to_string()
                 }
@@ -861,7 +864,7 @@ impl AvConfig {
              audio.enhanced = {}\n\
              audio.volume = {}\n\
              audio.mute = {}\n\
-             ff.speed = {}\n\
+             {}\n\
              ff.audio = {}\n\
              video.brightness = {}\n\
              video.screen = {}\n\
@@ -882,7 +885,7 @@ impl AvConfig {
             self.audio_enhanced,
             self.audio_volume,
             self.audio_mute,
-            self.ff_speed,
+            if matches!(self.ff_speed,2|4|8) {format!("ff.speed = {}",self.ff_speed)} else {format!("ff.percent = {}",fast_forward::selected_percent(self.ff_speed))},
             self.ff_audio,
             self.video_brightness,
             self.screen,

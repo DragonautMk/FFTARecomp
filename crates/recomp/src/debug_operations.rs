@@ -157,7 +157,7 @@ pub(crate) fn menu_operation(action: &menu::MenuAction) -> Option<&'static str> 
         RestartRom => "runtime.restart",
         Resume => "runtime.continue",
         Changed(menu::Changed::Debug) => "saves.extended",
-        Quit | SwitchRom | Changed(_) | InputDevice(_) | ResetGamepad => return None,
+        Quit | ToggleFastForward | SwitchRom | Changed(_) | InputDevice(_) | ResetGamepad => return None,
     })
 }
 
@@ -321,4 +321,12 @@ mod tests {
         assert!(registry().operations.iter().filter_map(|o|o.external_dialog.as_ref()).all(|d|!d.automatic));
         assert!(get("replay.create").unwrap().menu.current.is_none());
     }
+}
+
+/// Descriptions only: no command string is interpreted by the menu.
+pub(crate) fn atlas_references()->Vec<menu::clan_atlas::OperationReference>{
+    registry().operations.iter().map(|op|{
+        let parameters=op.parameters.iter().map(|p|format!("{} ({}): {} · default {}",p.name,p.value_type,p.constraint,p.default)).collect::<Vec<_>>().join("; ");
+        menu::clan_atlas::OperationReference{id:op.id.clone(),title:op.title.clone(),section:menu::clan_atlas::reference_group(&op.menu.destination),details:format!("{} · {}\n{}\nCLI: {}\nPercorso: {}\nPrerequisiti: {}\nParametri: {}\nEffetti: {}\nRisultato: {}\nLimiti: {}\nHandler: {}\nQuesta scheda è di sola lettura. Usa l'azione del menu o la CLI esplicita.",op.id,op.title,if op.menu.implemented {"Menu disponibile · handler esistente"}else{"Solo CLI · nessuna esecuzione da questa scheda"},op.cli.as_deref().unwrap_or("Nessun comando CLI"),op.menu.current.as_deref().unwrap_or(&op.menu.destination),op.allowed_state,parameters,op.effects,op.result,op.limits,op.handler)}
+    }).collect()
 }

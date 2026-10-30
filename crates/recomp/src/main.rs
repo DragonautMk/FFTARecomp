@@ -4374,7 +4374,7 @@ mod tests {
         // Each audible path has separate history: faithful DAC, PSG/HLE sinc,
         // FIFO future impulses/integrator, then the per-path DC blockers.
         for source in ["mixed", "psg", "hle", "fifo", "normal"] {
-            for speed in [1., 2., 4., 8.] {
+            for speed in [1., 1.2, 1.4, 2., 4., 8.] {
                 let streams = Arc::new(Mutex::new(AudioStreams {
                     enhanced_on: source != "mixed" && source != "normal",
                     hle_on: source == "hle",
@@ -4446,7 +4446,7 @@ mod tests {
                     ..Default::default()
                 }));
                 let mut callback = output_callback::<f32>(rate, 2, streams.clone());
-                for (speed, mode) in [(4., "hle"), (2., "enhanced"), (8., "faithful"),
+                for (speed, mode) in [(1.2, "hle"), (1.4, "enhanced"), (2., "faithful"), (4., "hle"), (8., "faithful"),
                     (1., "normal"), (1., "silent"), (1., "enhanced"), (4., "faithful")] {
                     let fresh = Arc::new(Mutex::new(AudioStreams::default()));
                     let mut reference = output_callback::<f32>(rate, 2, fresh.clone());

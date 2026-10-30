@@ -5,7 +5,7 @@ fn state(menu:&Menu,av:&AvConfig,cfg:&InputConfig)->BTreeMap<String,String>{menu
 #[test]
 fn dropdown_selection_value_and_cancel_are_semantic_and_observation_is_readonly(){
     let mut menu=Menu::new(true,false);let mut av=AvConfig::default();let cfg=InputConfig::default();
-    menu.open(Page::Debug);menu.selected=4;
+    menu.atlas_section(clan_atlas::Domain::Debug,1);menu.selected=0;
     let initial=state(&menu,&av,&cfg);assert_eq!(initial["item_id"],"Debug/ExtendedSaves");assert_eq!(initial["value"],"OFF");
     let config_before=cfg.serialize();let av_before=av.serialize();
     for _ in 0..10{assert_eq!(state(&menu,&av,&cfg),initial);}
@@ -24,7 +24,7 @@ fn duplicate_content_labels_keep_distinct_ids_and_repeated_hover_does_not_change
     let mut menu=Menu::new(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
     let entry=|id:&str|ContentEntry{id:id.into(),name:"same label".into(),kind:"snapshot".into(),..Default::default()};
     menu.open_content("Synthetic".into(),vec![entry("content-a"),entry("content-b")],String::new(),1);
-    let g=content_selector::geometry(940,620);
+    let body=clan_atlas::geometry(940,620).body;let mut g=content_selector::geometry(body.w,body.h);g.list[0]+=body.x;g.list[1]+=body.y;
     menu.hover(g.list[0]+5,g.list[1]+5,940,620);let a=state(&menu,&av,&cfg);
     menu.hover(g.list[0]+5,g.list[1]+g.row+5,940,620);let b=state(&menu,&av,&cfg);
     assert_ne!(a["item_id"],b["item_id"]);assert_eq!(a["highlighted_id"],"content-a");assert_eq!(b["highlighted_id"],"content-b");

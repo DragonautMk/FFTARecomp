@@ -87,3 +87,5 @@ Gli ID `tools.homepage`, `tools.campaign-report`, `tools.artifact-preview`,
 l'adattatore dichiarato o la ricetta readonly. Annulla ferma il processo
 supervisionato e conserva l'esito/log; la vista guest legge soltanto i dati.
 Vedere [il selettore e la libreria](debug_selector.md) per prerequisiti e limiti.
+
+Il [menu Atlante del Clan](menu_clan_atlas.md) raggruppa i percorsi in otto sezioni Debug e offre la scheda di sola lettura Riferimenti Menu / CLI. Il registro conserva ID, parametri, handler e protezioni; cambiano solo i percorsi del menu.

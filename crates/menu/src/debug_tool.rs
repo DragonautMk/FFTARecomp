@@ -431,16 +431,16 @@ pub(super) fn draw(s: &ToolForm, px: &mut [[u8; 4]], w: usize, h: usize) {
     let [x, y, pw, ph] = g.panel;
     let size = (13. * g.scale).max(4.);
     let mut c = Canvas::new(px, w, h);
-    let ink = [45, 32, 20];
+    let ink = [233, 239, 236];
     c.rect(
         x as f32,
         y as f32,
         pw as f32,
         ph as f32,
         7.,
-        [252, 246, 231],
-        [240, 226, 200],
-        [183, 147, 75],
+        [28, 56, 78],
+        [28, 56, 78],
+        [89, 121, 139],
     );
     c.text(
         (x + 10) as f32,
@@ -455,7 +455,8 @@ pub(super) fn draw(s: &ToolForm, px: &mut [[u8; 4]], w: usize, h: usize) {
         true,
         pw.saturating_sub(20) as f32,
     );
-    button(&mut c,g.search,"Select input rows internally. Arrows change choices; Confirm edits text. No action until a button.",false,size);
+    let mut instruction=g.search;instruction[2]=g.panel[2].saturating_sub((instruction[0]-x)*2);
+    button(&mut c,instruction,"Frecce: scelte · Conferma: modifica · usa i pulsanti per eseguire.",false,size);
     let first = s.first(g.visible);
     for (n, f) in s.fields.iter().skip(first).take(g.visible).enumerate() {
         let r = [

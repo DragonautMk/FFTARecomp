@@ -2,15 +2,19 @@
 use super::*;
 impl Menu {
     pub fn selection_state(&self, av: &AvConfig, cfg: &InputConfig) -> Vec<(String, String)> {
-        if self.tool_active() { return self.tool.selection_state(); }
-        if self.content_active() { return self.content.selection_state(); }
+        let context=vec![("atlas.domain".into(),format!("{:?}",self.atlas.domain)),("atlas.section".into(),self.atlas.selected_section().to_string()),("atlas.sidebar_focus".into(),self.atlas.sidebar_focus.to_string())];
+        if self.tool_active() {let mut state=self.tool.selection_state();state.extend(context);return state;}
+        if self.content_active() {let mut state=self.content.selection_state();state.extend(context);return state;}
+        if self.page==Page::Information{let mut state=context;state.extend([("page".into(),"Information".into()),("readonly".into(),"true".into()),("detail_scroll".into(),self.atlas.detail_scroll.to_string())]);return state;}
+        if self.atlas_reference_active(){let items=self.atlas_reference_items();let cursor=self.atlas_reference_cursor();let mut state=context;state.extend([("page".into(),if self.atlas.planned {"DebugV2"}else{"CliReference"}.into()),("row".into(),cursor.to_string()),("item_id".into(),items.get(cursor).map(|v|v.0.clone()).unwrap_or_default()),("readonly".into(),"true".into()),("detail_scroll".into(),self.atlas.detail_scroll.to_string())]);return state;}
         let mut state = vec![("page".into(), format!("{:?}", self.page)), ("row".into(), self.selected.to_string())];
-        if let Some(row) = rows_of(self.page).get(self.selected).copied() {
+        if let Some(row) = self.rows().get(self.selected).copied() {
             state.push(("item_id".into(), format!("{:?}/{row:?}", self.page)));
             state.push(("label".into(), row.label().into()));
             let pad = self.page == Page::Gamepad;
             let keys = if pad { &cfg.pads } else if self.page == Page::MouseKeyboard { &cfg.mouse_keys } else { &cfg.keys };
             let value = match row {
+                Row::FastForwardToggle => Some(self.atlas.fast_active.to_string()),
                 Row::Menu => Some(if pad { &cfg.menu_pad } else { &cfg.menu_key }.clone()),
                 Row::FfKey => Some(if pad { &cfg.ff_pad } else { &cfg.ff_key }.clone()),
                 Row::FfToggleKey => Some(if pad { &cfg.ff_toggle_pad } else { &cfg.ff_toggle_key }.clone()),
@@ -23,6 +27,9 @@ impl Menu {
             };
             if let Some(value) = value { state.push(("value".into(), value)); }
         }
+        state.push(("atlas.domain".into(),format!("{:?}",self.atlas.domain)));
+        state.push(("atlas.section".into(),self.atlas.selected_section().to_string()));
+        state.push(("atlas.sidebar_focus".into(),self.atlas.sidebar_focus.to_string()));
         state.push(("capture".into(), self.capture.map(|b|format!("{b:?}")).unwrap_or_default()));
         state.push(("input_device".into(), format!("{:?}",cfg.device)));
         let feedback=match self.page {

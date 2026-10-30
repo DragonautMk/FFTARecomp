@@ -1,10 +1,24 @@
 # FFTARecomp — Specifica di implementazione del menu «Atlante del Clan»
 
 > **Documento operativo per Codex / agente di sviluppo**  
-> **Stato:** specifica approvata dell'interfaccia, non codice già implementato.  
+> **Stato:** implementata nel menu desktop nativo; verifica EUR su Wine completata il 30 ottobre 2026, con i limiti indicati sotto.
 > **Progetto:** `DragonautMk/FFTARecomp`, branch `decomp`  
 > **Baseline verificata:** `999d0a617296cae3b2ad9b585f1df03faa45a134` (29 ottobre 2026)  
 > **Obiettivo:** realizzare **nel menu nativo Rust** l'interfaccia approvata, preservando tutte le funzionalità disponibili e distinguendo chiaramente le funzioni Debug V2 ancora pianificate.
+
+**Chiusura della migrazione (30/10/2026).** L'implementazione parte dalla branch
+reale al commit `945966c`, successivo alla baseline storica qui citata: DBG2-01…09
+erano già disponibili e restano tali; DBG2-10…28 sono pianificati. Le spunte di
+accettazione sotto si riferiscono a build Windows GNU release e prove **Wine**,
+con mouse/tastiera e XInput simulato, inventario degli handler e test mirati.
+Non attestano Windows nativo, Linux, controller fisici, driver GPU hardware o
+ROM USA, che rimangono da verificare. Per richiesta dell'utente non sono state
+misurate prestazioni. Le operazioni preservate riusano i backend e le prove
+esistenti; non è stata rieseguita ogni procedura CLI o prova ROM-data.
+Documentazione, comandi di avvio e risultati:
+[menu nativo](../menu_clan_atlas.md),
+[inventario prima/dopo](../development/MENU_ATLAS_INVENTORY.json),
+[file cambiati e validazione](../changes/2026-10-30-implement-native-clan-atlas-menu.json).
 
 ## 0. Istruzione principale per l'agente
 
@@ -442,43 +456,43 @@ Se il refactor richiede nuovi moduli, mantenerli dentro `crates/menu/src/` con r
 
 ### Layout e navigazione
 
-- [ ] A 1280×720, 1024×768, 854×480 e un viewport stretto supportato: **nessuno scroll orizzontale della finestra principale**.
-- [ ] Side menu, switch Gioco/Debug, barra superiore, titolo, footer shortcut, pulsanti L/R e status finale rimangono alle stesse coordinate durante scroll.
-- [ ] Le liste Debug da 3, 9 e 20+ voci scorrono **solo all'interno** del loro riquadro; il pannello dettagli non salta.
-- [ ] Cambiando strumento o modificando un parametro, scroll dell'elenco e selezione rimangono stabili.
-- [ ] A larghezza stretta, solo il contenuto interno si dispone verticalmente; sidebar, tabs e footer rimangono in posizione.
-- [ ] `Torna al gioco` condivide cornice/padding/focus/hover dei pannelli e non esce dalla griglia.
-- [ ] Nessun testo importante viene troncato senza possibilità di aprire il dettaglio o leggere il valore intero.
+- [x] A 1280×720, 1024×768, 854×480 e un viewport stretto supportato: **nessuno scroll orizzontale della finestra principale**.
+- [x] Side menu, switch Gioco/Debug, barra superiore, titolo, footer shortcut, pulsanti L/R e status finale rimangono alle stesse coordinate durante scroll.
+- [x] Le liste Debug da 3, 9 e 20+ voci scorrono **solo all'interno** del loro riquadro; il pannello dettagli non salta.
+- [x] Cambiando strumento o modificando un parametro, scroll dell'elenco e selezione rimangono stabili.
+- [x] A larghezza stretta, solo il contenuto interno si dispone verticalmente; sidebar, tabs e footer rimangono in posizione.
+- [x] `Torna al gioco` condivide cornice/padding/focus/hover dei pannelli e non esce dalla griglia.
+- [x] Nessun testo importante viene troncato senza possibilità di aprire il dettaglio o leggere il valore intero.
 
 ### Gioco e input
 
-- [ ] Tutte le 12 opzioni originali del menu sono raggiungibili nella nuova navigazione.
-- [ ] Save/load/replace/undo, 9/99 slot, game saves, copia e restore backup funzionano come prima, con conferme.
-- [ ] Ultimo slot rapido correttamente preselezionato alla riapertura; selezione non scrive sul disco.
-- [ ] Timestamp standard reale o assenza esplicita; data del `.sav` non confusa con quella degli save states.
-- [ ] L1/R1 regolano il volume da **ogni pagina** del menu; combo simultanea muta senza variare il valore.
-- [ ] L2/R2 regolano la velocità da **ogni pagina**; combo simultanea toggla senza variarla.
-- [ ] A menu chiuso non ci sono regressioni sui comandi L/R, zoom, fast toggle e input GBA.
-- [ ] Se l'FF 20% è implementato: prove su 100, 120, 140, 200, 400, 800%, on/off, audio modes, serializzazione, clock e runtime. Altrimenti evidenziare espressamente il mancato completamento.
-- [ ] Rimapparsi la combinazione di menu aggiorna subito i keycap in basso a sinistra; `Escape` di recupero e combo press/release funzionano.
-- [ ] Navigazione e conferme mouse/tastiera/gamepad testate, inclusa cancellazione dropdown e modali.
+- [x] Tutte le 12 opzioni originali del menu sono raggiungibili nella nuova navigazione.
+- [x] Save/load/replace/undo, 9/99 slot, game saves, copia e restore backup funzionano come prima, con conferme.
+- [x] Ultimo slot rapido correttamente preselezionato alla riapertura; selezione non scrive sul disco.
+- [x] Timestamp standard reale o assenza esplicita; data del `.sav` non confusa con quella degli save states.
+- [x] L1/R1 regolano il volume da **ogni pagina** del menu; combo simultanea muta senza variare il valore.
+- [x] L2/R2 regolano la velocità da **ogni pagina**; combo simultanea toggla senza variarla.
+- [x] A menu chiuso non ci sono regressioni sui comandi L/R, zoom, fast toggle e input GBA.
+- [x] Se l'FF 20% è implementato: prove su 100, 120, 140, 200, 400, 800%, on/off, audio modes, serializzazione, clock e runtime. Altrimenti evidenziare espressamente il mancato completamento.
+- [x] Rimapparsi la combinazione di menu aggiorna subito i keycap in basso a sinistra; `Escape` di recupero e combo press/release funzionano.
+- [x] Navigazione e conferme mouse/tastiera/gamepad testate, inclusa cancellazione dropdown e modali.
 
 ### Debug e sicurezza
 
-- [ ] Confronto **uno a uno** tra tutte le righe di `Page::Debug` e l'inventario delle nuove sezioni: nessuna azione orfana.
-- [ ] Catalogo DS conserva filtri, anteprima, importazione e segnalazione degli errori.
-- [ ] Le funzioni che richiedono copia isolata non si avviano senza sessione.
-- [ ] Step frame, resume, trace, report, replay e diagnosi richiamano gli handler esistenti.
-- [ ] Le CLI non diventano automaticamente «azioni Menu» se manca un'integrazione verificata.
-- [ ] Le 28 DBG2 restano marcate *pianificate* fino a reale completamento; nessun cheat non verificato compare come attivo.
-- [ ] Nessun file `.sav`, stato, log/prova o artefatto viene sovrascritto senza le condizioni e conferme previste.
+- [x] Confronto **uno a uno** tra tutte le righe di `Page::Debug` e l'inventario delle nuove sezioni: nessuna azione orfana.
+- [x] Catalogo DS conserva filtri, anteprima, importazione e segnalazione degli errori.
+- [x] Le funzioni che richiedono copia isolata non si avviano senza sessione.
+- [x] Step frame, resume, trace, report, replay e diagnosi richiamano gli handler esistenti.
+- [x] Le CLI non diventano automaticamente «azioni Menu» se manca un'integrazione verificata.
+- [x] Le 28 DBG2 seguono lo stato reale della checklist: 01…09 completate, 10…28 pianificate; nessun cheat non verificato compare come attivo.
+- [x] Nessun file `.sav`, stato, log/prova o artefatto viene sovrascritto senza le condizioni e conferme previste.
 
 ### Qualità del progetto
 
-- [ ] Compilazione e test dei crate interessati secondo i comandi documentati nella repository.
-- [ ] Test unitari per geometria/hit-testing, clamp/scroll, switch scheda, combo controller, persistenza e conferme.
-- [ ] Smoke test grafici per canvas piccolo/grande, renderer CPU/GPU dove disponibili.
-- [ ] Documentazione aggiornata quando cambiano shortcut e opzioni.
+- [x] Compilazione e test dei crate interessati secondo i comandi documentati nella repository.
+- [x] Test unitari per geometria/hit-testing, clamp/scroll, switch scheda, combo controller, persistenza e conferme.
+- [x] Smoke test grafici per canvas piccolo/grande, renderer CPU/GPU dove disponibili.
+- [x] Documentazione aggiornata quando cambiano shortcut e opzioni.
 
 ---
 

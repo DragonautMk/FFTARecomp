@@ -280,3 +280,12 @@ fn preference_export_keeps_committed_search_while_an_editor_draft_is_open() {
     assert_eq!(s.preferences().query, "Item 03");
     assert!(s.confirmed.is_none());
 }
+
+#[test]
+fn virtual_keyboard_keys_remain_inside_small_atlas_bodies() {
+    let s=selector();
+    for(w,h)in[(352,212),(352,480),(627,218),(950,330)]{
+        let g=geometry(w,h);
+        for i in 0..42{let r=s.key_rect(g,i);assert!(r[0]+r[2]<=w&&r[1]+r[3]<=h,"{w}x{h} key{i} {r:?}");}
+    }
+}

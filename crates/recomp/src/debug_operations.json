@@ -134,8 +134,8 @@
         "dataset"
       ],
       "menu": {
-        "current": "Debug > Copy diagnosis",
-        "destination": "Debug / Copy diagnosis",
+        "current": "Debug / Report e archivio / Copy diagnosis",
+        "destination": "Debug / Report e archivio / Copy diagnosis",
         "implemented": true
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -232,8 +232,8 @@
         "dataset"
       ],
       "menu": {
-        "current": "Debug > Start debug session",
-        "destination": "Debug / Start debug session",
+        "current": "Debug / Sessioni e casi / Start debug session",
+        "destination": "Debug / Sessioni e casi / Start debug session",
         "implemented": true
       },
       "allowed_state": "Normal window paused; no recording; menu refuses nested debug copies.",
@@ -271,7 +271,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Open debug session",
+        "destination": "Debug / Sessioni e casi / Open debug session",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -301,7 +301,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Inspect session",
+        "destination": "Debug / Sessioni e casi / Inspect session",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -322,8 +322,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Debug > Close debug session",
-        "destination": "Debug / Close debug session",
+        "current": "Debug / Sessioni e casi / Close debug session",
+        "destination": "Debug / Sessioni e casi / Close debug session",
         "implemented": true
       },
       "allowed_state": "Isolated copy only.",
@@ -396,8 +396,8 @@
         "session/ROM as applicable"
       ],
       "menu": {
-        "current": "Debug > Debug catalog",
-        "destination": "Debug / Debug catalog",
+        "current": "Debug / Sessioni e casi / Debug catalog",
+        "destination": "Debug / Sessioni e casi / Debug catalog",
         "implemented": true
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -514,8 +514,8 @@
         "session/ROM as applicable"
       ],
       "menu": {
-        "current": "Debug > Debug catalog > Open isolated case",
-        "destination": "Debug / Open isolated case",
+        "current": "Debug / Sessioni e casi / Debug catalog / Open isolated case",
+        "destination": "Debug / Sessioni e casi / Debug catalog / Open isolated case",
         "implemented": true
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -598,8 +598,8 @@
         "session/ROM as applicable"
       ],
       "menu": {
-        "current": "Debug > Debug catalog > Import to free snapshot slot",
-        "destination": "Debug / Import catalog checkpoint",
+        "current": "Debug / Sessioni e casi / Debug catalog / Import to free snapshot slot",
+        "destination": "Debug / Sessioni e casi / Debug catalog / Import to free snapshot slot",
         "implemented": true
       },
       "allowed_state": "Menu: active isolated copy, free slot, no automatic Load. CLI: closed isolated copy protected by lease. Existing ROM/checkpoint preflight and transactional slot checks apply.",
@@ -631,8 +631,8 @@
         "catalog entry"
       ],
       "menu": {
-        "current": "Debug > Debug catalog > Entry",
-        "destination": "Debug / Select catalog entry",
+        "current": "Debug / Sessioni e casi / Debug catalog / Entry",
+        "destination": "Debug / Sessioni e casi / Debug catalog / Entry",
         "implemented": true
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -651,8 +651,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Debug > Debug catalog > Choose / reload catalog",
-        "destination": "Debug / Choose catalog",
+        "current": "Debug / Sessioni e casi / Debug catalog / Choose / reload catalog",
+        "destination": "Debug / Sessioni e casi / Debug catalog / Choose / reload catalog",
         "implemented": true
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -681,8 +681,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Start input recording",
-        "destination": "Debug / Start input recording",
+        "current": "Debug / Sessioni e casi / Start input recording",
+        "destination": "Debug / Sessioni e casi / Start input recording",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Snapshot seed required; no other recording/replay/search.",
@@ -703,8 +703,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Debug > Stop input recording",
-        "destination": "Debug / Stop input recording",
+        "current": "Debug / Sessioni e casi / Stop input recording",
+        "destination": "Debug / Sessioni e casi / Stop input recording",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states.",
@@ -739,7 +739,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Verify input recording",
+        "destination": "Debug / Sessioni e casi / Verify input recording",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -763,8 +763,8 @@
         "replay profile"
       ],
       "menu": {
-        "current": "Debug > Choose replay profile",
-        "destination": "Debug / Choose replay profile",
+        "current": "Debug / Replay e confronti / Choose replay profile",
+        "destination": "Debug / Replay e confronti / Choose replay profile",
         "implemented": true
       },
       "allowed_state": "No busy replay/recording/unsaved observer/search budget.",
@@ -841,7 +841,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Prepare Replay case",
+        "destination": "Debug / Replay e confronti / Prepare Replay case",
         "implemented": false
       },
       "allowed_state": "Authenticated recording/session/profile pins. ",
@@ -880,8 +880,8 @@
         "profile"
       ],
       "menu": {
-        "current": "Debug > Replay case",
-        "destination": "Debug / Replay case",
+        "current": "Debug / Replay e confronti / Replay case",
+        "destination": "Debug / Replay e confronti / Replay case",
         "implemented": true
       },
       "allowed_state": "No concurrent job/recording/step/search or unsaved observers; Authenticated recording/session/profile pins. ",
@@ -908,8 +908,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Cancel replay",
-        "destination": "Debug / Cancel Replay case",
+        "current": "Debug / Replay e confronti / Cancel replay",
+        "destination": "Debug / Replay e confronti / Cancel replay",
         "implemented": true
       },
       "allowed_state": "Existing selected job/profile only.",
@@ -1035,7 +1035,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Prepare Audit replay",
+        "destination": "Debug / Replay e confronti / Prepare Audit replay",
         "implemented": false
       },
       "allowed_state": "Authenticated recording/session/profile pins. Selected worker needs rom-data-read-audit; capture interpreter-only.",
@@ -1074,8 +1074,8 @@
         "profile"
       ],
       "menu": {
-        "current": "Debug > Audit replay",
-        "destination": "Debug / Audit replay",
+        "current": "Debug / Replay e confronti / Audit replay",
+        "destination": "Debug / Replay e confronti / Audit replay",
         "implemented": true
       },
       "allowed_state": "No concurrent job/recording/step/search or unsaved observers; Authenticated recording/session/profile pins. Selected worker needs rom-data-read-audit; capture interpreter-only.",
@@ -1102,8 +1102,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Cancel replay",
-        "destination": "Debug / Cancel Audit replay",
+        "current": "Debug / Replay e confronti / Cancel replay",
+        "destination": "Debug / Replay e confronti / Cancel replay",
         "implemented": true
       },
       "allowed_state": "Existing selected job/profile only.",
@@ -1243,7 +1243,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Prepare Capture on trigger",
+        "destination": "Debug / Replay e confronti / Prepare Capture on trigger",
         "implemented": false
       },
       "allowed_state": "Authenticated recording/session/profile pins. Selected worker needs rom-data-read-audit; capture interpreter-only.",
@@ -1282,8 +1282,8 @@
         "profile"
       ],
       "menu": {
-        "current": "Debug > Capture on trigger",
-        "destination": "Debug / Capture on trigger",
+        "current": "Debug / Replay e confronti / Capture on trigger",
+        "destination": "Debug / Replay e confronti / Capture on trigger",
         "implemented": true
       },
       "allowed_state": "No concurrent job/recording/step/search or unsaved observers; Authenticated recording/session/profile pins. Selected worker needs rom-data-read-audit; capture interpreter-only.",
@@ -1310,8 +1310,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Cancel replay",
-        "destination": "Debug / Cancel Capture on trigger",
+        "current": "Debug / Replay e confronti / Cancel replay",
+        "destination": "Debug / Replay e confronti / Cancel replay",
         "implemented": true
       },
       "allowed_state": "Existing selected job/profile only.",
@@ -1416,7 +1416,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Prepare Compare first difference",
+        "destination": "Debug / Replay e confronti / Prepare Compare first difference",
         "implemented": false
       },
       "allowed_state": "Authenticated recording/session/profile pins. ",
@@ -1455,8 +1455,8 @@
         "profile"
       ],
       "menu": {
-        "current": "Debug > Compare first difference",
-        "destination": "Debug / Compare first difference",
+        "current": "Debug / Replay e confronti / Compare first difference",
+        "destination": "Debug / Replay e confronti / Compare first difference",
         "implemented": true
       },
       "allowed_state": "No concurrent job/recording/step/search or unsaved observers; Authenticated recording/session/profile pins. ",
@@ -1483,8 +1483,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Cancel replay",
-        "destination": "Debug / Cancel Compare first difference",
+        "current": "Debug / Replay e confronti / Cancel replay",
+        "destination": "Debug / Replay e confronti / Cancel replay",
         "implemented": true
       },
       "allowed_state": "Existing selected job/profile only.",
@@ -1519,7 +1519,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Session status",
+        "destination": "Debug / Esecuzione e memoria / Session status",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Query remains available while busy.",
@@ -1561,7 +1561,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Cancel request",
+        "destination": "Debug / Esecuzione e memoria / Cancel request",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Separate query channel.",
@@ -1598,7 +1598,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Pause",
+        "destination": "Debug / Esecuzione e memoria / Pause",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states.",
@@ -1634,8 +1634,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Resume (F6)",
-        "destination": "Debug / Resume",
+        "current": "Debug / Esecuzione e memoria / Resume (F6)",
+        "destination": "Debug / Esecuzione e memoria / Resume (F6)",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states.",
@@ -1683,8 +1683,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Step 1 frame / Step 10 frames",
-        "destination": "Debug / Step frames",
+        "current": "Debug / Esecuzione e memoria / Step 1 frame / Step 10 frames",
+        "destination": "Debug / Esecuzione e memoria / Step 1 frame / Step 10 frames",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1734,8 +1734,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > inspect",
-        "destination": "Debug / Inspect memory and registers",
+        "current": "Debug / Esecuzione e memoria / Parameters / prepare profiles / inspect",
+        "destination": "Debug / Esecuzione e memoria / Parameters / prepare profiles / inspect",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1791,7 +1791,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Break at PC",
+        "destination": "Debug / Esecuzione e memoria / Break at PC",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1870,7 +1870,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Watch memory access",
+        "destination": "Debug / Esecuzione e memoria / Watch memory access",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1913,8 +1913,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > graphics",
-        "destination": "Debug / Capture graphics report",
+        "current": "Debug / Tracce e ispettori / Parameters / prepare profiles / graphics",
+        "destination": "Debug / Tracce e ispettori / Parameters / prepare profiles / graphics",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1948,8 +1948,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Start UI trace",
-        "destination": "Debug / Start UI trace",
+        "current": "Debug / Tracce e ispettori / Start UI trace",
+        "destination": "Debug / Tracce e ispettori / Start UI trace",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -1985,8 +1985,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Save UI report",
-        "destination": "Debug / Save UI report",
+        "current": "Debug / Tracce e ispettori / Save UI report",
+        "destination": "Debug / Tracce e ispettori / Save UI report",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2034,8 +2034,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > audio-start",
-        "destination": "Debug / Start audio capture",
+        "current": "Debug / Tracce e ispettori / Parameters / prepare profiles / audio-start",
+        "destination": "Debug / Tracce e ispettori / Parameters / prepare profiles / audio-start",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2069,8 +2069,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Save audio report",
-        "destination": "Debug / Save audio report",
+        "current": "Debug / Tracce e ispettori / Save audio report",
+        "destination": "Debug / Tracce e ispettori / Save audio report",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2148,8 +2148,8 @@
         "Optional selected code-label file; rechecked and parsed for current ROM before trace"
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > code-start",
-        "destination": "Debug / Start code trace",
+        "current": "Debug / Tracce e ispettori / Parameters / prepare profiles / code-start",
+        "destination": "Debug / Tracce e ispettori / Parameters / prepare profiles / code-start",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2183,8 +2183,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Save code report",
-        "destination": "Debug / Save code report",
+        "current": "Debug / Tracce e ispettori / Save code report",
+        "destination": "Debug / Tracce e ispettori / Save code report",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2246,8 +2246,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > gameplay-start",
-        "destination": "Debug / Start task / script trace",
+        "current": "Debug / Tracce e ispettori / Parameters / prepare profiles / gameplay-start",
+        "destination": "Debug / Tracce e ispettori / Parameters / prepare profiles / gameplay-start",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2281,8 +2281,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Save gameplay report",
-        "destination": "Debug / Save gameplay report",
+        "current": "Debug / Tracce e ispettori / Save gameplay report",
+        "destination": "Debug / Tracce e ispettori / Save gameplay report",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2351,8 +2351,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > recent-start",
-        "destination": "Debug / Start recent events",
+        "current": "Debug / Tracce e ispettori / Parameters / prepare profiles / recent-start",
+        "destination": "Debug / Tracce e ispettori / Parameters / prepare profiles / recent-start",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2387,7 +2387,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Freeze recent window",
+        "destination": "Debug / Tracce e ispettori / Freeze recent window",
         "implemented": false
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2423,8 +2423,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Freeze / save recent events",
-        "destination": "Debug / Freeze / save recent events",
+        "current": "Debug / Tracce e ispettori / Freeze / save recent events",
+        "destination": "Debug / Tracce e ispettori / Freeze / save recent events",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2472,8 +2472,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > issue-report",
-        "destination": "Debug / Create issue report",
+        "current": "Debug / Report e archivio / Parameters / prepare profiles / issue-report",
+        "destination": "Debug / Report e archivio / Parameters / prepare profiles / issue-report",
         "implemented": true
       },
       "allowed_state": "Active isolated debug session; frontend rejects incompatible busy/recording/observer states. Idle and paused, no step/search/replay budget.",
@@ -2553,7 +2553,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Compare snapshot audio",
+        "destination": "Debug / Replay e confronti / Compare snapshot audio",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2591,7 +2591,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Create offline issue report",
+        "destination": "Debug / Report e archivio / Create offline issue report",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2650,7 +2650,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Preview artifact retention",
+        "destination": "Debug / Report e archivio / Preview artifact retention",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2687,7 +2687,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Apply reviewed retention",
+        "destination": "Debug / Report e archivio / Apply reviewed retention",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2738,7 +2738,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Complete validation unit",
+        "destination": "Debug / Report e archivio / Complete validation unit",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2803,7 +2803,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Inspect campaign",
+        "destination": "Debug / Report e archivio / Inspect campaign",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2868,7 +2868,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Run selected campaign case",
+        "destination": "Debug / Replay e confronti / Run selected campaign case",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2905,7 +2905,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Refresh report homepage",
+        "destination": "Debug / Report e archivio / Refresh report homepage",
         "implemented": false
       },
       "allowed_state": "No live session required; existing handler preflight applies.",
@@ -2934,8 +2934,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Extended saves",
-        "destination": "Debug / Extended saves",
+        "current": "Gioco / Salvataggi / Extended saves",
+        "destination": "Gioco / Salvataggi / Extended saves",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -2971,8 +2971,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Save state",
-        "destination": "Debug / Save checkpoint",
+        "current": "Gioco / Salvataggi / Save state",
+        "destination": "Gioco / Salvataggi / Save state",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3001,8 +3001,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Load state",
-        "destination": "Debug / Load checkpoint",
+        "current": "Gioco / Salvataggi / Load state",
+        "destination": "Gioco / Salvataggi / Load state",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3023,8 +3023,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Undo save / load",
-        "destination": "Debug / Undo checkpoint operation",
+        "current": "Gioco / Salvataggi / Undo save / load",
+        "destination": "Gioco / Salvataggi / Undo save / load",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3053,8 +3053,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Restore backup",
-        "destination": "Debug / Restore cartridge backup",
+        "current": "Gioco / Salvataggi / Restore backup",
+        "destination": "Gioco / Salvataggi / Restore backup",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3083,8 +3083,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Game saves > Use selected save",
-        "destination": "Debug / Switch numbered game save",
+        "current": "Gioco / Salvataggi / Game saves / Use selected save",
+        "destination": "Gioco / Salvataggi / Game saves / Use selected save",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3120,8 +3120,8 @@
       ],
       "selection": [],
       "menu": {
-        "current": "Debug > Game saves > Copy current save",
-        "destination": "Debug / Copy numbered game save",
+        "current": "Gioco / Salvataggi / Game saves / Copy current save",
+        "destination": "Gioco / Salvataggi / Game saves / Copy current save",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3142,8 +3142,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Restart ROM",
-        "destination": "Debug / Restart ROM",
+        "current": "Gioco / Sistema / Restart ROM",
+        "destination": "Gioco / Sistema / Restart ROM",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3164,8 +3164,8 @@
       "parameters": [],
       "selection": [],
       "menu": {
-        "current": "Resume",
-        "destination": "Debug / Continue game",
+        "current": "Gioco / Panoramica / Resume",
+        "destination": "Gioco / Panoramica / Resume",
         "implemented": true
       },
       "allowed_state": "Current window; selected slot/input must pass existing transactional checks.",
@@ -3223,7 +3223,7 @@
       "selection": [],
       "menu": {
         "current": null,
-        "destination": "Debug / Select initial debug inputs",
+        "destination": "Debug / Sessioni e casi / Select initial debug inputs",
         "implemented": false
       },
       "allowed_state": "--debug-paused / --record-input are mutually exclusive isolated-only exact argument forms; normal play accepts catalog/replay selection options.",
@@ -3282,8 +3282,8 @@
         "Declared content roots"
       ],
       "menu": {
-        "current": "Debug > Content selector > Refresh",
-        "destination": "Debug / Content / Refresh",
+        "current": "Debug / Sessioni e casi / Content selector / Refresh",
+        "destination": "Debug / Sessioni e casi / Content selector / Refresh",
         "implemented": true
       },
       "allowed_state": "No guest/session required. Explicit refresh/check only; indexes do not authorize execution.",
@@ -3338,7 +3338,7 @@
       ],
       "menu": {
         "current": null,
-        "destination": "Debug / Content / Recheck selected content",
+        "destination": "Debug / Sessioni e casi / Recheck selected content",
         "implemented": false
       },
       "allowed_state": "No guest/session required. Explicit refresh/check only; indexes do not authorize execution.",
@@ -3363,8 +3363,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Content selector",
-        "destination": "Debug / Content / Content selector",
+        "current": "Debug / Sessioni e casi / Content selector / Content selector",
+        "destination": "Debug / Sessioni e casi / Content selector / Content selector",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3404,8 +3404,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Select content",
-        "destination": "Debug / Content / Select content",
+        "current": "Debug / Sessioni e casi / Content selector / Select content",
+        "destination": "Debug / Sessioni e casi / Content selector / Select content",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3445,8 +3445,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Content details and preview",
-        "destination": "Debug / Content / Content details and preview",
+        "current": "Debug / Sessioni e casi / Content selector / Content details and preview",
+        "destination": "Debug / Sessioni e casi / Content selector / Content details and preview",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3471,8 +3471,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Browse external file",
-        "destination": "Debug / Content / Browse external file",
+        "current": "Debug / Sessioni e casi / Content selector / Browse external file",
+        "destination": "Debug / Sessioni e casi / Content selector / Browse external file",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3502,8 +3502,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Add content folder",
-        "destination": "Debug / Content / Add content folder",
+        "current": "Debug / Sessioni e casi / Content selector / Add content folder",
+        "destination": "Debug / Sessioni e casi / Content selector / Add content folder",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3533,8 +3533,8 @@
         "Content index/ID as applicable"
       ],
       "menu": {
-        "current": "Debug > Content selector > Cancel content selection",
-        "destination": "Debug / Content / Cancel content selection",
+        "current": "Debug / Sessioni e casi / Content selector / Cancel content selection",
+        "destination": "Debug / Sessioni e casi / Content selector / Cancel content selection",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3559,8 +3559,8 @@
         "profile/catalog/session/recording/snapshot/input/dataset/runtime A/runtime B/native library/labels/known plan"
       ],
       "menu": {
-        "current": "Debug > Tool inputs / current selections",
-        "destination": "Debug / Tool inputs",
+        "current": "Debug / Sessioni e casi / Tool inputs / current selections",
+        "destination": "Debug / Sessioni e casi / Tool inputs / current selections",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3606,8 +3606,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > replay",
-        "destination": "Debug / Parameters / replay",
+        "current": "Debug / Replay e confronti / Parametri e profili / replay",
+        "destination": "Debug / Replay e confronti / Parametri e profili / replay",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3758,8 +3758,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > audit",
-        "destination": "Debug / Parameters / audit",
+        "current": "Debug / Replay e confronti / Parametri e profili / audit",
+        "destination": "Debug / Replay e confronti / Parametri e profili / audit",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3875,8 +3875,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > capture",
-        "destination": "Debug / Parameters / capture",
+        "current": "Debug / Replay e confronti / Parametri e profili / capture",
+        "destination": "Debug / Replay e confronti / Parametri e profili / capture",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3950,8 +3950,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > compare",
-        "destination": "Debug / Parameters / compare",
+        "current": "Debug / Replay e confronti / Parametri e profili / compare",
+        "destination": "Debug / Replay e confronti / Parametri e profili / compare",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -3990,8 +3990,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > step",
-        "destination": "Debug / Parameters / step",
+        "current": "Debug / Esecuzione e memoria / Parametri e profili / step",
+        "destination": "Debug / Esecuzione e memoria / Parametri e profili / step",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4030,8 +4030,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > inspect",
-        "destination": "Debug / Parameters / inspect",
+        "current": "Debug / Esecuzione e memoria / Parametri e profili / inspect",
+        "destination": "Debug / Esecuzione e memoria / Parametri e profili / inspect",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4070,8 +4070,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > audio",
-        "destination": "Debug / Parameters / audio",
+        "current": "Debug / Tracce e ispettori / Parametri e profili / audio",
+        "destination": "Debug / Tracce e ispettori / Parametri e profili / audio",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4138,8 +4138,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > code",
-        "destination": "Debug / Parameters / code",
+        "current": "Debug / Tracce e ispettori / Parametri e profili / code",
+        "destination": "Debug / Tracce e ispettori / Parametri e profili / code",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4192,8 +4192,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > gameplay",
-        "destination": "Debug / Parameters / gameplay",
+        "current": "Debug / Tracce e ispettori / Parametri e profili / gameplay",
+        "destination": "Debug / Tracce e ispettori / Parametri e profili / gameplay",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4253,8 +4253,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > recent",
-        "destination": "Debug / Parameters / recent",
+        "current": "Debug / Tracce e ispettori / Parametri e profili / recent",
+        "destination": "Debug / Tracce e ispettori / Parametri e profili / recent",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4286,8 +4286,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > graphics",
-        "destination": "Debug / Parameters / graphics",
+        "current": "Debug / Tracce e ispettori / Parametri e profili / graphics",
+        "destination": "Debug / Tracce e ispettori / Parametri e profili / graphics",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4326,8 +4326,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Parameters / prepare profiles > issue",
-        "destination": "Debug / Parameters / issue",
+        "current": "Debug / Report e archivio / Parametri e profili / issue",
+        "destination": "Debug / Report e archivio / Parametri e profili / issue",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4351,8 +4351,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > validate",
-        "destination": "Debug / Tool draft / validate",
+        "current": "Debug / Console e script / Tool draft / validate",
+        "destination": "Debug / Console e script / Tool draft / validate",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4375,8 +4375,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > save-preset",
-        "destination": "Debug / Tool draft / save-preset",
+        "current": "Debug / Console e script / Tool draft / save-preset",
+        "destination": "Debug / Console e script / Tool draft / save-preset",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4399,8 +4399,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > load-preset",
-        "destination": "Debug / Tool draft / load-preset",
+        "current": "Debug / Console e script / Tool draft / load-preset",
+        "destination": "Debug / Console e script / Tool draft / load-preset",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4423,8 +4423,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > prepare",
-        "destination": "Debug / Tool draft / prepare",
+        "current": "Debug / Console e script / Tool draft / prepare",
+        "destination": "Debug / Console e script / Tool draft / prepare",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4455,8 +4455,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > run",
-        "destination": "Debug / Tool draft / run",
+        "current": "Debug / Console e script / Tool draft / run",
+        "destination": "Debug / Console e script / Tool draft / run",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4479,8 +4479,8 @@
         "Current tool draft and typed references"
       ],
       "menu": {
-        "current": "Debug > Tool draft > back",
-        "destination": "Debug / Tool draft / back",
+        "current": "Debug / Console e script / Tool draft / back",
+        "destination": "Debug / Console e script / Tool draft / back",
         "implemented": true
       },
       "allowed_state": "Paused host menu; at most one bounded content worker; no guest input/step.",
@@ -4553,8 +4553,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Scripts and tools > homepage",
-        "destination": "Debug / Scripts and tools / homepage",
+        "current": "Debug / Console e script / Script e strumenti / homepage",
+        "destination": "Debug / Console e script / Script e strumenti / homepage",
         "implemented": true
       },
       "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
@@ -4583,8 +4583,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Scripts and tools > campaign-report",
-        "destination": "Debug / Scripts and tools / campaign-report",
+        "current": "Debug / Console e script / Script e strumenti / campaign-report",
+        "destination": "Debug / Console e script / Script e strumenti / campaign-report",
         "implemented": true
       },
       "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
@@ -4605,8 +4605,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Scripts and tools > artifact-preview",
-        "destination": "Debug / Scripts and tools / artifact-preview",
+        "current": "Debug / Console e script / Script e strumenti / artifact-preview",
+        "destination": "Debug / Console e script / Script e strumenti / artifact-preview",
         "implemented": true
       },
       "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
@@ -4627,8 +4627,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Scripts and tools > recipe",
-        "destination": "Debug / Scripts and tools / recipe",
+        "current": "Debug / Console e script / Script e strumenti / recipe",
+        "destination": "Debug / Console e script / Script e strumenti / recipe",
         "implemented": true
       },
       "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
@@ -4649,8 +4649,8 @@
         "Typed current input roles as shown by the tool; changing a draft never runs it."
       ],
       "menu": {
-        "current": "Debug > Scripts and tools > guest-scripts",
-        "destination": "Debug / Scripts and tools / guest-scripts",
+        "current": "Debug / Console e script / Script e strumenti / guest-scripts",
+        "destination": "Debug / Console e script / Script e strumenti / guest-scripts",
         "implemented": true
       },
       "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",

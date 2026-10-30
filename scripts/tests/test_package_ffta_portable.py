@@ -70,6 +70,7 @@ class Portable(unittest.TestCase):
         self.assertIn('docs/debug_operations.md',payloads)
         self.assertIn('docs/debug_content.md',payloads)
         self.assertIn('docs/debug_selector.md',payloads)
+        self.assertIn('docs/debug_events.md',payloads)
         self.assertNotIn('docs/development/TASK_HANDOFF.md',payloads)
         self.assertEqual(payloads['Licenses/README.md'],(self.root/'Licenses/README.md').read_bytes())
         self.assertIn(b'riferimento nel checkout',payloads['docs/debug_tools.md'])

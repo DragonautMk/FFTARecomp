@@ -168,6 +168,7 @@ pub(super) fn draw(
     );
     if menu.page != Page::Main {
         let label = match menu.page {
+            Page::ScriptLibrary => "SCRIPTS AND TOOLS",
             Page::DebugTools => "PARAMETERS / PREPARE PROFILES",
             Page::ToolInputs => "TOOL INPUTS / SELECT ONLY",
             Page::Debug => if menu.debug_message.is_empty() { "DEBUG OPTIONS" } else { &menu.debug_message },

@@ -13,9 +13,14 @@ pub enum ContentSlot {
     Library,
     Labels,
     KnownPlan,
+    HostTool,
+    HostRuntime,
+    Campaign,
+    Recipe,
+    GuestScripts,
 }
 impl ContentSlot {
-    pub const ALL: [Self; 12] = [
+    pub const ALL: [Self; 17] = [
         Self::Replay,
         Self::Catalog,
         Self::Session,
@@ -28,6 +33,11 @@ impl ContentSlot {
         Self::Library,
         Self::Labels,
         Self::KnownPlan,
+        Self::HostTool,
+        Self::HostRuntime,
+        Self::Campaign,
+        Self::Recipe,
+        Self::GuestScripts,
     ];
     pub fn label(self) -> &'static str {
         match self {
@@ -43,6 +53,11 @@ impl ContentSlot {
             Self::Library => "Native library",
             Self::Labels => "Code labels",
             Self::KnownPlan => "Known resource plan",
+            Self::HostTool => "Declared host script (optional override)",
+            Self::HostRuntime => "Python host runtime",
+            Self::Campaign => "Campaign manifest",
+            Self::Recipe => "Debug command recipe",
+            Self::GuestScripts => "Guest script catalog",
         }
     }
 }

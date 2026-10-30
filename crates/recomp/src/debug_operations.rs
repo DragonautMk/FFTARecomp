@@ -68,7 +68,7 @@ pub(crate) fn get(id: &str) -> Option<&'static Operation> {
     registry().operations.iter().find(|op| op.id == id)
 }
 
-pub(crate) fn workbench_operation(tool:menu::DebugTool)->&'static str{use menu::DebugTool::*;match tool{Replay=>"workbench.replay",Audit=>"workbench.audit",Capture=>"workbench.capture",Compare=>"workbench.compare",Step=>"workbench.step",Inspect=>"workbench.inspect",Audio=>"workbench.audio",Code=>"workbench.code",Gameplay=>"workbench.gameplay",Recent=>"workbench.recent",Graphics=>"workbench.graphics",Issue=>"workbench.issue"}}
+pub(crate) fn workbench_operation(tool:menu::DebugTool)->&'static str{use menu::DebugTool::*;match tool{Replay=>"workbench.replay",Audit=>"workbench.audit",Capture=>"workbench.capture",Compare=>"workbench.compare",Step=>"workbench.step",Inspect=>"workbench.inspect",Audio=>"workbench.audio",Code=>"workbench.code",Gameplay=>"workbench.gameplay",Recent=>"workbench.recent",Graphics=>"workbench.graphics",Issue=>"workbench.issue",Homepage=>"tools.homepage",CampaignReport=>"tools.campaign-report",ArtifactPreview=>"tools.artifact-preview",Recipe=>"tools.recipe",GuestScripts=>"tools.guest-scripts"}}
 
 /// Exhaustive match: adding a local-control action requires choosing its stable ID.
 impl crate::debug_control::Action {

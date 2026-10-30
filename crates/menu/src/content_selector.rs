@@ -15,6 +15,27 @@ pub struct ContentEntry {
     pub reason: String,
     pub available: bool,
 }
+/// Pure host view state. Restoration never confirms or executes an item.
+#[derive(Clone, Default, Debug, PartialEq, Eq)]
+pub struct ContentViewPreferences {
+    pub query: String,
+    pub kind: String,
+    pub filter: usize,
+    pub sort: usize,
+    pub collection: usize,
+    pub highlighted: Option<String>,
+}
+#[derive(Clone, Default, Debug, PartialEq, Eq)]
+pub struct ContentHistory {
+    pub favorites: Vec<String>,
+    pub recent: Vec<String>,
+}
+fn preference_id(s: &str) -> bool {
+    !s.is_empty()
+        && s.len() <= 80
+        && s.bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b"-._".contains(&b))
+}
 const FILTERS: [&str; 4] = [
     "All states",
     "Available",
@@ -135,6 +156,82 @@ pub(super) struct Selector {
     detail_scroll: Cell<usize>,
 }
 impl Selector {
+    pub(super) fn selection_state(&self)->Vec<(String,String)>{
+        let page=if self.editor_only{"ToolEditor"}else{"ContentSelector"};
+        let label=self.focus_label();
+        let id=if self.editing{format!("keyboard/{}/{}",self.key_page,self.key)}else if self.focus==5{self.highlighted_id().unwrap_or("empty").into()}else{format!("control/{}",self.focus)};
+        let mut state=vec![("page".into(),page.into()),("item_id".into(),format!("content/{id}")),("label".into(),label),
+            ("query".into(),self.query.clone()),("preedit".into(),self.preedit.clone()),("kind".into(),self.kind.to_string()),("availability".into(),self.filter.to_string()),
+            ("sort".into(),self.sort.to_string()),("collection".into(),self.collection.to_string()),("editing".into(),self.editing.to_string()),
+            ("details".into(),self.detail_mode.to_string()),("detail_scroll".into(),self.detail_scroll.get().to_string()),("busy".into(),self.busy.to_string()),
+            ("highlighted_id".into(),self.highlighted_id().unwrap_or_default().into()),("confirmed_id".into(),self.confirmed.clone().unwrap_or_default()),
+            ("generation".into(),self.generation.to_string()),("feedback".into(),self.message.clone()),("preview_feedback".into(),self.preview_message.clone())];
+        if let Some(id)=self.highlighted_id(){state.push(("favorite".into(),self.favorites.contains(id).to_string()));}
+        state
+    }
+    pub fn preferences(&self) -> ContentViewPreferences {
+        ContentViewPreferences {
+            query: if self.editing {
+                self.search_backup.clone()
+            } else {
+                self.query.clone()
+            },
+            kind: self.kinds().get(self.kind).cloned().unwrap_or_default(),
+            filter: self.filter,
+            sort: self.sort,
+            collection: self.collection,
+            highlighted: if self.editing {
+                self.search_backup_id.clone()
+            } else {
+                self.highlighted_id().map(str::to_owned)
+            },
+        }
+    }
+    pub fn history(&self) -> ContentHistory {
+        ContentHistory {
+            favorites: self.favorites.iter().cloned().collect(),
+            recent: self.recent.clone(),
+        }
+    }
+    pub fn restore_preferences(
+        &mut self,
+        v: ContentViewPreferences,
+        h: ContentHistory,
+    ) -> Result<(), String> {
+        if self.editing {
+            return Err("Finish the focused editor before restoring preferences".into());
+        }
+        if v.query.chars().count() > 256
+            || v.query.chars().any(char::is_control)
+            || v.kind.len() > 64
+            || v.filter >= FILTERS.len()
+            || v.sort >= SORTS.len()
+            || v.collection >= COLLECTIONS.len()
+            || v.highlighted.as_deref().is_some_and(|s| !preference_id(s))
+            || h.favorites.len() > 512
+            || h.recent.len() > 32
+            || h.favorites
+                .iter()
+                .chain(&h.recent)
+                .any(|s| !preference_id(s))
+        {
+            return Err("Invalid/oversized content preferences; current view preserved".into());
+        }
+        self.query = v.query;
+        self.kind = self.kinds().iter().position(|k| *k == v.kind).unwrap_or(0);
+        self.filter = v.filter;
+        self.sort = v.sort;
+        self.collection = v.collection;
+        self.favorites = h.favorites.into_iter().collect();
+        self.recent.clear();
+        for id in h.recent {
+            if !self.recent.contains(&id) {
+                self.recent.push(id);
+            }
+        }
+        self.rebuild(v.highlighted.as_deref());
+        Ok(())
+    }
     pub fn set(
         &mut self,
         title: String,
@@ -607,10 +704,8 @@ impl Selector {
             });
         }
     }
-    pub fn focus(&self, w: usize, h: usize) -> diagnostics::Focus {
-        let g = geometry(w, h);
-        let first = self.first_visible(g);
-        let label = if self.editing {
+    fn focus_label(&self)->String {
+        if self.editing {
             format!("Search keyboard: {}", self.key_labels()[self.key])
         } else if self.detail_mode {
             "Content details (Up/Down scroll, Cancel returns)".into()
@@ -627,7 +722,12 @@ impl Selector {
                 ),
                 i => ACTIONS[i - 6].into(),
             }
-        };
+        }
+    }
+    pub fn focus(&self, w: usize, h: usize) -> diagnostics::Focus {
+        let g = geometry(w, h);
+        let first = self.first_visible(g);
+        let label = self.focus_label();
         let bounds = if self.editing {
             self.key_rect(g, self.key)
         } else {

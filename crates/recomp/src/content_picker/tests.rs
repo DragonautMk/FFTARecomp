@@ -236,3 +236,119 @@ fn typed_slot_results_preserve_prior_refs_and_never_leak_after_view_cancel() {
     assert!(p.slot_path(ContentSlot::RuntimeA, &rom).is_err());
     assert!(p.has_slot(ContentSlot::RuntimeA));
 }
+
+fn saved_restore_fixture() -> (tempfile::TempDir, Picker, menu::Menu) {
+    use crate::debug_choices::{memory::Memory, Anchors};
+    let t = tempfile::tempdir().unwrap();
+    let anchors = Anchors {
+        app: t.path().into(),
+        config: t.path().join("Data/config"),
+    };
+    let mut p = Picker::default();
+    p.rom = Some("a".repeat(64));
+    let memory = Memory::load(anchors, &"a".repeat(64)).unwrap();
+    p.context = Some(memory.context.clone());
+    p.memory = Some(memory);
+    (t, p, menu::Menu::new(true, true))
+}
+#[test]
+fn saved_restore_survives_leaving_the_picker_without_opening_pages_or_selecting_content() {
+    use crate::debug_choices::memory::Memory;
+    let (t, mut p, mut m) = saved_restore_fixture();
+    let path = t.path().join("runtime.exe");
+    std::fs::write(&path, b"PUBLIC NEVER RUN").unwrap();
+    let r = Reference::explicit(&path, ContentSlot::HostRuntime, &"a".repeat(64)).unwrap();
+    p.memory
+        .as_mut()
+        .unwrap()
+        .record_input(ContentSlot::HostRuntime, &r);
+    let (c, a, inputs) = p.memory.as_ref().unwrap().restore_request();
+    let batch = Memory::restore(c, a, inputs, "a".repeat(64));
+    p.job = Some(Job {
+        view: p.view,
+        handle: std::thread::spawn(move || Ok(ResultData::Restored(batch))),
+    });
+    p.cancel();
+    wait(&mut p, &mut m);
+    assert!(p.has_slot(ContentSlot::HostRuntime));
+    assert!(!m.content_active());
+    assert!(p.selected.is_none());
+    assert!(p.index.is_none());
+    assert!(!p.memory.as_ref().unwrap().file.path.exists());
+}
+#[test]
+fn late_saved_restore_cannot_replace_a_newer_explicit_input_pin() {
+    use crate::debug_choices::memory::Memory;
+    let (t, mut p, mut m) = saved_restore_fixture();
+    let old = t.path().join("old.exe");
+    let new = t.path().join("new.exe");
+    std::fs::write(&old, b"PUBLIC OLD").unwrap();
+    std::fs::write(&new, b"PUBLIC NEW").unwrap();
+    let old = Reference::explicit(&old, ContentSlot::HostRuntime, &"a".repeat(64)).unwrap();
+    let new = Reference::explicit(&new, ContentSlot::HostRuntime, &"a".repeat(64)).unwrap();
+    p.memory
+        .as_mut()
+        .unwrap()
+        .record_input(ContentSlot::HostRuntime, &old);
+    let (c, a, inputs) = p.memory.as_ref().unwrap().restore_request();
+    let batch = Memory::restore(c, a, inputs, "a".repeat(64));
+    p.memory
+        .as_mut()
+        .unwrap()
+        .record_input(ContentSlot::HostRuntime, &new);
+    p.slots.insert(ContentSlot::HostRuntime, new.clone());
+    p.job = Some(Job {
+        view: p.view,
+        handle: std::thread::spawn(move || Ok(ResultData::Restored(batch))),
+    });
+    wait(&mut p, &mut m);
+    assert_eq!(
+        p.slots[&ContentSlot::HostRuntime].entry.sha256,
+        new.entry.sha256
+    );
+    assert!(p.saved_issues.is_empty());
+}
+#[test]
+fn missing_saved_roles_have_visible_explanations_and_keep_the_original_pin() {
+    use crate::debug_choices::memory::Memory;
+    let (t, mut p, mut m) = saved_restore_fixture();
+    let path = t.path().join("missing.exe");
+    std::fs::write(&path, b"PUBLIC MISSING").unwrap();
+    let r = Reference::explicit(&path, ContentSlot::HostRuntime, &"a".repeat(64)).unwrap();
+    let pin = r.entry.sha256.clone();
+    p.memory
+        .as_mut()
+        .unwrap()
+        .record_input(ContentSlot::HostRuntime, &r);
+    std::fs::remove_file(path).unwrap();
+    let (c, a, inputs) = p.memory.as_ref().unwrap().restore_request();
+    let batch = Memory::restore(c, a, inputs, "a".repeat(64));
+    p.job = Some(Job {
+        view: p.view,
+        handle: std::thread::spawn(move || Ok(ResultData::Restored(batch))),
+    });
+    wait(&mut p, &mut m);
+    assert!(!p.has_slot(ContentSlot::HostRuntime));
+    assert!(p.saved_issues[&ContentSlot::HostRuntime].contains("unavailable"));
+    assert_eq!(
+        Some(
+            p.memory.as_ref().unwrap().file.state.inputs[0]
+                .sha256
+                .clone()
+        ),
+        pin
+    );
+    m.open_tool(
+        menu::DebugTool::Homepage,
+        crate::debug_workbench::fields(menu::DebugTool::Homepage),
+        String::new(),
+    );
+    m.handle(
+        menu::MenuInput::Down,
+        &mut input_config::AvConfig::default(),
+    );
+    assert!(m
+        .debug_focus(940, 620)
+        .label
+        .contains("Saved choice unavailable"));
+}

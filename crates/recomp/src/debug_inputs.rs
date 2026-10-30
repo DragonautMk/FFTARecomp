@@ -25,10 +25,19 @@ pub(crate) fn kinds(slot: ContentSlot) -> Vec<Kind> {
         RuntimeA | RuntimeB => Kind::Runtime,
         Library => Kind::NativeLibrary,
         Labels => Kind::Labels,
+        HostTool => Kind::HostTool,
+        HostRuntime => Kind::Runtime,
+        Campaign => Kind::Campaign,
+        Recipe => Kind::Recipe,
+        GuestScripts => Kind::GuestScriptCatalog,
         KnownPlan => return vec![Kind::KnownManifest, Kind::Dataset],
     }]
 }
 impl Reference {
+    pub fn source_file(&self)->Result<PathBuf,String>{
+        let root=self.index.roots.iter().find(|r|r.id==self.entry.root_id).ok_or("Selected reference root missing")?;
+        Ok(root.path.join(&self.entry.relative_path))
+    }
     pub fn resolve(index: Arc<Index>, id: &str, slot: Option<ContentSlot>) -> Result<Self, String> {
         let (entry, path) = index.resolve(id, None)?;
         if entry.sha256.is_none() {
@@ -124,7 +133,8 @@ fn preflight(slot: ContentSlot, path: &Path, rom: Option<&str>) -> Result<(), St
                 return Err("Resource manifest schema/ROM mismatch".into());
             }
         }
-        RuntimeA | RuntimeB | Library => {} // Selection never loads/executes code. Actual ABI validation stays with the worker.
+        Campaign | Recipe | GuestScripts => { crate::debug_tools::input_preflight(slot, path)?; }
+        RuntimeA | RuntimeB | Library | HostRuntime | HostTool => {} // Selection never loads/executes code. Actual ABI validation stays with the worker.
     }
     Ok(())
 }

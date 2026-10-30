@@ -4442,7 +4442,15 @@
       "source": "crates/recomp/src/debug_workbench.rs",
       "handler": "Workbench::request / play.rs::workbench_request",
       "cli": null,
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "--source",
+          "value_type": "choice",
+          "constraint": "embedded or external; external requires exact declared source/dependencies",
+          "current_menu": "selected",
+          "default": "embedded"
+        }
+      ],
       "selection": [
         "Current tool draft and typed references"
       ],
@@ -4482,6 +4490,174 @@
       "open_work": [
         "DBG2-13/15: common command request wrapper"
       ],
+      "external_dialog": null
+    },
+    {
+      "id": "tools.homepage",
+      "title": "Declared report homepage",
+      "source": "crates/recomp/src/debug_tools.rs",
+      "handler": "details/run",
+      "cli": null,
+      "parameters": [
+        {
+          "name": "--timeout-ms",
+          "value_type": "decimal",
+          "constraint": "20..120000ms total host deadline",
+          "current_menu": "selected",
+          "default": "120000"
+        },
+        {
+          "name": "--root",
+          "value_type": "argv",
+          "constraint": "Delegated declared adapter argument; paths are pinned typed references, output is a unique run directory",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--stdout",
+          "value_type": "argv",
+          "constraint": "Delegated declared adapter argument; paths are pinned typed references, output is a unique run directory",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--out",
+          "value_type": "argv",
+          "constraint": "Delegated declared adapter argument; paths are pinned typed references, output is a unique run directory",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--session",
+          "value_type": "argv",
+          "constraint": "Delegated declared adapter argument; paths are pinned typed references, output is a unique run directory",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--version",
+          "value_type": "argv",
+          "constraint": "Delegated declared adapter argument; paths are pinned typed references, output is a unique run directory",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--source",
+          "value_type": "choice",
+          "constraint": "embedded or external; external requires exact declared source/dependencies",
+          "current_menu": "selected",
+          "default": "embedded"
+        }
+      ],
+      "selection": [
+        "Typed current input roles as shown by the tool; changing a draft never runs it."
+      ],
+      "menu": {
+        "current": "Debug > Scripts and tools > homepage",
+        "destination": "Debug / Scripts and tools / homepage",
+        "implemented": true
+      },
+      "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
+      "effects": "Open typed draft only; explicit Start executes the declared readonly adapter/recipe or reads guest catalog; explicit Cancel stops supervised host process.",
+      "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
+      "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
+      "open_work": [],
+      "external_dialog": null
+    },
+    {
+      "id": "tools.campaign-report",
+      "title": "Declared campaign report",
+      "source": "crates/recomp/src/debug_tools.rs",
+      "handler": "details/run",
+      "cli": null,
+      "parameters": [
+        {
+          "name": "--case",
+          "value_type": "text",
+          "constraint": "Optional portable1..64byte campaign case ID",
+          "current_menu": "selected",
+          "default": ""
+        }
+      ],
+      "selection": [
+        "Typed current input roles as shown by the tool; changing a draft never runs it."
+      ],
+      "menu": {
+        "current": "Debug > Scripts and tools > campaign-report",
+        "destination": "Debug / Scripts and tools / campaign-report",
+        "implemented": true
+      },
+      "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
+      "effects": "Open typed draft only; explicit Start executes the declared readonly adapter/recipe or reads guest catalog; explicit Cancel stops supervised host process.",
+      "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
+      "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
+      "open_work": [],
+      "external_dialog": null
+    },
+    {
+      "id": "tools.artifact-preview",
+      "title": "Declared artifact preview",
+      "source": "crates/recomp/src/debug_tools.rs",
+      "handler": "details/run",
+      "cli": null,
+      "parameters": [],
+      "selection": [
+        "Typed current input roles as shown by the tool; changing a draft never runs it."
+      ],
+      "menu": {
+        "current": "Debug > Scripts and tools > artifact-preview",
+        "destination": "Debug / Scripts and tools / artifact-preview",
+        "implemented": true
+      },
+      "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
+      "effects": "Open typed draft only; explicit Start executes the declared readonly adapter/recipe or reads guest catalog; explicit Cancel stops supervised host process.",
+      "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
+      "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
+      "open_work": [],
+      "external_dialog": null
+    },
+    {
+      "id": "tools.recipe",
+      "title": "Readonly debug recipe",
+      "source": "crates/recomp/src/debug_tools.rs",
+      "handler": "details/run",
+      "cli": null,
+      "parameters": [],
+      "selection": [
+        "Typed current input roles as shown by the tool; changing a draft never runs it."
+      ],
+      "menu": {
+        "current": "Debug > Scripts and tools > recipe",
+        "destination": "Debug / Scripts and tools / recipe",
+        "implemented": true
+      },
+      "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
+      "effects": "Open typed draft only; explicit Start executes the declared readonly adapter/recipe or reads guest catalog; explicit Cancel stops supervised host process.",
+      "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
+      "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
+      "open_work": [],
+      "external_dialog": null
+    },
+    {
+      "id": "tools.guest-scripts",
+      "title": "Readonly guest script catalog",
+      "source": "crates/recomp/src/debug_tools.rs",
+      "handler": "details/run",
+      "cli": null,
+      "parameters": [],
+      "selection": [
+        "Typed current input roles as shown by the tool; changing a draft never runs it."
+      ],
+      "menu": {
+        "current": "Debug > Scripts and tools > guest-scripts",
+        "destination": "Debug / Scripts and tools / guest-scripts",
+        "implemented": true
+      },
+      "allowed_state": "Idle paused debug copy; one bounded workbench process; selection/Details are readonly.",
+      "effects": "Open typed draft only; explicit Start executes the declared readonly adapter/recipe or reads guest catalog; explicit Cancel stops supervised host process.",
+      "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
+      "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
+      "open_work": [],
       "external_dialog": null
     }
   ]

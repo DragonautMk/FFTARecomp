@@ -312,6 +312,21 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         assert!(gba_core::rom_data::obj_lists::constructor_animation::LIST_ROOTS.into_iter().all(|(at, _)| resources.obj_list_source_used(at) == Some((true, true))), "ordinary scene must consume all four new lists through guest and host readers");
         eprintln!("ROM_DATA_CONSTRUCTOR_SCENE frames={frames} bus_reads={} source_bytes={} threshold_bytes={} pointer_bytes={} phases_used={} lists_guest_host=4",i.bus_reads,i.source_bytes,i.threshold_bytes,i.pointer_bytes,i.phases_used);
     }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_EVENT_RECORDS12").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().event_records12_stats().expect("decoded EUR event records12");
+        assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && i.header_bytes+i.key_bytes+i.primary_bytes+i.alternate_bytes+i.parameter_bytes+i.byte07_bytes+i.flag_bytes+i.opaque_bytes == i.source_bytes, "ordinary scene must consume event-records12 storage");
+        eprintln!("ROM_DATA_EVENT_RECORDS12_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} key_bytes={} primary_bytes={} alternate_bytes={} parameter_bytes={} byte07_bytes={} flag_bytes={} opaque_bytes={} records_used={}",i.bus_reads,i.source_bytes,i.header_bytes,i.key_bytes,i.primary_bytes,i.alternate_bytes,i.parameter_bytes,i.byte07_bytes,i.flag_bytes,i.opaque_bytes,i.records_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_WORLD_RECORDS38").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().world_records38_stats().expect("decoded EUR world records38");
+        assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && i.byte01_bytes+i.value02_bytes+i.value04_bytes+i.threshold_bytes+i.opaque_bytes == i.source_bytes, "ordinary scene must consume world-records38 storage");
+        eprintln!("ROM_DATA_WORLD_RECORDS38_SCENE frames={frames} bus_reads={} source_bytes={} byte01_bytes={} value02_bytes={} value04_bytes={} threshold_bytes={} opaque_bytes={} records_used={}",i.bus_reads,i.source_bytes,i.byte01_bytes,i.value02_bytes,i.value04_bytes,i.threshold_bytes,i.opaque_bytes,i.records_used);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PARAMETER_RECORDS27").is_some() {
+        let i = decoded.bus.rom_resources().unwrap().parameter_records27_stats().expect("decoded EUR sparse parameter records27");
+        assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.records_used > 0 && i.header_bytes+i.packed_bytes+i.value07_bytes+i.byte09_bytes+i.value0a_bytes+i.signed0c_bytes+i.flags0d_bytes+i.operands0e_bytes+i.operands10_bytes+i.value12_bytes+i.signed15_bytes+i.opaque_bytes == i.source_bytes, "ordinary scene must consume observed parameter-records27 storage");
+        eprintln!("ROM_DATA_PARAMETER_RECORDS27_SCENE frames={frames} bus_reads={} source_bytes={} header_bytes={} packed_bytes={} value07_bytes={} byte09_bytes={} value0a_bytes={} signed0c_bytes={} flags0d_bytes={} operands0e_bytes={} operands10_bytes={} value12_bytes={} signed15_bytes={} opaque_bytes={} records_used={}",i.bus_reads,i.source_bytes,i.header_bytes,i.packed_bytes,i.value07_bytes,i.byte09_bytes,i.value0a_bytes,i.signed0c_bytes,i.flags0d_bytes,i.operands0e_bytes,i.operands10_bytes,i.value12_bytes,i.signed15_bytes,i.opaque_bytes,i.records_used);
+    }
     if std::env::var_os("FFTA_STATE_TEST_REQUIRE_SELECTION_BYTE_TABLES").is_some() {
         let i = decoded.bus.rom_resources().unwrap().selection_byte_tables_stats().expect("decoded EUR selection-byte tables");
         assert!(i.bus_reads > 0 && i.source_bytes > 0 && i.threshold_bytes + i.weight_bytes == i.source_bytes && i.threshold_positions_used + i.weight_positions_used > 0, "ordinary scene must consume selection-byte source");

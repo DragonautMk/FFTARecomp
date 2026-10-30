@@ -73,6 +73,8 @@ pub(crate) struct Report {
     pub capture_catalog: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub comparison_report: Option<String>,
+    #[serde(default,skip_serializing_if="Vec::is_empty")]
+    pub preparation:Vec<serde_json::Value>,
 }
 impl Report {
     fn new(p: &Profile, run: &str, outcome: &str, completed: u64, message: &str) -> Self {
@@ -97,6 +99,7 @@ impl Report {
             audit_window_complete: None,
             capture_catalog: None,
             comparison_report: None,
+            preparation:Vec::new(),
         }
     }
     pub fn code(&self) -> u8 {
@@ -537,6 +540,15 @@ fn execute(
     outcome
 }
 
+fn preparation(p:&Profile,root:&Path,run:&str,events:&mut Vec<serde_json::Value>,started:Instant,family:&str,outcome:&str,details:serde_json::Value){
+    if events.len()==8{return;}
+    let bytes=serde_json::to_vec(&details).expect("Preparation JSON");
+    let details=if bytes.len()>512{serde_json::json!({"truncated":true,"bytes":bytes.len(),"sha256":digest(&bytes),"prefix":String::from_utf8(bytes).expect("JSON UTF8").chars().take(64).collect::<String>()})}else{details};
+    events.push(serde_json::json!({"sequence":events.len(),"worker_host_elapsed_ns":started.elapsed().as_nanos().min(u128::from(u64::MAX))as u64,"family":family,"outcome":outcome,"details":details,"scope":"Worker preparation boundary, not guest instruction chronology; loaded inputs are not newly generated datasets/cache"}));
+    let mut report=Report::new(p,run,"preparing",0,"Preparing selected worker inputs.");report.preparation=events.clone();
+    // Observation failure never prevents the existing validated operation.
+    if let Err(error)=json(&outputs(root).join("progress.json"),&report){events.last_mut().unwrap()["publication_error"]=serde_json::json!(error.chars().take(256).collect::<String>());}
+}
 fn worker(path: &Path, run: &str) -> Result<Report, String> {
     if run.is_empty()
         || run.len() > 64
@@ -545,6 +557,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         return Err("Invalid replay run identifier".into());
     }
     let (root, p) = load(path)?;
+    let preparation_started=Instant::now();let mut preparation_events=Vec::with_capacity(4);
     let _session = crate::debug_session::open(&root)?;
     if digest(&read(
         &std::env::current_exe().map_err(|e| e.to_string())?,
@@ -560,6 +573,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         return Err("Replay BIOS mismatch".into());
     }
     let dataset = _session.dataset();
+    preparation(&p,&root,run,&mut preparation_events,preparation_started,"dataset","requested",serde_json::json!({"manifest_sha256":p.dataset_sha256}));
     if dataset
         .as_ref()
         .map(|d| {
@@ -575,8 +589,10 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         return Err("Replay dataset mismatch".into());
     }
     if let Some(d) = dataset {
-        crate::rom_data::attach_from_directory(&mut machine, &d)?;
-    }
+        let result=crate::rom_data::attach_from_directory(&mut machine, &d);
+        preparation(&p,&root,run,&mut preparation_events,preparation_started,"dataset",if result.is_ok(){"attached"}else{"refused"},serde_json::json!({"manifest_sha256":p.dataset_sha256,"error":result.as_ref().err().map(|e|e.chars().take(512).collect::<String>())}));
+        result?;
+    }else{preparation(&p,&root,run,&mut preparation_events,preparation_started,"dataset","not-selected",serde_json::json!({}));}
     let start = checked(
         &root,
         "seed.ffstate",
@@ -605,10 +621,14 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
     {
         return Err("Replay origin mismatch".into());
     }
+    preparation(&p,&root,run,&mut preparation_events,preparation_started,"cache","requested",serde_json::json!({"library_sha256":p.library_sha256}));
     let native = if let Some(hash) = &p.library_sha256 {
         checked(&root, "native.bin", 256 * 1024 * 1024, hash)?;
-        Some(crate::load_native(&root.join("native.bin"))?)
+        let result=crate::load_native(&root.join("native.bin"));
+        preparation(&p,&root,run,&mut preparation_events,preparation_started,"cache",if result.is_ok(){"loaded"}else{"refused"},serde_json::json!({"library_sha256":hash,"error":result.as_ref().err().map(|e|e.chars().take(512).collect::<String>())}));
+        Some(result?)
     } else {
+        preparation(&p,&root,run,&mut preparation_events,preparation_started,"cache","not-selected",serde_json::json!({}));
         None
     };
     struct View(usize, usize);
@@ -646,7 +666,8 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
                 return Some(("timeout", "Replay wall-clock timeout.".into()));
             }
             if last.elapsed() >= Duration::from_millis(100) {
-                let state = Report::new(&p, run, "running", completed, "Replaying isolated case.");
+                let mut state = Report::new(&p, run, "running", completed, "Replaying isolated case.");
+                state.preparation=preparation_events.clone();
                 if let Err(e) = json(&out.join("progress.json"), &state) {
                     return Some(("error", e));
                 }
@@ -700,6 +721,7 @@ fn worker(path: &Path, run: &str) -> Result<Report, String> {
         report.capture_catalog=Some(crate::debug_capture::publish(&root,run,&p.case,&machine,
             capture.as_ref().ok_or("Missing capture observer")?,context,crate::debug_capture::Inputs{state:&start,input:&bytes})?);
     }
+    report.preparation=preparation_events;
     json(&out.join("result.json"), &report)?;
     Ok(report)
 }
@@ -808,7 +830,7 @@ impl Job {
         if self.done {
             return Ok(self.last.clone());
         }
-        if let Ok(bytes) = read(&outputs(&self.root).join("progress.json"), 8192) {
+        if let Ok(bytes) = read(&outputs(&self.root).join("progress.json"), 32 * 1024) {
             if let Ok(r) = serde_json::from_slice::<Report>(&bytes) {
                 if r.run == self.run {
                     self.last = Some(r);
@@ -832,7 +854,7 @@ impl Job {
         let Some(status) = self.child.try_wait().map_err(|e| e.to_string())? else {
             return Ok(None);
         };
-        let saved = read(&outputs(&self.root).join("result.json"), 8192)
+        let saved = read(&outputs(&self.root).join("result.json"), 32 * 1024)
             .ok()
             .and_then(|b| serde_json::from_slice::<Report>(&b).ok())
             .filter(|r| r.run == self.run && r.code() as i32 == status.code().unwrap_or(-1));
@@ -846,7 +868,8 @@ impl Job {
                         .and_then(|v| v["message"].as_str().map(String::from))
                 })
             });
-        let result=saved.unwrap_or_else(||Report::new(&self.p,&self.run,forced.unwrap_or(if status.code()==Some(3){"incompatible"}else{"error"}),self.last.as_ref().map_or(0,|r|r.completed),if forced.is_some(){"Replay supervisor stopped the worker."}else{detail.as_deref().unwrap_or("Worker failed before its result. Inspect Data/config/replay/worker.log; the selected runtime must support debug-replay.")}));
+        let mut result=saved.unwrap_or_else(||Report::new(&self.p,&self.run,forced.unwrap_or(if status.code()==Some(3){"incompatible"}else{"error"}),self.last.as_ref().map_or(0,|r|r.completed),if forced.is_some(){"Replay supervisor stopped the worker."}else{detail.as_deref().unwrap_or("Worker failed before its result. Inspect Data/config/replay/worker.log; the selected runtime must support debug-replay.")}));
+        if result.preparation.is_empty(){if let Some(previous)=&self.last{result.preparation=previous.preparation.clone();}}
         json(&outputs(&self.root).join("result.json"), &result)?;
         self.last = Some(result.clone());
         self.done = true;
@@ -858,13 +881,14 @@ impl Drop for Job {
         if !self.done {
             self.child.kill().ok();
             self.child.wait().ok();
-            let r = Report::new(
+            let mut r = Report::new(
                 &self.p,
                 &self.run,
                 "interrupted",
                 self.last.as_ref().map_or(0, |r| r.completed),
                 "Replay owner closed.",
             );
+            if let Some(previous)=&self.last{r.preparation=previous.preparation.clone();}
             let _ = json(&outputs(&self.root).join("result.json"), &r);
         }
     }
@@ -895,7 +919,7 @@ pub(crate) fn cmd(args: &[String]) -> u8 {
             let _command=crate::debug_session::replay_command(&root)?;
             let lease=OpenOptions::new().read(true).write(true).open(root.join("replay.lock")).map_err(|_|"No active replay for this profile")?;
             if lease.try_lock().is_ok(){return Err("No active replay for this profile".into());}
-            let report:Report=serde_json::from_slice(&read(&outputs(&root).join("progress.json"),8192)?).map_err(|e|e.to_string())?;fs::write(outputs(&root).join("cancel.json"),report.run.as_bytes()).map_err(|e|e.to_string())?;Ok(())})();match result{Ok(())=>{println!("{}",serde_json::json!({"schema":1,"kind":"ffta-debug-replay-cancel","requested":true}));0},Err(e)=>error(&e)}},
+            let report:Report=serde_json::from_slice(&read(&outputs(&root).join("progress.json"),32*1024)?).map_err(|e|e.to_string())?;fs::write(outputs(&root).join("cancel.json"),report.run.as_bytes()).map_err(|e|e.to_string())?;Ok(())})();match result{Ok(())=>{println!("{}",serde_json::json!({"schema":1,"kind":"ffta-debug-replay-cancel","requested":true}));0},Err(e)=>error(&e)}},
         Some("create")=>match create_cmd(&args[1..]){Ok(path)=>{println!("{}",serde_json::json!({"schema":1,"kind":"ffta-debug-replay-created","profile":path}));0},Err(e)=>error(&e)},
         _=>error("Use debug-replay create --recording DIR --session DIR --dir DIR --case NAME [--runtime FILE] [--library FILE] [--timeout-ms N], run PROFILE, or cancel PROFILE"),
     }

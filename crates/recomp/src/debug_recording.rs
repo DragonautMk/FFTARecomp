@@ -69,6 +69,9 @@ fn identity(path: &Path, limit: u64) -> Result<String, String> {
 }
 
 impl Capture {
+    pub fn lifecycle_status(&self)->serde_json::Value{
+        serde_json::json!({"first_frame":self.manifest.first_frame,"expected_next_frame":self.next_frame,"input_bytes":self.bytes,"last_keys":self.last_keys,"scope":"Input writer metadata; expected next frame is not proof of a completed frame"})
+    }
     pub fn start(
         directory: &Path,
         machine: &Machine,

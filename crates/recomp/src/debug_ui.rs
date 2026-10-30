@@ -9,6 +9,7 @@ use std::{
 const MAX_EVENTS: usize = 1024;
 #[derive(Default)]
 pub(crate) struct Trace {
+    clock: crate::debug_events::Clock,
     origin: Option<Value>,
     started: Option<Instant>,
     events: Vec<Value>,
@@ -22,6 +23,9 @@ pub(crate) struct Trace {
 impl Trace {
     pub fn enabled(&self) -> bool {
         self.collecting
+    }
+    pub fn lifecycle_status(&self)->Value {
+        json!({"collecting":self.collecting,"reason":self.reason,"completed_guest_frames":self.frames,"last_report":self.report})
     }
     pub fn start(&mut self, origin: Value) -> Result<(), String> {
         if self.origin.is_some() {
@@ -37,19 +41,13 @@ impl Trace {
         self.frames = 0;
         Ok(())
     }
+    pub fn start_shared(&mut self, origin: Value, clock: crate::debug_events::Clock) -> Result<(), String> {
+        self.start(origin)?;
+        self.clock = clock;
+        Ok(())
+    }
+    #[cfg(test)]
     pub fn event(&mut self, frame: u64, clock: u64, stage: &str, data: Value) {
-        if !self.collecting {
-            return;
-        }
-        let elapsed = self.started.unwrap().elapsed().as_millis();
-        if elapsed >= 30_000 {
-            self.freeze("30-second-limit");
-            return;
-        }
-        if self.events.len() >= MAX_EVENTS {
-            self.freeze("event-limit");
-            return;
-        }
         if stage == "mapped-poll" {
             if self.last_poll.as_ref() == Some(&data) {
                 return;
@@ -62,6 +60,23 @@ impl Trace {
             }
             self.last_pad = Some(data.clone());
         }
+        let event = self.clock.event(frame, clock, stage, data);
+        self.accept(&event);
+    }
+    pub fn accept(&mut self, event: &crate::debug_events::Event) {
+        if !self.collecting {
+            return;
+        }
+        let elapsed = self.started.unwrap().elapsed().as_millis();
+        if elapsed >= 30_000 {
+            self.freeze("30-second-limit");
+            return;
+        }
+        if self.events.len() >= MAX_EVENTS {
+            self.freeze("event-limit");
+            return;
+        }
+        let stage = event.stage.as_str();
         if stage == "guest-frame" {
             if self.frames == 600 {
                 self.freeze("frame-limit");
@@ -69,7 +84,7 @@ impl Trace {
             }
             self.frames += 1;
         }
-        self.events.push(json!({"sequence":self.events.len(),"host_ms":elapsed,"frame":frame,"clock":clock,"stage":stage,"data":data}));
+        self.events.push(event.value(self.events.len() as u64, elapsed.min(u128::from(u64::MAX)) as u64));
     }
     pub fn freeze(&mut self, reason: &'static str) {
         if self.collecting {
@@ -78,7 +93,7 @@ impl Trace {
         }
     }
     pub fn status(&self) -> Value {
-        json!({"collecting":self.collecting,"has_trace":self.origin.is_some(),"events":self.events.len(),"frames":self.frames,"stop_reason":self.reason,"last_report":self.report,"max_events":MAX_EVENTS,"max_frames":600,"max_seconds":30})
+        json!({"collecting":self.collecting,"has_trace":self.origin.is_some(),"events":self.events.len(),"frames":self.frames,"stop_reason":self.reason,"last_report":self.report,"max_events":MAX_EVENTS,"max_frames":600,"max_seconds":30,"event_clock":self.clock.status()})
     }
     pub fn save(
         &mut self,
@@ -101,6 +116,7 @@ impl Trace {
         frozen["origin"] = self.origin.clone().unwrap();
         frozen["trace"] = self.status();
         frozen["events"] = json!(self.events);
+        frozen["event_coverage"] = crate::debug_events::coverage();
         frozen["scope"] = json!({"host_text":"Actual host-menu font/advance/outline metrics on disposable redraw; original width-stop and canvas clipping unchanged", "guest_text":"Not decoded here; native guest-layer bounds and recognized selectors only", "input":"Observed keyboard/controller tokens, mapped polls, host dispatch and actual guest-frame latch; absent raw hooks remain uncovered", "timeline":"Host sequence/ms separate from guest frame/clock; stopped/truncated prefixes are not a complete replay", "no_input_injection":true,"no_guest_mutation":true});
         let bytes = serde_json::to_vec(&frozen).map_err(|e| e.to_string())?;
         if bytes.len() > 2 * 1024 * 1024 {

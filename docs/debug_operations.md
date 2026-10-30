@@ -1,8 +1,8 @@
 # Contratto delle operazioni di debug
 
 DBG2-01 aggiunge un inventario consultabile delle operazioni esistenti. Il
-contratto versione 1 contiene 92 operazioni e 320 parametri (65/242 nella
-prima unità DBG2-01, più catalogo, selettore e ruoli di DBG2-02/03/04/05): diagnosi, copie
+contratto versione 1 contiene 97 operazioni e 329 parametri (65/242 nella
+prima unità DBG2-01, più catalogo, selettore e ruoli di DBG2-02/03/04/05/06): diagnosi, copie
 isolate, catalogo, registrazioni, profili replay/audit/capture/compare, controllo
 locale, ispettori, tracce, report, conservazione, campagne e checkpoint.
 
@@ -72,7 +72,7 @@ Aggiornare descrittore e controllo quando si aggiunge una nuova operazione.
 La validazione di questa unità riguarda metadati e protocollo locale con fixture
 sintetiche; non richiede ROM, replay o nuove prove di scene. I risultati effettivi
 di build e test sono nel record collegato dal
-[TODO DBG2](development/DEBUG_TOOLS_V2_TODO.md). Il selettore interno è disponibile; migrazione, console
+[TODO DBG2](development/DEBUG_TOOLS_V2_TODO.md). Il selettore, i ruoli tipizzati e i parametri interni sono disponibili; console
 e cheat seguono lo stato del TODO DBG2.
 
 Le operazioni `workbench.*` distinguono apertura/modifica della bozza da verifica,
@@ -80,3 +80,10 @@ preset, preparazione e avvio. Gli ingressi precedenti audio/codice/gameplay/
 recent/grafica/ispezione/issue aprono i parametri; il loro ID di apertura è
 separato da `control.*`, che continua a indicare l'handler effettivo. La validazione DBG2-05 è collegata dal TODO; le console condivise
 restano DBG2-13/15.
+
+Gli ID `tools.homepage`, `tools.campaign-report`, `tools.artifact-preview`,
+`tools.recipe` e `tools.guest-scripts` identificano le cinque schede di
+`Debug > Scripts and tools`. Dettagli legge metadati/hash; solo Avvia lancia
+l'adattatore dichiarato o la ricetta readonly. Annulla ferma il processo
+supervisionato e conserva l'esito/log; la vista guest legge soltanto i dati.
+Vedere [il selettore e la libreria](debug_selector.md) per prerequisiti e limiti.

@@ -119,6 +119,7 @@ fn late_preset_read_after_back_and_reopen_cannot_replace_the_current_draft() {
     let mut replacement = defaults(Tool::Step);
     replacement.insert("frames".into(), "600".into());
     w.job = Some(Job {
+        request:ToolRequest::LoadPreset,
         tool: Tool::Step,
         revision,
         view: w.view,
@@ -136,5 +137,9 @@ fn late_preset_read_after_back_and_reopen_cannot_replace_the_current_draft() {
     let (_, values, _) = menu.tool_values();
     assert_eq!(values.into_iter().collect::<Values>()["frames"], "1");
     assert!(w.last.contains("old draft"));
+    let observed=w.observation.as_ref().unwrap();
+    assert_eq!(observed["request"],"LoadPreset");
+    assert_eq!(observed["current_draft"],false);
+    assert_eq!(observed["result"]["outcome"],"completed");
     assert_eq!(std::fs::read_dir(t.path()).unwrap().count(), 0);
 }

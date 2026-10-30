@@ -20,9 +20,14 @@ pub enum DebugTool {
     Recent,
     Graphics,
     Issue,
+    Homepage,
+    CampaignReport,
+    ArtifactPreview,
+    Recipe,
+    GuestScripts,
 }
 impl DebugTool {
-    pub const ALL: [Self; 12] = [
+    pub const ALL: [Self; 17] = [
         Self::Replay,
         Self::Audit,
         Self::Capture,
@@ -35,6 +40,11 @@ impl DebugTool {
         Self::Recent,
         Self::Graphics,
         Self::Issue,
+        Self::Homepage,
+        Self::CampaignReport,
+        Self::ArtifactPreview,
+        Self::Recipe,
+        Self::GuestScripts,
     ];
     pub fn label(self) -> &'static str {
         match self {
@@ -50,7 +60,15 @@ impl DebugTool {
             Self::Recent => "Recent events options",
             Self::Graphics => "Graphics capture options",
             Self::Issue => "Issue report options",
+            Self::Homepage => "Host: report homepage",
+            Self::CampaignReport => "Host: campaign report",
+            Self::ArtifactPreview => "Host: artifact preview",
+            Self::Recipe => "Debug command recipe",
+            Self::GuestScripts => "Guest scripts / readonly catalog",
         }
+    }
+    pub fn library(self) -> bool {
+        matches!(self, Self::Homepage | Self::CampaignReport | Self::ArtifactPreview | Self::Recipe | Self::GuestScripts)
     }
     pub fn creates_profile(self) -> bool {
         matches!(
@@ -91,6 +109,16 @@ const REQUESTS: [ToolRequest; 6] = [
     ToolRequest::Back,
 ];
 fn request_label(r: ToolRequest, tool: DebugTool) -> &'static str {
+    if tool.library() {
+        return match r {
+            ToolRequest::Validate => "Details / verify",
+            ToolRequest::Run => if tool == DebugTool::GuestScripts { "Inspect catalog" } else { "Start explicitly" },
+            ToolRequest::Prepare => if tool == DebugTool::GuestScripts { "Gameplay inspector" } else { "Cancel process" },
+            ToolRequest::SavePreset => "Save new preset",
+            ToolRequest::LoadPreset => "Load last preset",
+            ToolRequest::Back => "Back",
+        };
+    }
     match r {
         ToolRequest::Validate => "Verify draft",
         ToolRequest::SavePreset => "Save new preset",
@@ -145,6 +173,19 @@ impl Default for ToolForm {
     }
 }
 impl ToolForm {
+    pub(super) fn selection_state(&self)->Vec<(String,String)>{
+        let mut state=vec![("page".into(),"DebugTool".into()),("tool".into(),format!("{:?}",self.tool)),("busy".into(),self.busy.to_string()),("detail_scroll".into(),self.detail.get().to_string()),("feedback".into(),self.message.clone())];
+        if let Some(index)=self.editing {
+            state.extend(self.editor.selection_state().into_iter().map(|(k,v)|(format!("editor.{k}"),v)));
+            state.push(("item_id".into(),format!("tool/{:?}/editor/{}",self.tool,self.fields[index].key)));
+            state.push(("label".into(),self.fields[index].label.clone()));
+        }else{
+            let (id,label)=if let Some(field)=self.fields.get(self.focus){(format!("field/{}",field.key),field.label.clone())}else{let request=REQUESTS[self.focus-self.fields.len()];(format!("action/{request:?}"),request_label(request,self.tool).into())};
+            state.push(("item_id".into(),format!("tool/{:?}/{id}",self.tool)));state.push(("label".into(),label));
+        }
+        state.extend(self.fields.iter().map(|f|(format!("field.{}",f.key),f.value.clone())));
+        state
+    }
     pub fn set(&mut self, tool: DebugTool, fields: Vec<ToolField>, message: String) {
         if self.tool != tool {
             self.focus = 0;
@@ -264,7 +305,7 @@ impl ToolForm {
             MenuInput::Confirm => {
                 if self.focus >= self.fields.len() {
                     let r = REQUESTS[self.focus - self.fields.len()];
-                    if !self.busy || r == ToolRequest::Back {
+                    if !self.busy || r == ToolRequest::Back || (self.tool.library() && r == ToolRequest::Prepare) {
                         return Some(MenuAction::ToolRequest(r));
                     }
                     self.message = "A host operation is finishing; wait or return.".into();

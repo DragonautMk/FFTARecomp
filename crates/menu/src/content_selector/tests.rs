@@ -1,4 +1,14 @@
 use super::*;
+
+#[test]
+fn semantic_observation_never_adjusts_geometry_scroll_or_confirms_content(){
+    let mut selector=Selector::default();
+    selector.set("Synthetic".into(),(0..40).map(|i|ContentEntry{id:format!("id-{i}"),name:format!("row-{i}"),..Default::default()}).collect(),String::new(),1);
+    selector.first.set(17);selector.detail_scroll.set(23);
+    let before=(selector.first.get(),selector.detail_scroll.get(),selector.cursor,selector.confirmed.clone());
+    for _ in 0..20{let _=selector.selection_state();}
+    assert_eq!(before,(selector.first.get(),selector.detail_scroll.get(),selector.cursor,selector.confirmed.clone()));
+}
 fn entries() -> Vec<ContentEntry> {
     (0..30)
         .map(|n| ContentEntry {
@@ -218,4 +228,55 @@ fn controller_punctuation_page_can_enter_multi_value_parameter_separators() {
     s.key = 39;
     s.key_confirm();
     assert!(!s.editing());
+}
+
+#[test]
+fn preference_restore_keeps_favorites_recent_and_highlight_without_confirming_or_emitting() {
+    let mut s = selector();
+    let id = s.entries[3].id.clone();
+    let view = ContentViewPreferences {
+        query: "Item".into(),
+        kind: "snapshot".into(),
+        filter: 0,
+        sort: 2,
+        collection: 1,
+        highlighted: Some(id.clone()),
+    };
+    let history = ContentHistory {
+        favorites: vec![id.clone()],
+        recent: vec![id.clone()],
+    };
+    s.restore_preferences(view.clone(), history.clone())
+        .unwrap();
+    assert_eq!(s.highlighted_id(), Some(id.as_str()));
+    assert!(s.confirmed.is_none());
+    assert!(!s.busy);
+    assert_eq!(s.history(), history);
+    assert_eq!(s.preferences(), view);
+    let before = s.preferences();
+    let mut invalid = before.clone();
+    invalid.sort = 99;
+    assert!(s
+        .restore_preferences(invalid, ContentHistory::default())
+        .is_err());
+    assert_eq!(s.preferences(), before);
+    assert_eq!(s.history(), history);
+}
+
+#[test]
+fn preference_export_keeps_committed_search_while_an_editor_draft_is_open() {
+    let mut s = selector();
+    s.query = "Item".into();
+    s.rebuild(None);
+    let before = s.preferences();
+    s.start_search();
+    s.text(" draft");
+    assert_eq!(s.preferences(), before);
+    s.finish_search(true);
+    assert_eq!(s.preferences(), before);
+    s.start_search();
+    s.text(" 03");
+    s.finish_search(false);
+    assert_eq!(s.preferences().query, "Item 03");
+    assert!(s.confirmed.is_none());
 }

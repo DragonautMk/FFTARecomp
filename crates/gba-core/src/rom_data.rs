@@ -35,6 +35,10 @@ pub mod records4;
 pub mod conditional_records8;
 pub mod mission_records70;
 pub mod selection_byte_tables;
+pub mod event_records12;
+pub mod parameter_records27;
+pub mod world_records38;
+pub mod indexed_graphics;
 pub mod default48;
 pub mod constructor_alternates;
 pub mod metadata14;
@@ -89,8 +93,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 87;
-pub const DECODER_REV: u32 = 86;
+pub const EXTRACTOR_REV: u32 = 91;
+pub const DECODER_REV: u32 = 90;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -279,6 +283,22 @@ pub const TASK_CYCLE_DELTAS_ID: &str = "gameplay.task-cycle-deltas";
 pub const TASK_CYCLE_DELTAS_FILE: &str = "task-cycle-deltas.json";
 pub const TASK_CYCLE_DELTAS_FORMAT: &str = "task-cycle-deltas-v1-json";
 pub const MAX_TASK_CYCLE_DELTAS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const INDEXED_GRAPHICS_ID: &str = "graphics.indexed-archives";
+pub const INDEXED_GRAPHICS_FILE: &str = "indexed-graphics.json";
+pub const INDEXED_GRAPHICS_FORMAT: &str = "indexed-graphics-v1-json";
+pub const MAX_INDEXED_GRAPHICS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const WORLD_RECORDS38_ID: &str = "gameplay.world-records38";
+pub const WORLD_RECORDS38_FILE: &str = "world-records38.json";
+pub const WORLD_RECORDS38_FORMAT: &str = "world-records38-v1-json";
+pub const MAX_WORLD_RECORDS38_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const PARAMETER_RECORDS27_ID: &str = "gameplay.parameter-records27";
+pub const PARAMETER_RECORDS27_FILE: &str = "parameter-records27.json";
+pub const PARAMETER_RECORDS27_FORMAT: &str = "parameter-records27-v1-json";
+pub const MAX_PARAMETER_RECORDS27_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const EVENT_RECORDS12_ID: &str = "gameplay.event-records12";
+pub const EVENT_RECORDS12_FILE: &str = "event-records12.json";
+pub const EVENT_RECORDS12_FORMAT: &str = "event-records12-v1-json";
+pub const MAX_EVENT_RECORDS12_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const SELECTION_BYTE_TABLES_ID: &str = "gameplay.selection-byte-tables";
 pub const SELECTION_BYTE_TABLES_FILE: &str = "selection-byte-tables.json";
 pub const SELECTION_BYTE_TABLES_FORMAT: &str = "selection-byte-tables-v1-json";
@@ -582,6 +602,10 @@ pub struct Extraction {
     pub conditional_records8: Option<conditional_records8::Catalog>,
     pub mission_records70: Option<mission_records70::Catalog>,
     pub selection_byte_tables: Option<selection_byte_tables::Catalog>,
+    pub event_records12: Option<event_records12::Catalog>,
+    pub parameter_records27: Option<parameter_records27::Catalog>,
+    pub world_records38: Option<world_records38::Catalog>,
+    pub indexed_graphics: Option<indexed_graphics::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -667,6 +691,10 @@ pub struct BaseFiles<'a> {
     pub conditional_records8: Option<(&'a conditional_records8::Records8, &'a [u8])>,
     pub mission_records70: Option<(&'a mission_records70::Records70, &'a [u8])>,
     pub selection_byte_tables: Option<(&'a selection_byte_tables::ByteTables, &'a [u8])>,
+    pub event_records12: Option<(&'a event_records12::EventRecords12, &'a [u8])>,
+    pub parameter_records27: Option<(&'a parameter_records27::ParameterRecords27, &'a [u8])>,
+    pub world_records38: Option<(&'a world_records38::WorldRecords38, &'a [u8])>,
+    pub indexed_graphics: Option<(&'a indexed_graphics::IndexedGraphics, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1249,6 +1277,22 @@ impl Extraction {
             result.manifest.coverage.push(SELECTION_BYTE_TABLES_ID.into());
             result.manifest.resources.push(Resource {id:SELECTION_BYTE_TABLES_ID.into(),path:SELECTION_BYTE_TABLES_FILE.into(),format:SELECTION_BYTE_TABLES_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
             result.selection_byte_tables = Some(metadata);
+            let metadata = event_records12::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(EVENT_RECORDS12_ID.into());
+            result.manifest.resources.push(Resource {id:EVENT_RECORDS12_ID.into(),path:EVENT_RECORDS12_FILE.into(),format:EVENT_RECORDS12_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.event_records12 = Some(metadata);
+            let metadata = parameter_records27::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(PARAMETER_RECORDS27_ID.into());
+            result.manifest.resources.push(Resource {id:PARAMETER_RECORDS27_ID.into(),path:PARAMETER_RECORDS27_FILE.into(),format:PARAMETER_RECORDS27_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.parameter_records27 = Some(metadata);
+            let metadata = world_records38::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(WORLD_RECORDS38_ID.into());
+            result.manifest.resources.push(Resource {id:WORLD_RECORDS38_ID.into(),path:WORLD_RECORDS38_FILE.into(),format:WORLD_RECORDS38_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.world_records38 = Some(metadata);
+            let metadata = indexed_graphics::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(INDEXED_GRAPHICS_ID.into());
+            result.manifest.resources.push(Resource {id:INDEXED_GRAPHICS_ID.into(),path:INDEXED_GRAPHICS_FILE.into(),format:INDEXED_GRAPHICS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.indexed_graphics = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1362,6 +1406,10 @@ impl Extraction {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1476,6 +1524,10 @@ impl Extraction {
             || self.records4.is_some() != self.conditional_records8.is_some()
             || self.conditional_records8.is_some() != self.mission_records70.is_some()
             || self.mission_records70.is_some() != self.selection_byte_tables.is_some()
+            || self.selection_byte_tables.is_some() != self.event_records12.is_some()
+            || self.event_records12.is_some() != self.parameter_records27.is_some()
+            || self.parameter_records27.is_some() != self.world_records38.is_some()
+            || self.world_records38.is_some() != self.indexed_graphics.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2149,6 +2201,22 @@ impl Extraction {
             (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_SELECTION_BYTE_TABLES_FILE_BYTES {return Err("SelectionByteTables file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[78].sha256=ffta_rom::digest(bytes);}
             (None,None)=>{},_=>return Err("Missing or unexpected selection_byte_tables".into()),
         }
+        match (&self.event_records12, files.event_records12) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_EVENT_RECORDS12_FILE_BYTES {return Err("EventRecords12 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[79].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected event_records12".into()),
+        }
+        match (&self.parameter_records27, files.parameter_records27) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_PARAMETER_RECORDS27_FILE_BYTES {return Err("ParameterRecords27 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[80].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected parameter_records27".into()),
+        }
+        match (&self.world_records38, files.world_records38) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_WORLD_RECORDS38_FILE_BYTES {return Err("WorldRecords38 file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[81].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected world_records38".into()),
+        }
+        match (&self.indexed_graphics, files.indexed_graphics) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_INDEXED_GRAPHICS_FILE_BYTES {return Err("IndexedGraphics file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[82].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected indexed_graphics".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2567,6 +2635,22 @@ impl Extraction {
             decoded.validate()?;
             if decoded!=&expected.decoded {return Err("Decoded selection_byte_tables differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.event_records12,files.event_records12) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded event_records12 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.parameter_records27,files.parameter_records27) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded parameter_records27 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.world_records38,files.world_records38) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded world_records38 differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.indexed_graphics,files.indexed_graphics) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded indexed_graphics differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2657,6 +2741,10 @@ impl Extraction {
             + usize::from(self.conditional_records8.is_some())
             + usize::from(self.mission_records70.is_some())
             + usize::from(self.selection_byte_tables.is_some())
+            + usize::from(self.event_records12.is_some())
+            + usize::from(self.parameter_records27.is_some())
+            + usize::from(self.world_records38.is_some())
+            + usize::from(self.indexed_graphics.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2790,6 +2878,10 @@ mod tests {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2876,6 +2968,10 @@ mod tests {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2972,6 +3068,10 @@ mod tests {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3057,6 +3157,10 @@ mod tests {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

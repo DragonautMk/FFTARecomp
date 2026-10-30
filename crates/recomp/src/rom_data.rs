@@ -47,6 +47,10 @@ use gba_core::rom_data::{
     observed_task_parameters::ObservedTaskParameters, OBSERVED_TASK_PARAMETERS_ID, OBSERVED_TASK_PARAMETERS_FILE, MAX_OBSERVED_TASK_PARAMETERS_FILE_BYTES,
     obj_lists::constructor_animation::Animation as ConstructorObjAnimation, CONSTRUCTOR_OBJ_ANIMATION_ID, CONSTRUCTOR_OBJ_ANIMATION_FILE, MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES,
     task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
+    indexed_graphics::IndexedGraphics, INDEXED_GRAPHICS_ID, INDEXED_GRAPHICS_FILE, MAX_INDEXED_GRAPHICS_FILE_BYTES,
+    world_records38::WorldRecords38, WORLD_RECORDS38_ID, WORLD_RECORDS38_FILE, MAX_WORLD_RECORDS38_FILE_BYTES,
+    parameter_records27::ParameterRecords27, PARAMETER_RECORDS27_ID, PARAMETER_RECORDS27_FILE, MAX_PARAMETER_RECORDS27_FILE_BYTES,
+    event_records12::EventRecords12, EVENT_RECORDS12_ID, EVENT_RECORDS12_FILE, MAX_EVENT_RECORDS12_FILE_BYTES,
     selection_byte_tables::ByteTables, SELECTION_BYTE_TABLES_ID, SELECTION_BYTE_TABLES_FILE, MAX_SELECTION_BYTE_TABLES_FILE_BYTES,
     mission_records70::Records70, MISSION_RECORDS70_ID, MISSION_RECORDS70_FILE, MAX_MISSION_RECORDS70_FILE_BYTES,
     conditional_records8::Records8, CONDITIONAL_RECORDS8_ID, CONDITIONAL_RECORDS8_FILE, MAX_CONDITIONAL_RECORDS8_FILE_BYTES,
@@ -272,6 +276,12 @@ mod mission_records70_scene_tests;
 #[cfg(test)]
 mod selection_byte_tables_scene_tests;
 #[cfg(test)]
+mod event_records12_scene_tests;
+#[cfg(test)]
+mod world_records38_scene_tests;
+#[cfg(test)]
+mod parameter_records27_scene_tests;
+#[cfg(test)]
 mod records4_scene_tests;
 #[cfg(test)]
 mod metadata28_runtime_tests;
@@ -283,6 +293,14 @@ mod conditional_records8_runtime_tests;
 mod mission_records70_runtime_tests;
 #[cfg(test)]
 mod selection_byte_tables_runtime_tests;
+#[cfg(test)]
+mod event_records12_runtime_tests;
+#[cfg(test)]
+mod parameter_records27_runtime_tests;
+#[cfg(test)]
+mod world_records38_runtime_tests;
+#[cfg(test)]
+mod indexed_graphics_runtime_tests;
 #[cfg(test)]
 mod encounter_coordinate_runtime_tests;
 #[cfg(test)]
@@ -804,6 +822,14 @@ fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
     value.validate()?;Ok(value)
 }
 fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
+fn parse_indexed_graphics(bytes:&[u8])->Result<IndexedGraphics,String> {let value:IndexedGraphics=serde_json::from_slice(bytes).map_err(|e|format!("Invalid indexed_graphics: {e}"))?;value.validate()?;Ok(value)}
+fn encode_indexed_graphics(value:&IndexedGraphics)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode indexed_graphics: {e}"))}
+fn parse_world_records38(bytes:&[u8])->Result<WorldRecords38,String> {let value:WorldRecords38=serde_json::from_slice(bytes).map_err(|e|format!("Invalid world_records38: {e}"))?;value.validate()?;Ok(value)}
+fn encode_world_records38(value:&WorldRecords38)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode world_records38: {e}"))}
+fn parse_parameter_records27(bytes:&[u8])->Result<ParameterRecords27,String> {let value:ParameterRecords27=serde_json::from_slice(bytes).map_err(|e|format!("Invalid parameter_records27: {e}"))?;value.validate()?;Ok(value)}
+fn encode_parameter_records27(value:&ParameterRecords27)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode parameter_records27: {e}"))}
+fn parse_event_records12(bytes:&[u8])->Result<EventRecords12,String> {let value:EventRecords12=serde_json::from_slice(bytes).map_err(|e|format!("Invalid event_records12: {e}"))?;value.validate()?;Ok(value)}
+fn encode_event_records12(value:&EventRecords12)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode event_records12: {e}"))}
 fn parse_selection_byte_tables(bytes:&[u8])->Result<ByteTables,String> {let value:ByteTables=serde_json::from_slice(bytes).map_err(|e|format!("Invalid selection_byte_tables: {e}"))?;value.validate()?;Ok(value)}
 fn encode_selection_byte_tables(value:&ByteTables)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode selection_byte_tables: {e}"))}
 fn parse_mission_records70(bytes:&[u8])->Result<Records70,String> {let value:Records70=serde_json::from_slice(bytes).map_err(|e|format!("Invalid mission_records70: {e}"))?;value.validate()?;Ok(value)}
@@ -1044,6 +1070,10 @@ struct Dataset {
     conditional_records8: Option<Records8>,
     mission_records70: Option<Records70>,
     selection_byte_tables: Option<ByteTables>,
+    event_records12: Option<EventRecords12>,
+    parameter_records27: Option<ParameterRecords27>,
+    world_records38: Option<WorldRecords38>,
+    indexed_graphics: Option<IndexedGraphics>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -1105,6 +1135,10 @@ struct Dataset {
     conditional_records8_bytes: Option<Vec<u8>>,
     mission_records70_bytes: Option<Vec<u8>>,
     selection_byte_tables_bytes: Option<Vec<u8>>,
+    event_records12_bytes: Option<Vec<u8>>,
+    parameter_records27_bytes: Option<Vec<u8>>,
+    world_records38_bytes: Option<Vec<u8>>,
+    indexed_graphics_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1192,6 +1226,10 @@ impl Dataset {
             conditional_records8: self.conditional_records8.as_ref().zip(self.conditional_records8_bytes.as_deref()),
             mission_records70: self.mission_records70.as_ref().zip(self.mission_records70_bytes.as_deref()),
             selection_byte_tables: self.selection_byte_tables.as_ref().zip(self.selection_byte_tables_bytes.as_deref()),
+            event_records12: self.event_records12.as_ref().zip(self.event_records12_bytes.as_deref()),
+            parameter_records27: self.parameter_records27.as_ref().zip(self.parameter_records27_bytes.as_deref()),
+            world_records38: self.world_records38.as_ref().zip(self.world_records38_bytes.as_deref()),
+            indexed_graphics: self.indexed_graphics.as_ref().zip(self.indexed_graphics_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1351,6 +1389,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(CONSTRUCTOR_OBJ_ANIMATION_FILE),MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES)).transpose()?;
     let task_cycle_deltas_bytes=manifest.coverage.iter().any(|id|id==TASK_CYCLE_DELTAS_ID)
         .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
+    let indexed_graphics_bytes=manifest.coverage.iter().any(|id|id==INDEXED_GRAPHICS_ID).then(||read_bounded(&path.join(INDEXED_GRAPHICS_FILE),MAX_INDEXED_GRAPHICS_FILE_BYTES)).transpose()?;
+    let world_records38_bytes=manifest.coverage.iter().any(|id|id==WORLD_RECORDS38_ID).then(||read_bounded(&path.join(WORLD_RECORDS38_FILE),MAX_WORLD_RECORDS38_FILE_BYTES)).transpose()?;
+    let parameter_records27_bytes=manifest.coverage.iter().any(|id|id==PARAMETER_RECORDS27_ID).then(||read_bounded(&path.join(PARAMETER_RECORDS27_FILE),MAX_PARAMETER_RECORDS27_FILE_BYTES)).transpose()?;
+    let event_records12_bytes=manifest.coverage.iter().any(|id|id==EVENT_RECORDS12_ID).then(||read_bounded(&path.join(EVENT_RECORDS12_FILE),MAX_EVENT_RECORDS12_FILE_BYTES)).transpose()?;
     let selection_byte_tables_bytes=manifest.coverage.iter().any(|id|id==SELECTION_BYTE_TABLES_ID).then(||read_bounded(&path.join(SELECTION_BYTE_TABLES_FILE),MAX_SELECTION_BYTE_TABLES_FILE_BYTES)).transpose()?;
     let mission_records70_bytes=manifest.coverage.iter().any(|id|id==MISSION_RECORDS70_ID).then(||read_bounded(&path.join(MISSION_RECORDS70_FILE),MAX_MISSION_RECORDS70_FILE_BYTES)).transpose()?;
     let conditional_records8_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_RECORDS8_ID).then(||read_bounded(&path.join(CONDITIONAL_RECORDS8_FILE),MAX_CONDITIONAL_RECORDS8_FILE_BYTES)).transpose()?;
@@ -1451,6 +1493,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         conditional_records8_bytes.as_ref().map_or(0, Vec::len),
         mission_records70_bytes.as_ref().map_or(0, Vec::len),
         selection_byte_tables_bytes.as_ref().map_or(0, Vec::len),
+        event_records12_bytes.as_ref().map_or(0, Vec::len),
+        parameter_records27_bytes.as_ref().map_or(0, Vec::len),
+        world_records38_bytes.as_ref().map_or(0, Vec::len),
+        indexed_graphics_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1520,6 +1566,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let observed_task_parameters=observed_task_parameters_bytes.as_deref().map(parse_observed_task_parameters).transpose()?;
     let constructor_obj_animation=constructor_obj_animation_bytes.as_deref().map(parse_constructor_obj_animation).transpose()?;
     let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
+    let indexed_graphics=indexed_graphics_bytes.as_deref().map(parse_indexed_graphics).transpose()?;
+    let world_records38=world_records38_bytes.as_deref().map(parse_world_records38).transpose()?;
+    let parameter_records27=parameter_records27_bytes.as_deref().map(parse_parameter_records27).transpose()?;
+    let event_records12=event_records12_bytes.as_deref().map(parse_event_records12).transpose()?;
     let selection_byte_tables=selection_byte_tables_bytes.as_deref().map(parse_selection_byte_tables).transpose()?;
     let mission_records70=mission_records70_bytes.as_deref().map(parse_mission_records70).transpose()?;
     let conditional_records8=conditional_records8_bytes.as_deref().map(parse_conditional_records8).transpose()?;
@@ -1628,6 +1678,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         conditional_records8,
         mission_records70,
         selection_byte_tables,
+        event_records12,
+        parameter_records27,
+        world_records38,
+        indexed_graphics,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1689,6 +1743,10 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         conditional_records8_bytes,
         mission_records70_bytes,
         selection_byte_tables_bytes,
+        event_records12_bytes,
+        parameter_records27_bytes,
+        world_records38_bytes,
+        indexed_graphics_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1775,6 +1833,10 @@ fn check_dataset_budget(
     conditional_records8: usize,
     mission_records70: usize,
     selection_byte_tables: usize,
+    event_records12: usize,
+    parameter_records27: usize,
+    world_records38: usize,
+    indexed_graphics: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1855,6 +1917,10 @@ fn check_dataset_budget(
         || conditional_records8 as u64 > MAX_CONDITIONAL_RECORDS8_FILE_BYTES
         || mission_records70 as u64 > MAX_MISSION_RECORDS70_FILE_BYTES
         || selection_byte_tables as u64 > MAX_SELECTION_BYTE_TABLES_FILE_BYTES
+        || event_records12 as u64 > MAX_EVENT_RECORDS12_FILE_BYTES
+        || parameter_records27 as u64 > MAX_PARAMETER_RECORDS27_FILE_BYTES
+        || world_records38 as u64 > MAX_WORLD_RECORDS38_FILE_BYTES
+        || indexed_graphics as u64 > MAX_INDEXED_GRAPHICS_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -1938,6 +2004,10 @@ fn check_dataset_budget(
         .saturating_add(conditional_records8)
         .saturating_add(mission_records70)
         .saturating_add(selection_byte_tables)
+        .saturating_add(event_records12)
+        .saturating_add(parameter_records27)
+        .saturating_add(world_records38)
+        .saturating_add(indexed_graphics)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -2117,6 +2187,10 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     if let Some(data)= &dataset.task_cycle_deltas {
         eprintln!("ROM_DATA runtime=decoded resource={TASK_CYCLE_DELTAS_ID} file={} phases={}",dataset.manifest.resources[67].sha256,data.entries.len());
     }
+    if let Some(data)=&dataset.indexed_graphics {eprintln!("ROM_DATA runtime=decoded resource={INDEXED_GRAPHICS_ID} file={} archives={}",dataset.manifest.resources[82].sha256,data.archives.len());}
+    if let Some(data)=&dataset.world_records38 {eprintln!("ROM_DATA runtime=decoded resource={WORLD_RECORDS38_ID} file={} records={}",dataset.manifest.resources[81].sha256,data.records.len());}
+    if let Some(data)=&dataset.parameter_records27 {eprintln!("ROM_DATA runtime=decoded resource={PARAMETER_RECORDS27_ID} file={} records={}",dataset.manifest.resources[80].sha256,data.records.len());}
+    if let Some(data)=&dataset.event_records12 {eprintln!("ROM_DATA runtime=decoded resource={EVENT_RECORDS12_ID} file={} records={}",dataset.manifest.resources[79].sha256,data.records.len());}
     if let Some(data)=&dataset.selection_byte_tables {eprintln!("ROM_DATA runtime=decoded resource={SELECTION_BYTE_TABLES_ID} file={} thresholds={} weights={}",dataset.manifest.resources[78].sha256,data.thresholds.len(),data.weights.len());}
     if let Some(data)=&dataset.mission_records70 {eprintln!("ROM_DATA runtime=decoded resource={MISSION_RECORDS70_ID} file={} records={}",dataset.manifest.resources[77].sha256,data.records.len());}
     if let Some(data)=&dataset.conditional_records8 {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_RECORDS8_ID} file={} records={}",dataset.manifest.resources[76].sha256,data.records.len());}
@@ -2360,6 +2434,10 @@ pub fn report_usage(machine: &gba_core::Machine) {
         if let Some(i)=resources.task_cycle_deltas_stats() {
             eprintln!("ROM_DATA_USE resource={TASK_CYCLE_DELTAS_ID} dataset={} bus_reads={} source_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.phases_used);
         }
+        if let Some(i)=resources.indexed_graphics_stats() {eprintln!("ROM_DATA_USE resource={INDEXED_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} archive_header_bytes={} index_bytes={} token_bytes={} literal_bytes={} dictionary_header_bytes={} dictionary_bytes={} archives_used={} programs_used={} groups_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.archive_header_bytes,i.index_bytes,i.token_bytes,i.literal_bytes,i.dictionary_header_bytes,i.dictionary_bytes,i.archives_used,i.programs_used,i.groups_used);}
+        if let Some(i)=resources.world_records38_stats() {eprintln!("ROM_DATA_USE resource={WORLD_RECORDS38_ID} dataset={} bus_reads={} source_bytes={} byte01_bytes={} value02_bytes={} value04_bytes={} threshold_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.byte01_bytes,i.value02_bytes,i.value04_bytes,i.threshold_bytes,i.opaque_bytes,i.records_used);}
+        if let Some(i)=resources.parameter_records27_stats() {eprintln!("ROM_DATA_USE resource={PARAMETER_RECORDS27_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} packed_bytes={} value07_bytes={} byte09_bytes={} value0a_bytes={} signed0c_bytes={} flags0d_bytes={} operands0e_bytes={} operands10_bytes={} value12_bytes={} signed15_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.packed_bytes,i.value07_bytes,i.byte09_bytes,i.value0a_bytes,i.signed0c_bytes,i.flags0d_bytes,i.operands0e_bytes,i.operands10_bytes,i.value12_bytes,i.signed15_bytes,i.opaque_bytes,i.records_used);}
+        if let Some(i)=resources.event_records12_stats() {eprintln!("ROM_DATA_USE resource={EVENT_RECORDS12_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} key_bytes={} primary_bytes={} alternate_bytes={} parameter_bytes={} byte07_bytes={} flag_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.key_bytes,i.primary_bytes,i.alternate_bytes,i.parameter_bytes,i.byte07_bytes,i.flag_bytes,i.opaque_bytes,i.records_used);}
         if let Some(i)=resources.selection_byte_tables_stats() {eprintln!("ROM_DATA_USE resource={SELECTION_BYTE_TABLES_ID} dataset={} bus_reads={} source_bytes={} threshold_bytes={} weight_bytes={} threshold_positions_used={} weight_positions_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.threshold_bytes,i.weight_bytes,i.threshold_positions_used,i.weight_positions_used);}
         if let Some(i)=resources.mission_records70_stats() {eprintln!("ROM_DATA_USE resource={MISSION_RECORDS70_ID} dataset={} bus_reads={} source_bytes={} word_bytes={} packed_bytes={} operand_bytes={} inline_bytes={} byte_list_bytes={} scaled_bytes={} scalar_bytes={} mapped_bytes={} flag_bytes={} event_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.word_bytes,i.packed_bytes,i.operand_bytes,i.inline_bytes,i.byte_list_bytes,i.scaled_bytes,i.scalar_bytes,i.mapped_bytes,i.flag_bytes,i.event_bytes,i.records_used);}
         if let Some(i)=resources.conditional_records8_stats() {eprintln!("ROM_DATA_USE resource={CONDITIONAL_RECORDS8_ID} dataset={} bus_reads={} source_bytes={} gate_bytes={} filter_bytes={} first_key_bytes={} first_operand_bytes={} second_key_bytes={} second_operand_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.gate_bytes,i.filter_bytes,i.first_key_bytes,i.first_operand_bytes,i.second_key_bytes,i.second_operand_bytes,i.records_used);}
@@ -2566,6 +2644,10 @@ fn write_dataset(
     let observed_task_parameters_data=source.observed_task_parameters.as_ref().map(|catalog|encode_observed_task_parameters(&catalog.decoded)).transpose()?;
     let constructor_obj_animation_data=source.constructor_obj_animation.as_ref().map(|catalog|encode_constructor_obj_animation(&catalog.decoded)).transpose()?;
     let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
+    let indexed_graphics_data=source.indexed_graphics.as_ref().map(|c|encode_indexed_graphics(&c.decoded)).transpose()?;
+    let world_records38_data=source.world_records38.as_ref().map(|c|encode_world_records38(&c.decoded)).transpose()?;
+    let parameter_records27_data=source.parameter_records27.as_ref().map(|c|encode_parameter_records27(&c.decoded)).transpose()?;
+    let event_records12_data=source.event_records12.as_ref().map(|c|encode_event_records12(&c.decoded)).transpose()?;
     let selection_byte_tables_data=source.selection_byte_tables.as_ref().map(|c|encode_selection_byte_tables(&c.decoded)).transpose()?;
     let mission_records70_data=source.mission_records70.as_ref().map(|c|encode_mission_records70(&c.decoded)).transpose()?;
     let conditional_records8_data=source.conditional_records8.as_ref().map(|c|encode_conditional_records8(&c.decoded)).transpose()?;
@@ -2655,6 +2737,10 @@ fn write_dataset(
     if let Some(bytes)=&conditional_records8_data {files.push(bytes);}
     if let Some(bytes)=&mission_records70_data {files.push(bytes);}
     if let Some(bytes)=&selection_byte_tables_data {files.push(bytes);}
+    if let Some(bytes)=&event_records12_data {files.push(bytes);}
+    if let Some(bytes)=&parameter_records27_data {files.push(bytes);}
+    if let Some(bytes)=&world_records38_data {files.push(bytes);}
+    if let Some(bytes)=&indexed_graphics_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2736,6 +2822,10 @@ fn write_dataset(
         conditional_records8_data.as_ref().map_or(0, Vec::len),
         mission_records70_data.as_ref().map_or(0, Vec::len),
         selection_byte_tables_data.as_ref().map_or(0, Vec::len),
+        event_records12_data.as_ref().map_or(0, Vec::len),
+        parameter_records27_data.as_ref().map_or(0, Vec::len),
+        world_records38_data.as_ref().map_or(0, Vec::len),
+        indexed_graphics_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2816,6 +2906,10 @@ fn write_dataset(
     if let Some(bytes)=&conditional_records8_data {write(&path.join(CONDITIONAL_RECORDS8_FILE),bytes)?;}
     if let Some(bytes)=&mission_records70_data {write(&path.join(MISSION_RECORDS70_FILE),bytes)?;}
     if let Some(bytes)=&selection_byte_tables_data {write(&path.join(SELECTION_BYTE_TABLES_FILE),bytes)?;}
+    if let Some(bytes)=&event_records12_data {write(&path.join(EVENT_RECORDS12_FILE),bytes)?;}
+    if let Some(bytes)=&parameter_records27_data {write(&path.join(PARAMETER_RECORDS27_FILE),bytes)?;}
+    if let Some(bytes)=&world_records38_data {write(&path.join(WORLD_RECORDS38_FILE),bytes)?;}
+    if let Some(bytes)=&indexed_graphics_data {write(&path.join(INDEXED_GRAPHICS_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -3119,6 +3213,10 @@ mod tests {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3446,8 +3544,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

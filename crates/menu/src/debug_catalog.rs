@@ -15,6 +15,12 @@ const REGIONS:[&str;3]=["All","EUR","USA"];
 const STATES:[&str;6]=["All","validata","parziale","non_coperta","variante","origine"];
 const KINDS:[&str;6]=["All","case","variant","IN","GEN","NEW"];
 impl CatalogState {
+    pub(super) fn selection_state(&self)->Vec<(String,String)>{
+        let mut state:Vec<_>=[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry].into_iter().map(|r|(format!("catalog.{r:?}"),self.value(r))).collect();
+        state.push(("catalog.feedback".into(),self.message.clone()));
+        if let Some(index)=self.selected(){let entry=&self.entries[index];state.push(("catalog.item_id".into(),entry.key.clone()));state.push(("catalog.label".into(),entry.name.clone()));}
+        state
+    }
     pub fn new(entries:Vec<CatalogEntry>,region:&str)->Self {Self {entries,region:REGIONS.iter().position(|r|*r==region).unwrap_or(0),..Default::default()}}
     fn cases(&self)->Vec<String> {let mut v:Vec<_>=self.entries.iter().filter(|e|!e.case.is_empty()).map(|e|e.case.clone()).collect();v.sort();v.dedup();v.insert(0,"All".into());v}
     fn matches(&self)->Vec<usize> {
@@ -88,6 +94,13 @@ pub(super) fn draw(menu:&Menu,px:&mut[[u8;4]],w:usize,h:usize) {
 
 #[cfg(test)]mod tests {
  use super::*;
+ #[test]fn semantic_catalog_selection_preserves_real_key_and_label_without_dispatch(){
+    let mut state=CatalogState::new(vec![CatalogEntry{key:"first-id".into(),name:"same label".into(),..Default::default()},CatalogEntry{key:"second-id".into(),name:"same label".into(),..Default::default()}],"All");
+    let a:std::collections::BTreeMap<_,_>=state.selection_state().into_iter().collect();state.index=1;
+    let b:std::collections::BTreeMap<_,_>=state.selection_state().into_iter().collect();
+    assert_eq!(a["catalog.item_id"],"first-id");assert_eq!(b["catalog.item_id"],"second-id");assert_eq!(a["catalog.label"],b["catalog.label"]);
+    assert_eq!(state.index,1);assert!(state.preview.is_empty());assert!(state.message.is_empty());
+ }
  fn entries()->Vec<CatalogEntry>{vec![CatalogEntry{key:"DS-20/EUR/20".into(),name:"Failed dispatch".into(),kind:"case".into(),case:"DS-20".into(),region:"EUR".into(),status:"validata".into(),slot:Some(20),source:"USER-DS-20-EUR".into(),available:true,..Default::default()},
  CatalogEntry{key:"DS-03//none".into(),kind:"case".into(),case:"DS-03".into(),status:"non_coperta".into(),..Default::default()},
  CatalogEntry{key:"IN-20/EUR".into(),kind:"IN".into(),region:"EUR".into(),status:"origine".into(),available:true,..Default::default()}]}

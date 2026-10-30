@@ -64,6 +64,11 @@ pub(crate) fn fields(tool: Tool) -> Vec<Field> {
         Vec::new()
     };
     f.extend(match tool {
+        Tool::Homepage => vec![input(Slot::Session), input(Slot::HostRuntime), input(Slot::HostTool), choice("--source","embedded",&["embedded","external"],"External requires exact declared script and sibling dependency hashes; embedded ignores any previous override."), text("--timeout-ms","120000","Total host deadline20..120000ms; explicit cancel keeps logs.")],
+        Tool::CampaignReport => vec![input(Slot::Campaign), input(Slot::HostRuntime), input(Slot::HostTool), choice("--source","embedded",&["embedded","external"],"External requires exact declared script and sibling dependency hashes; embedded ignores any previous override."), text("--case","","One required explicit campaign case ID; no replay or default all."), text("--timeout-ms","120000","Total host deadline20..120000ms.")],
+        Tool::ArtifactPreview => vec![input(Slot::Session), input(Slot::HostRuntime), input(Slot::HostTool), choice("--source","embedded",&["embedded","external"],"External requires exact declared script and sibling dependency hashes; embedded ignores any previous override."), text("--timeout-ms","120000","Readonly preview on a closed session; no artifact deletion/apply.")],
+        Tool::Recipe => vec![input(Slot::Recipe), input(Slot::Session), input(Slot::RuntimeB), text("--timeout-ms","120000","Total recipe deadline20..120000ms;16readonly status/inspect steps maximum.")],
+        Tool::GuestScripts => vec![input(Slot::GuestScripts)],
         Tool::Replay => Vec::new(),
         Tool::Audit => vec![
             input(Slot::Dataset),
@@ -315,16 +320,16 @@ pub(crate) struct Draft {
     pub config: PathBuf,
 }
 impl Draft {
-    fn value(&self, key: &str) -> &str {
+    pub(crate) fn value(&self, key: &str) -> &str {
         self.values.get(key).map(String::as_str).unwrap_or("")
     }
-    fn path(&self, slot: Slot) -> Result<PathBuf, String> {
+    pub(crate) fn path(&self, slot: Slot) -> Result<PathBuf, String> {
         self.refs
             .get(&slot)
             .ok_or_else(|| format!("Select {} first", slot.label()))?
             .recheck(slot, &self.rom)
     }
-    fn optional(&self, slot: Slot) -> Result<Option<PathBuf>, String> {
+    pub(crate) fn optional(&self, slot: Slot) -> Result<Option<PathBuf>, String> {
         self.refs.get(&slot).map(|_| self.path(slot)).transpose()
     }
     pub fn control(&self) -> Result<Action, String> {
@@ -482,6 +487,7 @@ impl Draft {
         }
     }
     fn validate(&self) -> Result<String, String> {
+        if self.tool.library() { return crate::debug_tools::details(self); }
         if self.tool.creates_profile() {
             let destination = self
                 .config
@@ -586,11 +592,13 @@ fn load_preset(config: &Path, tool: Tool) -> Result<Values, String> {
 }
 enum Output {
     Message(String),
+    Observed(crate::debug_tools::RunOutput),
     Prepared(PathBuf),
     Loaded(Values),
 }
 struct Job {
     tool: Tool,
+    request: ToolRequest,
     revision: u64,
     view: u64,
     handle: JoinHandle<Result<Output, String>>,
@@ -600,8 +608,10 @@ pub(crate) struct Workbench {
     view: u64,
     drafts: BTreeMap<Tool, Values>,
     job: Option<Job>,
+    cancel: Option<std::sync::Arc<std::sync::atomic::AtomicBool>>,
     pub prepared: Option<(Tool, PathBuf)>,
     pub last: String,
+    pub observation: Option<Value>,
 }
 impl Workbench {
     pub fn open(&mut self, menu: &mut menu::Menu, tool: Tool) {
@@ -620,7 +630,8 @@ impl Workbench {
             "Edit a draft; Verify does not run. Prepare creates a NEW profile; Start is explicit."
                 .into(),
         );
-        menu.tool_feedback(self.last.clone(), self.summary(), self.job.is_some());
+        let summary=if tool.library() {crate::debug_tools::description(tool)} else {self.summary()};
+        menu.tool_feedback(self.last.clone(), summary, self.job.is_some());
     }
     pub fn remember(&mut self, menu: &menu::Menu) {
         let (t, v, _) = menu.tool_values();
@@ -655,7 +666,10 @@ impl Workbench {
         }
         let (_, _, revision) = menu.tool_values();
         let tool = draft.tool;
+        let cancel=std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+        if r == ToolRequest::Run && tool.library() { self.cancel=Some(cancel.clone()); }
         let task = move || match r {
+            ToolRequest::Run if tool.library() => crate::debug_tools::run_observed(draft,cancel).map(Output::Observed),
             ToolRequest::LoadPreset => load_preset(&draft.config, tool).map(Output::Loaded),
             ToolRequest::SavePreset => {
                 draft.validate()?;
@@ -676,9 +690,11 @@ impl Workbench {
             ToolRequest::Validate | ToolRequest::Prepare => draft.validate().map(Output::Message),
             _ => Err("Use the explicit Start handler".into()),
         };
+        self.observation=None;
         self.job = Some(Job {
             view: self.view,
             tool,
+            request:r,
             revision,
             handle: std::thread::spawn(task),
         });
@@ -694,6 +710,7 @@ impl Workbench {
             return None;
         }
         let job = self.job.take().unwrap();
+        self.cancel=None;
         let result = job
             .handle
             .join()
@@ -704,8 +721,16 @@ impl Workbench {
             && menu.tool_active()
             && current.0 == job.tool
             && current.2 == job.revision;
+        let details=match &result {
+            Ok(Output::Observed(result))=>result.observation.clone(),
+            Ok(Output::Prepared(path))=>json!({"outcome":"completed","profile":path.to_string_lossy().chars().take(1024).collect::<String>(),"guest_execution":false}),
+            Ok(_)=>json!({"outcome":"completed","guest_execution":false}),
+            Err(error)=>json!({"outcome":"refused","error":error.chars().take(1024).collect::<String>(),"guest_execution":false}),
+        };
+        self.observation=Some(json!({"tool":format!("{:?}",job.tool),"request":format!("{:?}",job.request),"view":job.view,"revision":job.revision,"current_draft":same,"outcome":details["outcome"],"result":details}));
         self.last = match result {
             Ok(Output::Message(m)) => m,
+            Ok(Output::Observed(result)) => result.message,
             Ok(Output::Prepared(p)) => {
                 self.prepared = Some((job.tool, p.clone()));
                 if same {
@@ -750,6 +775,12 @@ impl Workbench {
         }
         s
     }
+    pub fn cancel_process(&mut self) -> Result<(),String> {
+        let c=self.cancel.as_ref().ok_or("No host process is running")?;
+        c.store(true,std::sync::atomic::Ordering::SeqCst);
+        self.last="Cancellation requested; retain logs and wait for confirmed result.".into();
+        Ok(())
+    }
     pub fn cancel_view(&mut self) {
         self.view = self.view.wrapping_add(1);
     }
@@ -764,9 +795,15 @@ impl Workbench {
             .ok_or("Prepare a NEW profile for this tool first".into())
     }
     pub fn status(&self) -> Value {
-        json!({"busy":self.job.is_some(),"prepared":self.prepared.as_ref().map(|(tool,path)|json!({"tool":format!("{tool:?}"),"path":path})),"last":self.last,"drafts":self.drafts.len(),"scope":"Host drafts/presets; validation and preparation never start guest execution; explicit Start uses existing handlers"})
+        json!({"busy":self.job.is_some(),"prepared":self.prepared.as_ref().map(|(tool,path)|json!({"tool":format!("{tool:?}"),"path":path})),"last":self.last,"drafts":self.drafts.len(),"host_cancel_requested":self.cancel.as_ref().map(|c|c.load(std::sync::atomic::Ordering::SeqCst)),"scope":"Host drafts/presets; validation and preparation never start guest execution; explicit Start uses existing handlers"})
     }
 }
 
+impl Drop for Workbench {
+    fn drop(&mut self) {
+        if let Some(c)=&self.cancel {c.store(true,std::sync::atomic::Ordering::SeqCst);}
+        if self.cancel.is_some() {if let Some(job)=self.job.take(){let _=job.handle.join();}}
+    }
+}
 #[cfg(test)]
 mod tests;

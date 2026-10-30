@@ -12,7 +12,14 @@ elenca ingressi, parametri e lacune attuali senza eseguirli. Il
 [catalogo contenuti](debug_content.md), `debug-content scan/check`, aggiunge un
 indice readonly con radici esplicite, identità e stati.
 [Debug > Content selector](debug_selector.md) offre la nuova scelta interna;
-la migrazione degli strumenti, le console e i cheat restano attività successive.
+i ruoli tipizzati e `Parameters / prepare profiles` offrono selezione e bozze
+sugli handler esistenti. `Debug > Scripts and tools` aggiunge adattatori dichiarati
+per homepage, report campagne e anteprima artefatti, ricette readonly e cataloghi
+guest separati. Avvio e annullamento sono espliciti; servono Python3.11+ scelto
+nel menu per i tre adattatori, con output e log nella radice config corrente.
+Le scelte e le viste del selettore sono salvate nella radice config e seguono
+lo spostamento portable, con pin e spiegazioni per file mancanti/modificati.
+Console e cheat seguono il nuovo TODO.
 
 ## Prerequisiti e cartella spostabile
 
@@ -316,3 +323,7 @@ registrazione nuova conservata, con identico stato completo/clock:5frame nuovi
 in totale per DBG22. Le correzioni dei soli documenti non richiedono altri frame. Le verifiche storiche
 DBG01–21 restano riferimenti con il proprio ambito; la loro disponibilità locale
 non autorizza ripetizioni automatiche. [Record](changes/2026-10-29-distribute-shared-debug-tools.json).
+
+Gli [eventi comuni DBG2-08](debug_events.md) collegano UI e registro recente con
+identità e correlazione condivise; la mappa pubblicata dichiara hook parziali e
+mancanti. Le console live e i produttori più estesi restano nel TODO DBG2.

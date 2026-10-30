@@ -60,7 +60,25 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   profile preparation with explicit execution. Exact menu/CLI parameter/result
   equivalence and controller punctuation are verified under Wine. Active UI
   preparation reads its own immutable source pins under its existing runtime
-  lease; other active sources still refuse. Persistence remains07. The broader
+  lease; other active sources still refuse. DBG2-06 adds Scripts and tools with
+  17typed input roles, declared homepage/campaign-report/artifact-preview adapters,
+  explicit Python3.11+ selection, source/dependency hashes and cancellable capped
+  process logs. Readonly status/inspect recipes and a separate bounded guest
+  catalog link to the gameplay inspector without executing guest data. Shared
+  operation registry now has97operations/329parameters. DBG2-07 persists relative internal/explicit external choice pins and scoped
+  selector/history state with bounded metadata, async readonly restoration,
+  missing/changed explanations and guarded atomic saves. Wine reopens the same
+  seed after a Unicode/spaced portable move from unrelated cwd with exact
+  state/frame0; restoring favorites/recent never starts a tool. DBG2-08 adds
+  the [common event schema](../debug_events.md): shared host order/session/IDs,
+  request/job context and one frontend fanout into UI/recent. Collector-local
+  aliases stay compatible; supported/partial/missing producers and guest sorted
+  aggregates are explicit. DBG2-09 adds bounded semantic menu property diffs,
+  stable item/field IDs, actual dropdown/editor/binding/feedback values and
+  input/handler causes; queued mouse context and existing handler counts stay
+  intact. Unchanged hover emits no changes. Raw Winit button/wheel/IME hooks
+  complement mapped input; raw Gilrs/DirectInput remain absent. Broader runtime
+  and tool lifecycle hooks remain10. The broader
   checklist specifies built-in selection of existing
   inputs/profiles/scripts with external file dialogs only from explicit buttons,
   editable tool parameters, optional live event and textual command consoles,
@@ -1374,9 +1392,139 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   selection1..30maps226..255. Fullu16keycallback highestmatch255..1/excludes0,
   conditionalprimary02/alternate04 andrawparam06-byte07-flags08/opaque0A2B retained.
   Fifteenwindows10new5cached/67pins112guards/80acceptedfiles exact/helper0,
-  staticonly. Strictmodel/originalprefixWine next; e87runtimeunchanged/27Bnext
-  extent/fullABI/liveeffects/indirect/Linux-USA-nativeWindows pending. No old
-  proof/fixture recreation or metrics/ABIchange.
+  staticonly. [Strictmodel/originalprefixWine](../rom_data_gameplay.md#typed-event-records-and-original-prefix-proof)
+  nowPASS581frozen248core a4b88a69/oneWine20guards51base37synthetic prefixes.
+  PhysicalownerNone vs originalu16view/low8aliasoutside, full16keyhighest255..1
+  row0excluded; source3072roundtrip/302base268syntheticBobserved/actualLDRorder/
+  RAMindexstore-prefixpushes/SP-R8..R12/finalROM exact.133guards581hash/three
+  current579preimages112source/helper0. [Managedruntime](../rom_data_gameplay.md#managed-event-records-and-typed-runtime-reads)
+  nowe88-d87/index79/81files80resources/79prior exact/3072B/onespan/nodeps,
+  SAMEalias225owner/8classes11stats/4maskwords256records/pages71c-71d. One
+  warningfree583source249core9225a3bc build/oneWinepublication14attach2fullset
+  22nativefullstate-clock/all3072bus8classes256records-borders/LoadUndo/DMA3
+  PASS.296SERVEDnewB3prior/allAPIattributed including2newinterp_onefallback,
+  notdistinctunion/allnative;51entry30dispatch coverageonly.253guards583hash
+  581model/sevencurrent/80prior exact/helperonlyinterrupted. [ActualCLI](../rom_data_gameplay.md#actual-event-record-cli-registration)
+  nowPASS one583source productionb9a60501/canonicalhashmtime restore; Winecreate-
+  reuse-neutral1 threeexit0/81payloadexact80IDhash83nowrite/cache28859/194guards.
+  Guest24755→24756 all11counts0/compatibilityonly. [Ordinarymissionentry34](../rom_data_gameplay.md#ordinary-event-record-mission-entry-equivalence)
+  nowPASS one584source0b6581cb observer+5lineguard/core-runtimeunchanged/inverse
+  hubs exact. GuardedWhiteFlowersGiza19409copy/A12 one34fcapture firstrel2/19412,
+  suffix34 same19409→19443; discoverySTOP. SAMECLI child0/34f collectorOLDID
+  TypeError fixedOFFLINEregistration/noCLIreplay; SAMEtestonefullpair34 every
+  states-clock/classic-wide/OAM/5audio PASS all11counts4bus6SERVEDB/key2-primary2-
+  alternate2/onephysicalrecord/other5classes0/notall8-256-alias/outcome.126guards
+  584hash583CLI/threecurrent/83managed80IDhash/cache-ROM-seed-canonical exact/
+  helper0, authenticatedwide284x160bitrep/classicmapentry inspected. Chainclosed/
+  oneordinary;27Bnext wholecatalogextent/fullABI/liveeffects/indirect/Linux-USA-nativeWindows pending.
+  [Observed27Bsource](../rom_data_gameplay.md#observed-european-parameter-records-with-27-byte-stride)
+  now authenticates59 event-selected indices0..50/115..122,1593B/two runs, all256
+  eventlinks/roundtrip/nooverlap80owners50495spans/27windows70pins125guards.
+  Packed01..06, u16LE07-0A-12, signed0C-15, separate0E0F-1011 operands andopaque
+  bytes retained. Rawliveu8 index uncapped;128-by-adjacent-root fit rejected,
+  holes/highindices rawunowned. [Strictsparsemodel/Wine](../rom_data_gameplay.md#sparse-parameter-record-model-and-original-prefix-wine-proof)
+  nowPASS586source251core49c72f02/onefilter25guards73base48synthetic12prefixclasses,
+  results/readorder/RAM/SP-R8..R12/finalROM exact.95base20synthetic distinctownedB
+  observed vs1593Broundtrip/739instructionscoverageonly.143guards584preimages/
+  125source/inversehub exact/helper0. [Managedsparseowner](../rom_data_gameplay.md#managed-sparse-parameter-records-and-typed-runtime-reads)
+  nowe89-d88/index80/82files81resources/prior80exact/two1593Btotalspans/nodeps,
+  12classes15stats/59physicalslots/prior event+rawholes composition. First588
+  warningfree51e19build publication14attach2fullset/17native PASS thenoracle
+  priorbytecount2vs4failure; test-only corrected278d6d23/remaining16native+
+  all1593bus59borders/LoadUndo/DMA3 PASS SAME82dataset13objects. No publication/
+  attach/first17 replay.33totalfullstate-clock cases37SERVEDnewB5prior; no
+  distinctunion/alldirectnativeclaim/fallback0onlyremaining16.291guards588accepted
+  +588diagnostic252core586model/7current81prior exact/helperinterruptedonly.
+  accepted-selection.json authoritative; originalselection diagnostic.
+  [ActualCLI](../rom_data_gameplay.md#actual-sparse-parameter-record-cli-registration)
+  nowPASS one588source productionbd99ac5b/canonicalhashmtime restore; oneWine
+  create-reuse-neutral1 threeexit0/82payloadexact81IDhash84managednowrite/cache28859.
+  Guest24755→24756 all15counts0/compatibilityonly;197guards588CLI+588runtime/
+  ROM-seed-cache-loader-canonical exact/helper0.
+  [Ordinaryreachabilitypartial](../rom_data_gameplay.md#ordinary-sparse-parameter-record-reachability-remains-partial)
+  now has589source8f0c02b7 passive15stats/5lineguard/inversepreimages/coreunchanged.
+  Eleven authorized normal captures now have all15counts0, including SprohmInfo,
+  source-guided Nubswood navigation/travel and CyrilPub entry; no positive suffix/
+  CLI/fullpair. Six additional selected bank gates are not liveness proof.
+  One existingCLI neutral render inspection exit0 saves/adopts no state; readonly
+  saved classic/wide/nativeUI projections show no readable Pub menu. Stop blind
+  Pub/world navigation, no RNG resampling or inferred mission IDs.9sourcewindows/
+  additional80B initializer and accepted scriptjoinopcode80mode2→fiveprograms/
+  keys/events216..220/param116..120 retained; WhiteFlowers58param0/program163.
+  Indirect/mode0override0 remainunproved.233guards589+588sourcehash/3current/
+  84managed exact/diagnostics and initial receipts retained. Reuse SAMEobserver/
+  CLI only for a new concrete normal source-specific trigger. Independent source
+  contracts may progress; ordinarypositive/fullpair/fullcatalog remain pending.
+  [Adjacent38Bsource](../rom_data_gameplay.md#observed-european-world-records-with-38-byte-stride)
+  declares31observed rows/1178B at71E0E0..71E57A, all512mission packed indices0..30,
+  same interiorrow1/loop7..30 and nextindependentu32pointerroot71E57C/gap2Bunowned.
+  D347Clow8 vsD4C4Cfullu32R2 uncapped; fullraw fields/31thresholds/opaque00-06
+  retained. Static12windows10new2cached/58pins107guards/81owners50497spans/nooverlap
+  pass, no build-Wine-input/oldproof replay in source unit.
+  [Strictmodel/Wine](../rom_data_gameplay.md#world-record-model-and-original-prefix-wine-proof)
+  nowPASS one590source/254core ed4d65c8 warningfree build/oneWinefilter19guards/
+  41base19synthetic original prefixes.1178roundtrip/23base6syntheticdistinctB,
+  actualresults-loadorder/fullRAM+expecteddestinations/SP-R8..R12/finalROM exact;
+  353instructions coverageonly, no helper-RNG/fullABI/nativeclock/ordinaryclaim.
+  26unit107sourceguards/588preimage/3current/inversehub/helper0 exact. Runtime/
+  [Managedruntime](../rom_data_gameplay.md#managed-world-records-and-typed-runtime-reads)
+  nowPASS e90-d89/index81/83files82resources/prior81exact/one1178Bspan. Immutable
+  page71E composes sparse27/rawgaps/nextroot;5classes8stats/one31mask/noABIcap.
+  One592build271dceba warningfree/collectorlabel offline adopted SAMEexe; oneWine
+  publication-interruption/14attach2fullset/27native fullstate-clock10families,
+  23SERVEDnewB5prior/fallback[0, 0],all1178B31records/borders/LoadUndo/
+  DMA3 pass. 269guards592frozen/255core590model/7current82prior exact;
+  helperonlyinterrupted, currentobserver preserved/excludedfrozen only.
+  [ActualCLI](../rom_data_gameplay.md#actual-world-record-cli-registration) nowPASS
+  one592source production6d95f705/canonicalhashmtime restore; oneWine creation-
+  reuse-neutral1/threeexit0/83fileexact82IDhash85managednowrite/cache28859exact.
+  Guest24755→24756 all8counts0/registrationonly;201guards592CLI+592runtime/
+  ROM-originalseed-cache-TinyCC-canonical exact/helper0.
+  [Ordinary45](../rom_data_gameplay.md#ordinary-world-record-counter-expiration-equivalence)
+  nowPASS one593sourceee939288 observer8stats+5lineguard/core-runtimeunchanged.
+  Initial360IN13travel negative/counter32→30; fourreadonlybankgates selectIN08
+  livecounter13=1/normalcursor96 thenonepositiveA12capture189f3116→3305,
+  first157/3274→rolling45suffix3260→3305/discoverySTOP. SAME6d95CLI onepositive45/
+  SAMEtestonefullpair every45states-clock/classic-wide/OAM/5audio exact; all8stats
+  2bus2SERVEDB(1threshold1byte01)/onephysicalrecord/other3classes0/notall5-31.
+  165guards593+592source/3current/inverse/85managed/cache-ROM-originals exact/
+  helper0, authenticatedclassicworldtravel/no arrival-missionoutcomeclaim.
+  Chainclosed/oneordinary; no oldproof/negativebound/route replay ormetrics.
+
+- The [EUR indexed graphics archive source contract](../rom_data_indexed_graphics.md)
+  declares four five-slot language pointer groups/20archives649programs,24disjoint
+  source spans74907B/278336decodedB. Original05228/0537C uses BE offsets and a
+  fixed external dictionary, distinct054A0;4137 stays opaque. Raw languageu8
+  selectors and low16start-count semantics are uncapped by host ownership.
+  Exact source/output reconstruction and22authenticatedwindows/101pins/121guards
+  pass without a runtime build/run;82acceptedowners/83files stay unchanged.
+  Other16nearbygroups, dictionary tails/gaps/context3710D4/globalextent remain
+  unclassified. Strictmode0width5model nowpasses one595frozen/257core Windows
+  buildd78a74d9 warningfree/oneWinefilter37guards/20wholearchivecalls+9start-count
+  boundaries+9synthetic+28rawlanguageprefixes. Source/output/status/globals/
+  SP-R4..R11/RAM outside68B originalstack scratch/VRAM-OAM-palette/finalROM exact;
+  26unit121sourceguards/593preimages/3current/inversehub preserved.
+  Runtime nowPASS e91-d90/index82/84files83resources/all82prior exact/24spans,
+  immutablepacket-dictionarysource views/7classes12stats/20bank649program4group
+  masks/original decode-upload work retained. First597buildfailsBus testimport
+  only; corrected597/258core0732b3b9 warningfree/productionunchanged,ONEWine
+  publication-interruption/14attach2fullset/35fullstate-clock nativecases
+  (28load+1oneprogramwrapper+6rawselectors)/3stop-safe families;272SERVEDnewB4
+  priorworld/fallback[1,0]/232instructions59dispatch coverageonly. All74907busB/
+  all24edges/LoadUndo/DMA3mixed64B pass,282guards597accepted597diagnostic/595model/
+  7current83prior exact/helperonlyinterrupted. Accepted-selection.json is
+  authoritative; firstselection remainscompileFAILdiagnostic. ActualCLI nowPASS
+  one597sourceproductiond8767645 warningfree/canonicalfinallyrestore, oneWine
+  create-reuse-neutral1/threeexit0/all84runtimefiles83IDhash86managednowrite/
+  cache28859exact. Guest24755→24756 all12counts0/registrationonly;201guards
+  597CLI+597runtime/84accepted originals preserved. Positiveordinary/fullpair/
+  mode3-widerwidth/fullABI-liveuploads and deferred platforms remain pending;
+  no closedproof/navigation/metrics replay.
+
+
+
+
+
   No forcedID/RAM/navigationguess. No furtherblindnavigation/manualflag/oldnegative replay or fullPASSclaim. Phase0 at371064 is now typed in e75-d74:
   3conditional unsigned thresholds16/8/8 +4old corrections,11B/two spans3/8,
   same68files67resources/all66other e74 records-files/old10B retained. No global

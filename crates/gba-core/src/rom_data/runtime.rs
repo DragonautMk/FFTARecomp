@@ -158,6 +158,18 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod indexed_graphics;
+use indexed_graphics::IndexedGraphicsResources;
+pub use indexed_graphics::IndexedGraphicsStats;
+mod world_records38;
+use world_records38::WorldRecords38Resources;
+pub use world_records38::WorldRecords38Stats;
+mod parameter_records27;
+use parameter_records27::ParameterRecords27Resources;
+pub use parameter_records27::ParameterRecords27Stats;
+mod event_records12;
+use event_records12::EventRecords12Resources;
+pub use event_records12::EventRecords12Stats;
 mod selection_byte_tables;
 use selection_byte_tables::SelectionByteTablesResources;
 pub use selection_byte_tables::SelectionByteTablesStats;
@@ -332,6 +344,10 @@ pub struct RuntimeResources {
     conditional_records8: Option<Box<ConditionalRecords8Resources>>,
     mission_records70: Option<Box<MissionRecords70Resources>>,
     selection_byte_tables: Option<Box<SelectionByteTablesResources>>,
+    event_records12: Option<Box<EventRecords12Resources>>,
+    parameter_records27: Option<Box<ParameterRecords27Resources>>,
+    world_records38: Option<Box<WorldRecords38Resources>>,
+    indexed_graphics: Option<Box<IndexedGraphicsResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -628,6 +644,18 @@ impl RuntimeResources {
         if let Some((data,_))=files.selection_byte_tables {
             resources.selection_byte_tables=Some(Box::new(SelectionByteTablesResources::new(data.clone(),&source.selection_byte_tables.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))=files.event_records12 {
+            resources.event_records12=Some(Box::new(EventRecords12Resources::new(data.clone(),&source.event_records12.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.parameter_records27 {
+            resources.parameter_records27=Some(Box::new(ParameterRecords27Resources::new(data.clone(),&source.parameter_records27.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.world_records38 {
+            resources.world_records38=Some(Box::new(WorldRecords38Resources::new(data.clone(),&source.world_records38.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.indexed_graphics {
+            resources.indexed_graphics=Some(Box::new(IndexedGraphicsResources::new(data.clone(),&source.indexed_graphics.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -732,6 +760,10 @@ impl RuntimeResources {
             conditional_records8: None,
             mission_records70: None,
             selection_byte_tables: None,
+            event_records12: None,
+            parameter_records27: None,
+            world_records38: None,
+            indexed_graphics: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -837,6 +869,10 @@ impl RuntimeResources {
             + self.conditional_records8.as_ref().map_or(0, |i| i.resident_bytes())
             + self.mission_records70.as_ref().map_or(0, |i| i.resident_bytes())
             + self.selection_byte_tables.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.event_records12.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.parameter_records27.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.world_records38.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.indexed_graphics.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -956,6 +992,10 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn indexed_graphics_stats(&self)->Option<IndexedGraphicsStats> {self.indexed_graphics.as_ref().map(|d|d.stats())}
+    pub fn world_records38_stats(&self)->Option<WorldRecords38Stats> {self.world_records38.as_ref().map(|d|d.stats())}
+    pub fn parameter_records27_stats(&self)->Option<ParameterRecords27Stats> {self.parameter_records27.as_ref().map(|d|d.stats())}
+    pub fn event_records12_stats(&self)->Option<EventRecords12Stats> {self.event_records12.as_ref().map(|d|d.stats())}
     pub fn selection_byte_tables_stats(&self)->Option<SelectionByteTablesStats> {self.selection_byte_tables.as_ref().map(|d|d.stats())}
     pub fn mission_records70_stats(&self)->Option<MissionRecords70Stats> {self.mission_records70.as_ref().map(|d|d.stats())}
     pub fn conditional_records8_stats(&self)->Option<ConditionalRecords8Stats> {self.conditional_records8.as_ref().map(|d|d.stats())}
@@ -1322,7 +1362,11 @@ impl RuntimeResources {
             let prior = match &self.records4 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.conditional_records8 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.mission_records70 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
-            return match &self.selection_byte_tables {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.selection_byte_tables {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.event_records12 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.parameter_records27 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.world_records38 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.indexed_graphics {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1484,6 +1528,10 @@ impl crate::MemMap {
             || ConditionalRecords8Resources::source_page(index)
             || MissionRecords70Resources::source_page(index)
             || SelectionByteTablesResources::source_page(index)
+            || EventRecords12Resources::source_page(index)
+            || ParameterRecords27Resources::source_page(index)
+            || WorldRecords38Resources::source_page(index)
+            || IndexedGraphicsResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

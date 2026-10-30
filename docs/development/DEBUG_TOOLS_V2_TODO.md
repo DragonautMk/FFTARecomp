@@ -146,7 +146,7 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   GUI e quattro profili equivalenti CLI verificati con esiti/stato/clock uguali;
   [record](../changes/2026-10-29-add-debug-parameter-workbench.json).
 
-- [ ] **DBG2-06 — Libreria di script e strumenti avviabili.**
+- [x] **DBG2-06 — Libreria di script e strumenti avviabili.**
   Menu «Script e strumenti» con ricette di debug e adattatori dichiarati per
   gli script host utili, inclusi homepage, campagne e artefatti. Ogni voce ha
   versione/hash, argomenti tipizzati, prerequisiti Python/PowerShell/Bash/Docker,
@@ -157,8 +157,12 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** selezione e configurazione interne, script modificato o runtime
   host assente segnalati, processo esplicito annullabile e log rintracciabile;
   nessun avvio al solo import/hover/selezione. **Dipende da:** DBG2-04/05.
+  Implementato: cinque schede,17ruoli tipizzati, adattatori readonly dichiarati,
+  ricette status/inspect e vista guest separata. Wine GUI/frame0, cancel XInput
+  con discendente fermato, timeout/rifiuti e correzione UTF8 verificati;
+  [record](../changes/2026-10-30-add-declared-debug-script-library.json).
 
-- [ ] **DBG2-07 — Scelte persistenti e cartella portable spostata.**
+- [x] **DBG2-07 — Scelte persistenti e cartella portable spostata.**
   Salvare preferenze UI e riferimenti relativi alla radice corretta; mantenere
   distinti elementi interni e riferimenti esterni aggiunti dall'utente.
   Dopo cambio ROM/sessione invalidare soltanto le scelte incompatibili.
@@ -166,10 +170,14 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** riaprire una copia spostata con spazi/Unicode da un'altra cwd,
   ritrovare le scelte valide e spiegare quelle mancanti senza dialoghi automatici.
   **Dipende da:** DBG2-04/06.
+  Implementato: stato limitato con radici relative, provenienza esterna, pin
+  e viste/storia; restore readonly senza avvio. Wine GUI riapre la stessa copia
+  spostata da `/tmp`, conserva preferiti e spiega mancanti/modificati a frame0;
+  [record](../changes/2026-10-30-persist-debug-content-choices.json).
 
 ## P1 — Console degli eventi opzionale
 
-- [ ] **DBG2-08 — Schema eventi e mappa della copertura.**
+- [x] **DBG2-08 — Schema eventi e mappa della copertura.**
   Unificare gli eventi host già osservati con ID di sequenza, tempo host,
   frame/clock guest, sessione, categoria, severità, origine e ID richiesta/job.
   Elencare produttori supportati e mancanti; collegare UI/recent agli stessi
@@ -178,7 +186,7 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   esito da una sequenza correlata; distinguere ordine host da eventi guest
   aggregati e hook non disponibili. **Dipende da:** DBG2-01, DBG-13/19.
 
-- [ ] **DBG2-09 — Traccia completa delle selezioni e delle azioni host.**
+- [x] **DBG2-09 — Traccia completa delle selezioni e delle azioni host.**
   Osservare pagina, voce con ID e label, vecchia/nuova selezione, dropdown,
   valore cambiato, apertura/chiusura, conferma, annullamento, binding catturato
   e comando effettivamente eseguito/rifiutato. Coprire tastiera, mouse e backend
@@ -187,6 +195,10 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** ogni cambio effettivo del menu ha un evento; pressione tenuta,
   autorepeat, click e conferma controller non producono doppi comandi. Le lacune
   di un backend sono dichiarate. **Dipende da:** DBG2-03/08.
+  Implementato: [cambi semantici e input](../debug_events.md), ID/valori/cause,
+  editor e binding; hover invariato senza duplicati. Sei catture Wine con
+  XInput simulato, comandi singoli/esiti correlati e stato/frame0 invariati;
+  [record](../changes/2026-10-30-observe-effective-host-menu-changes.json).
 
 - [ ] **DBG2-10 — Eventi del runtime e degli strumenti.**
   Collegare sessione/ROM, pause/passi, Load/Undo/reset, registrazioni/replay,

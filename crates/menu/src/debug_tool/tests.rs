@@ -104,3 +104,13 @@ fn mouse_text_keyboard_and_measured_layout_cover_small_and_large_clients() {
     assert_eq!(f.fields[0].value, "Résumé");
     assert!(!f.text_focus());
 }
+
+#[test]
+fn library_has_explicit_cancel_while_busy_and_distinct_guest_inspector() {
+    let mut f=ToolForm::default(); f.set(DebugTool::Homepage,fields(),String::new());
+    f.busy=true; f.focus=f.fields.len()+3;
+    assert_eq!(f.handle(MenuInput::Confirm),Some(MenuAction::ToolRequest(ToolRequest::Prepare)));
+    f.focus=f.fields.len()+4; assert!(f.handle(MenuInput::Confirm).is_none());
+    assert_eq!(request_label(ToolRequest::Prepare,DebugTool::Homepage),"Cancel process");
+    assert_eq!(request_label(ToolRequest::Prepare,DebugTool::GuestScripts),"Gameplay inspector");
+}

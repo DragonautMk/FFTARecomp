@@ -1,5 +1,9 @@
 # Registro degli eventi recenti — DBG-19
 
+DBG2-08 collega gli eventi host allo [schema comune](debug_events.md): identità,
+ordine host, correlazione e mappa della copertura condivisi fra UI e recent.
+I campi `sequence`/`host_ms` originali restano locali al collector.
+
 Nella [copia isolata](debug_sessions.md) in pausa, scegliere **Debug > Start
 recent events**. Il registro mantiene una finestra mobile; gli eventi più vecchi
 vengono espulsi mentre il gioco continua. **Freeze / save recent events** congela

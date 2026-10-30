@@ -1,5 +1,20 @@
 # Direct decoded resource consumption
 
+EUR e88-d87 adds [event records](rom_data_gameplay.md#managed-event-records-and-typed-runtime-reads):
+81files/80resources, one3072-byte span/no dependency, all79 previous records/
+payloads exact. The shared row225 view retains the same owner; original script/
+event logic and uncapped outside reads remain guest work. One focused Wine
+filter passes publication/interruption,14attach/two full-set guards,22complete-
+state/clock native cases, all3072bus bytes/eight classes/256 records/borders,
+Load/Undo and three DMA/SWI transfers.296 served new bytes include two through
+interp_one fallback; this is not a distinct-byte union. [Actual CLI create/reuse/startup](rom_data_gameplay.md#actual-event-record-cli-registration)
+now passes81identical payloads/80IDhash83unchanged managed paths; one neutral
+frame has all11 counters zero. [One ordinary mission-entry34 suffix](rom_data_gameplay.md#ordinary-event-record-mission-entry-equivalence)
+now passes every complete state/clock/central-wide image/OAM/five audio stream
+with4reads6served key/primary/alternate bytes/one record and exact11CLI/pair
+counts. Wider ordinary fields/records and Linux/USA/native Windows remain
+pending. No performance measurement.
+
 EUR e87-d86 adds [selection-byte tables](rom_data_gameplay.md#managed-selection-byte-tables-and-typed-runtime-reads):
 80files/79resources, two4/30-byte spans/no dependency, all78 previous records/
 payloads exact. The immutable owner serves both arrays while count, raw live
@@ -1870,3 +1885,86 @@ Linux and USA remain unverified.
 [Actual CLI registration](rom_data_gameplay.md#actual-mission-record-cli-registration).
 
 [Ordinary mission-information case](rom_data_gameplay.md#ordinary-mission-information-equivalence).
+
+
+## Sparse parameter-record ownership
+
+EUR e89-d88 adds `gameplay.parameter-records27` at index80:82 files/81 resources,
+all80 prior payloads exact, two spans totaling1593 bytes for59 observed physical
+indices. The immutable owner composes with the previous event owner and raw
+holes across pages71D..71E;12 storage classes/15 counters retain sparse physical
+identity without adding a guest bound or changing save/native/C API ABI.
+
+Combined reduced Wine checks pass publication/14 attach/two full-set guards,
+33 complete-state/clock cases, all1593 bytes/59 borders, Load/Undo and three
+transfers. An oracle count error after17 native cases is corrected only in the
+test leaf; the remaining16 cases and lifecycle checks reuse the same dataset
+and13 objects. Earlier successful checks are not repeated. Actual production
+CLI and ordinary positive use remain pending, as do the full catalog extent,
+Linux and USA. No performance campaign was run.
+[Binding, evidence and limits](rom_data_gameplay.md#managed-sparse-parameter-records-and-typed-runtime-reads).
+
+
+Actual e89 production CLI creation/reuse/startup now passes with588 matching
+source files,82 runtime-identical payloads,81 logged ID/hash pairs and84 managed
+paths unchanged during reuse/startup. One neutral frame24755→24756 has all15
+parameter counters zero. Positive ordinary use and full scene equivalence remain
+pending. [CLI evidence](rom_data_gameplay.md#actual-sparse-parameter-record-cli-registration).
+
+
+## World-record ownership
+
+EUR e90-d89 adds`gameplay.world-records38` at index81:83 files/82 resources,
+all81 prior records/payloads exact. Its immutable31-record/1178-byte owner
+composes page71E with the prior sparse parameter owner and raw gaps/next root.
+Five physical classes/eight counters preserve original uncapped addresses and
+guest logic. One reduced Wine filter passes publication/14 attach/two full-set
+guards,27 native complete-state/clock cases, all source bytes/31 boundaries,
+Load/slot Undo and three DMA/BIOS transfers. Actual callbacks serve23 new
+and5 prior bytes, fallback[0, 0]; these are served counts, not distinct
+coverage or an all-direct-native claim. Actual CLI/ordinary use and Linux/USA
+remain pending; no performance measurements were made.
+[Binding and limits](rom_data_gameplay.md#managed-world-records-and-typed-runtime-reads).
+
+
+Actual e90 production CLI creation/reuse/startup now passes with592 matching
+source files,83 runtime-identical files,82 logged ID/hash pairs and85 managed
+paths unchanged during reuse/startup. One neutral frame24755→24756 has all
+eight world-record counters zero. Positive ordinary use and full scene
+equivalence remain pending.
+[CLI evidence](rom_data_gameplay.md#actual-world-record-cli-registration).
+
+
+One later45-frame ordinary world-travel suffix now passes complete state/clock,
+classic/wide pixels, OAM and five-audio equality using the same old native cache.
+Actual CLI and pair match all eight counters: two reads/two served bytes,
+one threshold/one byte01/one physical record; other three classes remain zero.
+The source-backed trigger follows normal daily counter expiration in an
+authenticated IN08 copy, after an earlier IN13 travel bound was closed negative.
+Other ordinary records/classes and Linux/USA remain pending.
+[Ordinary case and limits](rom_data_gameplay.md#ordinary-world-record-counter-expiration-equivalence).
+
+
+## Indexed graphics source ownership
+
+EUR e91-d90 adds [indexed graphics archives](rom_data_indexed_graphics.md#managed-source-views)
+at index82:84files/83resources,24spans/74907source bytes, all82 prior resource
+records/payloads exact. Seven physical classes/twelve counters retain typed
+source bytes,20archive/649program/fourgroup masks, prior/raw border composition
+and original guest decoding/uploads. Corrected597source Windows build is
+warning-free after a test-only missingBus import; first diagnostic retained.
+One reduced Wine filter passes publication/interruption/14attach/twofullset
+guards,35complete-state/clock native cases,allsourcebytes/classes/24edges,
+Load/slotUndo and three64B mixed DMA/BIOS transfers. Callbacks serve272new/four
+priorworldbytes, fallback[1,0], not distinct union or all-direct-native coverage.
+282guards/597accepted597diagnostic/595model/sevencurrent83prior preserved; no
+closedproof/ordinaryfixture/navigation/performance replay. ActualCLI/ordinary,
+noncanonical modes/widths and Linux/USA/nativeWindows/new32:9 remain pending.
+
+Actual e91 productionCLI creation/reuse/startup now passes from the same597
+accepted runtime sources:84identical payloads/83logged IDhashes/86managed paths
+nowrite/cache28859 unchanged/canonicalhashmtime restored. One neutral normal
+frame24755→24756 has all twelve new counters zero, registration only.
+201guards597CLI+597runtime/84accepted originals exact; no ordinary fixture/
+navigation/oldproof/metrics replay. Positiveordinary/fullpair and deferred
+platforms remain pending. [CLI evidence](rom_data_indexed_graphics.md#actual-cli-registration).

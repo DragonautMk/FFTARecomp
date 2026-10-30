@@ -1,5 +1,9 @@
 # Menu, testo e input — DBG-13
 
+DBG2-08 collega gli eventi host allo [schema comune](debug_events.md): identità,
+ordine host, correlazione e mappa della copertura condivisi fra UI e recent.
+I campi `sequence`/`host_ms` originali restano locali al collector.
+
 Nella [copia isolata](debug_sessions.md), mettere in pausa e usare **Debug >
 Start UI / input trace**, poi riprodurre il caso e **Save UI / input report**.
 La CLI condivide le stesse azioni:
@@ -45,9 +49,9 @@ maschera rimappata non è automaticamente input guest: il menu in pausa non eseg
 frame, e un passo F7 usa la maschera neutra dichiarata da DBG-10.
 
 La raccolta non cambia input o filtri esistenti. Le pressioni sono osservate
-nei punti correnti, senza un nuovo canale di iniezione. Le conferme del mouse non
-hanno una traccia raw dedicata; anche le transizioni raw Gilrs/DirectInput restano
-fuori dagli hook, mentre il risultato rimappato aggregato è osservabile. Non si
+nei punti correnti, senza un nuovo canale di iniezione. DBG2-09 aggiunge token pulsanti/rotella Winit e cambi semantici del menu;
+le transizioni raw Gilrs/DirectInput restano fuori dagli hook, mentre backend
+selezionato, risultato rimappato aggregato e cambi effettivi sono osservabili. Non si
 deduce una latenza hardware dai tempi dei poll.
 
 ## Testo e rettangoli

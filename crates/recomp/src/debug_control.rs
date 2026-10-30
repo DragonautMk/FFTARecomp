@@ -155,6 +155,9 @@ pub(crate) struct Request {
 fn unix_ms()->u64{SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_millis().min(u128::from(u64::MAX)) as u64}
 impl Request {
     pub fn expired(&self)->bool{self.deadline_unix_ms.is_some_and(|d|unix_ms()>=d)}
+    pub fn event_context(&self)->crate::debug_events::Correlation{
+        crate::debug_events::Correlation::request(&self.id,"local-control",matches!(self.command,Action::Step{..}|Action::Find{..}))
+    }
 }
 fn stamp() -> String {
     format!(
@@ -189,6 +192,9 @@ pub(crate) struct Server {
     query_outbox: Option<Value>,
 }
 impl Server {
+    pub fn event_session(&self)->crate::debug_events::Session{
+        crate::debug_events::Session{run_id:self.run.clone(),manifest_sha256:self.session["manifest_sha256"].as_str().map(str::to_owned)}
+    }
     pub fn new(root: &Path) -> Result<Self, String> {
         let manifest=crate::diagnostics::read(&root.join("debug-session.json"),1024*1024)?;
         let declared:Value=serde_json::from_slice(&manifest).map_err(|e|e.to_string())?;
@@ -207,6 +213,14 @@ impl Server {
     }
     pub fn pending_status(&self)->Value{
         self.pending.as_ref().map_or(Value::Null,|r|json!({"request_id":r.id,"operation_id":r.command.operation_id(),"command":r.command,"deadline_unix_ms":r.deadline_unix_ms}))
+    }
+    /// A publication retry still belongs to the validated response owner, not
+    /// to a different waiting command or an unparsed input file.
+    pub fn publication_context(&self,query:bool)->Option<crate::debug_events::Correlation>{
+        let value=if query{self.query_outbox.as_ref()}else{self.outbox.as_ref()}?;
+        let id=value["id"].as_str()?;if id.is_empty()||id.len()>100{return None;}
+        let job=value.pointer("/status/pending_control/request_id").and_then(Value::as_str)==Some(id);
+        Some(crate::debug_events::Correlation::request(id,"local-control",job))
     }
     pub fn pending_matches(&self,id:&str)->bool{self.pending.as_ref().is_some_and(|r|r.id==id)}
     pub fn deadline_expired(&self)->bool{self.pending.as_ref().is_some_and(Request::expired)}
@@ -575,11 +589,14 @@ mod tests {
         let q=synthetic_request(&s,"query",Action::Status,true);
         fs::create_dir(s.dir.join("query-result.json")).unwrap();
         assert!(s.reply(&q,json!({"v":1}),None).is_err());
+        assert_eq!(s.publication_context(true).unwrap().request_id.as_deref(),Some("query"));
+        assert!(s.publication_context(false).is_none());
         let p=synthetic_request(&s,"primary",Action::Pause,false);
         s.reply(&p,json!({"v":2}),None).unwrap();
         assert_eq!(read(&s.dir.join("result.json")).unwrap()["id"],"primary");
         fs::remove_dir(s.dir.join("query-result.json")).unwrap();
         assert!(s.poll_query().unwrap().is_none());
+        assert!(s.publication_context(true).is_none());
         assert_eq!(read(&s.dir.join("query-result.json")).unwrap()["id"],"query");
     }
     #[test]

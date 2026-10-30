@@ -219,8 +219,8 @@ fn file_kind(path: &Path) -> Option<Kind> {
         "catalog.json" | "debug-catalog.json" => Kind::SaveCatalog,
         "catalogo.json" => Kind::CheatCatalog,
         "manifest.toml" => Kind::Dataset,
-        "recomp" => Kind::Runtime,
-        "script-commands.json" | "script-archive.json" | "auxiliary-scripts.json" => {
+        "recomp" | "python" | "python3" => Kind::Runtime,
+        "script-commands.json" | "script-archive.json" | "auxiliary-scripts.json" | "auxiliary-script-archive.json" => {
             Kind::GuestScriptCatalog
         }
         _ => match path.extension()?.to_str()?.to_ascii_lowercase().as_str() {
@@ -415,7 +415,7 @@ fn inspect(root: &Root, rel: &str, expected_rom: Option<&str>, stats: &mut Stats
             if required_kind.is_some_and(|k| value["kind"].as_str() != Some(k)) {
                 entry.compatibility = "unsupported".into();
                 entry.reason = "Filename/type and declared metadata kind disagree.".into();
-            } else if value["schema"].as_u64() != Some(1) {
+            } else if value["schema"].as_u64() != Some(1) && entry.kind != Kind::GuestScriptCatalog {
                 entry.compatibility = "unsupported".into();
                 entry.reason =
                     "Metadata schema is missing or unsupported; listing cannot enable execution."

@@ -52,7 +52,15 @@ indexes only declared app roots and explicitly added folders, with stable IDs,
 hashes, availability, declared compatibility and bounded refresh; no content is
 executed. The [integrated content selector](../docs/debug_selector.md),
 Debug > Content selector, adds explicit search/filter/select/refresh/import
-controls over the same readonly catalog; tool migration remains DBG2-04.
+controls over the same readonly catalog. Typed tool inputs and parameter drafts
+are implemented by DBG2-04/05. Scripts and tools adds explicit declared adapters
+for homepage/campaign report/artifact preview (selected Python3.11+), readonly
+command recipes and a separate guest catalog/inspector link. It stages exact
+public source hashes on Start, retains bounded logs and supports cancellation;
+PowerShell/Bash/Docker wrappers remain separate explicit offline entry points.
+DBG2-07 saves guarded relative/internal and explicit/external choices plus
+selector views/history; a moved portable copy restores compatible pins and
+explains missing/changed ones without launching content.
 DBG2 development remains distinct from DS scene acceptance.
 
 From the repository root, extract readable ROM data with Docker:

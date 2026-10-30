@@ -25,9 +25,10 @@ mod debug_catalog;
 mod content_selector;
 mod tool_inputs;
 mod debug_tool;
+mod selection;
 pub use debug_tool::{DebugTool,ToolRequest,ToolField,ToolFieldKind};
 pub use tool_inputs::ContentSlot;
-pub use content_selector::ContentEntry;
+pub use content_selector::{ContentEntry,ContentViewPreferences,ContentHistory};
 pub use debug_catalog::CatalogEntry;
 pub use save_backups::BackupInfo;
 pub use save_states::StateSlot;
@@ -168,6 +169,7 @@ enum Page {
     ContentSelector,
     ToolInputs,
     DebugTools,
+    ScriptLibrary,
     DebugTool,
     GameSaves,
     SwitchGameSave,
@@ -225,6 +227,7 @@ enum Row {
     ContentPicker,
     ToolInputsMenu,
     DebugToolsMenu,
+    ScriptLibraryMenu,
     DebugTool(DebugTool),
     ToolInput(ContentSlot),
     DebugCatalog,
@@ -371,15 +374,16 @@ const GAMEPAD_ROWS: [Row; 17] = [
 
 fn rows_of(page: Page) -> &'static [Row] {
     match page {
-        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
+        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ScriptLibraryMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
         Page::DebugTools => &[Row::DebugTool(DebugTool::Replay),Row::DebugTool(DebugTool::Audit),Row::DebugTool(DebugTool::Capture),Row::DebugTool(DebugTool::Compare),Row::DebugTool(DebugTool::Step),Row::DebugTool(DebugTool::Inspect),Row::DebugTool(DebugTool::Audio),Row::DebugTool(DebugTool::Code),Row::DebugTool(DebugTool::Gameplay),Row::DebugTool(DebugTool::Recent),Row::DebugTool(DebugTool::Graphics),Row::DebugTool(DebugTool::Issue),Row::Back],
+        Page::ScriptLibrary => &[Row::DebugTool(DebugTool::Homepage), Row::DebugTool(DebugTool::CampaignReport), Row::DebugTool(DebugTool::ArtifactPreview), Row::DebugTool(DebugTool::Recipe), Row::DebugTool(DebugTool::GuestScripts), Row::Back],
         Page::DebugTool => &[Row::Back],
         Page::ToolInputs => &[Row::ToolInput(ContentSlot::Replay), Row::ToolInput(ContentSlot::Catalog),
             Row::ToolInput(ContentSlot::Session), Row::ToolInput(ContentSlot::Recording),
             Row::ToolInput(ContentSlot::Snapshot), Row::ToolInput(ContentSlot::Input),
             Row::ToolInput(ContentSlot::Dataset), Row::ToolInput(ContentSlot::RuntimeA),
             Row::ToolInput(ContentSlot::RuntimeB), Row::ToolInput(ContentSlot::Library),
-            Row::ToolInput(ContentSlot::Labels), Row::ToolInput(ContentSlot::KnownPlan), Row::Back],
+            Row::ToolInput(ContentSlot::Labels), Row::ToolInput(ContentSlot::KnownPlan), Row::ToolInput(ContentSlot::HostTool), Row::ToolInput(ContentSlot::HostRuntime), Row::ToolInput(ContentSlot::Campaign), Row::ToolInput(ContentSlot::Recipe), Row::ToolInput(ContentSlot::GuestScripts), Row::Back],
         Page::ContentSelector => &[Row::Back],
         Page::DebugCatalog => &[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry,Row::CatalogImport,Row::CatalogOpen,Row::CatalogChoose,Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
@@ -411,6 +415,7 @@ impl Row {
             Row::DebugMenu => "Debug",
             Row::ToolInputsMenu => "Tool inputs / current selections",
             Row::DebugToolsMenu => "Parameters / prepare profiles",
+            Row::ScriptLibraryMenu => "Scripts and tools",
             Row::DebugTool(tool) => tool.label(),
             Row::ToolInput(slot) => slot.label(),
             Row::ExtendedSaves => "Extended saves",
@@ -517,7 +522,7 @@ impl Row {
     fn is_action(self) -> bool {
         matches!(
             self,
-            Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+            Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
                 | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
                 | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
                 | Row::Backup(_) | Row::ConfirmRestoreBackup
@@ -557,6 +562,7 @@ impl Row {
             Row::DebugMenu => Some(Page::Debug),
             Row::ToolInputsMenu => Some(Page::ToolInputs),
             Row::DebugToolsMenu => Some(Page::DebugTools),
+            Row::ScriptLibraryMenu => Some(Page::ScriptLibrary),
             Row::SaveStatesMenu => Some(Page::SaveStates),
             Row::SaveBackupsMenu => Some(Page::SaveBackups),
             Row::Quit => Some(Page::Exit),
@@ -870,6 +876,8 @@ impl Menu {
     pub fn tool_feedback(&mut self,message:String,summary:String,busy:bool){self.tool.message=message;self.tool.summary=summary;self.tool.busy=busy;}
     fn tool_action(&mut self,a:Option<MenuAction>)->Option<MenuAction>{if a==Some(MenuAction::ToolRequest(ToolRequest::Back)){if let Some(parent)=self.navigation.parents.pop(){self.page=parent.page;self.selected=parent.selected;}else{self.navigation.reset();}}a}
 
+    pub fn content_preferences(&self)->(ContentViewPreferences,ContentHistory){(self.content.preferences(),self.content.history())}
+    pub fn restore_content_preferences(&mut self,view:ContentViewPreferences,history:ContentHistory)->Result<(),String>{self.content.restore_preferences(view,history)}
     pub fn content_scope(&mut self, kind:Vec<String>, current:Option<String>) {self.content.scope(kind,current);}
     pub fn content_active(&self)->bool{self.page==Page::ContentSelector}
     pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()}else{self.content_active() && self.content.editing()}}
@@ -956,7 +964,7 @@ impl Menu {
     fn back_to_main(&mut self) {
         self.scroll.set(0);
         self.dropdown = None;
-        if matches!(self.page,Page::DebugTools|Page::ToolInputs|Page::ReplaceState|Page::RestoreBackup|Page::SwitchGameSave|Page::ReplaceGameSave) {
+        if matches!(self.page,Page::ScriptLibrary|Page::DebugTools|Page::ToolInputs|Page::ReplaceState|Page::RestoreBackup|Page::SwitchGameSave|Page::ReplaceGameSave) {
             self.backup_selection = None;
             if let Some(parent) = self.navigation.parents.pop() {
                 self.navigation.page = parent.page;
@@ -1540,7 +1548,7 @@ fn value_of(
         Row::DebugMenu => ">".into(),
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
-        Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
             | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
@@ -1664,7 +1672,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             av.debug_extended_saves = !av.debug_extended_saves;
             Some(Changed::Debug)
         },
-        Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
             | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::Menu => None,
@@ -2692,6 +2700,7 @@ mod tests {
             Page::Debug,
             Page::ToolInputs,
             Page::DebugTools,
+            Page::ScriptLibrary,
             Page::DebugTool,
             Page::GameSaves,
             Page::SwitchGameSave,

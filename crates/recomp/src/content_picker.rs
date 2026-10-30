@@ -1,4 +1,5 @@
-//! Host-only bridge for the reusable picker; all IO runs after explicit actions.
+//! Host-only picker bridge. Tree scans/dialogs/actions stay explicit; saved pins
+//! receive a bounded readonly file check and preferences never start content.
 use crate::debug_content::{Index, Kind, Root, MAX_ROOTS};
 use crate::debug_inputs::{self, Reference};
 use menu::ContentSlot;
@@ -11,7 +12,8 @@ use std::{
 };
 
 enum ResultData {
-    Scan(Index),
+    Restored(crate::debug_choices::memory::Restored),
+    Scan(Index, crate::debug_choices::memory::Locations),
     Select(Reference),
     Preview(String, Vec<[u8; 4]>, String),
 }
@@ -30,6 +32,13 @@ pub(crate) struct Picker {
     generation: u64,
     view: u64,
     rom: Option<String>,
+    context: Option<String>,
+    view_open: bool,
+    memory: Option<crate::debug_choices::memory::Memory>,
+    locations: crate::debug_choices::memory::Locations,
+    saved_issues: BTreeMap<ContentSlot, String>,
+    restore_pending: bool,
+    persistence_error: String,
 }
 fn rows(index: &Index) -> Vec<menu::ContentEntry> {
     index
@@ -55,10 +64,141 @@ fn rows(index: &Index) -> Vec<menu::ContentEntry> {
         .collect()
 }
 impl Picker {
+    pub fn initialized(&self) -> bool {
+        self.context.is_some()
+    }
+    pub fn initialize(&mut self, menu: &mut menu::Menu, rom: String) -> Result<(), String> {
+        use crate::debug_choices::{memory::Memory, Anchors};
+        let anchors = Anchors::current()?;
+        let context = format!(
+            "{}\n{}\n{rom}",
+            anchors.app.display(),
+            anchors.config.display()
+        );
+        if self.context.as_ref() == Some(&context) {
+            return Ok(());
+        }
+        let defaults = if self.context.is_none() && !self.roots.is_empty() {
+            self.roots.clone()
+        } else {
+            crate::debug_content::defaults()?
+        };
+        self.persist_now(menu);
+        self.context = Some(context);
+        self.rom = Some(rom.clone());
+        self.view = self.view.wrapping_add(1);
+        self.slots.clear();
+        self.selected = None;
+        self.index = None;
+        self.locations.clear();
+        self.saved_issues.clear();
+        self.restore_pending = false;
+        match Memory::load(anchors, &rom) {
+            Ok(mut memory) => {
+                self.roots = memory.roots(defaults);
+                self.restore_pending = !memory.file.state.inputs.is_empty();
+                for saved in &memory.file.state.inputs {
+                    if let Ok(slot) = saved.slot() {
+                        self.saved_issues.insert(
+                            slot,
+                            "Saved choice: waiting for readonly file verification".into(),
+                        );
+                    }
+                }
+                self.persistence_error.clear();
+                self.memory = Some(memory);
+            }
+            Err(e) => {
+                self.roots = defaults;
+                self.memory = None;
+                self.persistence_error = format!(
+                    "Saved preferences unavailable; file preserved, choices remain volatile: {e}"
+                );
+                menu.diagnosis_result(self.persistence_error.clone());
+            }
+        }
+        self.scope(menu);
+        self.begin_restore(menu)?;
+        Ok(())
+    }
+    fn begin_restore(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
+        if !self.restore_pending || self.job.is_some() {
+            return Ok(());
+        }
+        let memory = self
+            .memory
+            .as_ref()
+            .ok_or("Saved choice context unavailable")?;
+        let (context, anchors, inputs) = memory.restore_request();
+        let rom = self.rom.clone().ok_or("No ROM context")?;
+        self.restore_pending = false;
+        self.start(menu, move || {
+            Ok(ResultData::Restored(
+                crate::debug_choices::memory::Memory::restore(context, anchors, inputs, rom),
+            ))
+        })
+    }
+    fn apply_preferences(&self, menu: &mut menu::Menu) {
+        if let Some(memory) = &self.memory {
+            let mut view = memory.view(self.slot, &self.locations);
+            if view.highlighted.is_none() {
+                view.highlighted = menu.content_highlight().map(str::to_owned);
+            }
+            let _ = menu.restore_content_preferences(view, memory.history(&self.locations));
+        }
+    }
+    fn observe_preferences(&mut self, menu: &menu::Menu, force: bool) {
+        if let Some(memory) = &mut self.memory {
+            let (view, history) = menu.content_preferences();
+            memory.observe(self.slot, view, history, &self.locations, force);
+        }
+    }
+    pub fn persist_tick(&mut self, menu: &mut menu::Menu) -> bool {
+        let mut changed = false;
+        if menu.content_active() {
+            self.observe_preferences(menu, false);
+        }
+        if let Some(memory) = &mut self.memory {
+            let previous = memory.message.clone();
+            memory.flush(false);
+            if memory.message != previous && memory.message.starts_with("Preferences not saved") {
+                changed = true;
+                if menu.content_active() {
+                    menu.content_message(memory.message.clone());
+                } else {
+                    menu.diagnosis_result(memory.message.clone());
+                }
+            }
+        }
+        if let Err(e) = self.begin_restore(menu) {
+            changed |= self.persistence_error != e;
+            self.persistence_error = e;
+        }
+        changed
+    }
+    pub fn persist_now(&mut self, menu: &menu::Menu) {
+        if menu.content_active() {
+            self.observe_preferences(menu, true);
+        }
+        if let Some(memory) = &mut self.memory {
+            memory.flush(true);
+        }
+    }
+    pub fn leave_view(&mut self, menu: &menu::Menu) {
+        if self.view_open {
+            self.observe_preferences(menu, true);
+            self.view_open = false;
+        }
+        self.cancel();
+    }
     pub fn open(&mut self, menu: &mut menu::Menu, rom: String) -> Result<(), String> {
+        if menu.content_active() {
+            self.observe_preferences(menu, true);
+        }
+        self.initialize(menu, rom)?;
         self.view = self.view.wrapping_add(1);
         self.slot = None;
-        self.rom = Some(rom);
+        self.view_open = true;
         if self.roots.is_empty() {
             self.roots = crate::debug_content::defaults()?;
         }
@@ -70,6 +210,10 @@ impl Picker {
             self.generation,
         );
         self.scope(menu);
+        self.apply_preferences(menu);
+        if !self.persistence_error.is_empty() {
+            menu.content_message(self.persistence_error.clone());
+        }
         menu.content_busy(self.job.is_some());
         Ok(())
     }
@@ -89,6 +233,7 @@ impl Picker {
             self.generation,
         );
         self.scope(menu);
+        self.apply_preferences(menu);
         let current = self
             .slots
             .get(&slot)
@@ -98,7 +243,12 @@ impl Picker {
                     s.entry.name, s.entry.id, s.entry.relative_path
                 )
             })
-            .unwrap_or_else(|| "No current selection".into());
+            .unwrap_or_else(|| {
+                self.saved_issues
+                    .get(&slot)
+                    .cloned()
+                    .unwrap_or_else(|| "No current selection".into())
+            });
         menu.content_message(format!(
             "{} | {} | Select only; return and invoke the tool separately.",
             message, current
@@ -116,27 +266,44 @@ impl Picker {
             self.slot
                 .and_then(|s| self.slots.get(&s))
                 .or(self.selected.as_ref().filter(|_| self.slot.is_none()))
-                .map(|s| s.entry.id.clone()),
+                .map(|s| {
+                    self.slot
+                        .and_then(|slot| {
+                            self.memory
+                                .as_ref()
+                                .and_then(|m| m.confirmed_id(slot, &self.locations))
+                        })
+                        .unwrap_or_else(|| s.entry.id.clone())
+                }),
         );
         menu.set_tool_inputs(
             ContentSlot::ALL
                 .into_iter()
                 .filter_map(|slot| {
-                    self.slots.get(&slot).map(|s| {
-                        (
-                            slot,
-                            format!(
-                                "{} | {} | needs action preflight",
-                                s.entry.name,
-                                &s.entry.id[8..16]
-                            ),
-                        )
-                    })
+                    self.slots
+                        .get(&slot)
+                        .map(|s| {
+                            (
+                                slot,
+                                format!(
+                                    "{} | {} | needs action preflight",
+                                    s.entry.name,
+                                    &s.entry.id[8..16]
+                                ),
+                            )
+                        })
+                        .or_else(|| {
+                            self.saved_issues
+                                .get(&slot)
+                                .map(|message| (slot, message.clone()))
+                        })
                 })
                 .collect(),
         );
     }
-    pub fn references(&self)->BTreeMap<ContentSlot,Reference>{self.slots.clone()}
+    pub fn references(&self) -> BTreeMap<ContentSlot, Reference> {
+        self.slots.clone()
+    }
     pub fn has_slot(&self, slot: ContentSlot) -> bool {
         self.slots.contains_key(&slot)
     }
@@ -153,7 +320,12 @@ impl Picker {
         rom: &str,
         menu: &mut menu::Menu,
     ) -> Result<(), String> {
+        self.initialize(menu, rom.into())?;
         let reference = Reference::explicit(path, slot, rom)?;
+        if let Some(memory) = &mut self.memory {
+            memory.record_input(slot, &reference);
+        }
+        self.saved_issues.remove(&slot);
         self.slots.insert(slot, reference);
         self.scope(menu);
         Ok(())
@@ -180,7 +352,15 @@ impl Picker {
     pub fn refresh(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
         let roots = self.roots.clone();
         let rom = self.rom.clone();
-        self.start(menu, move || Index::scan(roots, rom).map(ResultData::Scan))
+        let anchors = self.memory.as_ref().map(|m| m.anchors.clone());
+        self.start(menu, move || {
+            let index = Index::scan(roots, rom)?;
+            let locations = anchors
+                .as_ref()
+                .map(|a| crate::debug_choices::memory::Memory::locations(&index, a))
+                .unwrap_or_default();
+            Ok(ResultData::Scan(index, locations))
+        })
     }
     pub fn external_result(
         &mut self,
@@ -211,6 +391,9 @@ impl Picker {
             );
         }
         self.roots.push(root);
+        if let Some(memory) = &mut self.memory {
+            memory.record_roots(&self.roots);
+        }
         self.refresh(menu)
     }
     pub fn browse_file(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
@@ -301,11 +484,44 @@ impl Picker {
             .join()
             .unwrap_or_else(|_| Err("Content worker failed".into()));
         menu.content_busy(false);
+        let result = match result {
+            Ok(ResultData::Restored(restored)) => {
+                if self.context.as_ref() == Some(&restored.context) {
+                    if let Some(memory) = &self.memory {
+                        for (slot, original) in &restored.originals {
+                            let current = memory
+                                .file
+                                .state
+                                .inputs
+                                .iter()
+                                .find(|s| s.slot == original.slot);
+                            if current != Some(original) {
+                                continue;
+                            }
+                            if let Some(reference) = restored.references.get(slot) {
+                                self.slots.insert(*slot, reference.clone());
+                                self.saved_issues.remove(slot);
+                            } else if let Some(issue) = restored.issues.get(slot) {
+                                self.saved_issues.insert(*slot, issue.clone());
+                            }
+                        }
+                    }
+                    self.scope(menu);
+                    if menu.content_active() {
+                        self.apply_preferences(menu);
+                        let message=self.slot.and_then(|slot|self.saved_issues.get(&slot)).cloned().unwrap_or_else(||"Saved references checked. Refresh the list explicitly; nothing started.".into());
+                        menu.content_message(message);
+                    }
+                }
+                return true;
+            }
+            other => other,
+        };
         if job.view != self.view || !menu.content_active() {
             return true;
         }
         match result {
-            Ok(ResultData::Scan(index)) => {
+            Ok(ResultData::Scan(index, locations)) => {
                 self.generation = self.generation.wrapping_add(1);
                 let message = format!(
                     "{} entries | {} issues | {} | selection needs action preflight",
@@ -340,11 +556,17 @@ impl Picker {
                     self.generation,
                 );
                 self.index = Some(Arc::new(index));
+                self.locations = locations;
                 self.scope(menu);
+                self.apply_preferences(menu);
             }
             Ok(ResultData::Select(selection)) => {
                 menu.content_selected(&selection.entry.id);
                 if let Some(slot) = self.slot {
+                    if let Some(memory) = &mut self.memory {
+                        memory.record_input(slot, &selection);
+                    }
+                    self.saved_issues.remove(&slot);
                     self.slots.insert(slot, selection.clone());
                 }
                 self.selected = Some(selection);
@@ -358,12 +580,13 @@ impl Picker {
                     menu.content_message("Preview completed for a different row. Open Details for the current selection.".into());
                 }
             }
+            Ok(ResultData::Restored(_)) => unreachable!("restoration handled before view guard"),
             Err(error) => menu.content_message(error),
         }
         true
     }
     pub fn status(&self) -> Value {
-        json!({"slot":self.slot.map(|s|s.label()),"inputs":ContentSlot::ALL.into_iter().filter_map(|slot|self.slots.get(&slot).map(|s|json!({"slot":slot.label(),"id":s.entry.id,"kind":s.entry.kind,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"scope":"Pinned host reference; rechecked before use; runtime ABI and decoded guest fields still need action preflight"}))).collect::<Vec<_>>(),"generation":self.generation,"busy":self.job.is_some(),"roots":self.roots.len(),"entries":self.index.as_ref().map_or(0,|i|i.entries.len()),"selected":self.selected.as_ref().map(|s|json!({"id":s.entry.id,"kind":s.entry.kind,"root_id":s.entry.root_id,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"path":s.path})),"scope":"Host content selection only; no execution or full action verification"})
+        json!({"persistence":self.memory.as_ref().map(|m|json!({"file":m.file.path,"message":m.message,"saved_roles":m.file.state.inputs.len(),"saved_views":m.file.state.views.len(),"bookmarks":m.file.state.bookmarks.len(),"readonly_restore_pending":self.restore_pending})),"persistence_error":self.persistence_error,"saved_issues":self.saved_issues.iter().map(|(slot,message)|json!({"slot":slot.label(),"message":message})).collect::<Vec<_>>(),"slot":self.slot.map(|s|s.label()),"inputs":ContentSlot::ALL.into_iter().filter_map(|slot|self.slots.get(&slot).map(|s|json!({"slot":slot.label(),"id":s.entry.id,"kind":s.entry.kind,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"scope":"Pinned host reference; rechecked before use; runtime ABI and decoded guest fields still need action preflight"}))).collect::<Vec<_>>(),"generation":self.generation,"busy":self.job.is_some(),"roots":self.roots.len(),"entries":self.index.as_ref().map_or(0,|i|i.entries.len()),"selected":self.selected.as_ref().map(|s|json!({"id":s.entry.id,"kind":s.entry.kind,"root_id":s.entry.root_id,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"path":s.path})),"scope":"Host content selection only; no execution or full action verification"})
     }
 }
 #[cfg(test)]

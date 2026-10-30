@@ -1,5 +1,34 @@
 use super::*;
 
+#[test]
+fn preparation_metadata_is_bounded_best_effort_and_preserves_legacy_reports_and_inputs(){
+    let fixture=Fixture::new();let path=fixture.create();let(root,p)=load(&path).unwrap();let before=fixture.inputs();
+    let report=Report::new(&p,"metadata-run","running",0,"Synthetic metadata");
+    let old=serde_json::to_value(&report).unwrap();assert!(old.get("preparation").is_none());let decoded:Report=serde_json::from_value(old).unwrap();assert!(decoded.preparation.is_empty());
+    fs::create_dir_all(outputs(&root)).unwrap();let mut events=Vec::new();let started=Instant::now();
+    preparation(&p,&root,"metadata-run",&mut events,started,"dataset","requested",serde_json::json!({"synthetic":true}));
+    preparation(&p,&root,"metadata-run",&mut events,started,"cache","loaded",serde_json::json!({"large":"è".repeat(10000)}));
+    let published:Report=serde_json::from_slice(&read(&outputs(&root).join("progress.json"),32*1024).unwrap()).unwrap();assert_eq!(published.preparation.len(),2);assert_eq!(published.preparation[1]["details"]["truncated"],true);
+    let absent=root.join("absent parent");
+    for _ in 0..20{preparation(&p,&absent,"metadata-run",&mut events,started,"dataset","refused",serde_json::json!({"synthetic":true}));}
+    assert_eq!(events.len(),8);assert!(events[2].get("publication_error").is_some());
+    let mut final_report=report;final_report.preparation=events;let bytes=serde_json::to_vec(&final_report).unwrap();assert!(bytes.len()<32*1024);assert_eq!(fixture.inputs(),before);
+    let decoded:Report=serde_json::from_slice(&bytes).unwrap();assert_eq!(decoded.preparation.len(),8);assert_eq!(decoded.preparation[0]["sequence"],0);
+}
+
+#[cfg(windows)]
+#[test]
+fn failed_worker_supervisor_retains_received_preparation_without_reexecuting_worker(){
+    let fixture=Fixture::new();let profile=fixture.create();let(root,p)=load(&profile).unwrap();let before=fixture.inputs();fs::create_dir_all(outputs(&root)).unwrap();
+    let run="metadata-run";let mut last=Report::new(&p,run,"preparing",0,"Synthetic worker failure");last.preparation=vec![serde_json::json!({"sequence":0,"family":"cache","outcome":"requested"})];
+    json(&outputs(&root).join("progress.json"),&last).unwrap();
+    let child=std::process::Command::new("cmd").args(["/c","exit 3"]).spawn().unwrap();
+    let lease=File::create(root.join("synthetic-supervisor.lock")).unwrap();
+    let mut job=Job{profile,root,p,run:run.into(),child,_lease:lease,started:Instant::now(),cancelled:None,last:Some(last),done:false};
+    let mut result=None;for _ in 0..200{result=job.poll().unwrap();if result.is_some(){break;}std::thread::sleep(Duration::from_millis(5));}
+    let result=result.expect("Synthetic child exited");assert_eq!(result.outcome,"incompatible");assert_eq!(result.preparation.len(),1);assert_eq!(result.preparation[0]["family"],"cache");assert_eq!(fixture.inputs(),before);
+}
+
 #[cfg(windows)]
 #[test]
 fn progress_publication_retries_a_short_windows_reader_sharing_denial() {

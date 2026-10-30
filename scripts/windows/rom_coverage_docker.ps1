@@ -55,7 +55,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve the committed extraction source
 $sourceRevision = ($sourceRevision -join '').Trim()
 $contextDir = Join-Path $repoDir ('target/rom-coverage-context-' + [Guid]::NewGuid().ToString('N'))
 [IO.Directory]::CreateDirectory($contextDir) | Out-Null
-& git -C $repoDir archive --format=tar --output (Join-Path $contextDir 'runtime.tar') $sourceRevision Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
+# Rust embeds public tool assets: archive scripts from the same commit, not WIP.
+& git -C $repoDir archive --format=tar --output (Join-Path $contextDir 'runtime.tar') $sourceRevision Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite scripts
 if ($LASTEXITCODE -ne 0) { throw 'Cannot archive the committed extraction source.' }
 foreach ($directory in @('scripts', 'docs/changes', 'docs/development/rom-coverage')) {
     [IO.Directory]::CreateDirectory((Join-Path $contextDir $directory)) | Out-Null

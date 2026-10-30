@@ -97,6 +97,11 @@ La [homepage locale](report_home.md) riconosce `issue.json` dopo rigenerazione.
 Prerequisiti, prove effettive e piattaforme non verificate sono nel
 [record DBG-16](changes/2026-10-29-add-reproducible-local-issue-reports.json).
 
+Il controllo delle directory di output continua a rifiutare link simbolici e
+reparse point Windows. La [correzione del 30 ottobre](changes/2026-10-30-remove-report-link-flag-warnings.json)
+elimina il warning Linux `unused_mut`; i blocchi interessati sono stati compilati
+senza warning per Linux e Windows, senza rieseguire le prove del report.
+
 
 ## Verifiche del 29 ottobre 2026
 

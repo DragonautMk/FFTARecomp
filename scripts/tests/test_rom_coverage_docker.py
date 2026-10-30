@@ -63,12 +63,17 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
                      'Licenses/public','gamedb.sqlite','docs/changes/proof.json',
                      'scripts/rom_coverage.py','scripts/rom_coverage.html','scripts/local_artifacts.py',
                      'scripts/rom_coverage_audit.py','scripts/rom_coverage_ranges.py',
+                     'scripts/report_home.py','scripts/report_home.html',
+                     'scripts/debug_campaign.py','scripts/debug_campaign.html',
+                     'scripts/debug_artifacts.py','scripts/debug_artifacts.html',
+                     'scripts/artifact_coordinator.py',
                      'docs/development/rom-coverage/code-seeds.json'):
             p = self.repo/name; p.parent.mkdir(parents=True,exist_ok=True); p.write_text('committed')
-        for args in (['init','-q'],['add','Cargo.toml','Cargo.lock','crates','assets','TinyCC','Licenses','gamedb.sqlite'],
+        for args in (['init','-q'],['add','Cargo.toml','Cargo.lock','crates','assets','TinyCC','Licenses','gamedb.sqlite','scripts'],
                      ['-c','user.name=Coverage test','-c','user.email=test@example.invalid','commit','-qm','fixture']):
             subprocess.run(['git','-C',str(self.repo),*args],check=True,capture_output=True)
         (self.repo/'crates/model.rs').write_text('unfinished extraction')
+        (self.repo/'scripts/report_home.py').write_text('unfinished embedded tool')
         (self.repo/'scripts/rom_coverage.py').write_text('current tool')
 
     def run_script(self, *args, **environment):
@@ -89,6 +94,11 @@ exit "${DOCKER_TEST_RUN_STATUS:-0}"
         self.assertFalse(Path(build[-1]).exists())
         with tarfile.open(self.directory/'runtime.tar') as archive:
             self.assertEqual(archive.extractfile('crates/model.rs').read(), b'committed')
+            for name in ('report_home.py', 'report_home.html', 'debug_campaign.py',
+                         'debug_campaign.html', 'debug_artifacts.py', 'debug_artifacts.html',
+                         'artifact_coordinator.py', 'local_artifacts.py'):
+                self.assertEqual(archive.extractfile('scripts/' + name).read(), b'committed')
+            self.assertEqual(archive.extractfile('scripts/rom_coverage.py').read(), b'committed')
             self.assertFalse(any(n.startswith(('rom/','out/','target/')) for n in archive.getnames()))
         self.assertEqual((self.directory/'current-tool.py').read_text(),'current tool')
         for key, target in [('rom', '/input/source.gba'), ('evidence', '/input/evidence.json')]:

@@ -22,8 +22,12 @@ pub(crate) fn create(profile:&Path,symptom:&str)->Result<Created,String>{
     for name in ["Data","Data/config","Data/config/issues"] {
         let path=root.join(name);
         if let Ok(m)=fs::symlink_metadata(&path){
-            let mut linked=m.file_type().is_symlink();
-            #[cfg(windows)]{use std::os::windows::fs::MetadataExt;linked|=m.file_attributes()&0x400!=0;}
+            let linked=m.file_type().is_symlink();
+            #[cfg(windows)]
+            let linked={
+                use std::os::windows::fs::MetadataExt;
+                linked||m.file_attributes()&0x400!=0
+            };
             if linked||!m.is_dir(){return Err("Issue output needs ordinary profile-local directories".into());}
         }
     }

@@ -114,6 +114,12 @@ i relativi limiti.
 Le prove effettive e i limiti di piattaforma sono nel
 [record DBG-19](changes/2026-10-29-add-recent-event-ring.json).
 
+Il 30 ottobre sono stati eliminati i warning `unused_mut` nel controllo delle
+directory di output, conservando il rifiuto dei link simbolici e dei reparse
+point Windows. I blocchi modificati compilano senza warning per Linux e Windows;
+è una verifica mirata del compilatore, non una nuova prova GUI o del report.
+Vedere il [record della correzione](changes/2026-10-30-remove-report-link-flag-warnings.json).
+
 ## Verifica del 29 ottobre 2026
 
 Build Windows GNU release locked/offline, con e senza audit, senza warning.

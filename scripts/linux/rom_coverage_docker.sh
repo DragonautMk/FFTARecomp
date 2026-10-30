@@ -115,9 +115,9 @@ image=ffta-rom-coverage:local
 source_revision=$(git -C "$repo_dir" rev-parse --verify HEAD)
 context_dir=$(mktemp -d -- "$repo_dir/target/rom-coverage-context-XXXXXX")
 trap 'rm -rf -- "$context_dir"' EXIT
-# Archive a fixed commit: concurrent uncommitted extraction stays untouched.
+# Include committed include_bytes! tool assets; WIP scripts must not enter the runtime.
 git -C "$repo_dir" archive --format=tar --output "$context_dir/runtime.tar" "$source_revision" \
-    Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite
+    Cargo.toml Cargo.lock crates assets TinyCC Licenses gamedb.sqlite scripts
 mkdir -p -- "$context_dir/scripts" "$context_dir/docs/changes" "$context_dir/docs/development/rom-coverage"
 cp -- "$repo_dir/scripts/rom_coverage.py" "$repo_dir/scripts/rom_coverage.html" \
     "$repo_dir/scripts/artifact_coordinator.py" "$repo_dir/scripts/local_artifacts.py" "$repo_dir/scripts/rom_coverage_audit.py" \

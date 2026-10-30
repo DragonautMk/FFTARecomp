@@ -37,8 +37,12 @@ fn base(root:&Path)->Result<std::path::PathBuf,String>{
         path.push(part);
         match fs::symlink_metadata(&path){
             Ok(meta)=>{
-                let mut linked=meta.file_type().is_symlink();
-                #[cfg(windows)]{use std::os::windows::fs::MetadataExt;linked|=meta.file_attributes()&0x400!=0;}
+                let linked=meta.file_type().is_symlink();
+                #[cfg(windows)]
+                let linked={
+                    use std::os::windows::fs::MetadataExt;
+                    linked||meta.file_attributes()&0x400!=0
+                };
                 if linked||!meta.is_dir(){return Err("Recent output requires ordinary directories".into());}
             },
             Err(e) if e.kind()==std::io::ErrorKind::NotFound=>{},

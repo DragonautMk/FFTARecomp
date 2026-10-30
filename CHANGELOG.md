@@ -289,6 +289,27 @@ Documentation: [debug_events.md](docs/debug_events.md), [debug_ui.md](docs/debug
 
 [Change record](docs/changes/2026-10-30-unify-debug-event-identities.json)
 
+## 2026-10-30 — Remove platform-dependent report directory warnings
+
+Type: fixed. Platforms: Linux and Windows Rust conditional compilation.
+
+**Changes**
+
+- Replace mutable link flags with immutable bindings and Windows-only shadowing in recent-event and issue-report output checks, removing Linux unused_mut warnings while retaining symlink, reparse-point and non-directory rejection.
+
+**Validation**
+
+- Compiled the exact edited metadata-check blocks with rustc --emit=metadata -Dwarnings for x86_64-unknown-linux-gnu and x86_64-pc-windows-gnu; both passed without diagnostics.
+- Compared retained preimages and confirmed all source bytes outside the two binding blocks are unchanged.
+
+**Limitations**
+
+- This was a compiler-only check of the edited blocks, not a full application/Docker build or a new report/runtime test. Existing report behavior acceptance was not rerun.
+
+Documentation: [debug_recent.md](docs/debug_recent.md), [debug_issues.md](docs/debug_issues.md).
+
+[Change record](docs/changes/2026-10-30-remove-report-link-flag-warnings.json)
+
 ## 2026-10-30 — Persist debug choices and selector views across portable folder moves
 
 Type: added. Platforms: Windows GNU build, Wine.
@@ -569,6 +590,30 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-30-model-european-event-records12.json)
+
+## 2026-10-30 — Include committed embedded tools in the ROM coverage build
+
+Type: fixed. Platforms: Docker coverage image; Bash and PowerShell launchers.
+
+**Changes**
+
+- Archive committed scripts alongside Rust sources before Cargo runs, so recomp include_bytes! assets are present and share the selected runtime commit; retain the separate current coverage tools overlay after compilation.
+- Strengthen the existing launcher regression to verify all eight embedded scripts/templates remain committed bytes despite local edits, while current coverage tools stay current and private inputs remain outside the archive.
+
+**Validation**
+
+- All8 launcher tests passed with simulated Docker. Bash syntax and identical Bash/PowerShell archive-root lists passed.
+- Captured the actual Bash launcher context with an explicit staging-only stop before Docker/report work; all8 unique embedded assets match Git75fb1cfe, local runtime changes are excluded and current coverage tool copies match the worktree.
+- Actual Docker Buildx image compilation passed for recomp and rom_code_ranges using that context; offline coverage --help and the97-operation readonly CLI registry passed. No ROM, dataset or report generation and no performance measurement.
+
+**Limitations**
+
+- The image intentionally compiles committed75fb1cfe, so its two known unused_mut warnings remain until the separate local warning fix is committed; no worktree runtime overlay or assistant commit was performed.
+- Native Windows/PowerShell execution and complete ROM coverage generation were not repeated; PowerShell shares the corrected archive roots and Dockerfile, with static parity verified.
+
+Documentation: [docker.md](docs/docker.md), [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md).
+
+[Change record](docs/changes/2026-10-30-include-committed-tools-in-coverage-build.json)
 
 ## 2026-10-30 — Implement the native Clan Atlas desktop menu
 

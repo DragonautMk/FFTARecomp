@@ -1883,7 +1883,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   EUR extractor generation with metadata-only HTML/JSON and separate candidate
   code/data/runtime/ordinary-use/sharing/unknown layers. Docker launchers stage
   a Git HEAD archive plus current public tools into Dockerfile.coverage, excluding
-  uncommitted extraction work and private inputs. The cache key comes from the
+  uncommitted extraction work and private inputs. The archive also includes
+  committed scripts/templates required by Rust include_bytes! before Cargo;
+  current coverage tools are overlaid only after compilation. Embedded assets
+  therefore share the runtime commit, independent of worktree edits.
+  The cache key comes from the
   built extractor source. Coverage uses BuildKit's bundled Dockerfile frontend
   without a separate Docker Hub syntax-image fetch; uncached build dependencies
   still need network/DNS. Dataset identity remains

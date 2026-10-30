@@ -164,6 +164,13 @@ Il normale eseguibile, la cache Cargo dell’host e i job di estrazione non veng
 modificati. I sorgenti archiviati hanno date di estrazione nuove per impedire che
 una cache Cargo calda riusi binari di sorgenti diversi.
 
+L'archivio include anche `scripts/` dello stesso commit: `recomp` incorpora gli
+strumenti pubblici e i template HTML con `include_bytes!`, quindi questi file
+devono essere presenti **prima** della compilazione. Gli strumenti coverage
+correnti vengono copiati dopo, mantenendo distinti gli asset incorporati dal
+runtime e quelli che generano la mappa. Una correzione runtime soltanto locale
+non compare nella build finché non è committata.
+
 Il Dockerfile usa il frontend già incluso in BuildKit: non scarica separatamente
 `docker/dockerfile:1` da Docker Hub. Questo evita il fallimento preliminare
 `failed to fetch anonymous token` del frontend quando il DNS Docker non risponde.

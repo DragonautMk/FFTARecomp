@@ -165,6 +165,23 @@ the CLI/helper, reads their source revision and prepares/reuses the matching
 Rust or retained ELF is required. Source mtimes are refreshed inside Docker so
 warm Cargo caches cannot mask a changed archived source tree.
 
+The same archive includes committed `scripts/`: Rust embeds public tool scripts
+and HTML templates through `include_bytes!`, so they must exist before Cargo
+runs. These embedded assets come from the same fixed commit as the runtime.
+Current coverage scripts/evidence are overlaid only after compilation; local
+edits to embedded tools cannot silently enter the committed executable.
+Runtime fixes still present only in the working tree are consequently absent
+from this build until committed, including compiler-warning fixes.
+
+The 30 October correction passed eight launcher tests, including committed
+embedded-asset bytes despite local edits. The real context captured from the
+Bash launcher built both coverage executables successfully in Docker; offline
+coverage help and the CLI's 97-operation readonly registry also passed. That
+build used commit `75fb1cfe` and retained its two known warnings; the local warning
+fix was deliberately excluded. No ROM, dataset or report generation was used.
+PowerShell archive roots were checked against Bash; native Windows remains
+unverified.
+
 Both coverage launchers use this same Dockerfile and the bundled frontend
 described above. Uncached Rust base images, Debian packages and Cargo
 dependencies still require working network/DNS during the build.

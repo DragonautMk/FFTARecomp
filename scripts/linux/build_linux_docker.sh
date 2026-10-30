@@ -10,8 +10,8 @@ main() {
     fi
     output_dir=${1:-"$repo_dir/dist/docker-linux"}
     # Buildx parses --output as CSV. Do not silently truncate a path at a comma.
-    if [[ "$output_dir" == *','* || "$output_dir" == *$'\n'* ]]; then
-        printf 'The output directory must not contain commas or newlines.\n' >&2
+    if [[ "$output_dir" == *','* || "$output_dir" == *'"'* || "$output_dir" == *$'\n'* || "$output_dir" == *$'\r'* ]]; then
+        printf 'The output directory must not contain commas, double quotes or newlines.\n' >&2
         exit 2
     fi
     command -v docker >/dev/null || { printf 'Docker with Buildx is required.\n' >&2; exit 1; }

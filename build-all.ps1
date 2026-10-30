@@ -1,6 +1,7 @@
 param(
     [string]$AndroidSdk = $env:ANDROID_SDK_ROOT,
-    [switch]$SkipAndroid
+    [switch]$SkipAndroid,
+    [switch]$SkipLinux
 )
 
 # Android build tools are developer prerequisites, not part of the repository/payload.
@@ -15,30 +16,27 @@ if (-not $SkipAndroid) {
     }
 }
 
-Write-Host '==> [1/5] Building Windows portable runtime...' -ForegroundColor Cyan
+Write-Host '==> [1/3] Building Windows runtime, TinyCC and portable package...' -ForegroundColor Cyan
 $oldErrorAction = $ErrorActionPreference
 $ErrorActionPreference = 'Continue'
-& cargo build --locked --release -p recomp -p ffta-play
-$cargoExit = $LASTEXITCODE
-$ErrorActionPreference = $oldErrorAction
-if ($cargoExit -ne 0) { throw 'Windows runtime build failed' }
+try {
+    & python (Join-Path $PSScriptRoot 'scripts\build_desktop.py') --platform windows
+    $buildExit = $LASTEXITCODE
+} finally {
+    $ErrorActionPreference = $oldErrorAction
+}
+if ($buildExit -ne 0) { throw "Windows build/package failed (exit $buildExit)" }
 
-Write-Host '==> [2/5] Preparing Windows portable runtime...' -ForegroundColor Cyan
-# The Windows deliverable is a standalone ZIP, with no installer or shortcuts.
-
-Write-Host '==> [3/5] Building and packaging TinyCC with the portable runtime...' -ForegroundColor Cyan
-& python (Join-Path $PSScriptRoot 'TinyCC\build.py')
-if ($LASTEXITCODE -ne 0) { throw 'TinyCC Windows build failed' }
-& python (Join-Path $PSScriptRoot 'scripts\windows\package_ffta_windows.py')
-if ($LASTEXITCODE -ne 0) { throw 'Windows portable packaging failed' }
-
-Write-Host '==> [4/5] Building Linux x86_64 and Steam Deck installers...' -ForegroundColor Cyan
-# Keep the Linux cross-compilation environment out of the Android build.
-$childPowerShell = (Get-Process -Id $PID).Path
-& $childPowerShell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'scripts\windows\build-linux-windows.ps1') -OutputDir (Join-Path $PSScriptRoot 'Installer\Linux')
-if ($LASTEXITCODE -ne 0) { throw 'Linux installer build failed' }
+if (-not $SkipLinux) {
+    Write-Host '==> [2/3] Building Linux x86_64 and Steam Deck installers...' -ForegroundColor Cyan
+    $childPowerShell = (Get-Process -Id $PID).Path
+    & $childPowerShell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'scripts\windows\build-linux-windows.ps1') -OutputDir (Join-Path $PSScriptRoot 'Installer\Linux')
+    if ($LASTEXITCODE -ne 0) { throw 'Linux installer build failed' }
+} else {
+    Write-Host '==> [2/3] Linux skipped (-SkipLinux).'
+}
 if (-not $SkipAndroid) {
-    Write-Host '==> [5/5] Building Android ARM64 APK (external SDK/NDK and JDK required)...' -ForegroundColor Cyan
+    Write-Host '==> [3/3] Building Android ARM64 APK (external SDK/NDK and JDK required)...' -ForegroundColor Cyan
     $previousTargetDir = $env:CARGO_TARGET_DIR
     $oldErrorAction = $ErrorActionPreference
     try {
@@ -58,6 +56,8 @@ if (-not $SkipAndroid) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'AndroidPort\APK\FFTARecomp-android-arm64-preview.apk') -Destination $androidOutput -Force
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'AndroidPort\APK\SHA256.txt') -Destination $androidOutput -Force
 } else {
-    Write-Host '==> [5/5] Android skipped (-SkipAndroid).'
+    Write-Host '==> [3/3] Android skipped (-SkipAndroid).'
 }
-Write-Host "Done: $PSScriptRoot\dist\FFTARecomp-windows-portable.zip (Windows), Installer\Linux (Linux/Steam Deck), Installer\Android (APK when enabled)." -ForegroundColor Green
+Write-Host "Windows package: $PSScriptRoot\dist\FFTARecomp-windows-portable.zip" -ForegroundColor Green
+if (-not $SkipLinux) { Write-Host "Linux/Steam Deck installers: $PSScriptRoot\Installer\Linux" }
+if (-not $SkipAndroid) { Write-Host "Android APK: $PSScriptRoot\Installer\Android" }

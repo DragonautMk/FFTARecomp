@@ -71,6 +71,8 @@ class Portable(unittest.TestCase):
         self.assertIn('docs/debug_content.md',payloads)
         self.assertIn('docs/debug_selector.md',payloads)
         self.assertIn('docs/debug_events.md',payloads)
+        self.assertIn('docs/menu_clan_atlas.md',payloads)
+        self.assertIn('docs/extended_saves.md',payloads)
         self.assertNotIn('docs/development/TASK_HANDOFF.md',payloads)
         self.assertEqual(payloads['Licenses/README.md'],(self.root/'Licenses/README.md').read_bytes())
         self.assertIn(b'riferimento nel checkout',payloads['docs/debug_tools.md'])
@@ -143,10 +145,24 @@ class Portable(unittest.TestCase):
                 if line.startswith('COPY ') and '--from' not in line:
                     sources.update(shlex.split(line)[1:-1])
             self.assertTrue(inputs<=sources,(file,inputs-sources))
+            if file == 'Dockerfile.linux':
+                self.assertIn('scripts/build_desktop.py', sources)
         ignore=(REAL_ROOT/'.dockerignore').read_text().splitlines()
         self.assertTrue({'!'+p for p in inputs}<=set(ignore))
+        self.assertIn('!scripts/build_desktop.py', ignore)
         for pattern in ['**/*.gba','**/*.sav','**/*.ffstate','**/*.input','**/Data/**']:
             self.assertIn(pattern,ignore)
+
+    def test_ci_upload_matches_the_actual_default_linux_archive(self):
+        with mock.patch.object(package, 'ROOT', self.root), contextlib.redirect_stdout(io.StringIO()):
+            package.main(argv=['--platform', 'linux', '--runtime-dir', str(self.runtime)])
+        archive = self.root/'dist/FFTARecomp-linux-portable.tar.gz'
+        self.assertTrue(archive.is_file())
+        workflow = (REAL_ROOT/'.github/workflows/installer-linux.yml').read_text()
+        upload = re.search(r'^\s+path: (\S+)\s*$', workflow, re.M)
+        self.assertIsNotNone(upload)
+        self.assertEqual(upload.group(1), archive.relative_to(self.root).as_posix())
+        self.assertIn('if-no-files-found: error', workflow)
 
     def test_bundled_markdown_links_keep_fragments_reserved_paths_and_plain_checkout_refs(self):
         data=b'[here](child%20name.md#part) [proof](../changes/result.json) [web](https://example.test) [same](#part)'

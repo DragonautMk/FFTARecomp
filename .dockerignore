@@ -23,6 +23,7 @@
 !scripts/linux/
 !scripts/linux/package_ffta_linux.sh
 !scripts/package_ffta_portable.py
+!scripts/build_desktop.py
 !scripts/extract_rom_data.py
 !scripts/rom_coverage.py
 !scripts/rom_coverage.html
@@ -43,6 +44,8 @@
 !docs/docker.md
 !docs/fps_overlay.md
 !docs/menu_shortcuts.md
+!docs/menu_clan_atlas.md
+!docs/extended_saves.md
 !docs/save_states.md
 !docs/save_backups.md
 !docs/rom_data.md

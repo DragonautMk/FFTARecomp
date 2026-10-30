@@ -42,13 +42,30 @@ fn every_form_has_bounded_unique_fields_and_shared_control_validation() {
         Tool::Audio,
         Tool::Code,
         Tool::Gameplay,
-        Tool::Recent,
         Tool::Graphics,
         Tool::Inspect,
     ] {
         d.tool = tool;
         d.values = defaults(tool);
-        assert!(d.control().is_ok(), "{tool:?}");
+        let result = d.control();
+        assert!(result.is_ok(), "{tool:?}: {result:?}");
+    }
+    d.tool = Tool::Recent;
+    d.values = defaults(Tool::Recent);
+    for reads in ["off", "on"] {
+        d.values.insert("--reads".into(), reads.into());
+        match d.control() {
+            Ok(Action::RecentStart { settings }) => {
+                assert!(reads == "off" || cfg!(feature = "rom-data-read-audit"));
+                assert_eq!(settings.reads, reads == "on");
+            }
+            Err(error) => {
+                assert_eq!(reads, "on", "{error}");
+                assert!(!cfg!(feature = "rom-data-read-audit"), "{error}");
+                assert!(error.contains("lacks rom-data-read-audit"), "{error}");
+            }
+            Ok(other) => panic!("Unexpected Recent action: {other:?}"),
+        }
     }
     d.tool = Tool::Audio;
     d.values = defaults(Tool::Audio);

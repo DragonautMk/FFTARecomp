@@ -2489,9 +2489,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Container builds
 
+Native desktop packaging uses `scripts/build_desktop.py` through the Linux
+wrapper or Windows `build-all.ps1 -SkipLinux -SkipAndroid`: Cargo JSON artifact
+paths select the exact runtime/TinyCC directory, including custom target dirs.
+Only Windows/Linux x86_64 executables are accepted. The all-platform Windows
+script keeps its Linux/Android routes unless explicitly skipped. The Linux CI
+uploads the actual `dist/FFTARecomp-linux-portable.tar.gz` and refuses empty
+artifact output. Bundles and Docker contexts include Atlas/extended-save docs.
+
 The Linux, Windows and coverage Dockerfiles use BuildKit's bundled frontend,
 avoiding a separate Docker Hub `docker/dockerfile:1` fetch before compilation.
 Uncached base images and build dependencies still require working network/DNS.
+Desktop Docker stages refresh copied crate-file timestamps before using Cargo's
+shared target cache, preventing stale reuse across older source snapshots;
+coverage refreshes its archived sources. The host checkout is unaffected.
 
 - `Dockerfile.linux` and `scripts/linux/build_linux_docker.sh` build Linux amd64 using
   Rust 1.94.0 / Debian Bookworm with ALSA/udev development dependencies inside

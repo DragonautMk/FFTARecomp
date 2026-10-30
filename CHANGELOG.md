@@ -652,6 +652,55 @@ Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [MENU_ATLAS_BASELI
 
 [Change record](docs/changes/2026-10-30-implement-native-clan-atlas-menu.json)
 
+## 2026-10-30 — Correct Recent form expectations for optional read-audit support
+
+Type: fixed. Platforms: Platform-independent test; Windows GNU builds executed via Wine.
+
+**Changes**
+
+- Correct the existing shared-control form test: Recent with reads off must validate in both builds; reads on must preserve the production refusal without rom-data-read-audit and succeed with the feature. Check the returned setting and capability error instead of treating every default form as unconditionally supported.
+- Include the actual validation error when other default control-form assertions fail. Production defaults, feature guard, parser and report behavior are unchanged.
+
+**Validation**
+
+- Default and rom-data-read-audit Windows GNU release test builds passed without compiler diagnostics. Ran only every_form_has_bounded_unique_fields_and_shared_control_validation on Wine for each configuration:1 passed in each; all other tests left unrun.
+- The first audit build failed against a stale gba-core rlib Cargo incorrectly reported fresh; saved dependency metadata lacked current debug-memory/raw-transfer modules. A scoped Windows release gba-core cache clean and audit-only rebuild resolved it; the accepted default run was not repeated and diagnostics were retained.
+- Confirmed no production Rust files changed and the user-generated ROM coverage JSON/HTML hashes remained unchanged.
+
+**Limitations**
+
+- The full Linux Docker suite/package export and native Windows runtime were not rerun. This closes the reported feature-dependent test assertion; existing game/ROM acceptance and performance remain outside the check.
+
+Documentation: [debug_recent.md](docs/debug_recent.md).
+
+[Change record](docs/changes/2026-10-30-correct-recent-form-feature-expectations.json)
+
+## 2026-10-30 — Correct native artifact routing and desktop build packaging
+
+Type: fixed. Platforms: Native Windows/Linux build routing; Docker/BuildKit and Linux CI definitions.
+
+**Changes**
+
+- Share native desktop build/package orchestration using actual Cargo JSON executable paths, with Windows/Linux x86_64 header checks, colocated TinyCC output and explicit runtime directory; respect custom Cargo target directories and stop before packaging on compiler or artifact failures.
+- Add -SkipLinux alongside -SkipAndroid for Windows-only builds and clarify native/all-platform prerequisites. Preserve separate Windows-to-Linux and Android routes; lock the cross-Linux Cargo build.
+- Refresh copied Rust crate files before shared-cache Cargo steps in Linux/Windows Docker builds; retain coverage committed-source isolation. Reject double quotes and CR as well as comma/newline in Docker CSV output paths.
+- Include the Atlas/extended-save guides in portable allowlists and both Docker contexts. Align Linux CI upload with the produced portable archive, fail on missing artifacts and select Python3.11 with locked serial tests.
+
+**Validation**
+
+- Passed21 distinct targeted tooling tests:5 synthetic native Cargo/TinyCC cases,11 portable-package cases and5 Docker-wrapper cases, including custom target subdirectories, spaces/Unicode, architecture and failure checks, privacy/manifest/modes and actual default Linux package versus CI upload path.
+- An actual tiny standalone Rust/Cargo fixture in a cached Docker image reproduced stale output after backdating changed source and produced the new value after the recipes' crate refresh. Actual Buildx stage parsing passed Linux/Windows/coverage Dockerfiles; no downloads or FFTA runtime compilation for this probe.
+- Bash syntax, Linux CI YAML and artifact/Python settings, helper --help, existing user coverage/test-fix hash preservation and diff whitespace checks passed. Existing Recent default/audit Wine test and full coverage-image compilation proofs were reused without replay.
+
+**Limitations**
+
+- Native Windows/PowerShell execution, the full native/Docker package matrix, hosted GitHub workflow, Windows-to-Linux installer and Android SDK/NDK execution remain unverified in this audit; PowerShell and legacy generic release routing were inspected statically. No AndroidPort implementation changes, game/ROM execution or performance measurements.
+- Native builds still require their Rust target linker, Python and C compiler; Docker needs network for uncached dependencies. Compiler path-remapping/private-prefix controls remain explicit developer choices. Generic upstream toolkit/launcher packaging is separate from current FFTA portable builds.
+
+Documentation: [README.md](README.md), [portable.md](docs/portable.md), [docker.md](docs/docker.md), [README.md](scripts/README.md).
+
+[Change record](docs/changes/2026-10-30-correct-desktop-build-methods.json)
+
 ## 2026-10-30 — Consume European world records through managed typed storage
 
 Type: added. Platforms: Windows.

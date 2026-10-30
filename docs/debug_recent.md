@@ -84,6 +84,13 @@ zero richieste nella finestra/range. Se un altro collector possiede già
 l'observer, il gioco prosegue con indisponibilità esplicita. I gruppi persi per
 cap sono conteggiati; non dimostrano non-uso globale di risorse o funzioni.
 
+Nel form dei parametri, **Recent** con `--reads on` viene rifiutato in fase di
+validazione se il runtime non include `rom-data-read-audit`; `--reads off` resta
+valido in entrambe le build. Il test del form verifica separatamente questi due
+casi, senza aspettarsi che un build ordinario disponga degli hook opzionali.
+Gli esiti della verifica mirata sono nel
+[record della correzione del test](changes/2026-10-30-correct-recent-form-feature-expectations.json).
+
 ## Limiti, identità e conservazione
 
 Il buffer conserva al più **1.024 eventi / 256 KiB di eventi serializzati**,

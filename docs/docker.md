@@ -83,6 +83,13 @@ BuildKit manages Cargo registry/git and target caches. Only the final archive
 and build information are exported, using Docker's
 [local artifact exporter](https://docs.docker.com/build/building/export/).
 
+On a Docker build-layer cache miss, the Linux and Windows recipes refresh the
+copied crate files before Cargo uses the shared target cache. This matters when
+switching between source snapshots with older timestamps: Cargo can otherwise
+reuse a binary produced from different source content. Unchanged Docker layers
+remain cached. The refresh happens inside the image, without touching the host
+checkout. The coverage recipe already refreshes its Git archive at extraction.
+
 The Bash Linux builder prints the path of a new log under
 `target/build-logs/linux-*.log` on every invocation and saves both normal output
 and errors there. When a build fails in an interactive terminal, it waits for
@@ -440,6 +447,45 @@ files only; no session/recording/result payloads are added. The package manifest
 verifies staged bytes and preserves empty Data. This source/COPY closure is
 checked by public packaging tests; the DBG-22 validation does not rebuild the
 unrelated full Rust Docker images.
+
+## Build method verification (30 October 2026)
+
+Current native desktop entry points are `scripts/linux/package_ffta_linux.sh`
+and `build-all.ps1 -SkipLinux -SkipAndroid` on Windows. Both use
+`scripts/build_desktop.py` to follow Cargo's actual executable paths rather than
+assuming `target/release`. The helper checks the Windows/Linux x86_64 headers,
+stages TinyCC beside those binaries and passes that directory to the portable
+packager. Rust, the selected target's linker, Python3.11+ and a host C compiler
+are native-build prerequisites; Linux additionally needs pkg-config and the
+ALSA/udev development headers. Docker supplies its own build dependencies.
+
+The audit passed 21 distinct tooling tests: five synthetic Cargo/TinyCC routing
+cases, eleven portable-package checks and five Docker-wrapper cases. They cover
+custom target directories, target subdirectories, Unicode/spaces, PE/ELF x86_64
+selection, compiler failures, old-package preservation, public docs/notices,
+private-file exclusion and unsafe CSV output paths. The Docker contexts contain
+the native helper and the Atlas/extended-save guides required by the packager.
+
+A tiny standalone Rust fixture in a cached Docker image reproduced an old
+binary after replacing its source with an older timestamp. Running the recipes'
+crate-file refresh caused Cargo to produce the new value. No FFTA code or ROM
+was used. Actual Buildx stage parsing passed for Linux, Windows and coverage;
+the earlier full coverage-image compilation/startup proof remains valid.
+
+The Linux CI workflow now uploads the portable archive actually produced in
+`dist/`, refuses missing artifacts, uses locked serial tests and selects
+Python3.11 through [setup-python](https://github.com/actions/setup-python).
+Its YAML and producer/upload path agreement were checked locally; the hosted
+workflow itself was not run.
+
+PowerShell was reviewed statically because a local interpreter was unavailable.
+Native Windows/PowerShell, the complete new native/package and Docker export
+matrix, Windows-to-Linux installer execution and Android SDK/NDK builds remain
+to be verified. Full application/GUI suites and benchmarks were not repeated.
+`build-all.ps1` retains Linux/Android steps when their skip switches are absent;
+`AndroidPort/` is a separate tree. The generic upstream
+`package-release.sh`/Unix TinyCC helpers package the toolkit/launcher and are
+separate from the current FFTA portable entry points above.
 
 Offline homepage/artifact/campaign launchers reuse already available images
 without network. The [common guide](debug_tools.md) lists prerequisites and

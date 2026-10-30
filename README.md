@@ -164,23 +164,39 @@ The Windows ZIP appears in `dist/docker-windows/`. Add `-Platform linux` to
 build Linux from the same Windows host. No Rust, MSYS2 or Python host install
 is required for this Docker workflow. See [Docker builds](docs/docker.md).
 
-For native Windows builds outside Docker, you need [Rust](https://rustup.rs) and Windows PowerShell. Then run a single script from the repo root:
+For native builds without Docker, install Rust with a working linker for its
+selected target, Python 3.11+ and GCC/Clang for TinyCC. On Linux also install
+pkg-config and the ALSA/udev development headers.
+
+From the checkout root, build the **Windows desktop package only**:
 
 ```powershell
-git clone https://github.com/Jorge262007/FFTARecomp.git
-cd FFTARecomp
-.\build-all.ps1
+.\build-all.ps1 -SkipLinux -SkipAndroid
 ```
 
-The script builds the Windows workspace, bundles TinyCC and creates
-`dist/FFTARecomp-windows-portable.zip`. It also retains the separate Linux/Steam
-Deck installer and Android build steps. Use `-SkipAndroid` to omit the APK.
-For a Windows-only build, see [portable build commands](docs/portable.md).
+Or build the native Linux portable package:
 
-If PowerShell blocks the script, run it with:
+```bash
+bash scripts/linux/package_ffta_linux.sh
+```
+
+Both use `scripts/build_desktop.py`: it builds with `--locked --release`, reads
+the actual executable paths from Cargo (including custom target directories),
+builds TinyCC beside those executables and packages that exact directory.
+Outputs are `dist/FFTARecomp-windows-portable.zip` and
+`dist/FFTARecomp-linux-portable.tar.gz`. Plain
+`cargo build --locked --release -p recomp -p ffta-play` builds the executables;
+the portable helpers also supply TinyCC, public tools, docs and notices.
+
+Without the skip switches, `build-all.ps1` additionally builds Linux/Steam Deck
+installers and Android. Those require the separate Windows-to-Linux toolchain
+and Android SDK/NDK/JDK prerequisites described in the script and
+[portable build guide](docs/portable.md). `-SkipAndroid` alone still builds Linux.
+
+If PowerShell blocks the script, use a single-process override:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\build-all.ps1
+powershell -ExecutionPolicy Bypass -File .\build-all.ps1 -SkipLinux -SkipAndroid
 ```
 
 > ⏱️ The first build can take several minutes.

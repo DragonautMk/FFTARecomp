@@ -16,8 +16,9 @@ COPY TinyCC/ TinyCC/
 COPY Licenses/ Licenses/
 COPY gamedb.sqlite ./
 COPY scripts/linux/package_ffta_linux.sh scripts/linux/
-COPY scripts/package_ffta_portable.py scripts/
+COPY scripts/package_ffta_portable.py scripts/build_desktop.py scripts/
 COPY docs/portable.md docs/docker.md docs/fps_overlay.md docs/menu_shortcuts.md docs/save_states.md docs/save_backups.md docs/rom_data.md docs/rom_data_runtime.md docs/
+COPY docs/menu_clan_atlas.md docs/extended_saves.md docs/
 COPY scripts/artifact_coordinator.py scripts/local_artifacts.py scripts/debug_artifacts.py scripts/debug_artifacts.html scripts/debug_campaign.py scripts/debug_campaign.html scripts/report_home.py scripts/report_home.html scripts/
 COPY scripts/linux/debug_artifacts.sh scripts/linux/debug_campaign.sh scripts/linux/report_home.sh scripts/linux/debug_runtime.sh scripts/linux/
 COPY scripts/windows/debug_artifacts.ps1 scripts/windows/debug_campaign.ps1 scripts/windows/report_home.ps1 scripts/windows/debug_runtime.ps1 scripts/windows/
@@ -29,7 +30,8 @@ FROM source AS extract
 RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,id=ffta-linux-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=ffta-linux-target-amd64,target=/workspace/target,sharing=locked \
-    cargo build --locked --release -p recomp --bin recomp \
+    find crates -type f -exec touch {} + \
+    && cargo build --locked --release -p recomp --bin recomp \
     && mkdir -p /opt/ffta \
     && cp target/release/recomp /opt/ffta/recomp
 COPY scripts/extract_rom_data.py scripts/
@@ -55,7 +57,8 @@ FROM source AS build
 RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,id=ffta-linux-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=ffta-linux-target-amd64,target=/workspace/target,sharing=locked \
-    bash scripts/linux/package_ffta_linux.sh \
+    find crates -type f -exec touch {} + \
+    && bash scripts/linux/package_ffta_linux.sh \
     && cargo test --locked --release -p input-config -p menu -p gba-core -p screen -p recomp -- --test-threads=1 \
     && mkdir /artifacts \
     && cp dist/FFTARecomp-linux-portable.tar.gz /artifacts/ \

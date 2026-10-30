@@ -33,6 +33,7 @@ COPY Licenses/ Licenses/
 COPY gamedb.sqlite ./
 COPY scripts/package_ffta_portable.py scripts/
 COPY docs/portable.md docs/docker.md docs/fps_overlay.md docs/menu_shortcuts.md docs/save_states.md docs/save_backups.md docs/rom_data.md docs/rom_data_runtime.md docs/
+COPY docs/menu_clan_atlas.md docs/extended_saves.md docs/
 COPY scripts/artifact_coordinator.py scripts/local_artifacts.py scripts/debug_artifacts.py scripts/debug_artifacts.html scripts/debug_campaign.py scripts/debug_campaign.html scripts/report_home.py scripts/report_home.html scripts/
 COPY scripts/linux/debug_artifacts.sh scripts/linux/debug_campaign.sh scripts/linux/report_home.sh scripts/linux/debug_runtime.sh scripts/linux/
 COPY scripts/windows/debug_artifacts.ps1 scripts/windows/debug_campaign.ps1 scripts/windows/report_home.ps1 scripts/windows/debug_runtime.ps1 scripts/windows/
@@ -42,7 +43,8 @@ COPY docs/development/LOCAL_ARTIFACTS.md docs/development/MEMORY_WORKFLOW.md doc
 RUN --mount=type=cache,id=ffta-linux-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,id=ffta-linux-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=ffta-windows-target-amd64,target=/workspace/target,sharing=locked \
-    cargo build --locked --release --target x86_64-pc-windows-gnu -p recomp -p ffta-play \
+    find crates -type f -exec touch {} + \
+    && cargo build --locked --release --target x86_64-pc-windows-gnu -p recomp -p ffta-play \
     && python3 TinyCC/build.py --platform windows --cc x86_64-w64-mingw32-gcc --host-cc gcc \
         --output target/x86_64-pc-windows-gnu/release/tcc/libtcc.dll \
     && cargo test --locked --release --target x86_64-pc-windows-gnu \

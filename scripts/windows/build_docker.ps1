@@ -9,8 +9,8 @@ $ErrorActionPreference = 'Stop'
 $Platform = $Platform.ToLowerInvariant()
 $repoDir = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 if (-not $OutputDir) { $OutputDir = Join-Path $repoDir "dist/docker-$Platform" }
-if ($OutputDir.Contains(',') -or $OutputDir.Contains("`n") -or $OutputDir.Contains("`r")) {
-    throw 'The output directory must not contain commas or newlines.'
+if ($OutputDir.Contains(',') -or $OutputDir.Contains('"') -or $OutputDir.Contains("`n") -or $OutputDir.Contains("`r")) {
+    throw 'The output directory must not contain commas, double quotes or newlines.'
 }
 $exportDir = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDir)
 if (-not (Get-Command docker -CommandType Application -ErrorAction SilentlyContinue)) {

@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Explicit public inputs only. Never enumerate the checkout, Data or runtime-dir.
 BASE_DOCS = ('portable', 'docker', 'fps_overlay', 'menu_shortcuts', 'save_states',
-             'save_backups', 'rom_data', 'rom_data_runtime')
+             'save_backups', 'rom_data', 'rom_data_runtime', 'menu_clan_atlas',
+             'extended_saves')
 DEBUG_DOCS = ('debug_tools', 'debug_diagnostics', 'debug_sessions', 'debug_catalog',
               'debug_recordings', 'debug_replays', 'debug_rom_audit', 'debug_captures',
               'debug_comparisons', 'debug_control', 'debug_probes', 'debug_graphics',
@@ -120,9 +121,9 @@ Tutti i dati dell'app restano nella cartella Data. Per spostare il gioco,
 copia TUTTA la cartella, inclusi Data, ffta.gba e portable.txt, a gioco chiuso.
 Per importare progressi: a gioco chiuso copia il tuo .sav in Data/saves/ffta.sav.
 Se esiste gia, conservane prima una copia. Dettagli: docs/portable.md.
-Menu: Esc oppure Start+Back/Select sul controller; combo configurabili in Input.
-Savestate: menu Save states (9 slot con anteprima e annulla).
-Backup del .sav: menu Save backups (le ultime 2 copie create all'avvio).
+Menu: Esc oppure Start+Back/Select sul controller; combo in Gioco > Controlli.
+Savestate: Gioco > Salvataggi > Save states (9/99 slot, anteprima e annulla).
+Backup del .sav: Gioco > Salvataggi > Save backups (le ultime 2 copie all'avvio).
 Per errori di avvio consulta play-error.log nella cartella principale.
 Guida debug: docs/debug_tools.md (bug, registrazione, confronto, letture, pulizia).
 Launcher con log: scripts/windows/debug_runtime.ps1 oppure scripts/linux/debug_runtime.sh.

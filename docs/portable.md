@@ -133,18 +133,33 @@ ZIP to `dist/docker-windows/`; `-Platform linux` builds the Linux tar.gz instead
 On Linux, `bash scripts/linux/build_windows_docker.sh` produces the same Windows ZIP.
 See [Docker builds](docker.md) for host/container distinctions and test scope.
 
-For native Windows builds without Docker, build `recomp` and `ffta-play` in release mode, run
-`python TinyCC/build.py`, then `python scripts/windows/package_ffta_windows.py`.
+For a native Windows desktop package without Docker, run
+`.\build-all.ps1 -SkipLinux -SkipAndroid`. Install Rust with its target linker,
+Python3.11+ and a host GCC/Clang for TinyCC first.
 For a native Linux release, install Rust, a C compiler, pkg-config and ALSA/udev
 development headers, then run `bash scripts/linux/package_ffta_linux.sh`. The output is
 `dist/FFTARecomp-linux-portable.tar.gz`. The shared packaging implementation is
 `scripts/package_ffta_portable.py --platform linux`; it accepts `--runtime-dir`.
-`build-all.ps1` uses the compatible Windows packaging entry point; its Windows-
-hosted Linux cross-build and Android steps retain their separate outputs. For a cross build pass
-`--runtime-dir target/x86_64-pc-windows-gnu/release` to the packager.
+Both native wrappers use `scripts/build_desktop.py`. It reads the two executable
+paths from Cargo's JSON output, checks the requested Windows/Linux x86_64 format,
+builds TinyCC in that same directory and gives it explicitly to the packager.
+`CARGO_TARGET_DIR` and configured target subdirectories therefore cannot silently
+select older `target/release` files. Cargo/TinyCC failure stops packaging.
+Plain Cargo builds only the executables. When packaging manually, pass the
+actual directory to `--runtime-dir` and build TinyCC there with `--output`.
+`build-all.ps1` without the switches also builds Linux/Steam Deck installers and
+Android; `-SkipAndroid` alone retains Linux. Those steps require the separate
+cross compiler/sysroot/pkg-config and Android SDK/NDK/JDK described in their
+scripts. The Windows-to-Linux helper uses the lockfile and retains its own
+target directory. `AndroidPort/` remains a separate source tree.
 The packaging script selects runtime/compiler/docs/licenses explicitly and
 never includes an existing `Data` folder, ROMs, saves or generated translations.
 Without the marker, existing installed-mode storage remains supported.
+
+The desktop bundles include the [Atlas menu guide](menu_clan_atlas.md) and
+[9/99-slot guide](extended_saves.md); the same public-file list is available in
+both Docker build contexts. Build-method checks and their limits are recorded
+in [Docker/build validation](docker.md#build-method-verification-30-october-2026).
 
 ## Validation
 

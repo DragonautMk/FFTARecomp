@@ -66,6 +66,32 @@ sys.exit(int(os.environ.get('DOCKER_TEST_STATUS', '0')))
         self.assertNotIn('Portable archive', result.stdout)
         self.assertNotIn('Premi Invio', result.stdout + result.stderr)
 
+    def test_csv_unsafe_output_is_rejected_before_docker(self):
+        for character in [',', '"', '\n', '\r']:
+            with self.subTest(character=character):
+                result = subprocess.run(['bash', str(self.script), 'bad'+character+'path'],
+                                        cwd=self.directory, env=self.environment,
+                                        capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 2)
+                self.assertFalse(self.arguments.exists())
+
+    def test_windows_docker_wrapper_routes_and_rejects_the_same_unsafe_paths(self):
+        script = self.script.with_name('build_windows_docker.sh')
+        shutil.copy2(ROOT/'scripts/linux/build_windows_docker.sh', script)
+        for character in [',', '"', '\n', '\r']:
+            result = subprocess.run(['bash', str(script), 'bad'+character+'path'],
+                                    cwd=self.directory, env=self.environment,
+                                    capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 2)
+            self.assertFalse(self.arguments.exists())
+        result = subprocess.run(['bash', str(script), 'Windows export with spaces'],
+                                cwd=self.directory, env=dict(self.environment, DOCKER_TEST_STATUS='17'),
+                                capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 17)
+        arguments = json.loads(self.arguments.read_text())
+        self.assertEqual(arguments[arguments.index('--file')+1], str(self.repo/'Dockerfile.windows'))
+        self.assertEqual(arguments[arguments.index('--target')+1], 'export')
+
     def test_terminal_failure_stays_open_until_enter(self):
         import pty
         master, slave = pty.openpty()

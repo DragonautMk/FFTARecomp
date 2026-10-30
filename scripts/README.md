@@ -16,6 +16,10 @@ tools stay directly in `scripts/`. For example,
 `benchmark_windows_runtime.py` supports native and Wine runtimes despite its
 historical filename; `package-release.sh` runs on all three CI host platforms.
 The root `build-all.ps1` remains the Windows all-platform build entry point.
+Use `-SkipLinux -SkipAndroid` for a Windows desktop package only; omitting only
+Android retains the Windows-to-Linux installer step. Native desktop wrappers
+share `build_desktop.py`, which follows Cargo's reported executable paths and
+stages TinyCC in that same directory before packaging.
 It launches the Linux cross-build helper with the current PowerShell executable,
 so PowerShell 7 does not try to find the Windows PowerShell `powershell.exe`
 inside its own installation directory.

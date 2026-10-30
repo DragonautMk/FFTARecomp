@@ -108,7 +108,7 @@ try {
     $ErrorActionPreference = 'Continue'
     $buildPackages = @("-p", "installer")
     if (-not $InstallerOnly) { $buildPackages += @("-p", "recomp", "-p", "ffta-play") }
-    & cargo build --release --target x86_64-unknown-linux-gnu @buildPackages
+    & cargo build --locked --release --target x86_64-unknown-linux-gnu @buildPackages
     $cargoExit = $LASTEXITCODE
     $ErrorActionPreference = $oldErrorAction
     if ($cargoExit -ne 0) { throw 'Linux build failed' }

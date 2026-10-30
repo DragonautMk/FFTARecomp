@@ -22,6 +22,11 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   `ff.speed`2/4/8. The rational frame batch clock preserves each complete guest
   frame/clock; fast audio uses fractional playback ratios. Menu-only shoulder
   chords preserve preferences and yield to binding capture/text editing.
+  Directions navigate; Confirm opens a pending value, Confirm applies and Cancel
+  discards (AV, slots, catalog filters, host choices and input-device tabs).
+  Left at the content edge reaches the sidebar; Right enters a section.
+  Video exposes persisted menu.transparency0..1 (default0 opaque), affecting
+  background fills while text, borders and previews retain their foreground.
   Complete selected values are available through readonly Dettagli/F1/R3;
   capture, editors, dropdowns and busy host owners keep priority. Native font
   scaling follows HD/4K, with readable nested catalog/selector/tool controls.

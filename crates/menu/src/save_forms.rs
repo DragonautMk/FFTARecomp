@@ -234,7 +234,7 @@ pub(super) fn draw(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
         8.,
         (h.saturating_sub(18)) as f32,
         if message.is_empty() {
-            "←→ slot · Conferma · Esc indietro"
+            "Frecce: naviga · OK: scegli/conferma · Annulla: indietro"
         } else {
             message
         },

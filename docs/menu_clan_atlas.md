@@ -32,11 +32,27 @@ cartuccia numerati e backup. Le forme e gli handler precedenti conservano
 anteprime, conferme e Undo. Sistema raccoglie riavvio, cambio ROM e uscita.
 I binding e i tre profili di input rimangono in Controlli.
 
+**Gioco > Video > Trasparenza menu** regola gli sfondi dallo 0% (opachi,
+valore iniziale) al 100% (trasparenti), in passi del 10%. Testi, bordi e
+anteprime restano opachi. La preferenza viene salvata come
+`menu.transparency = 0.0..1.0` in `av.cfg`, anche in modalità portable.
+Il gioco visibile sotto il menu resta fermo; ogni ridisegno riparte dal frame
+congelato, senza accumulare la trasparenza del disegno precedente.
+
 ## Comandi e Fast Forward
 
 Tab passa fra sidebar e contenuto; nei selettori/editor esistenti Tab mantiene
 la navigazione locale e Ctrl+Tab passa alla sidebar. Sul gamepad X/West cambia
-focus. D-pad/frecce, Conferma e Annulla mantengono gli handler originali.
+focus. D-pad/frecce spostano il cursore senza cambiare le opzioni: **OK/Conferma**
+apre la scelta, le direzioni evidenziano il valore, un secondo **OK** applica
+e **Annulla** scarta. Vale anche per slider, slot, filtri e scelte nei moduli
+Debug. OK usa il comando condiviso della periferica (per esempio South sul
+gamepad), senza dipendere dal solo tasto Invio. Un click su una riga apre la
+scelta; un click sull'opzione la conferma, il click destro annulla.
+Sinistra dal margine del contenuto raggiunge la sidebar; su una sezione,
+Destra torna al suo contenuto. Nei layout a due colonne sinistra/destra
+raggiungono prima il controllo adiacente. In Controlli, Su dal primo binding
+raggiunge le linguette dei dispositivi: le direzioni evidenziano, OK seleziona.
 Shift+Tab o Y/North cambia la vista Debug fra strumenti e riferimenti V2;
 sono disponibili anche le due linguette cliccabili. Nei riferimenti ↑/↓
 scorre la lista, ←/→ scorre i dettagli; la rotella agisce sull'area puntata.
@@ -56,7 +72,8 @@ A menu aperto L1/R1 cambiano il volume di 10 punti, L1+R1 cambia Mute senza
 cambiare il volume. L2/R2 cambiano la velocità di 20 punti, L2+R2 attiva o
 disattiva Fast Forward senza cambiare la preferenza. Una finestra di 80 ms dà
 precedenza alla pressione quasi simultanea; il rilascio parziale non ripete
-la chord. La cattura di un binding e l'editing di testo restano esclusivi.
+la chord. La cattura di un binding e l'editing di testo o di una scelta nei
+moduli host restano esclusivi. Questi pulsanti dorsali restano shortcut dedicate.
 Questi controlli globali non consumano pulsanti quando il menu è chiuso.
 Il footer sinistro mostra il binding attuale della periferica selezionata,
 compreso il binding appena acquisito. Escape resta sempre un recupero.
@@ -168,3 +185,27 @@ Windows/Wine predisposto dal progetto, scegliere la propria ROM EUR e aprire
 il menu con Escape o con la combinazione configurata (default Start+Back).
 Per una copia isolata seguire [Debug tools](debug_tools.md); non sostituire
 l'eseguibile di una sessione già autenticata per provarne una build diversa.
+
+
+## Trasparenza e modifica dopo OK
+
+La verifica mirata Windows GNU/Wine della modifica del 30 ottobre comprende
+32 test input-config e 92 test menu passati (un'esportazione opzionale ignorata),
+più i casi mirati di aggiornamento del selettore, cattura XInput frontend e
+passaggio dal focus delle linguette al click del mouse. I test precedenti sono
+stati adattati alla conferma esplicita, conservando i controlli di overwrite,
+Undo, profili e cattura esclusiva.
+
+La GUI EUR con XInput simulato verifica navigazione fra sidebar e contenuto
+con la sola croce, volume e trasparenza senza modifiche prima di OK, annullamento,
+sfondi a 0/50/100%, scelta nei parametri Code e riapertura al 50% persistito.
+Le immagini sono state ispezionate. Stato completo, frame, clock e input guest
+rimangono invariati; ROM e salvataggi originali conservano i propri hash.
+Un'ultima correzione isolata del focus dopo click su una linguetta è verificata
+con il solo caso Wine interessato, senza ripetere la GUI già accettata.
+
+Evidenze locali: `target/menu-transparency-navigation/` (log di build e test,
+`gui2/accepted-prefix.json`, `gui3/acceptance.json`, immagini e pin del runtime).
+Due errori dell'harness relativi al puntatore e al prefisso delle etichette sono
+conservati; i prefissi già riusciti non sono stati ripetuti. Nessun benchmark.
+Linux, Windows nativo, controller fisici e versione USA restano **da verificare**.

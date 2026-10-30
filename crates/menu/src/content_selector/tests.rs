@@ -81,7 +81,14 @@ fn unicode_search_cancel_filter_sort_favorites_and_recent_do_not_execute() {
     s.text_backspace();
     s.finish_search(false);
     s.focus = 1;
+    assert!(s.handle(MenuInput::Confirm).is_none());
     assert!(s.handle(MenuInput::Right).is_none());
+    assert_eq!(s.visible.len(), 30);
+    assert!(s.handle(MenuInput::Cancel).is_none());
+    assert_eq!(s.visible.len(), 30);
+    s.handle(MenuInput::Confirm);
+    s.handle(MenuInput::Right);
+    s.handle(MenuInput::Confirm);
     assert_eq!(s.visible.len(), 15);
     s.focus = 7;
     s.confirm();
@@ -207,8 +214,15 @@ fn required_role_survives_category_changes_and_can_be_cleared_for_generic_browse
     s.scope(vec!["snapshot".into()], None);
     assert_eq!(s.visible, vec![0]);
     s.focus = 1;
+    s.handle(MenuInput::Confirm);
     s.handle(MenuInput::Right);
+    s.handle(MenuInput::Confirm);
     assert!(!s.visible.contains(&1));
+    s.handle(MenuInput::Confirm);
+    assert!(s.choice_focus());
+    s.set("Replaced".into(),Vec::new(),String::new(),2);
+    assert!(!s.choice_focus());
+    s.set("role".into(),vec![ContentEntry{id:"a".into(),kind:"snapshot".into(),..Default::default()},ContentEntry{id:"b".into(),kind:"runtime".into(),..Default::default()}],String::new(),3);
     s.scope(Vec::new(), None);
     assert_eq!(s.visible.len(), 2);
 }

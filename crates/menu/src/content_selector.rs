@@ -167,6 +167,7 @@ pub(super) struct Selector {
     favorites: BTreeSet<String>,
     recent: Vec<String>,
     editing: bool,
+    choice_edit: Option<usize>,
     search_backup: String,
     search_backup_id: Option<String>,
     preedit: String,
@@ -189,6 +190,8 @@ impl Selector {
             ("highlighted_id".into(),self.highlighted_id().unwrap_or_default().into()),("confirmed_id".into(),self.confirmed.clone().unwrap_or_default()),
             ("generation".into(),self.generation.to_string()),("feedback".into(),self.message.clone()),("preview_feedback".into(),self.preview_message.clone())];
         if let Some(id)=self.highlighted_id(){state.push(("favorite".into(),self.favorites.contains(id).to_string()));}
+        state.push(("choice_editing".into(),self.choice_focus().to_string()));
+        if let Some(index)=self.choice_edit {state.push(("pending_choice".into(),index.to_string()));}
         state
     }
     pub fn preferences(&self) -> ContentViewPreferences {
@@ -261,6 +264,7 @@ impl Selector {
         message: String,
         generation: u64,
     ) {
+        self.choice_edit = None;
         let old = self.selected().map(|i| self.entries[i].id.clone());
         self.title = title;
         self.entries = entries.into_iter().take(512).collect();
@@ -369,6 +373,8 @@ impl Selector {
     pub fn editing(&self) -> bool {
         self.editing
     }
+    pub fn choice_focus(&self)->bool {self.choice_edit.is_some()}
+    fn choice_index(&self)->usize {match self.focus {1=>self.kind,2=>self.filter,3=>self.sort,4=>self.collection,_=>0}}
     pub fn start_editor(&mut self, title: String, value: String, limit: usize) {
         self.title = title;
         self.query = value;
@@ -380,6 +386,7 @@ impl Selector {
         self.query.clone()
     }
     pub fn start_search(&mut self) {
+        self.choice_edit = None;
         self.focus = 0;
         self.editing = true;
         self.search_backup = self.query.clone();
@@ -411,6 +418,13 @@ impl Selector {
         }
     }
     pub fn finish_search(&mut self, cancel: bool) {
+        if let Some(index)=self.choice_edit.take() {
+            if !cancel {
+                match self.focus {1=>self.kind=index,2=>self.filter=index,3=>self.sort=index,4=>self.collection=index,_=>{}}
+                self.rebuild(None);
+            }
+            return;
+        }
         if !self.editing {
             return;
         }
@@ -445,7 +459,7 @@ impl Selector {
         match self.focus {
             0 => self.start_search(),
             1..=4 => {
-                self.cycle(true);
+                self.choice_edit=Some(self.choice_index());
             }
             5 => self.focus = 6,
             6 => {
@@ -498,19 +512,8 @@ impl Selector {
         }
         None
     }
-    fn cycle(&mut self, forward: bool) {
-        let kinds = self.kinds().len();
-        let (slot, count) = match self.focus {
-            1 => (&mut self.kind, kinds),
-            2 => (&mut self.filter, FILTERS.len()),
-            3 => (&mut self.sort, SORTS.len()),
-            4 => (&mut self.collection, COLLECTIONS.len()),
-            _ => return,
-        };
-        *slot = (*slot + if forward { 1 } else { count - 1 }) % count;
-        self.rebuild(None);
-    }
     pub fn tab(&mut self, back: bool) {
+        if self.choice_focus(){self.finish_search(true);}
         if self.editing {
             self.finish_search(false);
         }
@@ -518,6 +521,17 @@ impl Selector {
         self.focus = (self.focus + if back { 12 } else { 1 }) % 13;
     }
     pub fn handle(&mut self, input: MenuInput) -> Option<MenuAction> {
+        if let Some(index)=self.choice_edit {
+            match input {
+                MenuInput::Confirm=>self.finish_search(false),
+                MenuInput::Cancel=>self.finish_search(true),
+                _=>{
+                    let count=match self.focus {1=>self.kinds().len(),2=>FILTERS.len(),3=>SORTS.len(),_=>COLLECTIONS.len()};
+                    self.choice_edit=Some((index+if matches!(input,MenuInput::Left|MenuInput::Up){count-1}else{1})%count);
+                },
+            }
+            return None;
+        }
         if self.editing {
             match input {
                 MenuInput::Cancel => self.finish_search(true),
@@ -547,9 +561,6 @@ impl Selector {
         match input {
             MenuInput::Cancel => return Some(MenuAction::ContentCancel),
             MenuInput::Confirm => return self.confirm(),
-            MenuInput::Left | MenuInput::Right if (1..=4).contains(&self.focus) => {
-                self.cycle(input == MenuInput::Right)
-            }
             MenuInput::Left | MenuInput::Right if self.focus == 5 => {
                 let n = if input == MenuInput::Left {
                     self.cursor.saturating_sub(8)
@@ -616,6 +627,7 @@ impl Selector {
         ]
     }
     pub fn hover(&mut self, x: usize, y: usize, w: usize, h: usize) {
+        if self.choice_focus(){return;}
         let g = geometry(w, h);
         if self.editing {
             for i in 0..42 {
@@ -665,6 +677,7 @@ impl Selector {
         h: usize,
         left: bool,
     ) -> Option<MenuAction> {
+        if self.choice_focus(){return self.handle(if left{MenuInput::Confirm}else{MenuInput::Cancel});}
         if !left {
             return self.handle(MenuInput::Cancel);
         }
@@ -707,6 +720,7 @@ impl Selector {
         None
     }
     pub fn wheel(&mut self, up: bool) {
+        if self.choice_focus(){self.handle(if up{MenuInput::Up}else{MenuInput::Down});return;}
         if self.detail_mode {
             self.detail_scroll.set(if up {
                 self.detail_scroll.get().saturating_sub(2)
@@ -777,7 +791,7 @@ impl Selector {
                     "Content search text"
                 }
                 .into()
-            }),
+            }).or_else(||self.choice_focus().then(||"Scelta filtro: OK applica / Annulla scarta".into())),
             panel: g.panel,
             selected_bounds: Some(bounds),
             first_visible: first,
@@ -862,13 +876,16 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
         if s.editing { " | " } else { "" },
         s.preedit
     );
+    let search=if s.choice_focus(){"Scelta filtro: frecce · OK applica · Annulla scarta".into()}else{search};
     button(&mut c, g.search, &search, s.focus == 0 || s.editing, size);
     let kinds = s.kinds();
+    let mut indices=[s.kind,s.filter,s.sort,s.collection];
+    if let Some(index)=s.choice_edit {indices[s.focus-1]=index;}
     let labels = [
-        kinds[s.kind].as_str(),
-        FILTERS[s.filter],
-        SORTS[s.sort],
-        COLLECTIONS[s.collection],
+        kinds[indices[0]].as_str(),
+        FILTERS[indices[1]],
+        SORTS[indices[2]],
+        COLLECTIONS[indices[3]],
     ];
     if !s.editor_only {
         for i in 0..4 {

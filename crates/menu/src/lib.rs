@@ -31,6 +31,7 @@ mod tool_inputs;
 mod debug_tool;
 mod selection;
 mod information;
+mod interaction;
 pub use debug_tool::{DebugTool,ToolRequest,ToolField,ToolFieldKind};
 pub use tool_inputs::ContentSlot;
 pub use content_selector::{ContentEntry,ContentViewPreferences,ContentHistory};
@@ -285,6 +286,7 @@ enum Row {
     Audio,
     Screen,
     Brightness,
+    MenuTransparency,
     Darken,
     Response,
     Grid,
@@ -328,7 +330,7 @@ const SCALING_MODES: [&str; 4] = ["off", "nearest", "sharp", "epx"];
 /// Aspect ratios offered by the menu (`av.video_aspect`). Applied on resume.
 const ASPECT_MODES: [&str; 7] = ["auto", "3:2", "16:10", "16:9", "20:9", "21:9", "32:9"];
 
-const VIDEO_ROWS: [Row; 11] = [
+const VIDEO_ROWS: [Row; 12] = [
     Row::Aspect,
     Row::Fullscreen,
     Row::Screen,
@@ -339,6 +341,7 @@ const VIDEO_ROWS: [Row; 11] = [
     Row::Scaling,
     Row::Vsync,
     Row::Fps,
+    Row::MenuTransparency,
     Row::Back,
 ];
 
@@ -431,6 +434,7 @@ impl Row {
         match self {
             Row::CliReference => "Riferimenti Menu / CLI",
             Row::FastForwardToggle => "Fast Forward ON/OFF",
+            Row::MenuTransparency => "Trasparenza menu",
             Row::DebugMenu => "Debug",
             Row::ToolInputsMenu => "Tool inputs / current selections",
             Row::DebugToolsMenu => "Parameters / prepare profiles",
@@ -535,44 +539,6 @@ impl Row {
             Row::ZoomOut => "Zoom Out",
             Row::Back => "Back",
         }
-    }
-
-    /// Is this an action row (no value to cycle) rather than a setting row?
-    fn is_action(self) -> bool {
-        matches!(
-            self,
-            Row::CliReference | Row::FastForwardToggle | Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-                | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot
-                | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave
-                | Row::Backup(_) | Row::ConfirmRestoreBackup
-                | Row::SaveStateConfirm
-                | Row::SaveState
-                | Row::LoadState
-                | Row::UndoState
-                | Row::Resume
-                | Row::RestartRom
-                | Row::Menu
-                | Row::Quit
-                | Row::QuitYes
-                | Row::QuitNo
-                | Row::ReturnToGame
-                | Row::ChangeRom
-                | Row::SaveStatesMenu
-        | Row::SaveBackupsMenu
-                | Row::FastForwardMenu
-                | Row::AudioMenu
-                | Row::TextBubblesMenu
-                | Row::VideoMenu
-                | Row::InputsMenu
-                | Row::SwitchRomMenu
-                | Row::ResetGamepad
-                | Row::Key(_)
-                | Row::FfKey
-                | Row::FfToggleKey
-                | Row::ZoomIn
-                | Row::ZoomOut
-                | Row::Back
-        )
     }
 
     /// The submenu this row opens, if any.
@@ -724,6 +690,8 @@ pub struct Menu {
     capture: Option<Bind>,
     scroll: std::cell::Cell<usize>,
     dropdown: Option<Dropdown>,
+    viewport: std::cell::Cell<(usize, usize)>,
+    input_tabs_focus: Option<u8>,
     input_gamepad: std::cell::Cell<u8>,
     mouse_mode: std::cell::Cell<bool>,
     controller_layout: std::cell::Cell<GamepadLayout>,
@@ -768,6 +736,7 @@ struct Dropdown {
     row: Row,
     index: usize,
     first: std::cell::Cell<usize>,
+    options: Vec<String>,
 }
 
 impl Menu {
@@ -783,6 +752,8 @@ impl Menu {
             capture: None,
             scroll: std::cell::Cell::new(0),
             dropdown: None,
+            viewport: std::cell::Cell::new((854, 480)),
+            input_tabs_focus: None,
             input_gamepad: std::cell::Cell::new(0),
             mouse_mode: std::cell::Cell::new(false),
             controller_layout: std::cell::Cell::new(GamepadLayout::Xbox),
@@ -825,6 +796,7 @@ impl Menu {
         self.capture = None;
         self.scroll.set(0);
         self.dropdown = None;
+        self.input_tabs_focus = None;
     }
 
     pub fn global_shortcut(&mut self,shortcut:shortcuts::Shortcut,av:&mut AvConfig)->Option<MenuAction> {
@@ -834,9 +806,10 @@ impl Menu {
     }
     /// Move between the permanent sidebar and content without executing a row.
     pub fn escape_goes_back(&self)->bool {self.page!=Page::Main || self.dropdown.is_some() || self.atlas.sidebar_focus}
-    pub fn focus_next(&mut self) {if self.capture.is_none() && !self.content_text_focus() {self.atlas.sidebar_focus=!self.atlas.sidebar_focus;}}
+    pub fn focus_next(&mut self) {if self.capture.is_none() && self.dropdown.is_none() && !self.content_text_focus() {self.input_tabs_focus=None;self.atlas.sidebar_focus=!self.atlas.sidebar_focus;}}
     pub fn atlas_section(&mut self, domain:clan_atlas::Domain, section:usize) {
         if section>=8 || self.capture.is_some() {return;}
+        self.input_tabs_focus=None;
         let old=self.atlas.index();let prior=self.atlas.selected_section();
         self.atlas.saved[old][prior]=Some(clan_atlas::Saved{page:self.page,selected:self.selected,scroll:self.scroll.get(),parents:self.navigation.parents.clone()});
         self.atlas.domain=domain;let i=self.atlas.index();self.atlas.section[i]=section;self.atlas.nav_cursor=section+1;
@@ -881,6 +854,10 @@ impl Menu {
     pub fn selected_state_slot(&self) -> u8 { self.state_slot as u8 + 1 }
 
     pub fn debug_focus(&self,w:usize,h:usize)->diagnostics::Focus {
+        if let Some(index)=self.input_tabs_focus {
+            let r=self.input_tab_rect(index,w,h);let b=clan_atlas::geometry(w,h).body;
+            return diagnostics::Focus{page:format!("{:?}",self.page),selected:index as usize,label:format!("Dispositivo: {}",["Tastiera","Gamepad","Mouse e tastiera"][index as usize]),capture:None,panel:[b.x,b.y,b.w,b.h],first_visible:0,dropdown:None,selected_bounds:Some([r.x,r.y,r.w,r.h])};
+        }
         if self.tool_active() || self.content_active(){
             let b=clan_atlas::geometry(w,h).body;
             let mut focus=if self.tool_active(){self.tool.focus(b.w,b.h)}else{self.content.focus(b.w,b.h)};
@@ -902,7 +879,7 @@ impl Menu {
             first_visible:first,dropdown:self.dropdown.as_ref().map(|dd|{
                 let(x,y,w,h,_,first)=theme::dropdown_geometry(dd,w,h);
                 diagnostics::DropdownFocus {label:dd.row.label().into(),index:dd.index,
-                    option:setting_options(dd.row).get(dd.index).cloned().unwrap_or_default(),
+                    option:dd.options.get(dd.index).cloned().unwrap_or_default(),
                     panel:[x,y,w,h],first_visible:first}
             }),selected_bounds:clan_atlas::row_rect(self,self.selected,w,h).map(|r|[r.x,r.y,r.w,r.h])}
 
@@ -931,7 +908,7 @@ impl Menu {
     pub fn restore_content_preferences(&mut self,view:ContentViewPreferences,history:ContentHistory)->Result<(),String>{self.content.restore_preferences(view,history)}
     pub fn content_scope(&mut self, kind:Vec<String>, current:Option<String>) {self.content.scope(kind,current);}
     pub fn content_active(&self)->bool{self.page==Page::ContentSelector}
-    pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()}else{self.content_active() && self.content.editing()}}
+    pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()||self.tool.choice_focus()}else{self.content_active() && (self.content.editing()||self.content.choice_focus())}}
     pub fn content_start_search(&mut self){if self.tool_active(){self.tool.edit();}else if self.content_active(){self.content.start_search();}}
     pub fn content_text(&mut self,text:&str){if self.tool_active(){self.tool.text(text);}else{self.content.text(text);}}
     pub fn content_preedit(&mut self,text:&str){if self.tool_active(){self.tool.preedit(text);}else{self.content.preedit(text);}}
@@ -1000,17 +977,6 @@ impl Menu {
         }
     }
 
-    fn change_state_slot(&mut self, forward: bool) {
-        let count = self.state_slots.len();
-        self.state_slot = (self.state_slot + if forward { 1 } else { count - 1 }) % count;
-        self.state_message.clear();
-    }
-
-    fn change_game_save_slot(&mut self, forward: bool) {
-        self.game_save_slot = (self.game_save_slot + if forward { 1 } else { 98 }) % 99;
-        self.game_save_message.clear();
-    }
-
     /// The button currently waiting for a key press, if any.
     pub fn capturing(&self) -> Option<Bind> {
         self.capture
@@ -1051,6 +1017,7 @@ impl Menu {
         first
     }
     fn input_tab(&mut self, tab: u8) -> Option<MenuAction> {
+        self.input_tabs_focus=None;
         if tab==0 && self.mouse_mode.get() {return None;}
         self.input_gamepad.set(tab);
         self.navigation
@@ -1067,30 +1034,37 @@ impl Menu {
         Some(MenuAction::InputDevice(if enabled {Device::MouseKeyboard}else{Device::Keyboard}))
     }
     fn open_dropdown(&mut self, row: Row, av: &AvConfig) {
-        let opts = setting_options(row);
+        let opts = self.row_choices(row);
         if opts.is_empty() {
             return;
         }
-        let index = opts
-            .iter()
-            .position(|s| *s == setting_value(row, av))
-            .unwrap_or(0);
+        let index = self.row_choice_index(row,av,&opts);
         self.dropdown = Some(Dropdown {
             row,
             index,
             first: std::cell::Cell::new(0),
+            options: opts,
         });
     }
 
     /// Feed one navigation event. Mutates `av` for value changes and
     /// returns the action the play loop must take, if any. `Up`/`Down`
-    /// move the cursor (no action). `Left`/`Right` cycle the selected
-    /// setting. `Confirm` activates an action row (and does nothing on a
-    /// value setting).
+    /// move the cursor. `Left`/`Right` move focus; values require Confirm
+    /// to open a choice, then Confirm to commit or Cancel to discard.
     /// `Cancel` goes back from a submenu, or resumes from the main page.
     /// While a key capture is pending every event is ignored — the play
     /// loop decides what ends it.
     pub fn handle(&mut self, input: MenuInput, av: &mut AvConfig) -> Option<MenuAction> {
+        if self.capture.is_some() {return None;}
+        if let Some(mut dd)=self.dropdown.take() {
+            match input {
+                MenuInput::Cancel=>return None,
+                MenuInput::Confirm=>return self.commit_choice(dd,av),
+                MenuInput::Up|MenuInput::Left=>dd.index=if matches!(dd.row,Row::Volume|Row::Brightness|Row::MenuTransparency|Row::BubbleSize|Row::BubbleLength){dd.index.saturating_sub(1)}else{(dd.index+dd.options.len()-1)%dd.options.len()},
+                MenuInput::Down|MenuInput::Right=>dd.index=if matches!(dd.row,Row::Volume|Row::Brightness|Row::MenuTransparency|Row::BubbleSize|Row::BubbleLength){(dd.index+1).min(dd.options.len()-1)}else{(dd.index+1)%dd.options.len()},
+            }
+            self.dropdown=Some(dd);return None;
+        }
         if self.atlas.sidebar_focus && self.capture.is_none() {
             match input {
                 MenuInput::Up=>self.atlas.nav_cursor=(self.atlas.nav_cursor+9)%10,
@@ -1103,6 +1077,7 @@ impl Menu {
                     let domain=if self.atlas.domain==clan_atlas::Domain::Game {clan_atlas::Domain::Debug}else{clan_atlas::Domain::Game};self.atlas_section(domain,self.atlas.section[usize::from(domain==clan_atlas::Domain::Debug)]);
                 },
                 MenuInput::Confirm if self.atlas.nav_cursor<=8=>{self.atlas_section(self.atlas.domain,self.atlas.nav_cursor-1);self.atlas.sidebar_focus=false;},
+                MenuInput::Right if self.atlas.nav_cursor>=1 && self.atlas.nav_cursor<=8=>{self.atlas_section(self.atlas.domain,self.atlas.nav_cursor-1);self.atlas.sidebar_focus=false;},
                 MenuInput::Confirm=>{self.atlas.sidebar_focus=false;return self.handle(MenuInput::Cancel,av);},
                 MenuInput::Cancel=>{self.atlas.sidebar_focus=false;},
                 _=>{},
@@ -1112,52 +1087,28 @@ impl Menu {
 
         if self.page==Page::Information{return self.information_input(input);}
         if self.atlas_reference_active(){return self.atlas_reference_input(input);}
+        if (self.tool_active()||self.content_active()) && !self.content_text_focus() && input==MenuInput::Left {
+            self.atlas.sidebar_focus=true;self.atlas.nav_cursor=self.atlas.selected_section()+1;return None;
+        }
         if self.tool_active(){let a=self.tool.handle(input);return self.tool_action(a);}
         if self.content_active(){return self.content_input(input);}
         if self.capture.is_some() {
             return None;
         }
-        if self.page == Page::GameSaves && matches!(input, MenuInput::Left | MenuInput::Right) {
-            self.change_game_save_slot(input == MenuInput::Right);
-            return None;
-        }
-        if (self.page == Page::SaveStates || (self.page==Page::Main && self.rows()[self.selected]==Row::StateSlot)) && matches!(input, MenuInput::Left | MenuInput::Right) {
-            self.change_state_slot(input == MenuInput::Right);
-            return None;
-        }
-        if let Some(mut dd) = self.dropdown.take() {
-            let opts = setting_options(dd.row);
-            match input {
-                MenuInput::Cancel => return None,
-                MenuInput::Confirm => {
-                    return choose_setting(dd.row, &opts[dd.index], av).map(MenuAction::Changed);
-                }
-                MenuInput::Up | MenuInput::Left => {
-                    dd.index = (dd.index + opts.len() - 1) % opts.len()
-                }
-                MenuInput::Down | MenuInput::Right => dd.index = (dd.index + 1) % opts.len(),
-            }
-            self.dropdown = Some(dd);
-            return None;
-        }
-        if matches!(self.page, Page::Inputs | Page::Gamepad | Page::MouseKeyboard)
-            && matches!(input, MenuInput::Left | MenuInput::Right)
-        {
-            let tab=match self.page {Page::Gamepad=>1,Page::MouseKeyboard=>2,_=>0};
-            if self.page==Page::MouseKeyboard && self.rows()[self.selected]==Row::MouseMode {
-                return self.toggle_mouse_mode();
-            }
-            let mut next=if input==MenuInput::Right {(tab+1)%3}else{(tab+2)%3};
-            if next==0 && self.mouse_mode.get() {next=if input==MenuInput::Right {1}else{2};}
-            return self.input_tab(next);
-        }
+        if self.input_tabs_focus.is_some() {return self.input_tabs_input(input);}
         let rows = self.rows();
         let row = rows[self.selected];
-        if self.page == Page::DebugCatalog && matches!(input,MenuInput::Left|MenuInput::Right|MenuInput::Confirm) {
+        if input==MenuInput::Confirm && !self.row_choices(row).is_empty() {
+            self.open_dropdown(row,av);return None;
+        }
+        if self.page == Page::DebugCatalog && input==MenuInput::Confirm {
             if let Some(result) = self.catalog.handle(row,input,self.debug_session) { return result; }
         }
         match input {
             MenuInput::Up => {
+                if self.selected==0 && matches!(self.page,Page::Inputs|Page::Gamepad|Page::MouseKeyboard) {
+                    self.input_tabs_focus=Some(match self.page{Page::Gamepad=>1,Page::MouseKeyboard=>2,_=>0});return None;
+                }
                 self.selected = (self.selected + rows.len() - 1) % rows.len();
                 None
             }
@@ -1221,7 +1172,7 @@ impl Menu {
                     } else { self.debug_message = "Enable Extended saves first.".into(); }
                     None
                 },
-                Row::GameSaveSlot => { self.change_game_save_slot(true); None },
+                Row::GameSaveSlot => None,
                 Row::UseGameSave | Row::CopyGameSave => {
                     let slot = &self.game_save_slots[self.game_save_slot];
                     if !slot.available {
@@ -1265,7 +1216,7 @@ impl Menu {
                     if self.state_undo.is_some() { Some(MenuAction::UndoState) }
                     else { self.state_message = "Nothing to undo.".into(); None }
                 },
-                Row::StateSlot => { self.change_state_slot(true); None },
+                Row::StateSlot => None,
                 Row::SaveState => {
                     if self.state_slots[self.state_slot].occupied {
                         self.open(Page::ReplaceState);
@@ -1350,31 +1301,17 @@ impl Menu {
                     self.open(r.opens().unwrap());
                     None
                 }
-                // Confirm does nothing on value settings: they change with
-                // Left/Right only (so Enter can't flip an ON/OFF by accident).
+                // Value choices are opened above; inert rows have no choices.
                 _ => {
                     self.open_dropdown(row, av);
                     None
                 }
             },
             MenuInput::Left => {
-                if row.is_action() {
-                    None
-                } else {
-                    cycle(row, av, false).map(MenuAction::Changed)
-                }
+                self.navigate_horizontal(false);None
             }
             MenuInput::Right => {
-                if row == Row::InputsMenu {
-                    self.handle(MenuInput::Confirm, av)
-                } else if let Some(p) = row.opens() {
-                    self.open(p);
-                    None
-                } else if row.is_action() {
-                    None
-                } else {
-                    cycle(row, av, true).map(MenuAction::Changed)
-                }
+                self.navigate_horizontal(true);None
             }
         }
     }
@@ -1422,7 +1359,9 @@ impl Menu {
         self.atlas.information_hover=self.capture.is_none()&&g.information.hit(x,y);
         if self.dropdown.is_some(){if let Some(dd)=self.dropdown.as_mut(){if let Some(i)=theme::dropdown_hit(dd,x,y,w,h){dd.index=i;}}return;}
         if self.capture.is_some(){return;}
-        if let Some(i)=g.nav.iter().position(|r|r.hit(x,y)) {self.atlas.nav_cursor=i+1;self.atlas.sidebar_focus=true;return;}
+        if !self.content_text_focus() {
+            if let Some(i)=g.nav.iter().position(|r|r.hit(x,y)) {self.input_tabs_focus=None;self.atlas.nav_cursor=i+1;self.atlas.sidebar_focus=true;return;}
+        }
         if self.atlas_reference_active(){self.atlas_reference_hover(x,y,w,h);return;}
         if g.body.hit(x,y){self.atlas.sidebar_focus=false;}
         if clan_atlas::specialty(self.page) {
@@ -1441,13 +1380,13 @@ impl Menu {
             return;
         }
         if let Some(i) = self.row_at(x, y, w, h) {
+            self.input_tabs_focus=None;
             self.selected = i;
         }
     }
 
     /// Mouse click at frame-pixel `(x, y)`. Left on an action/submenu row =
-    /// Confirm; left on a value row = next value; right on a value row =
-    /// previous value; right on an action row or outside any row = Cancel
+    /// Confirm; left on a value row opens its choices; right = Cancel
     /// (back). A left click outside any row does nothing.
     pub fn click(
         &mut self,
@@ -1459,7 +1398,18 @@ impl Menu {
         av: &mut AvConfig,
     ) -> Option<MenuAction> {
         let g=clan_atlas::geometry(w,h);
-        if self.capture.is_none() && left {
+        if let Some(dd) = self.dropdown.as_ref() {
+            let hit = theme::dropdown_hit(dd, x, y, w, h);
+            if left {
+                if let Some(i) = hit {
+                    self.dropdown.as_mut().unwrap().index = i;
+                    return self.handle(MenuInput::Confirm, av);
+                }
+            }
+            self.dropdown = None;
+            return None;
+        }
+        if self.capture.is_none() && !self.content_text_focus() && left {
             if matches!(self.page,Page::Debug|Page::CliReference) && g.debug_tabs.hit(x,y){self.atlas.planned=x>=g.debug_tabs.x+g.debug_tabs.w/2;self.atlas.detail_scroll=0;return None;}
             if self.atlas_reference_active() && g.body.hit(x,y){self.atlas_reference_hover(x,y,w,h);return None;}
             if g.domain.hit(x,y) {
@@ -1479,61 +1429,16 @@ impl Menu {
         if self.capture.is_some() {
             return None;
         }
-        if let Some(dd) = self.dropdown.as_ref() {
-            let hit = theme::dropdown_hit(dd, x, y, w, h);
-            if left {
-                if let Some(i) = hit {
-                    self.dropdown.as_mut().unwrap().index = i;
-                    return self.handle(MenuInput::Confirm, av);
-                }
-            }
-            self.dropdown = None;
-            return None;
-        }
         if matches!(self.page, Page::Inputs | Page::Gamepad | Page::MouseKeyboard) {
-            let l = self.page_layout(w,h);
-            if y >= l.panel_y + l.pad
-                && y < l.rows_y - 2
-                && x >= l.panel_x + l.pad
-                && x < l.panel_x + l.panel_w - l.pad
-            {
-                return self.input_tab((((x-l.panel_x-l.pad)*3)/(l.panel_w-2*l.pad)).min(2) as u8);
+            if let Some(tab)=(0..3).find(|&i| self.input_tab_rect(i,w,h).hit(x,y)) {
+                return if left { self.input_tab(tab) } else { None };
             }
         }
         match self.row_at(x, y, w, h) {
             Some(i) => {
+                self.input_tabs_focus=None;
                 self.selected = i;
-                let row = self.rows()[i];
-                if left {
-                    if let Some(choice) =
-                        theme::segment_hit(row, self.page_layout(w,h), x)
-                    {
-                        match row {
-                            Row::FastForward => av.ff_speed = FF_SPEEDS[choice],
-                            Row::FastForwardAudio => {
-                                av.ff_audio = ["normal", "silent", "fast"][choice].into()
-                            }
-                            _ => unreachable!(),
-                        }
-                        return Some(MenuAction::Changed(Changed::Gamut));
-                    }
-                    if !setting_options(row).is_empty() {
-                        self.open_dropdown(row, av);
-                        return None;
-                    }
-                }
-                let input = if row.is_action() {
-                    if left {
-                        MenuInput::Confirm
-                    } else {
-                        MenuInput::Cancel
-                    }
-                } else if left {
-                    MenuInput::Right
-                } else {
-                    MenuInput::Left
-                };
-                self.handle(input, av)
+                self.handle(if left {MenuInput::Confirm}else{MenuInput::Cancel},av)
             }
             None if left => None,
             None => self.handle(MenuInput::Cancel, av),
@@ -1546,7 +1451,7 @@ impl Menu {
     /// bindings (indexed by `Button::index`), shown on the Inputs page.
     /// The play loop supplies a high-resolution pause canvas independent
     /// of the GBA frame. Both GPU and CPU presenters display that canvas.
-    /// Its parchment and brass palette follows the supplied HTML reference.
+    /// Its native blue/brass backgrounds share one opacity setting; text remains opaque.
     pub fn draw(
         &self,
         av: &AvConfig,
@@ -1559,7 +1464,9 @@ impl Menu {
         w: usize,
         h: usize,
     ) {
-        atlas_theme::draw(
+        self.viewport.set((w,h));
+        let transparency = if av.menu_transparency.is_finite() { av.menu_transparency.clamp(0.,1.) } else { 0. };
+        canvas::with_panel_alpha(((1.-transparency)*255.).round() as u8, || atlas_theme::draw(
             self,
             av,
             keys,
@@ -1570,7 +1477,7 @@ impl Menu {
             rgba,
             w,
             h,
-        );
+        ));
     }
 
     fn atlas_binding(&self,cfg:&InputConfig) {
@@ -1679,6 +1586,7 @@ fn value_of(
         Row::BubbleSize => percent(av.bubble_size),
         Row::BubbleLength => percent(av.bubble_length),
         Row::Brightness => percent(av.video_brightness),
+        Row::MenuTransparency => percent(av.menu_transparency),
         Row::Darken => av.screen_darken.to_uppercase(),
         Row::Response => response_mode(av).name().to_uppercase(),
         Row::Grid => av.grid.to_uppercase(),
@@ -1730,6 +1638,12 @@ fn step_slider(value: &mut f32, forward: bool, lo: i32, hi: i32) -> bool {
 /// already at their end).
 fn setting_options(row: Row) -> Vec<String> {
     match row {
+        Row::Volume | Row::MenuTransparency => (0..=10).map(|i|format!("{}%",i*10)).collect(),
+        Row::Brightness => (5..=15).map(|i|format!("{}%",i*10)).collect(),
+        Row::BubbleSize => (5..=20).map(|i|format!("{}%",i*10)).collect(),
+        Row::BubbleLength => (10..=20).map(|i|format!("{}%",i*10)).collect(),
+        Row::Audio | Row::Mute | Row::Vsync | Row::Fullscreen => vec!["OFF".into(),"ON".into()],
+        Row::FastForwardAudio => vec!["SILENT".into(),"FAST".into(),"NORMAL".into()],
         Row::FastForward => return FF_SPEEDS.iter().map(|p|format!("{p}%")).collect(),
         Row::ExtendedSaves => ["OFF", "ON"].iter().map(|s| s.to_string()).collect(),
         Row::Screen => ScreenKind::ALL
@@ -1753,6 +1667,22 @@ fn setting_value(row: Row, av: &AvConfig) -> String {
     value_of(row, av, &std::array::from_fn(|_| String::new()), "", None).unwrap_or_default()
 }
 fn choose_setting(row: Row, value: &str, av: &mut AvConfig) -> Option<Changed> {
+    if setting_value(row,av)==value {return None;}
+    if row==Row::FastForwardAudio {
+        if !["SILENT","FAST","NORMAL"].contains(&value) {return None;}
+        av.ff_audio=value.to_ascii_lowercase();return Some(Changed::Gamut);
+    }
+    if matches!(row,Row::Volume|Row::MenuTransparency|Row::Brightness|Row::BubbleSize|Row::BubbleLength) {
+        if !setting_options(row).iter().any(|v|v==value) {return None;}
+        let number=value.trim_end_matches('%').parse::<f32>().ok()?/100.;
+        return Some(match row {
+            Row::Volume=>{av.audio_volume=number;Changed::Audio},
+            Row::MenuTransparency=>{av.menu_transparency=number;Changed::Overlay},
+            Row::Brightness=>{av.video_brightness=number;Changed::Video},
+            Row::BubbleSize=>{av.bubble_size=number;Changed::Gamut},
+            _=>{av.bubble_length=number;Changed::Gamut},
+        });
+    }
     if row==Row::FastForward {
         let percent=value.trim_end_matches('%').parse::<u32>().ok()?;
         if FF_SPEEDS.contains(&percent){av.ff_speed=percent;return Some(Changed::Gamut);}return None;
@@ -1768,6 +1698,7 @@ fn choose_setting(row: Row, value: &str, av: &mut AvConfig) -> Option<Changed> {
 }
 fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
     match row {
+        Row::MenuTransparency=>step_slider(&mut av.menu_transparency,forward,0,10).then_some(Changed::Overlay),
         Row::ExtendedSaves => {
             av.debug_extended_saves = !av.debug_extended_saves;
             Some(Changed::Debug)
@@ -2004,13 +1935,16 @@ mod tests {
         menu.open(Page::Video);
         menu.handle(MenuInput::Down, &mut av);
         assert_eq!(menu.rows()[menu.selected], Row::Fullscreen);
-        assert_eq!(menu.handle(MenuInput::Right, &mut av), Some(MenuAction::Changed(Changed::Fullscreen)));
+        assert_eq!(adjust(&mut menu, &mut av, MenuInput::Right), Some(MenuAction::Changed(Changed::Fullscreen)));
         assert_eq!(value_of(Row::Fullscreen, &av, &keys(), "Tab", None).unwrap(), "ON");
         assert!(AvConfig::parse(&av.serialize()).video_fullscreen);
         let (w,h) = (640,480);
         let l = menu.page_layout(w,h);
-        assert_eq!(menu.click(l.panel_x+l.pad+20, l.rows_y+l.line_h+2,w,h,true,&mut av),
-            Some(MenuAction::Changed(Changed::Fullscreen)));
+        let r=clan_atlas::row_rect(&menu,menu.selected,w,h).unwrap();
+        assert_eq!(menu.click(r.x+10,r.y+5,w,h,true,&mut av),None);
+        assert!(av.video_fullscreen);
+        menu.handle(MenuInput::Down,&mut av);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::Changed(Changed::Fullscreen)));
         assert!(!av.video_fullscreen);
         at(&mut menu, Row::Back);
         assert!(menu.first_visible(l)>0);
@@ -2037,7 +1971,7 @@ mod tests {
             for pixel in rgba { ppm.extend_from_slice(&pixel[..3]); }
             std::fs::write(path, ppm).unwrap();
         }
-        assert_eq!(menu.handle(MenuInput::Left, &mut av), Some(MenuAction::Changed(Changed::Overlay)));
+        assert_eq!(adjust(&mut menu, &mut av, MenuInput::Left), Some(MenuAction::Changed(Changed::Overlay)));
         assert_eq!(av.video_fps, "external");
     }
 
@@ -2069,27 +2003,27 @@ mod tests {
         assert_eq!(menu.capturing(), Some(Bind::GamepadFastForwardToggle));
         menu.end_capture();
         assert_eq!(
-            menu.handle(MenuInput::Left, &mut av),
+            select_tab(&mut menu, &mut av, MenuInput::Left),
             Some(MenuAction::InputDevice(Device::Keyboard))
         );
         assert_eq!(menu.page, Page::Inputs);
         assert_eq!(
-            menu.handle(MenuInput::Right, &mut av),
+            select_tab(&mut menu, &mut av, MenuInput::Right),
             Some(MenuAction::InputDevice(Device::Gamepad))
         );
         menu.handle(MenuInput::Cancel, &mut av);
         menu.atlas_section(clan_atlas::Domain::Game,6);
         assert_eq!(menu.page,Page::Inputs);
-        assert_eq!(menu.handle(MenuInput::Right,&mut av),Some(MenuAction::InputDevice(Device::Gamepad)));
+        assert_eq!(select_tab(&mut menu,&mut av,MenuInput::Right),Some(MenuAction::InputDevice(Device::Gamepad)));
     }
     #[test]
     fn third_input_tab_selects_independent_mouse_keyboard_profile() {
         let mut menu=Menu::new(true,true);
         let mut av=AvConfig::default();
         menu.open(Page::Gamepad);
-        assert_eq!(menu.handle(MenuInput::Right,&mut av),None);
+        assert_eq!(select_tab(&mut menu,&mut av,MenuInput::Right),None);
         assert_eq!(menu.page,Page::MouseKeyboard);
-        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::InputDevice(Device::MouseKeyboard)));
+        assert_eq!(adjust(&mut menu,&mut av,MenuInput::Right),Some(MenuAction::InputDevice(Device::MouseKeyboard)));
         assert!(menu.mouse_mode.get());
         assert_eq!(menu.input_tab(0),None);
         assert_eq!(menu.page,Page::MouseKeyboard);
@@ -2097,10 +2031,10 @@ mod tests {
         menu.handle(MenuInput::Confirm,&mut av);
         assert_eq!(menu.capturing(),Some(Bind::Button(Button::Up)));
         menu.end_capture();
-        assert_eq!(menu.handle(MenuInput::Right,&mut av),Some(MenuAction::InputDevice(Device::Gamepad)));
+        assert_eq!(select_tab(&mut menu,&mut av,MenuInput::Left),Some(MenuAction::InputDevice(Device::Gamepad)));
         menu.input_tab(2);
         at(&mut menu,Row::MouseMode);
-        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::InputDevice(Device::Keyboard)));
+        assert_eq!(adjust(&mut menu,&mut av,MenuInput::Left),Some(MenuAction::InputDevice(Device::Keyboard)));
         assert!(!menu.mouse_mode.get());
         assert_eq!(menu.input_tab(0),Some(MenuAction::InputDevice(Device::Keyboard)));
     }
@@ -2115,7 +2049,9 @@ mod tests {
         assert_eq!(av.ff_speed,800);
         at(&mut menu,Row::FastForwardAudio);let l=menu.page_layout(854,480);let(x,_)=theme::segment_geometry(l);
         let r=clan_atlas::row_rect(&menu,menu.selected,854,480).unwrap();
-        menu.click(x+3,r.y+3,854,480,true,&mut av);assert_eq!(av.ff_audio,"normal");
+        menu.click(x+3,r.y+3,854,480,true,&mut av);assert_eq!(av.ff_audio,"silent");
+        assert!(menu.dropdown.is_some());menu.dropdown.as_mut().unwrap().index=2;
+        menu.handle(MenuInput::Confirm,&mut av);assert_eq!(av.ff_audio,"normal");
     }
 
     #[test]
@@ -2124,7 +2060,7 @@ mod tests {
         let mut av = AvConfig::default();
         menu.atlas_section(clan_atlas::Domain::Game,6);
         assert_eq!(
-            menu.handle(MenuInput::Right, &mut av),
+            select_tab(&mut menu, &mut av, MenuInput::Right),
             Some(MenuAction::InputDevice(Device::Gamepad))
         );
         at(&mut menu, Row::Key(Button::A));
@@ -2148,12 +2084,27 @@ mod tests {
         assert_eq!(menu.page, Page::Main);
         menu.open(Page::Gamepad);
         assert_eq!(
-            menu.handle(MenuInput::Left, &mut av),
+            select_tab(&mut menu, &mut av, MenuInput::Left),
             Some(MenuAction::InputDevice(Device::Keyboard))
         );
         at(&mut menu, Row::Key(Button::A));
         menu.handle(MenuInput::Confirm, &mut av);
         assert_eq!(menu.capturing(), Some(Bind::Button(Button::A)));
+    }
+
+    fn adjust(menu: &mut Menu, av: &mut AvConfig, direction: MenuInput) -> Option<MenuAction> {
+        let before=av.serialize();
+        assert_eq!(menu.handle(MenuInput::Confirm,av),None);
+        assert!(menu.dropdown.is_some());
+        assert_eq!(menu.handle(direction,av),None);
+        assert_eq!(av.serialize(),before,"pending choices must not change configuration");
+        menu.handle(MenuInput::Confirm,av)
+    }
+    fn select_tab(menu: &mut Menu, av: &mut AvConfig, direction: MenuInput) -> Option<MenuAction> {
+        menu.selected=0;
+        assert_eq!(menu.handle(MenuInput::Up,av),None);
+        assert_eq!(menu.handle(direction,av),None);
+        menu.handle(MenuInput::Confirm,av)
     }
 
     fn keys() -> [String; 10] {
@@ -2175,7 +2126,7 @@ mod tests {
         menu.atlas_section(clan_atlas::Domain::Game,4);
         assert_eq!(menu.page, Page::Audio);
         at(&mut menu, Row::Audio);
-        let act = menu.handle(MenuInput::Right, &mut av);
+        let act = adjust(&mut menu, &mut av, MenuInput::Right);
         assert_eq!(act, Some(MenuAction::Changed(Changed::Audio)));
         assert!(av.audio_enhanced);
     }
@@ -2187,16 +2138,16 @@ mod tests {
         menu.open(Page::Audio);
         menu.handle(MenuInput::Down, &mut av);
         assert_eq!(menu.rows()[menu.selected], Row::Mute);
-        assert_eq!(menu.handle(MenuInput::Right, &mut av), Some(MenuAction::Changed(Changed::Audio)));
+        assert_eq!(adjust(&mut menu, &mut av, MenuInput::Right), Some(MenuAction::Changed(Changed::Audio)));
         assert_eq!(value_of(Row::Mute, &av, &keys(), "Tab", None).unwrap(), "ON");
         assert!(av.audio_mute);
         assert_eq!(av.audio_volume, 0.6);
         at(&mut menu, Row::Volume);
-        menu.handle(MenuInput::Left, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Left);
         assert!(av.audio_mute);
         assert_eq!(av.audio_volume, 0.5);
         at(&mut menu, Row::Mute);
-        menu.handle(MenuInput::Left, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Left);
         assert!(!av.audio_mute);
         assert_eq!(av.audio_volume, 0.5);
     }
@@ -2207,17 +2158,17 @@ mod tests {
         let mut menu = Menu::new(true, true);
         menu.open(Page::Audio);
         at(&mut menu, Row::Volume);
-        assert_eq!(menu.handle(MenuInput::Right, &mut av), None);
+        assert_eq!(adjust(&mut menu,&mut av,MenuInput::Right), None);
         assert_eq!(
-            menu.handle(MenuInput::Left, &mut av),
+            adjust(&mut menu,&mut av,MenuInput::Left),
             Some(MenuAction::Changed(Changed::Audio))
         );
         assert!((av.audio_volume - 0.9).abs() < 1e-6);
         for _ in 0..20 {
-            menu.handle(MenuInput::Left, &mut av);
+            adjust(&mut menu,&mut av,MenuInput::Left);
         }
         assert_eq!(av.audio_volume, 0.0);
-        assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
+        assert_eq!(adjust(&mut menu,&mut av,MenuInput::Left), None);
     }
 
     #[test]
@@ -2229,12 +2180,12 @@ mod tests {
         at(&mut menu, Row::FastForward);
         let seq: Vec<u32> = (0..5)
             .map(|_| {
-                menu.handle(MenuInput::Right, &mut av);
+                adjust(&mut menu, &mut av, MenuInput::Right);
                 av.ff_speed
             })
             .collect();
         assert_eq!(seq, vec![420,440,460,480,500]);
-        menu.handle(MenuInput::Left, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Left);
         assert_eq!(av.ff_speed,480);
         assert_eq!(
             value_of(Row::FastForward, &av, &keys(), "Tab", None).unwrap(),
@@ -2266,11 +2217,11 @@ mod tests {
         at(&mut menu, Row::SaveStatesMenu);
         menu.handle(MenuInput::Confirm, &mut av);
         assert_eq!(menu.page, Page::SaveStates);
-        menu.handle(MenuInput::Left, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Left);
         assert_eq!(menu.state_slot, 8);
-        menu.handle(MenuInput::Right, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Right);
         assert_eq!(menu.state_slot, 0);
-        for _ in 0..8 { menu.handle(MenuInput::Right, &mut av); }
+        for _ in 0..8 { adjust(&mut menu, &mut av, MenuInput::Right); }
         menu.handle(MenuInput::Down, &mut av);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::SaveState {slot:9,overwrite:false}));
         menu.handle(MenuInput::Down, &mut av);
@@ -2381,6 +2332,8 @@ mod tests {
         menu.open(Page::Debug);
         at(&mut menu, Row::CopyDiagnosis);
         assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
+        assert!(menu.atlas.sidebar_focus);
+        menu.handle(MenuInput::Right,&mut av);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::CopyDiagnosis));
         assert_eq!(menu.page, Page::Debug);
         assert!(!av.debug_extended_saves);
@@ -2400,11 +2353,11 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         assert_eq!(menu.page,Page::Debug);
         at(&mut menu,Row::ExtendedSaves);
-        assert_eq!(menu.handle(MenuInput::Right,&mut av),Some(MenuAction::Changed(Changed::Debug)));
+        assert_eq!(adjust(&mut menu,&mut av,MenuInput::Right),Some(MenuAction::Changed(Changed::Debug)));
         assert!(av.debug_extended_saves);
         menu.set_state_slots(vec![StateSlot::default();99]);
         menu.open(Page::SaveStates);
-        menu.handle(MenuInput::Left,&mut av);
+        adjust(&mut menu,&mut av,MenuInput::Left);
         assert_eq!(menu.state_slot,98);
         at(&mut menu,Row::SaveState);
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::SaveState{slot:99,overwrite:false}));
@@ -2415,7 +2368,8 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::SaveState{slot:99,overwrite:true}));
         menu.set_state_slots(vec![StateSlot::default();9]);
         assert_eq!(menu.state_slot,8);
-        menu.handle(MenuInput::Right,&mut av);
+        at(&mut menu,Row::StateSlot);
+        adjust(&mut menu,&mut av,MenuInput::Right);
         assert_eq!(menu.state_slot,0);
     }
 
@@ -2431,7 +2385,7 @@ mod tests {
         at(&mut menu,Row::GameSavesMenu);
         menu.handle(MenuInput::Confirm,&mut av);
         assert_eq!(menu.page,Page::GameSaves);
-        menu.handle(MenuInput::Left,&mut av);
+        adjust(&mut menu,&mut av,MenuInput::Left);
         assert_eq!(menu.game_save_slot,98);
         at(&mut menu,Row::UseGameSave);
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
@@ -2462,7 +2416,9 @@ mod tests {
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         assert_eq!(menu.state_message,"Nothing to undo.");
         menu.set_state_undo(Some("Undo load (slot 9)".into()));
-        menu.handle(MenuInput::Right,&mut av);
+        at(&mut menu,Row::StateSlot);
+        adjust(&mut menu,&mut av,MenuInput::Right);
+        at(&mut menu,Row::UndoState);
         assert_eq!(menu.state_slot,1);
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::UndoState));
         menu.reset(); // Closing/reopening the menu does not discard the session undo.
@@ -2528,10 +2484,10 @@ mod tests {
         let mut menu = Menu::new(true, true);
         menu.open(Page::Video);
         at(&mut menu, Row::Screen);
-        menu.handle(MenuInput::Right, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Right);
         assert!(ScreenKind::by_name(&av.screen).is_some());
         for _ in 0..ScreenKind::ALL.len() {
-            menu.handle(MenuInput::Right, &mut av);
+            adjust(&mut menu, &mut av, MenuInput::Right);
         }
         assert!(ScreenKind::by_name(&av.screen).is_some());
     }
@@ -2543,12 +2499,12 @@ mod tests {
         menu.open(Page::Video);
         at(&mut menu, Row::Brightness);
         assert_eq!(
-            menu.handle(MenuInput::Right, &mut av),
+            adjust(&mut menu,&mut av,MenuInput::Right),
             Some(MenuAction::Changed(Changed::Video))
         );
         assert!((av.video_brightness - 1.1).abs() < 1e-6);
         for _ in 0..30 {
-            menu.handle(MenuInput::Right, &mut av);
+            adjust(&mut menu,&mut av,MenuInput::Right);
         }
         assert!((av.video_brightness - 1.5).abs() < 1e-6);
     }
@@ -2583,17 +2539,16 @@ mod tests {
     }
 
     #[test]
-    fn enter_does_nothing_on_value_settings_but_arrows_change_them() {
+    fn confirm_opens_pending_choice_and_second_confirm_applies_it() {
         let mut av = AvConfig::default();
         let mut menu = Menu::new(true, true);
         menu.open(Page::Audio);
         at(&mut menu, Row::Audio);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
         assert!(!av.audio_enhanced);
-        assert_eq!(
-            menu.handle(MenuInput::Right, &mut av),
-            Some(MenuAction::Changed(Changed::Audio))
-        );
+        assert_eq!(menu.handle(MenuInput::Right,&mut av),None);
+        assert!(!av.audio_enhanced);
+        assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(MenuAction::Changed(Changed::Audio)));
         assert!(av.audio_enhanced);
         // Same for the fast-forward submenu multiplier.
         menu.reset();
@@ -2624,12 +2579,12 @@ mod tests {
         let mut menu = Menu::new(true, true);
         menu.open(Page::FastForward);
         at(&mut menu, Row::FastForwardAudio);
-        menu.handle(MenuInput::Right, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Right);
         assert_eq!(av.ff_audio, "fast");
-        menu.handle(MenuInput::Right, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Right);
         assert_eq!(av.ff_audio, "normal");
         assert_eq!(value_of(Row::FastForwardAudio, &av, &keys(), "Tab", None).unwrap(), "1X DELAYED");
-        menu.handle(MenuInput::Right, &mut av);
+        adjust(&mut menu, &mut av, MenuInput::Right);
         assert_eq!(av.ff_audio, "silent");
         menu.open(Page::Inputs);
         at(&mut menu, Row::FfToggleKey);
@@ -2674,6 +2629,8 @@ mod tests {
         menu.atlas_section(clan_atlas::Domain::Game,7);
         at(&mut menu, Row::RestartRom);
         assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
+        assert!(menu.atlas.sidebar_focus);
+        menu.handle(MenuInput::Right,&mut av);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), Some(MenuAction::RestartRom));
         menu.session_result("Cannot restart ROM: save is unavailable".into());
         for (w,h) in [(640,480), (1280,720), (3840,2160)] {
@@ -2826,34 +2783,27 @@ mod tests {
         assert_eq!(menu.click(r.x+10,r.y+5,w,h,true,&mut av),None);
         assert_eq!(menu.page, Page::Audio);
 
-        // Both boolean controls support mouse toggles without changing volume.
-        let l = menu.page_layout(w,h);
-        let x=l.panel_x+l.panel_w/2;
-        let y_audio = |i: usize| l.rows_y + i * l.line_h + 1;
-        let mute_row = AUDIO_ROWS.iter().position(|r| *r == Row::Mute).unwrap();
-        assert_eq!(menu.click(x, y_audio(mute_row), w, h, true, &mut av),
-            Some(MenuAction::Changed(Changed::Audio)));
-        assert!(av.audio_mute);
-        assert_eq!(av.audio_volume, 1.);
-        assert_eq!(menu.click(x, y_audio(mute_row), w, h, false, &mut av),
-            Some(MenuAction::Changed(Changed::Audio)));
-        assert!(!av.audio_mute);
-        let audio_row = AUDIO_ROWS.iter().position(|r| *r == Row::Audio).unwrap();
-        assert_eq!(
-            menu.click(x, y_audio(audio_row), w, h, true, &mut av),
-            Some(MenuAction::Changed(Changed::Audio))
-        );
-        assert!(av.audio_enhanced);
-        assert_eq!(
-            menu.click(x, y_audio(audio_row), w, h, false, &mut av),
-            Some(MenuAction::Changed(Changed::Audio))
-        );
-        assert!(!av.audio_enhanced);
-
-        // Outside the panel: left does nothing, right goes back.
-        assert_eq!(menu.click(0, 0, w, h, true, &mut av), None);
-        assert_eq!(menu.page, Page::Audio);
-        assert_eq!(menu.click(0, 0, w, h, false, &mut av), None);
-        assert_eq!(menu.page, Page::Main);
+        // Clicking opens choices; right click discards, selecting a choice commits.
+        for row in [Row::Mute,Row::Audio] {
+            at(&mut menu,row);
+            let r=clan_atlas::row_rect(&menu,menu.selected,w,h).unwrap();
+            assert_eq!(menu.click(r.x+5,r.y+5,w,h,true,&mut av),None);
+            menu.handle(MenuInput::Down,&mut av);
+            let original=av.serialize();
+            assert_eq!(menu.click(0,0,w,h,false,&mut av),None);
+            assert_eq!(av.serialize(),original);
+            menu.click(r.x+5,r.y+5,w,h,true,&mut av);
+            menu.handle(MenuInput::Down,&mut av);
+            let dd=menu.dropdown.as_ref().unwrap();
+            let (x,y,_,_,_,first)=theme::dropdown_geometry(dd,w,h);
+            let pitch=(clan_atlas::geometry(w,h).body.h/15).clamp(14,40);
+            assert_eq!(menu.click(x+10,y+6+pitch*(dd.index-first)+pitch/2,w,h,true,&mut av),Some(MenuAction::Changed(Changed::Audio)));
+        }
+        assert!(av.audio_mute && av.audio_enhanced);assert_eq!(av.audio_volume,1.);
+        assert_eq!(menu.click(0,0,w,h,true,&mut av),None);
+        assert_eq!(menu.page,Page::Audio);
+        assert_eq!(menu.click(0,0,w,h,false,&mut av),None);
+        assert_eq!(menu.page,Page::Main);
     }
+
 }

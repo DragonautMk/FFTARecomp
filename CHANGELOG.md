@@ -1028,6 +1028,36 @@ Documentation: [rom_data_indexed_graphics.md](docs/rom_data_indexed_graphics.md)
 
 [Change record](docs/changes/2026-10-30-classify-european-indexed-graphics-archives.json)
 
+## 2026-10-30 — Add persistent menu transparency and require OK before editing options
+
+Type: changed. Platforms: Desktop shared menu; Windows GNU release builds validated through Wine.
+
+**Changes**
+
+- Add Gioco > Video > Trasparenza menu,0..100% in10-point steps, persisted as menu.transparency0..1 with opaque default and finite/clamped parsing. Scope background alpha to the native menu; text, borders, previews and unrelated canvases preserve their foreground.
+- Directional keys and D-pad navigate without changing settings. Confirm opens frozen pending choices; Confirm commits and Cancel discards for AV sliders/toggles, state/cartridge slots and catalog filters. Preserve destructive confirmations and backend handlers.
+- Reach the sidebar with Left from the content edge and enter sections with Right; navigate adjacent columns spatially. Focus input-device tabs with Up, then choose a device only on Confirm. Mouse row clicks open choices; option clicks commit and right click cancels.
+- Host parameter and content-filter choices now have pending editors, preserving committed drafts/preferences until OK and yielding to existing text/binding capture. Cancel pending selector choices when asynchronous content replacement invalidates the list. Clear pending tab focus after mouse selection.
+- Update existing affected interaction tests and documentation without removing previous test coverage. Dedicated shoulder media shortcuts retain their explicit behavior and stay suppressed by exclusive host editors.
+
+**Validation**
+
+- Windows GNU locked/offline release builds of input-config/menu tests and production recomp/ffta-play passed without diagnostics after removal of an obsolete helper. Wine:32 input-config and92 menu cases passed,1optional export ignored. Initial24failures from old immediate-arrow expectations and one spatial-navigation assertion were retained and corrected.
+- After narrow follow-ups, run only the affected Wine cases: selector content replacement1PASS; frontend simulated XInput binding capture1PASS with555other cases unrun; final mixed tab focus/mouse click1PASS. No full recomp/Linux suite or old media/ROM acceptance rerun.
+- Actual paused EUR GUI with simulated native XInput: D-pad-only sidebar/section navigation, unchanged configuration before OK, pending/cancel/commit, volume90%, transparency0/50/100%, keyboard Confirm, Code choice cancel/commit and reopened persisted50%. Captures visually inspected; full guest state/frame/clock/keys/registers and original private inputs preserved.
+- GUI runtime and immutable session pin match; two harness-only pointer/label mistakes retained, completed prefixes reused. GUI processes/displays closed. The final one-line mouse-tab focus cleanup follows the accepted GUI and is covered by its focused Wine test.
+- Atlas task references/inventory check:28task references,190legacy row occurrences,54legacy actions and97operation contracts preserved.
+- Final production rebuild after the one-line tab-focus cleanup passed without diagnostics. Preservation checks match289frozen Rust sources,3private originals and the accepted immutable GUI runtime pin; no owned runtime/display process remains. Local evidence: final-preservation.json, host2-build-result.json, tests4-wine-results.json.
+
+**Limitations**
+
+- Linux runtime tests, native Windows, physical controllers, USA and Android remain unverified. No performance measurements, guest stepping, ROM data changes, release packaging, commit or push.
+- Ignored local evidence is under target/menu-transparency-navigation and is not distributed. This UI unit contains no managed ROM interrupted/moved dataset copies; the ROM-only retention helper is inapplicable, so its known refusal is not replayed.
+
+Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [debug_selector.md](docs/debug_selector.md), [extended_saves.md](docs/extended_saves.md), [save_states.md](docs/save_states.md).
+
+[Change record](docs/changes/2026-10-30-add-menu-transparency-and-confirmed-editing.json)
+
 ## 2026-10-30 — Add declared host tool adapters and a separate readonly guest script library
 
 Type: added. Platforms: Windows GNU build, Wine.

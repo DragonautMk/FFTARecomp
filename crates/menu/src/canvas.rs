@@ -2,6 +2,18 @@
 use ab_glyph::{Font, FontRef, ScaleFont, VariableFont};
 use std::sync::OnceLock;
 use tiny_skia::{Paint, PathBuilder, Pixmap, Stroke, Transform};
+thread_local! {
+    static PANEL_ALPHA: std::cell::Cell<u8> = const { std::cell::Cell::new(255) };
+}
+pub(super) fn panel_alpha() -> u8 { PANEL_ALPHA.with(|value| value.get()) }
+pub(super) fn with_panel_alpha(alpha: u8, draw: impl FnOnce()) {
+    struct Restore(u8);
+    impl Drop for Restore {
+        fn drop(&mut self) { PANEL_ALPHA.with(|value| value.set(self.0)); }
+    }
+    let _restore = Restore(PANEL_ALPHA.with(|value| value.replace(alpha)));
+    draw();
+}
 pub(super) struct Canvas {
     pub pix: Pixmap,
 }
@@ -21,7 +33,7 @@ impl Canvas {
     }
     pub fn path(&mut self, p: tiny_skia::Path, c: [u8; 3], stroke: f32) {
         let mut paint = Paint::default();
-        paint.set_color_rgba8(c[0], c[1], c[2], 255);
+        paint.set_color_rgba8(c[0], c[1], c[2], if stroke > 0. { 255 } else { panel_alpha() });
         if stroke > 0. {
             self.pix.stroke_path(
                 &p,
@@ -79,11 +91,11 @@ impl Canvas {
             vec![
                 tiny_skia::GradientStop::new(
                     0.,
-                    tiny_skia::Color::from_rgba8(top[0], top[1], top[2], 255),
+                    tiny_skia::Color::from_rgba8(top[0], top[1], top[2], panel_alpha()),
                 ),
                 tiny_skia::GradientStop::new(
                     1.,
-                    tiny_skia::Color::from_rgba8(bottom[0], bottom[1], bottom[2], 255),
+                    tiny_skia::Color::from_rgba8(bottom[0], bottom[1], bottom[2], panel_alpha()),
                 ),
             ],
             tiny_skia::SpreadMode::Pad,

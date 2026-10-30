@@ -4965,7 +4965,9 @@ mod gamepad_capture_simulation {
         let mut av = input_config::AvConfig::default();
         let mut menu = menu::Menu::new(true, false);
         menu.atlas_section(menu::clan_atlas::Domain::Game,6); // Input section.
-        menu.handle(menu::MenuInput::Right, &mut av); // Gamepad tab.
+        menu.handle(menu::MenuInput::Up, &mut av); // Focus input tabs.
+        menu.handle(menu::MenuInput::Right, &mut av); // Highlight Gamepad tab.
+        menu.handle(menu::MenuInput::Confirm, &mut av); // Select device.
         menu.handle(menu::MenuInput::Confirm, &mut av); // Capture GBA A.
         assert!(menu.capturing().is_some());
 

@@ -9,8 +9,8 @@ apply when `portable.txt` is absent.
 Open the pause menu and choose **Save states**. Everything happens inside the
 menu, including feedback and overwrite confirmation; no file picker is needed.
 
-- **Left/Right** chooses slot **1–9**, wrapping at either end. Confirm on the
-  Slot row also advances to the next slot.
+- **Confirm** on Slot opens the **1–9** picker. Directions highlight a number,
+  wrapping at either end; Confirm applies it and Cancel keeps the previous slot.
 - **Up/Down** selects Slot, Save state, Load state, Undo last operation or Back.
 - **Confirm** (A/South on the standard gamepad layout, Enter on keyboard)
   saves or loads the chosen slot. Saving an occupied slot opens an in-menu

@@ -67,7 +67,10 @@ fn overview_slot_selection_is_readonly_and_overwrite_remains_confirmed() {
     ]);
     let mut av = AvConfig::default();
     m.selected = 1;
+    assert_eq!(m.handle(MenuInput::Confirm, &mut av), None);
     assert_eq!(m.handle(MenuInput::Right, &mut av), None);
+    assert_eq!(m.selected_state_slot(), 1);
+    assert_eq!(m.handle(MenuInput::Confirm, &mut av), None);
     assert_eq!(m.selected_state_slot(), 2);
     m.selected = 2;
     assert_eq!(m.handle(MenuInput::Confirm, &mut av), None);

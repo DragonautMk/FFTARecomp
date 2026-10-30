@@ -10,13 +10,6 @@ pub(super) fn segment_geometry(l: Layout) -> (usize, usize) {
     let width = ((l.panel_w.saturating_sub(l.pad * 2)) / 6).max(16);
     (l.panel_x + l.panel_w - l.pad - (width * 3 + 4), width)
 }
-pub(super) fn segment_hit(row: Row, l: Layout, x: usize) -> Option<usize> {
-    if !matches!(row, Row::FastForwardAudio) {
-        return None;
-    }
-    let (start, width) = segment_geometry(l);
-    (0..3).find(|&i| (start + i * (width + 2)..start + i * (width + 2) + width).contains(&x))
-}
 fn binding_value(
     menu: &Menu,
     row: Row,
@@ -138,7 +131,6 @@ pub(super) fn draw_rows(
         menu.page,
         Page::Inputs | Page::Gamepad | Page::MouseKeyboard
     ) {
-        let width = (pw - pad * 2. - 12. * scale) / 3.;
         for (i, label) in ["KEYBOARD", "GAMEPAD", "MOUSE & KEYBOARD"]
             .iter()
             .enumerate()
@@ -150,17 +142,17 @@ pub(super) fn draw_rows(
                     Page::MouseKeyboard => 2,
                     _ => 0,
                 };
-            let xx = x + pad + i as f32 * (width + 6. * scale);
-            let yy = y + pad;
+            let r=menu.input_tab_rect(i as u8,w,h);
+            let (xx,yy,width)=(r.x as f32,r.y as f32,r.w as f32);
             c.rect(
                 xx,
                 yy,
                 width,
                 30. * scale,
                 4. * scale,
-                if active { [45, 78, 100] } else { LIGHT },
+                if active || menu.input_tabs_focus==Some(i as u8) { [45, 78, 100] } else { LIGHT },
                 if active { [45, 78, 100] } else { [28, 56, 78] },
-                BRASS,
+                if menu.input_tabs_focus==Some(i as u8) {GOLD}else{BRASS},
             );
             c.text(
                 xx + 12. * scale,
@@ -184,7 +176,7 @@ pub(super) fn draw_rows(
         .take(l.visible_rows)
         .enumerate()
     {
-        let sel = first + visible == menu.selected && !menu.atlas.sidebar_focus;
+        let sel = first + visible == menu.selected && !menu.atlas.sidebar_focus && menu.input_tabs_focus.is_none();
         let rect =
             clan_atlas::row_rect(menu, first + visible, w, h).expect("visible row rectangle");
         let yy = rect.y as f32;
@@ -504,7 +496,7 @@ pub(super) fn dropdown_geometry(
 ) -> (usize, usize, usize, usize, usize, usize) {
     let body = clan_atlas::geometry(w, h).body;
     let (w, h) = (body.w, body.h);
-    let n = setting_options(dd.row).len();
+    let n = dd.options.len();
     let pitch = (h / 15).clamp(14, 40);
     let visible = ((h.saturating_sub(24)) / pitch).max(1).min(n);
     let mut first = dd.first.get().min(n.saturating_sub(visible));
@@ -547,7 +539,7 @@ pub(super) fn draw_dropdown(dd: &Dropdown, c: &mut Canvas, w: usize, h: usize) {
         [17, 43, 64],
         GOLD,
     );
-    for (i, s) in setting_options(dd.row)
+    for (i, s) in dd.options
         .iter()
         .skip(first)
         .take(visible)

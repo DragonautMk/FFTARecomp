@@ -5,6 +5,7 @@ impl Menu {
         self.capture.is_none()
             && !self.content_text_focus()
             && self.dropdown.is_none()
+            && self.input_tabs_focus.is_none()
             && !self.atlas_reference_active()
             && !(self.tool_active() && self.tool.busy)
             && !(self.content_active() && self.content.busy)

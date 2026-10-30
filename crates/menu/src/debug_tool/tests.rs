@@ -41,7 +41,10 @@ fn editing_cancel_commit_choices_and_inputs_never_start_a_tool() {
     assert_eq!(f.fields[0].value, "14");
     assert_eq!(f.revision(), 1);
     f.handle(MenuInput::Down);
+    f.handle(MenuInput::Confirm);
     f.handle(MenuInput::Right);
+    assert_eq!(f.fields[1].value, "off");
+    f.handle(MenuInput::Confirm);
     assert_eq!(f.fields[1].value, "on");
     f.handle(MenuInput::Down);
     assert_eq!(

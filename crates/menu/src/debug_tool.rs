@@ -152,6 +152,7 @@ pub(super) struct ToolForm {
     detail: Cell<usize>,
     editor: Selector,
     editing: Option<usize>,
+    choice_edit: Option<usize>,
     revision: u64,
 }
 impl Default for ToolForm {
@@ -168,6 +169,7 @@ impl Default for ToolForm {
             detail: Cell::new(0),
             editor: Selector::default(),
             editing: None,
+            choice_edit: None,
             revision: 0,
         }
     }
@@ -175,6 +177,8 @@ impl Default for ToolForm {
 impl ToolForm {
     pub(super) fn selection_state(&self)->Vec<(String,String)>{
         let mut state=vec![("page".into(),"DebugTool".into()),("tool".into(),format!("{:?}",self.tool)),("busy".into(),self.busy.to_string()),("detail_scroll".into(),self.detail.get().to_string()),("feedback".into(),self.message.clone())];
+        state.push(("choice_editing".into(),self.choice_focus().to_string()));
+        if self.choice_focus(){state.push(("pending_value".into(),self.shown_value(self.focus).into()));}
         if let Some(index)=self.editing {
             state.extend(self.editor.selection_state().into_iter().map(|(k,v)|(format!("editor.{k}"),v)));
             state.push(("item_id".into(),format!("tool/{:?}/editor/{}",self.tool,self.fields[index].key)));
@@ -187,6 +191,7 @@ impl ToolForm {
         state
     }
     pub fn set(&mut self, tool: DebugTool, fields: Vec<ToolField>, message: String) {
+        self.choice_edit=None;
         if self.tool != tool {
             self.focus = 0;
             self.first.set(0);
@@ -210,6 +215,15 @@ impl ToolForm {
     pub fn text_focus(&self) -> bool {
         self.editing.is_some()
     }
+    pub fn choice_focus(&self)->bool {self.choice_edit.is_some()}
+    fn shown_value(&self,index:usize)->&str {
+        if index==self.focus {
+            if let (Some(choice),ToolFieldKind::Choice(options))=(self.choice_edit,&self.fields[index].kind) {
+                if let Some(value)=options.get(choice) {return value;}
+            }
+        }
+        &self.fields[index].value
+    }
     pub fn text(&mut self, t: &str) {
         self.editor.text(t)
     }
@@ -220,6 +234,18 @@ impl ToolForm {
         self.editor.text_backspace()
     }
     pub fn finish(&mut self, cancel: bool) {
+        if let Some(index)=self.choice_edit.take() {
+            if !cancel {
+                if let Some(field)=self.fields.get_mut(self.focus) {
+                    if let ToolFieldKind::Choice(options)=&field.kind {
+                        if let Some(value)=options.get(index) {
+                            if field.value!=*value {field.value=value.clone();self.changed();}
+                        }
+                    }
+                }
+            }
+            return;
+        }
         self.editor.finish_search(cancel);
         self.sync_editor()
     }
@@ -249,7 +275,7 @@ impl ToolForm {
         }
     }
     pub fn tab(&mut self, back: bool) {
-        self.finish(false);
+        self.finish(self.choice_focus());
         let n = self.fields.len() + 6;
         self.focus = (self.focus + if back { n - 1 } else { 1 }) % n;
     }
@@ -269,6 +295,16 @@ impl ToolForm {
         f
     }
     pub fn handle(&mut self, input: MenuInput) -> Option<MenuAction> {
+        if let Some(index)=self.choice_edit {
+            match input {
+                MenuInput::Confirm=>self.finish(false),
+                MenuInput::Cancel=>self.finish(true),
+                _=>if let Some(ToolField{kind:ToolFieldKind::Choice(options),..})=self.fields.get(self.focus) {
+                    if !options.is_empty() {self.choice_edit=Some((index+if matches!(input,MenuInput::Left|MenuInput::Up){options.len()-1}else{1})%options.len());}
+                },
+            }
+            return None;
+        }
         if self.text_focus() {
             self.editor.handle(input);
             self.sync_editor();
@@ -281,26 +317,8 @@ impl ToolForm {
             }
             MenuInput::Down => self.focus = (self.focus + 1) % (self.fields.len() + 6),
             MenuInput::Left | MenuInput::Right => {
-                if let Some(f) = self.fields.get_mut(self.focus) {
-                    if let ToolFieldKind::Choice(options) = &f.kind {
-                        if !options.is_empty() {
-                            let i = options.iter().position(|v| *v == f.value).unwrap_or(0);
-                            f.value = options[(i + if input == MenuInput::Right {
-                                1
-                            } else {
-                                options.len() - 1
-                            }) % options.len()]
-                            .clone();
-                            self.changed();
-                        }
-                    }
-                } else {
-                    self.detail.set(if input == MenuInput::Left {
-                        self.detail.get().saturating_sub(1)
-                    } else {
-                        (self.detail.get() + 1).min(2048)
-                    });
-                }
+                let count=self.fields.len()+6;
+                self.focus=(self.focus+if input==MenuInput::Left{count-1}else{1})%count;
             }
             MenuInput::Confirm => {
                 if self.focus >= self.fields.len() {
@@ -315,7 +333,9 @@ impl ToolForm {
                             return Some(MenuAction::ChooseToolInput(*slot))
                         }
                         ToolFieldKind::Text => self.edit(),
-                        ToolFieldKind::Choice(_) => return self.handle(MenuInput::Right),
+                        ToolFieldKind::Choice(options) => {
+                            if !options.is_empty() {self.choice_edit=Some(options.iter().position(|v|*v==self.fields[self.focus].value).unwrap_or(0));}
+                        },
                     }
                 }
             }
@@ -337,6 +357,7 @@ impl ToolForm {
         }
     }
     pub fn hover(&mut self, x: usize, y: usize, w: usize, h: usize) {
+        if self.choice_focus(){return;}
         if self.text_focus() {
             self.editor.hover(x, y, w, h);
             return;
@@ -363,6 +384,7 @@ impl ToolForm {
         h: usize,
         left: bool,
     ) -> Option<MenuAction> {
+        if self.choice_focus(){return self.handle(if left {MenuInput::Confirm}else{MenuInput::Cancel});}
         if self.text_focus() {
             self.editor.click(x, y, w, h, left);
             self.sync_editor();
@@ -391,7 +413,7 @@ impl ToolForm {
         let first = self.first(g.visible);
         let (label, bounds) = if let Some(f) = self.fields.get(self.focus) {
             (
-                format!("{}: {}", f.label, f.value),
+                format!("{}: {}", f.label, self.shown_value(self.focus)),
                 [
                     g.list[0],
                     g.list[1] + (self.focus - first) * g.row,
@@ -409,7 +431,7 @@ impl ToolForm {
             page: "DebugTool".into(),
             selected: self.focus,
             label,
-            capture: None,
+            capture: self.choice_focus().then(||"Scelta: OK applica / Annulla scarta".into()),
             panel: g.panel,
             selected_bounds: Some(bounds),
             first_visible: first,
@@ -456,7 +478,7 @@ pub(super) fn draw(s: &ToolForm, px: &mut [[u8; 4]], w: usize, h: usize) {
         pw.saturating_sub(20) as f32,
     );
     let mut instruction=g.search;instruction[2]=g.panel[2].saturating_sub((instruction[0]-x)*2);
-    button(&mut c,instruction,"Frecce: scelte · Conferma: modifica · usa i pulsanti per eseguire.",false,size);
+    button(&mut c,instruction,if s.choice_focus(){"Scelta: frecce regolano · OK applica · Annulla scarta"}else{"Frecce: naviga · OK modifica · usa i pulsanti per eseguire"},false,size);
     let first = s.first(g.visible);
     for (n, f) in s.fields.iter().skip(first).take(g.visible).enumerate() {
         let r = [
@@ -468,7 +490,7 @@ pub(super) fn draw(s: &ToolForm, px: &mut [[u8; 4]], w: usize, h: usize) {
         button(
             &mut c,
             r,
-            &format!("{}: {}", f.label, f.value),
+            &format!("{}: {}", f.label, s.shown_value(first+n)),
             s.focus == first + n,
             size,
         );

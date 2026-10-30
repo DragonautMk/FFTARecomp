@@ -36,6 +36,19 @@ const STATES: [&str; 6] = [
 ];
 const KINDS: [&str; 6] = ["All", "case", "variant", "IN", "GEN", "NEW"];
 impl CatalogState {
+    pub(super) fn choices(&self,row:Row)->Vec<String> {
+        match row {
+            Row::CatalogRegion=>REGIONS.iter().map(|s|s.to_string()).collect(),
+            Row::CatalogStatus=>STATES.iter().map(|s|s.to_string()).collect(),
+            Row::CatalogKind=>KINDS.iter().map(|s|s.to_string()).collect(),
+            Row::CatalogCase=>self.cases(),
+            Row::CatalogEntry=>self.matches().iter().map(|i|self.entries[*i].name.clone()).collect(),
+            _=>Vec::new(),
+        }
+    }
+    pub(super) fn choice_index(&self,row:Row)->usize {
+        match row {Row::CatalogRegion=>self.region,Row::CatalogStatus=>self.status,Row::CatalogKind=>self.kind,Row::CatalogCase=>self.case,Row::CatalogEntry=>self.index,_=>0}
+    }
     pub(super) fn details(&self) -> String {
         self.selected()
             .map(|i| {

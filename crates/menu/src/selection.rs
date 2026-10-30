@@ -3,6 +3,9 @@ use super::*;
 impl Menu {
     pub fn selection_state(&self, av: &AvConfig, cfg: &InputConfig) -> Vec<(String, String)> {
         let context=vec![("atlas.domain".into(),format!("{:?}",self.atlas.domain)),("atlas.section".into(),self.atlas.selected_section().to_string()),("atlas.sidebar_focus".into(),self.atlas.sidebar_focus.to_string())];
+        if let Some(index)=self.input_tabs_focus {
+            let mut state=context;state.extend([("page".into(),format!("{:?}",self.page)),("item_id".into(),format!("input-tab/{index}")),("label".into(),["Tastiera","Gamepad","Mouse e tastiera"][index as usize].into()),("input_device".into(),format!("{:?}",cfg.device))]);return state;
+        }
         if self.tool_active() {let mut state=self.tool.selection_state();state.extend(context);return state;}
         if self.content_active() {let mut state=self.content.selection_state();state.extend(context);return state;}
         if self.page==Page::Information{let mut state=context;state.extend([("page".into(),"Information".into()),("readonly".into(),"true".into()),("detail_scroll".into(),self.atlas.detail_scroll.to_string())]);return state;}
@@ -56,7 +59,7 @@ impl Menu {
         if let Some(dropdown) = &self.dropdown {
             state.push(("dropdown.id".into(), format!("{:?}",dropdown.row)));
             state.push(("dropdown.index".into(), dropdown.index.to_string()));
-            state.push(("dropdown.value".into(), setting_options(dropdown.row).get(dropdown.index).cloned().unwrap_or_default()));
+            state.push(("dropdown.value".into(), dropdown.options.get(dropdown.index).cloned().unwrap_or_default()));
         }
         if self.page == Page::DebugCatalog { state.extend(self.catalog.selection_state()); }
         state

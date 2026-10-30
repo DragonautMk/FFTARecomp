@@ -161,9 +161,10 @@ pub(super) fn draw(
         return;
     }
     for p in px.iter_mut().take(w * h) {
-        p[0] = BG[0];
-        p[1] = BG[1];
-        p[2] = BG[2];
+        let alpha = super::canvas::panel_alpha() as u32;
+        for channel in 0..3 {
+            p[channel] = ((BG[channel] as u32 * alpha + p[channel] as u32 * (255-alpha) + 127)/255) as u8;
+        }
         p[3] = 255;
     }
     let g = atlas::geometry(w, h);
@@ -369,7 +370,7 @@ pub(super) fn draw(
     ]
     .into_iter()
     .find(|v| !v.is_empty())
-    .unwrap_or("Seleziona · conferma · Esc indietro · F1 / R3 dettagli");
+    .unwrap_or("Frecce: naviga · OK: modifica/conferma · Annulla: indietro");
     text(&mut c, Rect{w:g.feedback.w.saturating_sub(g.information.w+5),..g.feedback}, feedback, fs * 0.85, false, MUTED);
     panel(&mut c,g.information,menu.atlas.information_hover&&menu.information_available());
     text(&mut c,g.information,if menu.page==Page::Information{"Chiudi"}else{"Dettagli"},fs*0.85,false,if menu.information_available(){TEXT}else{MUTED});
@@ -394,7 +395,10 @@ pub(super) fn draw(
         draw_overview(menu, av, px, w, h);
     } else if atlas::specialty(menu.page) {
         let b = g.body;
-        let mut body = vec![[BG[0], BG[1], BG[2], 255]; b.w * b.h];
+        let mut body = Vec::with_capacity(b.w*b.h);
+        for y in 0..b.h {
+            body.extend_from_slice(&px[(b.y+y)*w+b.x..(b.y+y)*w+b.x+b.w]);
+        }
         match menu.page {
             Page::ContentSelector => content_selector::draw(&menu.content, &mut body, b.w, b.h),
             Page::DebugTool => debug_tool::draw(&menu.tool, &mut body, b.w, b.h),

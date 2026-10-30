@@ -39,7 +39,7 @@ metadati e l'anteprima non sostituiscono il preflight dell'azione effettiva. Il
 messaggio finale distingue anteprima autenticata, immagine assente ed errore;
 una risposta relativa a una riga ormai diversa non sostituisce l'anteprima corrente.
 
-Tastiera: frecce per muovere/cambiare filtri, Tab per cambiare area, Invio per
+Tastiera: frecce per spostare il focus, Tab per cambiare area, Invio per
 entrare nella ricerca o portare la lista sul pulsante Select. Invio su Select
 conferma; Escape annulla l'editor/dettaglio o ritorna al chiamante. Ctrl+F apre
 la ricerca. Nella ricerca i caratteri, Backspace, Tab, Invio ed Escape vengono
@@ -50,6 +50,9 @@ di layout/composizione e glifi dipende dalla piattaforma e dai font disponibili.
 Mouse: hover evidenzia, click sui pulsanti esegue la singola azione host; click
 sulla lista non conferma la scelta. La rotella scorre la lista o i dettagli.
 Controller: direzioni, South/Confirm e East/Cancel percorrono gli stessi controlli;
+le direzioni navigano fra i filtri, Confirm apre la scelta del valore e un
+secondo Confirm la applica. Cancel scarta il valore in modifica. Il medesimo
+comportamento vale per le scelte nei moduli dei parametri;
 la ricerca offre una tastiera a schermo con pagine, spazio, cancellazione e Done.
 Una pressione mantenuta non deve produrre conferme multiple. Mentre l'editor ha
 focus, le shortcut non raggiungono il guest.
@@ -111,7 +114,9 @@ navigazione dell'harness sono documentati separatamente nel
 DBG2-05 aggiunge **Debug > Parameters / prepare profiles** aggiunge bozze
 per replay, audit, cattura, confronto, passi, ispezione, audio, codice, gameplay,
 eventi recenti, grafica e issue. Le righe input usano il selettore tipizzato;
-frecce cambiano le scelte, Confirm apre l'editor testuale con tastiera a schermo.
+le frecce spostano il focus; Confirm apre la modifica della scelta o l'editor
+testuale con tastiera a schermo. Una scelta cambia la bozza solo al secondo
+Confirm; Escape scarta il valore ancora in modifica.
 Escape annulla l'editor o ritorna dal pannello; Tab cambia campo/azione.
 
 **Verify draft** usa i parser/preflight condivisi senza eseguire. **Save new

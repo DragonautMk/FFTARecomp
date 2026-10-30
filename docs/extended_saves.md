@@ -2,7 +2,7 @@
 
 Open the pause menu, choose **Gioco > Salvataggi** (also available under
 **Debug > Sessioni e casi**), then enable **Extended saves** with
-Left/Right, or Confirm and the ON/OFF selector. The default is OFF. The choice
+Confirm, choose ON in the selector, then Confirm again. The default is OFF. The choice
 is stored as `debug.extended_saves` in `av.cfg`, including portable
 `Data/config/av.cfg`.
 
@@ -34,7 +34,9 @@ descriptive ignored filename. Variant numbers stay distinct from DS IDs.
 ## Snapshot slots
 
 The existing **Save states** page offers slots **1–99** while enabled, and
-**1–9** otherwise. Left/Right wraps, so Left from slot 1 selects slot 99.
+**1–9** otherwise. Confirm on Slot opens the picker; directions move the pending
+choice, Confirm applies it and Cancel keeps the previous slot. Within this
+picker Left/Right wraps, so Left from slot 1 highlights slot 99.
 Previews, overwrite confirmation and the session's single Undo work as before.
 Names remain `SaveStates/<ROM-SHA-256>/slot-1.ffstate` through
 `slot-99.ffstate`, beside the selected `.sav`.
@@ -47,8 +49,8 @@ translation compatibility are unchanged. See [Save states](save_states.md).
 ## Standard game saves
 
 With Extended saves enabled, **Gioco > Salvataggi > Game saves** selects up to 99 cartridge
-save files. Left/Right changes the selected number; Confirm on Slot advances
-one number. The page shows the filename, whether the file is saved, empty or
+save files. Confirm on Slot opens the numbered picker; directions highlight a
+number and Confirm applies it. Cancel discards the pending number. The page shows the filename, whether the file is saved, empty or
 unreadable, and which slot is active.
 
 Slot 1 retains the existing filename. Slots 2–99 add the suffix `-slot-NN`

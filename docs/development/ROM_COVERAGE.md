@@ -164,6 +164,13 @@ Il normale eseguibile, la cache Cargo dell’host e i job di estrazione non veng
 modificati. I sorgenti archiviati hanno date di estrazione nuove per impedire che
 una cache Cargo calda riusi binari di sorgenti diversi.
 
+Il Dockerfile usa il frontend già incluso in BuildKit: non scarica separatamente
+`docker/dockerfile:1` da Docker Hub. Questo evita il fallimento preliminare
+`failed to fetch anonymous token` del frontend quando il DNS Docker non risponde.
+La build richiede comunque rete/DNS per immagini Rust, pacchetti Debian e crate
+non ancora in cache; la generazione del report continua a usare `--network none`.
+Vedere [la diagnostica Docker](../docker.md#rom-coverage-atlas).
+
 Per il percorso predefinito basta la **ROM EUR**: il container compila CLI e
 analizzatore, legge la revisione dai medesimi sorgenti compilati, prepara il
 dataset e lo conserva in `target/rom-data/coverage/<SHA-ROM>/e<extractor>-d<decoder>/`.

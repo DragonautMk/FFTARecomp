@@ -1884,7 +1884,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   code/data/runtime/ordinary-use/sharing/unknown layers. Docker launchers stage
   a Git HEAD archive plus current public tools into Dockerfile.coverage, excluding
   uncommitted extraction work and private inputs. The cache key comes from the
-  built extractor source, independently of historical evidence. New/changed
+  built extractor source. Coverage uses BuildKit's bundled Dockerfile frontend
+  without a separate Docker Hub syntax-image fetch; uncached build dependencies
+  still need network/DNS. Dataset identity remains
+  independent of historical evidence. New/changed
   resources remain pending ordinary-proof review; exact decoded AND source-map
   hashes preserve reviewed proofs. Migrated source-only spans are subtracted
   from that layer. HTML shows generation time, commit, dataset/evidence revisions;
@@ -2481,6 +2484,10 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   performance/space campaigns; the earlier Linux sample is closed history.
 
 ## Container builds
+
+The Linux, Windows and coverage Dockerfiles use BuildKit's bundled frontend,
+avoiding a separate Docker Hub `docker/dockerfile:1` fetch before compilation.
+Uncached base images and build dependencies still require working network/DNS.
 
 - `Dockerfile.linux` and `scripts/linux/build_linux_docker.sh` build Linux amd64 using
   Rust 1.94.0 / Debian Bookworm with ALSA/udev development dependencies inside

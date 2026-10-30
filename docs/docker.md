@@ -54,6 +54,16 @@ build container. Network access is needed on the first build for the base image,
 Debian packages and Cargo dependencies. The script explicitly builds
 `linux/amd64`; other host architectures need Docker's amd64 emulation.
 
+The Linux, Windows and coverage Dockerfiles use BuildKit's bundled Dockerfile
+frontend, avoiding a separate `docker/dockerfile:1` download. If an older copy
+stops at `resolve image config for docker-image://docker.io/docker/dockerfile:1`,
+update the Dockerfile used by the launcher. An anonymous-token DNS error at that
+step occurs before runtime compilation and does not mean registry credentials
+are missing. Uncached base images and dependencies still need working Docker
+network/DNS. The [Docker syntax reference](https://docs.docker.com/reference/dockerfile/#syntax)
+describes the bundled frontend default; an explicit `BUILDKIT_SYNTAX` override
+can select a different frontend.
+
 Output:
 
 - `dist/docker-linux/FFTARecomp-linux-portable.tar.gz`
@@ -154,6 +164,10 @@ the CLI/helper, reads their source revision and prepares/reuses the matching
 `target/rom-data/coverage/<ROM-SHA>/e<extractor>-d<decoder>/` cache. No host Python,
 Rust or retained ELF is required. Source mtimes are refreshed inside Docker so
 warm Cargo caches cannot mask a changed archived source tree.
+
+Both coverage launchers use this same Dockerfile and the bundled frontend
+described above. Uncached Rust base images, Debian packages and Cargo
+dependencies still require working network/DNS during the build.
 
 The map follows newly committed extraction generations automatically. Ordinary
 use evidence is inherited only for identical decoded files and source maps;

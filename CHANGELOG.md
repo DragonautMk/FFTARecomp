@@ -235,6 +235,30 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-30-verify-european-event-record-mission-entry.json)
 
+## 2026-10-30 — Avoid external Dockerfile frontend fetches in desktop and coverage builds
+
+Type: fixed. Platforms: Docker/BuildKit (Linux/Windows desktop recipes and shared coverage image).
+
+**Changes**
+
+- Use BuildKit's bundled Dockerfile frontend instead of the docker/dockerfile:1 syntax image in the Linux, Windows and coverage recipes; existing launcher routing and build instructions remain in use.
+- Document the frontend-specific Docker Hub DNS failure and retain the network requirement for uncached Rust base images, Debian packages and Cargo dependencies.
+
+**Validation**
+
+- Confirmed the supplied log fails before compilation or ROM access while fetching an anonymous Docker Hub token for the external syntax image.
+- A minimal actual Docker Buildx probe passed using the cached coverage image and the changed parser preamble: stable RUN cache mount with sharing=locked, COPY across stages and local result export; no docker-image frontend resolution occurred. No ROM, runtime compilation or performance measurement.
+- Actual Buildx --call=targets passed against both changed desktop Dockerfiles: Linux source/extract/coverage/build/export and Windows rust-toolchain/build/export, with no external syntax-image resolution, runtime compilation or tests. Each desktop recipe differs from its preimage only in the first comment line.
+
+**Limitations**
+
+- Full desktop package builds and the complete coverage rebuild/report were not rerun; this removes unnecessary frontend lookups, not the host or daemon DNS problem. Uncached base images and dependencies still need working network/DNS.
+- Native Windows/Docker Desktop and Linux game/runtime behavior were not tested; the existing launchers and runtime/extraction code remain unchanged.
+
+Documentation: [docker.md](docs/docker.md), [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md).
+
+[Change record](docs/changes/2026-10-30-use-bundled-frontend-for-rom-coverage.json)
+
 ## 2026-10-30 — Share debug event identities, host order and request correlation across UI and recent reports
 
 Type: added. Platforms: Windows GNU build, Wine.

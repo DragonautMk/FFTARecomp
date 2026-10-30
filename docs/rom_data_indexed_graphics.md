@@ -197,3 +197,52 @@ checkpoint was derived and no navigation, earlier proof or metric was repeated.
 Private CLI evidence is `target/rom-data-indexed-graphics-cli/`; its selected
 production executable SHA256 is
 `d8767645ab8cbc7203e0ac6bb48e810feaab2003a4dcad7300361f01c09ffeb4`.
+
+
+## Ordinary world-map menu equivalence
+
+`ROMDATA-04-INDEXED-GRAPHICS-ORDINARY` verifies one normal EUR world-map menu
+case under Wine. Eight authenticated caller windows (six new/two reused) and
+the fused call at `0453e2` join context3 at `3710e0` to archive program2, whose
+accepted decoded tiles spell MENU. Context index and program index are separate;
+this does not establish ownership or an enum for the context table. The retained
+normal4519 world-map checkpoint and old input receipt authenticate the trigger.
+Only Start is used: press at relative8, release at20, neutral otherwise. The
+older Down/A/320-frame Clan route and other completed proofs are not replayed.
+
+One warning-free 598-source Windows host-test build adds a passive observer
+and optional five-line positive-usage guard to the accepted 597-source CLI
+snapshot. Existing parameter/world observers stay in current source; only the
+parameter observer/guard is excluded from this frozen baseline to match the CLI.
+Core/runtime remain unchanged and both module/validator inverses are exact.
+A private preparation variable collision was recovered offline using the same
+already copied seed/source snapshot, before any build or Wine execution.
+
+One normal capture becomes positive at relative9/guest4529 and stops at4560,
+after41frames from4519. Its rolling41-frame suffix is accepted immediately;
+discovery performs no further navigation. The same production CLI runs this
+suffix once with all83 ID/hash pairs and86 managed paths unchanged and the old
+28859-block native cache intact. The same test executable runs one full pair:
+all41 complete states/clocks/classic-wide images/OAM/five audio streams match.
+Both arms use the same old native cache; this is not global interpreter/native
+equivalence. A nonfatal Wine D-Bus warning remains in the successful pair log;
+no retry was performed.
+
+All twelve counters match capture, CLI and full pair:274 reads/277 served bytes,
+including selector4, archive header6, index4, token67, literal17, dictionary
+header4 and dictionary175, with one archive/program/group used. All seven byte
+classes are positive; the case does not cover all20archives/649programs/four
+groups. The205083native/283493fallback dispatches and five audio sample counts
+are coverage only. Complete284x160 wide framebuffer pixels authenticate the
+readonly classic projection showing MENU with Party/Clan/Area List/System and
+MoonDay9. No option selection or mission outcome is claimed.
+
+The144 guards preserve598 frozen/597CLI sources, three current implementation
+paths, original ROM/checkpoint/input/cache/TinyCC/canonical executable and86
+managed files. Game controls on copies are the only new guest inputs; no manual
+RAM/register/task/ID/RNG/ROM or cartridge-save edits were made. Source/model/
+runtime/CLI registration acceptance, old ordinary routes and performance
+measurements were not repeated. Other ordinary archives/programs/languages,
+mode3/wider widths/full ABI/live effects/indirect/global extent, Linux/USA/
+native Windows/new32:9 and the whole ROM TODO remain pending. Private evidence
+is retained under `target/rom-data-indexed-graphics-ordinary/`.

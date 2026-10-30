@@ -1968,3 +1968,60 @@ frame24755→24756 has all twelve new counters zero, registration only.
 201guards597CLI+597runtime/84accepted originals exact; no ordinary fixture/
 navigation/oldproof/metrics replay. Positiveordinary/fullpair and deferred
 platforms remain pending. [CLI evidence](rom_data_indexed_graphics.md#actual-cli-registration).
+
+
+One later41-frame [ordinary world-map MENU case](rom_data_indexed_graphics.md#ordinary-world-map-menu-equivalence)
+now passes complete state/clock/classic-wide/OAM/five-audio equivalence with
+the same old native cache. Actual CLI and pair match all12 counters:274reads/
+277served bytes across allseven classes/onearchive-program-group. OneStart12
+normal capture from copied4519worldmap stopsafterfirstsource+31 at4560; no
+old320Clanroute orworld38daily45 acceptance replay.144guards598frozen597CLI/
+threecurrent86managed/originals exact. Other ordinary archives/programs/languages
+and Linux/USA/native Windows remain pending; no performance measurements.
+
+
+## Table-selected custom UI extension
+
+EUR e92-d91 extends the existing [custom UI resource](rom_data_ui_graphics.md#managed-table-selected-graphics-and-runtime-consumption)
+at index15 to56banks/10selectors/106bindings. Same84files/83IDs, all82other
+records-files andold16banks/twoinline/sharedOBJ exact;80additionalbindings
+cover the same53667B/48canonical spans. Sixnewfamily counters preserve the
+oldUIstats meanings and originalguest decode/upload work. One601-source
+warning-free Windows build/oneWinefilter passespublication-interruption/14attach
+twofullset/22complete-state-clock cases andallsource/48edges/LoadUndo/DMA3.
+499servednewB5priorindexed/fallback[3,0] are callbackcounts, notdistinct union
+orall-direct-native coverage.267guards601frozen600model/sevencurrent84prior
+exact; nooldproof/ordinaryfixture/navigation/performance replay. ActualCLI/
+ordinary use and deferred platforms remain pending.
+
+Actuale92 productionCLI registration nowpassesone601sourcebuild/oneWine
+creation-reuse-neutral1/threeexit0:84runtimefiles/83IDhash/86managednowrite/
+cache28859exact/canonicalfinallyrestore. Guest24755→24756 has allsixnewtable
+counterszero, compatibilityonly;202guards601CLI+601runtime/84accepted inputs
+exact. Positiveordinary/fullpair and deferredplatforms remainpending.
+[Actual CLI evidence](rom_data_ui_graphics.md#actual-table-extension-cli-registration).
+
+
+EUR e93-d92 adds independent `graphics.ui-raw-transfers` at index83,85 files/
+84 IDs, retaining all83 prior records/payloads exactly. Its35 fixed typed-word
+views and seven raw language pointer tables serve42 spans/38220 bytes through
+the shared immutable bus with six separate counters. The seventh bank owns
+only+0200..0380; its successor archive remains under the prior indexed owner.
+Original copy helpers, queues, DMA and guest clocks remain active. One focused
+Wine filter passes publication/interruption,14attach2fullset guards,23 native
+complete-state/clock cases, all bytes/borders/widths/mirrors, Load/slot Undo and
+four64-byte mixed DMA16/DMA32/CpuSet/FastSet transfers. Native callback coverage
+includes939 new served bytes/three prior with fallback768/0, not all direct
+native execution. Two605-source Windows builds include a pre-Wine test-only
+prior-owner boundary correction; accepted4b219adc is warning-free. Actual CLI/
+ordinary use, dynamic index domain/full caller ABI and new
+Linux/USA/native Windows/32:9 checks remain pending. See
+[raw transfer contract and evidence](rom_data_ui_raw_transfers.md#managed-raw-transfer-resource).
+
+The real e93 CLI now passes create/reuse/no-write/startup under Wine: one
+warning-free605-source productionffda6c59 build, canonical hash/mtime restored,
+three child exits0,85 runtime-identical files/84 IDhashes/87 managed paths
+unchanged and28859 old native blocks loaded. A retained normal24755 checkpoint
+copy advances one neutral frame; all six new raw counters0, registration only.
+203 preservation guards pass; no positive ordinary/full-scene claim.
+[Actual CLI evidence](rom_data_ui_raw_transfers.md#actual-cli-registration).

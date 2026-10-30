@@ -82,6 +82,81 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-30-verify-european-observed-parameter-records27-cli.json)
 
+## 2026-10-30 — Verify actual CLI registration of European table-selected UI graphics
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify e92-d91 actualproductionCLI creation/reuse/startup fromsame601acceptedruntime sources withoutoverlays, preservingcanonical andallprior datasets.
+
+**Validation**
+
+- One warningfreeWindowsGNUproductionbuild31c0f298529889b41ed72bff67e85ed35c9f1781586a085a7b8fbe94cc596edb/canonicalhashmtime restoredfinally.
+- OneWineorchestrationthreeexit0 commands create-reuse-neutral1normal24755copy→24756;84runtime-identicalfiles/83loggedIDhashes/86managedpathhashmtime nowrite/cache28859 unchanged.
+- Allsixnewtableusagecounts0, registration/compatibilityonly/no positiveordinary-fullpairclaim.202guards601CLI+601runtime/84accepted/ROM-seed-input-cache-TinyCC-canonical exact.
+- No newcheckpointderivation/navigation/old40model16UIindexed20native22-35ordinary41CLIacceptance/performance replay.
+
+**Limitations**
+
+- Positiveordinarygameplay andfullsceneequivalence of40newbanks remainpending.
+- FulltransferhelperABI/livecontexts/globalextent/indirectaliases/71E5E0tablealias/sevenrawgroups/tails/modphases/fullROMTODO remainunverified; sparse27ordinary stayspartial.
+- Linux/USA/nativeWindows/new32:9 remainpending peruser scope.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-verify-european-localized-table-graphics-cli.json)
+
+## 2026-10-30 — Verify European raw transfer CLI registration
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify actual e93-d92 CLI creation, no-write reuse and neutral startup for graphics.ui-raw-transfers, with85 files84 resource IDs and all preceding payloads retained.
+
+**Validation**
+
+- One605-source runtime-identical/no-overlay Windows production buildffda6c595cfd38eae46e8f9ac2ee709ba077b4198a053f25b58ba09be214c483 warning-free; canonical executable hash/mtime restored in finally.
+- One Wine orchestration/three child exits0: create/reuse/normal24755 checkpoint copy neutral1→24756. All85 files match accepted runtime,84 logged ID/hash pairs exact,87 managed paths unchanged/native cache28859 exact.
+- 203 preservation guards/605 CLI+605 runtime source hashes/all85 accepted files/ROM-original checkpoint-nativecache-TinyCC-canonical exact. Six new counts zero: registration/startup compatibility only, no ordinary/fullpair acceptance.
+
+**Limitations**
+
+- Positive ordinary use/full scene equivalence, dynamic6F8 index domain/metadata/lower prefix/tails/full helper ABI and global catalog remain open.
+- New Linux/USA/native Windows/32:9 and full ROM TODO pending. No new checkpoint derivation/action/navigation, earlier acceptance replay/performance/space campaign/Android/package/commit/push.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-verify-european-localized-raw-transfers-cli.json)
+
+## 2026-10-30 — Verify ordinary European indexed graphics world-map menu equivalence
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add passive12stat normal-input observer and optional positive indexed-graphics scene guard, preserving core/runtime behavior and current parameter/world observers; freeze accepted597CLI+oneleaf=598sources.
+- Authenticate source context453E2→1967Ccontext3→program2MENU and select onlynormalStart12 from a guarded4519worldmap copy, stopping firstnewsource+31 without replaying oldDown-A/320Clan/world38daily45 routes.
+
+**Validation**
+
+- One warningfree Windows hosttest build6d40a6a52f53d4ae74a2a371812c939f80e3de482e9e4f1185cffd320eb48289; one41frame normalcapture4519→4560/firstsource9guest4529/rolling41suffix/discoverySTOP. Privateprepare variable collision recoveredOFFLINEsamecopiedseed/snapshot beforefirstbuild, no proofreplay.
+- Sameproductiond876CLI onepositive41/same598test onefullpair41: everycomplete state/clock/classic-wide/OAM/fiveaudio exact, all12counts matchcapture-CLI-pair:274reads277servedB(selector4/header6/index4/token67/literal17/dictionaryheader4/dictionary175),onearchive-program-group/allsevenclassespositive.
+- 83IDhash86managedpaths nowrite/oldnativecache28859 exact.144guards598frozen597CLI/threecurrent/inversehub-validator/ROM-originalcheckpoint-input-cache-TinyCC-canonical exact; fullwide284x160framebuffer authenticates readonlyclassicMENU Party-Clan-AreaList-System/MoonDay9.
+- 205083native283493fallback dispatch/audio[89974,89974,10824,10824,89898] coverageonly. Botharms sameoldnativecache, no globalinterpreter-nativeparityclaim. Nonfatal WineD-Bus warning/child0; no retry.
+- Normalinputcopiessoleguestinputs; no manualRAM-register-task-ID-RNG-ROM-cartchanges/closedsource-model-runtime-CLIregistration-oldordinaryproof replay/performance measurements.
+
+**Limitations**
+
+- Oneordinarycase coversonearchive-program-group/allsevenbyteclasses, notall20archives649programsfourgroups/languages.
+- Mode3/widerwidth/fullroutineABI/liveeffects/globalextent/indirectaliases/opaquecontexts/tails/modphases/fullROMTODO remain pending; sparse27ordinary remains partial.
+- Linux/USA/nativeWindows/new32:9 remain unverified percurrent scope.
+
+Documentation: [rom_data_indexed_graphics.md](docs/rom_data_indexed_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-verify-european-indexed-graphics-world-menu.json)
+
 ## 2026-10-30 — Verify European indexed graphics registration through the actual CLI
 
 Type: docs. Platforms: Windows.
@@ -226,6 +301,31 @@ Documentation: [debug_selector.md](docs/debug_selector.md), [DEBUG_TOOLS_V2_TODO
 
 [Change record](docs/changes/2026-10-30-persist-debug-content-choices.json)
 
+## 2026-10-30 — Record bounded European table-graphics ordinary reachability results
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Select source-backed Fight prediction and distinctCombo contexts using originalinitializer/callerwindows, accepteddecodedassetpreview andauthenticatednormalcheckpoints; recordnewfamily ordinaryconsumption aspartial aftertwozero-usage bounds.
+- Stop blindgameplay discovery untilconcreteconstructor-context evidence; preservebothnegative CLIprobes andallsource-model-runtime-registrationcompletedchildren.
+
+**Validation**
+
+- Same31c0 e92productionCLI:one64frame normaltargetconfirm23851→23915 andonedistinct160frame Comboattempt23611→23771, bothchild0/all6newtablecounts0/all83IDhash86managednowrite/cache28859exact.
+- Onlynormalkeysoncopies; guarded601CLI sources/originalROM-checkpoints-input-cache-TinyCC-canonical preserved. No observerbuild/guard/fullpair/newendpointstate/longerboundretry/RNGresampling/oldroute recreation ormetrics.
+- HeadlessPPMomitsseparateHUD/menu; no claimCombo reached/prediction absent. Exactstatic244D6→2C8C4 and30608constructorlinks remain sourcecontext only, notnewordinarylivenessproof.
+
+**Limitations**
+
+- Positiveordinarysourceuse/fullsceneequivalence remainsopen; bothselectednegativebounds areclosed anddiagnosticsretained withoutcompletecleanup.
+- FullhelperABI/livecontexts/globalextent/indirectaliases/71E5E0tablealias/sevenrawgroups/tails/modphases/fullROMTODO remainpending; sparse27ordinary staypartial.
+- Linux/USA/nativeWindows/new32:9 remainpending peruser scope.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-observe-european-table-graphics-reachability.json)
+
 ## 2026-10-30 — Add passive European parameter-record observation and retain ordinary reachability gaps
 
 Type: added. Platforms: Windows.
@@ -341,6 +441,58 @@ Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO
 
 [Change record](docs/changes/2026-10-30-model-european-observed-parameter-records27.json)
 
+## 2026-10-30 — Model European table-selected custom graphics and verify new decoder calls
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add strict ui_graphics::table_selected Catalog with eight five-pointer tables/40ordered Graphic banks, exactsource layouts/groupoutputs and separate editable-shape/exactEURauthentication; reuse establishedcustomLZ withoutchanging oldmanagedUIcatalog.
+- Keep rawu8language encodedaddress separate fromphysicalslots0..4 ownership, no fallback/skip/guestcap; old16UIbanks/twoinline switches/e91 remainunchanged untilruntimeintegration.
+
+**Validation**
+
+- One warningfree600frozen-source/260core-input Windows GNU corebuild cb46ccb1bc7beeed00b997e21c44a72ffe7d038118a121dfd7351da8440c7dbb from598acceptedordinary+twoleaves/onepubmodule.
+- One focused Winefilter PASS23shape-JSON-sourceguards/40neworiginal054A0calls/56actualrawselectorprefixes; all53667sourceB48spans114880decodedB matchindependent model. Consumedcursor/produced-returnedsize/SP-R4..R11/completeEWRAM/IWRAMoutside40B originalstack/VRAM-OAM-palette/finalROM exact.
+- 26unit111sourcehashmtimeguards/600frozen598acceptedpreimages/threecurrent/inverseUIhub exact,1335470instructions coverageonly. No old16UI/20indexed/native35/41ordinary/CLIacceptance/fixture-navigation/performance replay.
+- Offline metadata correction records actual23B2E→14522C control0150words/1344B versus oldlabel02A0halfwords; sourceopcodes/extents/modelinputs unchanged, guardedoldlabel+correctionreceipt retained, no proof rerun.
+
+**Limitations**
+
+- NewCatalog remains separate fromexistingmanagedCatalog; publication/runtime-nativeclock/actualCLI/ordinary use pending.
+- FulltransferhelperABI/livecontexts/71E5E0tablealias/sevenrawgroups/globalextent/indirectaliases/tails/modphases/fullROMTODO remainunverified; sparse27ordinary stayspartial.
+- Linux/USA/nativeWindows/new32:9 remain pending peruser scope.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-model-european-localized-table-graphics.json)
+
+## 2026-10-30 — Model European localized raw UI transfer views
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add strict RawTransfers/BankView catalog with seven physical language tables,35 ordered fixed views and sparse seventh-group ownership. Preserve exact little-endian source words and uncapped raw selector addresses.
+- Separate editable shape from exact EUR/reader/source authentication; leave managed runtime registration and all original live helpers/queues unchanged.
+
+**Validation**
+
+- Three Windows core builds: accepted603-source/262-core-input build35bdc5fd15d2c458df63aadecfabfeea766c44ef2924b92d5dafc57c9105f69c warning-free. Two Wine attempts, one final focused PASS:21 guards, all38220 bytes/42 spans,91 raw language prefixes,60 isolated original helper copies including25 original queue-executor DMA copies.
+- Complete EWRAM/VRAM/OAM/palette, IWRAM outside actual helper stack scratch (36B for queued executor), SP/callee registers and final ROM exact.6635 instructions are coverage only.
+- 44 unit guards/130 closed source guards/601 baseline source hashes/603 frozen sources/three current implementation paths and inverse hub exact; all84 accepted e92 files unchanged.
+- Test-only corrections:20→36B stack guard before Wine; first Wine stopped at incorrect raw edge expectation between adjacent owned tables. Diagnostics/executables/source preimages retained; model/source contract unchanged. No closed acceptance/gameplay/checkpoint/navigation/performance replay.
+
+**Limitations**
+
+- Model and isolated original helper/selector checks pass. Managed runtime/native state-clock/actual CLI/ordinary use remain pending.
+- Dynamic6F8 index metadata/domain/lower prefix/tails/full caller ABI and full ROM TODO remain open; new Linux/USA/native Windows/32:9 pending.
+- No gameplay/checkpoint derivation/navigation/old acceptance replay/performance or storage campaign.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-model-european-localized-raw-transfers.json)
+
 ## 2026-10-30 — Model European indexed graphics and verify original archive decoding
 
 Type: added. Platforms: Windows.
@@ -447,6 +599,57 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [rom_data_runtime.md](docs/rom_data_runtime.md).
 
 [Change record](docs/changes/2026-10-30-consume-european-observed-parameter-records27.json)
+
+## 2026-10-30 — Consume table-selected European custom UI graphics from the managed dataset
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Extend existinggraphics.ui-custom-banks/index15 to56banks10selectors106bindings at e92-d91/same84files83IDs; allother82resource records-files andold16banks-twoinline-sharedOBJ unchanged.
+- Authenticate80additionalruntimebindings as exactsame48canonicalsource-span byteunion53667B, add six newfamilyusagecounters withoutredefiningoldUIstats, composepriorindexed/raw/oldUI andretainoriginalguest decoding/scratch/helper/upload work andABI.
+
+**Validation**
+
+- One warningfree601frozen-source/260core-input Windowshosttestbuild d4a73eb212f4b9173013fe09616c65ca8ae7031cc85eb21089e107718765db47 fromaccepted600model+oneleaf; oneWinefilter publication-changedUIinterruption/14attach2fullset/22complete-state-clock raw-typed-native cases12loads+oneoriginalnewbankdecoder+9rawselectors/3stop-safe families PASS.
+- Callbacks499servednewB5priorindexed/fallback[3,0] exact independentloadcounts,notdistinctunion/alldirectnative;356visitedinstructions71dispatch coverageonly. All53667sourceB24328literal160selector40banks8groups/all48edges-widths-mirrors/priorindexed-raw-oldUI/LoadslotUndo/DMA3mixedfullstate-clock PASS.
+- 267hashmtimeguards601frozen600model/sevencurrent84prior preserved. Missingprocesshandle afterauthoritativechild0/PASSreceipt recoveredOFFLINEwithoutrestart. No old40decoder/56selectors/16UI/20indexed/native35/41ordinary/CLIacceptance/fixture-navigation/performance replay.
+
+**Limitations**
+
+- ActualproductionCLI creation/reuse/startup andpositiveordinaryuse ofthe40bankextension remainpending.
+- FulltransferhelperABI/livecontexts/globalextent/indirectaliases/71E5E0tablealias/sevenrawgroups/tails/modphases/fullROMTODO remainunverified; sparse27ordinary stayspartial.
+- Linux/USA/nativeWindows/new32:9 remainpending peruser scope.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-consume-european-localized-table-graphics.json)
+
+## 2026-10-30 — Consume European localized raw UI transfer data
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Register independent graphics.ui-raw-transfers at EUR e93-d92/index83 with85 files84 resource IDs, retaining the prior83 records and payloads.
+- Project authenticated raw bank words and language pointers through the existing immutable ROM bus with six separate usage counters; preserve sparse seventh-group ownership and all original CPU/queue/DMA work.
+
+**Validation**
+
+- Two605-source/263-core-input Windows builds; accepted4b219adc54111f10b01657afe08092fb88f366dd4fecda609055b3413dbd966f warning-free. One focused Wine filter passes85-file publication/interruption, prior83 record/payload equality,14 attach and two full-set guards.
+- 23 original/interpreter/native complete-state/guest-clock paths:12 loads, one CpuSet, one original queue executor, nine raw selectors/four stop-safe families. All38220 new source bytes and four prior indexed bytes altered after Load/setup; read8/16/32, fallback and DMA-causing write32 callbacks accounted.939 served new bytes/three prior, fallback768/0;115 instructions25 dispatches coverage only.
+- All38220 bytes/35 views/seven groups/42 edges, widths/mirrors/adjacent typed and prior owners/sparse prefix raw holes/Load-slot Undo/four64B mixed DMA16-DMA32-CpuSet-FastSet full states-clock pass.309 preservation guards cover605 frozen/603 model/seven current paths84 old accepted files and inverse hub.
+- Before Wine, only the new test leaf changed to recognize that prior indexed archive441608 starts at the sparse view end. Product code identical between builds; first warning-free950bea97 executable/log/source preimages retained. Inherited private console e92/DMA3 labels are stale metadata; accepted JSON proves e93-d92/four transfer cases, no repeat.
+
+**Limitations**
+
+- Runtime acceptance passes; actual production CLI and positive ordinary use remain pending.
+- Dynamic6F8 metadata/domain/lower prefix/tails/full caller ABI and global catalog remain open. New Linux/USA/native Windows/32:9 pending; full ROM TODO incomplete.
+- No performance/storage campaign, gameplay/checkpoint/navigation, AndroidPort, package, commit or push.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-consume-european-localized-raw-transfers.json)
 
 ## 2026-10-30 — Consume typed European indexed graphics archive source bytes
 
@@ -594,6 +797,56 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-30-classify-european-observed-parameter-records27.json)
+
+## 2026-10-30 — Classify European table-selected custom graphics sources
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Classify eight independently rooted five-slot rawlanguage pointer groups and40new customLZ/RLE banks linked to original054A0; retain exact encoded packets/consumed extent/decoded words without borrowing indexed05228 semantics.
+- Separate physical bank ownership from uncapped rawu8 language addresses and live scratch/task/helper transfer work; neighboring71E5E0 oldbank tablealias andsevenraw-looking groups remain unowned.
+
+**Validation**
+
+- All53667source bytes(53507bank+160selector) across48disjointspans and114880decoded bytes reconstruct exactly; source SHAdf69408f23205472246a37ab071670913bdb2ceebe151a91b18fadf9e297d5b4, decoded SHA11ba607260a1ae16c6eced9c1855ba3f98bd41b11d033b5950f3abb66f16c8fd.
+- 14authenticated staticwindows(10new/fourcached)/48instructionliteralpins/eightexactrootliterals/111hashmtimeguards PASS; no overlap83acceptedowners50522spans,all84acceptedfiles unchanged.
+- Static only: no build/Wine/game/fixture/navigation/oldacceptance/performance replay.
+
+**Limitations**
+
+- Strict typedtable model/new40bankoriginaldecoder-selectorWine/managedruntime-nativeclock/actualCLI/ordinary use remain pending; schema1/e91-d90 unchanged.
+- Globalextent/indirectaliases/sevennearbyrawgroups/71E5E0tablealias/gaps-tails/livetaskwork/fulltransferhelperABI remain unverified.
+- Linux/USA/nativeWindows/new32:9/modphases/fullROMTODO remain pending; sparse27ordinary remains partial.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-classify-european-localized-table-graphics.json)
+
+## 2026-10-30 — Classify European localized raw UI transfer sources
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Authenticate seven raw-language pointer groups and35 fixed transfer views from original byte/halfword/word copy controls; retain exact raw source words and selector bytes without guessed graphics formats.
+- Keep the seventh group sparse at bank+0200..0380: four dynamic indexed copies, their metadata, lower prefix and uncapped domain remain open; preserve original live task/queue/helper work.
+
+**Validation**
+
+- Static32 windows (23 new/nine reused),193 instruction/literal pins,13 root literals and13 fixed copy calls pass.42 disjoint spans38220B reconstruct exactly; source SHA256 e11ef4d5f16feea8ef90e7fce58056e19d689004b7ca973270285e3cd31b8f80.
+- 130 hash/mtime guards preserve all84 accepted e92 files; no overlap83 existing owners/50602 source bindings.
+- A first classifier assertion stopped before outputs at fused12EE24→145230; corrected CpuSet and000AD0 halfword counts authenticated before final source publication. No build/Wine/game/fixture/navigation/old acceptance or performance replay.
+
+**Limitations**
+
+- This source unit does not integrate new runtime data: schema1/e92-d91 unchanged. Typed modeling/original-source Wine/runtime/native clock/actual CLI/ordinary use pending.
+- Dynamic6F8 index metadata/domain/lower prefix/tails, known71E5E0 alias/global extent/indirect/full helper ABI remain open.
+- New Linux/USA/native Windows/32:9 and full ROM TODO pending; no performance or storage campaign.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [rom_data_ui_palettes.md](docs/rom_data_ui_palettes.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-30-classify-european-localized-raw-transfers.json)
 
 ## 2026-10-30 — Classify European indexed graphics archives with fixed dictionaries
 

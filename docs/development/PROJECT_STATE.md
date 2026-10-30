@@ -1517,9 +1517,90 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   one597sourceproductiond8767645 warningfree/canonicalfinallyrestore, oneWine
   create-reuse-neutral1/threeexit0/all84runtimefiles83IDhash86managednowrite/
   cache28859exact. Guest24755→24756 all12counts0/registrationonly;201guards
-  597CLI+597runtime/84accepted originals preserved. Positiveordinary/fullpair/
-  mode3-widerwidth/fullABI-liveuploads and deferred platforms remain pending;
-  no closedproof/navigation/metrics replay.
+  597CLI+597runtime/84accepted originals preserved. OneordinaryMENU nowPASS
+  one598source6d40a6a5 warningfree/passive12stats+5lineguard/core-runtimeunchanged.
+  Authenticated453E2→1967Ccontext3→program2/oneStart12capture41f4519→4560/first
+  9guest4529/discoverySTOP; SAMEd876CLIonepositive41 andSAMEtestonefullpair all41
+  complete states-clock/classic-wide/OAM/fiveaudio exact.274reads277SERVEDB
+  selector4-header6-index4-token67-literal17-dictionaryheader4-dictionary175/
+  onearchive-program-group/all7classespositive/nonall20-649-4.144guards598frozen
+  597CLI/threecurrent86managed/originals exact; authenticatedwide284x160/classic
+  MENU Party-Clan-AreaList-System/MoonDay9. Otherordinary/mode3-widerwidth/fullABI-
+  liveuploads and deferred platforms remain pending; no oldsource-model-native-
+  CLIprepare/old320Down-A/world38daily45/negativeproof/metrics replay.
+  [Next table-selected custom graphics](../rom_data_ui_graphics.md#additional-european-table-selected-source-contract)
+  sourcecontract nowPASS eight rawu8language groups71E590/5A4/5B8/5CC/644/680/
+  6BC/6D0→40unowned054A0banks,48spans53667sourceB/114880decodedB. Allpackets/
+  source/output reconstructed,14windows10new4cached/48pins/111guards/nooverlap
+  83priorowners50522spans/84files unchanged. Exactslot0..4physicalownership
+  isseparatefromuncappedrawu8address, nofallback/skipinvented; originalscratch/
+  livetask/helperwork retained,fulltransferABI pending. Known71E5E0tablealias
+  remain separate; the seven raw groups now have the bounded source contract below.
+  Global extent/tails/indirect references remain unclassified. Strictnew
+  ui_graphics::table_selected model nowPASS one600frozen260core cb46ccb1 build
+  warningfree/oneWine23guards40neworiginaldecodercalls56rawselectorprefixes.
+ 53667sourceB/48spans114880decodedB/cursor-produced-returned-size/SP-R4..R11/
+  fullEWRAM/IWRAMoutside40B originalstack/VRAM-OAM-palette/finalROM exact.
+  26unit111sourceguards/598preimages/3current/inverseUIhub preserved,1335470
+  instructions coverageonly. Offline23B2Econtrollabel corrected0150words vs
+  02A0halfwords/same1344B, no source/modelinputs orproofrerun. Managedruntime
+  nowPASS e92-d91/same84files83IDs/UIindex15 56banks10selectors106bindings/
+  allother82records-files-old16banks-twoinline-sharedOBJ exact.80newruntime
+  bindings byteunion48canonicalsource53667B exact;6newfamilycounters old6UIstats
+  unchanged/originaldecode-uploadwork retained. One601frozen260core d4a73eb2
+  warningfree/ONEWinepublication-interruption14attach2fullset22fullstate-clock
+  cases/3stop-safe families,499SERVEDnewB5priorindexed/fallback[3,0]/356visited
+  instructions71dispatch coverageonly. Allnewsource53667B24328literal160selector
+  40banks8groups/all48edges/LoadUndo/DMA3 pass/267guards601frozen600model/
+  sevencurrent84prior exact. ActualCLI nowPASSone601production31c0f298 warningfree
+  canonicalfinallyrestore/oneWinecreate-reuse-neutral1threeexit0/all84runtime
+  files83IDhash86managednowrite/cache28859exact. Guest24755→24756 sixnewtable
+  counters0/registrationonly;202guards601CLI+601runtime/84accepted originalsexact.
+  Positiveordinary/fullpair/fulltransferABI/deferredplatforms pending; noold40
+  model-16UI-20indexed-native22-35-41ordinary-CLIproof replay/game/fixture/
+  navigation/metrics.
+  Newtableordinary staysPARTIAL:twoSAME31c0CLI boundednormalprobes64targetconfirm
+  23851→23915 and160Comboattempt23611→23771/all6newcounts0,83IDhash86managed
+  nowrite/cache28859exact. Sourceinitializerlinknotreinitialization/liveness;
+  PPMseparateHUDomissionpreventsclaimCombo reached. No observer-guardbuild/
+  fullpair/endpointstate/longerretry/RNGresampling/oldroute recreation; blind
+  discovery stoppedpendingconcreteconstructorcontext, diagnosticsretained.
+  [Raw localized transfer sources](../rom_data_ui_raw_transfers.md) now declare
+  seven groups/five slots/35 fixed views,42 spans/38220B, authenticated against
+  all13 root literals and193 pins/32 windows with130 preservation guards.
+  Six bank prefixes are224/160/768/1600/2048/2432B; the seventh owns only
+  +0200..0380/384B. Original CpuSet/queued DMA halfword units are checked by
+  fused BL targets; no length from pointer spacing. Four dynamic seventh-group
+  views and their uncapped index metadata/lower prefix/tails remain unowned.
+  Strict ui_raw_transfers model now passes exact source/LEword reconstruction,
+  shape versus source authentication,91 raw selector prefixes/60 isolated
+  original helper copies/25 original queue-executor DMA copies/21 guards.
+  Complete memory guards/SP/callee/final ROM match; stack scratch36B for the
+  queued executor includes its16B wait frame. Accepted603-source/262-core-input
+  Windows build35bdc5fd is warning-free. Three builds/two Wine attempts include
+  two test-only oracle corrections (stack extent, adjacent owned boundaries);
+  model/source unchanged.44 unit/130 source guards,601 baseline source hashes
+  and three current paths/inverse hub exact.6635 instructions coverage only.
+  Managed runtime now e93-d92/index83 graphics.ui-raw-transfers/85 files84 IDs,
+  all83 prior records/payloads exact. Typed raw words/pointers project42 spans/
+  38220B with six separate counters; guest copy queues and transfer work remain.
+  Two605-source/263-core Windows builds, accepted4b219adc warning-free; one
+  Wine filter passes publication/interruption/14attach2fullset/23 complete
+  state-clock native paths across four stop-safe families (12loads, CpuSet,
+  queue executor, nine selectors), all bytes/42edges/sparse-prefix/prior-successor
+  ownership/LoadslotUndo/four64B mixed DMA16-DMA32-CpuSet-FastSet cases.
+  Native939 served new bytes/three prior indexed, fallback768/0;115 instructions
+  and25 dispatches coverage only.309 preservation guards/605frozen603model/
+  seven current paths84prior files/inverse hub exact. Pre-Wine test-only fix
+  distinguishes prior indexed archive441608 from raw holes; product unchanged.
+  Actual CLI now passes one605runtime-identical productionffda6c59 build,
+  warning-free/canonical hashmtime finally restored; one Wine orchestration
+  three child0/create-reuse-neutral1:85 runtime files84 IDhash87 managed paths
+  unchanged/native cache28859 exact. Guest24755→24756/all six raw counts0,
+  registration only.203 guards605 CLI+605runtime/85 accepted originals exact.
+  Ordinary positive/fullpair, dynamic domain/full caller ABI and deferred
+  platform checks remain pending; no old proof/gameplay/fixture/metrics replay.
+
 
 
 

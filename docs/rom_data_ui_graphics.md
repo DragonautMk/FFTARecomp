@@ -1,5 +1,193 @@
 # Custom UI graphics resources
 
+## Additional European table-selected source contract
+
+`ROMDATA-01-LOCALIZED-TABLE-GRAPHICS` declares eight additional, independently
+rooted five-slot language pointer groups at `71e590`, `71e5a4`, `71e5b8`,
+`71e5cc`, `71e644`, `71e680`, `71e6bc` and `71e6d0`. They select 40 distinct
+custom LZ/RLE banks, all currently outside the managed catalog. The decoder is
+original `080054a0`, distinct from the indexed archive decoder `05228/0537c`
+and BIOS LZ77. This is a source contract for extending
+`graphics.ui-custom-banks`; schema1/e91-d90 and the accepted84-file dataset
+remain unchanged in this unit.
+
+Each selector reads the live unsigned byte at `02001f6e`, scales it by four,
+adds its root and loads a little-endian bank pointer. All eight actual selector
+sequences and fused calls to `054a0` are authenticated. Physical slots0..4
+are declared; no language fallback, skipped load or guest cap is added for
+outside5/255 addresses. The cached aligned root census has exactly one literal
+for each selected root, and every such reference is covered.
+
+The five bank outputs per group are respectively1472,2688,768,4928,1920,7488,
+1344 and2368 bytes. Their sizes come from big-endian stream headers and exact
+packet production, not distances or alignments. Independent decoding preserves
+every token/literal/source byte, exact consumed extent and little-endian output
+words. The declared48 disjoint spans contain53507 bank bytes and160 selector
+bytes,53667 total, producing114880 decoded bytes. Source SHA256 is
+`df69408f23205472246a37ab071670913bdb2ceebe151a91b18fadf9e297d5b4`;
+decoded bytes concatenated by increasing bank offset have SHA256
+`11ba607260a1ae16c6eced9c1855ba3f98bd41b11d033b5950f3abb66f16c8fd`.
+
+Some callers decode into fixed scratch`02003cb0`; others use allocated task
+pointers or task-owned RAM. Original downstream helpers, dynamic destinations
+and later scratch work remain distinct from static source ownership. In
+particular, the helper at`12c4f8` uses scratch beyond the4928-byte decoded block;
+that later RAM work does not establish another ROM source extent. Established
+halfword-copy calls show full768/7488/1344-byte transfers for three groups;
+full transfer/helper ABI and ordinary liveness for the complete set are pending.
+
+Fourteen authenticated static windows (ten new/four reused),48 instruction/
+literal pins and111 hash/mtime guards pass. No span overlaps the83 accepted
+owners/50522 source spans; all84 accepted files and actual immutable inputs
+remain unchanged. Private evidence lives under ignored
+`target/rom-data-localized-table-graphics/`. This unit performs no build,
+Wine/game run, fixture creation, navigation or older acceptance replay.
+
+The neighboring`71e5e0` table points to five already owned UI banks; its table
+alias remains a separate unowned criterion. Seven other nearby raw-looking
+groups, indirect references/global extent, gaps/tails and live helper contexts
+remain unclassified. Strict table modeling, new-bank original-decoder/selector
+Wine proof, managed/runtime/native-clock integration, actual CLI and ordinary
+use remain pending. Linux/USA/native Windows/new32:9/mod phases/fullROMTODO
+remain pending; no performance or storage campaign is included.
+
+## Typed table model and new original-decoder proof
+
+`ROMDATA-02-LOCALIZED-TABLE-GRAPHICS` adds
+`gba_core::rom_data::ui_graphics::table_selected`, reusing the established
+`Graphic`/custom LZ implementation. Its strict JSON stores eight tables with
+five contiguous `BankPointer` records each and40 ordered banks with exact
+encoded bytes/decoded words. Validation checks physical root/order/count,
+contiguous pointer positions, unique bank linkage, group-specific output sizes,
+stream consistency and disjoint source spans. Exact EUR ROM/reader fingerprints
+and source verification remain distinct from editable shape validation: a
+coherently edited literal/output passes shape and fails source authentication.
+
+Physical `select` returns no bank for language5/255, while `encoded_view` retains
+the original raw address. The separate new Catalog is not yet called by the
+existing managed UI Catalog, so e91 and all old16 banks/two inline switches
+remain unchanged until the runtime integration unit.
+
+One warning-free Windows GNU core build uses600 frozen sources: the accepted
+598 ordinary snapshot plus two model/test leaves and one UI module addition.
+One focused Wine filter passes23 shape/JSON/source guards,40 new original
+`054a0` calls and56 actual selector prefixes (eight tables × languages0..4/5/255).
+All53667 source bytes/48 spans/114880 decoded bytes match the independent model.
+Every new call matches its complete output and guards, consumed source cursor,
+produced/returned size, restored SP/R4..R11, complete EWRAM, IWRAM outside the
+original40-byte stack scratch, VRAM/OAM/palette and final ROM bytes. The1335470
+executed instructions are coverage only.26 model guards/111 source guards,
+600 frozen/598 accepted source preimages and three current implementation paths
+remain exact; previous decoder/native/ordinary/CLI acceptance is not repeated.
+
+An offline source metadata correction records actual`23b2e→14522c` control
+`0150` (`a8<<1`),336 FastSet words/1344 bytes. An earlier private downstream
+label used the equivalent halfword count`02a0`; original opcodes, source
+extents, decoded bytes and model inputs were unchanged, so no proof was rerun.
+The guarded original label and correction receipt are both retained.
+
+Managed publication/runtime/native-clock, actual CLI and positive ordinary use
+of these40 banks remain pending. Full downstream helper ABI/live contexts,
+neighboring table alias/raw groups/global extent/indirect/tails and deferred
+platforms remain open; no game checkpoint or navigation is added by this unit.
+
+## Managed table-selected graphics and runtime consumption
+
+`ROMDATA-03-04-LOCALIZED-TABLE-GRAPHICS-RUNTIME` enables the new table Catalog
+inside the existing `graphics.ui-custom-banks` resource at index15. EUR is now
+schema1/extractor92/decoder91. The dataset still has84 files/83 resource IDs;
+only `ui-graphics.json` and its resource record change. All82 other resource
+records/files, the prior16 complete banks by source offset, the two inline
+selectors and shared OBJ links remain exact. The UI resource contains56 banks,
+ten selectors and106 source bindings.
+
+The eight raw-language groups use existing `Selector` storage with stable
+`table-<root>` IDs and no fallback. Forty bank spans and40 four-byte pointer
+bindings add80 runtime spans whose byte union equals the48 canonical source
+spans/53667 bytes exactly. This splits only pointer provenance, adding no bytes
+or ownership. The dedicated table model retains original raw encoded queries.
+Immutable bindings compose typed literal bytes from decoded words with exact
+header/token metadata, earlier indexed owners and raw ROM gaps. Original
+`054a0`, scratch writes, live task/helper work and uploads continue executing;
+no decompression shortcut or native/save ABI change is introduced.
+
+Six `table_graphics_stats` counters identify new-family read/source-byte/
+decoded-literal/selector-byte totals and distinct bank/group usage. Existing
+six UI counters retain their meanings, including the historical non-English
+localized subset. Complete new-family coverage is53667 source bytes,
+24328 decoded literal bytes,160 selector bytes,40 banks and eight groups.
+
+One601-source Windows host-test build from the accepted600-model snapshot plus
+one test leaf is warning-free. One reduced Wine filter passes publication and
+changed-UI-file interruption,14 failed-attachment guards/two full-set guards,
+22 complete-state/clock cases comparing raw interpreter, typed interpreter and
+generated execution, and complete new-source bus/lifecycle checks. The22 cases
+include12 controlled loads, one new-bank original decoder call and nine raw
+selector suffixes in three stop-safe native families. All53667 new ROM source
+bytes and20 prior indexed bytes are altered only after Load/setup in isolated
+probes. Actual callbacks serve499 new bytes/five prior indexed bytes, including
+three new bytes through `interp_one` fallback; these are served counts, not a
+distinct-byte union or an all-direct-native claim. The356 visited instructions
+and71 dispatches are coverage only.
+
+Every new source byte/literal/selector/bank/group and all48 canonical boundaries,
+widths/mirrors, prior-indexed/raw/old-UI composition, unavailable-file Load/slot
+Undo and three mixed DMA/CpuSet/CpuFastSet full-state/clock cases pass. The267
+preservation guards cover601 frozen/600 model sources, seven current paths,
+84 accepted old files and actual immutable inputs. Existing parameter observer
+source stays current and is excluded only from the frozen host module, matching
+the accepted baseline. No old decoder/native/ordinary acceptance or navigation
+is repeated. Actual production CLI and positive ordinary use of the40-bank
+extension remain pending, as do full helper ABI/live effects/global extent/
+indirect/tails and deferred platforms. Private evidence is retained under
+`target/rom-data-localized-table-graphics-runtime/`.
+
+## Actual table-extension CLI registration
+
+`ROMDATA-04-LOCALIZED-TABLE-GRAPHICS-CLI` passes one warning-free production
+Windows GNU build from the same601 accepted runtime sources without overlays.
+The canonical executable hash/mtime is restored in a finally block. One Wine
+orchestration executes three successful commands from an unrelated working
+directory: dataset creation, no-write reuse, then one neutral frame on a copy
+of the retained normal24755 checkpoint. All84 generation files equal the
+accepted runtime dataset, all83 logged resource ID/hash pairs match, all86
+managed paths retain their hash/mtime and the old native cache loads28859 blocks.
+
+Guest24755→24756 has all six new-family counters zero. This proves registration
+and compatibility only; positive ordinary use and full scene equivalence of
+the40-bank extension remain pending.202 preservation guards cover601CLI/601
+runtime sources,84 accepted files and ROM/normal checkpoint/input/cache/TinyCC/
+canonical executable. No new checkpoint derivation/navigation/older acceptance
+or metric is performed. Private evidence and the selected31c0f298 production
+executable are retained under `target/rom-data-localized-table-graphics-cli/`.
+
+## Ordinary table-extension reachability remains partial
+
+`ROMDATA-04-LOCALIZED-TABLE-GRAPHICS-ORDINARY` has two closed negative bounds.
+The exact `244d6→2c8c4` initializer/root`71e6d0` link and a retained normal
+Fight prediction image selected a64-frame target-confirm input from the
+authenticated23851 checkpoint. The same e92 production CLI exits0 at23915,
+with all six new-family counters zero. The static initializer link does not
+prove that confirming a target initializes the bank again.
+
+A distinct `71e590` accepted bank preview spells COMBO MENU/COMMAND;
+original`30608` is called by the`30828` constructor and`30fda` redraw path,
+with a task context distinct from the forecast object. A copied normal23611
+Action checkpoint and two separated Down presses/one A press select a bounded
+160-frame attempt to open Combo. That same CLI also exits0 with all six
+counters zero. The headless PPMs omit separate HUD/menu layers, so they do not
+prove that Combo was reached or that the prediction was absent. No endpoint
+state is saved/adopted and no missing menu state is inferred.
+
+Both probes preserve all83 resource ID/hash pairs,86 managed paths, original
+checkpoints/inputs/ROM/cache/TinyCC and canonical executable. Only normal keys
+on copies are used. No observer build, positive guard, full pair, longer-bound
+retry, RNG resampling or old combat route recreation follows either negative.
+Source/model/runtime/registration acceptance stays closed. Positive ordinary
+use/full scene equivalence remains open until a concrete constructor/context
+is identified; blind gameplay discovery is stopped. Private diagnostics stay
+under `target/rom-data-localized-table-graphics-ordinary/`.
+
 EUR schema1/extractor21/decoder20 introduced fixed `ui-graphics.json`, resource
 `graphics.ui-custom-banks`, format `ui-custom-banks-v1-json`. The declared
 catalog has nine raw BE-size custom LZ/RLE banks, ten independently rooted

@@ -158,6 +158,9 @@ use constructor_obj_animation::ConstructorObjAnimationResources;
 use task_cycle_deltas::TaskCycleDeltasResources;
 pub use constructor_obj_animation::ConstructorObjAnimationStats;
 pub use task_cycle_deltas::TaskCycleDeltasStats;
+mod ui_raw_transfers;
+use ui_raw_transfers::RawTransfersResources;
+pub use ui_raw_transfers::RawTransfersStats;
 mod indexed_graphics;
 use indexed_graphics::IndexedGraphicsResources;
 pub use indexed_graphics::IndexedGraphicsStats;
@@ -215,7 +218,7 @@ pub use item_links::ItemLinkStats;
 use item_records::ItemResources;
 pub use item_records::ItemStats;
 use ui_custom_graphics::UiGraphicsResources;
-pub use ui_custom_graphics::UiGraphicsStats;
+pub use ui_custom_graphics::{UiGraphicsStats, TableGraphicsStats};
 use ui_raw_palettes::UiPaletteResources;
 pub use ui_raw_palettes::UiPaletteStats;
 use obj_custom_graphics::ObjGraphicsResources;
@@ -348,6 +351,7 @@ pub struct RuntimeResources {
     parameter_records27: Option<Box<ParameterRecords27Resources>>,
     world_records38: Option<Box<WorldRecords38Resources>>,
     indexed_graphics: Option<Box<IndexedGraphicsResources>>,
+    ui_raw_transfers: Option<Box<RawTransfersResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -656,6 +660,9 @@ impl RuntimeResources {
         if let Some((data,_))=files.indexed_graphics {
             resources.indexed_graphics=Some(Box::new(IndexedGraphicsResources::new(data.clone(),&source.indexed_graphics.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))=files.ui_raw_transfers {
+            resources.ui_raw_transfers=Some(Box::new(RawTransfersResources::new(data.clone(),&source.ui_raw_transfers.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -764,6 +771,7 @@ impl RuntimeResources {
             parameter_records27: None,
             world_records38: None,
             indexed_graphics: None,
+            ui_raw_transfers: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -873,6 +881,7 @@ impl RuntimeResources {
             + self.parameter_records27.as_ref().map_or(0, |i| i.resident_bytes())
             + self.world_records38.as_ref().map_or(0, |i| i.resident_bytes())
             + self.indexed_graphics.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.ui_raw_transfers.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -992,6 +1001,7 @@ impl RuntimeResources {
     pub fn observed_task_parameters_stats(&self) -> Option<ObservedTaskParametersStats> {self.observed_task_parameters.as_ref().map(|m|m.stats())}
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
+    pub fn ui_raw_transfers_stats(&self)->Option<RawTransfersStats> {self.ui_raw_transfers.as_ref().map(|d|d.stats())}
     pub fn indexed_graphics_stats(&self)->Option<IndexedGraphicsStats> {self.indexed_graphics.as_ref().map(|d|d.stats())}
     pub fn world_records38_stats(&self)->Option<WorldRecords38Stats> {self.world_records38.as_ref().map(|d|d.stats())}
     pub fn parameter_records27_stats(&self)->Option<ParameterRecords27Stats> {self.parameter_records27.as_ref().map(|d|d.stats())}
@@ -1022,6 +1032,7 @@ impl RuntimeResources {
     pub fn item_link_file_sha256(&self) -> Option<&str> {self.item_links.as_ref().map(|l|l.file_sha256())}
     pub fn item_stats(&self) -> Option<ItemStats> { self.items.as_ref().map(|i|i.stats()) }
     pub fn item_file_sha256(&self) -> Option<&str> {self.items.as_ref().map(|i|i.file_sha256())}
+    pub fn table_graphics_stats(&self) -> Option<TableGraphicsStats> { self.ui_graphics.as_ref().map(|g| g.table_stats()) }
     pub fn ui_graphics_stats(&self) -> Option<UiGraphicsStats> { self.ui_graphics.as_ref().map(|g| g.stats()) }
     pub fn ui_graphics_file_sha256(&self) -> Option<&str> { self.ui_graphics.as_ref().map(|g| g.file_sha256()) }
     pub fn ui_graphics_used_sources(&self) -> Vec<(u32,u64)> { self.ui_graphics.as_ref().map_or_else(Vec::new, |g| g.used_sources()) }
@@ -1366,7 +1377,8 @@ impl RuntimeResources {
             let prior = match &self.event_records12 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.parameter_records27 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.world_records38 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
-            return match &self.indexed_graphics {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.indexed_graphics {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.ui_raw_transfers {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1532,6 +1544,7 @@ impl crate::MemMap {
             || ParameterRecords27Resources::source_page(index)
             || WorldRecords38Resources::source_page(index)
             || IndexedGraphicsResources::source_page(index)
+            || RawTransfersResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

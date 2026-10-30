@@ -5393,3 +5393,175 @@ compatibilità, nessun positivoordinario/fullpair.201guardie597CLI+597runtime/
 fixture/vecchia prova/metrica ripetuta. Ordinario/fullABI-liveuploads/mode3-
 widerwidth/globalextent/indirect/Linux-USA-Windowsnativo/new32:9/fullTODO aperti.
 [CLI e limiti](../rom_data_indexed_graphics.md#actual-cli-registration).
+
+
+**ROMDATA-04-INDEXED-GRAPHICS-ORDINARY completato per un caso EUR/Wine
+(2026-10-30).** Un598source6d40a6a5 warningfree/passive12stats+5lineguard,
+597CLIcore-runtime invariati/inversehubs esatti/currentparameter-worldobservers
+preservati.8finestre6nuove2cached/453E2→1967Ccontext3→program2MENU; unaStart12
+cattura normale41f4519→4560/firstsource9guest4529/rolling41suffix/discoverySTOP.
+SAMEd876CLI una41/all83IDhash86managednowrite/cache28859esatta eSAMEtest unfullpair
+ogni41stati-clock/classic-wide/OAM/5audio esatti,12stats identiche274read277
+SERVEDB=selector4/header6/index4/token67/literal17/dictionaryheader4/dictionary
+175,onearchive-program-group/all7classespositive/nonall20-649-4.144guardie/
+598frozen597CLI/3correnti/inverse/originali esatti. Readonlyfullwide284x160
+proiezione/classicPNG mostraMENU Party-Clan-AreaList-System/MoonDay9, nessuna
+scelta/missionoutcome. Inputnormali soltanto, nessunRAM-ID-RNG-ROMforcing o
+old320Down-A/world38daily45/negative/proofreplay/metrica. Altriordinari/fullABI/
+mode3-widerwidth/globalextent/indirect/Linux-USA-Windowsnativo/new32:9/fullTODO
+aperti; sparse27ordinario resta parziale.
+[Caso e limiti](../rom_data_indexed_graphics.md#ordinary-world-map-menu-equivalence).
+
+
+**ROMDATA-01-LOCALIZED-TABLE-GRAPHICS completato contratto sorgente EUR
+(2026-10-30).** Otto gruppi indipendenti71E590/5A4/5B8/5CC/644/680/6BC/6D0
+rawu8lingua02001F6E×4/LE32pointer→054A0,40nuovibanchi customLZ-RLE/nonindexed.
+48span53667sourceB(53507bank+160selector)/114880decodedB, tutti token/source/
+outputricostruiti esatti;14finestre10nuove4cached/48pin/8rootliteral/111guardie/
+nooverlap83owner50522span/all84acceptedfileesatti. Output pergroupfivebanks
+1472/2688/768/4928/1920/7488/1344/2368B, nessun count-by-distance o guestcap/
+fallbackskipinventato. LiveRAM/helpertransfer/laterworkrestanooriginali,
+fulltransferABI nonchiuso. Known71E5E0vecchiUIbanks/tablealias separatoe
+settealtrigruppi rawlooking/tails/indirect/globalextent nonclassificati.
+Staticosoltanto/no build-Wine-game-fixture-navigation/vecchia prova o metrica;
+schema1/e91-d90 invariati. Modello/oracoloWine/runtime/CLI/ordinario/Linux-USA-
+Windowsnativo/new32:9/fullTODO aperti.
+[Contratto e limiti](../rom_data_ui_graphics.md#additional-european-table-selected-source-contract).
+
+
+**ROMDATA-02-LOCALIZED-TABLE-GRAPHICS completato EUR/Wine (2026-10-30).**
+Nuovo coreui_graphics::table_selected riusaGraphic/customLZ:strict8tables×5
+contiguousBankPointers/40orderedbanks/rawencodedbyte+LEwords/groupoutputs,
+shape modificabile distinta daexactEURauth/14fingerprints. PhysicalselectNone
+per5/255 maencodedviewraworiginale. Catalogseparato nonancoraabilitato nella
+risorsaUIgestita:old16banks/twoinline switches/e91 invariati. Un600frozen/260core
+buildcb46ccb1 warningfree da598ordinary+twoleaves/onepubmodule; unWine23guardie/
+40neworiginal054A0calls56rawselectorprefixes PASS. Tutti53667sourceB/48spans/
+114880decodedB/cursor-produced-returned-size/SP-R4..R11/fullEWRAM/IWRAMfuori
+40Bstackoriginale/VRAM-OAM-palette/finalROM esatti.1335470istruzioni solocoverage.
+26unit111sourceguards/600frozen598preimage/3correnti/inversehub esatti; noold
+16UI/20indexed/native35/41ordinary/CLIproof replay/fixture-navigation/metrica.
+Offlinecontrollabel23B2Ecorretto0150word/1344B, nongroupset02A0halfword,
+originali/inputsinvariati/noproofreplay. Runtimegestito/nativeclock/CLI/ordinario/
+fullhelperABI/livecontexts/71E5E0alias/sevenrawgroups/globalextent/indirect/
+Linux-USA-Windowsnativo/new32:9/fullTODO aperti.
+[Modello e prove](../rom_data_ui_graphics.md#typed-table-model-and-new-original-decoder-proof).
+
+
+**ROMDATA-03-04-LOCALIZED-TABLE-GRAPHICS-RUNTIME completato EUR/Wine
+(2026-10-30).** e92-d91/same84files83IDs/UIindex15 56banks10selectors106bindings,
+allother82records-files/old16banks-twoinline-sharedOBJ esatti.40bank+40pointer
+80newruntimebindings byteunion48canonicalspans53667B esatta;6newtablecounters
+separati daold6UIstats, originaldecode-scratch-helper-uploadwork/ABI preservati.
+Un601source/260core d4a73eb2 warningfree da600model+onehostleaf; ONEWine PASS
+pubblicazione-changedUIinterruption/14attach2fullset/22complete-state-clock
+(12load+1newbankdecoder+9rawselector)/3famiglie stop-safe.499SERVEDnewB5prior
+indexed/fallback[3,0], nonunione distinta/alldirectnative;356istruzioni71dispatch
+solocoverage. Tutti53667busB24328literal160selector40banks8groups/all48edges/
+widths-mirrors-priorindexed-raw-oldUI/LoadslotUndo/DMA3mixedfullstate-clock
+esatti.267guards601frozen600model/sevencurrent84prior exact/helperinterrupted
+only. No old40model/16UI/20indexed/native35/41ordinary/CLIprepare proofs replay
+néfixture-navigation/metrica. ActualCLI/ordinario/fullhelperABI-livecontexts/
+71E5E0alias/sevenrawgroups/globalextent-indirect-tails/Linux-USA-Windowsnativo/
+new32:9/fullTODO aperti.
+[Runtime e prove](../rom_data_ui_graphics.md#managed-table-selected-graphics-and-runtime-consumption).
+
+
+**ROMDATA-04-LOCALIZED-TABLE-GRAPHICS-CLI completato creazione/riuso/avvio
+EUR/Wine (2026-10-30).** Un601runtimeidentical production31c0f298 warningfree/
+nooverlays/canonicalhashmtimefinallyexact; ONEWine3commands child0 crea-riusa-
+neutro1normal24755copy→24756.84runtimefileexact83IDhash86managednowrite/cache
+28859exact, e92-d91/UIindex15 56banks10selectors106bindings/same84files83IDs.
+Seinewtablecounts0/registrazione-compatibilitàonly/no positiveordinary-fullpair.
+202guards601CLI+601runtime/84accepted/ROM-seed-cache-TinyCC-canonical esatti.
+No old40model/16UI/indexed20/native22-35/41ordinary/CLIprepare proofreplay/
+newcheckpointderivation-navigation/metrica. Positivoordinario/fullhelperABI/
+livecontexts/globalextent-indirect/71E5E0alias/sevenrawgroups/tails/Linux-USA-
+Windowsnativo/new32:9/fullTODO aperti.
+[CLI e limiti](../rom_data_ui_graphics.md#actual-table-extension-cli-registration).
+
+
+**ROMDATA-04-LOCALIZED-TABLE-GRAPHICS-ORDINARY parziale; dueboundnegativi
+chiusi EUR/Wine (2026-10-30).** Cached/rawsource244D6→2C8C4/root71E6D0 e
+oldnormalFightpredictionimage selezionano64f23851→23915; distinct71E590
+COMBOMENUasset/30608constructor+30FDAredraw eActionseed23611 dueDown+A
+selezionano160f→23771. SAME31c0CLI entrambi child0/all6newcounts0/83IDhash
+86managednowrite/cache28859exact. Staticinitializerlinknonprova nuovoload;
+PPMometteHUD/menu separati, Combo raggiunto nonasserito. Nessunobserverbuild/
+guard/fullpair/endpointstate/longerretry/RNGresampling/oldrouterecreation.
+Diagnostica trattenuta/discoverystopped; positivoordinario/full-equivalenza
+aperti inattesacontesto costruttoreconcreto. Source-model-runtime-CLIregistro
+restanochiusi; Linux-USA-Windowsnativo/new32:9/fullTODO aperti/nometriche.
+[Stato e limiti](../rom_data_ui_graphics.md#ordinary-table-extension-reachability-remains-partial).
+
+
+**ROMDATA-01-LOCALIZED-RAW-TABLE-SOURCES completato per le viste fisse EUR
+(2026-10-30).** Sette radici indipendenti71E5F4/608/66C/694/6A8/6E4/6F8,
+cinque slot fisici ciascuna e selettore lingua u8 non limitato:35viste/42span/
+38220B(38080payload+140selector), SHAe11ef4d5f16feea8ef90e7fce58056e19d689004b7ca973270285e3cd31b8f80.
+Sei prefissi224/160/768/1600/2048/2432B e solo+0200..0380/384B del settimo;
+lunghezze da copie originali/rami alternativi, non distanza/header. FusedBL
+12EE24→145230/CpuSet halfword e6F8→000AD0/control80000040 halfword verificati,
+prima ipotesi corretta prima di produrre output.32finestre23nuove9cached/
+193pin/13rootliteral/13copie fisse/130guardie/nooverlap83owner50602binding/
+all84accepted file esatti. Quattro viste dinamiche6F8/u8task+2−4/u16offset<<5
+non stabiliscono un cap: metadata/prefisso inferiore/tail e dominio completi
+restano aperti. Solo analisi statica, schema1/e92-d91/runtime invariati;
+modello/oracoloWine/runtime/CLI/ordinario/fullABI/alias71E5E0/indirect/fullTODO
+aperti; nuoviLinux-USA-Windowsnativo-32:9 da fare, nessuna metrica/build/game/
+fixture/navigation/vecchia prova ripetuta.
+[Contratto e limiti](../rom_data_ui_raw_transfers.md#declared-source-contract).
+
+
+**ROMDATA-02-LOCALIZED-RAW-TRANSFERS completato EUR/Wine (2026-10-30).**
+Nuovo coreui_raw_transfers/RawTransfers+BankView: sette tabelle fisiche/35viste
+ordinate,42span38220B/LEwords e settimo gruppo sparso+0200..0380 soltanto.
+Forma modificabile distinta da autenticazione EUR/32fingerprint; indirizzi
+lingua u8 fuori0..4 raw, nessun fallback/cap. Build603source/262core35bdc5fd
+senza warning; tre build e due tentativi Wine, un filtro finale PASS21guardie/
+91prefissi originali/60copie helper isolate/25copie esecutore coda DMA originale.
+Tutti byte, EWRAM/VRAM/OAM/palette, IWRAM fuori stack originale36B quando serve,
+SP/callee/finalROM esatti. Prime correzioni solo test: stack20→36B primaWine,
+bordo tra tabelle adiacenti atteso raw erroneamente; diagnostica e preimage
+conservati, modello/fonte invariati.44guardie unità130fonte/601baseline603frozen/
+3correnti/inversehub esatti;6635istruzioni solo coverage. Schemae92-d91 e
+84accepted file invariati; runtime/nativeclock/CLI/ordinario/fullcallerABI/
+dominio6F8-lowerprefix-metadata-tail/alias71E5E0/fullTODO aperti. NuoviLinux-
+USA-Windowsnativo-32:9 da fare; nessuna vecchia prova/game/fixture/checkpoint/
+navigation/metrica ripetuta.
+[Modello e prove](../rom_data_ui_raw_transfers.md#typed-model).
+
+
+**ROMDATA-03-04-LOCALIZED-RAW-TRANSFERS-RUNTIME completato EUR/Wine
+(2026-10-30).** e93-d92/index83 graphics.ui-raw-transfers/85file84ID, tutti83
+record/payload precedenti esatti.42span38220B da parole raw e puntatori tipizzati,
+sei contatori separati; selettori/copie/coda DMA/ABI-clock originali preservati.
+Due build605source/263core, accettata4b219adc senza warning; un filtroWine PASS
+pubblicazione-interruzione/14attach2fullset/23stati-clock completi nativi
+(12load+1CpuSet+1esecutorecoda+9prefissilingua)/4famiglie stop-safe.939SERVED
+nuoviB3precedenti/fallback[768,0], non union distinta né tutti diretti nativi;
+115istruzioni25dispatch solo coverage. Tutti38220B/35viste7gruppi/42bordi/
+width-mirror/adiacenze tra nuovi e vecchi/buchi raw/LoadslotUndo/quattro trasferimenti
+misti64B DMA16-DMA32-CpuSet-FastSet passano.309guardie605frozen603model/
+7correnti84vecchi/inversehub esatti. PrimaWine solo test corretto:441608 è
+inizio archivio indexed precedente, non buco raw; codice prodotto invariato tra
+build e diagnostica prima950bea97 trattenuta. Runnerlabel e92/DMA3 obsolete solo
+metadata: JSON prova[1,93,92]/4trasferimenti, nessun replay. CLI reale/ordinario/
+fullcallerABI/dominio6F8-metadata-prefix-tail/alias71E5E0/indirect/fullTODO aperti;
+nuoviLinux-USA-Windowsnativo-32:9 da fare. Nessuna vecchia prova/source-model/
+game-fixture-checkpoint-navigation/metrica ripetuta.
+[Runtime e prove](../rom_data_ui_raw_transfers.md#managed-raw-transfer-resource).
+
+
+**ROMDATA-04-LOCALIZED-RAW-TRANSFERS-CLI completato creazione/riuso/avvio
+EUR/Wine (2026-10-30).** Una build produzione605runtimeidentical ffda6c59 senza
+warning/nooverlays/canonicalhashmtimefinallyexact; una orchestrazioneWine tre
+comandi child0 crea-riusa-neutro1/normal24755copy→24756.85file runtime-identici/
+84IDhash87managednowrite/cache28859esatta. e93-d92/index83/35viste7tabelle/
+42binding38220B. Sei contatori nuovi0: solo registrazione/compatibilità, non uso
+ordinario positivo néfullpair.203guardie605CLI+605runtime/85accepted/ROM-seed-
+cache-TinyCC-canonical esatti; nessun nuovo endpoint/checkpoint derivato/input
+azione/navigation/vecchia prova ripetuta/metrica. Positivoordinario/fullABI/
+dominio6F8-metadata-prefix-tail/alias71E5E0/indirect/globalcatalog/fullTODO aperti;
+nuoviLinux-USA-Windowsnativo-32:9 da fare.
+[CLI e limiti](../rom_data_ui_raw_transfers.md#actual-cli-registration).

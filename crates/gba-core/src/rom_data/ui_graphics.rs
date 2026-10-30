@@ -4,6 +4,7 @@ use super::{obj_graphics, SourceRange};
 use crate::ffta_rom;
 use serde::{Deserialize, Serialize};
 mod roots;
+pub mod table_selected;
 pub use obj_graphics::{DirectReference, Graphic};
 pub use roots::{SelectorRoot, BANK_ROOTS, LOCALIZED_BANK_ROOTS, REFERENCES, SELECTOR_ROOTS};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -191,7 +192,7 @@ impl Catalog {
             call(rom, r.call, 0x54a0)?;
             call(rom, r.transfer_call, r.transfer_target)?;
         }
-        let banks = BANK_ROOTS
+        let mut banks = BANK_ROOTS
             .iter()
             .map(|&at| {
                 Graphic::decode(
@@ -200,7 +201,7 @@ impl Catalog {
                 )
             })
             .collect::<Result<Vec<_>, _>>()?;
-        let selectors = SELECTOR_ROOTS
+        let mut selectors = SELECTOR_ROOTS
             .iter()
             .map(|root| {
                 let pointers = std::array::from_fn(|i| BankPointer {
@@ -234,6 +235,14 @@ impl Catalog {
                 Ok(selector)
             })
             .collect::<Result<Vec<_>, String>>()?;
+        let tables = table_selected::Catalog::from_rom(rom)?.decoded;
+        banks.extend(tables.banks);
+        banks.sort_by_key(|bank| bank.source_offset);
+        selectors.extend(tables.tables.into_iter().map(|table| Selector {
+            id: format!("table-{:06x}", table.source_offset),
+            pointers: table.pointers,
+            fallback_variant: None,
+        }));
         let shared_obj_banks = vec![0xb7f874, 0xb80140];
         let decoded = Graphics {
             banks,

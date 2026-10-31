@@ -423,6 +423,8 @@ impl StickToken {
 /// which is all the tests and config diffing need.
 #[derive(Clone, PartialEq, Debug)]
 pub struct InputConfig {
+    /// Function key used to show or hide the optional debug event console.
+    pub event_console_key: String,
     pub menu_key: String,
     pub menu_pad: String,
     pub device: Device,
@@ -468,6 +470,7 @@ impl Default for InputConfig {
     fn default() -> Self {
         let s = |v: &str| v.to_string();
         Self {
+            event_console_key: "F9".into(),
             menu_key: "Escape".into(),
             menu_pad: "Select+Start".into(),
             device: Device::Keyboard,
@@ -563,6 +566,7 @@ impl InputConfig {
                     }
                 }
                 "key.ff" => cfg.ff_key = v.to_string(),
+                "key.event_console" => { if ["F2","F3","F4","F5","F9","F10","F12"].contains(&v) { cfg.event_console_key = v.to_owned(); } }
                 "key.menu" => { if let Some(combo) = normalize_combo(v) { cfg.menu_key = combo; } }
                 "pad.menu" => { if let Some(combo) = normalize_combo(v) { cfg.menu_pad = combo; } }
                 "key.ff_toggle" => {
@@ -649,6 +653,7 @@ impl InputConfig {
         }
         out.push_str(&format!("key.ff = {}\n", self.ff_key));
         out.push_str(&format!("key.menu = {}\n", self.menu_key));
+        out.push_str(&format!("key.event_console = {}\n", self.event_console_key));
         out.push_str(&format!("pad.menu = {}\n", self.menu_pad));
         out.push_str(&format!("key.ff_toggle = {}\n", self.ff_toggle_key));
         out.push_str(&format!("pad.ff = {}\n", self.ff_pad));
@@ -1072,6 +1077,14 @@ pub fn install_bios(src: &std::path::Path) -> Result<PathBuf, String> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn event_console_key_has_bounded_configurable_function_keys() {
+        let old=super::InputConfig::parse("device = keyboard\n");assert_eq!(old.event_console_key,"F9");
+        let cfg=super::InputConfig::parse("key.event_console = F4\n");assert_eq!(cfg.event_console_key,"F4");
+        assert_eq!(super::InputConfig::parse(&cfg.serialize()).event_console_key,"F4");
+        assert_eq!(super::InputConfig::parse("key.event_console = Escape\n").event_console_key,"F9");
+    }
     #[test]
     fn debug_visibility_defaults_hidden_and_roundtrips_manual_override() {
         assert!(!super::AvConfig::default().debug);

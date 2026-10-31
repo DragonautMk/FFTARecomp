@@ -59,6 +59,7 @@ pub(crate) fn capacity(root:&Path)->Result<std::path::PathBuf,String>{
 struct Entry{value:Value,bytes:usize}
 pub(crate) struct Buffer {
     clock:crate::debug_events::Clock,
+    console:Option<std::rc::Weak<std::cell::RefCell<crate::debug_console::Window>>>,
     settings:Settings,origin:Value,started:Instant,active:bool,reason:&'static str,
     entries:VecDeque<Entry>,bytes:usize,next:u64,evicted:u64,oversize:u64,
     frame_attempts:u64,completed_frames:u64,read_dropped:u64,read_unavailable:u64,
@@ -68,7 +69,7 @@ pub(crate) struct Buffer {
 impl Buffer {
     fn new(settings:Settings,origin:Value)->Self{
         let count=settings.events;
-        Self{clock:Default::default(),settings,origin,started:Instant::now(),active:true,reason:"rolling",
+        Self{clock:Default::default(),console:None,settings,origin,started:Instant::now(),active:true,reason:"rolling",
             entries:VecDeque::with_capacity(count),bytes:0,next:0,evicted:0,oversize:0,
             frame_attempts:0,completed_frames:0,read_dropped:0,read_unavailable:0,
             last_input:None,last_scene:None,frozen_at:None,published:None,write_error:None}
@@ -77,7 +78,11 @@ impl Buffer {
     pub fn start(root:&Path,m:&Machine,settings:Settings,origin:Value,scene:Value)->Result<Self,String>{
         Self::start_shared(root,m,settings,origin,scene,Default::default())
     }
-    pub fn start_shared(root:&Path,m:&Machine,settings:Settings,mut origin:Value,scene:Value,clock:crate::debug_events::Clock)->Result<Self,String>{
+    #[cfg(test)]
+    pub fn start_shared(root:&Path,m:&Machine,settings:Settings,origin:Value,scene:Value,clock:crate::debug_events::Clock)->Result<Self,String>{
+        Self::start_shared_observing(root,m,settings,origin,scene,clock,None)
+    }
+    pub fn start_shared_observing(root:&Path,m:&Machine,settings:Settings,mut origin:Value,scene:Value,clock:crate::debug_events::Clock,console:Option<std::rc::Weak<std::cell::RefCell<crate::debug_console::Window>>>)->Result<Self,String>{
         settings.validate()?;capacity(root)?;
         let manifest=crate::diagnostics::read(&root.join("debug-session.json"),1024*1024)?;
         let declared:Value=serde_json::from_slice(&manifest).map_err(|e|e.to_string())?;
@@ -87,7 +92,7 @@ impl Buffer {
         origin["bios"]=json!({"real":m.bus.real_bios,"sha256":gba_core::ffta_rom::digest(&m.bus.bios)});
         if serde_json::to_vec(&origin).map_err(|e|e.to_string())?.len()>128*1024{return Err("Recent origin exceeds128KiB".into());}
         let mut buffer=Self::new(settings,origin);
-        buffer.clock=clock;
+        buffer.clock=clock;buffer.console=console;
         buffer.event(m,"armed",json!({"scope":"Recent rolling metadata; host time is independent of guest clocks"}));
         buffer.input(m);buffer.scene(m,scene);Ok(buffer)
     }
@@ -100,6 +105,7 @@ impl Buffer {
         if !self.active{return;}
         let event=self.clock.event(m.bus.frames,m.bus.clock,stage,data);
         self.accept(&event);
+        if let Some(console)=self.console.as_ref().and_then(|weak|weak.upgrade()){console.borrow_mut().accept(&event);}
     }
     #[cfg(test)]
     fn push(&mut self,frame:u64,clock:u64,stage:&str,data:Value){

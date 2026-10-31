@@ -191,3 +191,31 @@ const SOURCE_BOUNDS: &[(usize, usize)] = &[
     (0x71e6e4, 20),
     (0x71e6f8, 20),
 ];
+
+/// Independent bounded owner; missing bytes preserve earlier owners and raw ROM.
+pub(super) struct DynamicFragmentsResources {
+    data: model::dynamic_fragments::Fragments,
+}
+impl DynamicFragmentsResources {
+    pub(super) fn source_page(index: usize) -> bool {
+        matches!(index >> 12, 0x399 | 0x441 | 0x452 | 0x464 | 0x475 | 0x487)
+    }
+    pub(super) fn new(data: model::dynamic_fragments::Fragments, sources: &[SourceRange]) -> Result<Self, String> {
+        let spans = data.source_spans()?;
+        if spans.len() != sources.len() || spans.iter().zip(sources).any(|((at, bytes, role), source)|
+            *at != source.offset || bytes.len() != source.length as usize || *role != source.role || ffta_rom::digest(bytes) != source.sha256) {
+            return Err("Dynamic fragments typed source binding mismatch".into());
+        }
+        Ok(Self { data })
+    }
+    pub(super) fn guest_read<const N: usize>(&self, index: usize, rom: &[u8], prior: Option<[u8; N]>) -> Option<[u8; N]> {
+        if !Self::source_page(index) { return prior; }
+        let values: [Option<u8>; N] = std::array::from_fn(|i| index.checked_add(i).and_then(|at| u32::try_from(at).ok()).and_then(|at| self.data.byte_at(at)));
+        if values.iter().all(Option::is_none) { return prior; }
+        Some(std::array::from_fn(|i| values[i].unwrap_or_else(|| prior.as_ref().map_or_else(|| rom[index + i], |p| p[i]))))
+    }
+    pub(super) fn resident_bytes(&self) -> usize {
+        self.data.rows.len() * std::mem::size_of::<model::dynamic_fragments::Rows>() +
+        self.data.banks.iter().map(|b| std::mem::size_of::<model::BankView>() + b.words.len() * 4).sum::<usize>()
+    }
+}

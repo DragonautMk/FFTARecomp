@@ -473,9 +473,15 @@ fn exchange(dir:&Path,ready:&Value,action:Action,query:bool,timeout:u64)->Result
 fn execute(args:&[String])->Result<Value,String>{
     let (args,timeout)=options(args)?;
     let (root,action)=parse(&args)?;
+    execute_action(&root,action,timeout)
+}
+/// Shared mailbox transport for typed commands; never bypass identity or locks.
+pub(crate) fn execute_action(root:&Path,action:Action,timeout:u64)->Result<Value,String>{
+    action.validate()?;
+    if !(20..=120_000).contains(&timeout){return Err("Timeout needs20..120000milliseconds".into());}
     let manifest=crate::diagnostics::read(&root.join("debug-session.json"),1024*1024)
         .map_err(|_|"Choose an isolated debug-session folder")?;
-    let dir=directory(&root);
+    let dir=directory(root);
     let query=matches!(action,Action::Status|Action::Cancel{..});
     let _lock=client_lock(&dir,query)?;
     let ready=read(&dir.join("ready.json"))?;

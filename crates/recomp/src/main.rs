@@ -24,6 +24,7 @@ mod diagnostics;
 mod debug_session;
 mod artifact_lease;
 mod debug_control;
+mod debug_command;
 mod debug_operations;
 mod debug_content;
 mod content_picker;
@@ -36,6 +37,8 @@ mod debug_probe;
 mod debug_graphics;
 mod debug_ui;
 mod debug_events;
+mod debug_console;
+mod debug_console_panel;
 mod debug_lifecycle;
 mod debug_audio;
 mod debug_code;
@@ -82,7 +85,8 @@ fn main() -> ExitCode {
     }
     // `recomp help [cmd]`, `recomp <cmd> --help`, and bare `--help`/`-h`
     // all land in help; the first non-help token names the topic.
-    if args.iter().any(|a| a == "--help" || a == "-h")
+    if (args.first().map(String::as_str) != Some("debug-command")
+        && args.iter().any(|a| a == "--help" || a == "-h"))
         || args.first().map(String::as_str) == Some("help")
     {
         let topic = args
@@ -102,6 +106,7 @@ fn main() -> ExitCode {
     if args.first().is_some_and(|s|s=="debug-replay") { return ExitCode::from(debug_replay::cmd(&args[1..])); }
     let result = match args.first().map(String::as_str) {
         Some("debug-control") => debug_control::cmd(&args[1..]),
+        Some("debug-command") => debug_command::cmd(&args[1..]),
         Some("debug-record") => debug_recording::cmd(&args[1..]),
         Some("debug-catalog") => debug_catalog::cmd(&args[1..]),
         Some("debug-session") => debug_session::cmd(&args[1..]),
@@ -178,6 +183,11 @@ const HELP: &[(&str, &str, &[&str], &str)] = &[
         "Private HTML/JSON/metadata summary and movable PowerShell/POSIX launchers",
         "At most8reports inside profile; incompatible preflight still publishes, exits3",
     ], "Build a local issue report with an exact replay command, private attachment links and next check. No automatic send."),
+    ("debug-command", "recomp debug-command SESSION 'COMMAND'", &[
+        "Typed debugger command over the existing local-control channel; no shell execution",
+        "Use 0x-prefixed hexadecimal addresses/masks and decimal counts; help describes operations",
+        "Content selection by ID and in-game editor are not connected yet",
+    ], "Send a validated typed debugger command to the existing isolated local-control channel."),
     ("debug-control", "recomp debug-control ACTION SESSION [options]", &[
         "step N: exactly 1..600 completed frames, then remain paused",
         "inspect SESSION ADDRESS LENGTH: readonly backing1..256bytes/registers/labels/owners",
@@ -1482,6 +1492,8 @@ struct AudioStreams {
     /// toward 1.0 (enhanced) or 0.0 (faithful) over ~40 ms. The in-game
     /// menu flips it; both paths stay warm so the switch is seamless.
     enhanced_on: bool,
+    /// Host routing availability; snapshots retain their original tap flag.
+    taps_unavailable: bool,
     /// Output volume cut: fraction removed from full volume (0.0 = full
     /// volume, 1.0 = silent). Stored as a cut so the derived `Default`
     /// means "full volume". Set from av.cfg and the in-game menu.
@@ -1530,6 +1542,14 @@ impl AudioStreams {
         self.enhanced_on = av.audio_enhanced;
         self.vol_cut = 1.0 - av.audio_volume.clamp(0.0, 1.0);
         self.user_muted = av.audio_mute;
+    }
+
+    fn enhanced_available(&self) -> bool { self.enhanced_on && !self.taps_unavailable }
+
+    /// The PSG ring cannot prime when the restored machine did not enable taps.
+    fn pacing_fill(&self) -> usize {
+        let mixed=self.mixed.len()/2;
+        if self.taps_unavailable { mixed } else { mixed.min(self.psg.len()/2) }
     }
 
     fn volume_target(&self) -> f32 {
@@ -1709,7 +1729,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_aud
         if OBSERVE {
             if let Some(profile) = st.profile.as_mut() { profile.attach(rate as u32, channels); }
         }
-        if st.enhanced_on { 1.0f32 } else { 0.0 }
+        if st.enhanced_available() { 1.0f32 } else { 0.0 }
     };
     let mode_k = (1.0 / (0.040 * rate)) as f32;
     let step = src / rate;
@@ -1750,7 +1770,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_aud
             faithful_dc.iter_mut().for_each(DcBlock::reset);
             frac = 0.0;
             last = (0, 0);
-            mode_x = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
+            mode_x = if st.enhanced_available() && !normal_audio { 1.0 } else { 0.0 };
             // Ramp new audio in through the existing volume slew. No samples
             // from the abandoned timeline participate in this transition.
             vol_cur = 0.0;
@@ -1864,7 +1884,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_aud
             // level-matched (shared OUT_GAIN below), so a linear
             // blend across the ~40 ms slew is seam-free — the
             // music is the same, only the rendering differs.
-            let target = if st.enhanced_on && !normal_audio { 1.0 } else { 0.0 };
+            let target = if st.enhanced_available() && !normal_audio { 1.0 } else { 0.0 };
             mode_x += (target - mode_x) * mode_k;
             let l = fl + (el - fl) * mode_x;
             let r = fr + (er - fr) * mode_x;
@@ -1898,7 +1918,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_aud
         if st.diagnostic.is_some() {
             let context=debug_audio::Delivery{epoch:st.epoch,consumed:st.consumed,holds:st.holds,drops:st.drops,
                 temporary_mute:st.muted,user_mute:st.user_muted,target_gain:st.volume_target(),current_gain:vol_cur,
-                enhanced:st.enhanced_on,hle:st.hle_on,speed:requested_speed,normal:st.normal_audio.is_some(),
+                enhanced:st.enhanced_available(),hle:st.hle_on,speed:requested_speed,normal:st.normal_audio.is_some(),
                 fast_estimate:fast_plan.map(|p|p.estimate),fast_speed:fast_plan.map(|p|p.speed),fast_ready:fast_plan.map(|p|p.ready),
                 queue_values:[st.mixed.len(),st.psg.len(),st.hle.len(),st.fifo[0].len(),st.fifo[1].len()]};
             st.diagnostic.as_mut().unwrap().callback(out,rate as u32,channels,context);
@@ -1906,7 +1926,7 @@ fn output_callback_impl<T: cpal::SizedSample + cpal::FromSample<f32> + debug_aud
         if let (Some(begin), Some(acquired), Some((holds, mixed))) = (begin, acquired, observation) {
             let end = std::time::Instant::now();
             let holds = st.holds.saturating_sub(holds);
-            let enhanced_target = st.enhanced_on && !normal_audio;
+            let enhanced_target = st.enhanced_available() && !normal_audio;
             let configured_target = [
                 enhanced_target,
                 enhanced_target && st.hle_on && st.route.iter().any(|&route| route != 0),
@@ -4081,6 +4101,26 @@ impl FftaEdgeCapture {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn disabled_snapshot_taps_use_faithful_audio_and_mixed_pacing_without_state_mutation() {
+        let machine=gba_core::Machine::new(vec![0;16]);
+        assert!(!machine.bus.tap_channels);let before=machine.save_state().unwrap();
+        let a=std::sync::Arc::new(std::sync::Mutex::new(super::AudioStreams::default()));
+        let b=std::sync::Arc::new(std::sync::Mutex::new(super::AudioStreams::default()));
+        for (streams,requested) in [(&a,true),(&b,false)] {
+            let mut st=streams.lock().unwrap();st.taps_unavailable=!machine.bus.tap_channels;st.enhanced_on=requested;
+            st.mixed.extend((0..super::RING_TARGET*2+2048).map(|i|if i%4<2 {12000}else{-12000}));
+            assert_eq!(st.pacing_fill(),super::RING_TARGET+1024);assert!(!st.enhanced_available());
+        }
+        let mut aa=super::output_callback::<f32>(48000.,2,a.clone());
+        let mut bb=super::output_callback::<f32>(48000.,2,b.clone());
+        let mut x=vec![0.;1024];let mut y=x.clone();aa(&mut x);bb(&mut y);
+        assert_eq!(x,y);assert!(x.iter().any(|v|v.abs()>0.001));
+        let mut st=a.lock().unwrap();assert!(st.mixed.len()<super::RING_TARGET*2+2048);
+        st.taps_unavailable=false;st.psg.extend([0.;200]);assert_eq!(st.pacing_fill(),100);assert!(st.enhanced_available());
+        drop(st);assert_eq!(machine.save_state().unwrap(),before);
+    }
     use super::*;
 
     #[test]

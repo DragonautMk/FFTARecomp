@@ -278,5 +278,141 @@ shape rejection and independently authenticated source/ROM rejection. The
 test uses isolated source inputs and does not execute the original transfer
 routine. A preparation guard was corrected before compilation; no earlier proof
 was repeated. Private receipts are in `target/rom-data-raw-dynamic-domain/`.
-Managed extraction, typed guest/native reads, actual CLI and ordinary dynamic
-use remain open, as do the other indices, Linux and USA checks.
+Managed extraction, typed bus reads and production CLI registration are covered
+below; bounded original/native execution is covered further below. Ordinary use,
+other indices and Linux/USA checks remain open.
+
+## Managed dynamic fragment resource
+
+EUR schema 1 / extractor 94 / decoder 93 publishes the independent
+`graphics.dynamic-raw-fragments` resource at index 84 in
+`dynamic-raw-fragments.json`. It authenticates the seven bounded source spans
+and composes typed bytes with preceding owners and raw ROM, preserving the
+original selector arithmetic and guest transfer work. Previous 84 resource
+records and payloads remain unchanged. No global selector bound or ownership
+of other fragments is implied.
+
+The focused Wine integration test publishes and reloads 85 resources, checks
+all 1,304 bytes with their ROM backing poisoned, tests read widths and mirrors
+at all seven boundaries, and confirms the adjacent earlier raw-transfer owner.
+One DMA16 transfer matches complete machine state and clock against the raw
+ROM reference. A source-coherent altered JSON is rejected without replacing the
+attached owner or changing state. ROM, previous accepted dataset, build and
+implementation inputs retain their guarded hashes and timestamps.
+
+The first Wine attempt identified a missing page for the final bank prefix;
+the corrected build and one retry pass. A separate first compilation found
+missing test arguments and a trait import, fixed before execution. The system
+disk filled before the retry could start; two disposable copies from a
+previously passed unit were retired by the project retention tool and its
+receipt retained. Temporarily relocated executables were restored with their
+recorded hashes and timestamps. Evidence is in
+`target/rom-data-dynamic-raw-runtime/`; failed diagnostic data remains intact.
+
+The subsequent production CLI registration is described below. The original
+dynamic routine/native execution is tested below for bounded isolated cases;
+positive ordinary use, other indices and the full selector domain remain
+unverified. Linux,
+USA and native Windows checks remain pending. No performance measurement ran.
+
+## Dynamic fragment production CLI
+
+The production runtime now identifies `graphics.dynamic-raw-fragments` and
+its file hash in the same resource log as the other decoded families; the
+extraction catalog also describes its bounded source scope. One isolated
+Windows production build from 681 frozen source inputs succeeded without
+compiler diagnostics and left the shared executable unchanged.
+
+Under Wine, the actual CLI created an EUR e94-d93 dataset, reused it and
+started one existing neutral frame. All 86 generation files match the accepted
+managed runtime dataset; all 85 loaded resource identities and hashes match
+the manifest. All 88 managed files and the guarded ROM, seed, native cache,
+accepted dataset, implementation inputs and canonical executable stayed
+unchanged during reuse and startup. This is registration and loading evidence,
+not proof that this frame reads the dynamic fragments. Results and logs remain
+in `target/rom-data-dynamic-raw-cli/`.
+
+Bounded original dynamic routine/native execution is verified below; positive
+ordinary use, global index domain and Linux/USA/native Windows verification
+remain pending. No performance measurement was performed.
+
+## Original dynamic routine and translated execution
+
+One focused EUR Wine test executes original Thumb routine `0c9060`, its two
+queue calls and the original queue executor at `0800`. Isolated inputs cover
+selectors 7, 8 and 9, both flag-bit3 table branches and all five declared
+language slots, for 30 combinations. For each, it verifies the two computed
+source pointers, destinations and queue controls, then checks both 64-byte
+VRAM transfers against the original ROM.
+
+Complete serialized machine state and guest clock match between the raw-ROM
+interpreter, the interpreter attached to the decoded dataset, and native
+translated instruction dispatch attached to that dataset. All 1,304 dynamic
+source bytes are poisoned in each decoded arm after attachment; correct rows
+and transfer payloads therefore require the typed owner. ROM, accepted dataset,
+TCC library, executables and relevant source inputs retain their guarded hashes
+and timestamps. The focused Windows test build and Wine result are retained in
+`target/rom-data-dynamic-original-native/`.
+
+This is an isolated unit setup, not ordinary gameplay, a global selector bound,
+full original helper ABI, or a claim that every native instruction uses a direct
+callback without interpreter fallback. Other selectors, Linux, USA and native
+Windows remain to verify; no performance measurement was performed.
+
+## Ordinary dynamic reachability investigation
+
+Original getter `0ccf00` reads byte `02002030 + u16(index)`, so the index 13
+check in setter `0caafc` depends on `0200203d`. Original callback `064678`
+requests that byte be set to 1 and callback `066588` requests 0. The wrapper
+`0c4ce4` passes context `020101f8` into initializer `0c3be4`; the semantic
+name of this UI lifecycle is not yet established. These are source facts, not
+a proof that a particular ordinary scene reaches the dynamic transfer.
+
+A readonly scan of 14 existing EUR catalog checkpoint entries found zero for
+the gate, current and pending selectors and phase in those snapshots. The
+snapshot parser checked ROM identity and payload checksum; its decoded DS-20
+registers, CPSR and IWRAM `7ffc` match an earlier Wine inspection. A first
+scan had a region-hash lookup error and is retained separately as invalid.
+
+One Wine observation of the existing 320-frame worldmap→Party→Unit input
+found no bus requests in the seven dynamic spans and no selected callback entry
+in the sampled native dispatches; gate, selectors and phase stayed zero at
+those sampled boundaries. No events were dropped. Native dispatch sampling
+can miss changes inside a block; the bus audit also excludes folded constants
+and unselected direct host readers. Thus this is a bounded negative for the
+retained route, not proof of absence throughout the game. Source, ROM, input,
+checkpoint, cache and dataset guards passed. Evidence remains under
+`target/rom-data-dynamic-ordinary-reachability/` and
+`target/rom-data-dynamic-ordinary-observe/`.
+
+A normal positive dynamic use and its full state/clock comparison remain open,
+as do the global selector domain and Linux/USA/native Windows checks. No
+performance measurement ran.
+
+## Dispatcher lifecycle and Area List observation
+
+An aligned Thumb call census of the authenticated EUR ROM finds one direct call
+of dispatcher `063a74`, at `0638ac` inside callback `063878`. Its pointer occurs
+at `127bc0`; the code at `127b8c` tests packed flag `40h` using getter `0cce98`
+and, when set, registers callback `063879` in slot 5. The getter tests bit 0
+of byte `02001f78`. At `0454e8`, the selected value is compared with 2; the
+input-gated branch calls setter `0ccecc(40h, 1)` at `045508`. Thirteen original
+instruction pins and four fused call targets were verified. An earlier probe
+used the wrong address and another the wrong bit; neither is valid evidence.
+A corrected readonly scan found bit 0 clear in 14 existing EUR checkpoints.
+
+The retained worldmap input reaches the menu labelled Area List after 240
+frames, making it a source-backed candidate, not proof of the callback's UI
+meaning. One isolated Windows audit build and Wine observation of that input
+sampled `0454e8` once, but byte `02001f78` remained `08` (bit 0 clear) and the
+gate, selectors and phase remained zero at sampled dispatch boundaries. There
+were no bus requests in the seven dynamic spans and no dropped or truncated
+events. ROM, input, checkpoint, dataset, native cache and frozen sources passed
+preservation checks. Results are in `target/rom-data-dynamic-dispatch-lifecycle/`
+and `target/rom-data-dynamic-area-observe/`.
+
+This is a bounded negative for that recording: native samples can miss changes
+inside blocks, and the bus audit excludes folded constants and unselected direct
+host reads. Ordinary positive dynamic use and its full state/clock comparison,
+the global selector domain, and Linux/USA/native Windows checks remain open.
+No performance measurement was performed.

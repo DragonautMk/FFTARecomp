@@ -48,6 +48,7 @@ use gba_core::rom_data::{
     obj_lists::constructor_animation::Animation as ConstructorObjAnimation, CONSTRUCTOR_OBJ_ANIMATION_ID, CONSTRUCTOR_OBJ_ANIMATION_FILE, MAX_CONSTRUCTOR_OBJ_ANIMATION_FILE_BYTES,
     task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
     ui_raw_transfers::RawTransfers, UI_RAW_TRANSFERS_ID, UI_RAW_TRANSFERS_FILE, MAX_UI_RAW_TRANSFERS_FILE_BYTES,
+    ui_raw_transfers::dynamic_fragments::Fragments as DynamicRawFragments, DYNAMIC_RAW_FRAGMENTS_ID, DYNAMIC_RAW_FRAGMENTS_FILE, MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES,
     indexed_graphics::IndexedGraphics, INDEXED_GRAPHICS_ID, INDEXED_GRAPHICS_FILE, MAX_INDEXED_GRAPHICS_FILE_BYTES,
     world_records38::WorldRecords38, WORLD_RECORDS38_ID, WORLD_RECORDS38_FILE, MAX_WORLD_RECORDS38_FILE_BYTES,
     parameter_records27::ParameterRecords27, PARAMETER_RECORDS27_ID, PARAMETER_RECORDS27_FILE, MAX_PARAMETER_RECORDS27_FILE_BYTES,
@@ -306,6 +307,12 @@ mod world_records38_runtime_tests;
 mod indexed_graphics_runtime_tests;
 #[cfg(test)]
 mod ui_raw_transfers_runtime_tests;
+#[cfg(test)]
+mod dynamic_raw_fragments_runtime_tests;
+#[cfg(test)]
+mod clan_table_alias_runtime_tests;
+#[cfg(test)]
+mod clan_table_alias_native_tests;
 #[cfg(test)]
 mod encounter_coordinate_runtime_tests;
 #[cfg(test)]
@@ -830,7 +837,9 @@ fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
 }
 fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
 fn parse_ui_raw_transfers(bytes:&[u8])->Result<RawTransfers,String> {let value:RawTransfers=serde_json::from_slice(bytes).map_err(|e|format!("Invalid ui_raw_transfers: {e}"))?;value.validate()?;Ok(value)}
+fn parse_dynamic_raw_fragments(bytes:&[u8])->Result<DynamicRawFragments,String> {let value:DynamicRawFragments=serde_json::from_slice(bytes).map_err(|e|format!("Invalid dynamic_raw_fragments: {e}"))?;value.validate()?;Ok(value)}
 fn encode_ui_raw_transfers(value:&RawTransfers)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode ui_raw_transfers: {e}"))}
+fn encode_dynamic_raw_fragments(value:&DynamicRawFragments)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode dynamic_raw_fragments: {e}"))}
 fn parse_indexed_graphics(bytes:&[u8])->Result<IndexedGraphics,String> {let value:IndexedGraphics=serde_json::from_slice(bytes).map_err(|e|format!("Invalid indexed_graphics: {e}"))?;value.validate()?;Ok(value)}
 fn encode_indexed_graphics(value:&IndexedGraphics)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode indexed_graphics: {e}"))}
 fn parse_world_records38(bytes:&[u8])->Result<WorldRecords38,String> {let value:WorldRecords38=serde_json::from_slice(bytes).map_err(|e|format!("Invalid world_records38: {e}"))?;value.validate()?;Ok(value)}
@@ -1084,6 +1093,7 @@ struct Dataset {
     world_records38: Option<WorldRecords38>,
     indexed_graphics: Option<IndexedGraphics>,
     ui_raw_transfers: Option<RawTransfers>,
+    dynamic_raw_fragments: Option<DynamicRawFragments>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -1150,6 +1160,7 @@ struct Dataset {
     world_records38_bytes: Option<Vec<u8>>,
     indexed_graphics_bytes: Option<Vec<u8>>,
     ui_raw_transfers_bytes: Option<Vec<u8>>,
+    dynamic_raw_fragments_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1242,6 +1253,7 @@ impl Dataset {
             world_records38: self.world_records38.as_ref().zip(self.world_records38_bytes.as_deref()),
             indexed_graphics: self.indexed_graphics.as_ref().zip(self.indexed_graphics_bytes.as_deref()),
             ui_raw_transfers: self.ui_raw_transfers.as_ref().zip(self.ui_raw_transfers_bytes.as_deref()),
+            dynamic_raw_fragments: self.dynamic_raw_fragments.as_ref().zip(self.dynamic_raw_fragments_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1402,6 +1414,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let task_cycle_deltas_bytes=manifest.coverage.iter().any(|id|id==TASK_CYCLE_DELTAS_ID)
         .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
     let ui_raw_transfers_bytes=manifest.coverage.iter().any(|id|id==UI_RAW_TRANSFERS_ID).then(||read_bounded(&path.join(UI_RAW_TRANSFERS_FILE),MAX_UI_RAW_TRANSFERS_FILE_BYTES)).transpose()?;
+    let dynamic_raw_fragments_bytes=manifest.coverage.iter().any(|id|id==DYNAMIC_RAW_FRAGMENTS_ID).then(||read_bounded(&path.join(DYNAMIC_RAW_FRAGMENTS_FILE),MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES)).transpose()?;
     let indexed_graphics_bytes=manifest.coverage.iter().any(|id|id==INDEXED_GRAPHICS_ID).then(||read_bounded(&path.join(INDEXED_GRAPHICS_FILE),MAX_INDEXED_GRAPHICS_FILE_BYTES)).transpose()?;
     let world_records38_bytes=manifest.coverage.iter().any(|id|id==WORLD_RECORDS38_ID).then(||read_bounded(&path.join(WORLD_RECORDS38_FILE),MAX_WORLD_RECORDS38_FILE_BYTES)).transpose()?;
     let parameter_records27_bytes=manifest.coverage.iter().any(|id|id==PARAMETER_RECORDS27_ID).then(||read_bounded(&path.join(PARAMETER_RECORDS27_FILE),MAX_PARAMETER_RECORDS27_FILE_BYTES)).transpose()?;
@@ -1511,6 +1524,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         world_records38_bytes.as_ref().map_or(0, Vec::len),
         indexed_graphics_bytes.as_ref().map_or(0, Vec::len),
         ui_raw_transfers_bytes.as_ref().map_or(0, Vec::len),
+        dynamic_raw_fragments_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1581,6 +1595,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let constructor_obj_animation=constructor_obj_animation_bytes.as_deref().map(parse_constructor_obj_animation).transpose()?;
     let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
     let ui_raw_transfers=ui_raw_transfers_bytes.as_deref().map(parse_ui_raw_transfers).transpose()?;
+    let dynamic_raw_fragments=dynamic_raw_fragments_bytes.as_deref().map(parse_dynamic_raw_fragments).transpose()?;
     let indexed_graphics=indexed_graphics_bytes.as_deref().map(parse_indexed_graphics).transpose()?;
     let world_records38=world_records38_bytes.as_deref().map(parse_world_records38).transpose()?;
     let parameter_records27=parameter_records27_bytes.as_deref().map(parse_parameter_records27).transpose()?;
@@ -1698,6 +1713,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         world_records38,
         indexed_graphics,
         ui_raw_transfers,
+        dynamic_raw_fragments,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1764,6 +1780,7 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         world_records38_bytes,
         indexed_graphics_bytes,
         ui_raw_transfers_bytes,
+        dynamic_raw_fragments_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1855,6 +1872,7 @@ fn check_dataset_budget(
     world_records38: usize,
     indexed_graphics: usize,
     ui_raw_transfers: usize,
+    dynamic_raw_fragments: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1940,6 +1958,7 @@ fn check_dataset_budget(
         || world_records38 as u64 > MAX_WORLD_RECORDS38_FILE_BYTES
         || indexed_graphics as u64 > MAX_INDEXED_GRAPHICS_FILE_BYTES
         || ui_raw_transfers as u64 > MAX_UI_RAW_TRANSFERS_FILE_BYTES
+        || dynamic_raw_fragments as u64 > MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -2028,6 +2047,7 @@ fn check_dataset_budget(
         .saturating_add(world_records38)
         .saturating_add(indexed_graphics)
         .saturating_add(ui_raw_transfers)
+        .saturating_add(dynamic_raw_fragments)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -2208,6 +2228,7 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
         eprintln!("ROM_DATA runtime=decoded resource={TASK_CYCLE_DELTAS_ID} file={} phases={}",dataset.manifest.resources[67].sha256,data.entries.len());
     }
     if let Some(data)=&dataset.ui_raw_transfers {eprintln!("ROM_DATA runtime=decoded resource={UI_RAW_TRANSFERS_ID} file={} views={}",dataset.manifest.resources[83].sha256,data.banks.len());}
+    if let Some(data)=&dataset.dynamic_raw_fragments {eprintln!("ROM_DATA runtime=decoded resource={DYNAMIC_RAW_FRAGMENTS_ID} file={} rows={} banks={}",dataset.manifest.resources[84].sha256,data.rows.len(),data.banks.len());}
     if let Some(data)=&dataset.indexed_graphics {eprintln!("ROM_DATA runtime=decoded resource={INDEXED_GRAPHICS_ID} file={} archives={}",dataset.manifest.resources[82].sha256,data.archives.len());}
     if let Some(data)=&dataset.world_records38 {eprintln!("ROM_DATA runtime=decoded resource={WORLD_RECORDS38_ID} file={} records={}",dataset.manifest.resources[81].sha256,data.records.len());}
     if let Some(data)=&dataset.parameter_records27 {eprintln!("ROM_DATA runtime=decoded resource={PARAMETER_RECORDS27_ID} file={} records={}",dataset.manifest.resources[80].sha256,data.records.len());}
@@ -2670,6 +2691,7 @@ fn write_dataset(
     let constructor_obj_animation_data=source.constructor_obj_animation.as_ref().map(|catalog|encode_constructor_obj_animation(&catalog.decoded)).transpose()?;
     let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
     let ui_raw_transfers_data=source.ui_raw_transfers.as_ref().map(|c|encode_ui_raw_transfers(&c.decoded)).transpose()?;
+    let dynamic_raw_fragments_data=source.dynamic_raw_fragments.as_ref().map(|c|encode_dynamic_raw_fragments(&c.decoded)).transpose()?;
     let indexed_graphics_data=source.indexed_graphics.as_ref().map(|c|encode_indexed_graphics(&c.decoded)).transpose()?;
     let world_records38_data=source.world_records38.as_ref().map(|c|encode_world_records38(&c.decoded)).transpose()?;
     let parameter_records27_data=source.parameter_records27.as_ref().map(|c|encode_parameter_records27(&c.decoded)).transpose()?;
@@ -2768,6 +2790,7 @@ fn write_dataset(
     if let Some(bytes)=&world_records38_data {files.push(bytes);}
     if let Some(bytes)=&indexed_graphics_data {files.push(bytes);}
     if let Some(bytes)=&ui_raw_transfers_data {files.push(bytes);}
+    if let Some(bytes)=&dynamic_raw_fragments_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2854,6 +2877,7 @@ fn write_dataset(
         world_records38_data.as_ref().map_or(0, Vec::len),
         indexed_graphics_data.as_ref().map_or(0, Vec::len),
         ui_raw_transfers_data.as_ref().map_or(0, Vec::len),
+        dynamic_raw_fragments_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2939,6 +2963,7 @@ fn write_dataset(
     if let Some(bytes)=&world_records38_data {write(&path.join(WORLD_RECORDS38_FILE),bytes)?;}
     if let Some(bytes)=&indexed_graphics_data {write(&path.join(INDEXED_GRAPHICS_FILE),bytes)?;}
     if let Some(bytes)=&ui_raw_transfers_data {write(&path.join(UI_RAW_TRANSFERS_FILE),bytes)?;}
+    if let Some(bytes)=&dynamic_raw_fragments_data {write(&path.join(DYNAMIC_RAW_FRAGMENTS_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -3247,6 +3272,7 @@ mod tests {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3574,8 +3600,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

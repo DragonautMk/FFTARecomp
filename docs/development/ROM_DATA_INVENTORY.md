@@ -3924,12 +3924,61 @@ dataset verifica stato/clock/video/OAM/dispatch/audio. La stessa cache nativa
 
 **ROMDATA-01-LOCALIZED-RAW-DYNAMIC-DOMAIN parziale (2026-10-31).** Le chiamate
 originali documentano selettori 7/8/9 e 1.304 byte candidati non sovrapposti;
-altri produttori leggono valori vivi e il limite globale non è noto. Non esiste
-ancora un owner runtime per questi frammenti.
+altri produttori leggono valori vivi e il limite globale non è noto. Al momento
+della scoperta non esisteva un owner runtime; la successiva integrazione è sotto.
 [Dettagli](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery).
 
 **ROMDATA-02-LOCALIZED-RAW-DYNAMIC-FRAGMENTS completato per il modello
 EUR/Wine (2026-10-31).** Righe e prefissi hanno un modello tipizzato lossless
-con verifica sorgente/confini per 1.304 byte. La pubblicazione e l'uso runtime
-restano aperti; nessun limite globale dei selettori è dedotto.
+con verifica sorgente/confini per 1.304 byte. La successiva integrazione è
+documentata sotto; nessun limite globale dei selettori è dedotto.
 [Modello](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model).
+
+**ROMDATA-03/04-DYNAMIC-RAW-FRAGMENTS EUR/Wine (2026-10-31).** Risorsa
+separata e94-d93/index84, 1.304 byte in sette intervalli autenticati;
+letture, composizione e un DMA stato/clock verificati. CLI, esecuzione nativa,
+uso ordinario, dominio globale, Linux e USA restano aperti.
+[Prove](../rom_data_ui_raw_transfers.md#managed-dynamic-fragment-resource).
+
+**ROMDATA-04-DYNAMIC-RAW-FRAGMENTS-CLI EUR/Wine (2026-10-31).** Creazione,
+riuso e caricamento di tutte le 85 risorse e94-d93 verificati con un frame
+neutro; identità e file gestiti esatti. Uso ordinario dinamico, esecuzione
+nativa, dominio globale e Linux/USA restano aperti.
+[Prove](../rom_data_ui_raw_transfers.md#dynamic-fragment-production-cli).
+
+**ROMDATA-04-DYNAMIC-RAW-ORIGINAL-NATIVE EUR/Wine (2026-10-31).** Routine
+originale, accodamento e DMA verificati per selettori7/8/9, entrambi i rami e
+cinque lingue: 30 casi isolati, stato/clock uguali su interprete ROM,
+interprete dataset e codice tradotto dataset. Uso ordinario e dominio globale,
+Linux e USA restano aperti.
+[Prove](../rom_data_ui_raw_transfers.md#original-dynamic-routine-and-translated-execution).
+
+**ROMDATA-05-DYNAMIC-RAW-ORDINARY-REACHABILITY parziale (2026-10-31).**
+Gate guest `0200203d` e callback di attivazione/disattivazione identificati;
+14 checkpoint EUR e un percorso Unit320 non mostrano il trasferimento entro
+l'ambito osservato. Uso ordinario positivo e verifiche Linux/USA rimangono aperti.
+[Prove](../rom_data_ui_raw_transfers.md#ordinary-dynamic-reachability-investigation).
+
+**ROMDATA-01-DYNAMIC-RAW-DISPATCH-LIFECYCLE parziale EUR/Wine (2026-10-31).**
+Identificati callback e flag condizionale di registrazione; il percorso Area List
+esistente non ha mostrato letture dinamiche o flag attivo ai punti campionati.
+Non è dimostrata l'assenza globale; uso ordinario positivo, dominio globale e
+verifiche Linux/USA restano aperti.
+[Prove](../rom_data_ui_raw_transfers.md#dispatcher-lifecycle-and-area-list-observation).
+
+**ROMDATA-01-LOCALIZED-TABLE-ALIAS fonte EUR delimitata (2026-10-31).**
+Tabella indipendente `71e5e0`, 20 byte non posseduti, cinque banchi clan già
+posseduti, sei sequenze originali individuate. Integrazione e verifiche
+Linux/USA restano aperte.
+[Contratto](../rom_data_ui_graphics.md#european-alias-of-the-existing-clan-banks).
+
+**ROMDATA-03-04-LOCALIZED-TABLE-ALIAS EUR/Wine (2026-10-31).** e95-d94
+pubblica i 20 byte della tabella `71e5e0` nella risorsa UI, riusando i cinque
+banchi clan. Letture e 42 prefissi interprete stato/clock verificati; CLI,
+native, uso ordinario e verifiche Linux/USA restano aperti.
+[Prove](../rom_data_ui_graphics.md#managed-european-clan-table-alias).
+
+**ROMDATA-04-CLAN-TABLE-ALIAS-NATIVE EUR/Wine (2026-10-31).** I sei prefissi
+originali tradotti coincidono con interprete ROM per 24 casi stato/clock;
+CLI, ordinary, ABI completa e Linux/USA restano aperti.
+[Prove](../rom_data_ui_graphics.md#translated-clan-alias-selector-prefixes).

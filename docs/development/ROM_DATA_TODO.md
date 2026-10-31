@@ -5580,14 +5580,82 @@ Linux, USA e Windows nativo restano aperti.
 originali forniscono esplicitamente selettori 7, 8 e 9; altri due leggono un
 byte vivo senza limite dimostrato. Sei righe e cinque prefissi candidati coprono
 1.304 byte senza sovrapporsi alle risorse e93. Nessun limite globale, uso
-ordinario o consumo runtime nuovo è dedotto dalla sola analisi statica. Modello,
-integrazione, dominio residuo e verifiche Linux/USA restano aperti.
+ordinario o consumo runtime nuovo è dedotto dalla sola analisi statica. Modello
+e integrazione successivi sono descritti sotto; dominio residuo e Linux/USA restano aperti.
 [Dettagli](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery).
 
 **ROMDATA-02-LOCALIZED-RAW-DYNAMIC-FRAGMENTS completato per il modello
 EUR/Wine dichiarato (2026-10-31).** Sette intervalli/1.304 byte ricostruiti e
 verificati da ROM; controllo mirato di forma, JSON, autenticazione e confini
 passato su Wine. Nessun nuovo owner runtime, limite guest o test di esecuzione
-delle routine originali. Estrazione gestita, consumo e dominio globale restano
-aperti; Linux/USA da verificare.
+delle routine originali. La successiva integrazione è descritta sotto; dominio
+globale e verifiche Linux/USA restano aperti.
 [Modello e limiti](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model).
+
+**ROMDATA-03/04-DYNAMIC-RAW-FRAGMENTS completato per pubblicazione e letture
+EUR/Wine dichiarate (2026-10-31).** e94-d93 aggiunge la risorsa indipendente
+index84, sette intervalli/1.304 byte, conservando le precedenti 84 risorse.
+La prova Wine verifica byte, confini, composizione e un DMA con stato/clock
+completi, oltre al rifiuto di dati alterati. Il primo tentativo ha identificato
+una pagina mancante, corretta prima del passaggio. Restano CLI di produzione,
+istruzioni native, uso ordinario, dominio globale e verifiche Linux/USA/Windows
+nativo; nessuna misura prestazionale.
+[Prove](../rom_data_ui_raw_transfers.md#managed-dynamic-fragment-resource).
+
+**ROMDATA-04-DYNAMIC-RAW-FRAGMENTS-CLI completato per registrazione EUR/Wine
+(2026-10-31).** La CLI di produzione crea e riusa e94-d93, carica tutte le
+85 risorse con hash verificati e avanza un frame neutro senza modificare i file
+gestiti. Gli 86 file della generazione coincidono col dataset accettato. Questo
+non prova l'uso ordinario dinamico; esecuzione nativa, dominio globale e
+Linux/USA/Windows nativo restano da verificare. Nessuna misura prestazionale.
+[Prove](../rom_data_ui_raw_transfers.md#dynamic-fragment-production-cli).
+
+**ROMDATA-04-DYNAMIC-RAW-ORIGINAL-NATIVE completato per casi isolati EUR/Wine
+(2026-10-31).** La routine originale, le due code e il DMA successivo passano
+30 combinazioni (selettori 7/8/9, due rami, cinque lingue). Puntatori e byte
+trasferiti coincidono; stato/clock completi coincidono tra interprete con ROM,
+interprete con dataset e codice tradotto con dataset, con sorgenti dinamiche
+velenate nelle due copie. Uso ordinario, dominio globale, ABI completa e nuove
+verifiche Linux/USA/Windows nativo restano aperti; nessuna misura prestazionale.
+[Prove](../rom_data_ui_raw_transfers.md#original-dynamic-routine-and-translated-execution).
+
+**ROMDATA-05-DYNAMIC-RAW-ORDINARY-REACHABILITY parziale (2026-10-31).**
+La sorgente identifica il gate guest `0200203d` e due callback che lo attivano
+e disattivano. Quattordici checkpoint EUR non mostrano selettori pronti; una
+registrazione esistente worldmap→Party→Unit di 320 frame non ha letture bus
+dei sette intervalli né ingressi osservati dei chiamanti. Il campionamento
+native può perdere cambiamenti interni ai blocchi. Non si deduce assenza
+globale: uso ordinario positivo, confronto stato/clock, dominio globale e
+Linux/USA/Windows nativo restano aperti. Nessuna misura di performance.
+[Prove](../rom_data_ui_raw_transfers.md#ordinary-dynamic-reachability-investigation).
+
+**ROMDATA-01-DYNAMIC-RAW-DISPATCH-LIFECYCLE parziale EUR/Wine (2026-10-31).**
+Il dispatcher passa per callback `063878`, registrata condizionalmente dal flag
+`40h` (bit 0 di `02001f78`); la selezione 2 può impostarlo. Una osservazione
+Wine del percorso esistente Area List/240 frame raggiunge il confronto una volta,
+ma non mostra bit attivo ai punti campionati né letture bus degli intervalli
+dinamici. È un negativo circoscritto: uso ordinario positivo, confronto completo,
+dominio globale e verifiche Linux/USA restano aperti; nessuna misura prestazionale.
+[Prove e limiti](../rom_data_ui_raw_transfers.md#dispatcher-lifecycle-and-area-list-observation).
+
+**ROMDATA-01-LOCALIZED-TABLE-ALIAS fonte EUR delimitata (2026-10-31).**
+La tabella `71e5e0` ha 20 byte non gestiti e punta ai cinque banchi già gestiti
+del selettore clan. Cinque riferimenti letterali e sei sequenze di selezione
+originali verificati; indice lingua u8 vivo senza fallback dedotto. Modello,
+pubblicazione, consumo runtime, uso ordinario e Linux/USA restano aperti.
+[Contratto](../rom_data_ui_graphics.md#european-alias-of-the-existing-clan-banks).
+
+**ROMDATA-03-04-LOCALIZED-TABLE-ALIAS completato per pubblicazione e prefissi
+interprete EUR/Wine (2026-10-31).** e95-d94 aggiunge i 20 byte della tabella
+come cinque puntatori tipizzati alla risorsa UI esistente, senza duplicare i
+banchi clan; le altre 84 risorse restano identiche. Verificate letture ai confini,
+42 combinazioni di prefissi originali con stato/clock completi e rifiuto
+transazionale di un file alterato. CLI di produzione, esecuzione nativa, uso
+ordinario positivo e Linux/USA restano da verificare. Nessuna misura prestazionale.
+[Prove](../rom_data_ui_graphics.md#managed-european-clan-table-alias).
+
+**ROMDATA-04-CLAN-TABLE-ALIAS-NATIVE EUR/Wine (2026-10-31).** Sei prefissi
+originali tradotti, 24 casi con indici 0/4/5/255: stato/clock completi uguali
+all'interprete ROM, 48 byte serviti dal dataset con tabella ROM alterata.
+Rimangono aperti CLI, uso ordinario, ABI completa e verifiche Linux/USA.
+[Prove](../rom_data_ui_graphics.md#translated-clan-alias-selector-prefixes).

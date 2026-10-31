@@ -15,6 +15,11 @@ Cross-platform extraction, packaging, release, analysis and project-memory
 tools stay directly in `scripts/`. For example,
 `benchmark_windows_runtime.py` supports native and Wine runtimes despite its
 historical filename; `package-release.sh` runs on all three CI host platforms.
+The private debug-assets exporter (`export_debug_assets.py`, with Bash and
+PowerShell wrappers) creates a separate, local Windows portable ZIP with the
+selected debug collection. Its input selection, privacy and prerequisites are
+documented in [private debug asset export](../docs/private_debug_assets.md).
+
 The root `build-all.ps1` remains the Windows all-platform build entry point.
 Use `-SkipLinux -SkipAndroid` for a Windows desktop package only; omitting only
 Android retains the Windows-to-Linux installer step. Native desktop wrappers

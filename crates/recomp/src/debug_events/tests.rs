@@ -99,3 +99,13 @@ fn real_menu_and_shared_command_metadata_fanout_preserves_machine_and_report_ide
     assert_eq!(hub.clock.status()["next_event_sequence"],next);
     assert_eq!(machine.save_state().unwrap(),before);
 }
+
+#[test]
+fn poll_coalescing_can_be_disabled_and_restored_without_reusing_ids() {
+    let mut hub=Hub::new(Session::default());
+    let one=hub.publish_with_poll_coalescing(0,0,"mapped-poll",json!({"keys":1023}),true).unwrap().value(0,0);
+    assert!(hub.publish_with_poll_coalescing(0,0,"mapped-poll",json!({"keys":1023}),true).is_none());
+    let all=hub.publish_with_poll_coalescing(0,0,"mapped-poll",json!({"keys":1023}),false).unwrap().value(1,1);
+    assert_ne!(one["event_id"],all["event_id"]);
+    assert!(hub.publish_with_poll_coalescing(0,0,"mapped-poll",json!({"keys":1023}),true).is_none());
+}

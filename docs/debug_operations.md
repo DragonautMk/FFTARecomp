@@ -89,3 +89,16 @@ supervisionato e conserva l'esito/log; la vista guest legge soltanto i dati.
 Vedere [il selettore e la libreria](debug_selector.md) per prerequisiti e limiti.
 
 Il [menu Atlante del Clan](menu_clan_atlas.md) raggruppa i percorsi in otto sezioni Debug e offre la scheda di sola lettura Riferimenti Menu / CLI. Il registro conserva ID, parametri, handler e protezioni; cambiano solo i percorsi del menu.
+
+## Linguaggio debugger — DBG2-13 in sviluppo
+
+Il parser testuale limitato a una riga supporta virgolette e numeri esadecimali
+con prefisso `0x`; rifiuta conteggi decimali ambigui e non interpreta una shell.
+La CLI sperimentale `recomp debug-command SESSION 'COMMAND'` traduce i comandi
+supportati negli stessi tipi e nello stesso canale autenticato di `debug-control`.
+`help control.step`, `status` e `step 1 --keys 0x3ff` sono stati verificati sotto
+Wine; un input malformato viene rifiutato senza mutare la sessione. `profile
+select ID` e `catalog select ID` sono analizzati, ma il loro collegamento al
+selettore è ancora aperto e la CLI li rifiuta esplicitamente. L'editor nel menu,
+la selezione per ID e la completa equivalenza richiesta da DBG2-13 restano da
+implementare e verificare.

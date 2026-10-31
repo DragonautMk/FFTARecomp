@@ -12,12 +12,25 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- The explicitly requested [private debug-assets export](../private_debug_assets.md)
+  builds a separate ignored Windows portable ZIP from the user's selected local
+  catalog/saves/snapshots, verified source manifest and completed recordings.
+  EUR working slots are installed in its own Data directory; USA material is
+  retained as pre-existing and unverified. ROM/BIOS and unrelated target trees
+  are excluded. Ordinary release packages remain private-data-free.
+
+- [Local artifact retention](LOCAL_ARTIFACTS.md#bounded-retention-policy) treats
+  old datasets and isolated Wine prefixes as reviewable generated artifacts,
+  not permanent inputs. Prefix cleanup must not follow Wine's links into host
+  folders and requires host-visible or coordinated evidence that no user is
+  active; a sandbox-only process listing is insufficient.
+
 - The desktop [Clan Atlas menu](../menu_clan_atlas.md) uses the existing native
   Canvas/tiny-skia fonts with a permanent left sidebar (eight Game/eight Debug
   sections), fixed shell and internal list/detail scrolling. Legacy handlers,
   confirmations, DS/content selectors and 9/99 slots remain in use; the readonly
   operation and 28-task references do not execute CLI strings or future tools.
-  DBG2-01..09 retain their current completed status; later tasks remain planned.
+  DBG2-01..12 retain their current completed status; later tasks remain planned.
   `ff.percent` adds100..800% in20-point steps while preserving legacy
   `ff.speed`2/4/8. The rational frame batch clock preserves each complete guest
   frame/clock; fast audio uses fractional playback ratios. Menu-only shoulder
@@ -110,7 +123,18 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   input/handler causes; queued mouse context and existing handler counts stay
   intact. Unchanged hover emits no changes. Raw Winit button/wheel/IME hooks
   complement mapped input; raw Gilrs/DirectInput remain absent. Broader runtime
-  and tool lifecycle hooks remain10. The broader
+  and tool lifecycle hooks now publish bounded correlated DBG2-10 events, with
+  actual coverage and missing instrumentation declared; future cheat hooks remain
+  reserved. Wine validates current Clan Atlas recording/step integration. DBG2-11
+  adds the optional [live event console](../debug_events.md#finestra-eventi-live--dbg2-11):
+  bounded independent rolling window, view-only freeze/filter, visible losses,
+  explicit copy/export and configurable poll coalescing; supported source and
+  guest-frame aggregation limits remain explicit. Wine GUI/input simulation passes;
+  DBG2-12 limits producer work to32events per frontend tick with explicit drops,
+  bounds retained/search data and shares immutable frozen entries; its Wine
+  synthetic load and off/on state/clock comparison pass. Restored snapshots with
+  channel taps disabled use faithful host audio/pacing without rewriting state;
+  short Wine queue observations pass, native/audible coverage remains open. The broader
   checklist specifies built-in selection of existing
   inputs/profiles/scripts with external file dialogs only from explicit buttons,
   editable tool parameters, optional live event and textual command consoles,
@@ -1639,8 +1663,20 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   Bounded [dynamic-view source discovery](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery)
   identifies explicit selectors 7/8/9 and 1304 non-overlapping candidate bytes;
   the [bounded typed source model](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model)
-  passes a focused EUR/Wine source check. Live-byte producers leave the global
-  index domain open; managed extraction and a runtime owner remain pending.
+  passes a focused EUR/Wine source check. The independent e94-d93 managed
+  resource serves those seven spans with verified byte/boundary and one DMA
+  state/clock check on Wine. Production CLI creation, reuse and loading of all
+  85 resource hashes now pass on Wine for one neutral frame. The original
+  dynamic routine and DMA also match complete state/clock across raw/typed
+  interpreters and translated code for 30 isolated EUR/Wine combinations.
+  A source-proved guest gate at 0200203d and a bounded negative Unit320
+  observation narrow ordinary reachability, without establishing a positive
+  case. Live-byte producers leave the global index domain open.
+  The European UI resource e95-d94 now also serves the five-pointer clan table
+  alias without duplicating its banks. Wine verifies publication and 42 original
+  interpreter selector prefixes with full state/clock. Six original translated
+  prefixes also match raw interpreter state/clock in 24 selected cases with
+  typed callback reads; positive ordinary use, Linux and USA remain pending.
 
 
 
@@ -3013,7 +3049,8 @@ coverage refreshes its archived sources. The host checkout is unaffected.
   [Local artifact retention](LOCAL_ARTIFACTS.md) requires closing successful
   managed/native units with `scripts/local_artifacts.py complete`: retire only
   disposable interrupted/moved fixture copies after preservation/results, retain
-  accepted offline data and proof logs, and explicitly review old test binaries.
+  current required offline data and proof logs, and review superseded datasets
+  and old test binaries under the bounded retention policy.
   Refuse links/private/tracked content. Historical mutable-output maps are not
   perpetual live-input requirements; cleanup receipts describe availability,
   without reopening completed proofs. Coverage Docker launchers keep two owned

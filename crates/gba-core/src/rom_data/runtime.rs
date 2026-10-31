@@ -352,6 +352,7 @@ pub struct RuntimeResources {
     world_records38: Option<Box<WorldRecords38Resources>>,
     indexed_graphics: Option<Box<IndexedGraphicsResources>>,
     ui_raw_transfers: Option<Box<RawTransfersResources>>,
+    dynamic_raw_fragments: Option<Box<ui_raw_transfers::DynamicFragmentsResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
@@ -663,6 +664,9 @@ impl RuntimeResources {
         if let Some((data,_))=files.ui_raw_transfers {
             resources.ui_raw_transfers=Some(Box::new(RawTransfersResources::new(data.clone(),&source.ui_raw_transfers.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))=files.dynamic_raw_fragments {
+            resources.dynamic_raw_fragments=Some(Box::new(ui_raw_transfers::DynamicFragmentsResources::new(data.clone(),&source.dynamic_raw_fragments.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -772,6 +776,7 @@ impl RuntimeResources {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -882,6 +887,7 @@ impl RuntimeResources {
             + self.world_records38.as_ref().map_or(0, |i| i.resident_bytes())
             + self.indexed_graphics.as_ref().map_or(0, |i| i.resident_bytes())
             + self.ui_raw_transfers.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.dynamic_raw_fragments.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -1378,7 +1384,8 @@ impl RuntimeResources {
             let prior = match &self.parameter_records27 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.world_records38 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.indexed_graphics {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
-            return match &self.ui_raw_transfers {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.ui_raw_transfers {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.dynamic_raw_fragments {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1545,6 +1552,7 @@ impl crate::MemMap {
             || WorldRecords38Resources::source_page(index)
             || IndexedGraphicsResources::source_page(index)
             || RawTransfersResources::source_page(index)
+            || ui_raw_transfers::DynamicFragmentsResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

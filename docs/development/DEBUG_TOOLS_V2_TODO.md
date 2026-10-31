@@ -200,7 +200,7 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   XInput simulato, comandi singoli/esiti correlati e stato/frame0 invariati;
   [record](../changes/2026-10-30-observe-effective-host-menu-changes.json).
 
-- [ ] **DBG2-10 — Eventi del runtime e degli strumenti.**
+- [x] **DBG2-10 — Eventi del runtime e degli strumenti.**
   Collegare sessione/ROM, pause/passi, Load/Undo/reset, registrazioni/replay,
   catture/report, script, preparazione dataset/cache, errori e progressione job.
   Aggiungere transizioni guest riconosciute, osservazioni codice/letture/audio
@@ -209,8 +209,13 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** ciascuna famiglia dichiara origine, frequenza, prerequisiti e
   copertura; errore e richiesta correlata sono rintracciabili, senza I/O nuovo
   nei callback audio o dump continui della macchina. **Dipende da:** DBG2-08.
+  Implementato: [eventi runtime](../debug_events.md), origine/frequenza/requisiti/
+  scope espliciti e correlazione job/errore. Build Windows GNU e test Wine,
+  prove GUI delle famiglie e verifica mirata con il menu corrente; copertura
+  dataset/cache non selezionati e cheat futuro dichiarati.
+  [Record](../changes/2026-10-30-connect-debug-runtime-lifecycles.json).
 
-- [ ] **DBG2-11 — Pannello live della console eventi.**
+- [x] **DBG2-11 — Pannello live della console eventi.**
   Toggle «Console eventi» dal menu e shortcut configurabile, inizialmente
   spento. Vista sovrapposta o affiancata con scroll, ricerca, categorie/livelli,
   pausa della sola vista, autoscroll, copia e salvataggio locale esplicito.
@@ -221,8 +226,12 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   **Chiusura:** leggere una sequenza menu/comando/errore mentre il gioco è aperto,
   nascondere/riaprire il pannello e esportare la finestra con identità coerenti.
   **Dipende da:** DBG2-09/10.
+  Implementato: [console eventi](../debug_events.md#finestra-eventi-live--dbg2-11),
+  finestra limitata separata, filtri/pausa vista, copia/esportazione e poll
+  regolabili. Test Windows/Wine e GUI con identità coerenti e stato invariato;
+  [record](../changes/2026-10-31-begin-live-debug-event-window.json).
 
-- [ ] **DBG2-12 — Limiti, prestazioni osservabili e assenza di effetti guest.**
+- [x] **DBG2-12 — Limiti, prestazioni osservabili e assenza di effetti guest.**
   Fissare cap di memoria/righe/byte, budget per aggiornamento e contatori di
   overflow. Limitare serializzazione/formattazione sul thread che esegue il gioco;
   console spenta senza raccolte pesanti, console aperta senza audio accumulato.
@@ -231,6 +240,11 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   una nuova breve sequenza selezionata conserva stato/clock con console off/on.
   Registrare il costo osservato senza riaprire campagne di benchmark storiche.
   **Dipende da:** DBG2-11.
+  Implementati budget e contatori distinti, limiti sulla finestra e snapshot
+  condiviso; carico sintetico, confronto off/on e breve osservazione audio Wine
+  verificati. Il fallback audio per snapshot senza tap preserva lo stato.
+  [Dettagli e limiti](../debug_events.md#limiti-e-costo--dbg2-12),
+  [record](../changes/2026-10-31-bound-event-console-update-work.json).
 
 ## P2 — Console di comandi e ricette per l'assistente
 

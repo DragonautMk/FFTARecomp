@@ -364,6 +364,7 @@ pub(super) fn debug_rows(section: usize) -> &'static [Row] {
             Row::CaptureGraphics,
             Row::StartUiTrace,
             Row::SaveUiReport,
+            Row::ToggleEventConsole,
             Row::StartAudioCapture,
             Row::SaveAudioReport,
             Row::StartCodeTrace,

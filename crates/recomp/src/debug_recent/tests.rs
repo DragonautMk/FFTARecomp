@@ -101,3 +101,16 @@ fn retained_seed_interpreter_observer_preserves_two_frames(){
     assert!(b.error(&observed,"Controlled fixture error after two exact frames"));
     println!("RECENT_REPORT {}",b.save(&out,&observed).unwrap());
 }
+
+#[test]
+fn direct_recent_events_share_identity_with_console_without_guest_changes(){
+    let m=Machine::new(vec![0;16]);let before=m.save_state().unwrap();
+    let console=std::rc::Rc::new(std::cell::RefCell::new(crate::debug_console::Window::default()));
+    console.borrow_mut().start();let mut recent=Buffer::new(Default::default(),json!({}));
+    recent.console=Some(std::rc::Rc::downgrade(&console));
+    recent.event(&m,"recognized-ui-transition",json!({"synthetic":true}));
+    let value=recent.entries.back().unwrap().value.clone();
+    let view=console.borrow();let shown=view.visible();assert_eq!(shown.len(),1);
+    assert_eq!(shown[0]["event_id"],value["event_id"]);assert_eq!(shown[0]["data"],value["data"]);
+    assert_eq!(m.save_state().unwrap(),before);
+}

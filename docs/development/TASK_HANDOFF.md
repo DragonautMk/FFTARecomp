@@ -6,11 +6,170 @@ An open parent never reopens completed children or rejected experiments.
 
 ## Current request checkpoint
 
+- **DBG2-13 — selected (2026-10-31).** Latest request: complete the full Debug
+  Tools v2 TODO; DBG2-01..12 are closed with linked evidence. Missing: stable
+  debugger command language with quoting/numbers/typed arguments, help/status,
+  shared control/inspect/break/watch/capture/report, content selection and jobs;
+  malformed/ambiguous input must not mutate session and equivalent existing
+  actions must share validation and results. Next inspect the registry, control
+  and selection handlers to identify their existing contracts, then implement a
+  pure parser and route through those handlers; no shell or second guest executor.
+  Preserve concurrent ROM/export/workflow changes.
+
+  Pure bounded tokenizer/typed parser written (debug_command.rs): quoted
+  Unicode, explicit0x addresses/masks, unambiguous decimal, profile/catalog
+  IDs, job status/cancel and reuse debug-control parser/validation. Tests written
+  for malformed/unknown and equivalence, but not compiled. No dispatcher or
+  user-facing command console yet; full13 remains open. Next compile the exact
+  selected host overlays and run parser tests before wiring existing handlers.
+
+  First parser Windows test build active session50482; selected source map
+  target/debug-tools-v2-command/source.json. Poll handle, no blind rebuild.
+
+  Parser Windows GNU test build PASS/no messages; Wine2cases PASS including
+  quoted input and existing CLI Action equivalence/rejections. Evidence
+  target/debug-tools-v2-command/{build-result,tests-result}.json. Next add
+  explicit command CLI transport that passes typed control operations to the
+  existing validated local-control mailbox; selection/UI dispatch still open.
+
+  CLI adapter written, reuses exact validated local mailbox and typed Action;
+  help/status supported, ID selection explicitly refuses until frontend routing.
+  First Windows compile failed: help registry entry lacked its required fourth
+  descriptive field. Corrected main.rs only; failure retained at
+  target/debug-tools-v2-command-transport/build-result.json. Next rebuild this
+  exact changed file; no CLI runtime/GUI acceptance yet.
+
+  Corrected transport Windows test+production builds PASS/no warnings; Wine
+  parser2/mailbox1/publication retry1 PASS. Runtime
+  afdac49170090c1e4da5dbab49d9d4d3e994a360d1dd98926627d8560d17a0bc. Actual
+  Wine/Xvfb session verifies text help/status, malformed decimal and unsupported
+  ID selection refusal without full state/frame/clock change; text step1 equals
+  previous CLI full state/clock. GUI/display closed,1507frozen source/15overlay
+  and pins exact; target/debug-tools-v2-command-transport-retry/{transport-
+  result,negative-close,preservation,tests-result,runtime-result}.json.
+  No live process; prior failed build retained. This substep is complete.
+  Remaining13: connect typed ID selection/jobs and frontend console to existing
+  picker/handler ownership with real completion/cancellation; prove equivalent
+  menu/CLI/console validation/results. Next inspect asynchronous picker lifecycle
+  and add one explicit ID selection API with stale/context safeguards before
+  routing it through the local channel; do not report refused placeholder as
+  implemented. No native platform/physical input claim or package/commit/push.
+
+- **ROMDATA-04-CLAN-TABLE-ALIAS-NATIVE — bounded EUR/Wine PASS / CLOSED (2026-10-31).** Full EUR ROM_DATA_TODO active; Wine-only reduced tests, Linux/USA pending, no performance measurement. One isolated Windows build and one focused Wine filter (`target/rom-data-clan-table-alias-native/{build-result,wine-result}.json`, `wine-runtime/result.json`) translate six actual original selector prefixes, compare 24 cases (languages0/4/5/255) with raw-ROM interpreter complete state/clock, and serve 48 alias bytes through typed callbacks with the20 ROM table bytes poisoned. e95 dataset, ROM, test inputs and 683 frozen source hashes unchanged (91 guarded files). This covers selected prefixes, not full decoder/transfer ABI, all languages, production CLI or positive ordinary use. Linux/USA/native Windows remain open. No fixture/navigation, old publication replay or performance measurement. Primary model/xhigh independently unconfirmed. No live process. Feature, TODO, inventory, state and change record updated; retention helper, project-memory check and diff check PASS. Next distinct deliverable is production CLI registration for e95-d94 and an evidence-backed ordinary route.
+
+- **LOCAL-RETENTION-WINE-AUDIT-20261031 — completed bounded audit (2026-10-31).** Inventoried 21 Wine prefixes without following 863 links, up to 24.91 GiB allocated blocks (possible hard-link double counting), `target/local-wine-prefix-audit-20261031/inventory.json`. DBG2-05 workbench evidence shows two old prefixes belonged to a completed unit, but links point to `/`, devices and real personal folders; the isolated PID namespace cannot establish that any legacy prefix is idle on the host. The shared `desktop-perf/native-frame-boundary/allowance/wine-prefix` is explicitly referenced by active ROM scripts and contains USA resource metadata. No prefixes or other artifacts deleted; extension scan is not proof of absence of private data. Added rules for inspecting real consumers, user data, host activity and unlinking without following, including rejecting broken partial prefix cleanup; existing helpers refuse linked trees. Future prefix deletion requires a separately reviewed, tested no-follow tool and host-visible/coordinated activity evidence; don't treat missing legacy leases or sandbox process lists as proof. `project_memory.py check`, `render --check`, `git diff --check` pass; no build/game test/performance measurement. Selection closed.
+
+- **LOCAL-RETENTION-20261031 — completed selected scope (2026-10-31).** User requested practical retention and removal of old datasets. Three independently previewed same-ROM EUR batches retired 37 old completed managed datasets, 31 old completed CLI resources, and 21 old datasets with successful managed results: 89 paths / 37.66 GB allocated, all confirmed absent. Receipts and plans in `target/local-retention-20261031{,-cli,-managed}/`; protected e94-d93 manifest identity rechecked during each deletion; latest e91..94 and active ROM/DBG2 contexts left in place. Private debug ZIP SHA-256 unchanged and exporter binaries exist. Historical revisions at retired paths require regeneration if selected again; completed checks do not reopen. Target reduced approximately 115→80 GiB (concurrent work may change sizes); other prefixes, uncertain or failed scopes and private assets remain and were not all individually audited. Bounded retention policy now distinguishes necessary current data and historical cache; no global cleanup. No builds, game tests or performance measurements. `render --check` and `git diff --check` passed; full project-memory check reports three concurrent ROM implementation/test files pending their own record, outside this selection. Selection closed; future cleanup must choose another reviewed scope, not repeat these removals.
+
+- **ROMDATA-03-04-LOCALIZED-TABLE-ALIAS — EUR/Wine managed + interpreted prefix PASS / CLOSED (2026-10-31).** Full EUR ROM_DATA_TODO remains active; Wine-only reduced tests, Linux/USA pending, no performance measurement. e95-d94 adds five authenticated pointer bindings for `71e5e0` to existing UI resource, preserving five bank objects, previous clan selector and prior eight-table counters; no guest-language cap/fallback added. Isolated Windows build and one Wine test PASS (`target/rom-data-clan-table-alias-retry/{build-result,wine-result}.json`, `wine-runtime/result.json`): all other84 resource records/files unchanged from e94, UI banks/old selectors unchanged, all20 new bytes and mixed width/mirror edges, 42 original interpreter selector prefixes (six sites ×0..5/255) equal raw full state/clock, altered coherent UI file refused while attached owner/state preserved; 95 actual inputs/682 frozen source hashes unchanged. First build failed for missing test trait import, fixed and retained (`target/rom-data-clan-table-alias-runtime/build-result.json`). Direct native execution, production CLI/ordinary positive use and Linux/USA/native Windows remain open. No game input/old test replay/performance measurement. Primary model/xhigh independently unconfirmed. No live process. Feature and change evidence recorded; retention helper PASS. The selected native-prefix follow-up is closed separately above.
+
+- **ROMDATA-01-LOCALIZED-TABLE-ALIAS — bounded EUR source PASS / CLOSED (2026-10-31).** Full EUR ROM_DATA_TODO active; Wine-only reduced tests, Linux/USA pending, no performance measurement. Authenticated alias `71e5e0` is a distinct 20-byte unowned pointer table, five values equal already-owned `clan` selector banks (2944 decoded bytes each); no overlap with any current e94 source binding. Full aligned pointer census gives five literals `023c70/03278c/04fd3c/05e770/070fcc`, each with one PC-relative Thumb load in range; six original selector sequences read raw live byte `02001f6e`, scale by four and call original decoder `054a0`. Five authenticated source windows including two newly disassembled under Wine; private guarded result `target/rom-data-localized-table-alias/source-result.json` PASS, 8 actual inputs unchanged. This is a bounded direct-reference contract, not all indirect readers, outside-five bounds, ordinary liveness or full helper ABI. No build/game/fixture or old acceptance replay. Selection closed; next deliverable is model/managed/runtime ownership of the 20 pointer bytes reusing existing five bank objects, preserving clan inline selector and raw outside-range behavior, followed by focused Wine verification. Primary model/xhigh not independently confirmed. No live process.
+
+- **LOCAL-CLEANUP-20261031 — superseded by LOCAL-RETENTION-20261031.** Earlier pass retired 32 old test executables; receipts `target/local-cleanup-20261031-rom-executables{,-2}.json` record 0.795 GB allocated. Twelve selected legacy debug sessions were protected by the automatic tool. The subsequent user-requested historical dataset cleanup is recorded above.
+
+- **DBG2-12 — complete (2026-10-31).** Full goal active;01..11 closed.
+  Console admits ≤32events/frontend tick, counts budget drops independently of
+  eviction/oversize, limits live1024rows/256KiB JSON/1MiB JSON+search data,
+  shares immutable entries with bounded paused snapshot and decodes only visible
+  rows. Limits describe content, not exact RSS/allocator or window surface.
+  Wine synthetic128000-event/2000-tick test PASS:64000budget drops,63549
+  evictions, snapshot32rows unchanged;426ms test-only, no performance inference.
+  Initial off/on10controlled-frame pair full state/clock exact. Live synthetic
+  on+off separately both saturated mixed ring while PSG0, degraded drops. Sol
+  consultation /root/sol_audio_pacing requested gpt-6.1-sol/xhigh (effective
+  metadata unavailable) identified restored serialized tap_channels=false.
+  Host-only fallback uses mixed for pacing and faithful callback when taps
+  unavailable, preserves saved preference and snapshot; sync at seed/restore.
+  Windows GNU build warning-free runtime4a98b7a721c2bb3fb2b6f1e9fe351cb519ca64571b869b98a5e8bfa7efc5fe44;
+  Wine new callback/pacing/state test+3existing audio regressions PASS (one
+  initial zero-match filter excluded). New live Wine samples mixed1772–5792 on
+  and7068–7808 off, PSG0, no DEGRADED ring-drop log, guest taps empty; short
+  synthetic queue evidence only, no audible/native hardware claim. Same10frames
+  off/on again full state/clock equal and exactly match pre-fix; observed wall
+  including client0.440s off/0.484s on, not general benchmark. All GUIs/Xvfb
+  closed, host prefix process audit empty,1506frozen files/owned overlays exact;
+  evidence target/debug-tools-v2-budget{,-fixed}/. Preserve earlier negative
+  audio results. No managed ROM disposables; retention helper inapplicable.
+  Feature/TODO/state and [record](../changes/2026-10-31-bound-event-console-update-work.json)
+  updated; native Windows/Linux, physical audio/controller/IME and long-run
+  cost remain unverified. No12criterion outstanding within tested scope;13next.
+
+- **ROMDATA-01-DYNAMIC-RAW-DISPATCH-LIFECYCLE — bounded Area List NEGATIVE / CLOSED (2026-10-31).** Full EUR ROM_DATA_TODO remains active; Wine-only reduced tests, Linux/USA pending, no performance measurement. Previous Unit320 route remains closed negative. Original ROM census: sole aligned Thumb BL to dispatcher063a74 at0638ac inside callback063878, pointer at127bc0; getter0cce98 index40h tests bit0 of02001f78, and conditional slot5 registration chooses063879. Input-gated branch0454e8 compares selection2 and calls packed setter0ccecc(40h,1) at045508. Thirteen instructions/four fused BL pins PASS (`target/rom-data-dynamic-dispatch-lifecycle/pins-result.json`). Prior mistaken address02002070 and bit7 diagnostics invalid, corrected readonly14 EUR snapshots have bit0 clear (`target/rom-data-dynamic-ordinary-reachability/snapshot-peek-flag40-corrected.json`). The existing worldmap→Area List 240-frame input is a plausible candidate, not semantic proof. Isolated Windows observer build and Wine observation PASS (`target/rom-data-dynamic-area-observe/{build-result,wine-result}.json`, `wine-observation/result.json`): one sampled0454e8 entry; byte02001f78 stayed08 (bit0 clear), gate/selectors/phase zero at sampled dispatch boundaries; zero dynamic span bus requests, zero dropped/truncated; protected inputs and frozen source unchanged. Sampling can miss intra-block transitions; audit excludes folded constants/unselected host reads. This is a bounded negative, not global absence or full-pair evidence; do not repeat/extend this input without new evidence. Ordinary positive/full pair and selector domain remain open. No live process, no new input or performance measurement. Primary model/xhigh not independently confirmed. Next record durable evidence and proceed to a distinct unfinished ROMDATA deliverable.
+
+- **ROMDATA-05-DYNAMIC-RAW-ORDINARY-REACHABILITY — bounded Unit320 NEGATIVE / PARTIAL (2026-10-31).** Objective remains full EUR ROM_DATA_TODO, Wine-only reduced checks, Linux/USA pending, no performance measurement. Previous isolated original/native30 and CLI proofs remain closed. Requested two focused read-only consultations of `gpt-6.1-sol`/`xhigh`, handle `/root/sol_debug_diagnosis`; effective model/effort not exposed. Six original source windows independently confirm getter0ccf00 uses byte02002030+u16 index; gate13 is0200203d, callback064678 requests gate=1, 066588 requests gate=0; 0c4ce4 passes020101f8 to initializer0c3be4. Caller/semantic UI role remains unproved. Fourteen EUR catalog checkpoint entries had zero gate/current/pending/phase on readonly checksum-verified peek (`target/rom-data-dynamic-ordinary-reachability/snapshot-peek-gate.json`); DS20 decoded registers/CPSR/IWRAM7ffc match retained Wine inspection. Initial scan compared against region-map rather than EUR hash; all entries errored, invalid receipt retained. Candidate retained worldmap→Party→Unit320 route examined once using isolated feature-gated Windows test build and Wine native observation (`target/rom-data-dynamic-ordinary-observe/{build-result,wine-result}.json`, `wine-observation/result.json`): zero dynamic bus reads, zero dropped/truncated, zero sampled target dispatch entries, sampled gate/current/pending/phase remained zero. Native samples can miss intra-block changes; bus hooks exclude folded constants/unselected host, so this does not prove global absence. Protected ROM, input, checkpoint, native cache, dataset and frozen source hashes unchanged. No ordinary positive/full pair or selector-domain claim; do not repeat/extend this negative route without new evidence. Next trace dispatcher063a74 source lifecycle and another evidence-backed existing route or proceed to other open ROMDATA family; don't force guest RAM/navigation. Linux/USA/nativeWindows pending. Primary model/xhigh unknown. No live process.
+
+- **ROMDATA-04-DYNAMIC-RAW-ORIGINAL-NATIVE — EUR/Wine isolated PASS / CLOSED (2026-10-31).** The actual 0c9060 guest routine and original queue executor 0800 run with selectors7/8/9, both flag-bit3 table branches and all five declared language slots: 30 isolated cases. Two queued ROM sources/VRAM destinations/control words and 64-byte transfers match; each case compares complete serialized state/clock across raw-ROM interpreter, typed interpreter and translated native, with all1304 dynamic source bytes poisoned in both typed arms. Wine result and input preservation PASS (`target/rom-data-dynamic-original-native/{wine-result.json,wine-original/result.json}`); one isolated Windows test build (`build-result.json`), no old proof replay or performance measurement. This demonstrates bounded original routine and translated dispatch, not ordinary gameplay, all selectors, full ABI or universally direct native callbacks. Linux/USA/native Windows and positive ordinary use remain pending. Primary model/xhigh cannot be independently verified. No live process. Retention helper PASS, zero paths removed; diff check PASS. Full project-memory check reports six concurrently modified/untracked DBG2 input/menu/recomp files outside this unit; preserved.
+
+- **DBG2-11 — complete (2026-10-31).** Full goal remains active;01..10 closed.
+  Default-off bounded live host event window, menu toggle/configurable function
+  key, independent filtered/frozen view, retained range/loss/collector status,
+  scroll/follow, explicit JSON save/copy, poll-coalescing toggle and recent-only
+  producer fanout. Direct guest reads remain frame aggregates and require their
+  existing collector; all categories means supported observed events only.
+  Frozen HEAD918d5bd +13owned overlays,1506source hashes exact/working overlays
+  exact; Windows GNU test/production builds warning-free. Final coverage-only
+  build e6c624b4dc004ea588fa0e29ca8b7724da9083732e2b2889c8db6563ff093495,
+  no GUI repeat for static text. Wine model2/direct recent1/fanout1/menu1/config1,
+  coalescing1+changed model2 PASS. First F9 GUI exposed synthetic focus press;
+  corrected both shortcut paths and panel input; negative retained. Sol/xhigh
+  diagnosis handles /root/sol_console_diagnosis (effective model/effort not
+  exposed) also identified harness X focus vs actual Windows activation; inert
+  click then Down proved menu navigation, no product bug. Focus-fixed GUI shows
+  frozen exports identical while live collector advances, actual navigation and
+  refused command with request ID, hide/reopen, filtered error, local export
+  and real Windows clipboard exact; frame0/clock/full state exact. Second GUI
+  from menu toggles poll aggregation false→true and scroll/follow; within caps,
+  same state/frame/clock. All sessions/displays closed, owned prefix process
+  audit empty; source/pin and evidence retained at target/debug-tools-v2-console-
+  {ui,focus,aggregation}/, plus model core. Original failed label expectation
+  and interrupted fixture retained; no fixture recreation, no helper cleanup
+  as no managed ROM copies. Native Windows/Linux/physical controller/IME and
+  sustained overhead not claimed; no package/commit/push. Feature/TODO/state
+  and [record](../changes/2026-10-31-begin-live-debug-event-window.json) updated.
+  No11criterion remains within stated instrumentation; DBG2-12 next.
+
+- **ROMDATA-04-DYNAMIC-RAW-FRAGMENTS-CLI — EUR/Wine registration PASS / CLOSED (2026-10-31).** One isolated 681-source Windows production build with per-resource identity log/description; canonical runtime and 100 guarded inputs unchanged. Three Wine phases create/reuse/one-frame startup pass (`target/rom-data-dynamic-raw-cli/result.json`): e94-d93,85 IDs/86 generation files match accepted runtime dataset, all 85 loaded IDs and hashes match, 88 managed files unchanged on reuse/startup, frame24755→24756, native cache retained. No ordinary dynamic consumption implied. Source selection and build results in `target/rom-data-dynamic-raw-cli/`; snapshot `/tmp/ffta-dynamic-cli-snapshot`, isolated target `/tmp/ffta-dynamic-cli-target`. No live process. Linux/USA/native Windows, original dynamic/native execution, positive ordinary use and global selector domain remain pending; no performance measurement. Primary model/xhigh not independently visible. Retention helper PASS, zero paths removed. `git diff --check` PASS; project-memory check currently flags concurrent untracked `crates/recomp/src/debug_console.rs`, outside this unit and preserved.
+
+- **DBG2-10 — complete (2026-10-31).** Full DBG2 goal resumed;01..09 remain
+  closed.18family lifecycle metadata,16jobs, original request/job+distinct
+  cause, bounded details/progress and declared scope/coverage; no audio callback
+  I/O or continuous machine dumps. Cheat reserved until its future handler.
+  Initial Windows/Wine validation:10targeted cases; synthetic public GUI covers
+  controls/state/load/undo/recording/captures, recipe and cancel-old-view,
+  replay with four not-selected dataset/cache phases. Controlled query lock
+  produced30errors bearing the actual request ID and succeeded after release.
+  Final recording metadata points to actual directory and recording.json; one
+  explicit main frame matches full prior state/clock.235UI/264recent, all235
+  shared identical, zero evictions. final-proof-result.json, resumed-proof-close
+  and preservation-and-retirement.json under target/debug-tools-v2-runtime-events.
+  Original interrupted variant and protective lease retained; four superseded
+  standalone PEs retired after verification, receipt retained. Initial GUI and
+  its display closed,610frozen source hashes and variant pins verified.
+  Subsequent Clan Atlas/menu changes required current integration: tracked
+  HEAD918d5bd69730531d525049822fb4539a241b1f17, isolated source/cache, Windows
+  GNU test+runtime builds warning-free and10Wine cases PASS. Current runtime
+  ec8f8cd56fe9b6d180a6516981f62cc9ee94a94c584aa1717e448363a4915771.
+  Current menu start/stop recording plus1controlled step PASS:155UI/187recent,
+  all155shared identical, no evictions, owner/cause correct, manifest authentic,
+  full frame1/clock matches. GUI/display closed, host prefix process audit empty,
+  1503source hashes and pins protected; target/debug-tools-v2-current/{atlas-
+  result,gui-close,preservation,wine-tests,runtime-result}.json. This proof
+  excludes concurrent uncommitted ROM/export changes. Historical canonical Windows
+  runtime differs since another activity; our builds did not write canonical paths.
+  No managed ROM disposable copies; retention helper inapplicable. No native
+  Windows/Linux/physical controller/IME, positive EUR private gameplay or selected
+  dataset/native input claim; no package/commit/push. Debugging workflow primary
+  Terra supplied, actual reasoning effort not independently visible. Feature doc,
+  TODO, state, [record](../changes/2026-10-30-connect-debug-runtime-lifecycles.json)
+  updated. No10remaining criterion; do not repeat completed scopes for context.
+
+- **ROMDATA-03/04-DYNAMIC-RAW-FRAGMENTS — bounded EUR/Wine managed publication and bus/DMA PASS / CLOSED (2026-10-31).** e94-d93/index84 publishes seven authenticated spans/1304 bytes and composes typed reads with earlier owners/raw ROM. One focused Wine test passes publication and previous 84 records/payloads, all bytes/edges/mirrors, adjacent prior owner, DMA16 complete state/clock and source-coherent altered-file refusal with owner/state preserved. Protected ROM/old dataset/executable/current sources hash+mtime unchanged (`target/rom-data-dynamic-raw-runtime/wine-retry-result.json`). First build fixed missing test arguments/import; first Wine test exposed missing final prefix page 487, corrected; failed evidence retained. Disk filled before retry; project retention helper retired only two disposable copies of closed FFFF runtime (receipt `target/rom-data-unit-obj-ffff-reader-fields-runtime/artifact-cleanup.json`); temporarily moved executables restored with original hashes/timestamps. Linux, USA, native Windows, CLI, original dynamic/native execution, positive ordinary use and global index domain remain open; no performance measurements. Primary model/xhigh not independently visible. No live process. [Feature](../rom_data_ui_raw_transfers.md#managed-dynamic-fragment-resource).
+
 - **ROMDATA-02-LOCALIZED-RAW-DYNAMIC-FRAGMENTS — complete for bounded EUR/Wine source model (2026-10-31).** Latest full EUR/Wine-only/no-metrics/no-space request unchanged. ROMDATA-01 discovery covers six documented 7/8/9 rows and five candidate prefixes (1304 bytes, no e93 overlap); global index domain remains open. New isolated strict `dynamic_fragments` model reconstructs those seven spans as typed halfword pairs and word views, validates fixed bounds and distinct source authentication, and returns no bytes outside the views. e93 runtime ownership is unchanged; there is no guest index cap. Wine source test `target/rom-data-raw-dynamic-domain/model-result.json` PASS: exact 1304 source bytes/seven spans, per-byte lookup/edges, strict JSON roundtrip, shape/source/ROM rejection and unchanged protected inputs. Core-only Windows build `build-result.json` PASS from retained snapshot plus three files; no old proof replay. This closes the bounded source-model selection, not extraction/runtime/native/ordinary integration or the global domain; Linux/USA remain pending. Feature/TODO/inventory/state and [record](../changes/2026-10-31-model-european-dynamic-raw-transfer-fragments.json)/generated changelog updated, `git diff --check` PASS, retention helper PASS zero paths removed. Project-memory check reports concurrent menu and recomp test files outside this record; preserved. Primary Terra/xhigh setting is not independently visible. No live job or remaining action for this bounded model.
 
   First build preparation stopped before copying or compiling because the hub inverse guard removed only one of the two inserted lines. Guard corrected to remove the exact added module plus blank line; no product change or old test result implicated. The corrected build and focused Wine test both passed; sandbox escalation was required for the Wine lock. Unrelated menu WIP and accepted datasets are preserved.
+  Successive managed integration is closed separately above; CLI/native/ordinary verification remains open.
 
-  Next unselected deliverable: managed extraction and typed runtime reads for the seven bounded dynamic fragments. Inspect resource registration, revisioning and byte-wise composition with the prior fixed raw owner before changing them; add a new source-authenticated resource without capping live selectors or claiming uncovered indices. Then perform the smallest affected Wine integration/state-clock check. Keep the old e93 dataset and the closed 1200-frame ordinary case; a source model alone does not prove publication or gameplay use.
 
 - **ROMDATA-01-LOCALIZED-RAW-DYNAMIC-DOMAIN — bounded producer discovery complete; global domain remains open (2026-10-31).** Latest request remains full ROM_DATA_TODO, EUR focus, reduced Wine-only tests, no performance/space constraint; Linux/USA pending. Original consumer computes `(u8(task+2)-4)*4` without an upper bound. Source inspection traced `0cac18`→`0c9194`, the task at `02015744`, the transition via task+3, and setter `0caafc`, which truncates its caller's argument to u8. Exact aligned Thumb-BL census finds 24 callers: six explicit calls supply 7/8/9, and `0664d2`/`066796` load an unconstrained live structure byte; no global cap is justified. Both tables' 7/8/9 rows are source-authenticated: four 64-byte views cover bank+0100..0200 for each of five declared language slots. Two 12-byte row fragments plus five 256-byte prefix fragments total 1304 candidate bytes, with no overlap against 84 e93 manifest resources. These are source candidates, not yet a new managed owner or proof of ordinary execution; other indices, live producers and global extent remain open. Guarded static classifier `target/rom-data-raw-dynamic-domain/{classify.py,source-result.json}` PASS/87 inputs unchanged, no build/game/test/previous proof replay. Feature/TODO/inventory/state and [record](../changes/2026-10-31-classify-european-dynamic-raw-view-producers.json)/generated changelog updated; `git diff --check` PASS; project-memory check reports concurrent menu files outside this record. This bounded investigation is terminal. Primary model/xhigh cannot be independently confirmed.
 
@@ -69,81 +228,6 @@ An open parent never reopens completed children or rejected experiments.
   no global upgrade/config change. No game build/replay/GUI/package/commit/push.
   DBG2-10 remains paused, its outstanding criteria and last observed process
   locators below are unchanged; this request does not authorize resuming them.
-
-- **DBG2-10 — in progress; goal paused (2026-10-30).** Resume selection
-  checkpoint: latest request is the full DBG2 goal;01..09 remain terminal.
-  The goal service now reports `paused`, so no new GUI interaction, build or
-  fixture was started after resumption. Remaining criterion: focused final
-  recording-path/control-publication error GUI proof, then preservation,
-  process closure, documentation/checklist and memory closure. Resume only
-  after the user resumes the goal; do not repeat the accepted scopes below.
-  Implemented18families/16jobs/250mschangedprogress/4096Bdetails+criticaloutcome/
-  originalrequestjob+cause IDs; capture/control/state/record/replay/workbench/
-  script/report/session hooks, existing code/gameplay/audio frontend samples.
-  No audio callback I/O or continuous machine dumps. Dataset/native-cache
-  INPUT attach/load metadata≤8/details512B best-effort, retained in progress/
-  final/fallback/Drop;32KiB IPC read cap. Before-frontend extraction/cache
-  compilation is unobserved; cheat reserved. UI/recent lifecycle samples omit
-  own counts/clocks to prevent feedback.
-  Frozen610sources/53owned overlays from closed09base, excluding concurrent
-  ROM work. Initial macro recursion and two type failures retained; type-fixed
-  warning-free bc4860234c2f8d5484180dee20beb66e8f26f16451cdda6b524609968e291d39
-  passes9distinct Wine cases(core5/preparation2/old-view1/fanout1). New synthetic
-  preparation tests construct4frames/case; no historical fixture restoration.
-  Coverage-label runtime997bc753acf616600e81074bc8eb8aad9d34f0b4b4ec86b009fc20b8f3a5244d
-  used for primary GUI; kept as negative recording-path evidence. Its actual
-  Capture.finish directory was mislabeled manifest. New metadata separates
-  directory from directory/recording.json; b067 production build passes.
-  Replay GUI exposed existing transient control response sharing denials:
-  readonly Server.publication_context now retains only the validated pending
-  outbox request/job context; reply/completion errors remain inside original
-  guard. Validation/dispatch/retry unchanged, unknown input unassociated.
-  Final warning-free Windows GNU610/53 runtime
-  9f4e87397ef248794f1449b93d72587d5e81708a5a0b1b1238f684ac6b986511;
-  control-context-build-result.json. Exactly1affected Wine retry/context test
-  PASS(control-context-test-results.json); the previous9unchanged cases were
-  not repeated. Final source-selection and atomically replaced B/recomp.exe
-  match this build; canonical runtimes retain unit-start hash/mtime.
-  Primary997 GUI CLOSED(primary-gui-close.json): frame1/clock197124/full-state
-  exact/source+variant pins exact. Its six completed scopes are terminal:
-  guard-prefix rejects synthetic gameplay via exact EUR guard(no bypass);
-  controls392UI/294recent/shared291/121evictions+100UI-before-window+1UI-after-
-  restore-freeze, recording1frame/code/audio/graphics/step/save/load0;
-  Undo39/63shared38+1freeze-tail restores full step1 state without execution;
-  recipe38/66shared38,2readonly steps and typed completed result;
-  cancel-old-view94/123shared94, originalreq/job+distinct cause/current_draftfalse,
-  actual cancellation and descendant1580dead; replay54UI/13runtime events,
-  profilePrepare/replay owner IDs,4not-selected dataset/cache phases, worker
-  passed1recorded frame while parent frame1 unchanged. Preserve all results,
-  reports, pinned997runtime/profile and negative field evidence. Partial-prefix
-  wall duration is unknown; publication seconds are separately labeled.
-  Exactly1main emulated frame in this primary variant; no replay rerun needed.
-  Final9f4 focused variant is OPEN at frame0/clock0/next_event_sequence0:
-  target/debug-tools-v2-runtime-events/Recording metadata path proof è.
-  path-fix-gui-live.json: supervisor216275, window14680068, display:2,
-  owned Xvfb183798 kept deliberately. Supervisor uses immutable variant
-  F/recomp.exe, not mutable unit B.exe. Reuses same accepted public09seed/ROM/
-  marker with only own runtime pin/label, no new factory or private input.
-  Helpers path_fix_gui_common.py/path_fix_runtime.py require host escalation
-  for native Xlib. hold-result.exe is compiled but UNRUN: temporarily opens
-  existing query-result.json read-only without share-delete, at most1500ms,
-  to exercise known outbox error correlation; no content mutation.
-  ON RESUME first check surviving files/processes, never blindly rerun setup.
-  Focus only new9f4 criteria: on-error-off collectors, one deliberate short
-  query-result publication lock and successful status reply with exact known
-  request ID on its errors; start recording, exactly1controlled step, stop,
-  verify actual directory and recording.json paths/frames/runtime pin and
-  original owner versus stop cause. Compare frame1fullstate with retained
-  explicit-one-frame-checkpoint.json if valid, then close variant/display.
-  Afterwards host/proc audit,610/53source+canonical/pinned input preservation,
-  final docs/record/TODO10/PSTATE/handoff closure and render/check/diff. Keep
-  current/pinned/negative PEs; retire only verified superseded standalone PEs
-  after closure with receipt. No managed ROM disposable dataset, retention
-  helper is inapplicable; do not retry/rename/bypass it. Native platforms,
-  physical controllers/IME, positive private EUR gameplay/dataset/native input
-  coverage remain unverified. No DS acceptance/package/commit/push.
-  Evidence: target/debug-tools-v2-runtime-events/ and
-  [record](../changes/2026-10-30-connect-debug-runtime-lifecycles.json).
 
 - **DBG2-09 — complete (2026-10-30).** FullDBG2goal;01..08terminal.
   Readonly semanticmenu API independentofgeometry/drawcaches, stablepage/item/
@@ -17214,3 +17298,9 @@ MENU-DEBUG-UNLOCK — TERMINAL PASS / CLOSED (2026-10-31). Default-false av.cfg 
 Selection checkpoint — README-USEFUL-COMMANDS (2026-10-31). Latest user requests useful commands at the end of README and the permanent Debug unlock sequence. HEAD94a177d0 clean; MENU-DEBUG-UNLOCK and previous runtime/GUI/build/ROM outcomes CLOSED and reused without repetition. Missing: a concise user/developer command reference with verified real keyboard/gamepad menu actions, platform-correct build/report/extraction/coverage commands, config paths and exact unlock, plus documentation memory record. Next read launcher interfaces and existing docs, append reference at end of README, run read-only command/help/link and memory checks; no build/runtime/ROM/benchmark or paused goal work.
 
 README-USEFUL-COMMANDS — TERMINAL PASS / CLOSED (2026-10-31). README now ends with practical keyboard/gamepad navigation/confirmation, dedicated shoulder chords, exact UpUpDownDownLeftLeftRightRight Debug unlock and persistent av.cfg/manualtrue-false; platform-correct native Cargo build, Docker EUR extraction/coverage, Docker/Python homepage, memory and Atlas inventory commands. Existing save-state description corrected to Confirm→choose→Confirm. Verified flags/default paths against current launchers and docs; Bash coverage/extraction usage probes exit0, report-home unsupported --help correctly returns2 with documented usage (no report generated); linked local files/anchors checked after fixing one candidate coverage-guide path; both Atlas generators and project-memory checksPASS. No builds, GUI/Wine/Linux tests, report generation, ROM access, performance measurements or paused-goal work. Documentation record2026-10-31-add-readme-useful-commands-and-debug-unlock and generatedCHANGELOG updated; PROJECT_STATE unchanged. Final memory/default+base94a177d0/render and diff checksPASS. No live jobs or remaining action.
+
+Selection checkpoint — PRIVATE-DEBUG-ASSETS-PORTABLE-ZIP (2026-10-31). Latest user requests an extraction script producing a zip which extracts to a runnable portable project folder containing available debug saves, snapshots and generated assets. HEAD918d5bd6 clean; previous README/menu/ROM units CLOSED and paused goals unchanged. Evidence: debug_saves/ready catalog and EUR/USA collection, generated masters and legacy saves/debug-cases; existing dist/debug-tools Windows portable zip and current target/x86_64-pc-windows-gnu/release executables, EUR seed/ROM user-owned. Explicit user request authorizes private local debug save/snapshot archive as a separate ignored export; project release packages and Git remain private-data-free. Scope: curated whole debug_saves + legacy debug-cases plus catalogue, direct EUR save/slot layout and separate portable folder with selected Windows portable base/current runtime; USA retained as existing unverified assets; do not indiscriminately scrape target, Wine prefixes, personal data, ROMs/BIOS or distribute. First-run launcher requires user ROM. Missing: script/wrappers, integrity/path/symlink/no-overwrite verification, manifest+instructions, actual ignored private ZIP and focused Wine/EUR validation, docs/memory. Next inspect collection/catalog and package contracts then implement. No benchmarks/native Linux/USA gameplay or old proofs repeated.
+
+PRIVATE-DEBUG-ASSETS-PORTABLE-ZIP — TERMINAL PASS / CLOSED (2026-10-31). User explicitly requested a private local export of debug saves/snapshots; ordinary release packaging/Git remain private-data-free. scripts/export_debug_assets.py + Bash/PowerShell wrappers build separate ignored Windows portable folder from selected verified existing debug-tools base/current PE64 binaries, complete debug_saves collection incl pre-existing unverifiedUSA, legacy debug-cases,10source-manifest entries,2completed authenticated recordings andF-09 replay. EUR slots copied to Data/saves, complete catalog to Data/config/debug-catalog; debug+extended saves enabled. User ROM/BIOS excluded, first-launch selection required. Reject unsafe paths/symlinks/ROM, verify base/catalog/recording/source hashes and final CRC/SHA, atomic no-overwrite publication; root and inner .gitignore protect extracted private folder. Final dist/debug-assets/FFTARecomp-debug-assets-EUR-20261031-075404.zip SHA256 cb82ec7a2f2edd969a293241333e992fd1a4a4e4c1517ca154fd05570306db7e,313files/104catalog refs/10verified sources/2recordings/F09. Prior candidate 075124 extracted for actual Wine: EUR catalog list19available/0invalid, isolated DS-20 create and GUI Debug catalog pausedPASS, full guest state/clock and original ROM/seed/save unchanged; final ZIP adds verified sources and changes only .gitignore/two instructions/base manifest, all runtime/config/catalog/saves hashes match accepted GUI candidate; no guest step. Final CRC/manifest/no-overwrite/Git-ignorePASS evidence target/private-debug-assets-validation/{final-archive-verification,cli-results,gui/acceptance}.json and logs; script compile/Bash syntax PASS, PS syntax inspected only. No benchmark/nativeWindows/Linux runtime/physicalpad/USA gameplay/package publication; optional old target datasets/experiments deliberately not swept. Accepted/private ZIPs, original inputs, extracted test case and proof retained; no managed ROM disposable copies, known ROM-only retention refusal not repeated. Docs/private_debug_assets.md, README, scripts guide, debug tools, PROJECT_STATE and record2026-10-31-export-private-portable-debug-assets/CHANGELOG complete. Metadata-only/render/Atlas/diff checks PASS; full and --base memory checks currently fail solely for seven concurrently introduced unrecorded ROM implementation paths in crates/gba-core and crates/recomp, observed after clean HEAD918d5bd6 and preserved without attributing or modifying their changes. No remaining exporter/GUI deliverable or live validation process; concurrent ROM work remains owned separately.
+
+LOCAL-ARTIFACT-SWEEP-2026-10-31 — CLOSED. Latest request: clean residual project files including old builds. Inventoried target and checked recorded successful UI-property OBJ runtime validation and preservation; bounded preview and apply retired its two disposable interrupted/moved-resources trees (269 files, 2,257,661,952 allocated bytes), with no skipped paths. Receipt: target/rom-data-ui-property-obj-lists-runtime/artifact-cleanup-2026-10-31.json. Verified removed paths absent; accepted offline dataset, test executables and final result remain. All other such managed copies already retired or absent; old builds without verified supersession, accepted datasets, private exports, evidence and incomplete work retained. No builds or tests rerun. Disk remains near full. git diff --check PASS; project-memory check reports seven pre-existing unrecorded ROM implementation paths belonging to concurrent work, preserved. No next action in this selection.

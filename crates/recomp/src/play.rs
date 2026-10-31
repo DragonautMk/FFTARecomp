@@ -616,6 +616,8 @@ struct PlayApp {
     graphics_report: Option<String>,
     ui_trace: crate::debug_ui::Trace,
     events: crate::debug_events::Hub,
+    event_console: std::rc::Rc<std::cell::RefCell<crate::debug_console::Window>>,
+    event_console_panel: Option<crate::debug_console_panel::Panel>,
     selections: crate::debug_events::Selections,
     lifecycle: crate::debug_lifecycle::Jobs,
     audio_diagnostic: bool,
@@ -1854,14 +1856,32 @@ impl PlayApp {
         let context=self.events_enabled().then(||self.events.clock.current());
         self.mouse_queue.push((event,context));
     }
+    fn toggle_event_console(&mut self, event_loop:&ActiveEventLoop) {
+        if let Some(panel)=self.event_console_panel.as_mut() {
+            if panel.is_visible() { panel.hide(&mut self.event_console.borrow_mut()); }
+            else { panel.show(&mut self.event_console.borrow_mut()); }
+        } else {
+            match crate::debug_console_panel::Panel::open(event_loop,&mut self.event_console.borrow_mut()) {
+                Ok(panel)=>self.event_console_panel=Some(panel),
+                Err(e)=>{self.menu.diagnosis_result(format!("Cannot open event console: {e}"));self.menu_dirty=true;}
+            }
+        }
+    }
+    fn console_key(&self, code:KeyCode)->bool {
+        matches!((self.icfg.event_console_key.as_str(),code),
+            ("F2",KeyCode::F2)|("F3",KeyCode::F3)|("F4",KeyCode::F4)|("F5",KeyCode::F5)|
+            ("F9",KeyCode::F9)|("F10",KeyCode::F10)|("F12",KeyCode::F12))
+    }
     fn events_enabled(&self)->bool {
-        self.ui_trace.enabled()||self.recent.as_ref().is_some_and(|b|b.enabled())
+        self.ui_trace.enabled()||self.recent.as_ref().is_some_and(|b|b.enabled())||self.event_console.borrow().enabled()
     }
     fn ui_event(&mut self,stage:&str,data:serde_json::Value) {
         if !self.events_enabled(){return;}
-        if let Some(event)=self.events.publish(self.machine.bus.frames,self.machine.bus.clock,stage,data){
+        let coalesce={let console=self.event_console.borrow(); !console.enabled() || console.coalesce_polls};
+        if let Some(event)=self.events.publish_with_poll_coalescing(self.machine.bus.frames,self.machine.bus.clock,stage,data,coalesce){
             self.ui_trace.accept(&event);
             if let Some(buffer)=self.recent.as_mut(){buffer.accept(&event);}
+            self.event_console.borrow_mut().accept(&event);
         }
     }
     fn ui_focus(&self)->serde_json::Value {
@@ -1947,7 +1967,7 @@ impl PlayApp {
                     "av":self.av.serialize(),"input_config":self.icfg.serialize(),
                     "active_dataset":self.machine.bus.rom_resources().map(|r|serde_json::json!({"source_sha256":r.source_sha256(),"dataset_sha256":r.dataset_sha256()})),
                     "build":{"revision":env!("FFTA_BUILD_REVISION"),"dirty_at_build":env!("FFTA_BUILD_DIRTY"),"target":env!("FFTA_BUILD_TARGET"),"profile":env!("FFTA_BUILD_PROFILE"),"rom_data_read_audit":cfg!(feature="rom-data-read-audit")}});
-                self.recent=Some(crate::debug_recent::Buffer::start_shared(&root,&self.machine,settings.clone(),origin,scene,self.events.clock.clone())?);self.events.reset_polls();self.selections.reset();
+                self.recent=Some(crate::debug_recent::Buffer::start_shared_observing(&root,&self.machine,settings.clone(),origin,scene,self.events.clock.clone(),Some(std::rc::Rc::downgrade(&self.event_console)))?);self.events.reset_polls();self.selections.reset();
                 self.menu.diagnosis_result("Recent events rolling. Errors freeze/save; use Freeze / save for review.".into());self.menu_dirty=true;return Ok(());
             },
             crate::debug_control::Action::RecentFreeze=>{
@@ -2143,6 +2163,7 @@ impl PlayApp {
                 "fifo":[st.fifo[0].len(),st.fifo[1].len()],"normal":st.normal_audio.is_some(),"muted":st.muted,"epoch":st.epoch},
             "guest_audio":[self.machine.bus.audio_buf.len(),self.machine.bus.psg_tap.len(),self.machine.bus.hle_tap.len(),self.machine.bus.fifo_tap[0].len(),self.machine.bus.fifo_tap[1].len()]});
         value["runtime_lifecycles"]=self.lifecycle.status();
+        value["event_console"]=self.event_console.borrow().status();
         Ok(value)
     }
 
@@ -2657,6 +2678,7 @@ impl PlayApp {
         {
             let mut st = self.streams.lock().unwrap();
             st.dead = false;
+            st.taps_unavailable = !self.machine.bus.tap_channels;
             if let Some(profile) = st.profile.as_mut() {
                 profile.restored_frame(self.machine.bus.frames);
             }
@@ -3225,7 +3247,7 @@ impl PlayApp {
             WindowEvent::CloseRequested => event_loop.exit(),
             // Lost focus: a key held during alt-tab might never deliver its
             // release, so drop the held set defensively (no stuck inputs).
-            WindowEvent::Focused(false) => {self.held.clear();self.game_keys=0x3ff;self.game_mouse.cancel();self.machine.bus.ffta_battle_mouse.cancel();},
+            WindowEvent::Focused(false) => {self.held.clear();self.game_keys=0x3ff;self.game_mouse.cancel();if !self.event_console_panel.as_ref().is_some_and(|p|p.focus_handoff()){self.machine.bus.ffta_battle_mouse.cancel();}},
             WindowEvent::KeyboardInput {
                 event:
                     KeyEvent {
@@ -3269,6 +3291,10 @@ impl PlayApp {
                     let action=self.menu.handle(menu::MenuInput::Cancel,&mut self.av);
                     self.inline_action(action);self.observe_menu("keyboard-cancel");
                     self.held.remove(&code);self.pending_key=None;self.menu_dirty=true;return;
+                }
+                if self.av.debug && !is_synthetic && !repeat && state==ElementState::Pressed && self.console_key(code)
+                    && self.menu.capturing().is_none() && !self.menu.content_text_focus() {
+                    self.held.remove(&code);self.pending_key=None;self.toggle_event_console(event_loop);return;
                 }
                 match state {
                 ElementState::Pressed => {
@@ -3769,6 +3795,7 @@ impl PlayApp {
                     menu::MenuAction::SaveCodeReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::CodeReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::StartAudioCapture=>self.workbench.open(&mut self.menu,menu::DebugTool::Audio),
                     menu::MenuAction::SaveAudioReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
+                    menu::MenuAction::ToggleEventConsole=>self.toggle_event_console(event_loop),
                     menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::ToggleFastForward=>{self.ff_latched=!self.ff_latched;self.menu_dirty=true;},
@@ -4023,7 +4050,7 @@ impl PlayApp {
                 // be allowed to starve.
                 let fill = {
                     let st = self.streams.lock().unwrap();
-                    (st.mixed.len() / 2).min(st.psg.len() / 2)
+                    st.pacing_fill()
                 };
                 if fill >= RING_TARGET {
                     break;
@@ -4042,7 +4069,7 @@ impl PlayApp {
         // the cold-start underruns so they don't report as a defect.
         if !self.primed && self.stream.is_some() && !self.ff_active {
             let st = self.streams.lock().unwrap();
-            if (st.mixed.len() / 2).min(st.psg.len() / 2) >= RING_TARGET {
+            if st.pacing_fill() >= RING_TARGET {
                 drop(st);
                 self.primed = true;
                 if clock_pacing {
@@ -4144,6 +4171,15 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn window_event(&mut self,event_loop:&ActiveEventLoop,id:WindowId,event:WindowEvent) {
+        if self.event_console_panel.as_ref().is_some_and(|panel|panel.owns(id)) {
+            let shortcut=matches!(&event,WindowEvent::KeyboardInput{event:winit::event::KeyEvent{physical_key:PhysicalKey::Code(code),state:ElementState::Pressed,repeat:false,..},is_synthetic:false,..} if self.console_key(*code));
+            let root=input_config::exe_dir();
+            if let Some(panel)=self.event_console_panel.as_mut() {
+                let hide=shortcut || panel.event(&event,&mut self.event_console.borrow_mut(),root.as_deref());
+                if hide {panel.hide(&mut self.event_console.borrow_mut());}
+            }
+            return;
+        }
         let cause=match &event {
             WindowEvent::KeyboardInput{..}=>"keyboard",WindowEvent::Ime(..)=>"ime",
             WindowEvent::CursorMoved{..}=>"mouse-hover",WindowEvent::MouseInput{..}=>"mouse-button",
@@ -4165,10 +4201,14 @@ impl ApplicationHandler for PlayApp {
         self.observe_menu(cause);
     }
     fn about_to_wait(&mut self,event_loop:&ActiveEventLoop) {
+        self.event_console.borrow_mut().begin_tick();
         self.observe_menu("frontend-before");
         self.about_to_wait_observed(event_loop);
         self.observe_menu("frontend-tick");
         self.lifecycle_poll();
+        if let Some(panel)=self.event_console_panel.as_mut() {
+            if let Err(error)=panel.draw_if_due(&self.event_console.borrow()){eprintln!("event console: {error}");}
+        }
     }
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
@@ -4632,6 +4672,9 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
     let benchmark_zoom = benchmark.as_ref().map_or(0, |b| b.zoom);
     if benchmark_zoom > zoom_max { return Err("benchmark zoom exceeds the selected aspect's limit".into()); }
     if let Some(benchmark) = benchmark.as_mut() { benchmark.restore(&mut machine)?; }
+    // Restored snapshots retain their exact serialized tap flag. Route only
+    // host audio around unavailable per-channel taps without rewriting state.
+    streams.lock().unwrap().taps_unavailable = !machine.bus.tap_channels;
     let diagnosis = crate::diagnostics::Request {
         rom: rom_path.into(),
         bios: bios_arg.map(Into::into).or_else(input_config::find_bios),
@@ -4723,6 +4766,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         graphics_report: None,
         ui_trace: Default::default(),
         events,
+        event_console: Default::default(),
+        event_console_panel: None,
         selections: Default::default(),
         lifecycle: Default::default(),
         audio_diagnostic: false,

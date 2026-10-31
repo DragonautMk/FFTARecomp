@@ -355,3 +355,72 @@ windows-boot-intro-localized-full-state-audio.log and Windows build logs.
 Protected original ROM/states/inputs/e21data/cache/loader/canonical stay intact.
 New Linux/USA/native Windows, other indirect sources and wider TODO gates stay
 pending. No performance/startup/RSS/space campaign or AndroidPort change.
+
+## European alias of the existing clan banks
+
+The separate table at `71e5e0` contains five little-endian pointers to the same
+banks used by the existing `clan` selector. Each bank decodes to 2,944 bytes;
+the 20 table bytes do not overlap any source binding in the current EUR e94
+manifest. The banks are already managed, but this table is not. Its source
+SHA256 is `1e9b0d6368856eecea893011919583717b2699959a2cee45f93c8b23f23c60c9`.
+
+An aligned EUR ROM census found five literal references at `023c70`, `03278c`,
+`04fd3c`, `05e770` and `070fcc`; each has one corresponding PC-relative Thumb
+load in its literal range. Six selector sequences, including two in the last
+reader, load the live unsigned byte at `02001f6e`, multiply it by four, read
+the table and call original decoder `054a0`. No fallback or limit for values
+outside the five declared physical slots is implied. Five source windows were
+authenticated against the ROM, including two disassembled under Wine; the
+ROM, current manifest/UI file and windows remained unchanged. Private evidence
+is in `target/rom-data-localized-table-alias/`.
+
+This contract covers the identified direct references, not every indirect
+reader, ordinary reachability or the complete transfer helper ABI. The next
+integration must add the table's bytes while reusing the existing bank objects
+and preserving the old inline selector. Model, managed publication, runtime
+consumption and Linux/USA/native Windows verification remain open. No gameplay
+or performance measurement was performed.
+
+## Managed European clan table alias
+
+The EUR dataset now adds the five pointers at `71e5e0` to the existing
+`graphics.ui-custom-banks` resource as `clan-table-alias`, with no duplicated
+bank objects. The table bytes are authenticated against the original source,
+and their targets are checked against the existing `clan` selector. The alias
+has no fallback; the original guest code still computes addresses from the live
+language byte. Extractor/decoder revisions are e95-d94. The previous inline
+selector, all bank contents and the eight-table usage counters retain their
+existing meaning.
+
+One isolated Windows build and focused Wine test published the dataset and
+verified the other 84 resource records and files against e94. It checked all
+20 alias bytes, boundary reads and mirrors, then compared full serialized state
+and clock for six original interpreter selector prefixes with language values
+0–5 and 255. The five alias pointers were poisoned only in the typed machine.
+A coherently edited UI file was refused without replacing the attached owner or
+changing the machine state. Protected inputs and the frozen source snapshot
+remained unchanged. The first build failed because the new test lacked a trait
+import; the corrected build and Wine test passed. Evidence is retained in
+`target/rom-data-clan-table-alias-retry/`.
+
+This initial prefix comparison used the interpreter and did not establish an
+ordinary game scene. The separate translated-prefix check below covers selected
+native execution; production CLI creation/reuse, positive ordinary use, the
+full helper ABI, Linux, USA and native Windows remain open. No performance
+measurement was performed.
+
+## Translated clan alias selector prefixes
+
+A separate Wine check compiled the six original selector prefixes and compared
+translated execution using the e95 typed owner against the raw-ROM interpreter.
+For 24 cases (language values 0, 4, 5 and 255 at each site), complete serialized
+state and clock matched. The original table bytes were altered in the typed
+machine; its runtime counters confirm 48 alias bytes served by typed callbacks
+for the in-range cases. The accepted e95 dataset, ROM and frozen sources remained
+unchanged. Private build and test evidence is in
+`target/rom-data-clan-table-alias-native/`.
+
+This proves the selected instruction prefixes, not the complete decoder or
+transfer ABI, every language in translated execution, or ordinary gameplay.
+Production CLI, positive ordinary use, Linux, USA and native Windows remain
+pending; no performance measurement was performed.

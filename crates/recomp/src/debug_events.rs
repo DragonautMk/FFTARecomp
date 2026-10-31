@@ -99,10 +99,14 @@ pub(crate) struct Hub { pub clock: Clock, poll: Option<Value>, pad: Option<Value
 impl Hub {
     pub fn new(session: Session) -> Self { Self { clock: Clock::new(session), poll: None, pad: None } }
     pub fn reset_polls(&mut self) { self.poll = None; self.pad = None; }
+    #[cfg(test)]
     pub fn publish(&mut self, frame: u64, clock: u64, stage: &str, data: Value) -> Option<Event> {
+        self.publish_with_poll_coalescing(frame,clock,stage,data,true)
+    }
+    pub fn publish_with_poll_coalescing(&mut self, frame: u64, clock: u64, stage: &str, data: Value, coalesce: bool) -> Option<Event> {
         let previous = match stage { "mapped-poll" => Some(&mut self.poll), "controller-poll" => Some(&mut self.pad), _ => None };
         if let Some(previous) = previous {
-            if previous.as_ref() == Some(&data) { return None; }
+            if coalesce && previous.as_ref() == Some(&data) { return None; }
             *previous = Some(data.clone());
         }
         Some(self.clock.event(frame, clock, stage, data))
@@ -142,8 +146,8 @@ pub(crate) fn coverage() -> Value {
         "ordering":"event_sequence/host_elapsed_ns are common publication order/time since run start; sequence/host_ms are legacy collector-local aliases. No cross-process or guest instruction chronology",
         "producers":[
             {"id":"frontend.keyboard","state":"supported","scope":"Winit physical keyboard tokens while a collector is active; repeat/synthetic flags retained"},
-            {"id":"frontend.xinput","state":"conditional","scope":"Windows XInput token poll changes only; simulated backend is not physical hardware acceptance"},
-            {"id":"frontend.mapping","state":"supported","scope":"Changed mapped polls; held/repeated identical polls coalesced before fanout"},
+            {"id":"frontend.xinput","state":"conditional","scope":"Windows XInput token polls; identical polls normally coalesced, optional live-console switch emits each poll within collector caps. Simulated backend is not physical hardware acceptance"},
+            {"id":"frontend.mapping","state":"supported","scope":"Mapped polls; identical polls normally coalesced before fanout, optional live-console switch emits each poll within collector caps"},
             {"id":"frontend.mouse","state":"supported","scope":"Winit button/wheel tokens; hover emits semantic changes only. Queued pointer dispatch retains request context"},
             {"id":"frontend.editor","state":"conditional","scope":"Winit IME preedit/commit tokens and effective bounded editor text/focus changes; physical IME acceptance remains platform-specific"},
             {"id":"frontend.routing","state":"supported","scope":"Existing shortcut/text/modal/debounce/remap/editor/pointer consumption boundaries; raw tokens remain distinct from mapped and consumed observations"},
@@ -159,7 +163,7 @@ pub(crate) fn coverage() -> Value {
             {"id":"frontend.error","state":"partial","scope":"Existing recent_error and correlated action refusal sites; not every runtime error path"}
         ],
         "missing":["Raw Gilrs and DirectInput token hooks; effective mapped navigation and semantic changes remain observed","Touch/pen/other input routes absent from the frontend","Initial CLI extraction/cache compilation before frontend collection; worker attach/load is separately observed","CPU instruction chronology, native block interiors, all guest writes/scenes/scripts","Raw audio callback event stream, future cheat lifecycle, events before capture or after freeze"],
-        "consumers":{"ui":"Explicit start;1024events/30seconds/600guest-frame events/2MiB report; own stop reason","recent":"Explicit start;1024events/256KiB total/8KiB event; eviction/oversize counters; freeze/error policy"},
+        "consumers":{"ui":"Explicit start;1024events/30seconds/600guest-frame events/2MiB report; own stop reason","recent":"Explicit start;1024events/256KiB total/8KiB event; eviction/oversize counters; freeze/error policy","console":"Optional live window;1024events/256KiB serialized/8KiB event; independent view pause/filter and eviction/oversize counters"},
         "correlation":"Nullable request_id/job_id; absence means no observed request context. A capture started by an action can retain its result without the preceding request. Metadata fanout never calls an action handler"})
 }
 

@@ -26,6 +26,10 @@ Le scelte e le viste del selettore sono salvate nella radice config e seguono
 lo spostamento portable, con pin e spiegazioni per file mancanti/modificati.
 Console e cheat seguono il nuovo TODO.
 
+Per creare una copia portable **privata** con la raccolta di debug locale e gli
+slot EUR già pronti, usare lo [script di esportazione asset](private_debug_assets.md).
+Questa esportazione è separata dai pacchetti di distribuzione senza dati privati.
+
 ## Prerequisiti e cartella spostabile
 
 Estrarre tutto il pacchetto in una cartella scrivibile, con spazi/Unicode ammessi.

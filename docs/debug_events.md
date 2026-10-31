@@ -1,10 +1,10 @@
 # Eventi comuni — DBG2-08
 
 Le osservazioni host già disponibili usano un solo punto di pubblicazione nel
-frontend. Quando la traccia UI o il registro recente sono attivi, un evento viene
-creato una volta e consegnato ai due collector. Nessun observer invoca gli handler
-del menu o del controllo locale. Con entrambi spenti non si costruiscono payload
-input/focus né si serializzano eventi. Il pannello live resta lavoro DBG2-11.
+frontend. Quando la traccia UI, il registro recente o la console sono attivi, un evento
+host viene creato una volta e consegnato ai consumer attivi. Nessun observer
+invoca gli handler del menu o del controllo locale. Con tutti spenti non si
+costruiscono payload input/focus né si serializzano eventi.
 
 Ogni riga mantiene `stage`, `data`, `frame` e `clock` e aggiunge:
 
@@ -49,7 +49,7 @@ annullamento o timeout. La query `status` resta silenziosa.
 mappa versionata dei produttori supportati, condizionali, parziali e mancanti.
 `status.event_clock` espone identità e prossimo numero. Restano mancanti gli
 hook raw Gilrs/DirectInput, i percorsi touch/pen assenti dal frontend, tutti i
-cicli di vita strumenti/job/sessione (DBG2-10), gli interni dei
+dati dei cicli di vita non strumentati, gli interni dei
 blocchi native, la cronologia CPU completa e callback audio/cheat futuri.
 Un produttore non registrato è marcato `unknown/unregistered`.
 
@@ -130,12 +130,78 @@ La guida è nella lista pubblica e nei COPY/ignore Docker espliciti;10test Pytho
 su archivi sintetici passano, senza generare una release o ricompilare Docker.
 Le prove non attestano Windows/Linux nativi, hardware fisico o IME reale.
 
-## Runtime e strumenti — DBG2-10 in verifica
+## Finestra eventi live — DBG2-11
+
+Aprire «Console eventi» nella sezione Debug delle catture, oppure usare F9
+quando Debug è abilitato. `key.event_console` in `input.cfg` accetta F2, F3,
+F4, F5, F9, F10 o F12; il valore predefinito è F9. La console è una finestra
+host separata: aprirla non mette in pausa il gioco. Nasconderla interrompe la
+raccolta e conserva la finestra già raccolta; riaprirla riprende la raccolta.
+Gli eventi accaduti mentre era nascosta non sono ricostruiti.
+
+La finestra ha un proprio buffer mobile di massimo1024eventi, 256KiB di JSON
+serializzato e 8KiB per evento. Mostra intervallo corrente, conteggi espulsi e
+oversize e stato del collector anche mentre la vista è in pausa. P congela o
+riprende soltanto la vista; frecce e PagSu/PagGiù scorrono, Fine torna al
+seguito automatico. C e L ciclano categoria e livello; `/` modifica la ricerca,
+Invio termina la modifica. I filtri non cambiano il buffer originale. Ctrl+C
+copia la vista JSON e Ctrl+S la salva esplicitamente in `Data/config/event-console`
+della copia, massimo32file. Escape nasconde la finestra. L'export conserva gli
+ID canonici, i filtri, lo stato del collector e la dichiarazione di copertura.
+
+A alterna l'accorpamento dei poll identici XInput/rimappati: inizialmente è
+attivo; disattivarlo pubblica ogni poll osservato verso i consumer attivi e può
+raggiungere i loro cap più rapidamente. Gli aggregati di letture guest restano
+per frame: non esiste qui una cronologia interna delle istruzioni. I produttori
+esclusivi del registro recente compaiono solo quando quel collector è attivo.
+«Tutte» include le categorie effettivamente pubblicate, comprese `unknown`;
+non abilita hook non strumentati. Lo snapshot della vista in pausa e il buffer
+live sono distinti e ciascuno rimane limitato.
+
+Build Windows GNU e prove Wine sintetiche verificano menu, shortcut/focus,
+filtri, pausa, scorrimento, esportazione e copia reale negli appunti, con stato
+completo/frame/clock invariati. Le prove usano Xvfb e input simulato; Windows
+nativo, Linux nativo e periferiche fisiche non sono verificati. I limiti e il
+costo in uso prolungato rimangono il lavoro successivo DBG2-12.
+
+## Limiti e costo — DBG2-12
+
+Il collector accetta al massimo32eventi per ciclo del frontend; quelli oltre il
+budget sono contati separatamente dalle espulsioni e dagli eventi troppo grandi.
+Il buffer live limita a1024righe, 256KiB di JSON e 1MiB complessivo di testo
+JSON più indice di ricerca; ogni evento ha un tetto di8KiB. La vista congelata
+condivide le righe immutabili: può conservare fino a un'ulteriore finestra
+limitata mentre quella live ruota. Questi sono limiti sui dati e sulle righe,
+non una misura esatta degli overhead dell'allocatore o della finestra grafica.
+Il disegno, massimo quattro volte al secondo, decodifica solo le righe visibili;
+filtri ed export non mutano il log. La pausa della vista, la raccolta e la pausa
+del gioco restano distinti.
+
+Una prova sintetica Wine di128.000 osservazioni in2000cicli ha contato64.000
+scarti per budget e rispettato i limiti, mantenendo invariata la vista congelata;
+il tempo osservato è426ms per il test, non un benchmark del gioco. Due sessioni
+isolate con lo stesso seed e dieci frame controllati hanno prodotto stato completo,
+registri e clock identici con console spenta e accesa. La durata misurata include
+il processo client e non stabilisce un costo prestazionale generale.
+
+Se uno snapshot ha disattivato i tap audio separati, il frontend usa la miscela
+fedele disponibile per pacing e output senza modificare lo snapshot o la scelta
+Enhanced salvata. Una breve osservazione Wine con console aperta e vista congelata
+ha mostrato code audio limitate e nessun messaggio di scarto, come il confronto
+con console spenta. Restano non verificati qualità percepita, hardware fisico e
+comportamento prolungato su Windows o Linux nativi.
+
+## Runtime e strumenti — DBG2-10
 
 `runtime-event` aggiunge famiglia, fase, esito e dettagli limitati sul medesimo
 clock. `event_coverage.runtime_families` descrive origine, frequenza, requisiti e
 scope di18famiglie; cheat resta riservata finché esiste un handler verificato.
 La disponibilità degli hook non equivale a validazione hardware o parità guest.
+
+`start_observed` indica che un consumer era attivo alla sorgente, non garantisce
+la conservazione del record oltre i limiti del consumer. Gli errori di
+pubblicazione del canale locale mantengono il contesto della sola risposta
+validata in attesa; query di stato riuscite restano silenziose.
 
 Il registro mantiene al massimo16job attivi, con request/job ID iniziali anche
 quando cambia la vista. Annullamenti e altri interventi mantengono il contesto
@@ -178,5 +244,14 @@ implicito: salvare il prefisso desiderato esplicitamente prima di uscire.
 Il gameplay inspector continua a richiedere la ROM europea autenticata; una ROM
 sintetica rifiutata non viene reinterpretata come modello guest verificato.
 
-Sono in corso le prove DBG2-10: build Windows senza warning e9casi Wine mirati
-passano; GUI, conservazione finale e chiusura della voce restano da completare.
+Le prove sulla build Windows GNU sotto Wine includono dieci casi mirati e le
+interazioni di sessione, passi, stato, registrazione, catture, ricetta,
+annullamento e replay. Il blocco temporaneo della risposta di controllo ha
+prodotto errori associati all'ID effettivo della richiesta; il retry è riuscito.
+Il manifest della registrazione punta al file `recording.json` esistente,
+separato dalla sua directory. Il replay ha osservato le fasi dataset/cache non
+selezionate; non prova il caricamento di input privati. Un frame controllato
+ha conservato lo stato completo atteso. Dopo la revisione Clan Atlas una nuova
+build Windows e dieci test Wine sono passati; avvio/arresto registrazione dal
+menu e passo controllato mantengono identità e stato attesi. Windows nativo,
+controller fisici e IME non sono verificati.

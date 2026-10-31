@@ -1,4 +1,4 @@
-//! Bounded dynamic-transfer fragments; no guest selector cap or runtime owner.
+//! Bounded dynamic-transfer fragments; guest selector arithmetic remains unchanged.
 use super::{BankView, SourceSpan};
 use crate::ffta_rom;
 use serde::{Deserialize, Serialize};
@@ -87,6 +87,20 @@ pub fn from_rom(rom: &[u8]) -> Result<Fragments, String> {
     let bytes: Vec<u8> = data.source_spans()?.into_iter().flat_map(|v| v.1).collect();
     if ffta_rom::digest(&bytes) != SOURCE_SHA256 { return Err("Dynamic fragment source fingerprint mismatch".into()); }
     Ok(data)
+}
+
+pub struct Catalog {
+    pub decoded: Fragments,
+    pub sources: Vec<super::SourceRange>,
+}
+impl Catalog {
+    pub fn from_rom(rom: &[u8]) -> Result<Self, String> {
+        let decoded = from_rom(rom)?;
+        let sources = decoded.source_spans()?.into_iter().map(|(offset, bytes, role)| super::SourceRange {
+            offset, length: bytes.len() as u32, sha256: ffta_rom::digest(&bytes), role,
+        }).collect();
+        Ok(Self { decoded, sources })
+    }
 }
 
 #[cfg(test)]

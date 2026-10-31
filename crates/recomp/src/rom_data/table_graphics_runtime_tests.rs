@@ -579,9 +579,9 @@ fn bus_lifecycle(rom: &[u8]) -> serde_json::Value {
     let before = owner.table_graphics_stats().unwrap();
     assert_eq!(
         (RT_API.read32)(pointer, 0x0871e5df),
-        u32::from_le_bytes([rom[0x71e5df], 0xef, 0xef, 0xef])
+        u32::from_le_bytes(rom[0x71e5df..0x71e5e3].try_into().unwrap())
     );
-    assert_eq!(m.bus.read8(0x0871e5e0), 0xef);
+    assert_eq!(m.bus.read8(0x0871e5e0), rom[0x71e5e0]);
     assert_eq!(
         owner.table_graphics_stats().unwrap().source_bytes,
         before.source_bytes + 1
@@ -676,11 +676,11 @@ fn european_table_graphics_managed_native_and_lifecycle() {
             source.manifest.decoder_revision,
             source.manifest.resources.len()
         ),
-        (92, 91, 83)
+        (95, 94, 85)
     );
     extract(&dataset(), &mut source).unwrap();
-    assert_eq!(fs::read_dir(dataset()).unwrap().count(), 84);
-    assert_eq!(source.manifest.coverage, prior.coverage);
+    assert_eq!(fs::read_dir(dataset()).unwrap().count(), 86);
+    assert_eq!(&source.manifest.coverage[..prior.coverage.len()], prior.coverage);
     let slot = source
         .manifest
         .resources
@@ -699,7 +699,7 @@ fn european_table_graphics_managed_native_and_lifecycle() {
         }
     }
     let entry = &source.manifest.resources[slot];
-    assert_eq!(entry.sources.len(), 106);
+    assert_eq!(entry.sources.len(), 111);
     for source in &prior.resources[slot].sources {
         assert!(entry.sources.contains(source));
     }
@@ -712,9 +712,12 @@ fn european_table_graphics_managed_native_and_lifecycle() {
         &fs::read(root.parent().unwrap().join("independent-ui-graphics.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(current, expected);
+    let mut without_alias = current.clone();
+    let alias = without_alias.selectors.pop().unwrap();
+    assert_eq!(alias.id, "clan-table-alias");
+    assert_eq!(without_alias, expected);
     assert_eq!(current.banks.len(), 56);
-    assert_eq!(current.selectors.len(), 10);
+    assert_eq!(current.selectors.len(), 11);
     assert_eq!(current.selectors[..2], previous.selectors);
     assert_eq!(current.shared_obj_banks, previous.shared_obj_banks);
     for bank in &previous.banks {
@@ -725,7 +728,7 @@ fn european_table_graphics_managed_native_and_lifecycle() {
         &fs::read(root.parent().unwrap().join("expected-ui-sources.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(entry.sources, expected_sources);
+    assert_eq!(&entry.sources[..expected_sources.len()], expected_sources);
     let interrupted = root.join("interrupted");
     fs::create_dir(&interrupted).unwrap();
     let mut reached = false;

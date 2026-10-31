@@ -70,8 +70,10 @@ Follow [local artifact retention](docs/development/LOCAL_ARTIFACTS.md). After a
 managed/native validation unit succeeds and its preservation checks/results are
 recorded, run `python3 scripts/local_artifacts.py complete target/<unit> --apply`.
 This retires only the disposable `interrupted` and `moved resources` copies;
-keep the accepted offline dataset, source preimages, logs/results and current
-executables. Failed or live units must retain their diagnostic fixtures.
+retain the current dataset needed by active work, source preimages, logs/results
+and current executables. Historical accepted datasets are not permanent: review
+and retire superseded, reproducible copies as described in the retention guide.
+Failed or live units must retain their diagnostic fixtures.
 Retire old unit-local executables only after verifying they are superseded.
 Future preservation maps should guard the selected unit's real inputs, rather
 than require every historical mutable test copy to remain present forever.

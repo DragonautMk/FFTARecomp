@@ -15,6 +15,7 @@ mod canvas;
 pub mod diagnostics;
 mod font;
 pub mod fps;
+pub mod event_console;
 mod controller_icons;
 mod menu_icons;
 mod theme;
@@ -96,6 +97,7 @@ pub enum MenuAction {
     SaveAudioReport,
     StartUiTrace,
     SaveUiReport,
+    ToggleEventConsole,
     InspectPC,
     DebugStep(u32),
     DebugResume,
@@ -222,6 +224,7 @@ enum Row {
     SaveAudioReport,
     StartUiTrace,
     SaveUiReport,
+    ToggleEventConsole,
     CaptureGraphics,
     InspectPC,
     DebugStepOne,
@@ -396,7 +399,7 @@ fn rows_of(page: Page) -> &'static [Row] {
         Page::CliReference => &[Row::Back],
         Page::Saves => clan_atlas::SAVES_ROWS,
         Page::System => clan_atlas::SYSTEM_ROWS,
-        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ScriptLibraryMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
+        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ScriptLibraryMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::ToggleEventConsole, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
         Page::DebugTools => &[Row::DebugTool(DebugTool::Replay),Row::DebugTool(DebugTool::Audit),Row::DebugTool(DebugTool::Capture),Row::DebugTool(DebugTool::Compare),Row::DebugTool(DebugTool::Step),Row::DebugTool(DebugTool::Inspect),Row::DebugTool(DebugTool::Audio),Row::DebugTool(DebugTool::Code),Row::DebugTool(DebugTool::Gameplay),Row::DebugTool(DebugTool::Recent),Row::DebugTool(DebugTool::Graphics),Row::DebugTool(DebugTool::Issue),Row::Back],
         Page::ScriptLibrary => &[Row::DebugTool(DebugTool::Homepage), Row::DebugTool(DebugTool::CampaignReport), Row::DebugTool(DebugTool::ArtifactPreview), Row::DebugTool(DebugTool::Recipe), Row::DebugTool(DebugTool::GuestScripts), Row::Back],
         Page::DebugTool => &[Row::Back],
@@ -455,6 +458,7 @@ impl Row {
             Row::StartAudioCapture => "Start audio capture",
             Row::SaveAudioReport => "Save audio report",
             Row::StartUiTrace => "Start UI / input trace",
+            Row::ToggleEventConsole => "Console eventi",
             Row::SaveUiReport => "Save UI / input report",
             Row::InspectPC => "Inspect PC / registers",
             Row::DebugStepOne => "Step 1 frame (F7)",
@@ -1155,6 +1159,7 @@ impl Menu {
                 Row::CreateIssueReport=>{if self.debug_session{Some(MenuAction::CreateIssueReport)}else{self.debug_message="Open an isolated copy before issue reporting.".into();None}},
                 Row::StartCodeTrace|Row::SaveCodeReport=>{if self.debug_session{Some(if row==Row::StartCodeTrace{MenuAction::StartCodeTrace}else{MenuAction::SaveCodeReport})}else{self.debug_message="Open an isolated copy before code tracing.".into();None}},
                 Row::StartAudioCapture|Row::SaveAudioReport=>{if self.debug_session{Some(if row==Row::StartAudioCapture{MenuAction::StartAudioCapture}else{MenuAction::SaveAudioReport})}else{self.debug_message="Open an isolated copy before audio capture.".into();None}},
+                Row::ToggleEventConsole=>Some(MenuAction::ToggleEventConsole),
                 Row::StartUiTrace|Row::SaveUiReport=>{if self.debug_session{Some(if row==Row::StartUiTrace{MenuAction::StartUiTrace}else{MenuAction::SaveUiReport})}else{self.debug_message="Open an isolated copy before UI tracing.".into();None}},
                 Row::CaptureGraphics=>{if self.debug_session{Some(MenuAction::CaptureGraphics)}else{self.debug_message="Open an isolated copy before graphics capture.".into();None}},
                 Row::InspectPC => {
@@ -1577,7 +1582,7 @@ fn value_of(
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
         Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
+            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardToggle => if av.ff_speed>0 { "Session".into() } else { "Unavailable".into() },
@@ -1725,7 +1730,7 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             Some(Changed::Debug)
         },
         Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::FastForwardToggle | Row::CliReference => None,
         Row::Menu => None,
@@ -1896,6 +1901,14 @@ fn response_mode(av: &AvConfig) -> ResponseMode {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn event_console_is_an_explicit_debug_menu_action() {
+        let mut av=input_config::AvConfig::default();let mut menu=super::Menu::unlocked_for_test(true,true);
+        menu.atlas_section(super::clan_atlas::Domain::Debug,4);
+        at(&mut menu,super::Row::ToggleEventConsole);
+        assert_eq!(menu.handle(super::MenuInput::Confirm,&mut av),Some(super::MenuAction::ToggleEventConsole));
+    }
     use super::*;
     #[test]
     fn debug_focus_reports_actual_dropdown_option_and_existing_geometry() {

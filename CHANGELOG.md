@@ -26,6 +26,90 @@ Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md)
 
 [Change record](docs/changes/2026-10-31-verify-european-raw-transfers-boot.json)
 
+## 2026-10-31 — Verify European dynamic raw fragments in the production CLI
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Report the dynamically selected raw fragment resource identity at runtime and describe it in the extraction catalog.
+
+**Validation**
+
+- An isolated Windows production build and one Wine create/reuse/one-frame startup sequence pass: 85 resource identities match, all 86 generated files match the accepted e94-d93 dataset and all 88 managed files stay unchanged on reuse and startup.
+- The frozen source and guarded ROM, seed, native cache, accepted dataset and canonical executable remain unchanged; no performance measurement.
+
+**Limitations**
+
+- This establishes registration and loading, not dynamic fragment use in ordinary gameplay or original dynamic native execution. Global selector domain and Linux, USA and native Windows checks remain open.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-dynamic-raw-cli.json)
+
+## 2026-10-31 — Verify European dynamic transfer routine and native dispatch
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add a focused Wine verification of the original dynamic selector routine and queue executor against the managed fragment owner and translated dispatch.
+
+**Validation**
+
+- Thirty isolated cases cover selectors 7, 8 and 9, both table branches and five language slots; original queue sources, destinations and 64-byte DMA transfers match, with complete state and guest clock equal across raw interpreter, typed interpreter and typed native execution.
+- All 1304 dynamic source bytes were poisoned in both typed arms; guarded ROM, accepted dataset, TCC, executables and selected source inputs stayed unchanged. One isolated Windows test build and one Wine filter passed.
+
+**Limitations**
+
+- Isolated cases do not establish ordinary gameplay reachability, full selector domain, full helper ABI or direct-native coverage for every instruction. Linux, USA and native Windows remain pending; no performance measurement.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-dynamic-original-routine.json)
+
+## 2026-10-31 — Verify translated European clan alias selectors
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Verify original translated selector prefixes against the typed European clan graphics table alias.
+
+**Validation**
+
+- One isolated Windows build and one Wine filter compare six original prefixes at four language values with raw interpreter complete state and clock; 48 typed alias bytes served despite poisoned ROM table.
+- The accepted e95 dataset, ROM and 683 frozen source hashes remain unchanged; no old publication proof was repeated.
+
+**Limitations**
+
+- This covers selected prefixes, not the complete decoder/transfer ABI or ordinary gameplay. Production CLI, Linux, USA and native Windows remain unverified; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-clan-alias-native.json)
+
+## 2026-10-31 — Trace European dynamic transfer dispatcher lifecycle
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Document the authenticated callback registration and packed flag needed by the European dynamic transfer dispatcher, and the bounded Area List observation.
+
+**Validation**
+
+- Thirteen original instruction and four fused-call pins pass; fourteen preserved EUR checkpoints have the registration bit clear.
+- An isolated Windows build and one 240-frame Wine observation of the existing Area List route pass input preservation checks, sample the selection comparison once and record no dynamic-span bus requests or dropped events.
+
+**Limitations**
+
+- Dispatch sampling can miss intra-block changes and the audit excludes folded constants and unselected host reads. Positive ordinary use, full state/clock comparison, selector domain, Linux, USA and native Windows remain open; no performance measurement.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-dynamic-dispatch-lifecycle.json)
+
 ## 2026-10-31 — Model bounded European dynamic raw transfer fragments
 
 Type: added. Platforms: Windows.
@@ -47,6 +131,27 @@ Type: added. Platforms: Windows.
 Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-31-model-european-dynamic-raw-transfer-fragments.json)
+
+## 2026-10-31 — Investigate European dynamic transfer reachability
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Identify the original dynamic transfer guest gate and its enabling and disabling callback instructions, and document the remaining ordinary-use criterion.
+
+**Validation**
+
+- Fourteen authenticated EUR catalog snapshots show no ready selector or gate; decoded DS20 registers and IWRAM match a retained Wine inspection. An initially invalid region-hash scan was corrected and retained separately.
+- An isolated Windows audit build and one Wine observation of the existing 320-frame Party Unit route show no dynamic-span bus reads or sampled target dispatch hits, with zero dropped events and protected inputs unchanged.
+
+**Limitations**
+
+- This bounded negative cannot prove global absence: native dispatch sampling may miss intra-block changes and bus audit excludes folded constants and unselected host reads. Ordinary positive use and full-state/clock comparison remain open; Linux, USA and native Windows pending; no performance measurement.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-investigate-european-dynamic-ordinary-reachability.json)
 
 ## 2026-10-31 — Hide debug menus until a persistent directional unlock or config override
 
@@ -78,6 +183,35 @@ Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [debug_tools.md](d
 
 [Change record](docs/changes/2026-10-31-hide-debug-until-persistent-menu-unlock.json)
 
+## 2026-10-31 — Export a private portable Windows debug asset collection
+
+Type: added. Platforms: Windows portable archive; built locally with Python and validated through Wine.
+
+**Changes**
+
+- Add a private ZIP exporter and Windows/Bash entry points using the existing Windows debug-tools base and selected current executables; set up portable EUR working saves and the complete debug catalog with Debug and Extended saves enabled.
+- Collect local debug_saves and legacy cases, verified source-manifest files, selected complete recordings and F-09 replay; retain USA as existing unverified content. Reject ROM/BIOS, symlinks and unsafe paths, verify catalog and recording hashes, portable manifest, ZIP CRC and SHA-256; publish a new output without overwriting.
+- Provide local instructions, explicit input overrides, an archive inventory and per-file hashes. Keep ordinary release packaging and Git free of private data.
+- Ignore the extracted FFTARecomp-debug-EUR folder in the checkout and place a restrictive .gitignore inside the private portable folder to protect assets from accidental Git additions.
+
+**Validation**
+
+- Created ignored private ZIP with313 files,104 verified catalog assets,10 verified original sources,2 completed recordings and F-09 replay. Final archive CRC verified and runtime/config/catalog/saves hashes match the previously extracted GUI-tested archive; only extra verified sources, the Git ignore and instructions/manifests differ.
+- Wine: extracted Windows runtime successfully listed the EUR catalog with19 available entries and created an isolated DS-20 case. Its pinned runtime opened the catalog GUI while paused; full guest state/clock and original private inputs remained unchanged.
+- Verified no-overwrite refusal, Python syntax and Bash wrapper syntax; the final archive excludes ROM and BIOS. Project memory, Atlas inventories and diff checks are recorded separately.
+- Confirmed the extracted-folder path is ignored by Git and the archive contains a restrictive .gitignore; checked final ZIP against the previously Wine-tested payload.
+- Metadata-only memory/render and Atlas inventory checks pass; full and base memory checks flag only seven unrelated concurrent ROM implementation paths whose work was not modified or attributed to this export.
+
+**Limitations**
+
+- Requires the selected Windows portable base and compatible current Windows binaries; extraction of the ZIP alone does not provide a ROM or BIOS. Native Windows, Linux execution, physical controllers and USA gameplay remain unverified.
+- The export includes explicitly selected collections and completed recordings, not every transient experiment or all target directories. Local evidence and private ZIP remain ignored; no publication, benchmark, guest stepping or release package.
+- The full working-tree memory check is currently nonzero because concurrent ROM changes need their own change record; the export record covers its own implementation files.
+
+Documentation: [private_debug_assets.md](docs/private_debug_assets.md), [debug_tools.md](docs/debug_tools.md), [debug_catalog.md](docs/debug_catalog.md).
+
+[Change record](docs/changes/2026-10-31-export-private-portable-debug-assets.json)
+
 ## 2026-10-31 — Default menu transparency to10% and clarify sidebar focus with input-specific controls
 
 Type: changed. Platforms: Shared desktop menu; Windows GNU release validated through Wine.
@@ -107,6 +241,48 @@ Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md).
 
 [Change record](docs/changes/2026-10-31-default-menu-transparency-and-contextual-controls.json)
 
+## 2026-10-31 — Publish and consume bounded European dynamic raw transfer fragments
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish a separately authenticated managed resource for seven bounded dynamic selector and bank fragments and compose typed bus reads with existing owners without limiting guest selectors.
+
+**Validation**
+
+- Windows test build and one corrected focused Wine test pass 1304 source bytes, boundary reads, prior-owner composition, one DMA16 complete-state/clock comparison and altered-resource rejection; guarded ROM, old dataset and sources unchanged.
+- The first Wine attempt found a missing final-bank source page, corrected before the passing retry; a full disk was relieved using the retention helper on a previously completed unit and relocated executables were restored.
+
+**Limitations**
+
+- Production CLI, original dynamic routine and native execution, positive ordinary use and the global selector domain remain open; Linux, USA and native Windows checks are pending. No performance measurement.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-consume-european-dynamic-raw-fragments.json)
+
+## 2026-10-31 — Consume European clan graphics table alias
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add five authenticated clan table pointer bindings to the existing UI graphics resource without duplicating banks, preserving live guest selector arithmetic.
+
+**Validation**
+
+- Isolated Windows build and one focused Wine check verify managed publication, unchanged other 84 resources, all 20 pointer bytes and mixed-width boundaries, and 42 original interpreter prefixes against raw complete state and clock.
+- A coherent changed UI file is refused without replacing the attached owner or changing state; ROM, accepted dataset, runtime, test inputs and frozen sources remain unchanged. First test build lacked a trait import and was corrected before the passing build.
+
+**Limitations**
+
+- Production CLI, translated native execution, positive ordinary use, Linux, USA and native Windows remain unverified; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-consume-european-clan-table-alias.json)
+
 ## 2026-10-31 — Classify bounded European dynamic raw transfer producers
 
 Type: docs. Platforms: Windows.
@@ -127,6 +303,147 @@ Type: docs. Platforms: Windows.
 Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-31-classify-european-dynamic-raw-view-producers.json)
+
+## 2026-10-31 — Classify European clan bank table alias
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Identify the unowned European 20-byte table that aliases five existing managed clan banks and document its six original selector sequences.
+
+**Validation**
+
+- Five authenticated original source windows and an aligned literal census identify five direct references and six raw-language selection and decoder sequences; eight source and dataset inputs remain unchanged.
+- Two source windows were disassembled with the existing Windows executable under Wine; no gameplay or previous acceptance was repeated.
+
+**Limitations**
+
+- Indirect references, ordinary use, model and runtime ownership, Linux, USA and native Windows remain open; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-clan-table-alias.json)
+
+## 2026-10-31 — Bound local artifact retention and retire superseded datasets
+
+Type: changed. Platforms: Local development.
+
+**Changes**
+
+- Keep current datasets and active inputs instead of retaining every historical generated dataset; review selected superseded datasets, Wine prefixes and rebuildable caches with identity checks, activity coordination and receipts.
+
+**Validation**
+
+- Reviewed three explicit plans and retired 89 superseded same-ROM EUR datasets from completed or successful managed and CLI scopes; retained the current e94-d93 dataset and the private debug archive.
+
+**Limitations**
+
+- Old revisions are no longer available at retired paths and require regeneration or an existing archive; other artifacts with uncertain dependencies and current work remain untouched.
+
+Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-31-bound-local-artifact-retention.json)
+
+## 2026-10-31 — Bound event console work and handle unavailable audio taps
+
+Type: changed. Platforms: Windows GNU build, Wine.
+
+**Changes**
+
+- Bound console serialization to32 accepted events per frontend tick, count budget drops, retain encoded events with bounded indexed text, share immutable entries with the paused snapshot and decode only visible rows during redraw.
+- When a restored snapshot disables channel taps, host pacing and callback use available faithful mixed audio instead of waiting forever for absent PSG data; requested enhanced preference and serialized snapshot remain unchanged. Sync availability at frontend seed load and state restoration.
+
+**Validation**
+
+- Windows GNU test and production builds pass without compiler messages. Wine3model tests and1direct-recent identity test pass. A new synthetic128000-event/2000-tick burst counts64000budget drops and63549evictions, remains within serialized/index limits and keeps a32-row frozen snapshot unchanged; observed426ms under Wine for this test only.
+- Identical public synthetic seed and runtime: two isolated Wine GUI sessions perform10controlled frames with console off/on. Full state hash, registers, keys, frame and clock match; wall time including control client0.444s/0.471s. Both paused audio queues zero.
+- Separate live Wine/Xvfb runs with console on/frozen and off expose the same pre-existing synthetic audio anomaly: PSG queue0, mixed queue about61572–64198 samples and DEGRADED drops. It remains under the65536 sample ring capacity but is not accepted as healthy audio. Both sessions closed and inputs preserved; investigating pacing before claiming DBG2-12 completion.
+- Console-off discriminator reproduced the same saturated mixed queue as console-on. Read-only Sol/xhigh consultation identified serialized tap availability as the cause; effective model/effort were not independently exposed. A focused callback/state/pacing regression and host-only correction are written but uncompiled.
+- Host-only audio correction Windows GNU test+production builds pass without compiler messages, final runtime4a98b7a721c2bb3fb2b6f1e9fe351cb519ca64571b869b98a5e8bfa7efc5fe44. Wine new faithful fallback/pacing/snapshot test and3existing callback/reset regressions pass. A zero-match initial filter is retained but not counted.
+- After correction, fresh Wine/Xvfb synthetic live observations show mixed queue1772–5792 samples with console open/frozen and7068–7808 with console off, PSG0 in both, no DEGRADED ring-drop log in either; prior saturation evidence retained. No claim of audible quality or native hardware.
+- Same10controlled-frame sequence after audio correction produces identical full origin/end state, registers and clock with console off/on, and matches the earlier pre-fix state. One observed wall time including client startup was0.440s off and0.484s on; not a general or native performance estimate. All test GUIs/displays closed and source/input pins verified.
+
+**Limitations**
+
+- Serialized/index byte limits and row limits are explicit; allocator and graphical surface overhead are not measured as an exact RSS cap. Long-running native platform overhead, physical audio and audible quality are unverified.
+- Concurrent ROM/export work excluded from the selected frozen build and preserved; no package, commit, push, private game input or earlier benchmark replay.
+
+Documentation: [debug_events.md](docs/debug_events.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-bound-event-console-update-work.json)
+
+## 2026-10-31 — Add a bounded live debug event console
+
+Type: added. Platforms: Windows GNU and Wine (validation pending).
+
+**Changes**
+
+- Add a default-off separate host event console fed by the shared canonical event fanout and direct recent-event producers. The rolling collector is bounded to1024events,256KiB serialized payload and8KiB per event, with explicit eviction/oversize counters and retained identity range.
+- Expose a Clan Atlas menu toggle and configurable F2/F3/F4/F5/F9/F10/F12 shortcut. Ignore synthetic focus key presses so opening a window cannot retrigger the shortcut. Hiding stops collection while retaining its window; reopening resumes.
+- Provide independent frozen-view pause, category/level/search filters, scroll/autoscroll, actual clipboard copy and explicit bounded local JSON export. Filters and view pause do not change the rolling collector.
+- Expose a toggle for coalescing identical mapped/XInput polls, with default coalescing and bounded full-poll mode. Declare that guest read batches remain frame aggregates and recent-only producers require the recent collector.
+
+**Validation**
+
+- Windows GNU locked/offline builds from frozen tracked HEAD918d5bd plus13explicit host overlays pass; final static-coverage production runtime e6c624b4dc004ea588fa0e29ca8b7724da9083732e2b2889c8db6563ff093495. Source and working overlays verified exact; concurrent ROM/export work excluded.
+- Wine focused tests pass: window model2, recent direct identity1, existing fanout1, menu toggle1, shortcut configuration1, and later coalescing1 plus changed model2. Tests were rerun only when affected source changed.
+- Wine/Xvfb GUI: initial synthetic F9 focus press reproduced unintended toggle; guard fixed and scoped variant confirms one F9 opens and remains collecting. Frozen view export stays identical while collector advances; a menu navigation and actual refused command retain their IDs; hide/reopen preserves window. Category, level and search filter a real error; copied Windows clipboard JSON equals the explicit local export. Full guest state/frame0/clock0 unchanged.
+- Separate current menu GUI opens console via Clan Atlas, switches poll coalescing off/on (64further observations within cap), scrolls and restores autoscroll; full guest state/frame0/clock0 unchanged. GUI/display sessions closed, pinned input/runtime variants and source evidence retained. Final production rebuild changes static coverage text only; previous GUI interactions not repeated.
+- A read-only Sol/xhigh consultation identified Windows focus-synthesized key events and then distinguished X focus from Windows activation in the test harness; effective model/effort metadata was not returned by the collaboration API.
+
+**Limitations**
+
+- Native Windows, native Linux, physical controller and IME behavior are not established by Wine/Xvfb keyboard simulation. Guest read chronology, pre-capture events, raw uninstrumented inputs and future cheat events remain outside supported coverage.
+- The event window has bounded serialized payload and explicit loss counters; comprehensive memory, producer overhead and sustained workload measurement remain DBG2-12. No package, commit, push or private game data included.
+
+Documentation: [debug_events.md](docs/debug_events.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-begin-live-debug-event-window.json)
+
+## 2026-10-31 — Begin a typed debugger command language
+
+Type: added. Platforms: Windows GNU / Wine validation pending.
+
+**Changes**
+
+- Add a bounded single-line tokenizer and pure typed debugger command parser that reuses existing local-control parsing and validation, requires explicit 0x hexadecimal values and accepts profile/catalog identifiers without paths.
+- Begin a CLI adapter that sends typed control actions over the existing identity-checked and locked local-control mailbox; help and status are readonly. ID selection remains explicitly unsupported until frontend routing is connected.
+
+**Validation**
+
+- Windows GNU locked/offline test build passes without compiler messages. Wine2new parser tests pass, including quoted text, malformed input and equality with existing local-control Action parsing.
+- Initial transport build failed because the help entry missed its fourth field; corrected and retained failure. Corrected Windows GNU test and production builds pass without compiler messages; Wine parser2, mailbox1 and publication-retry1 cases pass.
+- Actual Wine/Xvfb isolated session: text help and status pass, malformed decimal and unsupported ID selection refuse without changing full state/frame/clock; text step1 produces exactly the previously verified CLI full state/clock. Runtime afdac49170090c1e4da5dbab49d9d4d3e994a360d1dd98926627d8560d17a0bc; GUI/display closed, 1507 frozen source files/15 owned overlays and pins exact.
+
+**Limitations**
+
+- DBG2-13 remains open: frontend command editor, content ID selection and complete menu/CLI/console equivalence are not connected or verified. Native Windows/Linux and physical input are unverified.
+- The CLI currently rejects ID selection explicitly; no shell execution, package, commit, push or private game data.
+
+Documentation: [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-begin-debug-command-language.json)
+
+## 2026-10-31 — Document safe retention of Wine test prefixes
+
+Type: docs. Platforms: Local development.
+
+**Changes**
+
+- Define prefix-specific checks for completion, consumers, personal data, host links and host-visible activity before cleanup; preserve shared active prefixes.
+
+**Validation**
+
+- Inventoried 21 Wine prefixes without following links and reviewed completed workbench evidence and current ROM script references; a sandbox-only process list could not establish host idleness.
+
+**Limitations**
+
+- No Wine prefix was removed; inventory estimates allocated blocks and may double-count hard links, and extension checks alone cannot establish absence of private data.
+
+Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
+
+[Change record](docs/changes/2026-10-31-audit-wine-prefix-retention.json)
 
 ## 2026-10-31 — Add Extra High Terra-led debugging with focused Sol diagnosis and return
 
@@ -1070,12 +1387,13 @@ Type: added. Platforms: Windows GNU build, Wine.
 - GUI Undo restores the exact previously checkpointed frame1 full state/registers without executing another frame. Recipe worker completes two readonly status/inspect steps; typed terminal metadata matches its published result with original request/job IDs. Fake Python job survives view exit/reopen, explicit cancel keeps original IDs plus distinct cause_request_id/current_draft=false, result says cancelled and descendant1580is confirmed stopped. Main frame1/full state stays exact during these readonly scopes.
 - Replay GUI passes isolated1recorded frame and4retained not-selected dataset/cache phases while parent stays exactly frame1. Its log shows transient existing Windows reply-sharing denials. This concrete10error-correlation gap motivates the readonly publication_context getter and three call-site context/error hooks, plus assertions in the existing separate-query publication retry case. Build only affected play/debug_control files next; completed replay/control/recipe/cancel interactions are not repeated.
 - Final focused play/debug_control Windows GNU build passes warning-free610source/53overlays, runtime9f4e87397ef248794f1449b93d72587d5e81708a5a0b1b1238f684ac6b986511. Exactly1affected Wine query publication retry/context test passes; the previous9unchanged cases are not repeated. Primary997GUI is closed with frame1/clock197124/full state and source/variant pins exact. Final9f4path-proof variant is open at frame0/clock0 with collection off; its focused recording-path and publication-error GUI checks remain unrun. The goal service reports paused at resumption; no further operational validation started.
+- Final9f4 GUI proof on Wine passes: explicit1frame full state/clock matches prior checkpoint; recording directory and recording.json exist, manifest pins9f4 and contains1frame, with original owner and distinct stop cause. Temporary read-only share lock produces30 local-control publication errors correlated to the actual query ID; retry succeeds.235UI/264recent events,235shared equal, zero evictions/oversize. The old variant was interrupted and its protective lease retained; a distinct variant reused exactly its authenticated public inputs. GUI and own display closed,610frozen sources and both runtime variants verified. Four verified superseded standalone PEs retired with receipt; pinned/current runtimes retained.
+- After the Clan Atlas/menu/frontend revision, tracked HEAD918d5bd69730531d525049822fb4539a241b1f17 was separately frozen and built for Windows GNU offline/locked without warnings. Wine10 targeted cases pass. Current GUI explicitly starts/stops a recording from Clan Atlas and performs1controlled step:155UI/187recent,155shared events identical with no evictions/oversize; correct owner/job/stop cause and recording.json runtime pin; complete frame1 state/clock matches prior checkpoint. Current GUI/display closed; source snapshot and runtime/input pins verified; isolated test artifacts and logs retained.
 
 **Limitations**
 
-- DBG2-10 remains in progress: final9f4recording-path/control-publication-error GUI proof, final input/source/process preservation and documentation/checklist closure are pending. Goal service is paused; final isolated GUI and owned Xvfb remain available as recorded in TASK_HANDOFF.
-- Wine checks do not establish native Windows/Linux, physical controllers/IME, positive private European gameplay or selected dataset/native-input coverage. Before-frontend extraction/cache compilation and raw audio callback streams remain outside collection; cheat is reserved.
-- Concurrent ROM development is excluded from the accepted frozen host build. No private inputs, DS acceptance, package, commit or push.
+- Native Windows/Linux, physical controllers/IME, positive private European gameplay and selected dataset/native-input coverage are unverified. The replay test observes not-selected dataset/cache phases; before-frontend extraction/cache compilation and raw audio callback streams remain outside collection; cheat is reserved for future handlers.
+- Concurrent ROM and private export work excluded from the isolated current HEAD snapshot and preserved. Original interrupted variant and its protective lease retained. No private game inputs, DS acceptance, package, commit or push.
 
 Documentation: [debug_events.md](docs/debug_events.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
 

@@ -7,6 +7,10 @@ mod roots;
 pub mod table_selected;
 pub use obj_graphics::{DirectReference, Graphic};
 pub use roots::{SelectorRoot, BANK_ROOTS, LOCALIZED_BANK_ROOTS, REFERENCES, SELECTOR_ROOTS};
+/// Raw language-indexed alias of the banks used by the inline clan selector.
+pub const CLAN_TABLE_ALIAS: u32 = 0x71e5e0;
+const CLAN_TABLE_ALIAS_SHA256: &str =
+    "1e9b0d6368856eecea893011919583717b2699959a2cee45f93c8b23f23c60c9";
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Graphics {
@@ -243,6 +247,37 @@ impl Catalog {
             pointers: table.pointers,
             fallback_variant: None,
         }));
+        let alias_bytes = rom
+            .get(CLAN_TABLE_ALIAS as usize..CLAN_TABLE_ALIAS as usize + 20)
+            .ok_or("Truncated clan table alias")?;
+        if ffta_rom::digest(alias_bytes) != CLAN_TABLE_ALIAS_SHA256 {
+            return Err("Clan table alias source mismatch".into());
+        }
+        let clan = selectors
+            .iter()
+            .find(|selector| selector.id == "clan")
+            .ok_or("Missing clan selector")?;
+        let mut alias = Selector {
+            id: "clan-table-alias".into(),
+            pointers: std::array::from_fn(|language| BankPointer {
+                source_offset: CLAN_TABLE_ALIAS + language as u32 * 4,
+                bank_offset: 0,
+            }),
+            fallback_variant: None,
+        };
+        for (language, pointer) in alias.pointers.iter_mut().enumerate() {
+            pointer.bank_offset = u32::from_le_bytes(
+                alias_bytes[language * 4..language * 4 + 4]
+                    .try_into()
+                    .unwrap(),
+            )
+            .checked_sub(0x08000000)
+            .ok_or("Invalid clan table alias pointer")?;
+            if pointer.bank_offset != clan.pointers[language].bank_offset {
+                return Err("Clan table alias bank mismatch".into());
+            }
+        }
+        selectors.push(alias);
         let shared_obj_banks = vec![0xb7f874, 0xb80140];
         let decoded = Graphics {
             banks,

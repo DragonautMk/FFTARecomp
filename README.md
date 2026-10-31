@@ -380,3 +380,19 @@ python3 scripts/menu_atlas_inventory.py --check
 
 Use `python` instead of `python3` on Windows if that is the installed command.
 The [script guide](scripts/README.md) lists additional helpers and requirements.
+
+
+**Create a private Windows portable ZIP with local debug assets:**
+
+```bash
+bash scripts/linux/export_debug_assets.sh
+```
+
+```powershell
+.\scripts\windows\export_debug_assets.ps1
+```
+
+The script prints a new ZIP under `dist/debug-assets/`. Extract it into the
+project root, open `FFTARecomp-debug-EUR/` and select your own EUR ROM on first
+launch. The ZIP contains private saves, snapshots and selected recordings; keep
+it local. Prerequisites, selection and contents: [private debug asset export](docs/private_debug_assets.md).

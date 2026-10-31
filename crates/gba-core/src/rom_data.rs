@@ -94,8 +94,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 93;
-pub const DECODER_REV: u32 = 92;
+pub const EXTRACTOR_REV: u32 = 95;
+pub const DECODER_REV: u32 = 94;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -288,6 +288,10 @@ pub const UI_RAW_TRANSFERS_ID: &str = "graphics.ui-raw-transfers";
 pub const UI_RAW_TRANSFERS_FILE: &str = "ui-raw-transfers.json";
 pub const UI_RAW_TRANSFERS_FORMAT: &str = "ui-raw-transfers-v1-json";
 pub const MAX_UI_RAW_TRANSFERS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const DYNAMIC_RAW_FRAGMENTS_ID: &str = "graphics.dynamic-raw-fragments";
+pub const DYNAMIC_RAW_FRAGMENTS_FILE: &str = "dynamic-raw-fragments.json";
+pub const DYNAMIC_RAW_FRAGMENTS_FORMAT: &str = "dynamic-raw-fragments-v1-json";
+pub const MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES: u64 = 64 * 1024 * 1024;
 pub const INDEXED_GRAPHICS_ID: &str = "graphics.indexed-archives";
 pub const INDEXED_GRAPHICS_FILE: &str = "indexed-graphics.json";
 pub const INDEXED_GRAPHICS_FORMAT: &str = "indexed-graphics-v1-json";
@@ -612,6 +616,7 @@ pub struct Extraction {
     pub world_records38: Option<world_records38::Catalog>,
     pub indexed_graphics: Option<indexed_graphics::Catalog>,
     pub ui_raw_transfers: Option<ui_raw_transfers::Catalog>,
+    pub dynamic_raw_fragments: Option<ui_raw_transfers::dynamic_fragments::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -702,6 +707,7 @@ pub struct BaseFiles<'a> {
     pub world_records38: Option<(&'a world_records38::WorldRecords38, &'a [u8])>,
     pub indexed_graphics: Option<(&'a indexed_graphics::IndexedGraphics, &'a [u8])>,
     pub ui_raw_transfers: Option<(&'a ui_raw_transfers::RawTransfers, &'a [u8])>,
+    pub dynamic_raw_fragments: Option<(&'a ui_raw_transfers::dynamic_fragments::Fragments, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1304,6 +1310,10 @@ impl Extraction {
             result.manifest.coverage.push(UI_RAW_TRANSFERS_ID.into());
             result.manifest.resources.push(Resource {id:UI_RAW_TRANSFERS_ID.into(),path:UI_RAW_TRANSFERS_FILE.into(),format:UI_RAW_TRANSFERS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
             result.ui_raw_transfers = Some(metadata);
+            let metadata = ui_raw_transfers::dynamic_fragments::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(DYNAMIC_RAW_FRAGMENTS_ID.into());
+            result.manifest.resources.push(Resource {id:DYNAMIC_RAW_FRAGMENTS_ID.into(),path:DYNAMIC_RAW_FRAGMENTS_FILE.into(),format:DYNAMIC_RAW_FRAGMENTS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.dynamic_raw_fragments = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1422,6 +1432,7 @@ impl Extraction {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1541,6 +1552,7 @@ impl Extraction {
             || self.parameter_records27.is_some() != self.world_records38.is_some()
             || self.world_records38.is_some() != self.indexed_graphics.is_some()
             || self.indexed_graphics.is_some() != self.ui_raw_transfers.is_some()
+            || self.ui_raw_transfers.is_some() != self.dynamic_raw_fragments.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2234,6 +2246,10 @@ impl Extraction {
             (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_UI_RAW_TRANSFERS_FILE_BYTES {return Err("RawTransfers file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[83].sha256=ffta_rom::digest(bytes);}
             (None,None)=>{},_=>return Err("Missing or unexpected ui_raw_transfers".into()),
         }
+        match (&self.dynamic_raw_fragments, files.dynamic_raw_fragments) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES {return Err("Dynamic fragments file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[84].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected dynamic_raw_fragments".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2672,6 +2688,10 @@ impl Extraction {
             decoded.validate()?;
             if decoded!=&expected.decoded {return Err("Decoded ui_raw_transfers differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.dynamic_raw_fragments,files.dynamic_raw_fragments) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded dynamic_raw_fragments differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2767,6 +2787,7 @@ impl Extraction {
             + usize::from(self.world_records38.is_some())
             + usize::from(self.indexed_graphics.is_some())
             + usize::from(self.ui_raw_transfers.is_some())
+            + usize::from(self.dynamic_raw_fragments.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2905,6 +2926,7 @@ mod tests {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -2996,6 +3018,7 @@ mod tests {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3097,6 +3120,7 @@ mod tests {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3187,6 +3211,7 @@ mod tests {
             world_records38: None,
             indexed_graphics: None,
             ui_raw_transfers: None,
+            dynamic_raw_fragments: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

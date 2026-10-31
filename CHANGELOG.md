@@ -160,6 +160,27 @@ Documentation: [AGENTS.md](AGENTS.md), [SKILL.md](.cursor/skills/ffta-debugging/
 
 [Change record](docs/changes/2026-10-31-add-terra-sol-debugging-workflow.json)
 
+## 2026-10-31 — Add useful controls, commands and Debug unlock to the README
+
+Type: docs. Platforms: Desktop documentation: Windows and Linux.
+
+**Changes**
+
+- Add an end-of-README reference for menu controls, persisted Debug unlock, config paths, native build, Docker extraction and coverage, local report homepage and project checks.
+- Correct the existing save-state instructions to require confirmation before selecting a slot.
+
+**Validation**
+
+- Checked command options against current Bash and PowerShell launchers, menu bindings and existing guides; ran Bash launcher usage probes, local-link checks, project-memory and Atlas inventory checks.
+
+**Limitations**
+
+- Documentation-only update; no Docker build, report generation, ROM access, GUI, Wine or Linux runtime tests, or performance measurements.
+
+Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [rom_data.md](docs/rom_data.md), [report_home.md](docs/report_home.md).
+
+[Change record](docs/changes/2026-10-31-add-readme-useful-commands-and-debug-unlock.json)
+
 ## 2026-10-30 — Verify actual European world-record CLI creation and startup
 
 Type: docs. Platforms: Windows.

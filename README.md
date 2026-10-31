@@ -244,8 +244,9 @@ restored game. See [backup storage and recovery](docs/save_backups.md).
 
 ## Save states
 
-Open the pause menu > **Save states**. Choose one of **9 slots** with Left/Right,
-then Save state or Load state. Each slot shows a screenshot preview; controller
+Open the pause menu > **Save states**. Select **Slot**, press Confirm, choose one
+of **9 slots** with the directions and press Confirm again. Then select Save state
+or Load state. Each slot shows a screenshot preview; controller
 navigation, overwrite confirmation and feedback stay inside the menu.
 **Undo last operation** restores the previous slot file after saving, or the
 pre-load game state after loading (one level, current session only).
@@ -281,3 +282,101 @@ to record changes and run `python3 scripts/project_memory.py check` before hando
 ---
 
 <p align="center">Made by a fan, for fans.</p>
+
+## Useful controls and commands
+
+### In-game menu
+
+- **Open the menu:** `Esc` on the keyboard, or `Start + Back` / Guide on a
+  gamepad with the default bindings. Menu shortcuts can be remapped.
+- **Navigate:** arrow keys or D-pad. Press `Left` at the edge of the content to
+  reach the sidebar; press `Right` on a section to enter it. `Tab` / `X` also
+  switches focus between the sidebar and content.
+- **Change an option:** select it and press `Enter` / `A`, move to the desired
+  value, then press `Enter` / `A` again. `Esc` / `B` cancels the pending change.
+- **Show complete details:** `F1` / right-stick click (`RS CLICK`).
+- **Gamepad shortcuts while the menu is open:** `LB` / `RB` lower / raise volume;
+  `LB + RB` toggles mute. `LT` / `RT` lower / raise Fast Forward speed;
+  `LT + RT` toggles Fast Forward. The menu displays hints for the last input used.
+
+### Unlock the Debug menu
+
+With the menu open, press the following sequence using the keyboard arrows or
+D-pad, releasing between presses:
+
+**Up, Up, Down, Down, Left, Left, Right, Right**
+
+The Debug section is hidden by default. The sequence saves `debug = true`, so
+it stays unlocked after restarting. To enable it manually, close the game, add
+`debug = true` to `av.cfg`, and restart. Set it to `false` to hide Debug again.
+In a portable installation the file is `Data/config/av.cfg`; installed-mode
+paths are listed in [portable storage](docs/portable.md#shared-storage). Debug
+visibility does not replace the separate isolated-session checks for debug tools.
+See [menu unlock and controls](docs/menu_clan_atlas.md#sblocco-permanente-di-debug).
+
+### Commands from the source checkout
+
+Run these from the repository root. Replace example paths with your own files;
+ROMs and generated game data stay local. Docker commands require Docker with
+Buildx; the PowerShell examples use Docker Desktop with Linux containers.
+
+**Build the desktop executables with the local Rust toolchain:**
+
+```bash
+cargo build --locked --release -p recomp -p ffta-play
+```
+
+For a portable package, use the native or Docker build commands in
+[Building from source](#-building-from-source); packaging also supplies TinyCC,
+public tools and documentation.
+
+**Extract decoded data from your EUR ROM with Docker:**
+
+```bash
+bash scripts/linux/extract_rom_data_docker.sh "path/to/your-eur.gba"
+```
+
+```powershell
+.\scripts\windows\extract_rom_data_docker.ps1 -RomPath "path\to\your-eur.gba"
+```
+
+The default output is under `target/rom-data/`. See [ROM data extraction](docs/rom_data.md#run-extraction-with-docker) for options and output details.
+
+**Generate the ROM coverage report with Docker:**
+
+```bash
+bash scripts/linux/rom_coverage_docker.sh --rom "path/to/your-eur.gba"
+```
+
+```powershell
+.\scripts\windows\rom_coverage_docker.ps1 -RomPath "path\to\your-eur.gba" -OpenReport
+```
+
+The default report is under `docs/development/rom-coverage/`. Its evidence and
+optional inputs are described in the [ROM coverage guide](docs/development/ROM_COVERAGE.md).
+
+**Refresh the local report homepage** (uses the existing
+`ffta-rom-coverage:local` Docker image; no image build or extraction):
+
+```bash
+bash scripts/linux/report_home.sh
+```
+
+```powershell
+.\scripts\windows\report_home.ps1 -OpenReport
+```
+
+Open the resulting root `index.html` in a browser. Add `--python` on Linux or
+`-Python` on Windows to use local Python instead. See the
+[report homepage guide](docs/report_home.md).
+
+**Check project memory and menu reference inventories:**
+
+```bash
+python3 scripts/project_memory.py check
+python3 scripts/menu_atlas_tasks.py --check
+python3 scripts/menu_atlas_inventory.py --check
+```
+
+Use `python` instead of `python3` on Windows if that is the installed command.
+The [script guide](scripts/README.md) lists additional helpers and requirements.

@@ -3298,6 +3298,52 @@
       "external_dialog": null
     },
     {
+      "id": "content.list",
+      "title": "List indexed content",
+      "source": "crates/recomp/src/debug_control.rs",
+      "handler": "parse / Picker::page",
+      "cli": "recomp debug-control content-list SESSION [--offset N --limit N --generation N]",
+      "parameters": [
+        {
+          "name": "--offset",
+          "value_type": "integer",
+          "constraint": "Zero-based entry offset within the current generation.",
+          "current_menu": "not-applicable",
+          "default": 0
+        },
+        {
+          "name": "--limit",
+          "value_type": "integer",
+          "constraint": "1..16 entries per page.",
+          "current_menu": "not-applicable",
+          "default": 16
+        },
+        {
+          "name": "--generation",
+          "value_type": "integer",
+          "constraint": "Optional exact index generation; mismatches refuse to prevent mixing pages.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "Current frontend content index"
+      ],
+      "menu": {
+        "current": "Debug / Sessioni e casi / Content selector",
+        "destination": "Debug / Sessioni e casi / Content selector",
+        "implemented": true
+      },
+      "allowed_state": "Active isolated session; index refreshed explicitly. Read-only query remains available during a pending job.",
+      "effects": "Returns a bounded page of indexed metadata; does not scan, select, execute or change guest state.",
+      "result": "Generation, total, next offset, scan truncation and bounded ID/type/name/path/hash/availability/compatibility entries.",
+      "limits": "At most16 entries per page; names and relative paths are display-truncated. Selection independently rechecks the full indexed reference.",
+      "open_work": [
+        "DBG2-15: broader assistant procedure and result presentation"
+      ],
+      "external_dialog": null
+    },
+    {
       "id": "content.check",
       "title": "Recheck selected content",
       "source": "crates/recomp/src/debug_content.rs",
@@ -4658,6 +4704,636 @@
       "result": "Details with version/hash/prerequisites/output; retained request/result/logs for host execution or readonly guest summary.",
       "limits": "8retained runs,20..120000ms,8MiB per process stream,16readonly recipe steps,1MiB guest catalog; scalar preset limits remain shared.",
       "open_work": [],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.list",
+      "title": "List readonly cheat entries",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "Catalog::summary / execute",
+      "cli": "recomp debug-cheats list [options]; debug-control cheat-list SESSION [--offset N --limit N --generation SHA]",
+      "parameters": [
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalogo.json; default is beside the executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional supplied exact ROM hash; no code behavior is inferred.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--offset",
+          "value_type": "integer",
+          "constraint": "Zero-based offset.",
+          "current_menu": "not-applicable",
+          "default": 0
+        },
+        {
+          "name": "--limit",
+          "value_type": "integer",
+          "constraint": "1..64 entries.",
+          "current_menu": "not-applicable",
+          "default": 64
+        },
+        {
+          "name": "--generation",
+          "value_type": "sha256",
+          "constraint": "Optional immutable control snapshot generation.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": "Debug / Cheat / Catalogo cheat",
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": true
+      },
+      "allowed_state": "Local readonly source; selection by type and hash is rechecked when used.",
+      "effects": "Reads metadata only; no code is decoded, enabled or applied.",
+      "result": "Bounded list and disabled compatibility states; control query includes snapshot identity and truncation markers.",
+      "limits": "4 MiB source, 2048 entries; standalone CLI pages up to64, local-control pages up to16; bounded display fields.",
+      "open_work": [
+        "DBG2-17: ROM/device compatibility remains unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-15: shared assistant access remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.show",
+      "title": "Inspect a readonly cheat entry",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "Catalog::entry / execute",
+      "cli": "recomp debug-cheats show ID [options]; debug-control cheat-show SESSION ID [--offset N --generation SHA]",
+      "parameters": [
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "Existing CH identifier.",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalogo.json; default is beside the executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional supplied exact ROM hash; no code behavior is inferred.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--offset",
+          "value_type": "integer",
+          "constraint": "Control detail UTF-8 byte offset.",
+          "current_menu": "not-applicable",
+          "default": 0
+        },
+        {
+          "name": "--generation",
+          "value_type": "sha256",
+          "constraint": "Optional immutable control snapshot generation.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": "Debug / Cheat / Catalogo cheat",
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": true
+      },
+      "allowed_state": "Local readonly source; selection by type and hash is rechecked when used.",
+      "effects": "Displays original ordered lines and source provenance without execution.",
+      "result": "Original entry and disabled compatibility states; standalone CLI also reports source-specific master reference metadata.",
+      "limits": "Menu details cap 8192 characters; standalone CLI retains the complete entry; control returns UTF-8 chunks up to4096 bytes.",
+      "open_work": [
+        "DBG2-17: ROM/device compatibility remains unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-15: shared assistant access remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.inspect-plaintext",
+      "title": "Inspect an assumed plaintext CodeBreaker block",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "execute / debug_cheat_decoder::inspect",
+      "cli": "recomp debug-cheats inspect ID --assume-plaintext-codebreaker [--catalog FILE --rom-sha256 SHA]",
+      "parameters": [
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "Existing CodeBreaker CH identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--assume-plaintext-codebreaker",
+          "value_type": "flag",
+          "constraint": "Required explicit assumption; encryption and device are not detected.",
+          "current_menu": "not-applicable",
+          "default": false
+        },
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalog; defaults beside the executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional supplied ROM hash; does not verify the codes.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": false
+      },
+      "allowed_state": "Readonly catalog entry declared CodeBreaker; plaintext interpretation explicitly assumed.",
+      "effects": "Returns a typed hypothetical plan; no guest access or enablement.",
+      "result": "Complete supported block or atomic invalid-request; plan is always non-executable.",
+      "limits": "Subset only; master, source device and encryption are not verified; no application.",
+      "open_work": [
+        "DBG2-18: source version, encryption and unsupported operations remain unverified",
+        "DBG2-19: controlled application not implemented"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.inspect-seeded",
+      "title": "Inspect CodeBreaker with an explicit seed",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "execute / debug_cheat_decoder::inspect_seeded",
+      "cli": "recomp debug-cheats inspect ID --codebreaker-seed 9XXXXXXX:XXXX [--catalog FILE --rom-sha256 SHA]",
+      "parameters": [
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "Existing CodeBreaker CH identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--codebreaker-seed",
+          "value_type": "text",
+          "constraint": "Explicit assumed seed 9XXXXXXX:XXXX; mutually exclusive with plaintext mode.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalog; defaults beside the executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional supplied ROM hash; does not verify the codes.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": false
+      },
+      "allowed_state": "Readonly CodeBreaker entry; caller explicitly supplies seed and assumes entry lines are encrypted under it.",
+      "effects": "Decrypts and interprets a supported block in memory; no guest access or enablement.",
+      "result": "Complete typed plan or atomic invalid-request; plan is always non-executable.",
+      "limits": "No key discovery or source/master selection; wrong seed can produce plausible text; unsupported opcodes, device and ROM behavior remain unverified.",
+      "open_work": [
+        "DBG2-18: source version, master and unsupported operations remain unverified",
+        "DBG2-19: controlled application not implemented"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.inspect-source",
+      "title": "Inspect a source-linked CodeBreaker master and block",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "execute / Catalog::source_bound / debug_cheat_decoder::inspect_source",
+      "cli": "recomp debug-cheats inspect ID --provenance-index N --master-id ID [--rom-file FILE | --rom-sha256 SHA] [--catalog FILE]",
+      "parameters": [
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "Existing CodeBreaker CH identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--provenance-index",
+          "value_type": "integer",
+          "constraint": "Zero-based original entry provenance record; requires matching master ID.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--master-id",
+          "value_type": "text",
+          "constraint": "Explicit linked CH master; exact same-source record required.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-file",
+          "value_type": "path",
+          "constraint": "Optional bounded ROM byte snapshot for SHA-256 and master CRC; excludes --rom-sha256.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional caller-supplied hash; no byte or CRC verification.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalog; defaults beside executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog",
+        "explicit source provenance",
+        "explicit linked master"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": false
+      },
+      "allowed_state": "Readonly CodeBreaker entry with exactly one matching source-specific master provenance.",
+      "effects": "Decrypts source lines and describes master checksum and hook; optionally computes CRC and hash from supplied ROM bytes. No guest access or enablement.",
+      "result": "Typed unverified plan and master metadata, or atomic invalid-request.",
+      "limits": "No automatic source/master selection, native hook, execution, or proof of device or game behavior. CRC match alone does not verify compatibility.",
+      "open_work": [
+        "DBG2-18: source device and additional operations remain unverified",
+        "DBG2-19: controlled application and hook handling not implemented"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.prepare-once",
+      "title": "Prepare a one-shot cheat plan",
+      "source": "crates/recomp/src/debug_control.rs",
+      "handler": "PlayApp::prepare_cheat_once / Plan::footprint",
+      "cli": "recomp debug-control cheat-prepare SESSION ID PROVENANCE MASTER GENERATION [--timeout-ms N]",
+      "parameters": [
+        {
+          "name": "SESSION",
+          "value_type": "path",
+          "constraint": "Authenticated isolated session directory.",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--timeout-ms",
+          "value_type": "decimal",
+          "constraint": "20..120000 host milliseconds; timeout does not establish non-delivery.",
+          "current_menu": "not-applicable",
+          "default": 120000
+        },
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "CH identifier in the selected pinned snapshot.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "PROVENANCE",
+          "value_type": "integer",
+          "constraint": "Explicit zero-based source provenance index.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "MASTER",
+          "value_type": "text",
+          "constraint": "Exact linked master CH identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "GENERATION",
+          "value_type": "sha256",
+          "constraint": "Exact current cheat snapshot generation.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "isolated session",
+        "pinned cheat catalog",
+        "source provenance",
+        "master"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat",
+        "implemented": false
+      },
+      "allowed_state": "Idle paused isolated copy, interpreter only, no recording or replay; exact known ROM and matching source master checksum.",
+      "effects": "Rechecks source and ROM and returns a bounded plan, footprint and state-bound preview token.",
+      "result": "Unverified typed plan, affected ranges and preview token.",
+      "limits": "Only aligned canonical EWRAM/IWRAM writes and RAM/KEYINPUT reads, up to 256 writes; no hardware hook, native backend, maintained toggle or automatic restore.",
+      "open_work": [
+        "DBG2-19: maintained state, conflicts, other memory and native handling remain open",
+        "DBG2-21: game effects not verified"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.apply-once",
+      "title": "Apply a prepared cheat plan once",
+      "source": "crates/recomp/src/debug_control.rs",
+      "handler": "PlayApp::prepare_cheat_once / Plan::apply_once",
+      "cli": "recomp debug-control cheat-apply SESSION ID PROVENANCE MASTER GENERATION PREVIEW [--timeout-ms N]",
+      "parameters": [
+        {
+          "name": "SESSION",
+          "value_type": "path",
+          "constraint": "Authenticated isolated session directory.",
+          "current_menu": "selected",
+          "default": null
+        },
+        {
+          "name": "--timeout-ms",
+          "value_type": "decimal",
+          "constraint": "20..120000 host milliseconds; timeout does not establish non-delivery.",
+          "current_menu": "not-applicable",
+          "default": 120000
+        },
+        {
+          "name": "ID",
+          "value_type": "text",
+          "constraint": "CH identifier in the selected pinned snapshot.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "PROVENANCE",
+          "value_type": "integer",
+          "constraint": "Explicit zero-based source provenance index.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "MASTER",
+          "value_type": "text",
+          "constraint": "Exact linked master CH identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "GENERATION",
+          "value_type": "sha256",
+          "constraint": "Exact current cheat snapshot generation.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "PREVIEW",
+          "value_type": "sha256",
+          "constraint": "Exact token returned by preparation for unchanged state and source.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "isolated session",
+        "pinned cheat catalog",
+        "source provenance",
+        "master"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat",
+        "implemented": false
+      },
+      "allowed_state": "Idle paused isolated copy, interpreter only, no recording or replay; exact known ROM and matching source master checksum.",
+      "effects": "One explicit manual bus application at the paused frame boundary.",
+      "result": "Applied write count or atomic refusal; token consumed after success.",
+      "limits": "Only aligned canonical EWRAM/IWRAM writes and RAM/KEYINPUT reads, up to 256 writes; no hardware hook, native backend, maintained toggle or automatic restore.",
+      "open_work": [
+        "DBG2-19: maintained state, conflicts, other memory and native handling remain open",
+        "DBG2-21: game effects not verified"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.info",
+      "title": "Inspect cheat catalog metadata",
+      "source": "crates/recomp/src/debug_cheats.rs",
+      "handler": "execute",
+      "cli": "recomp debug-cheats info [--catalog FILE --rom-sha256 SHA]",
+      "parameters": [
+        {
+          "name": "--catalog",
+          "value_type": "path",
+          "constraint": "Explicit local catalogo.json; default is beside the executable.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--rom-sha256",
+          "value_type": "sha256",
+          "constraint": "Optional supplied exact ROM hash; no code behavior is inferred.",
+          "current_menu": "not-applicable",
+          "default": null
+        }
+      ],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": false
+      },
+      "allowed_state": "Local readonly source; selection by type and hash is rechecked when used.",
+      "effects": "Returns source metadata; no code or guest state is changed.",
+      "result": "Original top-level metadata and source hash.",
+      "limits": "4 MiB source, 2048 entries.",
+      "open_work": [
+        "DBG2-17: ROM/device compatibility remains unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-15: shared assistant access remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.open",
+      "title": "Open or reload cheat reference view",
+      "source": "crates/recomp/src/play.rs",
+      "handler": "PlayApp::open_cheat_catalog",
+      "cli": null,
+      "parameters": [],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": "Debug / Cheat / Catalogo cheat",
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": true
+      },
+      "allowed_state": "Local readonly source; selection by type and hash is rechecked when used.",
+      "effects": "Opens readonly rows after source identity recheck.",
+      "result": "Disabled view or explicit empty/error state.",
+      "limits": "No automatic dialog, decoder or guest execution.",
+      "open_work": [
+        "DBG2-17: ROM/device compatibility remains unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-15: shared assistant access remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.choose",
+      "title": "Choose cheat catalog input",
+      "source": "crates/recomp/src/content_picker.rs",
+      "handler": "Picker::open_for(CheatCatalog)",
+      "cli": null,
+      "parameters": [],
+      "selection": [
+        "local cheat catalog"
+      ],
+      "menu": {
+        "current": "Debug / Cheat / Catalogo cheat",
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": true
+      },
+      "allowed_state": "Local readonly source; selection by type and hash is rechecked when used.",
+      "effects": "Opens the internal typed selector; external dialogs require explicit buttons.",
+      "result": "Pinned selection; return and explicitly reload the view.",
+      "limits": "Selection is not execution; file identity is rechecked.",
+      "open_work": [
+        "DBG2-17: ROM/device compatibility remains unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-15: shared assistant access remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "control.retry",
+      "title": "Retry an identified local request",
+      "source": "crates/recomp/src/debug_control.rs",
+      "handler": "parse_retry / retry_action_classified",
+      "cli": "recomp debug-control retry SESSION --run RUN --request ID --deadline-unix-ms N [--timeout-ms N] -- ACTION",
+      "parameters": [
+        {
+          "name": "SESSION",
+          "value_type": "path",
+          "constraint": "Existing isolated session root.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--run",
+          "value_type": "text",
+          "constraint": "Original active run identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--request",
+          "value_type": "text",
+          "constraint": "Original request identifier.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--deadline-unix-ms",
+          "value_type": "integer",
+          "constraint": "Original deadline in Unix milliseconds.",
+          "current_menu": "not-applicable",
+          "default": null
+        },
+        {
+          "name": "--timeout-ms",
+          "value_type": "integer",
+          "constraint": "Client wait 20..120000 milliseconds.",
+          "current_menu": "not-applicable",
+          "default": 120000
+        }
+      ],
+      "selection": [
+        "Original run, request ID, deadline and exact action"
+      ],
+      "menu": {
+        "current": "Debug / Console e script / Console comandi",
+        "destination": "Debug / Console e script / Console comandi",
+        "implemented": true
+      },
+      "allowed_state": "Same active session run and original identity; server supports idempotent-request-v1.",
+      "effects": "Joins an existing pending request or returns its cached terminal result; never redispatches an identical recorded action.",
+      "result": "Original terminal result, pending state or explicit refusal.",
+      "limits": "Bounded per-run ledger; evicted result is not rerun; read-only queries use fresh requests.",
+      "open_work": [
+        "DBG2-15: broader assistant procedure remains open"
+      ],
+      "external_dialog": null
+    },
+    {
+      "id": "cheats.refresh",
+      "title": "Refresh selected cheat snapshot",
+      "source": "crates/recomp/src/play.rs",
+      "handler": "debug_action / debug_cheats::Refresh",
+      "cli": "recomp debug-control cheat-refresh SESSION",
+      "parameters": [],
+      "selection": [
+        "Pinned cheat catalog ID"
+      ],
+      "menu": {
+        "current": null,
+        "destination": "Debug / Cheat / Catalogo cheat",
+        "implemented": false
+      },
+      "allowed_state": "Paused isolated session; selected cheat catalog and no active control job.",
+      "effects": "Rechecks the selected source and builds an immutable readonly snapshot in a bounded worker; cancellation discards its result.",
+      "result": "Snapshot generation, source hash and ROM identity; terminal cancellation and timeout are distinct.",
+      "limits": "4 MiB source, 2048 entries; no decoder or guest mutation.",
+      "open_work": [
+        "DBG2-17: device and behavior remain unverified",
+        "DBG2-18: no verified source decoder or guest application",
+        "DBG2-13: menu view and assistant snapshot refresh do not share one worker"
+      ],
       "external_dialog": null
     }
   ]

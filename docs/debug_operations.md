@@ -1,7 +1,7 @@
 # Contratto delle operazioni di debug
 
 DBG2-01 aggiunge un inventario consultabile delle operazioni esistenti. Il
-contratto versione 1 contiene 97 operazioni e 329 parametri (65/242 nella
+contratto versione 1 contiene 110 operazioni e 376 parametri (65/242 nella
 prima unità DBG2-01, più catalogo, selettore e ruoli di DBG2-02/03/04/05/06): diagnosi, copie
 isolate, catalogo, registrazioni, profili replay/audit/capture/compare, controllo
 locale, ispettori, tracce, report, conservazione, campagne e checkpoint.
@@ -90,6 +90,23 @@ Vedere [il selettore e la libreria](debug_selector.md) per prerequisiti e limiti
 
 Il [menu Atlante del Clan](menu_clan_atlas.md) raggruppa i percorsi in otto sezioni Debug e offre la scheda di sola lettura Riferimenti Menu / CLI. Il registro conserva ID, parametri, handler e protezioni; cambiano solo i percorsi del menu.
 
+Le operazioni `cheats.open`, `cheats.choose`, `cheats.refresh`, `cheats.list`,
+`cheats.show` e `cheats.info` descrivono la consultazione locale del catalogo.
+`cheats.inspect-plaintext` descrive la sola ispezione CLI basata su un'ipotesi
+esplicita; `cheats.inspect-seeded` descrive quella con chiave fornita dal
+chiamante. Nessuna verifica automaticamente dispositivo o cifratura né abilita
+codici. `cheats.inspect-source` richiede provenienza e master espliciti e può
+confrontare il checksum con una ROM selezionata; il risultato resta consultivo.
+`cheats.prepare-once` e `cheats.apply-once` descrivono anteprima e applicazione
+manuale vincolata allo stato in una copia isolata; non rappresentano toggle
+mantenuti né la verifica degli effetti del dispositivo originale.
+`control.retry` descrive il recupero esplicito di una
+richiesta con identità invariata. I descrittori non espongono nuove azioni al
+canale locale oltre alle azioni effettivamente supportate. Selezione per ID,
+refresh asincrono e letture paginate del catalogo sono disponibili nel canale
+locale e nel linguaggio della console; il refresh della vista menu usa ancora
+un percorso separato. Dettagli in [debug control](debug_control.md).
+
 ## Linguaggio debugger — DBG2-13 in sviluppo
 
 Il parser testuale limitato a una riga supporta virgolette e numeri esadecimali
@@ -97,8 +114,76 @@ con prefisso `0x`; rifiuta conteggi decimali ambigui e non interpreta una shell.
 La CLI sperimentale `recomp debug-command SESSION 'COMMAND'` traduce i comandi
 supportati negli stessi tipi e nello stesso canale autenticato di `debug-control`.
 `help control.step`, `status` e `step 1 --keys 0x3ff` sono stati verificati sotto
-Wine; un input malformato viene rifiutato senza mutare la sessione. `profile
-select ID` e `catalog select ID` sono analizzati, ma il loro collegamento al
-selettore è ancora aperto e la CLI li rifiuta esplicitamente. L'editor nel menu,
-la selezione per ID e la completa equivalenza richiesta da DBG2-13 restano da
-implementare e verificare.
+Wine; un input malformato produce `parse-error` senza mutare la sessione. Nella
+console la bozza resta modificabile e Ctrl+Shift+C copia il JSON dell'errore
+corrente, non il risultato precedente. I fallimenti locali distinti e la
+possibile consegna sconosciuta sono descritti in [debug control](debug_control.md).
+`profile
+select ID` e `catalog select ID` sono collegati al selettore. Una sessione
+Wine/Xvfb ha verificato la selezione di un catalogo sintetico e il rifiuto di
+tipo errato o ID sconosciuto senza cambiare stato, frame o clock. Un'altra prova
+Wine/Xvfb ha selezionato due ID distinti di profili replay sintetici completi,
+uno dalla CLI e uno dalla console, con hash corretti e stato invariato. La
+selezione verifica i riferimenti senza avviare il replay; la completa equivalenza
+richiesta da DBG2-13 non è coperta da questa prova. `replay run` e le modalità
+`audit`, `capture` e `compare` ora richiamano il supervisore condiviso sul
+profilo selezionato, con stato, esito e cancellazione per ID tramite il canale
+locale. Le istruzioni e i limiti sono in [debug control](debug_control.md).
+`content refresh` e `content list` usano la stessa scansione e l'indice del
+selettore attraverso il canale autenticato: la lettura è paginata e può
+vincolare la generazione. Una prova Wine su copia sintetica ha scoperto e
+selezionato un catalogo per ID senza aprire il menu; dettagli e limiti sono in
+[debug control](debug_control.md).
+
+Il selettore dispone in preparazione di un lavoro interno per ID: riusa la
+verifica dei riferimenti tipizzati, mantiene il risultato in sospeso fino alla
+conclusione e scarta annullamenti o contesti/cataloghi cambiati. È ora
+collegato al trasporto dei comandi; l'esito rimane pendente fino al risultato
+del lavoro. In una copia sintetica Wine, una ricerca pendente ha rifiutato un
+ID errato ed è stata annullata dalla console con l'ID esatto; una seconda ha
+raggiunto la scadenza, distinguendo il timeout client dalla conferma server.
+La risposta terminale corretta non riporta più il job concluso come pendente;
+una nuova prova Wine ha verificato il risultato e lo status successivo.
+La CLI `debug-control retry` permette di recuperare un risultato con lo stesso
+run, ID, scadenza e azione: una prova Wine ha confermato che il ritento di un
+passo concluso o di una ricerca pendente non li esegue di nuovo. La console e
+`debug-command` accettano `retry RUN ID SCADENZA -- COMANDO`; una prova Wine ha
+confermato dalla console il recupero del risultato del passo e il rifiuto di
+parametri cambiati. I dettagli e i limiti della memoria per run sono descritti
+in [debug control](debug_control.md).
+
+È in sviluppo una finestra «Console comandi», apribile da Debug / Panoramica
+in una copia di debug isolata. La bozza supporta cursore, selezione, cronologia,
+IME e appunti. Tab propone nomi, opzioni, valori, ID di contenuto e l'ID della
+richiesta pendente; una riga mostra la sintassi contestuale. Se ci sono più
+proposte, Tab le scorre nella bozza. Il completamento rispetta virgolette e
+posizione del cursore e non invia comandi. Il pannello mostra etichetta della
+sessione, prefisso hash ROM e run, insieme all'ID e ai parametri del job
+pendente; passi e ricerche mostrano i rispettivi budget rimanenti, mentre per
+scansioni e selezioni indica soltanto che sono in corso. I dati provengono dal
+frontend, aggiornati al massimo quattro volte al secondo, senza richieste
+automatiche al canale o hash dello stato a ogni aggiornamento. L'identità
+visualizzata è verificata contro il manifesto del run all'apertura; i valori
+lunghi possono essere abbreviati. Il JSON di `jobs status`, copiabile, conserva
+ID e parametri completi del job pendente.
+Una prova Wine/Xvfb ha mostrato una ricerca in avanzamento e, dopo il suo
+annullamento, la tastiera su schermo in una finestra 480×360. Invio passa
+dal client del canale locale usato dalla CLI. Il testo incollato su più righe resta nella bozza e viene
+rifiutato dal parser finché non è corretto. Sotto Wine/Xvfb un comando `step 1`
+ha prodotto lo stesso stato completo della CLI e la scorciatoia F9 è rimasta
+isolata. La chiusura del pannello filtra brevemente le pressioni sintetiche di
+ritorno del fuoco; una prova tracciata ha verificato riapertura ed Esc ordinario
+senza alterare il gioco. Un'altra prova Wine/Xvfb con prefisso e appunti isolati
+ha verificato copia e taglio della selezione, incolla Unicode multilinea e
+copia del JSON risultato. Invio sulla bozza multilinea è stato rifiutato senza
+pubblicare comandi o cambiare lo stato del gioco. IME reale, controller fisici
+ed equivalenza completa restano da verificare: queste prove non chiudono
+DBG2-13/14.
+
+La console offre anche una tastiera su schermo navigabile con il controller:
+direzioni e conferma scelgono caratteri, cronologia, preset e azioni; `Send`
+invia esplicitamente. Dopo l'uscita, il pad deve tornare neutro prima che il
+menu principale accetti nuovi input. Una prova Wine/Xvfb con XInput simulato
+ha verificato preset `status`, cronologia, annullamento e chiusura con conferma
+tenuta, senza modificare stato, frame o clock. I controller fisici restano da
+verificare.

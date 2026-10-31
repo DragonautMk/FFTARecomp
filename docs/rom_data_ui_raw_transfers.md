@@ -315,6 +315,27 @@ positive ordinary use, other indices and the full selector domain remain
 unverified. Linux,
 USA and native Windows checks remain pending. No performance measurement ran.
 
+The existing `graphics.dynamic-raw-fragments` owner now exposes independent
+request, total source-byte, selector-byte and payload-byte counters. Production
+diagnostics emit them under that resource ID; these counts include repeated
+reads and do not establish distinct-byte coverage. The data schema and original
+guest behavior are unchanged. A focused Windows build and Wine test against the
+accepted e100 dataset verified poisoned selector and payload reads, a mixed
+boundary and an outside read: three requests served seven source bytes, split
+into three selector and four payload bytes, while the outside read did not
+increment the counters. Guarded inputs and frozen sources stayed unchanged.
+Evidence is under `target/rom-data-dynamic-fragment-usage/`. The actual
+production log and ordinary use remain to verify; Linux, USA and native
+Windows are pending. No performance measurements were made.
+
+An isolated production Windows build subsequently ran one retained neutral
+frame under Wine against the already prepared e100 directory. The CLI emitted
+the new resource usage line with all four counters zero; 93 managed files and
+the other guarded inputs stayed unchanged. This confirms the log and startup,
+not absence in other scenes. Evidence is under
+`target/rom-data-dynamic-fragment-usage-cli/`. Ordinary use, Linux, USA and
+native Windows remain to verify. No performance measurements were made.
+
 ## Dynamic fragment production CLI
 
 The production runtime now identifies `graphics.dynamic-raw-fragments` and
@@ -388,6 +409,51 @@ checkpoint, cache and dataset guards passed. Evidence remains under
 A normal positive dynamic use and its full state/clock comparison remain open,
 as do the global selector domain and Linux/USA/native Windows checks. No
 performance measurement ran.
+
+Further read-only source inspection links original `08096b72` through
+`080c4ce4` to initializer `080c3be4`, which can request selectors 8 and 9;
+the setter still returns without a request when gate `0200203d` is zero.
+Dispatcher `08063a74` selects the gate-enabling callback `08064679` at task
+state 4 through root `0200f450`, with the separate flag-40 registration gate.
+Three additional authenticated retained states (worldmap, battle and F09
+forecast) had zero gate, current/pending selectors and phase, with flag 40
+clear. This extends only the snapshot negative: the event producing task state
+4 and a normal positive scene remain unestablished. No gameplay replay or
+performance measurement was performed for this inspection.
+
+The original state-4 producer is now identified conditionally. The state-2
+handler `080644f8` reads a signed result from menu object data at offset 6;
+results 1, 2 or 3 preserve the value 4 written to the task at `080645a6`.
+It pushes states 4, 52 and 53, sets state 50, and later pops through
+50 → 53 → 52 → 4; the final pop is gated by an original helper. In the normal
+menu callback, a new A press on an enabled entry writes selected index plus 1
+to that result. Eight original Windows disassembly windows were independently
+checked under Wine and retained in `target/rom-data-dynamic-state4-producer/`.
+
+This establishes a conditional input and task transition, not which user-facing
+scene opens that menu or whether a retained state reaches it with an eligible
+entry. Ordinary positive dynamic use, Linux, USA and native Windows remain
+open. No gameplay replay or performance measurements were made.
+
+The initial dispatcher states also have conditional paths into state 2. The
+callback at `080638ce` clears the task state; state 0 sets task byte `4d` to 1
+and, when its flag-8 branch chooses message `a6`, queues state 2. Otherwise it
+queues state 3; state 3 queues state 2 if byte `02000072` is nonzero and state
+1 otherwise. Five authenticated original Wine disassembly windows are under
+`target/rom-data-dynamic-state2-entry/`. These instructions do not establish
+which user-facing scene registers the task or reaches an eligible menu; the
+older bounded negatives remain unchanged. No gameplay replay or performance
+measurement was performed.
+
+An additional bounded inspection revisited the 24 known direct setter calls.
+Their immediate values outside the already modeled 7–9 are 0–3, which do not
+enter the dynamic transfer path. Two calls load task byte `50`; the inspected
+stores to that byte produce 3, 7 or 8. In particular `0806491e` writes 7,
+`0806498c` writes a register set to 8, and `08064dd4` writes 8. Original Wine
+windows are under `target/rom-data-dynamic-selector-witnesses/`. These findings
+do not justify adding indices 4–6 or 10 and above to the owned fragments, and
+the local inspection does not exclude alias, indexed or external writes. No
+gameplay replay or performance measurement was performed.
 
 ## Dispatcher lifecycle and Area List observation
 

@@ -192,9 +192,18 @@ const SOURCE_BOUNDS: &[(usize, usize)] = &[
     (0x71e6f8, 20),
 ];
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct DynamicFragmentsStats {
+    pub bus_reads: u64,
+    pub source_bytes: u64,
+    pub selector_bytes: u64,
+    pub payload_bytes: u64,
+}
+
 /// Independent bounded owner; missing bytes preserve earlier owners and raw ROM.
 pub(super) struct DynamicFragmentsResources {
     data: model::dynamic_fragments::Fragments,
+    counters: [AtomicU64; 4],
 }
 impl DynamicFragmentsResources {
     pub(super) fn source_page(index: usize) -> bool {
@@ -206,13 +215,32 @@ impl DynamicFragmentsResources {
             *at != source.offset || bytes.len() != source.length as usize || *role != source.role || ffta_rom::digest(bytes) != source.sha256) {
             return Err("Dynamic fragments typed source binding mismatch".into());
         }
-        Ok(Self { data })
+        Ok(Self { data, counters: std::array::from_fn(|_| AtomicU64::new(0)) })
     }
     pub(super) fn guest_read<const N: usize>(&self, index: usize, rom: &[u8], prior: Option<[u8; N]>) -> Option<[u8; N]> {
         if !Self::source_page(index) { return prior; }
         let values: [Option<u8>; N] = std::array::from_fn(|i| index.checked_add(i).and_then(|at| u32::try_from(at).ok()).and_then(|at| self.data.byte_at(at)));
         if values.iter().all(Option::is_none) { return prior; }
+        let mut selector_bytes = 0u64;
+        let mut payload_bytes = 0u64;
+        for (i, value) in values.iter().enumerate() {
+            if value.is_some() {
+                let at = index + i;
+                if self.data.rows.iter().any(|row| (row.source_offset as usize..row.source_offset as usize + 12).contains(&at)) {
+                    selector_bytes += 1;
+                } else {
+                    payload_bytes += 1;
+                }
+            }
+        }
+        for (counter, count) in self.counters.iter().zip([1, selector_bytes + payload_bytes, selector_bytes, payload_bytes]) {
+            counter.fetch_add(count, Ordering::Relaxed);
+        }
         Some(std::array::from_fn(|i| values[i].unwrap_or_else(|| prior.as_ref().map_or_else(|| rom[index + i], |p| p[i]))))
+    }
+    pub(super) fn stats(&self) -> DynamicFragmentsStats {
+        let [bus_reads, source_bytes, selector_bytes, payload_bytes] = self.counters.each_ref().map(|v| v.load(Ordering::Relaxed));
+        DynamicFragmentsStats { bus_reads, source_bytes, selector_bytes, payload_bytes }
     }
     pub(super) fn resident_bytes(&self) -> usize {
         self.data.rows.len() * std::mem::size_of::<model::dynamic_fragments::Rows>() +

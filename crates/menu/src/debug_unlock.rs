@@ -17,6 +17,7 @@ pub(super) fn debug_page(page: Page) -> bool {
         page,
         Page::Debug
             | Page::DebugCatalog
+            | Page::CheatCatalog
             | Page::ContentSelector
             | Page::ToolInputs
             | Page::DebugTools

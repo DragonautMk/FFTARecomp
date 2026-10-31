@@ -21,6 +21,20 @@ struct Job {
     view: u64,
     handle: JoinHandle<Result<ResultData, String>>,
 }
+struct IdJob {
+    generation: u64,
+    context: String,
+    index: Arc<Index>,
+    slot: ContentSlot,
+    cancelled: bool,
+    handle: JoinHandle<Result<Reference, String>>,
+}
+struct ScanJob {
+    context: String,
+    generation: u64,
+    cancelled: bool,
+    handle: JoinHandle<Result<(Index, crate::debug_choices::memory::Locations), String>>,
+}
 #[derive(Default)]
 pub(crate) struct Picker {
     roots: Vec<Root>,
@@ -29,6 +43,8 @@ pub(crate) struct Picker {
     slot: Option<ContentSlot>,
     slots: BTreeMap<ContentSlot, Reference>,
     job: Option<Job>,
+    id_job: Option<IdJob>,
+    scan_job: Option<ScanJob>,
     generation: u64,
     view: u64,
     rom: Option<String>,
@@ -122,7 +138,7 @@ impl Picker {
         Ok(())
     }
     fn begin_restore(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
-        if !self.restore_pending || self.job.is_some() {
+        if !self.restore_pending || self.busy() {
             return Ok(());
         }
         let memory = self
@@ -214,7 +230,7 @@ impl Picker {
         if !self.persistence_error.is_empty() {
             menu.content_message(self.persistence_error.clone());
         }
-        menu.content_busy(self.job.is_some());
+        menu.content_busy(self.busy());
         Ok(())
     }
     pub fn open_for(
@@ -304,6 +320,13 @@ impl Picker {
     pub fn references(&self) -> BTreeMap<ContentSlot, Reference> {
         self.slots.clone()
     }
+    pub fn reference(&self,slot:ContentSlot)->Option<&Reference>{self.slots.get(&slot)}
+    pub fn rom_context(&self)->Option<&str>{self.rom.as_deref()}
+    pub fn completion_ids(&self,slot:ContentSlot) -> Vec<String> {
+        self.index.as_ref().map_or_else(Vec::new, |index| index.entries.iter()
+            .filter(|entry| debug_inputs::kinds(slot).contains(&entry.kind) && entry.availability=="available")
+            .map(|entry|entry.id.clone()).collect())
+    }
     pub fn has_slot(&self, slot: ContentSlot) -> bool {
         self.slots.contains_key(&slot)
     }
@@ -320,6 +343,9 @@ impl Picker {
         rom: &str,
         menu: &mut menu::Menu,
     ) -> Result<(), String> {
+        if self.id_job.is_some() {
+            return Err("Wait for the current catalog operation".into());
+        }
         self.initialize(menu, rom.into())?;
         let reference = Reference::explicit(path, slot, rom)?;
         if let Some(memory) = &mut self.memory {
@@ -333,12 +359,114 @@ impl Picker {
     pub fn cancel(&mut self) {
         self.view = self.view.wrapping_add(1);
     }
+    fn busy(&self) -> bool {
+        self.job.is_some() || self.id_job.is_some() || self.scan_job.is_some()
+    }
+    /// Explicit headless refresh uses the same roots and bounded scanner as the
+    /// selector, but does not open a view or commit a cancelled/stale result.
+    pub fn refresh_control(&mut self) -> Result<(), String> {
+        if self.busy() || self.restore_pending {return Err("Wait for the current catalog operation".into());}
+        let context=self.context.clone().ok_or("No ROM context")?;
+        let roots=self.roots.clone();let rom=self.rom.clone();
+        let anchors=self.memory.as_ref().map(|m|m.anchors.clone());
+        self.scan_job=Some(ScanJob{context,generation:self.generation,cancelled:false,handle:std::thread::spawn(move||{
+            let index=Index::scan(roots,rom)?;
+            let locations=anchors.as_ref().map(|a|crate::debug_choices::memory::Memory::locations(&index,a)).unwrap_or_default();
+            Ok((index,locations))
+        })});Ok(())
+    }
+    pub fn cancel_refresh_control(&mut self)->bool {
+        if let Some(job)=&mut self.scan_job{job.cancelled=true;true}else{false}
+    }
+    pub fn poll_refresh_control(&mut self,menu:&mut menu::Menu)->Option<Result<(),String>> {
+        if !self.scan_job.as_ref().is_some_and(|j|j.handle.is_finished()){return None;}
+        let job=self.scan_job.take().unwrap();let result=job.handle.join().unwrap_or_else(|_|Err("Content scan worker failed".into()));
+        if job.cancelled{return Some(Err("Content scan control-cancelled".into()));}
+        if self.context.as_ref()!=Some(&job.context)||self.generation!=job.generation{return Some(Err("Content catalog or ROM context changed; refresh again".into()));}
+        Some(result.map(|(index,locations)|{
+            self.generation=self.generation.wrapping_add(1);
+            if menu.content_active(){
+                menu.open_content(self.slot.map_or("Debug inputs",|s|s.label()).into(),rows(&index),"Explicit scan complete; selection needs action preflight".into(),self.generation);
+            }
+            self.index=Some(Arc::new(index));self.locations=locations;self.scope(menu);
+            if menu.content_active(){self.apply_preferences(menu);}
+        }))
+    }
+    pub fn page(&self,offset:u32,limit:u8,generation:Option<u64>)->Result<Value,String>{
+        let index=self.index.as_ref().ok_or("Refresh the content catalog first")?;
+        if generation.is_some_and(|g|g!=self.generation){return Err("Content catalog generation changed; list again".into());}
+        if !(1..=16).contains(&limit){return Err("Content page limit needs1..16".into());}
+        let offset=offset as usize;let total=index.entries.len();
+        if offset>total{return Err("Content page offset exceeds entry count".into());}
+        let end=offset.saturating_add(limit as usize).min(total);
+        let entries=index.entries[offset..end].iter().map(|e|json!({"id":e.id,"kind":e.kind,"name":e.name.chars().take(128).collect::<String>(),"name_truncated":e.name.chars().count()>128,"root_id":e.root_id,"relative_path":e.relative_path.chars().take(256).collect::<String>(),"path_truncated":e.relative_path.chars().count()>256,"sha256":e.sha256,"availability":e.availability,"compatibility":e.compatibility})).collect::<Vec<_>>();
+        Ok(json!({"generation":self.generation,"offset":offset,"total":total,"next_offset":(end<total).then_some(end),"scan_truncated":index.stats.truncated,"entries":entries,"scope":"Bounded discovery; selection rechecks the original entry and action preflight"}))
+    }
+    /// Starts a readonly preflight. The caller must poll for its terminal result.
+    pub fn select_id(&mut self, slot: ContentSlot, id: &str) -> Result<(), String> {
+        if self.busy() || self.restore_pending {
+            return Err("Wait for the current catalog operation".into());
+        }
+        let context = self.context.clone().ok_or("No ROM context")?;
+        let index = self.index.clone().ok_or("Refresh the content catalog first")?;
+        if !index.entries.iter().any(|entry| entry.id == id) {
+            return Err("Unknown content ID; refresh the catalog first".into());
+        }
+        let worker_index = index.clone();
+        let id = id.to_owned();
+        self.id_job = Some(IdJob {
+            generation: self.generation,
+            context,
+            index,
+            slot,
+            cancelled: false,
+            handle: std::thread::spawn(move || Reference::resolve(worker_index, &id, Some(slot))),
+        });
+        Ok(())
+    }
+    pub fn cancel_id(&mut self) -> bool {
+        if let Some(job) = &mut self.id_job {
+            job.cancelled = true;
+            true
+        } else {
+            false
+        }
+    }
+    pub fn poll_id(&mut self, menu: &mut menu::Menu) -> Option<Result<String, String>> {
+        if !self.id_job.as_ref().is_some_and(|job| job.handle.is_finished()) {
+            return None;
+        }
+        let job = self.id_job.take().unwrap();
+        let result = job.handle.join().unwrap_or_else(|_| Err("Content worker failed".into()));
+        if menu.content_active() {
+            menu.content_busy(false);
+        }
+        if job.cancelled {
+            return Some(Err("Content selection control-cancelled".into()));
+        }
+        if self.context.as_ref() != Some(&job.context)
+            || self.generation != job.generation
+            || !self.index.as_ref().is_some_and(|index| Arc::ptr_eq(index, &job.index))
+        {
+            return Some(Err("Content catalog or ROM context changed; select again".into()));
+        }
+        Some(result.map(|reference| {
+            let id = reference.entry.id.clone();
+            if let Some(memory) = &mut self.memory {
+                memory.record_input(job.slot, &reference);
+            }
+            self.saved_issues.remove(&job.slot);
+            self.slots.insert(job.slot, reference);
+            self.scope(menu);
+            id
+        }))
+    }
     fn start(
         &mut self,
         menu: &mut menu::Menu,
         work: impl FnOnce() -> Result<ResultData, String> + Send + 'static,
     ) -> Result<(), String> {
-        if self.job.is_some() {
+        if self.busy() {
             return Err("Catalog operation is finishing; wait or cancel the selection.".into());
         }
         self.job = Some(Job {
@@ -371,7 +499,7 @@ impl Picker {
         let Some(path) = path else {
             return Ok(());
         };
-        if self.job.is_some() {
+        if self.busy() {
             return Err("Wait for the current catalog operation before adding a root".into());
         }
         let root = if file {
@@ -397,7 +525,7 @@ impl Picker {
         self.refresh(menu)
     }
     pub fn browse_file(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
-        if self.job.is_some() {
+        if self.busy() {
             return Err("Wait for the current catalog operation".into());
         }
         let path = rfd::FileDialog::new()
@@ -406,7 +534,7 @@ impl Picker {
         self.external_result(path, true, menu)
     }
     pub fn browse_folder(&mut self, menu: &mut menu::Menu) -> Result<(), String> {
-        if self.job.is_some() {
+        if self.busy() {
             return Err("Wait for the current catalog operation".into());
         }
         let path = rfd::FileDialog::new()
@@ -586,7 +714,7 @@ impl Picker {
         true
     }
     pub fn status(&self) -> Value {
-        json!({"persistence":self.memory.as_ref().map(|m|json!({"file":m.file.path,"message":m.message,"saved_roles":m.file.state.inputs.len(),"saved_views":m.file.state.views.len(),"bookmarks":m.file.state.bookmarks.len(),"readonly_restore_pending":self.restore_pending})),"persistence_error":self.persistence_error,"saved_issues":self.saved_issues.iter().map(|(slot,message)|json!({"slot":slot.label(),"message":message})).collect::<Vec<_>>(),"slot":self.slot.map(|s|s.label()),"inputs":ContentSlot::ALL.into_iter().filter_map(|slot|self.slots.get(&slot).map(|s|json!({"slot":slot.label(),"id":s.entry.id,"kind":s.entry.kind,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"scope":"Pinned host reference; rechecked before use; runtime ABI and decoded guest fields still need action preflight"}))).collect::<Vec<_>>(),"generation":self.generation,"busy":self.job.is_some(),"roots":self.roots.len(),"entries":self.index.as_ref().map_or(0,|i|i.entries.len()),"selected":self.selected.as_ref().map(|s|json!({"id":s.entry.id,"kind":s.entry.kind,"root_id":s.entry.root_id,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"path":s.path})),"scope":"Host content selection only; no execution or full action verification"})
+        json!({"persistence":self.memory.as_ref().map(|m|json!({"file":m.file.path,"message":m.message,"saved_roles":m.file.state.inputs.len(),"saved_views":m.file.state.views.len(),"bookmarks":m.file.state.bookmarks.len(),"readonly_restore_pending":self.restore_pending})),"persistence_error":self.persistence_error,"saved_issues":self.saved_issues.iter().map(|(slot,message)|json!({"slot":slot.label(),"message":message})).collect::<Vec<_>>(),"slot":self.slot.map(|s|s.label()),"inputs":ContentSlot::ALL.into_iter().filter_map(|slot|self.slots.get(&slot).map(|s|json!({"slot":slot.label(),"id":s.entry.id,"kind":s.entry.kind,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"scope":"Pinned host reference; rechecked before use; runtime ABI and decoded guest fields still need action preflight"}))).collect::<Vec<_>>(),"generation":self.generation,"busy":self.busy(),"roots":self.roots.len(),"entries":self.index.as_ref().map_or(0,|i|i.entries.len()),"selected":self.selected.as_ref().map(|s|json!({"id":s.entry.id,"kind":s.entry.kind,"root_id":s.entry.root_id,"relative_path":s.entry.relative_path,"sha256":s.entry.sha256,"path":s.path})),"scope":"Host content selection only; no execution or full action verification"})
     }
 }
 #[cfg(test)]

@@ -55,11 +55,103 @@ Una richiesta incompatibile viene rifiutata senza applicarla e restituisce esito
 nonzero; durante l'esecuzione libera il gioco continua comunque ad avanzare.
 Un errore di esecuzione parziale non viene contato come frame completato.
 
-Un solo client può attendere un comando operativo. **status** e **cancel**
+Un solo client può attendere un comando operativo. **status**, **content-list** e **cancel**
 usano un secondo mailbox con lock/risposta separati: restano disponibili durante
 step o ricerca senza sovrascrivere il risultato in attesa. Nessun retry
 automatico. F6/Escape e Load/Undo/Restart possono ancora interrompere il budget;
 durante replay separato lo stato è leggibile, pausa/passi/ripresa sono rifiutati.
+
+La console e `debug-command` possono scoprire e selezionare contenuti senza
+aprire il selettore:
+
+~~~text
+content refresh
+content list --offset 0 --limit 16
+content list --offset 16 --limit 16 --generation GENERAZIONE
+catalog select ID
+~~~
+
+`content refresh` scandisce esplicitamente le radici già dichiarate nella
+copia, in un worker con gli stessi limiti del selettore; richiede pausa, nessun
+passo, ricerca o replay attivo e nessun altro lavoro del selettore. La richiesta
+resta pendente fino alla conclusione ed è
+annullabile per ID: un risultato annullato o relativo a un contesto cambiato
+non viene applicato. `content list` legge l'indice corrente senza riscansionare,
+anche mentre un altro job è pendente. Il risultato è in `status.content_page`:
+include generazione, totale, prossimo offset, indicazione di scansione parziale
+e fino a 16 ID con tipo, hash, disponibilità e compatibilità. Specificare la
+generazione ricevuta per le pagine successive: una diversa viene rifiutata.
+Nome e percorso lunghi sono abbreviati con indicatori espliciti; l'ID conserva
+il riferimento completo e la selezione lo ricontrolla. Le forme equivalenti
+del trasporto diretto sono `debug-control content-refresh SESSION` e
+`debug-control content-list SESSION [--offset N --limit N --generation N]`.
+Un server precedente senza questa capacità viene rifiutato prima dell'invio.
+Una prova Wine/Xvfb ha scandito una sessione sintetica e selezionato un catalogo
+da pagine di un elemento, senza navigazione del menu né avanzamento del gioco.
+
+Il catalogo cheat può essere consultato attraverso lo stesso canale locale:
+
+~~~text
+content refresh
+content list
+cheats select ID_CONTENUTO
+cheats refresh
+cheats list --offset 0 --limit 16
+cheats show CH-0001 --offset 0 --generation SHA_SNAPSHOT
+~~~
+
+La selezione usa un ID `cheat-catalog` scoperto dal selettore; non accetta un
+percorso nel linguaggio testuale. `cheats refresh` richiede una copia isolata
+in pausa, ricontrolla il file selezionato in un worker e pubblica uno snapshot
+immutabile identificato da hash della sorgente, ROM e generazione. Un cancel con
+l'ID esatto o una scadenza fanno scartare il risultato: il worker termina la
+lettura prima della risposta definitiva. Se selezione o contesto cambiano,
+lo snapshot precedente non è più interrogabile. Le query `list` e `show`
+usano il mailbox di sola lettura e restano disponibili durante altri job.
+Il file non viene riletto a ogni query: lo snapshot certifica la verifica al
+momento del refresh, non l'assenza di successive modifiche su disco.
+
+La pagina contiene al massimo 16 righe con indicatori di troncamento. Il
+dettaglio JSON originale è restituito in parti UTF-8 di massimo 4096 byte:
+concatenare `json_part` seguendo `next_offset_bytes` e verificare
+`entry_sha256`. Una generazione diversa o un offset non valido viene rifiutato.
+Le forme dirette sono `debug-control cheat-select SESSION ID`, `cheat-refresh
+SESSION`, `cheat-list SESSION [--offset N --limit N --generation SHA]` e
+`cheat-show SESSION CH-ID [--offset N --generation SHA]`. Un server senza
+`cheat-catalog-v1` viene rifiutato prima dell'invio. Nessuna di queste azioni
+abilita, decodifica o applica un codice.
+
+Le azioni esplicite `cheats prepare CH-ID INDICE MASTER GENERAZIONE` e
+`cheats apply-once CH-ID INDICE MASTER GENERAZIONE TOKEN` usano lo stesso
+controllo locale e richiedono la capacità `cheat-once-v1`. La prima restituisce
+il piano, le aree e un token legato a selezione, contenuto, ROM e stato in pausa;
+la seconda ricontrolla tutto e applica una volta. Il retry con la stessa identità
+recupera l'esito senza ripetere le scritture. Prerequisiti e limiti, inclusi
+interprete, regioni di memoria consentite e guardie su registrazione e nuovi
+salvataggi, sono in [cheat](cheats.md#manual-one-shot-in-an-isolated-session--dbg2-19-in-progress).
+
+Il profilo replay selezionato può essere avviato con `replay run`, oppure
+`replay run audit`, `replay run capture` o `replay run compare`. Il trasporto
+diretto usa `debug-control replay-run SESSION [--mode plain|audit|capture|compare]`.
+La copia deve essere in pausa e il profilo compatibile deve essere già stato
+selezionato: il comando non apre un selettore. L'esecuzione usa lo stesso
+supervisore isolato del menu. `status.replay` distingue worker attivo,
+avanzamento ricevuto e ultimo risultato; i suoi frame sono quelli del worker,
+non della copia principale. Il risultato della richiesta conserva il report e
+rimane pendente fino alla terminazione del worker. Un server precedente senza
+`replay-job-v1` viene rifiutato prima dell'invio.
+In una prova Wine/Xvfb con profili sintetici copiati, replay ha restituito
+`passed`, capture `captured` e compare `matched`; audit ha riportato
+correttamente una divergenza del punto finale, senza dichiararla un successo.
+Un ritento del replay ha restituito lo stesso JSON e lo stesso run del worker.
+Un ID errato è stato rifiutato mentre un altro replay era pendente. La prova
+separata di cancellazione e scadenza usa un processo sintetico lento, non un
+worker che esegue il gioco: conferma l'interruzione del supervisore e,
+rispettivamente, `cancelled` e `timeout` terminali. Nelle prove la copia
+principale è rimasta al frame e clock iniziali, con stato invariato.
+Una seconda sessione sintetica ha inviato `replay run` dalla finestra Console
+comandi e copiato il JSON terminale identico alla risposta del canale; la
+clipboard e il display usati per la prova erano isolati.
 
 ## Richieste, cancellazione e scadenza — DBG-20
 
@@ -88,7 +180,11 @@ lascia la copia in pausa. Un ID vecchio/diverso viene rifiutato, senza annullare
 un altro comando. L'operativo termina con outcome **cancelled**, remaining0 e
 stato parziale effettivo; la query cancel conferma separatamente. Non riavvolge
 i frame già completati. Alla chiusura una risposta senza stato finale non inventa un confine guest:
-status è null e l’esito è closed. Un replay in altro processo usa il proprio Cancel replay;
+status è null e l’esito è closed. Per un replay avviato dal canale, cancel richiede
+l'ID esatto e conferma soltanto la richiesta: il risultato terminale conferma
+l'eventuale interruzione. Alla scadenza viene richiesta la cancellazione e il
+risultato rimane pendente fino al termine del worker. Un replay avviato dal menu
+usa il proprio Cancel replay;
 un budget da menu/tastiera resta interrompibile con F6/Escape.
 
 Tutti i comandi accettano **--timeout-ms N**,20–120.000ms, default120.000.
@@ -101,12 +197,60 @@ Un'operazione sincrona già completata dopo scadenza restituisce timeout con
 lo stato osservato, senza rollback.
 
 Il client restituisce JSON anche per errori locali o assenza di conferma:
-outcome **ok / refused / cancelled / timeout / closed**, ok, error, run/id/session
-quando disponibili. Un timeout client con server_acknowledged=false non prova
+outcome **ok / refused / cancelled / timeout / closed**, oltre a
+**identity-conflict / result-unavailable / capacity** per i ritenti, con ok,
+error, run/id/session quando disponibili. Prima dell'invio, sintassi o argomenti
+non validi producono `parse-error`, un protocollo, manifesto, capacità o run
+incompatibile produce `incompatible` e una sessione o lock non disponibili
+producono `unavailable`: questi esiti locali indicano `delivery: not-sent`.
+Un errore di trasporto o del worker può invece riportare `delivery: unknown`:
+non dimostra che il server non abbia ricevuto la richiesta. Il server continua
+a riportare `refused` per i propri rifiuti, compresi quelli di compatibilità
+specifici di un contenuto, con il dettaglio nell'errore. Sono possibili anche
+`invalid-request` per un'azione tipizzata non valida e `composition-active`
+quando la console blocca Invio durante la composizione. Un timeout client con
+server_acknowledged=false non prova
 che il frontend abbia già fermato il lavoro. Usare status e l'ID per controllare
 prima di ritentare. La risposta server successiva può essere in result.json;
 viene conservata solo l'ultima di ciascun mailbox. Query concorrenti vengono
 rifiutate dal proprio lock OS; la morte del client lo rilascia automaticamente.
+La risposta terminale di un job riporta `pending_control: null`: la richiesta
+conclusa non compare come ancora attiva. Se la pubblicazione deve essere
+ritentata, la correlazione conserva l'ID del job originale.
+
+Il runtime corrente offre anche un ritento esplicito con la stessa identità:
+
+~~~powershell
+.\recomp.exe debug-control retry 'target\caso-debug' --run RUN --request ID --deadline-unix-ms SCADENZA --timeout-ms 5000 -- step 1 --keys 0x3ff
+~~~
+
+`RUN`, `ID` e `SCADENZA` sono quelli della richiesta originale; dopo `--` si
+ripetono esattamente azione e argomenti. Sono presenti nei risultati e nel
+timeout client. Si possono anche scegliere prima dell'invio e conservare per
+un eventuale ritento. Il server confronta un'impronta dell'intera richiesta:
+un ID con parametri diversi è rifiutato, quello pendente non è rieseguito e
+quello concluso restituisce il risultato conservato. Il limite per avvio è
+4096 identità, con uno spazio riservato all'annullamento del job attivo;
+al massimo 128 risposte, 128 KiB ciascuna e 2 MiB serializzati complessivi restano
+in cache. Se la risposta
+non è più disponibile il server lo dichiara senza rieseguire l'azione. La
+memoria vale solo per il run corrente: un run diverso rifiuta il ritento.
+Un nuovo comando dotato di un altro ID costituisce un'azione distinta. Una prova
+Wine/Xvfb ha verificato che il ritento di un passo concluso non esegue un altro
+frame e che una ricerca pendente mantiene il suo proprietario; parametri e run
+diversi sono stati rifiutati. Le risposte includono `request_sha256`, che il
+client confronta prima di accettare una risposta del runtime aggiornato.
+Il ritento richiede un server che supporti questa funzione; `status` è una
+lettura non registrata e si interroga con una nuova richiesta. Anche il
+linguaggio condiviso dalla console e da `debug-command` accetta, per esempio,
+`retry RUN ID SCADENZA -- step 1 --keys 0x3ff`, oppure dopo `--` un comando
+`profile select ID` o `catalog select ID`. La scadenza è il numero decimale
+`deadline_unix_ms` originale. I campi della risposta JSON si copiano dalla
+console con Ctrl+Shift+C. La richiesta è sempre esplicita: se identità o azione
+originali non sono disponibili, non si deve inventare un ID per il recupero.
+Non sono ammessi ritenti annidati, help o status; la console attende fino a
+120 secondi. Una prova Wine/Xvfb ha ritentato un passo concluso dalla console:
+stesso JSON, nessun secondo frame e rifiuto dei parametri cambiati.
 
 Le richieste schema1 senza i nuovi campi opzionali restano decodificabili per
 compatibilità locale, senza deadline garantita. Il client corrente pubblica
@@ -132,6 +276,18 @@ risultati non valgono come conferma di un nuovo comando. Si conserva soltanto
 l'ultima risposta, senza timeline, nuovi slot o raccolte di snapshot. Tutti i file
 restano nella sessione privata, ignorati da Git. Il canale viene chiuso con la
 finestra e viene ricreato con nuova identità alla riapertura.
+
+Prima di leggere una richiesta il server la sposta atomicamente nel proprio
+file `request.claim` o `query.claim`, uno per canale. Una richiesta pubblicata
+successivamente non può essere rimossa al posto di quella già acquisita; se
+lettura o rimozione falliscono temporaneamente, la presa in carico viene
+ritentata prima di acquisirne un'altra. Un residuo di un run precedente viene
+scartato dalla verifica dell'identità e non eseguito. Input troppo grandi o
+malformati vengono consumati e segnalati nel log, senza garantire una risposta
+al client; un file non ordinario può richiedere
+intervento. Gli errori distinguono canale e fase. Il mailbox resta a un solo
+posto: dopo un timeout non confermato, una richiesta non ancora acquisita può
+essere sostituita e non costituisce una conferma di esecuzione.
 
 ## Ambito della verifica
 

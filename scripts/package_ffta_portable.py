@@ -24,7 +24,8 @@ DEBUG_DOCS = ('debug_tools', 'debug_diagnostics', 'debug_sessions', 'debug_catal
               'debug_comparisons', 'debug_control', 'debug_probes', 'debug_graphics',
               'debug_ui', 'debug_audio', 'debug_code', 'debug_issues', 'debug_gameplay',
               'debug_artifacts', 'debug_recent', 'debug_campaigns', 'report_home',
-              'debug_operations', 'debug_content', 'debug_selector', 'debug_events')
+              'debug_operations', 'debug_content', 'debug_selector', 'debug_events',
+              'cheats')
 DEVELOPMENT_DOCS = ('LOCAL_ARTIFACTS', 'MEMORY_WORKFLOW', 'DEBUG_TOOLS_TODO')
 TOOL_FILES = (
     'scripts/artifact_coordinator.py', 'scripts/local_artifacts.py',
@@ -137,7 +138,7 @@ PACKAGE-MANIFEST.json identifica tutti i payload, non certifica la piattaforma.
     generated = {
         'portable.txt': b'FFTARecomp portable mode. Keep beside both executables.\n',
         'LEGGIMI.txt': readme.encode('utf-8'),
-        '.gitignore': b'/Data/\n/target/\n/ffta.gba\n/gba_bios.bin\n/index.html\n/*.log\n',
+        '.gitignore': b'/Data/\n/target/\n/cheats/\n/ffta.gba\n/gba_bios.bin\n/index.html\n/*.log\n',
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     # Stage only selected inputs. Existing personal Data is never copied.

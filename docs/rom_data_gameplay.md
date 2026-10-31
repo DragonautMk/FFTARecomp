@@ -5614,3 +5614,648 @@ Other ordinary records/classes, full routine ABI/helpers/RNG/live effects,
 opaque/outside/indirect semantics, Linux, USA, native Windows, new32:9 and the
 full ROM TODO remain open. Sparse27 ordinary reachability stays partial.
 No performance or space campaign is run.
+
+## European conditional four-byte lookup projection
+
+The independently rooted table at `6e6dbc` is read with four-byte indexing;
+the earlier hypothesis that it belonged to the 14-byte records remains
+rejected. Original readers reconstruct two little-endian 16-bit fields from
+each row. Eleven aligned root literals were found; other indirect references
+and the semantic names of the fields remain unproved.
+
+The metadata52 search at `0cce28` enumerates rows 0–115. For suitable original
+search inputs, property 12 supplies each nonzero index 1–73 to a list consumed
+by the reader at `080300`. The authenticated metadata has four `ff` routing
+rows: a same-row redirect can fail to return and must not become a successful
+fallback. A separate conditional original path can clear the selected object's
+byte `36`; its reader accesses row 0 without a zero guard. This is source
+reasoning under the stated conditions, not an observed ordinary refresh.
+
+These witnesses support a bounded 74-row, 296-byte source projection at
+`6e6dbc..6e6ee4`, SHA256
+`76c83105709e84c7852de2d88b19c7b50b7862b443b57a478de4854ebb3a0ea1`,
+without overlap against the accepted e95 manifest. They do not establish a
+global index bound: other original readers take live values, and reads at 74
+or above retain their original raw behavior. Exact EUR ROM, source windows,
+metadata and manifest checks are retained in `target/rom-data-6e6dbc-lookup/`.
+The source milestone itself added no runtime owner. The later model and managed
+publication are documented below. Ordinary use and Linux/USA checks remain
+open. No gameplay or performance measurement was performed.
+
+## Typed conditional four-byte lookup model
+
+The EUR source projection has a strict model of 74 rows with two independent
+`u16` fields. It reconstructs all 296 original bytes and authenticates both the
+exact ROM and the source digest. The encoded-address helper retains original
+32-bit wrapping arithmetic; looking up an index outside the declared projection
+returns no modeled row and does not add a guest-side check.
+
+One isolated Windows build and focused Wine test passed source and JSON checks,
+malformed/coherent-edit rejection, and original field and byte-reader prefixes
+for indices 0, 1, 73, 74, 255 and `u32::MAX`. The original metadata52 getter
+also returned 73 for row 77/property 12. Protected inputs and frozen sources
+remained unchanged; evidence is in `target/rom-data-6e6dbc-model/`.
+
+This model milestone was followed by managed publication below; it is not an
+ordinary gameplay proof. Linux, USA and native Windows remain open.
+
+
+## Managed conditional four-byte lookup
+
+The EUR e96-d95 dataset adds `gameplay.conditional-four-byte-lookup`, with
+74 authenticated two-field records and one 296-byte source binding. Strict
+activation checks the decoded model against the exact original source, even
+when an edited file and its manifest hash agree. Runtime reads reconstruct
+source bytes from the typed fields, composing at span boundaries with earlier
+owners and the original ROM. The original selectors and arithmetic still run;
+indices beyond this conditional projection are not capped. The resource
+reports read and per-field byte counters.
+
+One isolated Windows build and focused Wine test passed: all 85 previous
+resource records and files remained identical; poisoned source bytes, mirrors
+and mixed-width span edges read correctly; coherent tampering was rejected
+without replacing the existing owner or state. Three translated original
+prefixes were compared with the raw interpreter at indices 0, 1, 73, 74, 255
+and `u32::MAX`: complete state and clock matched, with 15 in-projection native
+bytes served and none for the outside cases. Protected inputs and frozen sources
+were unchanged. Evidence is in `target/rom-data-6e6dbc-runtime-retry/`; the
+initial failed build and budget-test correction are retained separately in
+`target/rom-data-6e6dbc-runtime/`. This is not ordinary gameplay or full caller
+ABI coverage. Production CLI, ordinary use, Linux, USA and native Windows
+remain to verify. No performance measurements were made.
+
+
+## Conditional lookup production CLI
+
+An isolated production Windows binary under Wine created and reused the EUR
+e96-d95 generation, then advanced one frame from an existing neutral input and
+state. All 87 generation files matched the accepted managed test dataset, all
+86 runtime resource IDs and hashes matched the manifest, and 89 managed files
+remained unchanged during reuse and startup. The ROM, input, state, native cache,
+canonical executable and frozen build sources were protected and unchanged.
+Evidence is in `target/rom-data-6e6dbc-cli/`. This establishes registration and
+startup, not ordinary use of the lookup or full gameplay equivalence. Linux,
+USA and native Windows remain to verify; no performance test was performed.
+
+
+## Conditional lookup ordinary-route candidate
+
+The existing normal-input EUR Ability navigation is a source-supported
+candidate, not an observed lookup read. The retained frame-4519 state and input
+reach an Ability screen whose saved screenshot shows Item as the first category.
+Original code copies the four-byte map `01 02 03 05`, uses the selected category
+in state 0 and calls the list builder with the mapped value; its value-1 branch
+consumes indices through the lookup at `08080306` and `08080316`. Entry into
+that state, a nonempty list and actual reads remain to be observed. The existing
+input's A press at frame 500 and release at 512 justify one bounded 540-frame
+observation. Source check/disassembly are retained under
+`target/rom-data-6e6dbc-ordinary-route/`, with state/input provenance under
+`target/rom-data-linked-metadata28-cli/`. The old metadata28 negative concerns
+a different resource; neither it nor the zero-read one-frame CLI startup proves
+that this lookup is unused. No gameplay replay or performance measurement was
+performed for this source selection.
+
+
+## Ordinary conditional lookup use in Ability navigation
+
+One Wine run of the existing normal-input Ability route, frame 4519 through
+5059, reported 55 typed bus reads and 55 source bytes: 27 from the first field
+and 28 from the second. This is positive aggregate use of the EUR projection;
+it does not identify each instruction or establish all gameplay paths. The run
+used the e96 production runtime and existing native cache; 199 guarded files and
+691 frozen source hashes were unchanged. Evidence is in
+`target/rom-data-6e6dbc-ordinary/`. The full same-input raw/typed scene pair,
+Linux, USA and native Windows remain to verify; no performance was measured.
+
+
+## Ordinary Ability scene differential
+
+The same existing 540-frame Ability route passed a Wine differential between
+raw ROM and the e96 managed runtime. At every frame the complete state and
+clock, central and wide video, OAM, dispatch counts and five audio outputs
+matched. An opt-in assertion inside this same comparison recorded 55 typed
+lookup reads: 27 first-field bytes and 28 second-field bytes. The 108 guarded
+files and 691 frozen source hashes stayed unchanged. Both arms shared the
+existing native cache; this does not cover every scene or establish general
+interpreter/native equivalence. Evidence is in
+`target/rom-data-6e6dbc-ordinary-pair/`. Linux, USA and native Windows remain
+unverified; no performance measurements were taken.
+
+
+## European conditional packed four-byte projection
+
+Three original readers use root `086e6ee4` and four-byte indexing, with the
+index taken from `u16(descriptor+4)`. The original `080d0ed4` getter selects
+an eight-byte descriptor from the pointer table at `086df4d4` using two live
+`u8` inputs. Reader `08134168` checks `descriptor[6] == 5`, then reads the low
+five bits of row byte 1. Another reader combines the upper three bits of byte 1
+with the low two bits of byte 2; a third reads byte 3. Unused bits and byte 0
+remain structural until their meanings are established.
+
+The UI category-3 path maps to type 5, builds a list filtered by descriptor
+type and can assign the selected descriptor to the unit. Availability, unit
+count/progress/equipment and a valid confirmation gate the actual selections.
+Within 23 consecutive source pointer intervals, 42 type-5 descriptors provide
+static witnesses covering indices 1–33. This supports the conditional 33-row
+projection `6e6ee8..6e6f6c` (132 bytes, SHA-256
+`5f8c27c41576800b3eded5d5c7e57c7ceb10f5a1ca9e31d8c07fb72c19cfcae9`),
+which has no e96 owner overlap. It does not prove every witness ordinarily
+reachable or establish a global bound; the final pointer interval is unbounded.
+There is no source witness for row 0 in the examined intervals. Other descriptor
+types can supply indices above 33: one static type-1 index 251 points into the
+existing metadata14 owner. The two readers lacking a type guard preserve their
+original address arithmetic and any prior owner. No new fallback is implied.
+
+Exact EUR ROM, scoped source census, per-index witnesses and original reader,
+producer and assignment disassemblies are retained under
+`target/rom-data-6e6ee4-root/`. This is a source classification only, with no
+new runtime owner or ordinary-use proof. Linux, USA and native Windows remain
+to verify; no performance measurement was made.
+
+
+## Typed conditional packed lookup model
+
+The source-authenticated EUR model preserves 33 rows at indices 1–33 as byte 0,
+byte 1 split into low five and high three bits, byte 2 split into low two and
+high six bits, and byte 3. It reconstructs all 132 original bytes and rejects
+wrong source, shape, bit ranges and coherent edits. Address calculations retain
+original 32-bit wrapping; row 0 and indices outside the projection do not gain
+a guest-side check.
+
+One isolated Windows build and focused Wine test passed the model roundtrip and
+original descriptor getter, packed reader and type guard on authenticated
+descriptors for indices 0, 1, 33 and 251. Index 251 remains outside the model
+and reaches bytes also owned by metadata14. Evidence is under
+`target/rom-data-6e6ee4-model/`. The model is not yet a managed/runtime resource
+or ordinary-use proof; Linux, USA and native Windows remain open. No performance
+measurement was made.
+
+
+## Managed conditional packed lookup
+
+The EUR e97-d96 dataset adds `gameplay.conditional-packed-lookup`, with 33
+authenticated four-byte records at indices 1–33. Strict activation compares
+the parsed data against the exact original source even if a modified file and
+manifest hash agree. The runtime reconstructs the declared bytes from their
+typed fields and composes them with preceding owners and the raw ROM. Guest
+selectors and arithmetic are unchanged; row 0 and indices beyond 33 are not
+capped. Per-byte-field counters expose actual use.
+
+One isolated Windows build and focused Wine test passed: all 86 previous
+resource records and files stayed identical, all 132 source bytes and mixed
+width/mirror boundaries were correct, and coherent tampering was rejected
+without replacing the existing owner or state. Two translated original reader
+prefixes over descriptor indices 0, 1, 33 and 251 matched the raw interpreter's
+complete state and clock. With the source bytes poisoned, index 251 was served
+by the existing metadata14 owner; the adjacent owner also supplied the mixed
+boundary. Evidence is under `target/rom-data-6e6ee4-runtime/`; protected inputs
+and frozen sources were unchanged. Production CLI, ordinary scene, Linux, USA
+and native Windows remain to verify. No performance measurements were made.
+
+
+## Conditional packed lookup production CLI
+
+An isolated production Windows binary under Wine created and reused EUR
+e97-d96, then advanced a retained neutral frame. All 88 generation files
+matched the accepted dataset, 87 runtime resource identities and hashes matched
+the manifest, and 90 managed files were unchanged during reuse and startup.
+ROM, input, state, native cache, canonical executable and frozen build sources
+were protected. Evidence is in `target/rom-data-6e6ee4-cli/`. This verifies
+registration and startup, not ordinary use. Linux, USA and native Windows
+remain to verify; no performance measurements were made.
+
+
+## Conditional packed lookup ordinary-route candidate
+
+A retained EUR Polly-to-Hildegard Fight checkpoint and its existing 500-frame
+input are a source-backed candidate for ordinary use, not yet a positive read.
+At the initial forecast state, a combat wrapper points to a unit whose selected
+descriptor has type 5, lookup index 1 and active progress; the actor uses a
+different wrapper. The original node adapter passes wrappers to the combat
+callback, which can reach the byte-3 reader through the flag-8 path. The
+authenticated state contains bit 47 in the inspected bitset, outside the
+original 0–43 scan; an earlier inference that bit 43 blocked this path was
+incorrect. Whether the retained attack takes the constructor branch and admits
+that wrapper remains unobserved.
+
+Evidence, corrected gate check and source windows are under
+`target/rom-data-6e6ee4-ordinary-route/`; the existing input and state are
+under `target/rom-data-equipment-ordinary/`. One bounded Wine observation can
+distinguish use in this particular segment. No gameplay replay or performance
+measurement was performed for this source selection; Linux and USA remain open.
+
+Another retained EUR battle seed has Marche's bank-1 type-5 descriptor row 11
+(packed index 1) learned and already assigned to slot `3c`; the Ability
+screenshot shows Combat Combo. Its saved unit and global bytes satisfy the
+inspected Combo menu gates, unlike a previously documented disabled Combo in a
+different scene. A conditional combat prefix would also pass its inspected
+gates if invoked for this unit. Original command 17 installs callback
+`0802a231`, but its continuation has not yet been connected to a packed
+reader for that unit. This is a static candidate, not observed packed-lookup use or
+justification to replay the prior negative; the dispatch and a normal input
+remain to establish. No performance measurements were made.
+
+An independent Wine disassembly of the command-17 installation and callback
+confirms that the inspected callback initializes menu context, dispatches via
+a six-way jump table and writes the result state. It contains no direct call
+to the packed reader in the inspected body. The later execution and participant
+identity are still unconnected; this bounded inspection does not establish
+global absence of a route. Windows are under
+`target/rom-data-6e6ee4-combo-dispatch/`; no gameplay replay was performed.
+
+
+## Conditional packed lookup F09 observation
+
+One bounded Wine run of the retained 500-frame F09 confirmed Fight, from guest
+frame 8668 to 9168, reported zero bus reads and zero bytes for the packed
+lookup. It used the e97 production runtime and the existing state, input and
+native cache; 206 guarded files and 695 frozen source hashes were unchanged.
+This result closes only that observed segment. The candidate source chain has
+conditional branches and callbacks, and the zero counters do not establish
+global absence or identify which branch was taken. No full scene pair followed
+the negative. Evidence is in `target/rom-data-6e6ee4-ordinary/`; positive
+ordinary use, Linux, USA and native Windows remain open. No performance
+measurements were taken.
+
+
+## European conditional eight-byte descriptor banks
+
+The original getter at `080d0ed4` selects a bank pointer at `086df4d4` and
+an eight-byte descriptor using two live `u8` values. UI and other original
+readers access the three little-endian halfwords at offsets 0, 2 and 4 and
+the bytes at 6 and 7. Their full meanings and all indirect callers remain
+open; the getter itself does not cap either index.
+
+A separate original producer calls `080cd938` for bank values 1–23 and stores
+its result in the unit's live count byte. Those counts support a conditional
+projection of 23 pointer words at `6df4d8..6df534` and 684 eight-byte records:
+`6df5b4..6e0acc` and `6e0afc..6e0b44`. The bank-23 count is nine and its end
+coincides with an independently rooted pointer table. The bank-22 count is 11,
+although 17 records fit before the next pointer; the 48-byte gap remains raw.
+The count producer returns zero for bank 0. A separate mode-3 path suggests
+a conditional use of bank-0 rows 1–15, but its complete producer and ordinary
+reachability are not yet established, so bank 0 and pointer 0 remain raw.
+These counts describe this producer, not a global guest-side index limit or
+proof that every record is reachable. None of the declared source ranges
+overlaps e97 owners.
+
+Exact EUR source hashes, the original count jump table and per-bank counts,
+next-root and reader disassemblies are retained under
+`target/rom-data-6df4d4-descriptors/`. This is a source classification only;
+model, runtime, ordinary use, Linux, USA and native Windows remain to verify.
+No performance measurement was made.
+
+
+## Typed conditional descriptor bank model
+
+The EUR model represents the 23 selected bank pointers and 684 records as
+three `u16` fields and two bytes per record. It strictly validates bank IDs,
+source offsets, count bindings and exact ROM/source hashes, and reconstructs
+all 5,564 bytes in the three declared source spans. The original getter's
+`u8` truncation and address arithmetic remain available without a new guest
+limit; bank 0, the bank-22 gap and other out-of-projection addresses are not
+modeled.
+
+One isolated Windows build and focused Wine test passed strict JSON/shape and
+coherent-edit guards, every selected source byte, the original count dispatcher
+for banks 0–24, seven original unit-count stores and eleven original descriptor
+address cases including bank 0 and the bank-22 gap. Evidence is under
+`target/rom-data-6df4d4-model/`; protected inputs and frozen source hashes were
+unchanged. Managed publication, runtime use, ordinary scenes, Linux, USA and
+native Windows remain open. No performance measurement was made.
+
+
+## Managed conditional descriptor banks
+
+The EUR e98-d97 dataset adds `gameplay.conditional-descriptor-banks` with
+23 pointer words and 684 eight-byte records in three authenticated source
+spans. Strict activation compares decoded data against the exact original
+source even when an edited file and its manifest hash agree. Runtime reads
+reconstruct those bytes from typed fields and compose with prior owners and
+raw ROM; the original `u8` pointer and row arithmetic is unchanged. Bank 0
+and the bank-22 gap remain raw. Per-field counters expose actual use.
+
+One isolated Windows build and focused Wine test passed: all 87 previous
+resource records and files were identical; the source bytes, mirrors and
+mixed-width boundaries read correctly; coherent tampering was rejected without
+replacing the active owner or state. Five translated original pointer and field
+prefixes over eight inside/outside bank-row cases matched the raw interpreter's
+complete state and clock. Poisoned selected bytes proved typed reads, while
+separately poisoned pointer 0 and the 48-byte bank-22 gap remained raw. Evidence
+is under `target/rom-data-6df4d4-runtime/`; guarded inputs and frozen sources
+were unchanged. Production CLI, ordinary scenes, Linux, USA and native Windows
+remain to verify. No performance measurements were made.
+
+
+## Conditional descriptor banks production CLI
+
+An isolated production Windows binary under Wine created and reused EUR
+e98-d97, then advanced one retained neutral frame. All 89 generation files
+matched the accepted dataset, all 88 runtime resource identities and hashes
+matched the manifest, and 91 managed files remained unchanged on reuse and
+startup. The guarded ROM, input, state, native cache, canonical executable and
+frozen sources were unchanged. New descriptor counters were zero in this one
+frame; registration does not establish ordinary use. Evidence is under
+`target/rom-data-6df4d4-cli/`. Linux, USA and native Windows remain to verify;
+no performance measurements were made.
+
+
+## Conditional descriptor banks ordinary-route candidate
+
+The retained normal-input Ability route is a source-backed candidate for the
+new descriptor owner. The original `08077074` panel renderer loops over five
+entries; entries 2, 3 and 4 load the bank pointer using unit byte 6 and read
+descriptor halfwords 0 and 2 using slots `3a`, `3b` and `3c`, without a zero
+or type guard. The retained state has selected unit bank 1, and the existing
+540-frame input reaches this panel. This connects a real scene and original
+code, but e98 descriptor reads and instruction PCs have not yet been observed.
+The visible Fighter Tech text is a list row and must not be mistaken for the
+separate internal category-3/type-5 selector.
+
+The original renderer window and authenticated literals are under
+`target/rom-data-6df4d4-ordinary-route/`; state/input provenance is under
+`target/rom-data-linked-metadata28-cli/`. One bounded Wine observation of the
+existing input is the next discriminator. No gameplay replay or performance
+measurement was made for this source selection; Linux and USA remain open.
+
+
+## Ordinary descriptor use in Ability navigation
+
+One Wine run of the existing normal-input Ability route, frames 4519–5059,
+reported 19 typed reads and 64 bytes: 52 pointer bytes, six from field 0 and six
+from field 2. Field 4, kind and byte 7 were not exercised. This is aggregate
+positive use of the EUR descriptor projection, not instruction attribution or
+coverage of every field. The e98 production runtime used the existing native
+cache; 212 guarded files and 699 frozen source hashes were unchanged. Evidence
+is under `target/rom-data-6df4d4-ordinary/`. The full raw/typed scene pair,
+other fields, Linux, USA and native Windows remain open. No performance was
+measured.
+
+
+## Ordinary Ability descriptor scene differential
+
+The same existing 540-frame Ability route passed a Wine differential between
+raw ROM and the e98 managed runtime. At every frame complete state and clock,
+central and wide video, OAM, dispatch counts and five audio outputs matched.
+An opt-in assertion in this comparison recorded 52 typed pointer bytes and six
+bytes each from fields 0 and 2; field 4, kind and byte 7 were not exercised.
+The 118 guarded files and 699 frozen source hashes remained unchanged. Both
+arms shared the existing native cache; this does not cover all scenes or
+establish general interpreter/native equivalence. Evidence is under
+`target/rom-data-6df4d4-ordinary-pair/`. Other fields, Linux, USA and native
+Windows remain unverified; no performance measurements were made.
+
+The separately retained e99 battle Item-menu observation also logged two
+reads of `gameplay.conditional-descriptor-banks`: four pointer bytes and one
+kind byte, with its other fields zero. This establishes aggregate kind use in
+that bounded scene, without attributing a specific record or instruction. The
+same-scene raw/e99 pair passed, but its assertion covered bank 0 rather than
+this secondary resource. The accepted manifest identifies the descriptor-banks
+file as SHA-256 `31f6b49dc4ca7c7efc8138a1ec46bef0b325bcf2011606aabdf799294ea370c7`;
+the retained log is under `target/rom-data-6df4d4-bank0-field4/`. At that
+point field 4 and byte 7 for this resource remained ordinarily unobserved.
+No replay or performance measurement was made for this reconciliation.
+
+## Ordinary Battle Tech descriptor information
+
+The original information builder reads fields 0, 2, kind and byte 7 of
+enabled non-Item descriptors. The retained EUR Battle Tech R-info screenshot
+shows a populated list. One e99 Wine observation of its existing 800-frame
+state and input served 128 typed descriptor-bank bytes: 76 pointer, 16 field 0,
+16 field 2, 10 kind and 10 byte 7; field 4 was zero. All 219 guarded files and
+703 frozen sources were unchanged. The aggregate counters do not identify
+individual records or executed PCs. Evidence is in
+`target/rom-data-6df4d4-banks-info/`.
+
+The existing Windows differential harness was reused for a Wine raw/e99 pair
+on the same 800 frames. Full state and clock, central and wide video, OAM,
+dispatch and all five audio outputs matched per frame. The harness asserted
+pointer and field-0/2 use, and its emitted counters were separately checked for
+ten kind and ten byte-7 bytes; field 4 remained zero. All 123 guarded files and
+703 frozen sources were unchanged. Both arms shared the existing native cache;
+this does not establish general native/interpreter equivalence. Evidence is in
+`target/rom-data-6df4d4-banks-info-pair/`. Ordinary field-4 use, Linux, USA and
+native Windows remain to verify. No performance measurements were made.
+
+## Conditional property-selected mask table
+
+Original EUR readers at `080ce64a`, `080cee9e` and `080ceff4` use the
+literal `086e0b44`. They obtain metadata52 property `0x24`, multiply it by
+four and load a 32-bit mask used in a bit test. All 116 authenticated physical
+metadata52 records were reconstructed from the accepted e99 dataset and the
+original ROM; property `0x24` corresponds to byte 45 and its values cover
+every index from 0 through 34. The resulting 35 words occupy the exact
+140-byte span `6e0b44..6e0bd0`, SHA-256
+`89fa534fce962ae4e48c9812619d9f41467ce37442cfb598d4beebf81fc6e065`.
+It begins at the end of descriptor bank 23, ends at the existing Item table,
+and does not overlap an e99 resource source. Evidence is in
+`target/rom-data-6e0b44-masks/` and the retained original Wine disassembly in
+`target/rom-data-6df4d4-descriptors/`.
+
+This is a conditional source classification, not proof that dynamic or invalid
+selectors are globally limited to those values. Original arithmetic and
+out-of-span raw behavior remain unchanged; a typed model, runtime publication,
+ordinary use, Linux, USA and native Windows remain to verify. No performance
+measurements were made.
+
+The standalone typed model now preserves the 35 little-endian u32 masks and
+reconstructs the 140 authenticated source bytes. It checks extent and rejects
+coherent edits against the original source without adding a guest selector
+limit. One isolated Windows build and focused Wine test verified every byte
+and boundary, strict JSON and malformed shapes, the original load prefix for
+indices 0, 1, 34, 35, 255 and u32 maximum, and original metadata property
+results 0, 1 and 34 for three rows. Input and frozen-source guards remained
+unchanged. Evidence is under `target/rom-data-6e0b44-masks-model/`. This is
+conditional prefix evidence; managed publication, ordinary use, Linux, USA
+and native Windows remain to verify. No performance measurements were made.
+
+EUR e100-d99 publishes these masks as `gameplay.conditional-property-masks`.
+Strict activation authenticates the decoded words against the original source,
+and the runtime serves their bytes through the existing CPU/DMA/native reads
+with separate usage counters. Guest instructions and selector arithmetic remain
+unchanged; reads outside the projection retain their existing behavior.
+
+An isolated Windows build and focused Wine test verified that all 89 e99
+resources and files remain identical, every new source byte and mixed-width
+edge is correct, and separately poisoned adjacent descriptor and Item bytes
+still compose with their earlier owners. A coherent edited file plus updated
+manifest hash was rejected without replacing the active owner or state. One
+translated original load prefix for six inside/outside indices matched raw
+interpreter state and clock, serving 12 typed native bytes. Inputs and frozen
+sources were unchanged. Evidence is under
+`target/rom-data-6e0b44-masks-runtime-retry/`; production CLI, ordinary use,
+Linux, USA and native Windows remain to verify. No performance measurements
+were made. The initial build's missing test trait import was corrected before
+the successful retry.
+
+An isolated production Windows build subsequently created and reused e100
+under Wine and advanced one retained neutral frame. All 91 generation files
+matched the accepted dataset, 90 runtime resource identities matched the
+manifest, and 93 managed files remained unchanged on reuse and startup.
+The mask counters were zero in this frame; it does not establish ordinary
+mask use. Evidence is under `target/rom-data-6e0b44-masks-cli/`. Linux, USA
+and native Windows remain to verify; no performance measurements were made.
+
+The original headgear inventory path can call the equipment check that reads
+these masks; its retained EUR state has five nonzero equipped items and the
+documented input opens the headgear list. One e100 Wine observation of that
+existing 560-frame scene recorded 91 typed reads and 364 source bytes; all
+224 guarded files and 707 frozen sources were unchanged. These aggregate
+counts do not identify executed PCs, selectors or distinct source bytes.
+Original windows and observation are in
+`target/rom-data-6e0b44-masks-ordinary/`.
+
+One isolated Windows test build and Wine raw/e100 comparison then passed for
+the same 560 frames: complete state and clock, central and wide video, OAM,
+dispatch and five audio outputs matched at every frame. The test asserted the
+same 91 typed reads and 364 source bytes; all 128 guarded files and 707 frozen
+sources remained unchanged. Both arms shared the native cache, so this is not
+a general native/interpreter comparison or a count of distinct mask bytes.
+Evidence is under `target/rom-data-6e0b44-masks-ordinary-pair/`. Linux, USA and
+native Windows remain to verify. No performance measurements were made.
+
+## Ordinary Steal-menu descriptor field 4
+
+The original non-Item battle menu obtains the selected unit's descriptor bank,
+checks descriptor kind and learned progress, then reads field 4. The retained
+EUR seed selects bank 1 and has learned Steal records; its existing screenshot
+shows Marche's populated Steal list. One e99 Wine observation of the existing
+280-frame input served 131 typed descriptor-bank bytes: 48 pointer, 10 field 0,
+60 field 4 and 13 kind; field 2 and byte 7 were zero. All 218 guarded files
+and 703 frozen sources were unchanged. These aggregate counters do not
+identify exact records or PCs. Evidence and authenticated original source
+windows are in `target/rom-data-6df4d4-banks-field4/`.
+
+An isolated Windows test build and Wine raw/e99 pair then passed on the same
+280 frames: complete state and clock, central and wide video, OAM, dispatch
+and five audio outputs matched every frame. The narrow test assertion
+confirmed pointer and field-4 use, including the same 60 field-4 bytes.
+All 123 guarded files and 703 frozen sources were unchanged. Both arms shared
+the existing native cache; this is not a general native/interpreter comparison
+or coverage of all records and scenes. Evidence is in
+`target/rom-data-6df4d4-banks-field4-pair/`. Linux, USA and native Windows
+remain to verify. No performance measurements were made.
+
+
+## Conditional descriptor bank 0 source
+
+The original mode-3 producer `080d08b4` reads pointer 0 from `086df4d4`
+even when the selected unit's byte `37` is zero. It takes the interval 1–15
+from authenticated metadata52 row 1. Caller `081379f0` tests unit byte `37`
+before scanning those descriptors; all 15 records in this interval have kind 1
+and field-4 values 251–265. The original initializer can set byte `37` to 1
+when a nonnull unit has byte `7 == 24` and the normal-count branch is entered.
+Its false branch skips that store; a separate producer can clear it. Metadata52
+row 24 exists, but an ordinary instance reaching this initializer has not been
+proved. A bounded read-only census of 62 retained snapshots found no matching
+nonzero slot or predicate witness; that is not global absence.
+
+This supports two conditional source bindings: pointer 0 at
+`6df4d4..6df4d8` and records 1–15 at `6df53c..6df5b4`. Record 0 and other
+indices remain raw; the original selector arithmetic and bounds are unchanged.
+Neither binding overlaps e98 owners. Exact hashes, source windows, predicate
+and state checks are under `target/rom-data-6df4d4-bank0/`. This is source
+classification only: model, runtime, ordinary use, Linux, USA and native
+Windows remain open. No performance measurement was made.
+
+
+## Typed conditional descriptor bank 0 model
+
+A strict standalone EUR model reuses the descriptor fields for pointer 0 and
+records 1–15, reconstructing the two authenticated spans (124 bytes). Record
+0 and other indices remain outside the model; no guest-side bound or fallback
+is introduced. Shape and coherent source edits are rejected.
+
+One isolated Windows build and focused Wine test passed the original predicate
+for null and unit-byte values 23/24/25; the original initializer preserved the
+false-branch slot and stored 1 for 24. Original mode 3 returned pointer 0 and
+bounds 1–15 with slot 0 or 1, and the original caller found the first and last
+field-4 values only with a nonzero slot. These are conditional original-code
+checks, not a proof of ordinary use. Evidence is under
+`target/rom-data-6df4d4-bank0-model/`; managed publication, runtime, Linux,
+USA and native Windows remain open. No performance measurement was made.
+
+
+## Managed conditional descriptor bank 0
+
+The EUR e99-d98 dataset adds `gameplay.conditional-descriptor-bank-zero` for
+pointer 0 and records 1–15 in two authenticated spans. Strict activation
+compares decoded data against the original source even when a modified file
+and manifest hash agree. Runtime reads reconstruct these bytes from typed
+fields and compose with the existing descriptor owner; original selector
+arithmetic is unchanged and record 0 remains raw.
+
+One isolated Windows build and focused Wine test passed: all 88 previous
+resource records and files remained identical; source bytes, mirrors and mixed
+width boundaries were correct; coherent tampering was rejected without
+replacing the owner or state. Poisoned adjacent pointer 1 and bank-1 record 0
+proved composition with the earlier owner; separately poisoned bank-0 record 0
+remained raw. Three translated original pointer/field prefixes over five
+inside/outside cases matched raw interpreter state and clock. Evidence is under
+`target/rom-data-6df4d4-bank0-runtime/`; guarded inputs and frozen sources were
+unchanged. Production CLI, ordinary use, Linux, USA and native Windows remain
+to verify. No performance measurements were made.
+
+
+## Conditional descriptor bank 0 production CLI
+
+An isolated production Windows binary under Wine created and reused EUR
+e99-d98, then advanced one retained neutral frame. All 90 generation files
+matched the accepted dataset, 89 runtime resource IDs and hashes matched the
+manifest, and 92 managed files stayed unchanged during reuse and startup.
+Guarded ROM, state, input, native cache, canonical executable and frozen build
+sources were unchanged. This proves registration and startup, not ordinary
+bank-0 use. Evidence is under `target/rom-data-6df4d4-bank0-cli/`; Linux, USA
+and native Windows remain open. No performance measurements were made.
+
+
+## Ordinary Item-info access to descriptor bank 0
+
+The original Item-info path provides another route to bank 0: the selected
+Item set is copied to unit byte 36 and passed to the mode-2 descriptor getter.
+Its slot-1 fallback selects pointer 0 and records 1–15. In the Item branch,
+the information constructor bypasses the progress/type filters and reads
+record fields 0, 2, 6 and 7. This route does not require unit byte 37 or job 24.
+
+One bounded EUR Wine run opened Item information from the retained frame-4519
+state, using the existing R-info input with its intervening Down press removed.
+Over 800 frames, typed bank-0 counters recorded 4 pointer bytes, 30 field-0
+bytes, 30 field-2 bytes, 15 kind bytes and 30 byte-7 bytes; field 4 remained
+unobserved. All 219 guarded files and 703 frozen source files were unchanged.
+Evidence is in `target/rom-data-6df4d4-bank0-ordinary/`. These aggregate
+counters do not identify executed PCs or establish coverage of every scene.
+
+An isolated Windows test build and one Wine raw-versus-e99 comparison then
+passed on the same 800 frames: full state and clock, central and wide video,
+OAM, dispatch and all five audio outputs matched at every frame. The test
+asserted the same pointer, field-0, field-2, kind and byte-7 use; field 4
+remained zero. All 123 guarded files and 703 frozen sources were unchanged.
+Both arms used the existing native cache, so this is not a general comparison
+of native and interpreter execution. Evidence is in
+`target/rom-data-6df4d4-bank0-ordinary-pair/`. Ordinary field-4 use, Linux,
+USA and native Windows remain to verify. No performance measurements were made.
+
+
+## Ordinary battle Item-menu bank-0 field 4
+
+The original battle Item-menu builder receives the selected unit's mode-2
+descriptor bank. For slot 36 equal to 1, the getter selects bank 0; the builder
+adds record 15 and reads its field at offset 4. The retained EUR battle seed
+has Marche's slot 36 set to 1, and the retained Item-menu screenshot shows his
+Item list. This identifies a candidate without requiring slot 37 or job 24.
+
+One Wine observation of that existing 340-frame input served 100 typed bank-0
+bytes: 56 pointer, 12 field 0 and 32 field 4. Field 2, kind and byte 7 were
+zero in this scene. All 218 guarded files and 703 frozen sources were
+unchanged; the counters do not establish exact executed PCs or every record.
+Evidence is in `target/rom-data-6df4d4-bank0-field4/`.
+
+An isolated Windows test build and Wine raw-versus-e99 comparison passed for
+the same 340 frames. Full state and clock, central and wide video, OAM,
+dispatch and all five audio outputs matched per frame; the test asserted
+pointer and field-4 use and observed the same 32 field-4 bytes. All 123
+guarded files and 703 frozen sources were unchanged. Both arms shared the
+existing native cache, so this does not establish general native/interpreter
+equivalence. Evidence is in `target/rom-data-6df4d4-bank0-field4-pair/`.
+Linux, USA and native Windows remain to verify. No performance measurements
+were made.

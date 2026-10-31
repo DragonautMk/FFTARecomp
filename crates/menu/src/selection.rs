@@ -8,6 +8,7 @@ impl Menu {
         }
         if self.tool_active() {let mut state=self.tool.selection_state();state.extend(context);return state;}
         if self.content_active() {let mut state=self.content.selection_state();state.extend(context);return state;}
+        if self.cheat_active() {let mut state=self.cheats.selection_state();state.extend(context);return state;}
         if self.page==Page::Information{let mut state=context;state.extend([("page".into(),"Information".into()),("readonly".into(),"true".into()),("detail_scroll".into(),self.atlas.detail_scroll.to_string())]);return state;}
         if self.atlas_reference_active(){let items=self.atlas_reference_items();let cursor=self.atlas_reference_cursor();let mut state=context;state.extend([("page".into(),if self.atlas.planned {"DebugV2"}else{"CliReference"}.into()),("row".into(),cursor.to_string()),("item_id".into(),items.get(cursor).map(|v|v.0.clone()).unwrap_or_default()),("readonly".into(),"true".into()),("detail_scroll".into(),self.atlas.detail_scroll.to_string())]);return state;}
         let mut state = vec![("page".into(), format!("{:?}", self.page)), ("row".into(), self.selected.to_string())];

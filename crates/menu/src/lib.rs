@@ -16,6 +16,7 @@ pub mod diagnostics;
 mod font;
 pub mod fps;
 pub mod event_console;
+pub mod command_console;
 mod controller_icons;
 mod menu_icons;
 mod theme;
@@ -98,6 +99,7 @@ pub enum MenuAction {
     StartUiTrace,
     SaveUiReport,
     ToggleEventConsole,
+    OpenCommandConsole,
     InspectPC,
     DebugStep(u32),
     DebugResume,
@@ -123,6 +125,9 @@ pub enum MenuAction {
     ContentPreview { index: usize, generation: u64 },
     ContentCancel,
     OpenDebugCatalog,
+    OpenCheatCatalog,
+    CheatChoose,
+    CheatReload,
     ChooseDebugCatalog,
     CatalogSelection(usize),
     CatalogImport(usize),
@@ -182,6 +187,7 @@ enum Page {
     System,
     Debug,
     DebugCatalog,
+    CheatCatalog,
     ContentSelector,
     ToolInputs,
     DebugTools,
@@ -225,6 +231,7 @@ enum Row {
     StartUiTrace,
     SaveUiReport,
     ToggleEventConsole,
+    OpenCommandConsole,
     CaptureGraphics,
     InspectPC,
     DebugStepOne,
@@ -250,6 +257,7 @@ enum Row {
     DebugTool(DebugTool),
     ToolInput(ContentSlot),
     DebugCatalog,
+    CheatCatalog,
     CatalogRegion, CatalogStatus, CatalogKind, CatalogCase, CatalogEntry, CatalogImport, CatalogOpen, CatalogChoose,
     GameSavesMenu,
     GameSaveSlot,
@@ -399,7 +407,7 @@ fn rows_of(page: Page) -> &'static [Row] {
         Page::CliReference => &[Row::Back],
         Page::Saves => clan_atlas::SAVES_ROWS,
         Page::System => clan_atlas::SYSTEM_ROWS,
-        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ScriptLibraryMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::ToggleEventConsole, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
+        Page::Debug => &[Row::ContentPicker, Row::ToolInputsMenu, Row::DebugToolsMenu, Row::ScriptLibraryMenu, Row::ExtendedSaves, Row::GameSavesMenu, Row::CopyDiagnosis, Row::StartDebugSession, Row::CloseDebugSession, Row::DebugCatalog, Row::CheatCatalog, Row::StartInputRecording, Row::StopInputRecording, Row::ReplayCase, Row::ChooseReplayProfile, Row::CancelReplay, Row::AuditReplay, Row::CaptureReplay, Row::CompareReplay, Row::DebugStepOne, Row::DebugStepTen, Row::DebugResume, Row::InspectPC, Row::CaptureGraphics, Row::StartUiTrace, Row::SaveUiReport, Row::ToggleEventConsole, Row::OpenCommandConsole, Row::StartAudioCapture, Row::SaveAudioReport, Row::StartCodeTrace, Row::SaveCodeReport, Row::CreateIssueReport, Row::StartGameplayTrace, Row::SaveGameplayReport, Row::StartRecentEvents, Row::SaveRecentEvents, Row::Back],
         Page::DebugTools => &[Row::DebugTool(DebugTool::Replay),Row::DebugTool(DebugTool::Audit),Row::DebugTool(DebugTool::Capture),Row::DebugTool(DebugTool::Compare),Row::DebugTool(DebugTool::Step),Row::DebugTool(DebugTool::Inspect),Row::DebugTool(DebugTool::Audio),Row::DebugTool(DebugTool::Code),Row::DebugTool(DebugTool::Gameplay),Row::DebugTool(DebugTool::Recent),Row::DebugTool(DebugTool::Graphics),Row::DebugTool(DebugTool::Issue),Row::Back],
         Page::ScriptLibrary => &[Row::DebugTool(DebugTool::Homepage), Row::DebugTool(DebugTool::CampaignReport), Row::DebugTool(DebugTool::ArtifactPreview), Row::DebugTool(DebugTool::Recipe), Row::DebugTool(DebugTool::GuestScripts), Row::Back],
         Page::DebugTool => &[Row::Back],
@@ -411,6 +419,7 @@ fn rows_of(page: Page) -> &'static [Row] {
             Row::ToolInput(ContentSlot::Labels), Row::ToolInput(ContentSlot::KnownPlan), Row::ToolInput(ContentSlot::HostTool), Row::ToolInput(ContentSlot::HostRuntime), Row::ToolInput(ContentSlot::Campaign), Row::ToolInput(ContentSlot::Recipe), Row::ToolInput(ContentSlot::GuestScripts), Row::Back],
         Page::ContentSelector => &[Row::Back],
         Page::DebugCatalog => &[Row::CatalogRegion,Row::CatalogStatus,Row::CatalogKind,Row::CatalogCase,Row::CatalogEntry,Row::CatalogImport,Row::CatalogOpen,Row::CatalogChoose,Row::Back],
+        Page::CheatCatalog => &[Row::Back],
         Page::GameSaves => &[Row::GameSaveSlot, Row::UseGameSave, Row::CopyGameSave, Row::Back],
         Page::SwitchGameSave => &[Row::ConfirmSwitchGameSave, Row::Back],
         Page::ReplaceGameSave => &[Row::ConfirmCopyGameSave, Row::Back],
@@ -459,6 +468,7 @@ impl Row {
             Row::SaveAudioReport => "Save audio report",
             Row::StartUiTrace => "Start UI / input trace",
             Row::ToggleEventConsole => "Console eventi",
+            Row::OpenCommandConsole => "Console comandi",
             Row::SaveUiReport => "Save UI / input report",
             Row::InspectPC => "Inspect PC / registers",
             Row::DebugStepOne => "Step 1 frame (F7)",
@@ -477,6 +487,7 @@ impl Row {
             Row::CloseDebugSession => "Close debug session",
             Row::ContentPicker => "Content selector",
             Row::DebugCatalog => "Debug catalog",
+            Row::CheatCatalog => "Catalogo cheat (sola lettura)",
             Row::CatalogRegion => "Region", Row::CatalogStatus => "Recorded status",
             Row::CatalogKind => "Kind", Row::CatalogCase => "DS case",
             Row::CatalogEntry => "Entry", Row::CatalogImport => "Import to free snapshot slot",
@@ -717,6 +728,7 @@ pub struct Menu {
     debug_position: Vec<String>,
     catalog: debug_catalog::CatalogState,
     content: content_selector::Selector,
+    cheats: content_selector::Selector,
     tool_inputs: Vec<(ContentSlot,String)>,
     tool: debug_tool::ToolForm,
     state_message: String,
@@ -782,6 +794,7 @@ impl Menu {
             debug_position: Vec::new(),
             catalog: debug_catalog::CatalogState::default(),
             content: content_selector::Selector::default(),
+            cheats: {let mut selector=content_selector::Selector::default();selector.cheat_mode=true;selector},
             tool_inputs: Vec::new(),
             tool: debug_tool::ToolForm::default(),
             state_message: String::new(),
@@ -802,6 +815,7 @@ impl Menu {
         self.navigation.page=root;self.navigation.selected=selected.min(self.rows().len()-1);self.navigation.parents.clear();
         self.atlas.sidebar_focus=false;
         self.content.finish_search(true);
+        self.cheats.finish_search(true);
         self.state_message.clear();
         self.backup_message.clear();
         self.session_message.clear();
@@ -859,7 +873,7 @@ impl Menu {
     pub fn diagnosis_result(&mut self, message: String) { self.debug_message = message; }
     pub fn diagnosis_message(&self)->&str{&self.debug_message}
 
-    pub fn set_debug_session(&mut self, active: bool) { self.debug_session = active; self.content.debug_copy=active;self.tool.debug_copy=active; }
+    pub fn set_debug_session(&mut self, active: bool) { self.debug_session = active; self.content.debug_copy=active;self.cheats.debug_copy=active;self.tool.debug_copy=active; }
     pub fn set_debug_position(&mut self, frame: u64, clock: u64, reason: &str, remaining: u32) {
         self.debug_position = vec![format!("FRAME {frame}"), format!("CLOCK {clock}"), reason.to_uppercase(), format!("REMAINING {remaining}")];
     }
@@ -871,9 +885,9 @@ impl Menu {
             let r=self.input_tab_rect(index,w,h);let b=clan_atlas::geometry(w,h).body;
             return diagnostics::Focus{page:format!("{:?}",self.page),selected:index as usize,label:format!("Dispositivo: {}",["Tastiera","Gamepad","Mouse e tastiera"][index as usize]),capture:None,panel:[b.x,b.y,b.w,b.h],first_visible:0,dropdown:None,selected_bounds:Some([r.x,r.y,r.w,r.h])};
         }
-        if self.tool_active() || self.content_active(){
+        if self.tool_active() || self.content_active() || self.cheat_active(){
             let b=clan_atlas::geometry(w,h).body;
-            let mut focus=if self.tool_active(){self.tool.focus(b.w,b.h)}else{self.content.focus(b.w,b.h)};
+            let mut focus=if self.tool_active(){self.tool.focus(b.w,b.h)}else if self.cheat_active(){self.cheats.focus(b.w,b.h)}else{self.content.focus(b.w,b.h)};
             focus.panel[0]+=b.x;focus.panel[1]+=b.y;
             if let Some(bounds)=focus.selected_bounds.as_mut(){bounds[0]+=b.x;bounds[1]+=b.y;}
             if let Some(drop)=focus.dropdown.as_mut(){drop.panel[0]+=b.x;drop.panel[1]+=b.y;}
@@ -906,13 +920,18 @@ impl Menu {
         if !self.content_active(){self.open(Page::ContentSelector);}
         self.content.set(title,entries,message,generation);
     }
+    pub fn open_cheats(&mut self,entries:Vec<ContentEntry>,message:String){
+        if !self.cheat_active(){self.open(Page::CheatCatalog);}
+        self.cheats.set("Cheat · sola lettura".into(),entries,message,0);
+    }
+    pub fn cheat_active(&self)->bool{self.page==Page::CheatCatalog}
     pub fn set_tool_inputs(&mut self, inputs:Vec<(ContentSlot,String)>){
         for f in &mut self.tool.fields{if let ToolFieldKind::Input(slot)=f.kind{f.value=inputs.iter().find(|(key,_)|*key==slot).map(|(_,v)|v.clone()).unwrap_or("Not selected".into());}}
         self.tool_inputs=inputs;
     }
     pub fn open_tool(&mut self,tool:DebugTool,fields:Vec<ToolField>,message:String){if !self.tool_active(){self.open(Page::DebugTool);}self.tool.set(tool,fields,message);self.set_tool_inputs(self.tool_inputs.clone());}
     pub fn tool_active(&self)->bool{self.page==Page::DebugTool}
-    pub fn host_panel_active(&self)->bool{self.content_active()||self.tool_active()}
+    pub fn host_panel_active(&self)->bool{self.content_active()||self.cheat_active()||self.tool_active()}
     pub fn tool_values(&self)->(DebugTool,Vec<(String,String)>,u64){(self.tool.tool,self.tool.values(),self.tool.revision())}
     pub fn tool_feedback(&mut self,message:String,summary:String,busy:bool){self.tool.message=message;self.tool.summary=summary;self.tool.busy=busy;}
     fn tool_action(&mut self,a:Option<MenuAction>)->Option<MenuAction>{if a==Some(MenuAction::ToolRequest(ToolRequest::Back)){if let Some(parent)=self.navigation.parents.pop(){self.page=parent.page;self.selected=parent.selected;self.scroll.set(parent.scroll);}else{self.navigation.reset();}}a}
@@ -921,19 +940,23 @@ impl Menu {
     pub fn restore_content_preferences(&mut self,view:ContentViewPreferences,history:ContentHistory)->Result<(),String>{self.content.restore_preferences(view,history)}
     pub fn content_scope(&mut self, kind:Vec<String>, current:Option<String>) {self.content.scope(kind,current);}
     pub fn content_active(&self)->bool{self.page==Page::ContentSelector}
-    pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()||self.tool.choice_focus()}else{self.content_active() && (self.content.editing()||self.content.choice_focus())}}
-    pub fn content_start_search(&mut self){if self.tool_active(){self.tool.edit();}else if self.content_active(){self.content.start_search();}}
-    pub fn content_text(&mut self,text:&str){if self.tool_active(){self.tool.text(text);}else{self.content.text(text);}}
-    pub fn content_preedit(&mut self,text:&str){if self.tool_active(){self.tool.preedit(text);}else{self.content.preedit(text);}}
-    pub fn content_backspace(&mut self){if self.tool_active(){self.tool.backspace();}else{self.content.text_backspace();}}
-    pub fn content_finish_search(&mut self,cancel:bool){if self.tool_active(){self.tool.finish(cancel);}else{self.content.finish_search(cancel);}}
-    pub fn content_tab(&mut self,back:bool){if self.tool_active(){self.tool.tab(back);}else if self.content_active(){self.content.tab(back);}}
+    pub fn content_text_focus(&self)->bool{if self.tool_active(){self.tool.text_focus()||self.tool.choice_focus()}else if self.cheat_active(){self.cheats.editing()||self.cheats.choice_focus()}else{self.content_active() && (self.content.editing()||self.content.choice_focus())}}
+    pub fn content_start_search(&mut self){if self.tool_active(){self.tool.edit();}else if self.cheat_active(){self.cheats.start_search();}else if self.content_active(){self.content.start_search();}}
+    pub fn content_text(&mut self,text:&str){if self.tool_active(){self.tool.text(text);}else if self.cheat_active(){self.cheats.text(text);}else{self.content.text(text);}}
+    pub fn content_preedit(&mut self,text:&str){if self.tool_active(){self.tool.preedit(text);}else if self.cheat_active(){self.cheats.preedit(text);}else{self.content.preedit(text);}}
+    pub fn content_backspace(&mut self){if self.tool_active(){self.tool.backspace();}else if self.cheat_active(){self.cheats.text_backspace();}else{self.content.text_backspace();}}
+    pub fn content_finish_search(&mut self,cancel:bool){if self.tool_active(){self.tool.finish(cancel);}else if self.cheat_active(){self.cheats.finish_search(cancel);}else{self.content.finish_search(cancel);}}
+    pub fn content_tab(&mut self,back:bool){if self.tool_active(){self.tool.tab(back);}else if self.cheat_active(){self.cheats.tab(back);}else if self.content_active(){self.content.tab(back);}}
     pub fn content_busy(&mut self,busy:bool){self.content.busy=busy;}
     pub fn content_message(&mut self,message:String){self.content.message=message;}
     pub fn content_selected(&mut self,id:&str){self.content.mark_selected(id);}
     pub fn content_highlight(&self)->Option<&str>{self.content.highlighted_id()}
     pub fn content_preview(&mut self,preview:Vec<[u8;4]>,message:String){self.content.preview=preview;self.content.preview_message=message;}
-    pub fn content_wheel(&mut self,up:bool){if self.tool_active(){self.tool.wheel(up);}else if self.content_active(){self.content.wheel(up);}}
+    pub fn content_wheel(&mut self,up:bool){if self.tool_active(){self.tool.wheel(up);}else if self.cheat_active(){self.cheats.wheel(up);}else if self.content_active(){self.content.wheel(up);}}
+    fn cheat_input(&mut self,input:MenuInput)->Option<MenuAction>{
+        let action=self.cheats.handle(input);
+        if action==Some(MenuAction::ContentCancel){self.back_to_main();return None;}action
+    }
     fn content_input(&mut self,input:MenuInput)->Option<MenuAction>{
         let action=self.content.handle(input);
         if action==Some(MenuAction::ContentCancel){
@@ -1110,11 +1133,12 @@ impl Menu {
 
         if self.page==Page::Information{return self.information_input(input);}
         if self.atlas_reference_active(){return self.atlas_reference_input(input);}
-        if (self.tool_active()||self.content_active()) && !self.content_text_focus() && input==MenuInput::Left {
+        if (self.tool_active()||self.content_active()||self.cheat_active()) && !self.content_text_focus() && input==MenuInput::Left {
             self.atlas.sidebar_focus=true;self.atlas.nav_cursor=self.atlas.selected_section()+1;return None;
         }
         if self.tool_active(){let a=self.tool.handle(input);return self.tool_action(a);}
         if self.content_active(){return self.content_input(input);}
+        if self.cheat_active(){return self.cheat_input(input);}
         if self.capture.is_some() {
             return None;
         }
@@ -1154,12 +1178,14 @@ impl Menu {
                 Row::ToolInput(slot) => Some(MenuAction::ChooseToolInput(slot)),
                 Row::ContentPicker => Some(MenuAction::ContentOpen),
                 Row::DebugCatalog => Some(MenuAction::OpenDebugCatalog),
+                Row::CheatCatalog => Some(MenuAction::OpenCheatCatalog),
                 Row::StartRecentEvents|Row::SaveRecentEvents=>{if self.debug_session{Some(if row==Row::StartRecentEvents{MenuAction::StartRecentEvents}else{MenuAction::SaveRecentEvents})}else{self.debug_message="Open an isolated copy before recent-event capture.".into();None}},
                 Row::StartGameplayTrace|Row::SaveGameplayReport=>{if self.debug_session{Some(if row==Row::StartGameplayTrace{MenuAction::StartGameplayTrace}else{MenuAction::SaveGameplayReport})}else{self.debug_message="Open an isolated copy before gameplay tracing.".into();None}},
                 Row::CreateIssueReport=>{if self.debug_session{Some(MenuAction::CreateIssueReport)}else{self.debug_message="Open an isolated copy before issue reporting.".into();None}},
                 Row::StartCodeTrace|Row::SaveCodeReport=>{if self.debug_session{Some(if row==Row::StartCodeTrace{MenuAction::StartCodeTrace}else{MenuAction::SaveCodeReport})}else{self.debug_message="Open an isolated copy before code tracing.".into();None}},
                 Row::StartAudioCapture|Row::SaveAudioReport=>{if self.debug_session{Some(if row==Row::StartAudioCapture{MenuAction::StartAudioCapture}else{MenuAction::SaveAudioReport})}else{self.debug_message="Open an isolated copy before audio capture.".into();None}},
                 Row::ToggleEventConsole=>Some(MenuAction::ToggleEventConsole),
+                Row::OpenCommandConsole=>Some(MenuAction::OpenCommandConsole),
                 Row::StartUiTrace|Row::SaveUiReport=>{if self.debug_session{Some(if row==Row::StartUiTrace{MenuAction::StartUiTrace}else{MenuAction::SaveUiReport})}else{self.debug_message="Open an isolated copy before UI tracing.".into();None}},
                 Row::CaptureGraphics=>{if self.debug_session{Some(MenuAction::CaptureGraphics)}else{self.debug_message="Open an isolated copy before graphics capture.".into();None}},
                 Row::InspectPC => {
@@ -1393,6 +1419,7 @@ impl Menu {
             let (x,y,w,h)=(x-g.body.x,y-g.body.y,g.body.w,g.body.h);
             if self.tool_active(){self.tool.hover(x,y,w,h);return;}
             if self.content_active(){self.content.hover(x,y,w,h);return;}
+            if self.cheat_active(){self.cheats.hover(x,y,w,h);return;}
         }
         if self.capture.is_some() {
             return;
@@ -1449,8 +1476,9 @@ impl Menu {
             let (x,y,w,h)=(x-g.body.x,y-g.body.y,g.body.w,g.body.h);
             if self.tool_active(){let a=self.tool.click(x,y,w,h,left);return self.tool_action(a);}
             if self.content_active(){let action=self.content.click(x,y,w,h,left);if action==Some(MenuAction::ContentCancel){return self.content_input(MenuInput::Cancel);}return action;}
+            if self.cheat_active(){let action=self.cheats.click(x,y,w,h,left);if action==Some(MenuAction::ContentCancel){self.back_to_main();return None;}return action;}
         }
-        if self.tool_active() || self.content_active() {return None;}
+        if self.tool_active() || self.content_active() || self.cheat_active() {return None;}
         if self.capture.is_some() {
             return None;
         }
@@ -1581,8 +1609,8 @@ fn value_of(
         Row::DebugMenu => ">".into(),
         Row::GameSavesMenu => if av.debug_extended_saves { ">" } else { "DISABLED" }.into(),
         Row::ExtendedSaves => if av.debug_extended_saves { "ON" } else { "OFF" }.into(),
-        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
+        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CheatCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::OpenCommandConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => return None,
         Row::MouseMode => return None,
         Row::Menu => "HOLD + RELEASE".to_string(),
         Row::FastForwardToggle => if av.ff_speed>0 { "Session".into() } else { "Unavailable".into() },
@@ -1729,8 +1757,8 @@ fn cycle(row: Row, av: &mut AvConfig, forward: bool) -> Option<Changed> {
             av.debug_extended_saves = !av.debug_extended_saves;
             Some(Changed::Debug)
         },
-        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
-            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
+        Row::ScriptLibraryMenu | Row::DebugToolsMenu | Row::DebugTool(_) | Row::ToolInputsMenu | Row::ToolInput(_) | Row::ContentPicker | Row::DebugCatalog | Row::CheatCatalog | Row::CatalogRegion | Row::CatalogStatus | Row::CatalogKind | Row::CatalogCase | Row::CatalogEntry | Row::CatalogImport | Row::CatalogOpen | Row::CatalogChoose
+            | Row::StartRecentEvents | Row::SaveRecentEvents | Row::StartGameplayTrace | Row::SaveGameplayReport | Row::CreateIssueReport | Row::StartCodeTrace | Row::SaveCodeReport | Row::StartAudioCapture | Row::SaveAudioReport | Row::StartUiTrace | Row::SaveUiReport | Row::ToggleEventConsole | Row::OpenCommandConsole | Row::CaptureGraphics | Row::InspectPC | Row::DebugStepOne | Row::DebugStepTen | Row::DebugResume | Row::CompareReplay | Row::CaptureReplay | Row::AuditReplay | Row::ReplayCase | Row::ChooseReplayProfile | Row::CancelReplay | Row::StartInputRecording | Row::StopInputRecording | Row::StartDebugSession | Row::CloseDebugSession | Row::CopyDiagnosis | Row::DebugMenu | Row::GameSavesMenu | Row::GameSaveSlot | Row::UseGameSave | Row::CopyGameSave
             | Row::ConfirmSwitchGameSave | Row::ConfirmCopyGameSave => None,
         Row::FastForwardToggle | Row::CliReference => None,
         Row::Menu => None,
@@ -1908,6 +1936,13 @@ mod tests {
         menu.atlas_section(super::clan_atlas::Domain::Debug,4);
         at(&mut menu,super::Row::ToggleEventConsole);
         assert_eq!(menu.handle(super::MenuInput::Confirm,&mut av),Some(super::MenuAction::ToggleEventConsole));
+    }
+    #[test]
+    fn command_console_is_an_explicit_debug_menu_action() {
+        let mut av=input_config::AvConfig::default();let mut menu=super::Menu::unlocked_for_test(true,true);
+        menu.atlas_section(super::clan_atlas::Domain::Debug,0);
+        at(&mut menu,super::Row::OpenCommandConsole);
+        assert_eq!(menu.handle(super::MenuInput::Confirm,&mut av),Some(super::MenuAction::OpenCommandConsole));
     }
     use super::*;
     #[test]

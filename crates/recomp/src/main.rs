@@ -25,8 +25,11 @@ mod debug_session;
 mod artifact_lease;
 mod debug_control;
 mod debug_command;
+mod debug_command_panel;
 mod debug_operations;
 mod debug_content;
+mod debug_cheats;
+mod debug_cheat_decoder;
 mod content_picker;
 mod debug_inputs;
 mod debug_workbench;
@@ -96,6 +99,7 @@ fn main() -> ExitCode {
         print_help(topic);
         return ExitCode::SUCCESS;
     }
+    if args.first().is_some_and(|s|s=="debug-cheats") { return ExitCode::from(debug_cheats::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-content") { return ExitCode::from(debug_content::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-operations") { return ExitCode::from(debug_operations::cmd(&args[1..])); }
     if args.first().is_some_and(|s|s=="debug-compare") { return ExitCode::from(debug_compare::cmd(&args[1..])); }
@@ -168,6 +172,12 @@ fn main() -> ExitCode {
 /// `(name, synopsis, flag lines, description)` per command — the single
 /// source for both the overview listing and per-command help.
 const HELP: &[(&str, &str, &[&str], &str)] = &[
+    ("debug-cheats", "recomp debug-cheats <list|show ID|inspect ID|info> [--catalog FILE] [--rom-sha256 SHA]", &[
+        "Readonly local schema-1 catalog; list supports --offset N --limit 1..64",
+        "inspect requires --assume-plaintext-codebreaker OR --codebreaker-seed 9XXXXXXX:XXXX",
+        "or --provenance-index N --master-id CH-ID [--rom-file FILE] for source-bound inspection",
+        "Interpretation only, never executable; source device and seed remain unverified",
+    ], "Browse an explicitly selected local catalog or cheats/catalogo.json beside the executable. No third-party payload is distributed or modified."),
     ("debug-content", "recomp debug-content <scan|check> [options]", &[
         "scan [--root PORTABLE] [--add-root DIR ... --add-file FILE ...] [--rom-sha256 SHA] [--json]",
         "check INDEX ID [--kind KIND] [--json] rechecks an explicit saved index entry",
@@ -186,7 +196,7 @@ const HELP: &[(&str, &str, &[&str], &str)] = &[
     ("debug-command", "recomp debug-command SESSION 'COMMAND'", &[
         "Typed debugger command over the existing local-control channel; no shell execution",
         "Use 0x-prefixed hexadecimal addresses/masks and decimal counts; help describes operations",
-        "Content selection by ID and in-game editor are not connected yet",
+        "Profile/catalog IDs and the command panel use the same isolated local-control owner",
     ], "Send a validated typed debugger command to the existing isolated local-control channel."),
     ("debug-control", "recomp debug-control ACTION SESSION [options]", &[
         "step N: exactly 1..600 completed frames, then remain paused",
@@ -195,6 +205,7 @@ const HELP: &[(&str, &str, &[&str], &str)] = &[
         "issue-report SESSION [--profile FILE --symptom TEXT]: local report, no replay",
         "gameplay-start SESSION [--frames 1..60] [--events 1..512] [--family all|task|script|unit] [--context HEX]",
         "status/cancel use a separate local query mailbox; cancel SESSION --request ID; all commands --timeout-ms N (20..120000ms, default120000)",
+        "retry SESSION --run RUN --request ID --deadline-unix-ms N [--timeout-ms N] -- ACTION [arguments]: reuse exact request identity",
         "recent-start SESSION [--events 1..1024] [--reads on|off --start HEX --end HEX --on-error on|off]",
         "recent-freeze SESSION / recent-report SESSION: freeze recent window; report writes private HTML/JSON",
         "gameplay-report SESSION: bounded task/script/unit fields and source provenance",

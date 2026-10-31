@@ -9,6 +9,7 @@ impl Menu {
             && !self.atlas_reference_active()
             && !(self.tool_active() && self.tool.busy)
             && !(self.content_active() && self.content.busy)
+            && !(self.cheat_active() && self.cheats.busy)
     }
     /// Capture the selected context without executing it or leaving an editor/capture.
     pub fn information(&mut self, av: &AvConfig, cfg: &InputConfig) {
@@ -62,6 +63,12 @@ impl Menu {
                     entry.compatibility,
                     entry.reason
                 ));
+            }
+        }
+        if self.cheat_active() {
+            parts.push(self.cheats.description());parts.push(self.cheats.message.clone());
+            if let Some(entry)=self.cheats.highlighted_id().and_then(|id|self.cheats.entries.iter().find(|e|e.id==id)){
+                parts.push(format!("{}\n{}\n{}\n{}",entry.name,entry.description,entry.identity,entry.reason));
             }
         }
         if self.page == Page::DebugCatalog {

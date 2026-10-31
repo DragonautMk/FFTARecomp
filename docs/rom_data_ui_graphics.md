@@ -404,9 +404,9 @@ import; the corrected build and Wine test passed. Evidence is retained in
 `target/rom-data-clan-table-alias-retry/`.
 
 This initial prefix comparison used the interpreter and did not establish an
-ordinary game scene. The separate translated-prefix check below covers selected
-native execution; production CLI creation/reuse, positive ordinary use, the
-full helper ABI, Linux, USA and native Windows remain open. No performance
+ordinary game scene. The separate checks below cover selected translated
+prefixes, production CLI registration and one ordinary Bank entry; the full
+helper ABI, other paths, Linux, USA and native Windows remain open. No performance
 measurement was performed.
 
 ## Translated clan alias selector prefixes
@@ -422,5 +422,57 @@ unchanged. Private build and test evidence is in
 
 This proves the selected instruction prefixes, not the complete decoder or
 transfer ABI, every language in translated execution, or ordinary gameplay.
-Production CLI, positive ordinary use, Linux, USA and native Windows remain
-pending; no performance measurement was performed.
+Production CLI registration and one positive ordinary Bank entry are checked
+below; other paths, Linux, USA and native Windows remain pending. No performance measurement was performed.
+
+## Clan alias production CLI
+
+An isolated Windows production build from the selected tracked revision passes
+one Wine create/reuse/startup sequence for e95-d94. The generated 86 files
+match the accepted e95 dataset, including the UI resource's five alias pointer
+bindings. Reuse and one neutral frame leave all 88 managed files unchanged; the
+runtime reports all 85 resource identities and loads the existing native cache.
+ROM, input, checkpoint, accepted dataset, cache, canonical executable and
+frozen sources remain unchanged. Evidence is in
+`target/rom-data-clan-table-alias-cli/`.
+
+This verifies registration and startup for the selected frame. A separate
+ordinary Bank entry and scene comparison are documented below; Linux, USA and
+native Windows remain to verify; no performance measurement was performed.
+
+## Clan alias ordinary boot observation
+
+The original `023bcc` branch can read the alias, but its input gate and an
+earlier positive aggregate for another raw-transfer resource do not establish
+that this branch runs during boot. One isolated Windows audit build and Wine
+observation used the existing 1,200-frame clean-boot recording with e95-d94.
+The bus filter recorded no requests for `71e5e0..71e5f4`, with no dropped or
+truncated events; the ROM, input, cache, dataset and frozen sources remained
+unchanged. Evidence is in `target/rom-data-clan-table-alias-observe/`.
+
+This is a bounded negative for that recording and instrumented bus readers:
+folded constants and unselected direct host readers are outside the audit.
+It does not prove global absence. A separate Bank entry below subsequently
+shows positive use and a matching scene comparison; other paths, Linux, USA
+and native Windows checks remain open. No guest state was forced and no performance measurement ran.
+
+## Ordinary clan alias use during Bank entry
+
+A source-backed investigation traced callback `05aee4` through `05af9e` to
+`05e728` and its original alias load at `05e73a`. The preserved Bank entry
+snapshot at guest frame 3354 and the existing final 120-frame neutral input
+lead to the registered callback without changing guest memory. A focused Wine
+bus audit recorded two four-byte **Typed** reads of `71e5e0`, at guest frames
+3366 and 3409. The latter has interpreter instruction `0805e73a`; the first
+has no attributed instruction. No requests were dropped or truncated.
+
+A separate Wine pair using the same initial state, input, e95 dataset and
+native cache matched all 120 complete serialized states and clocks, central and
+wide frames, OAM, dispatch counts and five audio outputs. Both arms use the
+same native cache, and the positive audit is a separate observation. ROM,
+input, checkpoint, cache, accepted dataset and frozen sources remained
+unchanged. Private evidence is in `target/rom-data-clan-alias-bank-entry/`.
+
+This establishes one ordinary EUR Bank entry, not every language or caller, the
+full helper ABI or independent native-cache equivalence. Linux, USA and native
+Windows remain to verify. No performance measurement was performed.

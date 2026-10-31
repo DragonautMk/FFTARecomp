@@ -17,6 +17,7 @@ pub(crate) fn kinds(slot: ContentSlot) -> Vec<Kind> {
     vec![match slot {
         Replay => Kind::ReplayProfile,
         Catalog => Kind::SaveCatalog,
+        CheatCatalog => Kind::CheatCatalog,
         Session => Kind::Session,
         Recording => Kind::Recording,
         Snapshot => Kind::Snapshot,
@@ -85,6 +86,7 @@ fn preflight(slot: ContentSlot, path: &Path, rom: Option<&str>) -> Result<(), St
         Catalog => {
             crate::debug_catalog::Catalog::load(path)?;
         }
+        CheatCatalog => { crate::debug_cheats::Catalog::load(path)?; }
         Session => {
             let _unstarted = crate::debug_session::replay_command(path)?;
         }

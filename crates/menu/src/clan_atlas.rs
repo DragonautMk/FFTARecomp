@@ -317,6 +317,7 @@ pub(super) fn debug_rows(section: usize) -> &'static [Row] {
             Row::CloseDebugSession,
             Row::ContentPicker,
             Row::ToolInputsMenu,
+            Row::OpenCommandConsole,
             Row::DebugToolsMenu,
             Row::ScriptLibraryMenu,
             Row::CopyDiagnosis,
@@ -383,7 +384,7 @@ pub(super) fn debug_rows(section: usize) -> &'static [Row] {
             Row::CliReference,
             Row::Back,
         ],
-        6 => &[Row::CliReference, Row::Back],
+        6 => &[Row::CheatCatalog, Row::CliReference, Row::Back],
         _ => &[
             Row::CopyDiagnosis,
             Row::CreateIssueReport,
@@ -404,6 +405,7 @@ pub(super) fn specialty(page: Page) -> bool {
     matches!(
         page,
         Page::DebugCatalog
+            | Page::CheatCatalog
             | Page::ContentSelector
             | Page::DebugTool
             | Page::GameSaves

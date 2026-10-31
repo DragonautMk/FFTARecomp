@@ -7,6 +7,7 @@ mod runtime;
 #[cfg(feature = "rom-data-read-audit")]
 pub mod read_audit;
 pub use runtime::{AlternatePaletteStats, BackgroundStats, GraphicsStats, PacketRead, PacketStats, PaletteRead, PaletteStats, ResourceStats, RuntimeResources, TransferStats, TextStats, TextCatalogStats, FontKeyboardStats, ObjListStats, ObjAnimationStats};
+pub use runtime::{CompactObjStats, SecondaryCompactObjStats, TertiaryCompactObjStats};
 pub mod bg_descriptors;
 pub mod bg_packets;
 pub mod bg_packet_data;
@@ -20,6 +21,10 @@ pub mod fonts;
 pub mod name_keyboard;
 pub mod obj_lists;
 pub mod obj_animations;
+pub mod compact_obj_animations;
+pub mod compact_obj_animations_secondary;
+pub mod compact_obj_animations_tertiary;
+pub mod compact_obj_animations_quaternary;
 pub mod word_task_obj_animations;
 pub mod obj_graphics;
 pub mod ui_palettes;
@@ -46,6 +51,11 @@ pub mod metadata14;
 pub mod metadata12;
 pub mod global_pair_flags;
 pub mod evaluation_parameters;
+pub mod conditional_four_byte_lookup;
+pub mod conditional_packed_lookup;
+pub mod conditional_descriptor_banks;
+pub mod conditional_descriptor_bank_zero;
+pub mod conditional_property_masks;
 pub mod progression_rewards;
 pub mod progression_gates;
 pub mod progression_selection_gates;
@@ -94,8 +104,8 @@ mod custom_lz;
 pub mod lz77;
 
 pub const SCHEMA: u32 = 1;
-pub const EXTRACTOR_REV: u32 = 95;
-pub const DECODER_REV: u32 = 94;
+pub const EXTRACTOR_REV: u32 = 104;
+pub const DECODER_REV: u32 = 103;
 pub const METADATA16_ID: &str = "gameplay.linked-metadata16";
 pub const METADATA16_FILE: &str = "linked-metadata16.json";
 pub const METADATA16_FORMAT: &str = "linked-metadata16-v1-json";
@@ -292,6 +302,42 @@ pub const DYNAMIC_RAW_FRAGMENTS_ID: &str = "graphics.dynamic-raw-fragments";
 pub const DYNAMIC_RAW_FRAGMENTS_FILE: &str = "dynamic-raw-fragments.json";
 pub const DYNAMIC_RAW_FRAGMENTS_FORMAT: &str = "dynamic-raw-fragments-v1-json";
 pub const MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES: u64 = 64 * 1024 * 1024;
+pub const CONDITIONAL_FOUR_BYTE_LOOKUP_ID: &str = "gameplay.conditional-four-byte-lookup";
+pub const CONDITIONAL_FOUR_BYTE_LOOKUP_FILE: &str = "conditional-four-byte-lookup.json";
+pub const CONDITIONAL_FOUR_BYTE_LOOKUP_FORMAT: &str = "conditional-four-byte-lookup-v1-json";
+pub const MAX_CONDITIONAL_FOUR_BYTE_LOOKUP_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const CONDITIONAL_PACKED_LOOKUP_ID: &str = "gameplay.conditional-packed-lookup";
+pub const CONDITIONAL_PACKED_LOOKUP_FILE: &str = "conditional-packed-lookup.json";
+pub const CONDITIONAL_PACKED_LOOKUP_FORMAT: &str = "conditional-packed-lookup-v1-json";
+pub const MAX_CONDITIONAL_PACKED_LOOKUP_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const CONDITIONAL_DESCRIPTOR_BANKS_ID: &str = "gameplay.conditional-descriptor-banks";
+pub const CONDITIONAL_DESCRIPTOR_BANKS_FILE: &str = "conditional-descriptor-banks.json";
+pub const CONDITIONAL_DESCRIPTOR_BANKS_FORMAT: &str = "conditional-descriptor-banks-v1-json";
+pub const MAX_CONDITIONAL_DESCRIPTOR_BANKS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID: &str = "gameplay.conditional-descriptor-bank-zero";
+pub const CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE: &str = "conditional-descriptor-bank-zero.json";
+pub const CONDITIONAL_DESCRIPTOR_BANK_ZERO_FORMAT: &str = "conditional-descriptor-bank-zero-v1-json";
+pub const MAX_CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const CONDITIONAL_PROPERTY_MASKS_ID: &str = "gameplay.conditional-property-masks";
+pub const CONDITIONAL_PROPERTY_MASKS_FILE: &str = "conditional-property-masks.json";
+pub const CONDITIONAL_PROPERTY_MASKS_FORMAT: &str = "conditional-property-masks-v1-json";
+pub const MAX_CONDITIONAL_PROPERTY_MASKS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const COMPACT_OBJ_ANIMATIONS_ID: &str = "graphics.conditional-compact-obj-animations";
+pub const COMPACT_OBJ_ANIMATIONS_FILE: &str = "compact-obj-animations.json";
+pub const COMPACT_OBJ_ANIMATIONS_FORMAT: &str = "compact-obj-animations-v1-json";
+pub const MAX_COMPACT_OBJ_ANIMATIONS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const SECONDARY_COMPACT_OBJ_ANIMATIONS_ID: &str = "graphics.conditional-compact-obj-animations-secondary";
+pub const SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE: &str = "compact-obj-animations-secondary.json";
+pub const SECONDARY_COMPACT_OBJ_ANIMATIONS_FORMAT: &str = "compact-obj-animations-secondary-v1-json";
+pub const MAX_SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const TERTIARY_COMPACT_OBJ_ANIMATIONS_ID: &str = "graphics.conditional-compact-obj-animations-tertiary";
+pub const TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE: &str = "compact-obj-animations-tertiary.json";
+pub const TERTIARY_COMPACT_OBJ_ANIMATIONS_FORMAT: &str = "compact-obj-animations-tertiary-v1-json";
+pub const MAX_TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES: u64 = 2 * 1024 * 1024;
+pub const QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID: &str = "graphics.conditional-compact-obj-animations-quaternary";
+pub const QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE: &str = "compact-obj-animations-quaternary.json";
+pub const QUATERNARY_COMPACT_OBJ_ANIMATIONS_FORMAT: &str = "compact-obj-animations-quaternary-v1-json";
+pub const MAX_QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES: u64 = 2 * 1024 * 1024;
 pub const INDEXED_GRAPHICS_ID: &str = "graphics.indexed-archives";
 pub const INDEXED_GRAPHICS_FILE: &str = "indexed-graphics.json";
 pub const INDEXED_GRAPHICS_FORMAT: &str = "indexed-graphics-v1-json";
@@ -617,6 +663,15 @@ pub struct Extraction {
     pub indexed_graphics: Option<indexed_graphics::Catalog>,
     pub ui_raw_transfers: Option<ui_raw_transfers::Catalog>,
     pub dynamic_raw_fragments: Option<ui_raw_transfers::dynamic_fragments::Catalog>,
+    pub conditional_four_byte_lookup: Option<conditional_four_byte_lookup::Catalog>,
+    pub conditional_packed_lookup: Option<conditional_packed_lookup::Catalog>,
+    pub conditional_descriptor_banks: Option<conditional_descriptor_banks::Catalog>,
+    pub conditional_descriptor_bank_zero: Option<conditional_descriptor_bank_zero::Catalog>,
+    pub conditional_property_masks: Option<conditional_property_masks::Catalog>,
+    pub compact_obj_animations: Option<compact_obj_animations::Catalog>,
+    pub secondary_compact_obj_animations: Option<compact_obj_animations_secondary::Catalog>,
+    pub tertiary_compact_obj_animations: Option<compact_obj_animations_tertiary::Catalog>,
+    pub quaternary_compact_obj_animations: Option<compact_obj_animations_quaternary::Catalog>,
     pub map_raster_palettes: Option<map_raster_palettes::Catalog>,
     pub auxiliary_scripts: Option<auxiliary_scripts::Catalog>,
     pub text_catalogs: Option<text_catalogs::Catalog>,
@@ -708,6 +763,15 @@ pub struct BaseFiles<'a> {
     pub indexed_graphics: Option<(&'a indexed_graphics::IndexedGraphics, &'a [u8])>,
     pub ui_raw_transfers: Option<(&'a ui_raw_transfers::RawTransfers, &'a [u8])>,
     pub dynamic_raw_fragments: Option<(&'a ui_raw_transfers::dynamic_fragments::Fragments, &'a [u8])>,
+    pub conditional_four_byte_lookup: Option<(&'a conditional_four_byte_lookup::Lookup, &'a [u8])>,
+    pub conditional_packed_lookup: Option<(&'a conditional_packed_lookup::Lookup, &'a [u8])>,
+    pub conditional_descriptor_banks: Option<(&'a conditional_descriptor_banks::DescriptorBanks, &'a [u8])>,
+    pub conditional_descriptor_bank_zero: Option<(&'a conditional_descriptor_bank_zero::BankZero, &'a [u8])>,
+    pub conditional_property_masks: Option<(&'a conditional_property_masks::Masks, &'a [u8])>,
+    pub compact_obj_animations: Option<(&'a compact_obj_animations::CompactAnimations, &'a [u8])>,
+    pub secondary_compact_obj_animations: Option<(&'a compact_obj_animations_secondary::CompactAnimationsSecondary, &'a [u8])>,
+    pub tertiary_compact_obj_animations: Option<(&'a compact_obj_animations_tertiary::CompactAnimationsTertiary, &'a [u8])>,
+    pub quaternary_compact_obj_animations: Option<(&'a compact_obj_animations_quaternary::CompactAnimationsQuaternary, &'a [u8])>,
     pub map_raster_palettes: Option<(&'a map_raster_palettes::MapRasterPalettes, &'a [u8])>,
     pub auxiliary_commands: Option<(&'a auxiliary_scripts::AuxiliaryCommands, &'a [u8])>,
     pub auxiliary_archive: Option<(&'a auxiliary_scripts::AuxiliaryArchive, &'a [u8])>,
@@ -1314,6 +1378,42 @@ impl Extraction {
             result.manifest.coverage.push(DYNAMIC_RAW_FRAGMENTS_ID.into());
             result.manifest.resources.push(Resource {id:DYNAMIC_RAW_FRAGMENTS_ID.into(),path:DYNAMIC_RAW_FRAGMENTS_FILE.into(),format:DYNAMIC_RAW_FRAGMENTS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
             result.dynamic_raw_fragments = Some(metadata);
+            let metadata = conditional_four_byte_lookup::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_FOUR_BYTE_LOOKUP_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_FOUR_BYTE_LOOKUP_ID.into(),path:CONDITIONAL_FOUR_BYTE_LOOKUP_FILE.into(),format:CONDITIONAL_FOUR_BYTE_LOOKUP_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_four_byte_lookup = Some(metadata);
+            let metadata = conditional_packed_lookup::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_PACKED_LOOKUP_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_PACKED_LOOKUP_ID.into(),path:CONDITIONAL_PACKED_LOOKUP_FILE.into(),format:CONDITIONAL_PACKED_LOOKUP_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_packed_lookup = Some(metadata);
+            let metadata = conditional_descriptor_banks::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_DESCRIPTOR_BANKS_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_DESCRIPTOR_BANKS_ID.into(),path:CONDITIONAL_DESCRIPTOR_BANKS_FILE.into(),format:CONDITIONAL_DESCRIPTOR_BANKS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_descriptor_banks = Some(metadata);
+            let metadata = conditional_descriptor_bank_zero::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID.into(),path:CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE.into(),format:CONDITIONAL_DESCRIPTOR_BANK_ZERO_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_descriptor_bank_zero = Some(metadata);
+            let metadata = conditional_property_masks::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(CONDITIONAL_PROPERTY_MASKS_ID.into());
+            result.manifest.resources.push(Resource {id:CONDITIONAL_PROPERTY_MASKS_ID.into(),path:CONDITIONAL_PROPERTY_MASKS_FILE.into(),format:CONDITIONAL_PROPERTY_MASKS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.conditional_property_masks = Some(metadata);
+            let metadata = compact_obj_animations::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(COMPACT_OBJ_ANIMATIONS_ID.into());
+            result.manifest.resources.push(Resource {id:COMPACT_OBJ_ANIMATIONS_ID.into(),path:COMPACT_OBJ_ANIMATIONS_FILE.into(),format:COMPACT_OBJ_ANIMATIONS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.compact_obj_animations = Some(metadata);
+            let metadata = compact_obj_animations_secondary::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(SECONDARY_COMPACT_OBJ_ANIMATIONS_ID.into());
+            result.manifest.resources.push(Resource {id:SECONDARY_COMPACT_OBJ_ANIMATIONS_ID.into(),path:SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE.into(),format:SECONDARY_COMPACT_OBJ_ANIMATIONS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.secondary_compact_obj_animations = Some(metadata);
+            let metadata = compact_obj_animations_tertiary::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(TERTIARY_COMPACT_OBJ_ANIMATIONS_ID.into());
+            result.manifest.resources.push(Resource {id:TERTIARY_COMPACT_OBJ_ANIMATIONS_ID.into(),path:TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE.into(),format:TERTIARY_COMPACT_OBJ_ANIMATIONS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.tertiary_compact_obj_animations = Some(metadata);
+            let metadata = compact_obj_animations_quaternary::Catalog::from_rom(rom)?;
+            result.manifest.coverage.push(QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID.into());
+            result.manifest.resources.push(Resource {id:QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID.into(),path:QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE.into(),format:QUATERNARY_COMPACT_OBJ_ANIMATIONS_FORMAT.into(),sha256:String::new(),dependencies:vec![],sources:metadata.sources.clone()});
+            result.quaternary_compact_obj_animations = Some(metadata);
         } else {
             result.manifest.extractor_revision = 8;
             result.manifest.decoder_revision = 7;
@@ -1433,6 +1533,15 @@ impl Extraction {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -1553,6 +1662,15 @@ impl Extraction {
             || self.world_records38.is_some() != self.indexed_graphics.is_some()
             || self.indexed_graphics.is_some() != self.ui_raw_transfers.is_some()
             || self.ui_raw_transfers.is_some() != self.dynamic_raw_fragments.is_some()
+            || self.dynamic_raw_fragments.is_some() != self.conditional_four_byte_lookup.is_some()
+            || self.conditional_four_byte_lookup.is_some() != self.conditional_packed_lookup.is_some()
+            || self.conditional_packed_lookup.is_some() != self.conditional_descriptor_banks.is_some()
+            || self.conditional_descriptor_banks.is_some() != self.conditional_descriptor_bank_zero.is_some()
+            || self.conditional_descriptor_bank_zero.is_some() != self.conditional_property_masks.is_some()
+            || self.conditional_property_masks.is_some() != self.compact_obj_animations.is_some()
+            || self.compact_obj_animations.is_some() != self.secondary_compact_obj_animations.is_some()
+            || self.secondary_compact_obj_animations.is_some() != self.tertiary_compact_obj_animations.is_some()
+            || self.tertiary_compact_obj_animations.is_some() != self.quaternary_compact_obj_animations.is_some()
             || self.constructor_obj_animation.is_some() && self.obj_lists.is_none()
             || self.map_raster_palettes.is_some() && self.auxiliary_scripts.is_none()
             || self.auxiliary_scripts.is_some() && self.script_coordinates.is_none()
@@ -2250,6 +2368,42 @@ impl Extraction {
             (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES {return Err("Dynamic fragments file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[84].sha256=ffta_rom::digest(bytes);}
             (None,None)=>{},_=>return Err("Missing or unexpected dynamic_raw_fragments".into()),
         }
+        match (&self.conditional_four_byte_lookup, files.conditional_four_byte_lookup) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_FOUR_BYTE_LOOKUP_FILE_BYTES {return Err("Conditional lookup file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[85].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_four_byte_lookup".into()),
+        }
+        match (&self.conditional_packed_lookup, files.conditional_packed_lookup) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_PACKED_LOOKUP_FILE_BYTES {return Err("Conditional packed lookup file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[86].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_packed_lookup".into()),
+        }
+        match (&self.conditional_descriptor_banks, files.conditional_descriptor_banks) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_DESCRIPTOR_BANKS_FILE_BYTES {return Err("Conditional descriptor banks file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[87].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_descriptor_banks".into()),
+        }
+        match (&self.conditional_descriptor_bank_zero, files.conditional_descriptor_bank_zero) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE_BYTES {return Err("Conditional descriptor bank zero file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[88].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_descriptor_bank_zero".into()),
+        }
+        match (&self.conditional_property_masks, files.conditional_property_masks) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_CONDITIONAL_PROPERTY_MASKS_FILE_BYTES {return Err("Conditional property masks file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[89].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected conditional_property_masks".into()),
+        }
+        match (&self.compact_obj_animations, files.compact_obj_animations) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_COMPACT_OBJ_ANIMATIONS_FILE_BYTES {return Err("Compact OBJ animations file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[90].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected compact_obj_animations".into()),
+        }
+        match (&self.secondary_compact_obj_animations, files.secondary_compact_obj_animations) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES {return Err("Secondary compact OBJ animations file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[91].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected secondary_compact_obj_animations".into()),
+        }
+        match (&self.tertiary_compact_obj_animations, files.tertiary_compact_obj_animations) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES {return Err("Tertiary compact OBJ animations file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[92].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected tertiary_compact_obj_animations".into()),
+        }
+        match (&self.quaternary_compact_obj_animations, files.quaternary_compact_obj_animations) {
+            (Some(_),Some((_,bytes)))=>{if bytes.len() as u64>MAX_QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES {return Err("Quaternary compact OBJ animations file exceeds input guard".into());}total=total.saturating_add(bytes.len());expected.resources[93].sha256=ffta_rom::digest(bytes);}
+            (None,None)=>{},_=>return Err("Missing or unexpected quaternary_compact_obj_animations".into()),
+        }
         match (&self.map_raster_palettes, files.map_raster_palettes) {
             (Some(_), Some((_, bytes))) => {
                 if bytes.len() as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES { return Err("MapRasterPalettes file exceeds input guard".into()); }
@@ -2692,6 +2846,42 @@ impl Extraction {
             decoded.validate()?;
             if decoded!=&expected.decoded {return Err("Decoded dynamic_raw_fragments differs from authenticated source".into());}
         }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_four_byte_lookup,files.conditional_four_byte_lookup) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_four_byte_lookup differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_packed_lookup,files.conditional_packed_lookup) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_packed_lookup differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_descriptor_banks,files.conditional_descriptor_banks) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_descriptor_banks differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_descriptor_bank_zero,files.conditional_descriptor_bank_zero) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_descriptor_bank_zero differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.conditional_property_masks,files.conditional_property_masks) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded conditional_property_masks differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.compact_obj_animations,files.compact_obj_animations) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded compact_obj_animations differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.secondary_compact_obj_animations,files.secondary_compact_obj_animations) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded secondary_compact_obj_animations differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.tertiary_compact_obj_animations,files.tertiary_compact_obj_animations) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded tertiary_compact_obj_animations differs from authenticated source".into());}
+        }
+        if let (Some(expected),Some((decoded,_)))=(&self.quaternary_compact_obj_animations,files.quaternary_compact_obj_animations) {
+            decoded.validate()?;
+            if decoded!=&expected.decoded {return Err("Decoded quaternary_compact_obj_animations differs from authenticated source".into());}
+        }
         if let (Some(expected),Some((decoded,_))) = (&self.map_raster_palettes, files.map_raster_palettes) {
             let descriptors=files.background.ok_or("Missing raster palette descriptor dependency")?.0;
             decoded.validate_dependencies(descriptors)?;
@@ -2788,6 +2978,15 @@ impl Extraction {
             + usize::from(self.indexed_graphics.is_some())
             + usize::from(self.ui_raw_transfers.is_some())
             + usize::from(self.dynamic_raw_fragments.is_some())
+            + usize::from(self.conditional_four_byte_lookup.is_some())
+            + usize::from(self.conditional_packed_lookup.is_some())
+            + usize::from(self.conditional_descriptor_banks.is_some())
+            + usize::from(self.conditional_descriptor_bank_zero.is_some())
+            + usize::from(self.conditional_property_masks.is_some())
+            + usize::from(self.compact_obj_animations.is_some())
+            + usize::from(self.secondary_compact_obj_animations.is_some())
+            + usize::from(self.tertiary_compact_obj_animations.is_some())
+            + usize::from(self.quaternary_compact_obj_animations.is_some())
             + usize::from(self.map_raster_palettes.is_some())
             + 2 * usize::from(self.auxiliary_scripts.is_some())
     }
@@ -2927,6 +3126,15 @@ mod tests {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3019,6 +3227,15 @@ mod tests {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3121,6 +3338,15 @@ mod tests {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,
@@ -3212,6 +3438,15 @@ mod tests {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_commands: None,
             auxiliary_archive: None,

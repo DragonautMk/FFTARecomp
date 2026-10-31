@@ -53,6 +53,7 @@ const ACTIONS: [&str; 7] = [
     "Add folder...",
     "Back / cancel",
 ];
+const CHEAT_ACTIONS:[&str;7]=["Dettagli", "Preferito", "Dettagli / scorri", "Ricarica", "Importa catalogo...", "Scegli cartella...", "Indietro"];
 const KEYS: [&str; 4] = [
     "abcdefghijklmnopqrstuvwxyz0123456789",
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -150,6 +151,7 @@ pub(super) struct Selector {
     pub busy: bool,
     pub debug_copy: bool,
     pub editor_only: bool,
+    pub cheat_mode: bool,
     text_limit: usize,
     pub confirmed: Option<String>,
     pub preview: Vec<[u8; 4]>,
@@ -177,10 +179,14 @@ pub(super) struct Selector {
     detail_scroll: Cell<usize>,
 }
 impl Selector {
+    fn cheat_details(&self)->String{
+        self.selected().map(|i|{let e=&self.entries[i];format!("{} · {} · {}\n{}\n{}\n{}",e.name,e.status,e.compatibility,e.reason,e.identity,e.description)})
+            .unwrap_or_else(||"Nessuna voce selezionata".into())
+    }
     pub(super) fn description(&self)->String{format!("{}\nRicerca: {}\nTipo: {}\nDisponibilità: {}\nOrdine: {}\nRaccolta: {}",self.title,self.query,self.kinds().get(self.kind).cloned().unwrap_or_default(),FILTERS[self.filter],SORTS[self.sort],COLLECTIONS[self.collection])}
 
     pub(super) fn selection_state(&self)->Vec<(String,String)>{
-        let page=if self.editor_only{"ToolEditor"}else{"ContentSelector"};
+        let page=if self.editor_only{"ToolEditor"}else if self.cheat_mode{"CheatCatalog"}else{"ContentSelector"};
         let label=self.focus_label();
         let id=if self.editing{format!("keyboard/{}/{}",self.key_page,self.key)}else if self.focus==5{self.highlighted_id().unwrap_or("empty").into()}else{format!("control/{}",self.focus)};
         let mut state=vec![("page".into(),page.into()),("item_id".into(),format!("content/{id}")),("label".into(),label),
@@ -267,7 +273,7 @@ impl Selector {
         self.choice_edit = None;
         let old = self.selected().map(|i| self.entries[i].id.clone());
         self.title = title;
-        self.entries = entries.into_iter().take(512).collect();
+        self.entries = entries.into_iter().take(if self.cheat_mode{2048}else{512}).collect();
         self.message = message;
         self.generation = generation;
         self.kind = self.kind.min(self.kinds().len().saturating_sub(1));
@@ -463,6 +469,7 @@ impl Selector {
             }
             5 => self.focus = 6,
             6 => {
+                if self.cheat_mode {if self.selected().is_some(){self.detail_mode=true;}else{self.message="Nessun catalogo: scegli Importa catalogo.".into();}return None;}
                 if self.busy {
                     self.message = "Wait for the current catalog operation, or cancel.".into();
                 } else if let Some(index) = self.selected() {
@@ -495,6 +502,7 @@ impl Selector {
             }
             8 => {
                 self.detail_mode = true;
+                if self.cheat_mode{return None;}
                 if !self.busy {
                     if let Some(index) = self.selected() {
                         return Some(MenuAction::ContentPreview {
@@ -504,9 +512,9 @@ impl Selector {
                     }
                 }
             }
-            9 if !self.busy => return Some(MenuAction::ContentRefresh),
-            10 if !self.busy => return Some(MenuAction::ContentBrowseFile),
-            11 if !self.busy => return Some(MenuAction::ContentAddFolder),
+            9 if !self.busy => return Some(if self.cheat_mode{MenuAction::CheatReload}else{MenuAction::ContentRefresh}),
+            10 if !self.busy => return Some(if self.cheat_mode{MenuAction::CheatChoose}else{MenuAction::ContentBrowseFile}),
+            11 if !self.busy => return Some(if self.cheat_mode{MenuAction::CheatChoose}else{MenuAction::ContentAddFolder}),
             12 => return Some(MenuAction::ContentCancel),
             _ => {}
         }
@@ -682,6 +690,10 @@ impl Selector {
             return self.handle(MenuInput::Cancel);
         }
         let g = geometry(w, h);
+        if self.cheat_mode && self.detail_mode {
+            if y>=g.panel[1]+g.panel[3].saturating_sub(g.row){return self.handle(MenuInput::Cancel);}
+            return None;
+        }
         if self.editing {
             for i in 0..42 {
                 if inside(self.key_rect(g, i), x, y) {
@@ -752,7 +764,7 @@ impl Selector {
                     || "Empty list".into(),
                     |i| format!("{} | {}", self.entries[i].name, self.entries[i].id),
                 ),
-                i => ACTIONS[i - 6].into(),
+                i => if self.cheat_mode{CHEAT_ACTIONS[i-6]}else{ACTIONS[i-6]}.into(),
             }
         }
     }
@@ -760,7 +772,9 @@ impl Selector {
         let g = geometry(w, h);
         let first = self.first_visible(g);
         let label = self.focus_label();
-        let bounds = if self.editing {
+        let bounds = if self.cheat_mode && self.detail_mode {
+            g.panel
+        } else if self.editing {
             self.key_rect(g, self.key)
         } else {
             match self.focus {
@@ -778,6 +792,8 @@ impl Selector {
         diagnostics::Focus {
             page: if self.editor_only {
                 "ToolEditor"
+            } else if self.cheat_mode {
+                "CheatCatalog"
             } else {
                 "ContentSelector"
             }
@@ -851,6 +867,15 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
         [28, 56, 78],
         [89, 121, 139],
     );
+    if s.cheat_mode && s.detail_mode {
+        c.text((x+10) as f32,(y+5) as f32,"DETTAGLI CHEAT · SOLA LETTURA",ink,size*1.1,true,pw.saturating_sub(20) as f32);
+        let lines=Canvas::wrap_text(&s.cheat_details(),size,pw.saturating_sub(24) as f32);
+        let pitch=(size*1.5).ceil() as usize;let top=y+g.row+4;let bottom=(y+ph).saturating_sub(g.row);
+        let rows=bottom.saturating_sub(top)/pitch.max(1);let offset=s.detail_scroll.get().min(lines.len().saturating_sub(rows));s.detail_scroll.set(offset);
+        for (n,line) in lines.iter().skip(offset).take(rows).enumerate(){c.text((x+10) as f32,(top+n*pitch) as f32,line,ink,size,false,pw.saturating_sub(20) as f32);}
+        c.text((x+10) as f32,bottom as f32,"Su/Giù: scorri · OK/Annulla: torna",ink,size,false,pw.saturating_sub(20) as f32);
+        c.finish(px);return;
+    }
     c.text(
         (x + 10) as f32,
         (y + 4) as f32,
@@ -957,20 +982,12 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
         let mut lines = Canvas::wrap_text(&s.message, size, g.details[2].saturating_sub(12) as f32);
         if let Some(i) = s.selected() {
             let e = &s.entries[i];
-            let text = format!(
-                "{}\n{}\n{}\n{} / {}\n{}\n{}\n{}\n{}\nStatus: {}\nSelected ID: {}",
-                e.name,
-                e.id,
-                e.location,
-                e.status,
-                e.compatibility,
-                e.description,
-                e.identity,
-                e.reason,
-                s.preview_message,
-                s.message,
-                s.confirmed.as_deref().unwrap_or("none")
-            );
+            let text = if s.cheat_mode {
+                s.cheat_details()
+            } else {
+                format!("{}\n{}\n{}\n{} / {}\n{}\n{}\n{}\n{}\nStatus: {}\nSelected ID: {}",
+                    e.name,e.id,e.location,e.status,e.compatibility,e.description,e.identity,e.reason,s.preview_message,s.message,s.confirmed.as_deref().unwrap_or("none"))
+            };
             lines = Canvas::wrap_text(&text, size, g.details[2].saturating_sub(12) as f32);
         }
         let line = (size * 1.5).ceil() as usize;
@@ -1014,7 +1031,7 @@ pub(super) fn draw(s: &Selector, px: &mut [[u8; 4]], w: usize, h: usize) {
             {
                 "Unfavorite"
             } else {
-                ACTIONS[i]
+                if s.cheat_mode {CHEAT_ACTIONS[i]}else{ACTIONS[i]}
             };
             button(
                 &mut c,

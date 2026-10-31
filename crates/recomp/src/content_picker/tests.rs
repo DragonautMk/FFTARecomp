@@ -20,6 +20,70 @@ fn fixture() -> (tempfile::TempDir, Picker, menu::Menu) {
     p.open(&mut m, "a".repeat(64)).unwrap();
     (t, p, m)
 }
+fn wait_id(p: &mut Picker, m: &mut menu::Menu) -> Result<String, String> {
+    for _ in 0..2000 {
+        if let Some(result) = p.poll_id(m) {
+            return result;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(1));
+    }
+    panic!("bounded ID worker did not finish");
+}
+#[test]
+fn id_selection_reuses_preflight_and_preserves_pins_on_failure_or_cancel() {
+    let (t, mut p, mut m) = fixture();
+    let path = t.path().join("catalog.json");
+    std::fs::write(&path, br#"{"schema":1,"cases":[]}"#).unwrap();
+    p.refresh(&mut m).unwrap();
+    wait(&mut p, &mut m);
+    let id = p.index.as_ref().unwrap().entries.iter()
+        .find(|entry| entry.kind == Kind::SaveCatalog).unwrap().id.clone();
+    assert!(p.select_id(ContentSlot::Catalog, "unknown").is_err());
+    p.select_id(ContentSlot::Catalog, &id).unwrap();
+    assert!(p.status()["busy"].as_bool().unwrap());
+    assert!(p.refresh(&mut m).is_err());
+    assert_eq!(wait_id(&mut p, &mut m).unwrap(), id);
+    let previous = p.slots[&ContentSlot::Catalog].entry.sha256.clone();
+    p.select_id(ContentSlot::Replay, &id).unwrap();
+    assert!(wait_id(&mut p, &mut m).is_err());
+    assert!(!p.has_slot(ContentSlot::Replay));
+    p.select_id(ContentSlot::Catalog, &id).unwrap();
+    assert!(p.cancel_id());
+    assert!(wait_id(&mut p, &mut m).unwrap_err().contains("cancelled"));
+    assert_eq!(p.slots[&ContentSlot::Catalog].entry.sha256, previous);
+    std::fs::write(&path, b"changed").unwrap();
+    p.select_id(ContentSlot::Catalog, &id).unwrap();
+    assert!(wait_id(&mut p, &mut m).is_err());
+    assert_eq!(p.slots[&ContentSlot::Catalog].entry.sha256, previous);
+}
+#[test]
+fn id_selection_discards_results_for_a_changed_context_or_catalog() {
+    let (t, mut p, mut m) = fixture();
+    std::fs::write(t.path().join("catalog.json"), br#"{"schema":1,"cases":[]}"#).unwrap();
+    p.refresh(&mut m).unwrap();
+    wait(&mut p, &mut m);
+    let id = p.index.as_ref().unwrap().entries.iter()
+        .find(|entry| entry.kind == Kind::SaveCatalog).unwrap().id.clone();
+    p.select_id(ContentSlot::Catalog, &id).unwrap();
+    p.context = Some("different context".into());
+    assert!(wait_id(&mut p, &mut m).is_err());
+    assert!(!p.has_slot(ContentSlot::Catalog));
+    p.select_id(ContentSlot::Catalog, &id).unwrap();
+    p.generation = p.generation.wrapping_add(1);
+    assert!(wait_id(&mut p, &mut m).is_err());
+    assert!(!p.has_slot(ContentSlot::Catalog));
+}
+#[test]
+fn control_scan_pages_and_refuses_cancelled_or_stale_completion(){
+    let (t,mut p,_m)=fixture();std::fs::write(t.path().join("catalog.json"),br#"{"schema":1,"cases":[]}"#).unwrap();
+    let mut menu=menu::Menu::new(true,true);assert!(!menu.content_active());
+    let wait=|p:&mut Picker,m:&mut menu::Menu|{for _ in 0..2000{if let Some(r)=p.poll_refresh_control(m){return r;}std::thread::sleep(std::time::Duration::from_millis(1));}panic!("bounded scan did not finish")};
+    assert!(p.page(0,1,None).is_err());p.refresh_control().unwrap();assert!(p.refresh_control().is_err());wait(&mut p,&mut menu).unwrap();assert!(!menu.content_active());
+    let first=p.page(0,1,None).unwrap();let generation=first["generation"].as_u64().unwrap();let total=first["total"].as_u64().unwrap();assert!(total>=3);assert_eq!(first["entries"].as_array().unwrap().len(),1);assert_eq!(first["next_offset"],1);
+    assert!(p.page(0,17,None).is_err());assert!(p.page(0,1,Some(generation+1)).is_err());assert!(p.page(total as u32+1,1,None).is_err());
+    p.refresh_control().unwrap();assert!(p.cancel_refresh_control());assert!(wait(&mut p,&mut menu).unwrap_err().contains("cancelled"));assert_eq!(p.generation,generation);
+    p.refresh_control().unwrap();p.context=Some("changed".into());assert!(wait(&mut p,&mut menu).is_err());assert_eq!(p.generation,generation);
+}
 #[test]
 fn opening_cancelled_external_and_highlight_never_start_workers_or_select() {
     let (_t, mut p, mut m) = fixture();

@@ -220,6 +220,55 @@ fn decoded_base_matches_recorded_scene_at_every_frame() {
         audio.iter().all(|&count| count > 0),
         "all audio streams need actual samples: {audio:?}"
     );
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_CONDITIONAL_LOOKUP").is_some() {
+        let lookup = decoded.bus.rom_resources().unwrap().conditional_four_byte_lookup_stats()
+            .expect("decoded EUR conditional lookup");
+        assert!(lookup.bus_reads > 0 && lookup.first_field_bytes > 0 && lookup.second_field_bytes > 0,
+            "the scene must consume both conditional lookup fields");
+        eprintln!("ROM_DATA_CONDITIONAL_LOOKUP_SCENE frames={frames} bus_reads={} source_bytes={} first_field_bytes={} second_field_bytes={}",
+            lookup.bus_reads, lookup.source_bytes, lookup.first_field_bytes, lookup.second_field_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_DESCRIPTOR_BANKS").is_some() {
+        let banks = decoded.bus.rom_resources().unwrap().conditional_descriptor_banks_stats()
+            .expect("decoded EUR conditional descriptor banks");
+        assert!(banks.pointer_bytes > 0 && banks.field0_bytes > 0 && banks.field2_bytes > 0,
+            "the scene must consume descriptor pointers and both selected halfword fields");
+        eprintln!("ROM_DATA_DESCRIPTOR_BANKS_SCENE frames={frames} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",
+            banks.bus_reads, banks.source_bytes, banks.pointer_bytes, banks.field0_bytes, banks.field2_bytes, banks.field4_bytes, banks.kind_bytes, banks.byte7_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_DESCRIPTOR_BANKS_FIELD4").is_some() {
+        let banks = decoded.bus.rom_resources().unwrap().conditional_descriptor_banks_stats()
+            .expect("decoded EUR conditional descriptor banks");
+        assert!(banks.pointer_bytes > 0 && banks.field4_bytes > 0,
+            "the scene must consume descriptor pointers and field 4");
+        eprintln!("ROM_DATA_DESCRIPTOR_BANKS_FIELD4_SCENE frames={frames} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",
+            banks.bus_reads, banks.source_bytes, banks.pointer_bytes, banks.field0_bytes, banks.field2_bytes, banks.field4_bytes, banks.kind_bytes, banks.byte7_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_DESCRIPTOR_BANK_ZERO").is_some() {
+        let bank = decoded.bus.rom_resources().unwrap().conditional_descriptor_bank_zero_stats()
+            .expect("decoded EUR conditional descriptor bank zero");
+        assert!(bank.pointer_bytes > 0 && bank.field0_bytes > 0 && bank.field2_bytes > 0
+            && bank.kind_bytes > 0 && bank.byte7_bytes > 0,
+            "the scene must consume the bank-zero pointer and observed record fields");
+        eprintln!("ROM_DATA_DESCRIPTOR_BANK_ZERO_SCENE frames={frames} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",
+            bank.bus_reads, bank.source_bytes, bank.pointer_bytes, bank.field0_bytes, bank.field2_bytes, bank.field4_bytes, bank.kind_bytes, bank.byte7_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_DESCRIPTOR_BANK_ZERO_FIELD4").is_some() {
+        let bank = decoded.bus.rom_resources().unwrap().conditional_descriptor_bank_zero_stats()
+            .expect("decoded EUR conditional descriptor bank zero");
+        assert!(bank.pointer_bytes > 0 && bank.field4_bytes > 0,
+            "the scene must consume the bank-zero pointer and field 4");
+        eprintln!("ROM_DATA_DESCRIPTOR_BANK_ZERO_FIELD4_SCENE frames={frames} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",
+            bank.bus_reads, bank.source_bytes, bank.pointer_bytes, bank.field0_bytes, bank.field2_bytes, bank.field4_bytes, bank.kind_bytes, bank.byte7_bytes);
+    }
+    if std::env::var_os("FFTA_STATE_TEST_REQUIRE_PROPERTY_MASKS").is_some() {
+        let masks = decoded.bus.rom_resources().unwrap().conditional_property_masks_stats()
+            .expect("decoded EUR conditional property masks");
+        assert!(masks.bus_reads > 0 && masks.source_bytes > 0,
+            "the scene must consume property-selected masks");
+        eprintln!("ROM_DATA_PROPERTY_MASKS_SCENE frames={frames} bus_reads={} source_bytes={}",
+            masks.bus_reads, masks.source_bytes);
+    }
     let stats = decoded.bus.rom_resources().unwrap().stats();
     let bg = decoded
         .bus

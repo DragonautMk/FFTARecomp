@@ -348,6 +348,10 @@ Verificare il codice e il criterio selezionato quando si inizierà lo sviluppo.
   isolata di attivazione, effetto, disattivazione e ripristino; copertura di ogni
   altro CH indicata singolarmente, nessun intero gruppo marcato verificato.
   **Dipende da:** DBG2-19/20.
+  Avanzamento: CH-0334 applicato una sola volta in una copia EUR isolata Wine;
+  entrambe le scritture RAM corrispondono al piano e il riavvio dal seed
+  ripristina lo stato. Effetto visibile, toggle/disattivazione e prova UI
+  restano aperti; [dettagli](../cheats.md#manual-one-shot-in-an-isolated-session--dbg2-19-in-progress).
 
 - [ ] **DBG2-22 — Cheat avanzati per abilità, regole e transizioni.**
   Pianificare a gruppi piccoli abilità/AP/livello (CH-0320/0330/0340), regole

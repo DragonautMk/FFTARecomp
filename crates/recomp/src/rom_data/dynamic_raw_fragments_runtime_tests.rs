@@ -3,6 +3,31 @@ use super::*;
 use gba_core::{Bus, capi::RT_API};
 
 #[test]
+#[ignore = "private EUR ROM and accepted dataset; Wine only, Linux/USA pending"]
+fn european_dynamic_fragments_usage_counts() {
+    let root = PathBuf::from(std::env::var_os("FFTA_DYNAMIC_USAGE_ROOT").unwrap());
+    assert!(!root.exists());
+    fs::create_dir_all(&root).unwrap();
+    let rom = fs::read(std::env::var_os("FFTA_STATE_TEST_ROM").unwrap()).unwrap();
+    let dataset = PathBuf::from(std::env::var_os("FFTA_STATE_TEST_DATASET").unwrap());
+    let mut machine = crate::make_machine(rom.clone(), None);
+    attach_from_directory(&mut machine, &dataset).unwrap();
+    let owner = machine.bus.rom_resources().unwrap().clone();
+    assert_eq!(owner.dynamic_raw_fragments_stats().unwrap().source_bytes, 0);
+    let pointer = &mut machine as *mut _ as *mut std::ffi::c_void;
+    machine.bus.rom[0x399700..0x39970c].fill(0xcd);
+    machine.bus.rom[0x441388..0x441488].fill(0xcd);
+    assert_eq!((RT_API.read16)(pointer, 0x08399700), u32::from(u16::from_le_bytes(rom[0x399700..0x399702].try_into().unwrap())));
+    assert_eq!((RT_API.read32)(pointer, 0x08441388), u32::from_le_bytes(rom[0x441388..0x44138c].try_into().unwrap()));
+    assert_eq!((RT_API.read16)(pointer, 0x083996ff), u32::from(u16::from_le_bytes(rom[0x3996ff..0x399701].try_into().unwrap())));
+    let stats = owner.dynamic_raw_fragments_stats().unwrap();
+    assert_eq!((stats.bus_reads, stats.source_bytes, stats.selector_bytes, stats.payload_bytes), (3, 7, 3, 4));
+    machine.bus.read8(0x083996fe);
+    assert_eq!(owner.dynamic_raw_fragments_stats().unwrap(), stats, "outside fragment does not increment counters");
+    fs::write(root.join("result.json"), b"{\"status\":\"PASS\",\"bus_reads\":3,\"source_bytes\":7,\"selector_bytes\":3,\"payload_bytes\":4,\"mixed_edge\":true,\"Linux\":\"pending\",\"USA\":\"pending\",\"performance_measurements\":false}\n").unwrap();
+}
+
+#[test]
 #[ignore = "private EUR ROM and managed publication; Wine only, Linux/USA pending"]
 fn european_dynamic_fragments_managed_reads() {
     let root = PathBuf::from(std::env::var_os("FFTA_DYNAMIC_RAW_ROOT").unwrap());
@@ -14,7 +39,7 @@ fn european_dynamic_fragments_managed_reads() {
     let mut source = Extraction::from_rom(&rom).unwrap();
     let dataset = root.join("offline dataset");
     extract(&dataset, &mut source).unwrap();
-    assert_eq!((source.manifest.extractor_revision, source.manifest.decoder_revision, source.manifest.resources.len()), (95, 94, 85));
+    assert_eq!((source.manifest.extractor_revision, source.manifest.decoder_revision, source.manifest.resources.len()), (104, 103, 94));
     for resource in &prior.resources {
         if resource.id != UI_CUSTOM_GRAPHICS_ID {
             assert_eq!(source.manifest.resources.iter().find(|entry| entry.id == resource.id), Some(resource));

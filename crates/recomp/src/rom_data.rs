@@ -49,6 +49,15 @@ use gba_core::rom_data::{
     task_cycle_deltas::TaskCycleDeltas, TASK_CYCLE_DELTAS_ID, TASK_CYCLE_DELTAS_FILE, MAX_TASK_CYCLE_DELTAS_FILE_BYTES,
     ui_raw_transfers::RawTransfers, UI_RAW_TRANSFERS_ID, UI_RAW_TRANSFERS_FILE, MAX_UI_RAW_TRANSFERS_FILE_BYTES,
     ui_raw_transfers::dynamic_fragments::Fragments as DynamicRawFragments, DYNAMIC_RAW_FRAGMENTS_ID, DYNAMIC_RAW_FRAGMENTS_FILE, MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES,
+    conditional_four_byte_lookup::Lookup as ConditionalFourByteLookup, CONDITIONAL_FOUR_BYTE_LOOKUP_ID, CONDITIONAL_FOUR_BYTE_LOOKUP_FILE, MAX_CONDITIONAL_FOUR_BYTE_LOOKUP_FILE_BYTES,
+    conditional_packed_lookup::Lookup as ConditionalPackedLookup, CONDITIONAL_PACKED_LOOKUP_ID, CONDITIONAL_PACKED_LOOKUP_FILE, MAX_CONDITIONAL_PACKED_LOOKUP_FILE_BYTES,
+    conditional_descriptor_banks::DescriptorBanks as ConditionalDescriptorBanks, CONDITIONAL_DESCRIPTOR_BANKS_ID, CONDITIONAL_DESCRIPTOR_BANKS_FILE, MAX_CONDITIONAL_DESCRIPTOR_BANKS_FILE_BYTES,
+    conditional_descriptor_bank_zero::BankZero as ConditionalDescriptorBankZero, CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID, CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE, MAX_CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE_BYTES,
+    conditional_property_masks::Masks as ConditionalPropertyMasks, CONDITIONAL_PROPERTY_MASKS_ID, CONDITIONAL_PROPERTY_MASKS_FILE, MAX_CONDITIONAL_PROPERTY_MASKS_FILE_BYTES,
+    compact_obj_animations::CompactAnimations as CompactObjAnimations, COMPACT_OBJ_ANIMATIONS_ID, COMPACT_OBJ_ANIMATIONS_FILE, MAX_COMPACT_OBJ_ANIMATIONS_FILE_BYTES,
+    compact_obj_animations_secondary::CompactAnimationsSecondary as SecondaryCompactObjAnimations, SECONDARY_COMPACT_OBJ_ANIMATIONS_ID, SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE, MAX_SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES,
+    compact_obj_animations_tertiary::CompactAnimationsTertiary as TertiaryCompactObjAnimations, TERTIARY_COMPACT_OBJ_ANIMATIONS_ID, TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE, MAX_TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES,
+    compact_obj_animations_quaternary::CompactAnimationsQuaternary as QuaternaryCompactObjAnimations, QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID, QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE, MAX_QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES,
     indexed_graphics::IndexedGraphics, INDEXED_GRAPHICS_ID, INDEXED_GRAPHICS_FILE, MAX_INDEXED_GRAPHICS_FILE_BYTES,
     world_records38::WorldRecords38, WORLD_RECORDS38_ID, WORLD_RECORDS38_FILE, MAX_WORLD_RECORDS38_FILE_BYTES,
     parameter_records27::ParameterRecords27, PARAMETER_RECORDS27_ID, PARAMETER_RECORDS27_FILE, MAX_PARAMETER_RECORDS27_FILE_BYTES,
@@ -313,6 +322,42 @@ mod dynamic_raw_fragments_runtime_tests;
 mod clan_table_alias_runtime_tests;
 #[cfg(test)]
 mod clan_table_alias_native_tests;
+#[cfg(test)]
+mod conditional_four_byte_lookup_tests;
+#[cfg(test)]
+mod conditional_packed_lookup_tests;
+#[cfg(test)]
+mod conditional_descriptor_banks_tests;
+#[cfg(test)]
+mod conditional_descriptor_bank_zero_tests;
+#[cfg(test)]
+mod conditional_property_masks_tests;
+#[cfg(test)]
+mod compact_obj_animations_tests;
+#[cfg(test)]
+mod compact_obj_animations_secondary_tests;
+#[cfg(test)]
+mod compact_obj_animations_tertiary_tests;
+#[cfg(test)]
+mod compact_obj_animations_quaternary_tests;
+#[cfg(test)]
+mod compact_obj_animations_tertiary_runtime_tests;
+#[cfg(test)]
+mod compact_obj_animations_quaternary_runtime_tests;
+#[cfg(test)]
+mod compact_obj_animations_secondary_runtime_tests;
+#[cfg(test)]
+mod compact_obj_animations_runtime_tests;
+#[cfg(test)]
+mod conditional_property_masks_runtime_tests;
+#[cfg(test)]
+mod conditional_descriptor_bank_zero_runtime_tests;
+#[cfg(test)]
+mod conditional_descriptor_banks_runtime_tests;
+#[cfg(test)]
+mod conditional_packed_lookup_runtime_tests;
+#[cfg(test)]
+mod conditional_four_byte_lookup_runtime_tests;
 #[cfg(test)]
 mod encounter_coordinate_runtime_tests;
 #[cfg(test)]
@@ -838,6 +883,24 @@ fn parse_task_cycle_deltas(bytes:&[u8])->Result<TaskCycleDeltas,String> {
 fn encode_task_cycle_deltas(value:&TaskCycleDeltas)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode task_cycle_deltas: {e}"))}
 fn parse_ui_raw_transfers(bytes:&[u8])->Result<RawTransfers,String> {let value:RawTransfers=serde_json::from_slice(bytes).map_err(|e|format!("Invalid ui_raw_transfers: {e}"))?;value.validate()?;Ok(value)}
 fn parse_dynamic_raw_fragments(bytes:&[u8])->Result<DynamicRawFragments,String> {let value:DynamicRawFragments=serde_json::from_slice(bytes).map_err(|e|format!("Invalid dynamic_raw_fragments: {e}"))?;value.validate()?;Ok(value)}
+fn parse_conditional_four_byte_lookup(bytes:&[u8])->Result<ConditionalFourByteLookup,String> {let value:ConditionalFourByteLookup=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_four_byte_lookup: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_four_byte_lookup(value:&ConditionalFourByteLookup)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_four_byte_lookup: {e}"))}
+fn parse_conditional_packed_lookup(bytes:&[u8])->Result<ConditionalPackedLookup,String> {let value:ConditionalPackedLookup=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_packed_lookup: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_packed_lookup(value:&ConditionalPackedLookup)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_packed_lookup: {e}"))}
+fn parse_conditional_descriptor_banks(bytes:&[u8])->Result<ConditionalDescriptorBanks,String> {let value:ConditionalDescriptorBanks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_descriptor_banks: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_descriptor_banks(value:&ConditionalDescriptorBanks)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_descriptor_banks: {e}"))}
+fn parse_conditional_descriptor_bank_zero(bytes:&[u8])->Result<ConditionalDescriptorBankZero,String> {let value:ConditionalDescriptorBankZero=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_descriptor_bank_zero: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_descriptor_bank_zero(value:&ConditionalDescriptorBankZero)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_descriptor_bank_zero: {e}"))}
+fn parse_conditional_property_masks(bytes:&[u8])->Result<ConditionalPropertyMasks,String> {let value:ConditionalPropertyMasks=serde_json::from_slice(bytes).map_err(|e|format!("Invalid conditional_property_masks: {e}"))?;value.validate()?;Ok(value)}
+fn parse_compact_obj_animations(bytes:&[u8])->Result<CompactObjAnimations,String> {let value:CompactObjAnimations=serde_json::from_slice(bytes).map_err(|e|format!("Invalid compact_obj_animations: {e}"))?;value.validate()?;Ok(value)}
+fn parse_secondary_compact_obj_animations(bytes:&[u8])->Result<SecondaryCompactObjAnimations,String> {let value:SecondaryCompactObjAnimations=serde_json::from_slice(bytes).map_err(|e|format!("Invalid secondary_compact_obj_animations: {e}"))?;value.validate()?;Ok(value)}
+fn parse_tertiary_compact_obj_animations(bytes:&[u8])->Result<TertiaryCompactObjAnimations,String> {let value:TertiaryCompactObjAnimations=serde_json::from_slice(bytes).map_err(|e|format!("Invalid tertiary_compact_obj_animations: {e}"))?;value.validate()?;Ok(value)}
+fn parse_quaternary_compact_obj_animations(bytes:&[u8])->Result<QuaternaryCompactObjAnimations,String> {let value:QuaternaryCompactObjAnimations=serde_json::from_slice(bytes).map_err(|e|format!("Invalid quaternary_compact_obj_animations: {e}"))?;value.validate()?;Ok(value)}
+fn encode_conditional_property_masks(value:&ConditionalPropertyMasks)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode conditional_property_masks: {e}"))}
+fn encode_compact_obj_animations(value:&CompactObjAnimations)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode compact_obj_animations: {e}"))}
+fn encode_secondary_compact_obj_animations(value:&SecondaryCompactObjAnimations)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode secondary_compact_obj_animations: {e}"))}
+fn encode_tertiary_compact_obj_animations(value:&TertiaryCompactObjAnimations)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode tertiary_compact_obj_animations: {e}"))}
+fn encode_quaternary_compact_obj_animations(value:&QuaternaryCompactObjAnimations)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode quaternary_compact_obj_animations: {e}"))}
 fn encode_ui_raw_transfers(value:&RawTransfers)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode ui_raw_transfers: {e}"))}
 fn encode_dynamic_raw_fragments(value:&DynamicRawFragments)->Result<Vec<u8>,String> {serde_json::to_vec_pretty(value).map_err(|e|format!("Cannot encode dynamic_raw_fragments: {e}"))}
 fn parse_indexed_graphics(bytes:&[u8])->Result<IndexedGraphics,String> {let value:IndexedGraphics=serde_json::from_slice(bytes).map_err(|e|format!("Invalid indexed_graphics: {e}"))?;value.validate()?;Ok(value)}
@@ -1094,6 +1157,15 @@ struct Dataset {
     indexed_graphics: Option<IndexedGraphics>,
     ui_raw_transfers: Option<RawTransfers>,
     dynamic_raw_fragments: Option<DynamicRawFragments>,
+    conditional_four_byte_lookup: Option<ConditionalFourByteLookup>,
+    conditional_packed_lookup: Option<ConditionalPackedLookup>,
+    conditional_descriptor_banks: Option<ConditionalDescriptorBanks>,
+    conditional_descriptor_bank_zero: Option<ConditionalDescriptorBankZero>,
+    conditional_property_masks: Option<ConditionalPropertyMasks>,
+    compact_obj_animations: Option<CompactObjAnimations>,
+    secondary_compact_obj_animations: Option<SecondaryCompactObjAnimations>,
+    tertiary_compact_obj_animations: Option<TertiaryCompactObjAnimations>,
+    quaternary_compact_obj_animations: Option<QuaternaryCompactObjAnimations>,
     map_raster_palettes: Option<MapRasterPalettes>,
     auxiliary_commands: Option<AuxiliaryCommands>,
     auxiliary_archive: Option<AuxiliaryArchive>,
@@ -1161,6 +1233,15 @@ struct Dataset {
     indexed_graphics_bytes: Option<Vec<u8>>,
     ui_raw_transfers_bytes: Option<Vec<u8>>,
     dynamic_raw_fragments_bytes: Option<Vec<u8>>,
+    conditional_four_byte_lookup_bytes: Option<Vec<u8>>,
+    conditional_packed_lookup_bytes: Option<Vec<u8>>,
+    conditional_descriptor_banks_bytes: Option<Vec<u8>>,
+    conditional_descriptor_bank_zero_bytes: Option<Vec<u8>>,
+    conditional_property_masks_bytes: Option<Vec<u8>>,
+    compact_obj_animations_bytes: Option<Vec<u8>>,
+    secondary_compact_obj_animations_bytes: Option<Vec<u8>>,
+    tertiary_compact_obj_animations_bytes: Option<Vec<u8>>,
+    quaternary_compact_obj_animations_bytes: Option<Vec<u8>>,
     map_raster_palettes_bytes: Option<Vec<u8>>,
     auxiliary_commands_bytes: Option<Vec<u8>>,
     auxiliary_archive_bytes: Option<Vec<u8>>,
@@ -1254,6 +1335,15 @@ impl Dataset {
             indexed_graphics: self.indexed_graphics.as_ref().zip(self.indexed_graphics_bytes.as_deref()),
             ui_raw_transfers: self.ui_raw_transfers.as_ref().zip(self.ui_raw_transfers_bytes.as_deref()),
             dynamic_raw_fragments: self.dynamic_raw_fragments.as_ref().zip(self.dynamic_raw_fragments_bytes.as_deref()),
+            conditional_four_byte_lookup: self.conditional_four_byte_lookup.as_ref().zip(self.conditional_four_byte_lookup_bytes.as_deref()),
+            conditional_packed_lookup: self.conditional_packed_lookup.as_ref().zip(self.conditional_packed_lookup_bytes.as_deref()),
+            conditional_descriptor_banks: self.conditional_descriptor_banks.as_ref().zip(self.conditional_descriptor_banks_bytes.as_deref()),
+            conditional_descriptor_bank_zero: self.conditional_descriptor_bank_zero.as_ref().zip(self.conditional_descriptor_bank_zero_bytes.as_deref()),
+            conditional_property_masks: self.conditional_property_masks.as_ref().zip(self.conditional_property_masks_bytes.as_deref()),
+            compact_obj_animations: self.compact_obj_animations.as_ref().zip(self.compact_obj_animations_bytes.as_deref()),
+            secondary_compact_obj_animations: self.secondary_compact_obj_animations.as_ref().zip(self.secondary_compact_obj_animations_bytes.as_deref()),
+            tertiary_compact_obj_animations: self.tertiary_compact_obj_animations.as_ref().zip(self.tertiary_compact_obj_animations_bytes.as_deref()),
+            quaternary_compact_obj_animations: self.quaternary_compact_obj_animations.as_ref().zip(self.quaternary_compact_obj_animations_bytes.as_deref()),
             map_raster_palettes: self.map_raster_palettes.as_ref().zip(self.map_raster_palettes_bytes.as_deref()),
             auxiliary_commands: self.auxiliary_commands.as_ref().zip(self.auxiliary_commands_bytes.as_deref()),
             auxiliary_archive: self.auxiliary_archive.as_ref().zip(self.auxiliary_archive_bytes.as_deref()),
@@ -1415,6 +1505,15 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         .then(||read_bounded(&path.join(TASK_CYCLE_DELTAS_FILE),MAX_TASK_CYCLE_DELTAS_FILE_BYTES)).transpose()?;
     let ui_raw_transfers_bytes=manifest.coverage.iter().any(|id|id==UI_RAW_TRANSFERS_ID).then(||read_bounded(&path.join(UI_RAW_TRANSFERS_FILE),MAX_UI_RAW_TRANSFERS_FILE_BYTES)).transpose()?;
     let dynamic_raw_fragments_bytes=manifest.coverage.iter().any(|id|id==DYNAMIC_RAW_FRAGMENTS_ID).then(||read_bounded(&path.join(DYNAMIC_RAW_FRAGMENTS_FILE),MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES)).transpose()?;
+    let conditional_four_byte_lookup_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_FOUR_BYTE_LOOKUP_ID).then(||read_bounded(&path.join(CONDITIONAL_FOUR_BYTE_LOOKUP_FILE),MAX_CONDITIONAL_FOUR_BYTE_LOOKUP_FILE_BYTES)).transpose()?;
+    let conditional_packed_lookup_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_PACKED_LOOKUP_ID).then(||read_bounded(&path.join(CONDITIONAL_PACKED_LOOKUP_FILE),MAX_CONDITIONAL_PACKED_LOOKUP_FILE_BYTES)).transpose()?;
+    let conditional_descriptor_banks_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_DESCRIPTOR_BANKS_ID).then(||read_bounded(&path.join(CONDITIONAL_DESCRIPTOR_BANKS_FILE),MAX_CONDITIONAL_DESCRIPTOR_BANKS_FILE_BYTES)).transpose()?;
+    let conditional_descriptor_bank_zero_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID).then(||read_bounded(&path.join(CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE),MAX_CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE_BYTES)).transpose()?;
+    let conditional_property_masks_bytes=manifest.coverage.iter().any(|id|id==CONDITIONAL_PROPERTY_MASKS_ID).then(||read_bounded(&path.join(CONDITIONAL_PROPERTY_MASKS_FILE),MAX_CONDITIONAL_PROPERTY_MASKS_FILE_BYTES)).transpose()?;
+    let compact_obj_animations_bytes=manifest.coverage.iter().any(|id|id==COMPACT_OBJ_ANIMATIONS_ID).then(||read_bounded(&path.join(COMPACT_OBJ_ANIMATIONS_FILE),MAX_COMPACT_OBJ_ANIMATIONS_FILE_BYTES)).transpose()?;
+    let secondary_compact_obj_animations_bytes=manifest.coverage.iter().any(|id|id==SECONDARY_COMPACT_OBJ_ANIMATIONS_ID).then(||read_bounded(&path.join(SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE),MAX_SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES)).transpose()?;
+    let tertiary_compact_obj_animations_bytes=manifest.coverage.iter().any(|id|id==TERTIARY_COMPACT_OBJ_ANIMATIONS_ID).then(||read_bounded(&path.join(TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE),MAX_TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES)).transpose()?;
+    let quaternary_compact_obj_animations_bytes=manifest.coverage.iter().any(|id|id==QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID).then(||read_bounded(&path.join(QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE),MAX_QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES)).transpose()?;
     let indexed_graphics_bytes=manifest.coverage.iter().any(|id|id==INDEXED_GRAPHICS_ID).then(||read_bounded(&path.join(INDEXED_GRAPHICS_FILE),MAX_INDEXED_GRAPHICS_FILE_BYTES)).transpose()?;
     let world_records38_bytes=manifest.coverage.iter().any(|id|id==WORLD_RECORDS38_ID).then(||read_bounded(&path.join(WORLD_RECORDS38_FILE),MAX_WORLD_RECORDS38_FILE_BYTES)).transpose()?;
     let parameter_records27_bytes=manifest.coverage.iter().any(|id|id==PARAMETER_RECORDS27_ID).then(||read_bounded(&path.join(PARAMETER_RECORDS27_FILE),MAX_PARAMETER_RECORDS27_FILE_BYTES)).transpose()?;
@@ -1525,6 +1624,15 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         indexed_graphics_bytes.as_ref().map_or(0, Vec::len),
         ui_raw_transfers_bytes.as_ref().map_or(0, Vec::len),
         dynamic_raw_fragments_bytes.as_ref().map_or(0, Vec::len),
+        conditional_four_byte_lookup_bytes.as_ref().map_or(0, Vec::len),
+        conditional_packed_lookup_bytes.as_ref().map_or(0, Vec::len),
+        conditional_descriptor_banks_bytes.as_ref().map_or(0, Vec::len),
+        conditional_descriptor_bank_zero_bytes.as_ref().map_or(0, Vec::len),
+        conditional_property_masks_bytes.as_ref().map_or(0, Vec::len),
+        compact_obj_animations_bytes.as_ref().map_or(0, Vec::len),
+        secondary_compact_obj_animations_bytes.as_ref().map_or(0, Vec::len),
+        tertiary_compact_obj_animations_bytes.as_ref().map_or(0, Vec::len),
+        quaternary_compact_obj_animations_bytes.as_ref().map_or(0, Vec::len),
         map_raster_palettes_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_commands_bytes.as_ref().map_or(0, Vec::len),
         auxiliary_archive_bytes.as_ref().map_or(0, Vec::len),
@@ -1596,6 +1704,15 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
     let task_cycle_deltas=task_cycle_deltas_bytes.as_deref().map(parse_task_cycle_deltas).transpose()?;
     let ui_raw_transfers=ui_raw_transfers_bytes.as_deref().map(parse_ui_raw_transfers).transpose()?;
     let dynamic_raw_fragments=dynamic_raw_fragments_bytes.as_deref().map(parse_dynamic_raw_fragments).transpose()?;
+    let conditional_four_byte_lookup=conditional_four_byte_lookup_bytes.as_deref().map(parse_conditional_four_byte_lookup).transpose()?;
+    let conditional_packed_lookup=conditional_packed_lookup_bytes.as_deref().map(parse_conditional_packed_lookup).transpose()?;
+    let conditional_descriptor_banks=conditional_descriptor_banks_bytes.as_deref().map(parse_conditional_descriptor_banks).transpose()?;
+    let conditional_descriptor_bank_zero=conditional_descriptor_bank_zero_bytes.as_deref().map(parse_conditional_descriptor_bank_zero).transpose()?;
+    let conditional_property_masks=conditional_property_masks_bytes.as_deref().map(parse_conditional_property_masks).transpose()?;
+    let compact_obj_animations=compact_obj_animations_bytes.as_deref().map(parse_compact_obj_animations).transpose()?;
+    let secondary_compact_obj_animations=secondary_compact_obj_animations_bytes.as_deref().map(parse_secondary_compact_obj_animations).transpose()?;
+    let tertiary_compact_obj_animations=tertiary_compact_obj_animations_bytes.as_deref().map(parse_tertiary_compact_obj_animations).transpose()?;
+    let quaternary_compact_obj_animations=quaternary_compact_obj_animations_bytes.as_deref().map(parse_quaternary_compact_obj_animations).transpose()?;
     let indexed_graphics=indexed_graphics_bytes.as_deref().map(parse_indexed_graphics).transpose()?;
     let world_records38=world_records38_bytes.as_deref().map(parse_world_records38).transpose()?;
     let parameter_records27=parameter_records27_bytes.as_deref().map(parse_parameter_records27).transpose()?;
@@ -1714,6 +1831,15 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         indexed_graphics,
         ui_raw_transfers,
         dynamic_raw_fragments,
+        conditional_four_byte_lookup,
+        conditional_packed_lookup,
+        conditional_descriptor_banks,
+        conditional_descriptor_bank_zero,
+        conditional_property_masks,
+        compact_obj_animations,
+        secondary_compact_obj_animations,
+        tertiary_compact_obj_animations,
+        quaternary_compact_obj_animations,
         map_raster_palettes,
         auxiliary_commands,
         auxiliary_archive,
@@ -1781,6 +1907,15 @@ fn read_dataset(path: &Path) -> Result<Dataset, String> {
         indexed_graphics_bytes,
         ui_raw_transfers_bytes,
         dynamic_raw_fragments_bytes,
+        conditional_four_byte_lookup_bytes,
+        conditional_packed_lookup_bytes,
+        conditional_descriptor_banks_bytes,
+        conditional_descriptor_bank_zero_bytes,
+        conditional_property_masks_bytes,
+        compact_obj_animations_bytes,
+        secondary_compact_obj_animations_bytes,
+        tertiary_compact_obj_animations_bytes,
+        quaternary_compact_obj_animations_bytes,
         map_raster_palettes_bytes,
         auxiliary_commands_bytes,
         auxiliary_archive_bytes,
@@ -1873,6 +2008,15 @@ fn check_dataset_budget(
     indexed_graphics: usize,
     ui_raw_transfers: usize,
     dynamic_raw_fragments: usize,
+    conditional_four_byte_lookup: usize,
+    conditional_packed_lookup: usize,
+    conditional_descriptor_banks: usize,
+    conditional_descriptor_bank_zero: usize,
+    conditional_property_masks: usize,
+    compact_obj_animations: usize,
+    secondary_compact_obj_animations: usize,
+    tertiary_compact_obj_animations: usize,
+    quaternary_compact_obj_animations: usize,
     map_raster_palettes: usize,
     auxiliary_commands: usize,
     auxiliary_archive: usize,
@@ -1959,6 +2103,15 @@ fn check_dataset_budget(
         || indexed_graphics as u64 > MAX_INDEXED_GRAPHICS_FILE_BYTES
         || ui_raw_transfers as u64 > MAX_UI_RAW_TRANSFERS_FILE_BYTES
         || dynamic_raw_fragments as u64 > MAX_DYNAMIC_RAW_FRAGMENTS_FILE_BYTES
+        || conditional_four_byte_lookup as u64 > MAX_CONDITIONAL_FOUR_BYTE_LOOKUP_FILE_BYTES
+        || conditional_packed_lookup as u64 > MAX_CONDITIONAL_PACKED_LOOKUP_FILE_BYTES
+        || conditional_descriptor_banks as u64 > MAX_CONDITIONAL_DESCRIPTOR_BANKS_FILE_BYTES
+        || conditional_descriptor_bank_zero as u64 > MAX_CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE_BYTES
+        || conditional_property_masks as u64 > MAX_CONDITIONAL_PROPERTY_MASKS_FILE_BYTES
+        || compact_obj_animations as u64 > MAX_COMPACT_OBJ_ANIMATIONS_FILE_BYTES
+        || secondary_compact_obj_animations as u64 > MAX_SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES
+        || tertiary_compact_obj_animations as u64 > MAX_TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES
+        || quaternary_compact_obj_animations as u64 > MAX_QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE_BYTES
         || map_raster_palettes as u64 > MAX_MAP_RASTER_PALETTES_FILE_BYTES
         || auxiliary_commands as u64 > MAX_AUXILIARY_COMMANDS_FILE_BYTES
         || auxiliary_archive as u64 > MAX_AUXILIARY_ARCHIVE_FILE_BYTES
@@ -2048,6 +2201,15 @@ fn check_dataset_budget(
         .saturating_add(indexed_graphics)
         .saturating_add(ui_raw_transfers)
         .saturating_add(dynamic_raw_fragments)
+        .saturating_add(conditional_four_byte_lookup)
+        .saturating_add(conditional_packed_lookup)
+        .saturating_add(conditional_descriptor_banks)
+        .saturating_add(conditional_descriptor_bank_zero)
+        .saturating_add(conditional_property_masks)
+        .saturating_add(compact_obj_animations)
+        .saturating_add(secondary_compact_obj_animations)
+        .saturating_add(tertiary_compact_obj_animations)
+        .saturating_add(quaternary_compact_obj_animations)
         .saturating_add(map_raster_palettes)
         .saturating_add(auxiliary_commands)
         .saturating_add(auxiliary_archive)
@@ -2229,6 +2391,15 @@ pub fn attach_from_directory(machine: &mut gba_core::Machine, path: &Path) -> Re
     }
     if let Some(data)=&dataset.ui_raw_transfers {eprintln!("ROM_DATA runtime=decoded resource={UI_RAW_TRANSFERS_ID} file={} views={}",dataset.manifest.resources[83].sha256,data.banks.len());}
     if let Some(data)=&dataset.dynamic_raw_fragments {eprintln!("ROM_DATA runtime=decoded resource={DYNAMIC_RAW_FRAGMENTS_ID} file={} rows={} banks={}",dataset.manifest.resources[84].sha256,data.rows.len(),data.banks.len());}
+    if let Some(data)=&dataset.conditional_four_byte_lookup {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_FOUR_BYTE_LOOKUP_ID} file={} rows={}",dataset.manifest.resources[85].sha256,data.records.len());}
+    if let Some(data)=&dataset.conditional_packed_lookup {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_PACKED_LOOKUP_ID} file={} rows={}",dataset.manifest.resources[86].sha256,data.records.len());}
+    if let Some(data)=&dataset.conditional_descriptor_banks {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_DESCRIPTOR_BANKS_ID} file={} rows={}",dataset.manifest.resources[87].sha256,data.banks.len());}
+    if let Some(data)=&dataset.conditional_descriptor_bank_zero {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID} file={} rows={}",dataset.manifest.resources[88].sha256,data.records.len());}
+    if let Some(data)=&dataset.conditional_property_masks {eprintln!("ROM_DATA runtime=decoded resource={CONDITIONAL_PROPERTY_MASKS_ID} file={} rows={}",dataset.manifest.resources[89].sha256,data.words.len());}
+    if let Some(data)=&dataset.compact_obj_animations {eprintln!("ROM_DATA runtime=decoded resource={COMPACT_OBJ_ANIMATIONS_ID} file={} lists={} sequences={}",dataset.manifest.resources[90].sha256,data.lists.len(),data.sequences.len());}
+    if let Some(data)=&dataset.secondary_compact_obj_animations {eprintln!("ROM_DATA runtime=decoded resource={SECONDARY_COMPACT_OBJ_ANIMATIONS_ID} file={} lists={} sequences={}",dataset.manifest.resources[91].sha256,data.lists.len(),data.sequences.len());}
+    if let Some(data)=&dataset.tertiary_compact_obj_animations {eprintln!("ROM_DATA runtime=decoded resource={TERTIARY_COMPACT_OBJ_ANIMATIONS_ID} file={} lists={} sequences={}",dataset.manifest.resources[92].sha256,data.lists.len(),data.sequences.len());}
+    if let Some(data)=&dataset.quaternary_compact_obj_animations {eprintln!("ROM_DATA runtime=decoded resource={QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID} file={} lists={} sequences={}",dataset.manifest.resources[93].sha256,data.lists.len(),data.sequences.len());}
     if let Some(data)=&dataset.indexed_graphics {eprintln!("ROM_DATA runtime=decoded resource={INDEXED_GRAPHICS_ID} file={} archives={}",dataset.manifest.resources[82].sha256,data.archives.len());}
     if let Some(data)=&dataset.world_records38 {eprintln!("ROM_DATA runtime=decoded resource={WORLD_RECORDS38_ID} file={} records={}",dataset.manifest.resources[81].sha256,data.records.len());}
     if let Some(data)=&dataset.parameter_records27 {eprintln!("ROM_DATA runtime=decoded resource={PARAMETER_RECORDS27_ID} file={} records={}",dataset.manifest.resources[80].sha256,data.records.len());}
@@ -2343,6 +2514,33 @@ pub fn report_usage(machine: &gba_core::Machine) {
         }
         if let Some(i)=resources.metadata4_stats() {
             eprintln!("ROM_DATA_USE resource={METADATA4_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} value_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.value_bytes);
+        }
+        if let Some(i)=resources.conditional_descriptor_bank_zero_stats() {
+            eprintln!("ROM_DATA_USE resource={CONDITIONAL_DESCRIPTOR_BANK_ZERO_ID} dataset={} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.pointer_bytes,i.field0_bytes,i.field2_bytes,i.field4_bytes,i.kind_bytes,i.byte7_bytes);
+        }
+        if let Some(i)=resources.conditional_property_masks_stats() {
+            eprintln!("ROM_DATA_USE resource={CONDITIONAL_PROPERTY_MASKS_ID} dataset={} bus_reads={} source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes);
+        }
+        if let Some(i)=resources.compact_obj_animations_stats() {
+            eprintln!("ROM_DATA_USE resource={COMPACT_OBJ_ANIMATIONS_ID} dataset={} bus_reads={} source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes);
+        }
+        if let Some(i)=resources.secondary_compact_obj_animations_stats() {
+            eprintln!("ROM_DATA_USE resource={SECONDARY_COMPACT_OBJ_ANIMATIONS_ID} dataset={} bus_reads={} source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes);
+        }
+        if let Some(i)=resources.tertiary_compact_obj_animations_stats() {
+            eprintln!("ROM_DATA_USE resource={TERTIARY_COMPACT_OBJ_ANIMATIONS_ID} dataset={} bus_reads={} source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes);
+        }
+        if let Some(i)=resources.quaternary_compact_obj_animations_stats() {
+            eprintln!("ROM_DATA_USE resource={QUATERNARY_COMPACT_OBJ_ANIMATIONS_ID} dataset={} bus_reads={} source_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes);
+        }
+        if let Some(i)=resources.conditional_descriptor_banks_stats() {
+            eprintln!("ROM_DATA_USE resource={CONDITIONAL_DESCRIPTOR_BANKS_ID} dataset={} bus_reads={} source_bytes={} pointer_bytes={} field0_bytes={} field2_bytes={} field4_bytes={} kind_bytes={} byte7_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.pointer_bytes,i.field0_bytes,i.field2_bytes,i.field4_bytes,i.kind_bytes,i.byte7_bytes);
+        }
+        if let Some(i)=resources.conditional_packed_lookup_stats() {
+            eprintln!("ROM_DATA_USE resource={CONDITIONAL_PACKED_LOOKUP_ID} dataset={} bus_reads={} source_bytes={} byte0_bytes={} packed1_bytes={} packed2_bytes={} byte3_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.byte0_bytes,i.packed1_bytes,i.packed2_bytes,i.byte3_bytes);
+        }
+        if let Some(i)=resources.conditional_four_byte_lookup_stats() {
+            eprintln!("ROM_DATA_USE resource={CONDITIONAL_FOUR_BYTE_LOOKUP_ID} dataset={} bus_reads={} source_bytes={} first_field_bytes={} second_field_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.first_field_bytes,i.second_field_bytes);
         }
         if let Some(i)=resources.metadata2_stats() {
             eprintln!("ROM_DATA_USE resource={METADATA2_ID} dataset={} bus_reads={} source_bytes={} key_bytes={} value_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.key_bytes,i.value_bytes);
@@ -2477,6 +2675,7 @@ pub fn report_usage(machine: &gba_core::Machine) {
             eprintln!("ROM_DATA_USE resource={TASK_CYCLE_DELTAS_ID} dataset={} bus_reads={} source_bytes={} phases_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.phases_used);
         }
         if let Some(i)=resources.ui_raw_transfers_stats() {eprintln!("ROM_DATA_USE resource={UI_RAW_TRANSFERS_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} payload_bytes={} banks_used={} groups_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.payload_bytes,i.banks_used,i.groups_used);}
+        if let Some(i)=resources.dynamic_raw_fragments_stats() {eprintln!("ROM_DATA_USE resource={DYNAMIC_RAW_FRAGMENTS_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} payload_bytes={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.payload_bytes);}
         if let Some(i)=resources.indexed_graphics_stats() {eprintln!("ROM_DATA_USE resource={INDEXED_GRAPHICS_ID} dataset={} bus_reads={} source_bytes={} selector_bytes={} archive_header_bytes={} index_bytes={} token_bytes={} literal_bytes={} dictionary_header_bytes={} dictionary_bytes={} archives_used={} programs_used={} groups_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.selector_bytes,i.archive_header_bytes,i.index_bytes,i.token_bytes,i.literal_bytes,i.dictionary_header_bytes,i.dictionary_bytes,i.archives_used,i.programs_used,i.groups_used);}
         if let Some(i)=resources.world_records38_stats() {eprintln!("ROM_DATA_USE resource={WORLD_RECORDS38_ID} dataset={} bus_reads={} source_bytes={} byte01_bytes={} value02_bytes={} value04_bytes={} threshold_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.byte01_bytes,i.value02_bytes,i.value04_bytes,i.threshold_bytes,i.opaque_bytes,i.records_used);}
         if let Some(i)=resources.parameter_records27_stats() {eprintln!("ROM_DATA_USE resource={PARAMETER_RECORDS27_ID} dataset={} bus_reads={} source_bytes={} header_bytes={} packed_bytes={} value07_bytes={} byte09_bytes={} value0a_bytes={} signed0c_bytes={} flags0d_bytes={} operands0e_bytes={} operands10_bytes={} value12_bytes={} signed15_bytes={} opaque_bytes={} records_used={}",resources.dataset_sha256(),i.bus_reads,i.source_bytes,i.header_bytes,i.packed_bytes,i.value07_bytes,i.byte09_bytes,i.value0a_bytes,i.signed0c_bytes,i.flags0d_bytes,i.operands0e_bytes,i.operands10_bytes,i.value12_bytes,i.signed15_bytes,i.opaque_bytes,i.records_used);}
@@ -2692,6 +2891,15 @@ fn write_dataset(
     let task_cycle_deltas_data=source.task_cycle_deltas.as_ref().map(|catalog|encode_task_cycle_deltas(&catalog.decoded)).transpose()?;
     let ui_raw_transfers_data=source.ui_raw_transfers.as_ref().map(|c|encode_ui_raw_transfers(&c.decoded)).transpose()?;
     let dynamic_raw_fragments_data=source.dynamic_raw_fragments.as_ref().map(|c|encode_dynamic_raw_fragments(&c.decoded)).transpose()?;
+    let conditional_four_byte_lookup_data=source.conditional_four_byte_lookup.as_ref().map(|c|encode_conditional_four_byte_lookup(&c.decoded)).transpose()?;
+    let conditional_packed_lookup_data=source.conditional_packed_lookup.as_ref().map(|c|encode_conditional_packed_lookup(&c.decoded)).transpose()?;
+    let conditional_descriptor_banks_data=source.conditional_descriptor_banks.as_ref().map(|c|encode_conditional_descriptor_banks(&c.decoded)).transpose()?;
+    let conditional_descriptor_bank_zero_data=source.conditional_descriptor_bank_zero.as_ref().map(|c|encode_conditional_descriptor_bank_zero(&c.decoded)).transpose()?;
+    let conditional_property_masks_data=source.conditional_property_masks.as_ref().map(|c|encode_conditional_property_masks(&c.decoded)).transpose()?;
+    let compact_obj_animations_data=source.compact_obj_animations.as_ref().map(|c|encode_compact_obj_animations(&c.decoded)).transpose()?;
+    let secondary_compact_obj_animations_data=source.secondary_compact_obj_animations.as_ref().map(|c|encode_secondary_compact_obj_animations(&c.decoded)).transpose()?;
+    let tertiary_compact_obj_animations_data=source.tertiary_compact_obj_animations.as_ref().map(|c|encode_tertiary_compact_obj_animations(&c.decoded)).transpose()?;
+    let quaternary_compact_obj_animations_data=source.quaternary_compact_obj_animations.as_ref().map(|c|encode_quaternary_compact_obj_animations(&c.decoded)).transpose()?;
     let indexed_graphics_data=source.indexed_graphics.as_ref().map(|c|encode_indexed_graphics(&c.decoded)).transpose()?;
     let world_records38_data=source.world_records38.as_ref().map(|c|encode_world_records38(&c.decoded)).transpose()?;
     let parameter_records27_data=source.parameter_records27.as_ref().map(|c|encode_parameter_records27(&c.decoded)).transpose()?;
@@ -2791,6 +2999,15 @@ fn write_dataset(
     if let Some(bytes)=&indexed_graphics_data {files.push(bytes);}
     if let Some(bytes)=&ui_raw_transfers_data {files.push(bytes);}
     if let Some(bytes)=&dynamic_raw_fragments_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_four_byte_lookup_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_packed_lookup_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_descriptor_banks_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_descriptor_bank_zero_data {files.push(bytes);}
+    if let Some(bytes)=&conditional_property_masks_data {files.push(bytes);}
+    if let Some(bytes)=&compact_obj_animations_data {files.push(bytes);}
+    if let Some(bytes)=&secondary_compact_obj_animations_data {files.push(bytes);}
+    if let Some(bytes)=&tertiary_compact_obj_animations_data {files.push(bytes);}
+    if let Some(bytes)=&quaternary_compact_obj_animations_data {files.push(bytes);}
     source.set_file_hashes(&files)?;
     let manifest = toml::to_string_pretty(&source.manifest)
         .map_err(|e| format!("Cannot encode manifest: {e}"))?;
@@ -2878,6 +3095,15 @@ fn write_dataset(
         indexed_graphics_data.as_ref().map_or(0, Vec::len),
         ui_raw_transfers_data.as_ref().map_or(0, Vec::len),
         dynamic_raw_fragments_data.as_ref().map_or(0, Vec::len),
+        conditional_four_byte_lookup_data.as_ref().map_or(0, Vec::len),
+        conditional_packed_lookup_data.as_ref().map_or(0, Vec::len),
+        conditional_descriptor_banks_data.as_ref().map_or(0, Vec::len),
+        conditional_descriptor_bank_zero_data.as_ref().map_or(0, Vec::len),
+        conditional_property_masks_data.as_ref().map_or(0, Vec::len),
+        compact_obj_animations_data.as_ref().map_or(0, Vec::len),
+        secondary_compact_obj_animations_data.as_ref().map_or(0, Vec::len),
+        tertiary_compact_obj_animations_data.as_ref().map_or(0, Vec::len),
+        quaternary_compact_obj_animations_data.as_ref().map_or(0, Vec::len),
         map_raster_palettes_data.as_ref().map_or(0, Vec::len),
         auxiliary_commands_data.as_ref().map_or(0, Vec::len),
         auxiliary_archive_data.as_ref().map_or(0, Vec::len),
@@ -2964,6 +3190,15 @@ fn write_dataset(
     if let Some(bytes)=&indexed_graphics_data {write(&path.join(INDEXED_GRAPHICS_FILE),bytes)?;}
     if let Some(bytes)=&ui_raw_transfers_data {write(&path.join(UI_RAW_TRANSFERS_FILE),bytes)?;}
     if let Some(bytes)=&dynamic_raw_fragments_data {write(&path.join(DYNAMIC_RAW_FRAGMENTS_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_four_byte_lookup_data {write(&path.join(CONDITIONAL_FOUR_BYTE_LOOKUP_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_packed_lookup_data {write(&path.join(CONDITIONAL_PACKED_LOOKUP_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_descriptor_banks_data {write(&path.join(CONDITIONAL_DESCRIPTOR_BANKS_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_descriptor_bank_zero_data {write(&path.join(CONDITIONAL_DESCRIPTOR_BANK_ZERO_FILE),bytes)?;}
+    if let Some(bytes)=&conditional_property_masks_data {write(&path.join(CONDITIONAL_PROPERTY_MASKS_FILE),bytes)?;}
+    if let Some(bytes)=&compact_obj_animations_data {write(&path.join(COMPACT_OBJ_ANIMATIONS_FILE),bytes)?;}
+    if let Some(bytes)=&secondary_compact_obj_animations_data {write(&path.join(SECONDARY_COMPACT_OBJ_ANIMATIONS_FILE),bytes)?;}
+    if let Some(bytes)=&tertiary_compact_obj_animations_data {write(&path.join(TERTIARY_COMPACT_OBJ_ANIMATIONS_FILE),bytes)?;}
+    if let Some(bytes)=&quaternary_compact_obj_animations_data {write(&path.join(QUATERNARY_COMPACT_OBJ_ANIMATIONS_FILE),bytes)?;}
     if let Some(bytes) = &map_raster_palettes_data {write(&path.join(MAP_RASTER_PALETTES_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_commands_data {write(&path.join(AUXILIARY_COMMANDS_FILE),bytes)?;}
     if let Some(bytes) = &auxiliary_archive_data {write(&path.join(AUXILIARY_ARCHIVE_FILE),bytes)?;}
@@ -3273,6 +3508,15 @@ mod tests {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
             font_bank: None,
@@ -3600,8 +3844,8 @@ mod tests {
         verify(&path, &source).unwrap();
         // Exercise the actual aggregate boundary without allocating that much
         // JSON. Each individual file still fits its own input guard.
-        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
-        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        check_dataset_budget(0, 0, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).unwrap();
+        assert!(check_dataset_budget(0, 1, 0, 0, 0, 0, 0, 0, 0, MAX_DATASET_BYTES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             .unwrap_err()
             .contains("total size"));
         for (name, limit) in [

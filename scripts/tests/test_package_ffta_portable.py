@@ -45,7 +45,8 @@ class Portable(unittest.TestCase):
         self.secret=b'UNSELECTED PERSONAL SENTINEL'
         for name in ['ffta.gba','gba_bios.bin','Data/saves/progress.sav','Data/config/input.cfg',
                      'runtime/ffta.gba','runtime/Data/saves/ffta.sav','runtime/generated.c',
-                     'docs/PRIVATE-NOTES.md','Licenses/PERSONAL.txt','scripts/private.input','target/proof.ffstate']:
+                     'docs/PRIVATE-NOTES.md','Licenses/PERSONAL.txt','scripts/private.input','target/proof.ffstate',
+                     'cheats/catalogo.json','runtime/cheats/catalogo.json']:
             path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(self.secret)
 
     def build(self, platform='windows', dest=None, extra=()):
@@ -71,6 +72,8 @@ class Portable(unittest.TestCase):
         self.assertIn('docs/debug_content.md',payloads)
         self.assertIn('docs/debug_selector.md',payloads)
         self.assertIn('docs/debug_events.md',payloads)
+        self.assertIn('docs/cheats.md',payloads)
+        self.assertNotIn('cheats/catalogo.json',payloads)
         self.assertIn('docs/menu_clan_atlas.md',payloads)
         self.assertIn('docs/extended_saves.md',payloads)
         self.assertNotIn('docs/development/TASK_HANDOFF.md',payloads)
@@ -78,6 +81,7 @@ class Portable(unittest.TestCase):
         self.assertIn(b'riferimento nel checkout',payloads['docs/debug_tools.md'])
         self.assertIn(b'[bundled](debug_tools.md)',payloads['docs/debug_tools.md'])
         self.assertIn(b'/Data/\n',payloads['.gitignore'])
+        self.assertIn(b'/cheats/\n',payloads['.gitignore'])
         return manifest
 
 

@@ -60,6 +60,11 @@
     "CopyGameSave"
   ],
   "new_actions": [
+    "CheatChoose",
+    "CheatReload",
+    "OpenCheatCatalog",
+    "OpenCommandConsole",
+    "ToggleEventConsole",
     "ToggleFastForward"
   ],
   "row_routes": [
@@ -2011,6 +2016,15 @@
       "reference": "readonly"
     },
     {
+      "id": "content.list",
+      "handler": "parse / Picker::page",
+      "cli": "recomp debug-control content-list SESSION [--offset N --limit N --generation N]",
+      "current": "Debug / Sessioni e casi / Content selector",
+      "destination": "Debug / Sessioni e casi / Content selector",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
       "id": "content.check",
       "handler": "Index::recheck",
       "cli": "recomp debug-content check INDEX ID [--kind KIND] [--json]",
@@ -2287,6 +2301,114 @@
       "current": "Debug / Console e script / Script e strumenti / guest-scripts",
       "destination": "Debug / Console e script / Script e strumenti / guest-scripts",
       "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.list",
+      "handler": "Catalog::summary / execute",
+      "cli": "recomp debug-cheats list [options]; debug-control cheat-list SESSION [--offset N --limit N --generation SHA]",
+      "current": "Debug / Cheat / Catalogo cheat",
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.show",
+      "handler": "Catalog::entry / execute",
+      "cli": "recomp debug-cheats show ID [options]; debug-control cheat-show SESSION ID [--offset N --generation SHA]",
+      "current": "Debug / Cheat / Catalogo cheat",
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.inspect-plaintext",
+      "handler": "execute / debug_cheat_decoder::inspect",
+      "cli": "recomp debug-cheats inspect ID --assume-plaintext-codebreaker [--catalog FILE --rom-sha256 SHA]",
+      "current": null,
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.inspect-seeded",
+      "handler": "execute / debug_cheat_decoder::inspect_seeded",
+      "cli": "recomp debug-cheats inspect ID --codebreaker-seed 9XXXXXXX:XXXX [--catalog FILE --rom-sha256 SHA]",
+      "current": null,
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.inspect-source",
+      "handler": "execute / Catalog::source_bound / debug_cheat_decoder::inspect_source",
+      "cli": "recomp debug-cheats inspect ID --provenance-index N --master-id ID [--rom-file FILE | --rom-sha256 SHA] [--catalog FILE]",
+      "current": null,
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.prepare-once",
+      "handler": "PlayApp::prepare_cheat_once / Plan::footprint",
+      "cli": "recomp debug-control cheat-prepare SESSION ID PROVENANCE MASTER GENERATION [--timeout-ms N]",
+      "current": null,
+      "destination": "Debug / Cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.apply-once",
+      "handler": "PlayApp::prepare_cheat_once / Plan::apply_once",
+      "cli": "recomp debug-control cheat-apply SESSION ID PROVENANCE MASTER GENERATION PREVIEW [--timeout-ms N]",
+      "current": null,
+      "destination": "Debug / Cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.info",
+      "handler": "execute",
+      "cli": "recomp debug-cheats info [--catalog FILE --rom-sha256 SHA]",
+      "current": null,
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": false,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.open",
+      "handler": "PlayApp::open_cheat_catalog",
+      "cli": null,
+      "current": "Debug / Cheat / Catalogo cheat",
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.choose",
+      "handler": "Picker::open_for(CheatCatalog)",
+      "cli": null,
+      "current": "Debug / Cheat / Catalogo cheat",
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "control.retry",
+      "handler": "parse_retry / retry_action_classified",
+      "cli": "recomp debug-control retry SESSION --run RUN --request ID --deadline-unix-ms N [--timeout-ms N] -- ACTION",
+      "current": "Debug / Console e script / Console comandi",
+      "destination": "Debug / Console e script / Console comandi",
+      "menu_implemented": true,
+      "reference": "readonly"
+    },
+    {
+      "id": "cheats.refresh",
+      "handler": "debug_action / debug_cheats::Refresh",
+      "cli": "recomp debug-control cheat-refresh SESSION",
+      "current": null,
+      "destination": "Debug / Cheat / Catalogo cheat",
+      "menu_implemented": false,
       "reference": "readonly"
     }
   ]

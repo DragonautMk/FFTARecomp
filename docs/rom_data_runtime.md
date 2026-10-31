@@ -2025,3 +2025,61 @@ unchanged and28859 old native blocks loaded. A retained normal24755 checkpoint
 copy advances one neutral frame; all six new raw counters0, registration only.
 203 preservation guards pass; no positive ordinary/full-scene claim.
 [Actual CLI evidence](rom_data_ui_raw_transfers.md#actual-cli-registration).
+
+## Historical F09 residue against e95
+
+The retained 12-frame F09 bus and selected-host audit was collected under
+e71-d70. Reclassifying its 1,146 distinct then-unowned bytes against the
+accepted e95-d94 source intervals finds 74 bytes now covered by managed owners
+and 1,072 still outside them. This is a comparison of historical addresses,
+not a new execution or an assertion that all those reads occur today.
+
+All 1,072 remaining bytes match earlier scoped code-support evidence: literal
+or switch-table readers, hardware control words, and IWRAM branch pointers.
+The associated original-source hashes or values were checked again against the
+exact EUR ROM. The 452-byte executed-site evidence and static reader witnesses
+keep their original attribution limits; neither proves every later use. The
+older e93 code-candidate bitmap alone covers only 52 of these bytes and does
+not include every literal pool, so it must not be used as a complete classifier.
+No new asset, format or overall ROM completeness is inferred. Evidence is in
+`target/rom-data-e95-historical-residue/`; other scenes and readers remain
+unclassified. Linux and USA checks remain pending, and no performance
+measurement or old audit replay was performed.
+
+
+## Conditional lookup managed projection
+
+The EUR e96-d95 owner projects 296 authenticated bytes at `6e6dbc` from 74
+two-field records. Guest arithmetic and out-of-projection reads are unchanged;
+strict activation rejects coherent edits, and the resource reports per-field
+read counters. The focused Wine checks cover source bytes, boundaries and three
+translated original reader prefixes, not ordinary gameplay, Linux or USA.
+[Contract and evidence](rom_data_gameplay.md#managed-conditional-four-byte-lookup).
+
+
+## Conditional packed lookup managed projection
+
+EUR e97-d96 owns 132 bytes at `6e6ee8..6e6f6c`, projected from typed bit
+fields. Other selectors remain unrestricted; the existing metadata14 owner
+continues to serve overlapping lookup addresses beyond the projection. The
+focused Wine test covers publication, original native prefixes, mixed owner
+boundaries and coherent edit rejection, not ordinary gameplay or Linux/USA.
+[Contract and evidence](rom_data_gameplay.md#managed-conditional-packed-lookup).
+
+
+## Conditional descriptor banks managed projection
+
+EUR e98-d97 serves 23 pointer words and 684 eight-byte records through typed
+fields, preserving the raw bank-0 pointer and bank-22 gap. The focused Wine
+check verifies publication, mixed edges, original native prefixes and coherent
+edit rejection, not ordinary gameplay or Linux/USA.
+[Contract and evidence](rom_data_gameplay.md#managed-conditional-descriptor-banks).
+
+
+## Conditional descriptor bank 0 managed projection
+
+EUR e99-d98 serves pointer 0 and records 1–15 from authenticated typed fields;
+record 0 stays raw and adjacent bank-1 reads compose with the existing owner.
+The focused Wine test covers publication, mixed-owner edges, original native
+prefixes and coherent edit rejection, not ordinary gameplay or Linux/USA.
+[Contract and evidence](rom_data_gameplay.md#managed-conditional-descriptor-bank-0).

@@ -4,6 +4,15 @@ fn rom() -> String {
     "a".repeat(64)
 }
 #[test]
+fn cheat_catalog_selection_authenticates_type_and_changes_without_execution(){
+    let t=tempfile::tempdir().unwrap();let path=t.path().join("catalogo.json");
+    let bytes=br#"{"schema":1,"entries":[{"id":"CH-0001","format":"codebreaker","region":"EUR","section":"synthetic","title":"Example","status":"unverified","codes":["A","B"],"notes":[],"aliases":[],"provenance":[]}]}"#;
+    fs::write(&path,bytes).unwrap();let reference=Reference::explicit(&path,ContentSlot::CheatCatalog,&rom()).unwrap();assert_eq!(reference.entry.kind,Kind::CheatCatalog);
+    assert_eq!(reference.recheck(ContentSlot::CheatCatalog,&rom()).unwrap(),reference.path);assert!(reference.recheck(ContentSlot::Catalog,&rom()).is_err());
+    fs::write(&path,br#"{"schema":2,"entries":[]}"#).unwrap();assert!(reference.recheck(ContentSlot::CheatCatalog,&rom()).is_err());
+    assert!(Reference::explicit(&path,ContentSlot::CheatCatalog,&rom()).is_err());
+}
+#[test]
 fn typed_references_recheck_identity_missing_kind_and_context_without_execution() {
     let t = tempfile::tempdir().unwrap();
     let p = t.path().join("runtime.exe");

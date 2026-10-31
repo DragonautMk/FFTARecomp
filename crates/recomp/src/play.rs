@@ -513,7 +513,7 @@ fn key_name(code: KeyCode) -> Option<&'static str> {
 /// in; the window, GPU presenter, and software-blit surface are created in
 /// [`ApplicationHandler::resumed`] (window creation is only valid once the
 /// event loop is active).
-enum ReplayKind { Plain, Audit, Capture, Comparison }
+use crate::debug_control::ReplayMode as ReplayKind;
 
 struct PlayApp {
     // Core machine + persistence.
@@ -527,6 +527,11 @@ struct PlayApp {
     workbench: crate::debug_workbench::Workbench,
     replay_path: Option<std::path::PathBuf>,
     replay_job: Option<crate::debug_replay::Job>,
+    replay_terminal: Option<Result<crate::debug_replay::Report,String>>,
+    cheat_refresh: Option<crate::debug_cheats::Refresh>,
+    cheat_snapshot: Option<crate::debug_cheats::Snapshot>,
+    cheat_preview: Option<serde_json::Value>,
+    last_cheat_once: Option<serde_json::Value>,
     replay_preparation_seen:usize,
     replay_message: String,
     game_saves: crate::game_saves::GameSaves,
@@ -618,6 +623,8 @@ struct PlayApp {
     events: crate::debug_events::Hub,
     event_console: std::rc::Rc<std::cell::RefCell<crate::debug_console::Window>>,
     event_console_panel: Option<crate::debug_console_panel::Panel>,
+    command_console_panel: Option<crate::debug_command_panel::Panel>,
+    command_pad_handoff: Option<u8>,
     selections: crate::debug_events::Selections,
     lifecycle: crate::debug_lifecycle::Jobs,
     audio_diagnostic: bool,
@@ -1651,6 +1658,33 @@ impl PlayApp {
             nav.up = false; nav.down = false; nav.left = false; nav.right = false;
             nav.confirm = false; nav.cancel = false;
         }
+        let command_focus=self.command_console_panel.as_ref().is_some_and(|p|p.focused());
+        if command_focus && !self.modal_input.blocked() {
+            let input=crate::debug_command::controller::Input{up:nav.up,down:nav.down,left:nav.left,right:nav.right,confirm:nav.confirm,cancel:nav.cancel};
+            let action=self.command_console_panel.as_mut().unwrap().controller_input(input);
+            match action {
+                crate::debug_command_panel::ControllerEvent::Complete=>{
+                    let profiles=self.content_picker.completion_ids(menu::ContentSlot::Replay);let catalogs=self.content_picker.completion_ids(menu::ContentSlot::Catalog);let cheats=self.content_picker.completion_ids(menu::ContentSlot::CheatCatalog);
+                    let requests=self.control_server.as_ref().and_then(|s|s.pending_status()["request_id"].as_str().map(str::to_owned)).into_iter().collect::<Vec<_>>();
+                    self.command_console_panel.as_mut().unwrap().complete(&profiles,&catalogs,&cheats,&requests);
+                },
+                crate::debug_command_panel::ControllerEvent::Hide=>{
+                    self.command_console_panel.as_mut().unwrap().hide();self.command_pad_handoff=Some(0);
+                },
+                crate::debug_command_panel::ControllerEvent::None=>{},
+            }
+        }
+        if command_focus || self.command_pad_handoff.is_some() {
+            let neutral=keys==0x3ff && !(nav.up||nav.down||nav.left||nav.right||nav.confirm||nav.cancel||nav.open)
+                && !(pad_zoom_in||pad_zoom_out||pad_ff_held||pad_ff_toggle) && !self.atlas_down.iter().any(|v|*v);
+            if !command_focus {
+                let polls=if neutral{self.command_pad_handoff.unwrap_or(0).saturating_add(1)}else{0};
+                self.command_pad_handoff=if polls>=2{None}else{Some(polls)};
+            }
+            keys=0x3ff;nav=NavEdges::default();self.atlas_down=[false;7];self.menu_shortcut_held=false;
+            self.pending_pad=None;self.pad_zoom_prev=(pad_zoom_in,pad_zoom_out);self.pad_ff_toggle_prev=pad_ff_toggle;
+            pad_zoom_in=false;pad_zoom_out=false;pad_ff_held=false;pad_ff_toggle=false;
+        }
         if capture_pad || key_menu_held || pad_menu_held {
             // Remapping is an exclusive input mode. Do not let the physical
             // button being captured also control the game or host zoom.
@@ -1669,11 +1703,11 @@ impl PlayApp {
         if !self.paused && pad_zoom_out && !self.pad_zoom_prev.1 {
             self.zoom_by(1);
         }
-        self.pad_zoom_prev = (pad_zoom_in, pad_zoom_out);
+        if !command_focus && self.command_pad_handoff.is_none() {self.pad_zoom_prev = (pad_zoom_in, pad_zoom_out);}
         if !self.paused && pad_ff_toggle && !self.pad_ff_toggle_prev {
             self.ff_latched = !self.ff_latched;
         }
-        self.pad_ff_toggle_prev = pad_ff_toggle;
+        if !command_focus && self.command_pad_handoff.is_none() {self.pad_ff_toggle_prev = pad_ff_toggle;}
         self.pad_ff_held = pad_ff_held;
         if self.events_enabled(){
             let mut held=self.held.iter().map(|k|format!("{k:?}")).collect::<Vec<_>>();held.sort();
@@ -1783,10 +1817,12 @@ impl PlayApp {
         let operation=action.operation_id();
         let capture=match action{A::UiStart|A::UiReport=>Some(F::Ui),A::RecentStart{..}|A::RecentFreeze|A::RecentReport=>Some(F::Recent),A::CodeStart{..}|A::CodeReport=>Some(F::Code),A::GameplayStart{..}|A::GameplayReport=>Some(F::Gameplay),A::AudioStart{..}|A::AudioReport=>Some(F::Audio),_=>None};
         if let Err(error)=result {
-            if !matches!(action,A::Status){self.lifecycle_emit(capture.unwrap_or(if matches!(action,A::Graphics{..}|A::IssueReport{..}){F::Report}else{F::Machine}),"refused",None,serde_json::json!({"operation_id":operation,"outcome":"refused","error":error.chars().take(1024).collect::<String>(),"artifact":report}));}
+            if !matches!(action,A::Status){self.lifecycle_emit(capture.unwrap_or(if matches!(action,A::Graphics{..}|A::IssueReport{..}){F::Report}else if matches!(action,A::CheatPrepare{..}|A::CheatApply{..}){F::Cheat}else{F::Machine}),"refused",None,serde_json::json!({"operation_id":operation,"outcome":"refused","error":error.chars().take(1024).collect::<String>(),"artifact":report}));}
             return;
         }
         match action {
+            A::CheatPrepare{id,..}=>self.lifecycle_emit(F::Cheat,"prepared",None,serde_json::json!({"operation_id":operation,"id":id,"outcome":"completed","scope":"Bounded paused preview; no guest writes"})),
+            A::CheatApply{id,..}=>self.lifecycle_emit(F::Cheat,"applied-once",None,serde_json::json!({"operation_id":operation,"id":id,"outcome":"completed","result":self.last_cheat_once})),
             A::UiStart|A::RecentStart{..}|A::CodeStart{..}|A::GameplayStart{..}|A::AudioStart{..}=>{
                 let family=capture.unwrap();
                 if self.lifecycle.context(family).is_some(){self.lifecycle_finish(family,serde_json::json!({"outcome":"rearmed","scope":"Previous observer ownership replaced by an accepted explicit start"}));}
@@ -1867,6 +1903,17 @@ impl PlayApp {
             }
         }
     }
+    fn open_command_console(&mut self,event_loop:&ActiveEventLoop) {
+        let Some((root,session))=self.control_server.as_ref().map(|s|(s.root().to_owned(),s.event_session())) else {
+            self.menu.diagnosis_result("Open an isolated debug copy before using the command console.".into());self.menu_dirty=true;return;
+        };
+        if let Some(panel)=self.command_console_panel.as_mut(){panel.show();return;}
+        let Some(manifest_sha256)=session.manifest_sha256.as_deref() else {self.menu.diagnosis_result("Missing session identity".into());self.menu_dirty=true;return;};
+        match crate::debug_command_panel::Panel::open(event_loop,root,&session.run_id,manifest_sha256) {
+            Ok(panel)=>self.command_console_panel=Some(panel),
+            Err(error)=>{self.menu.diagnosis_result(format!("Command console: {error}"));self.menu_dirty=true;},
+        }
+    }
     fn console_key(&self, code:KeyCode)->bool {
         matches!((self.icfg.event_console_key.as_str(),code),
             ("F2",KeyCode::F2)|("F3",KeyCode::F3)|("F4",KeyCode::F4)|("F5",KeyCode::F5)|
@@ -1930,7 +1977,7 @@ impl PlayApp {
     fn debug_action(&mut self, action: &crate::debug_control::Action) -> Result<(),String> {
         let mut context=self.events.clock.current();
         if context.request_id.is_none(){context=self.events.clock.request("shared-action");}
-        if matches!(action,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}){context.job_id=context.request_id.clone();}
+        if matches!(action,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}|crate::debug_control::Action::SelectId{..}|crate::debug_control::Action::ContentRefresh|crate::debug_control::Action::CheatRefresh|crate::debug_control::Action::Replay{..}){context.job_id=context.request_id.clone();}
         let _context=self.events.clock.context(context);
         self.observe_menu("control-before");
         let observed=!matches!(action,crate::debug_control::Action::Status);
@@ -1947,6 +1994,48 @@ impl PlayApp {
     fn debug_action_inner(&mut self, action: &crate::debug_control::Action) -> Result<(),String> {
         if !self.debug_session { return Err("Open an isolated debug copy first".into()); }
         match action {
+            crate::debug_control::Action::CheatRefresh=>{
+                if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some()||self.cheat_refresh.is_some(){return Err("Cheat refresh requires an idle paused copy".into());}
+                let reference=self.content_picker.reference(menu::ContentSlot::CheatCatalog).cloned().ok_or("Select a cheat catalog by ID first")?;
+                let rom=self.content_picker.rom_context().ok_or("No ROM context")?.to_owned();
+                self.cheat_refresh=Some(crate::debug_cheats::Refresh::start(reference,rom)?);return Ok(());
+            },
+            crate::debug_control::Action::CheatList{offset,limit,generation}=>{action.validate()?;self.current_cheat_snapshot()?.page(*offset,*limit,generation.as_deref())?;return Ok(());},
+            crate::debug_control::Action::CheatShow{id,offset,generation}=>{action.validate()?;self.current_cheat_snapshot()?.show(id,*offset,generation.as_deref())?;return Ok(());},
+            crate::debug_control::Action::CheatPrepare{id,provenance,master,generation}=>{
+                action.validate()?;self.cheat_preview=None;
+                let (_,preview)=self.prepare_cheat_once(id,*provenance,master,generation)?;
+                self.cheat_preview=Some(preview);self.menu.diagnosis_result("Cheat preview prepared; inspect its plan and token before applying once.".into());self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::CheatApply{id,provenance,master,generation,preview}=>{
+                action.validate()?;
+                if self.cheat_preview.as_ref().and_then(|v|v["token"].as_str())!=Some(preview.as_str()){return Err("Prepare this exact one-shot preview first".into());}
+                let (plan,current)=self.prepare_cheat_once(id,*provenance,master,generation)?;
+                if current["token"].as_str()!=Some(preview.as_str()){return Err("Cheat preview, source, ROM or paused state changed; prepare again".into());}
+                let before=(self.machine.bus.frames,self.machine.bus.clock);let count=plan.apply_once(&mut self.machine.bus)?;
+                self.cheat_preview=None;self.last_cheat_once=Some(serde_json::json!({"id":id,"preview":preview,"writes":count,"frame":before.0,"clock":before.1,"scope":"Manual paused one-shot, no hardware hook or maintained toggle"}));
+                self.menu.diagnosis_result(format!("Applied {count} writes once in the isolated paused copy."));self.menu_dirty=true;return Ok(());
+            },
+            crate::debug_control::Action::Replay{mode}=>{
+                if !self.paused{return Err("Replay requires an idle paused copy".into());}
+                return self.start_replay_request(false,*mode,false).and_then(|started|if started{Ok(())}else{Err("Choose a replay profile first".into())});
+            },
+            crate::debug_control::Action::ContentRefresh=>{
+                if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some(){return Err("Content refresh requires an idle paused copy".into());}
+                self.content_picker.refresh_control()?;
+                if self.menu.content_active(){self.menu.content_busy(true);self.menu_dirty=true;}
+                return Ok(());
+            },
+            crate::debug_control::Action::ContentList{offset,limit,generation}=>{
+                action.validate()?;self.content_picker.page(*offset,*limit,*generation)?;return Ok(());
+            },
+            crate::debug_control::Action::SelectId{slot,id}=>{
+                action.validate()?;
+                if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some(){return Err("Content selection requires an idle paused copy".into());}
+                self.content_picker.select_id(slot.content_slot(),id)?;
+                if self.menu.content_active(){self.menu.content_busy(true);self.menu_dirty=true;}
+                return Ok(());
+            },
             crate::debug_control::Action::IssueReport{profile,symptom}=>{
                 if !self.paused||self.probe.is_some()||self.frame_control.remaining>0||self.replay_job.is_some(){return Err("Issue report requires an idle paused copy".into());}
                 let selected=if profile.is_none(){Some(self.selected_replay_profile()?)}else{None};
@@ -2089,6 +2178,18 @@ impl PlayApp {
                 if !self.control_server.as_ref().is_some_and(|s|s.pending_matches(request_id)){
                     return Err("No pending command with that exact request ID".into());
                 }
+                if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::SelectId{..})) {
+                    return if self.content_picker.cancel_id(){Ok(())}else{Err("Content selection is no longer pending".into())};
+                }
+                if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::ContentRefresh)) {
+                    return if self.content_picker.cancel_refresh_control(){Ok(())}else{Err("Content scan is no longer pending".into())};
+                }
+                if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::CheatRefresh)) {
+                    if let Some(job)=self.cheat_refresh.as_mut(){job.cancel();return Ok(());}return Err("Cheat refresh is no longer pending".into());
+                }
+                if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::Replay{..})) {
+                    return self.cancel_replay_request();
+                }
                 if self.replay_job.is_some(){return Err("Use replay cancellation for a separate worker".into());}
                 self.interrupt_probe();
             },
@@ -2162,7 +2263,11 @@ impl PlayApp {
             "host_audio":{"mixed":st.mixed.len(),"psg":st.psg.len(),"hle":st.hle.len(),
                 "fifo":[st.fifo[0].len(),st.fifo[1].len()],"normal":st.normal_audio.is_some(),"muted":st.muted,"epoch":st.epoch},
             "guest_audio":[self.machine.bus.audio_buf.len(),self.machine.bus.psg_tap.len(),self.machine.bus.hle_tap.len(),self.machine.bus.fifo_tap[0].len(),self.machine.bus.fifo_tap[1].len()]});
+        value["replay"]=serde_json::json!({"active":self.replay_job.is_some(),"progress":self.replay_job.as_ref().and_then(|j|j.progress()),"result":self.replay_terminal.as_ref().map(|r|match r{Ok(report)=>serde_json::json!({"report":report}),Err(error)=>serde_json::json!({"error":error})})});
+        value["cheat_snapshot"]=self.current_cheat_snapshot().ok().map(|s|serde_json::json!({"generation":s.generation,"source_sha256":s.source_sha256,"rom_sha256":s.rom_sha256,"scope":"Immutable snapshot verified at explicit refresh"})).unwrap_or(serde_json::Value::Null);
+        value["cheat_preview"]=self.cheat_preview.clone().unwrap_or(serde_json::Value::Null);value["cheat_once"]=self.last_cheat_once.clone().unwrap_or(serde_json::Value::Null);
         value["runtime_lifecycles"]=self.lifecycle.status();
+        value["request_ledger"]=self.control_server.as_ref().map_or(serde_json::Value::Null,|s|s.retry_status());
         value["event_console"]=self.event_console.borrow().status();
         Ok(value)
     }
@@ -2171,8 +2276,18 @@ impl PlayApp {
         // Deadline/cancel/status run on the frontend thread, between existing
         // bounded guest frame/search ticks. No thread interrupts guest execution.
         if self.control_server.as_ref().is_some_and(|s|s.deadline_expired()){
-            self.interrupt_probe();self.frame_control.stop("control-timeout");
-            self.paused=true;self.debug_audio_boundary();self.menu_dirty=true;
+            if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::SelectId{..})) {
+                self.content_picker.cancel_id();
+            } else if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::ContentRefresh)) {
+                self.content_picker.cancel_refresh_control();
+            } else if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::CheatRefresh)) {
+                if let Some(job)=self.cheat_refresh.as_mut(){job.cancel();}
+            } else if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::Replay{..})) {
+                if let Some(job)=self.replay_job.as_mut(){let _=job.cancel();}
+            } else {
+                self.interrupt_probe();self.frame_control.stop("control-timeout");
+                self.paused=true;self.debug_audio_boundary();self.menu_dirty=true;
+            }
             self.finish_control();
         }
         // Separate query response cannot overwrite a waiting command's result.
@@ -2189,14 +2304,20 @@ impl PlayApp {
                 let result=if request.expired(){
                     Err("Command deadline expired before execution".into())
                 }else if !query && self.control_server.as_ref().is_some_and(|s|s.pending.is_some()){
-                    Err("A frame step/search is still pending; use query status or targeted cancel".into())
+                    Err("A command is still pending; use query status or targeted cancel".into())
                 }else{self.debug_action(&request.command)};
                 if outer_refusal&&!matches!(request.command,crate::debug_control::Action::Status)&&self.events_enabled(){self.ui_event("control-result",serde_json::json!({"command":request.command,"outcome":"refused","error":result.as_ref().err()}));}
-                if result.is_ok() && matches!(request.command,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}){
+                if result.is_ok() && matches!(request.command,crate::debug_control::Action::Step{..}|crate::debug_control::Action::Find{..}|crate::debug_control::Action::SelectId{..}|crate::debug_control::Action::ContentRefresh|crate::debug_control::Action::CheatRefresh|crate::debug_control::Action::Replay{..}){
                     self.control_server.as_mut().unwrap().pending=Some(request);
                 }else{
                     self.finish_control();
-                    let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+                    let mut status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+                    if error.is_none(){if let Ok(value)=&mut status{match &request.command{
+                        crate::debug_control::Action::ContentList{offset,limit,generation}=>value["content_page"]=self.content_picker.page(*offset,*limit,*generation).unwrap(),
+                        crate::debug_control::Action::CheatList{offset,limit,generation}=>value["cheat_page"]=self.current_cheat_snapshot().unwrap().page(*offset,*limit,generation.as_deref()).unwrap(),
+                        crate::debug_control::Action::CheatShow{id,offset,generation}=>value["cheat_detail"]=self.current_cheat_snapshot().unwrap().show(id,*offset,generation.as_deref()).unwrap(),
+                        _=>{},
+                    }}}
                     if !matches!(request.command,crate::debug_control::Action::Status)&&self.events_enabled(){self.ui_event("control-complete",serde_json::json!({"command":request.command,"outcome":if error.is_some(){"refused"}else{"complete"},"error":error}));}
                     if let Err(error)=self.control_server.as_mut().unwrap().reply(&request,status.unwrap_or_default(),error){self.recent_error(&format!("Control reply: {error}"));eprintln!("debug control: {error}");}
                 }
@@ -2206,6 +2327,62 @@ impl PlayApp {
     }
 
     fn finish_control(&mut self) {
+        if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::CheatRefresh)) {
+            if !self.cheat_refresh.as_ref().is_some_and(|j|j.is_finished()){return;}
+            let result=self.cheat_refresh.take().unwrap().finish().and_then(|snapshot|{
+                let valid=self.content_picker.rom_context().is_some_and(|rom|snapshot.matches(self.content_picker.reference(menu::ContentSlot::CheatCatalog),rom));
+                if !valid{return Err("Cheat selection or ROM context changed during refresh".into());}self.cheat_snapshot=Some(snapshot);Ok(())
+            });
+            let request=self.control_server.as_ref().unwrap().pending.as_ref().unwrap().clone();let _context=self.events.clock.context(request.event_context());
+            let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+            if self.events_enabled(){self.ui_event("control-complete",serde_json::json!({"command":request.command,"outcome":if error.is_some(){"refused"}else{"complete"},"error":error}));}
+            if let Err(error)=self.control_server.as_mut().unwrap().finish(status.unwrap_or_default(),error){self.recent_error(&format!("Control completion reply: {error}"));eprintln!("debug control: {error}");}return;
+        }
+        if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::Replay{..})) {
+            if self.replay_job.is_some(){return;}
+            let (outcome,error)=match self.replay_terminal.as_ref(){
+                Some(Ok(report))=>match report.outcome.as_str(){
+                    "passed"|"captured"|"matched"=>("ok",None),
+                    "interrupted"=>("cancelled",Some(report.message.clone())),
+                    "timeout"=>("timeout",Some(report.message.clone())),
+                    "incompatible"=>("incompatible",Some(report.message.clone())),
+                    "diverged"=>("diverged",Some(report.message.clone())),
+                    "not-reached"=>("not-reached",Some(report.message.clone())),
+                    _=>("failed",Some(report.message.clone())),
+                },
+                Some(Err(error))=>("failed",Some(error.clone())),
+                None=>("failed",Some("Replay worker ended without a result".into())),
+            };
+            let request=self.control_server.as_ref().unwrap().pending.as_ref().unwrap().clone();
+            let _context=self.events.clock.context(request.event_context());
+            let status=self.debug_status();let error=error.or_else(||status.as_ref().err().cloned());
+            let outcome=if error.is_some()&&outcome=="ok"{"failed"}else{outcome};
+            if self.events_enabled(){self.ui_event("control-complete",serde_json::json!({"command":request.command,"outcome":outcome,"error":error}));}
+            if let Err(error)=self.control_server.as_mut().unwrap().finish_classified(status.unwrap_or_default(),error,Some(outcome)){self.recent_error(&format!("Control completion reply: {error}"));eprintln!("debug control: {error}");}
+            return;
+        }
+        if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::ContentRefresh)) {
+            if self.control_server.as_ref().is_some_and(|s|s.deadline_expired()){self.content_picker.cancel_refresh_control();}
+            let Some(result)=self.content_picker.poll_refresh_control(&mut self.menu) else{return;};
+            if self.menu.content_active(){self.menu.content_busy(false);self.menu_dirty=true;}
+            let request=self.control_server.as_ref().unwrap().pending.as_ref().unwrap().clone();let _context=self.events.clock.context(request.event_context());
+            let status=self.debug_status();let error=result.err().or_else(||status.as_ref().err().cloned());
+            if self.events_enabled(){self.ui_event("control-complete",serde_json::json!({"command":request.command,"outcome":if error.is_some(){"refused"}else{"complete"},"error":error}));}
+            if let Err(error)=self.control_server.as_mut().unwrap().finish(status.unwrap_or_default(),error){self.recent_error(&format!("Control completion reply: {error}"));eprintln!("debug control: {error}");}
+            return;
+        }
+        if self.control_server.as_ref().and_then(|s|s.pending.as_ref()).is_some_and(|r|matches!(r.command,crate::debug_control::Action::SelectId{..})) {
+            if self.control_server.as_ref().is_some_and(|s|s.deadline_expired()){self.content_picker.cancel_id();}
+            let Some(result)=self.content_picker.poll_id(&mut self.menu) else{return;};
+            self.menu_dirty=true;
+            let request=self.control_server.as_ref().unwrap().pending.as_ref().unwrap().clone();
+            let _context=self.events.clock.context(request.event_context());
+            let status=self.debug_status();
+            let error=result.err().or_else(||status.as_ref().err().cloned());
+            if self.events_enabled(){self.ui_event("control-complete",serde_json::json!({"command":request.command,"outcome":if error.is_some(){"refused"}else{"complete"},"error":error}));}
+            if let Err(error)=self.control_server.as_mut().unwrap().finish(status.unwrap_or_default(),error){self.recent_error(&format!("Control completion reply: {error}"));eprintln!("debug control: {error}");}
+            return;
+        }
         if self.frame_control.remaining==0 && self.probe.is_none() && self.control_server.as_ref().is_some_and(|s|s.pending.is_some()) {
             let request=self.control_server.as_ref().unwrap().pending.as_ref().unwrap().clone();
             let _context=self.events.clock.context(request.event_context());
@@ -2274,8 +2451,12 @@ impl PlayApp {
         self.replay_path=Some(path.clone());Ok(path)
     }
     fn start_replay(&mut self,choose_only:bool,kind:ReplayKind) {
+        let _=self.start_replay_request(choose_only,kind,true);
+    }
+    fn start_replay_request(&mut self,choose_only:bool,kind:ReplayKind,interactive:bool)->Result<bool,String> {
         let already_running=self.replay_job.is_some();
-        self.start_replay_inner(choose_only,kind);
+        let result=self.start_replay_inner(choose_only,kind,interactive);
+        if let Err(error)=&result{self.menu.diagnosis_result(error.clone());self.menu_dirty=true;}
         if !already_running&&self.replay_job.is_some(){
             let job=self.replay_job.as_ref().unwrap();let run=job.run.clone();let profile=job.profile.to_string_lossy().chars().take(1024).collect::<String>();
             self.replay_preparation_seen=0;
@@ -2283,23 +2464,23 @@ impl PlayApp {
         }else if !already_running{
             self.lifecycle_emit(crate::debug_lifecycle::Family::Replay,if choose_only||self.menu.content_active(){"input-selection"}else{"not-started"},None,serde_json::json!({"outcome":if choose_only||self.menu.content_active(){"requires-input"}else{"refused"},"feedback":self.menu.diagnosis_message().chars().take(512).collect::<String>(),"worker_started":false}));
         }
+        result
     }
-    fn start_replay_inner(&mut self, choose_only: bool, kind: ReplayKind) {
-        if self.recent.as_ref().is_some_and(|b|!b.saved()){self.menu.diagnosis_result("Save the recent window before starting a separate replay.".into());self.menu_dirty=true;return;}
-        if self.gameplay_trace.is_some(){self.menu.diagnosis_result("Save the gameplay trace before starting a separate replay.".into());self.menu_dirty=true;return;}
-        if self.code_trace.is_some(){self.menu.diagnosis_result("Save the code trace before starting a separate replay.".into());self.menu_dirty=true;return;}
-        if self.audio_diagnostic || self.streams.lock().unwrap().diagnostic.is_some() {self.menu.diagnosis_result("Save the audio capture before starting a separate replay.".into());self.menu_dirty=true;return;}
-        if self.frame_control.remaining>0 || self.probe.is_some() {self.menu.diagnosis_result("Finish the frame step/search before starting a replay.".into());self.menu_dirty=true;return;}
-        if self.replay_job.is_some() { self.menu.diagnosis_result("A replay is already running. Use Cancel replay.".into()); return; }
-        if self.recording_active() { self.menu.diagnosis_result("Stop input recording before replaying a case.".into()); return; }
-        if choose_only {self.choose_tool_input(menu::ContentSlot::Replay,"Choose a profile; this does not start a replay.".into());return;}
-        let path=match self.selected_replay_profile(){Ok(path)=>path,Err(e)=>{self.choose_tool_input(menu::ContentSlot::Replay,e);return;}};
+    fn start_replay_inner(&mut self, choose_only: bool, kind: ReplayKind,interactive:bool)->Result<bool,String> {
+        if self.recent.as_ref().is_some_and(|b|!b.saved()){return Err("Save the recent window before starting a separate replay.".into());}
+        if self.gameplay_trace.is_some(){return Err("Save the gameplay trace before starting a separate replay.".into());}
+        if self.code_trace.is_some(){return Err("Save the code trace before starting a separate replay.".into());}
+        if self.audio_diagnostic || self.streams.lock().unwrap().diagnostic.is_some() {return Err("Save the audio capture before starting a separate replay.".into());}
+        if self.frame_control.remaining>0 || self.probe.is_some() {return Err("Finish the frame step/search before starting a replay.".into());}
+        if self.replay_job.is_some() {return Err("A replay is already running. Use Cancel replay.".into());}
+        if self.recording_active() {return Err("Stop input recording before replaying a case.".into());}
+        if choose_only {self.choose_tool_input(menu::ContentSlot::Replay,"Choose a profile; this does not start a replay.".into());return Ok(false);}
+        let path=match self.selected_replay_profile(){Ok(path)=>path,Err(e) if interactive=>{self.choose_tool_input(menu::ContentSlot::Replay,e);return Ok(false);},Err(e)=>return Err(e)};
         let result=match kind {ReplayKind::Comparison=>crate::debug_replay::Job::start_comparison(&path),ReplayKind::Capture=>crate::debug_replay::Job::start_capture(&path),ReplayKind::Audit=>crate::debug_replay::Job::start_audit(&path),ReplayKind::Plain=>crate::debug_replay::Job::start(&path)};
-        match result {
-            Ok(job)=>{self.replay_path=Some(job.profile.clone());self.replay_message.clear();self.menu.diagnosis_result("Replay running in an isolated worker. Cancel replay stops it.".into());self.replay_job=Some(job);},
-            Err(e)=>self.menu.diagnosis_result(format!("Cannot replay: {e}")),
-        }
+        let job=result.map_err(|e|format!("Cannot replay: {e}"))?;
+        self.replay_path=Some(job.profile.clone());self.replay_message.clear();self.replay_terminal=None;self.menu.diagnosis_result("Replay running in an isolated worker. Cancel replay stops it.".into());self.replay_job=Some(job);
         self.menu_dirty=true;
+        Ok(true)
     }
 
     fn poll_replay(&mut self) {
@@ -2321,19 +2502,25 @@ impl PlayApp {
         }
         if message!=self.replay_message{self.replay_message=message.clone();self.menu.diagnosis_result(message);self.menu_dirty=true;}
         if terminal {
+            self.replay_terminal=Some(match &result{Ok(Some(report))=>Ok(report.clone()),Err(error)=>Err(error.clone()),_=>unreachable!()});
             let details=match result {Ok(Some(report))=>serde_json::json!({"worker_run":report.run,"outcome":report.outcome,"completed":report.completed,"frames":report.frames,"message":report.message.chars().take(1024).collect::<String>(),"audit_report":report.audit_report,"capture_catalog":report.capture_catalog,"comparison_report":report.comparison_report}),Err(error)=>serde_json::json!({"outcome":"error","error":error.chars().take(1024).collect::<String>()}),_=>unreachable!()};
             self.lifecycle_finish(crate::debug_lifecycle::Family::Replay,details);self.replay_job=None;
         }
     }
 
     fn cancel_replay(&mut self) {
+        let _=self.cancel_replay_request();
+    }
+    fn cancel_replay_request(&mut self)->Result<(),String> {
         let context=self.lifecycle.context(crate::debug_lifecycle::Family::Replay);
-        let (message,outcome)=match &mut self.replay_job {
-            Some(job)=>match job.cancel(){Ok(())=>("Replay cancellation requested.".into(),"accepted"),Err(error)=>(format!("Cannot cancel: {error}"),"refused")},
-            None=>("No replay is running.".into(),"not-running"),
+        let result=match &mut self.replay_job {Some(job)=>job.cancel(),None=>Err("No replay is running.".into())};
+        let (message,outcome)=match &result {
+            Ok(())=>("Replay cancellation requested.".into(),"accepted"),
+            Err(error)=>(format!("Cannot cancel: {error}"),"refused"),
         };
         self.lifecycle_emit(crate::debug_lifecycle::Family::Replay,"cancellation-request",context,serde_json::json!({"outcome":outcome,"message":message,"scope":"Request outcome; final worker interruption is a separate terminal observation"}));
         self.menu.diagnosis_result(message);self.menu_dirty=true;
+        result
     }
 
     fn recording_title(&self) -> String { format!("{}{}", self.title, if self.capture.is_some() { " [REC]" } else { "" }) }
@@ -2344,6 +2531,7 @@ impl PlayApp {
         let result = (|| -> Result<(), String> {
             if self.probe.is_some() {return Err("Finish or interrupt the search before recording.".into());}
             if !self.debug_session { return Err("Open an isolated debug copy before recording.".into()); }
+            if self.last_cheat_once.is_some(){return Err("Recording after a cheat one-shot needs provenance support; restart the isolated copy first.".into());}
             if self.replay_job.is_some() {return Err("Finish or cancel the replay before recording.".into());}
             if self.recording_active() { return Err("An input recording is already active.".into()); }
             self.sync_view();
@@ -2372,6 +2560,46 @@ impl PlayApp {
         }else{"No input recording is active.".into()};
         self.lifecycle_finish(crate::debug_lifecycle::Family::Recording,terminal);
         self.menu.diagnosis_result(message);if let Some(window)=&self.window{window.set_title(&self.title);}self.menu_dirty=true;saved
+    }
+
+    fn current_cheat_snapshot(&self)->Result<&crate::debug_cheats::Snapshot,String>{
+        let snapshot=self.cheat_snapshot.as_ref().ok_or("Refresh the selected cheat catalog first")?;
+        let rom=self.content_picker.rom_context().ok_or("No ROM context")?;
+        if !snapshot.matches(self.content_picker.reference(menu::ContentSlot::CheatCatalog),rom){return Err("Cheat selection or ROM context changed; refresh the catalog".into());}
+        Ok(snapshot)
+    }
+
+    fn prepare_cheat_once(&self,id:&str,provenance:u16,master:&str,generation:&str)->Result<(crate::debug_cheat_decoder::Plan,serde_json::Value),String>{
+        if !self.paused || self.probe.is_some() || self.frame_control.remaining>0 || self.replay_job.is_some() || self.recording_active(){return Err("One-shot requires an idle paused isolated copy without recording or replay".into());}
+        if self.native.is_some(){return Err("One-shot currently requires the interpreter; native cache invalidation is unsupported".into());}
+        let reference=self.content_picker.reference(menu::ContentSlot::CheatCatalog).ok_or("Select a cheat catalog first")?;
+        let (plan,info)=self.current_cheat_snapshot()?.prepare_once(reference,&self.machine.bus.rom,id,usize::from(provenance),master,generation)?;
+        let state=gba_core::ffta_rom::digest(&self.machine.save_state()?);
+        let body=serde_json::json!({"state_sha256":state,"frame":self.machine.bus.frames,"clock":self.machine.bus.clock,"details":info});
+        let token=gba_core::ffta_rom::digest(&serde_json::to_vec(&body).map_err(|e|e.to_string())?);
+        Ok((plan,serde_json::json!({"token":token,"body":body,"scope":"Preview only; source behavior and original hardware hook remain unverified"})))
+    }
+
+    fn open_cheat_catalog(&mut self) {
+        let rom=gba_core::ffta_rom::digest(&self.machine.bus.rom);
+        let result=(||->Result<Option<crate::debug_cheats::Catalog>,String>{
+            if !self.content_picker.has_slot(menu::ContentSlot::CheatCatalog){
+                let path=input_config::exe_dir().ok_or("No executable directory")?.join("cheats").join("catalogo.json");
+                if !path.exists(){return Ok(None);}
+                self.content_picker.adopt(menu::ContentSlot::CheatCatalog,&path,&rom,&mut self.menu)?;
+            }
+            let path=self.content_picker.slot_path(menu::ContentSlot::CheatCatalog,&rom)?;
+            let expected=self.content_picker.references().get(&menu::ContentSlot::CheatCatalog).and_then(|r|r.entry.sha256.clone()).ok_or("Catalog selection has no source identity")?;
+            let catalog=crate::debug_cheats::Catalog::load(&path)?;
+            if catalog.source_sha256!=expected{return Err("Catalog changed during import; select it again".into());}
+            Ok(Some(catalog))
+        })();
+        match result {
+            Ok(Some(catalog))=>{let entries=catalog.menu_entries(Some(&rom));let message=format!("{} voci · tutte disattivate · compatibilità non verificata",entries.len());self.menu.open_cheats(entries,message);},
+            Ok(None)=>self.menu.open_cheats(Vec::new(),"Catalogo assente. Scegli Importa catalogo; nessuna voce è attiva.".into()),
+            Err(error)=>self.menu.open_cheats(Vec::new(),format!("Catalogo non disponibile: {error}. Importa una sorgente valida.")),
+        }
+        self.menu_dirty=true;
     }
 
     fn open_debug_catalog(&mut self, choose: bool) {
@@ -2737,6 +2965,7 @@ impl PlayApp {
     fn state_operation(&mut self, saving: bool, slot: u8, overwrite: bool) {
         let operation=if saving{"save"}else{"load"};let before=(self.machine.bus.frames,self.machine.bus.clock);
         self.lifecycle_emit(crate::debug_lifecycle::Family::State,"requested",None,serde_json::json!({"operation":operation,"slot":slot,"overwrite":overwrite}));
+        if saving && self.last_cheat_once.is_some(){self.menu.state_result("Saving after a cheat one-shot needs provenance support; restart the isolated copy first.".into());self.menu_dirty=true;return;}
         if !saving && self.recording_active() {
             let message = if self.capture.is_some() {
                 if self.stop_input_recording("Load requested; retry after recording stopped", true) {
@@ -3247,7 +3476,7 @@ impl PlayApp {
             WindowEvent::CloseRequested => event_loop.exit(),
             // Lost focus: a key held during alt-tab might never deliver its
             // release, so drop the held set defensively (no stuck inputs).
-            WindowEvent::Focused(false) => {self.held.clear();self.game_keys=0x3ff;self.game_mouse.cancel();if !self.event_console_panel.as_ref().is_some_and(|p|p.focus_handoff()){self.machine.bus.ffta_battle_mouse.cancel();}},
+            WindowEvent::Focused(false) => {self.held.clear();self.game_keys=0x3ff;self.game_mouse.cancel();if !self.event_console_panel.as_ref().is_some_and(|p|p.focus_handoff()) && !self.command_console_panel.as_ref().is_some_and(|p|p.focus_handoff()){self.machine.bus.ffta_battle_mouse.cancel();}},
             WindowEvent::KeyboardInput {
                 event:
                     KeyEvent {
@@ -3261,6 +3490,9 @@ impl PlayApp {
                 ..
             } => {
                 if self.events_enabled(){self.ui_event("keyboard",serde_json::json!({"key":format!("{code:?}"),"pressed":state==ElementState::Pressed,"repeat":repeat,"paused":self.paused,"synthetic":is_synthetic}));}
+                if is_synthetic && state==ElementState::Pressed && self.command_console_panel.as_ref().is_some_and(|p|p.hide_handoff()) {
+                    self.held.remove(&code);self.pending_key=None;self.host_consumed("Synthetic focus-return key after command console");return;
+                }
                 let menu_key_member=self.icfg.menu_key.split('+').any(|token|winit_key(token)==Some(code));
                 if self.paused && self.menu.host_panel_active() && is_synthetic {self.host_consumed("Synthetic keyboard event while host panel owns input");self.held.remove(&code);return;}
                 if self.paused && self.menu.host_panel_active() {
@@ -3796,6 +4028,7 @@ impl PlayApp {
                     menu::MenuAction::StartAudioCapture=>self.workbench.open(&mut self.menu,menu::DebugTool::Audio),
                     menu::MenuAction::SaveAudioReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::AudioReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::ToggleEventConsole=>self.toggle_event_console(event_loop),
+                    menu::MenuAction::OpenCommandConsole=>self.open_command_console(event_loop),
                     menu::MenuAction::StartUiTrace=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiStart){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::SaveUiReport=>{if let Err(e)=self.debug_action(&crate::debug_control::Action::UiReport){self.menu.diagnosis_result(e);self.menu_dirty=true;}},
                     menu::MenuAction::ToggleFastForward=>{self.ff_latched=!self.ff_latched;self.menu_dirty=true;},
@@ -3816,6 +4049,8 @@ impl PlayApp {
                     menu::MenuAction::LoadState(slot) => self.state_operation(false, slot, false),
                     menu::MenuAction::UndoState => self.undo_state_operation(),
                     menu::MenuAction::OpenDebugCatalog => self.open_debug_catalog(false),
+                    menu::MenuAction::OpenCheatCatalog | menu::MenuAction::CheatReload => self.open_cheat_catalog(),
+                    menu::MenuAction::CheatChoose => self.choose_tool_input(menu::ContentSlot::CheatCatalog,"Seleziona il catalogo, torna indietro e premi Ricarica. Nessun codice viene eseguito.".into()),
                     menu::MenuAction::ChooseDebugCatalog => self.open_debug_catalog(true),
                     menu::MenuAction::CatalogSelection(index) => self.catalog_preview(index),
                     menu::MenuAction::CatalogImport(index) => self.catalog_import(index),
@@ -4171,6 +4406,16 @@ impl ApplicationHandler for PlayApp {
     }
 
     fn window_event(&mut self,event_loop:&ActiveEventLoop,id:WindowId,event:WindowEvent) {
+        if self.command_console_panel.as_ref().is_some_and(|panel|panel.owns(id)) {
+            let completing=matches!(&event,WindowEvent::KeyboardInput{event:KeyEvent{physical_key:PhysicalKey::Code(KeyCode::Tab),state:ElementState::Pressed,repeat:false,..},is_synthetic:false,..});
+            let profiles=if completing{self.content_picker.completion_ids(menu::ContentSlot::Replay)}else{Vec::new()};
+            let catalogs=if completing{self.content_picker.completion_ids(menu::ContentSlot::Catalog)}else{Vec::new()};
+            let cheats=if completing{self.content_picker.completion_ids(menu::ContentSlot::CheatCatalog)}else{Vec::new()};
+            let requests=if completing{self.control_server.as_ref().and_then(|s|s.pending_status()["request_id"].as_str().map(str::to_owned)).into_iter().collect::<Vec<_>>()}else{Vec::new()};
+            if matches!(event,WindowEvent::Focused(false)){self.command_pad_handoff=Some(0);}
+            if let Some(panel)=self.command_console_panel.as_mut(){if panel.event(&event,&profiles,&catalogs,&cheats,&requests){panel.hide();self.command_pad_handoff=Some(0);}}
+            return;
+        }
         if self.event_console_panel.as_ref().is_some_and(|panel|panel.owns(id)) {
             let shortcut=matches!(&event,WindowEvent::KeyboardInput{event:winit::event::KeyEvent{physical_key:PhysicalKey::Code(code),state:ElementState::Pressed,repeat:false,..},is_synthetic:false,..} if self.console_key(*code));
             let root=input_config::exe_dir();
@@ -4209,6 +4454,12 @@ impl ApplicationHandler for PlayApp {
         if let Some(panel)=self.event_console_panel.as_mut() {
             if let Err(error)=panel.draw_if_due(&self.event_console.borrow()){eprintln!("event console: {error}");}
         }
+        if self.command_console_panel.as_ref().is_some_and(|p|p.wants_observation()){
+            let pending=self.control_server.as_ref().map_or(serde_json::Value::Null,|s|s.pending_status());
+            let remaining=self.frame_control.remaining;let search_remaining=self.probe.as_ref().map(|p|p.remaining());
+            self.command_console_panel.as_mut().unwrap().observe(&pending,remaining,search_remaining);
+        }
+        if let Some(panel)=self.command_console_panel.as_mut(){panel.tick();if let Err(error)=panel.draw_if_due(){eprintln!("command console: {error}");}}
     }
 
     fn exiting(&mut self, _event_loop: &ActiveEventLoop) {
@@ -4694,6 +4945,11 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         workbench: Default::default(),
         replay_path,
         replay_job: None,
+        replay_terminal: None,
+        cheat_refresh: None,
+        cheat_snapshot: None,
+        cheat_preview: None,
+        last_cheat_once: None,
         replay_preparation_seen:0,
         replay_message: String::new(),
         machine,
@@ -4768,6 +5024,8 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         events,
         event_console: Default::default(),
         event_console_panel: None,
+        command_console_panel: None,
+        command_pad_handoff: None,
         selections: Default::default(),
         lifecycle: Default::default(),
         audio_diagnostic: false,

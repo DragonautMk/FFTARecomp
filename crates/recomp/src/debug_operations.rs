@@ -77,6 +77,15 @@ impl crate::debug_control::Action {
         match self {
             Status => "control.status",
             Cancel { .. } => "control.cancel",
+            SelectId { .. } => "content.select",
+            ContentRefresh => "content.scan",
+            ContentList { .. } => "content.list",
+            CheatRefresh => "cheats.refresh",
+            CheatList { .. } => "cheats.list",
+            CheatShow { .. } => "cheats.show",
+            CheatPrepare { .. } => "cheats.prepare-once",
+            CheatApply { .. } => "cheats.apply-once",
+            Replay { mode } => match mode {crate::debug_control::ReplayMode::Plain=>"replay.run",crate::debug_control::ReplayMode::Audit=>"audit.run",crate::debug_control::ReplayMode::Capture=>"capture.run",crate::debug_control::ReplayMode::Comparison=>"compare.run"},
             Pause => "control.pause",
             Resume => "control.resume",
             Step { .. } => "control.step",
@@ -121,6 +130,8 @@ pub(crate) fn menu_operation(action: &menu::MenuAction) -> Option<&'static str> 
         StartDebugSession => "session.create",
         CloseDebugSession => "session.close",
         OpenDebugCatalog => "catalog.list",
+        OpenCheatCatalog | CheatReload => "cheats.open",
+        CheatChoose => "cheats.choose",
         ChooseDebugCatalog => "catalog.choose",
         CatalogSelection(_) => "catalog.select",
         CatalogImport(_) => "catalog.import",
@@ -157,7 +168,7 @@ pub(crate) fn menu_operation(action: &menu::MenuAction) -> Option<&'static str> 
         RestartRom => "runtime.restart",
         Resume => "runtime.continue",
         Changed(menu::Changed::Debug) => "saves.extended",
-        Quit | ToggleFastForward | ToggleEventConsole | SwitchRom | Changed(_) | InputDevice(_) | ResetGamepad => return None,
+        Quit | ToggleFastForward | ToggleEventConsole | OpenCommandConsole | SwitchRom | Changed(_) | InputDevice(_) | ResetGamepad => return None,
     })
 }
 
@@ -306,6 +317,8 @@ mod tests {
             assert!(get(control.operation_id()).is_some());
         }
         assert_eq!(menu_operation(&menu::MenuAction::StartAudioCapture),Some("workbench.audio"));
+        for (action,id) in [(menu::MenuAction::OpenCheatCatalog,"cheats.open"),(menu::MenuAction::CheatReload,"cheats.open"),(menu::MenuAction::CheatChoose,"cheats.choose")]{assert_eq!(menu_operation(&action),Some(id));assert!(get(id).is_some());}
+        for id in ["cheats.list","cheats.show","cheats.info"]{assert!(get(id).is_some());}
         assert_ne!(menu_operation(&menu::MenuAction::StartAudioCapture),Some(Action::AudioStart{settings:Default::default()}.operation_id()));
         assert_ne!(
             menu_operation(&menu::MenuAction::ChooseReplayProfile),

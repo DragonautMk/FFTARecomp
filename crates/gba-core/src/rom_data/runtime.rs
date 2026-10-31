@@ -26,6 +26,33 @@ pub use metadata52::Metadata52Stats;
 mod metadata4;
 use metadata4::Metadata4Resources;
 pub use metadata4::Metadata4Stats;
+mod conditional_four_byte_lookup;
+use conditional_four_byte_lookup::ConditionalLookupResources;
+pub use conditional_four_byte_lookup::ConditionalLookupStats;
+mod conditional_packed_lookup;
+use conditional_packed_lookup::PackedLookupResources;
+pub use conditional_packed_lookup::PackedLookupStats;
+mod conditional_descriptor_banks;
+use conditional_descriptor_banks::DescriptorBanksResources;
+pub use conditional_descriptor_banks::DescriptorBanksStats;
+mod conditional_descriptor_bank_zero;
+use conditional_descriptor_bank_zero::DescriptorBankZeroResources;
+pub use conditional_descriptor_bank_zero::DescriptorBankZeroStats;
+mod conditional_property_masks;
+use conditional_property_masks::PropertyMasksResources;
+pub use conditional_property_masks::PropertyMasksStats;
+mod compact_obj_animations;
+use compact_obj_animations::CompactObjResources;
+pub use compact_obj_animations::CompactObjStats;
+mod compact_obj_animations_secondary;
+use compact_obj_animations_secondary::SecondaryCompactObjResources;
+pub use compact_obj_animations_secondary::SecondaryCompactObjStats;
+mod compact_obj_animations_tertiary;
+use compact_obj_animations_tertiary::TertiaryCompactObjResources;
+pub use compact_obj_animations_tertiary::TertiaryCompactObjStats;
+mod compact_obj_animations_quaternary;
+use compact_obj_animations_quaternary::QuaternaryCompactObjResources;
+pub use compact_obj_animations_quaternary::QuaternaryCompactObjStats;
 mod metadata2;
 use metadata2::Metadata2Resources;
 pub use metadata2::Metadata2Stats;
@@ -161,6 +188,7 @@ pub use task_cycle_deltas::TaskCycleDeltasStats;
 mod ui_raw_transfers;
 use ui_raw_transfers::RawTransfersResources;
 pub use ui_raw_transfers::RawTransfersStats;
+pub use ui_raw_transfers::DynamicFragmentsStats;
 mod indexed_graphics;
 use indexed_graphics::IndexedGraphicsResources;
 pub use indexed_graphics::IndexedGraphicsStats;
@@ -353,11 +381,29 @@ pub struct RuntimeResources {
     indexed_graphics: Option<Box<IndexedGraphicsResources>>,
     ui_raw_transfers: Option<Box<RawTransfersResources>>,
     dynamic_raw_fragments: Option<Box<ui_raw_transfers::DynamicFragmentsResources>>,
+    conditional_four_byte_lookup: Option<Box<ConditionalLookupResources>>,
+    conditional_packed_lookup: Option<Box<PackedLookupResources>>,
+    conditional_descriptor_banks: Option<Box<DescriptorBanksResources>>,
+    conditional_descriptor_bank_zero: Option<Box<DescriptorBankZeroResources>>,
+    conditional_property_masks: Option<Box<PropertyMasksResources>>,
+    compact_obj_animations: Option<Box<CompactObjResources>>,
+    secondary_compact_obj_animations: Option<Box<SecondaryCompactObjResources>>,
+    tertiary_compact_obj_animations: Option<Box<TertiaryCompactObjResources>>,
+    quaternary_compact_obj_animations: Option<Box<QuaternaryCompactObjResources>>,
     map_raster_palettes: Option<Box<MapRasterPaletteResources>>,
     auxiliary_scripts: Option<Box<AuxiliaryScriptResources>>,
 }
 
 impl RuntimeResources {
+    pub fn conditional_four_byte_lookup_stats(&self) -> Option<ConditionalLookupStats> { self.conditional_four_byte_lookup.as_ref().map(|r| r.stats()) }
+    pub fn conditional_packed_lookup_stats(&self) -> Option<PackedLookupStats> { self.conditional_packed_lookup.as_ref().map(|r| r.stats()) }
+    pub fn conditional_descriptor_banks_stats(&self) -> Option<DescriptorBanksStats> { self.conditional_descriptor_banks.as_ref().map(|r| r.stats()) }
+    pub fn conditional_descriptor_bank_zero_stats(&self) -> Option<DescriptorBankZeroStats> { self.conditional_descriptor_bank_zero.as_ref().map(|r| r.stats()) }
+    pub fn conditional_property_masks_stats(&self) -> Option<PropertyMasksStats> { self.conditional_property_masks.as_ref().map(|r| r.stats()) }
+    pub fn compact_obj_animations_stats(&self) -> Option<CompactObjStats> { self.compact_obj_animations.as_ref().map(|r| r.stats()) }
+    pub fn secondary_compact_obj_animations_stats(&self) -> Option<SecondaryCompactObjStats> { self.secondary_compact_obj_animations.as_ref().map(|r| r.stats()) }
+    pub fn tertiary_compact_obj_animations_stats(&self) -> Option<TertiaryCompactObjStats> { self.tertiary_compact_obj_animations.as_ref().map(|r| r.stats()) }
+    pub fn quaternary_compact_obj_animations_stats(&self) -> Option<QuaternaryCompactObjStats> { self.quaternary_compact_obj_animations.as_ref().map(|r| r.stats()) }
     /// The frontend supplies structures parsed from the very bytes whose file
     /// digest is in the manifest. Reauthenticate the base against the actual
     /// selected image; no editable/mod resource can enter through this API.
@@ -667,6 +713,33 @@ impl RuntimeResources {
         if let Some((data,_))=files.dynamic_raw_fragments {
             resources.dynamic_raw_fragments=Some(Box::new(ui_raw_transfers::DynamicFragmentsResources::new(data.clone(),&source.dynamic_raw_fragments.as_ref().unwrap().sources)?));
         }
+        if let Some((data,_))=files.conditional_four_byte_lookup {
+            resources.conditional_four_byte_lookup=Some(Box::new(ConditionalLookupResources::new(data.clone(),&source.conditional_four_byte_lookup.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.conditional_packed_lookup {
+            resources.conditional_packed_lookup=Some(Box::new(PackedLookupResources::new(data.clone(),&source.conditional_packed_lookup.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.conditional_descriptor_banks {
+            resources.conditional_descriptor_banks=Some(Box::new(DescriptorBanksResources::new(data.clone(),&source.conditional_descriptor_banks.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.conditional_descriptor_bank_zero {
+            resources.conditional_descriptor_bank_zero=Some(Box::new(DescriptorBankZeroResources::new(data.clone(),&source.conditional_descriptor_bank_zero.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.conditional_property_masks {
+            resources.conditional_property_masks=Some(Box::new(PropertyMasksResources::new(data.clone(),&source.conditional_property_masks.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.compact_obj_animations {
+            resources.compact_obj_animations=Some(Box::new(CompactObjResources::new(data.clone(),&source.compact_obj_animations.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.secondary_compact_obj_animations {
+            resources.secondary_compact_obj_animations=Some(Box::new(SecondaryCompactObjResources::new(data.clone(),&source.secondary_compact_obj_animations.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.tertiary_compact_obj_animations {
+            resources.tertiary_compact_obj_animations=Some(Box::new(TertiaryCompactObjResources::new(data.clone(),&source.tertiary_compact_obj_animations.as_ref().unwrap().sources)?));
+        }
+        if let Some((data,_))=files.quaternary_compact_obj_animations {
+            resources.quaternary_compact_obj_animations=Some(Box::new(QuaternaryCompactObjResources::new(data.clone(),&source.quaternary_compact_obj_animations.as_ref().unwrap().sources)?));
+        }
         if let Some((data,_))= files.map_raster_palettes {
             resources.map_raster_palettes = Some(Box::new(MapRasterPaletteResources::new(data.clone(), &source.map_raster_palettes.as_ref().unwrap().sources)?));
         }
@@ -777,6 +850,15 @@ impl RuntimeResources {
             indexed_graphics: None,
             ui_raw_transfers: None,
             dynamic_raw_fragments: None,
+            conditional_four_byte_lookup: None,
+            conditional_packed_lookup: None,
+            conditional_descriptor_banks: None,
+            conditional_descriptor_bank_zero: None,
+            conditional_property_masks: None,
+            compact_obj_animations: None,
+            secondary_compact_obj_animations: None,
+            tertiary_compact_obj_animations: None,
+            quaternary_compact_obj_animations: None,
             map_raster_palettes: None,
             auxiliary_scripts: None,
         }
@@ -888,6 +970,15 @@ impl RuntimeResources {
             + self.indexed_graphics.as_ref().map_or(0, |i| i.resident_bytes())
             + self.ui_raw_transfers.as_ref().map_or(0, |i| i.resident_bytes())
             + self.dynamic_raw_fragments.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_four_byte_lookup.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_packed_lookup.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_descriptor_banks.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_descriptor_bank_zero.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.conditional_property_masks.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.compact_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.secondary_compact_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.tertiary_compact_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
+            + self.quaternary_compact_obj_animations.as_ref().map_or(0, |i| i.resident_bytes())
             + self.map_raster_palettes.as_ref().map_or(0, |i| i.resident_bytes())
             + self.auxiliary_scripts.as_ref().map_or(0, |i| i.resident_bytes())
     }
@@ -1008,6 +1099,7 @@ impl RuntimeResources {
     pub fn constructor_obj_animation_stats(&self) -> Option<ConstructorObjAnimationStats> {self.constructor_obj_animation.as_ref().map(|m|m.stats())}
     pub fn task_cycle_deltas_stats(&self) -> Option<TaskCycleDeltasStats> {self.task_cycle_deltas.as_ref().map(|m|m.stats())}
     pub fn ui_raw_transfers_stats(&self)->Option<RawTransfersStats> {self.ui_raw_transfers.as_ref().map(|d|d.stats())}
+    pub fn dynamic_raw_fragments_stats(&self)->Option<DynamicFragmentsStats> {self.dynamic_raw_fragments.as_ref().map(|d|d.stats())}
     pub fn indexed_graphics_stats(&self)->Option<IndexedGraphicsStats> {self.indexed_graphics.as_ref().map(|d|d.stats())}
     pub fn world_records38_stats(&self)->Option<WorldRecords38Stats> {self.world_records38.as_ref().map(|d|d.stats())}
     pub fn parameter_records27_stats(&self)->Option<ParameterRecords27Stats> {self.parameter_records27.as_ref().map(|d|d.stats())}
@@ -1385,7 +1477,16 @@ impl RuntimeResources {
             let prior = match &self.world_records38 {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.indexed_graphics {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
             let prior = match &self.ui_raw_transfers {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
-            return match &self.dynamic_raw_fragments {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.dynamic_raw_fragments {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.conditional_four_byte_lookup {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.conditional_packed_lookup {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.conditional_descriptor_banks {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.conditional_descriptor_bank_zero {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.conditional_property_masks {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.compact_obj_animations {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.secondary_compact_obj_animations {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            let prior = match &self.tertiary_compact_obj_animations {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
+            return match &self.quaternary_compact_obj_animations {Some(data)=>data.guest_read(index,rom,prior),None=>prior};
         };
         self.bus_reads.fetch_add(1, Ordering::Relaxed);
         let source_bit = if matches!(base, 0x149510 | 0x14ced8) {
@@ -1553,6 +1654,15 @@ impl crate::MemMap {
             || IndexedGraphicsResources::source_page(index)
             || RawTransfersResources::source_page(index)
             || ui_raw_transfers::DynamicFragmentsResources::source_page(index)
+            || ConditionalLookupResources::source_page(index)
+            || PackedLookupResources::source_page(index)
+            || DescriptorBanksResources::source_page(index)
+            || DescriptorBankZeroResources::source_page(index)
+            || PropertyMasksResources::source_page(index)
+            || CompactObjResources::source_page(index)
+            || SecondaryCompactObjResources::source_page(index)
+            || TertiaryCompactObjResources::source_page(index)
+            || QuaternaryCompactObjResources::source_page(index)
             || ObjGraphicsResources::source_page(index)
             || UiPaletteResources::source_page(index)
             || UiGraphicsResources::source_page(index)

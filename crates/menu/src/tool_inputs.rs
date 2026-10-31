@@ -3,6 +3,7 @@
 pub enum ContentSlot {
     Replay,
     Catalog,
+    CheatCatalog,
     Session,
     Recording,
     Snapshot,
@@ -20,9 +21,10 @@ pub enum ContentSlot {
     GuestScripts,
 }
 impl ContentSlot {
-    pub const ALL: [Self; 17] = [
+    pub const ALL: [Self; 18] = [
         Self::Replay,
         Self::Catalog,
+        Self::CheatCatalog,
         Self::Session,
         Self::Recording,
         Self::Snapshot,
@@ -43,6 +45,7 @@ impl ContentSlot {
         match self {
             Self::Replay => "Replay / audit / capture / compare profile",
             Self::Catalog => "Save catalog",
+            Self::CheatCatalog => "Cheat reference catalog",
             Self::Session => "Isolated session",
             Self::Recording => "Input recording",
             Self::Snapshot => "Snapshot",

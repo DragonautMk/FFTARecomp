@@ -1658,3 +1658,318 @@ artifact completion retires zero paths. Private evidence is in
 preservation/cleanup receipts. Linux, USA, native Windows, new32:9 and the full
 ROM TODO remain pending; no performance/storage campaign, Android/package,
 assistant commit or push occurs.
+
+## Conditional compact OBJ animation source at 6b9b80
+
+Original EUR readers `080d9990` and `080d97d0` derive an OBJ-list directory
+at root+4 and a sequence directory from the header's little-endian offset.
+The original consumer resolves relative 16-bit directory entries and reads
+compact sequence frames as an 8-bit list selector and 8-bit duration. This
+format differs from the existing 32-bit-directory animation banks.
+
+The independently checked source layout has a structurally coherent candidate
+of 71 lists (272 objects) and 11 sequences (188 frames), spanning
+`6b9b80..6ba4a4`. Original caller windows demonstrate sequence selectors
+0..7, 9 and 10. Their 174 frames refer to lists 0..60 (232 objects), with
+2,028 source bytes in five disjoint spans. Sequence 8 and lists 61..70 are
+physically consistent but lack a witnessed caller. The first offsets describe
+this source layout; they do not impose a guest selector bound. The original
+signed indexing and existing owner/raw behavior outside a future managed
+projection must remain intact.
+
+Wine disassembly of the original EUR functions and independent source/manifest
+reconciliation passed; evidence is under `target/rom-data-root-6b9b80/`.
+No managed model, runtime publication, or ordinary-scene use is established
+by this source inspection. Linux, USA and native Windows remain unverified;
+no performance measurement was made.
+
+The source projection now has a strict `compact_obj_animations` model. It
+reconstructs the five witnessed spans from 61 typed OBJ lists and ten compact
+sequences; source verification authenticates the exact EUR ROM and the decoded
+content. Unowned bytes and selectors remain outside the model rather than
+becoming guest limits. The model is not yet a published runtime resource.
+
+A focused Windows build and Wine test passed for all source bytes and gaps,
+JSON and malformed/coherently edited models, ten original count-reader
+prefixes, 174 frame list/duration reader prefixes, and 61 list-pointer reader
+prefixes. An earlier test exposed a four-byte directory/record boundary error,
+which was corrected before the passing run. No ordinary-scene or managed
+runtime claim follows from this model check; Linux, USA and native Windows
+remain pending. No performance measurement was made.
+
+EUR `e101-d100` publishes the witnessed projection as
+`graphics.conditional-compact-obj-animations`. The authenticated loader
+checks its typed content and five source bindings before publication. Guest
+reads compose the managed bytes with existing owners and ROM bytes in gaps;
+per-resource counters expose actual source consumption. No guest index guard
+is added, and the unwitnessed sequence and lists remain outside the resource.
+
+A corrected isolated Windows build and focused Wine test passed: all 90 e100
+resources and their files stayed byte-identical; owned bytes and mixed gap
+boundaries matched; a coherent data and manifest edit was rejected without
+changing the attached owner or machine state. One original count-reader prefix
+matched a raw interpreter in full state and clock for ten witnessed selectors
+and selector 8 using the raw gap, serving 40 typed native bytes. The initial
+build failed on three missing budget-test arguments and was corrected. Existing
+generation/count assertions were updated but not individually rerun. Production
+CLI, ordinary-scene use, Linux, USA and native Windows remain unverified; no
+performance measurement was made.
+
+The production Windows CLI passed an isolated Wine create/reuse/startup check:
+all 92 generation files equal the accepted e101 dataset, all 91 resource
+identities and hashes match the manifest, and one retained neutral frame
+advances from 24755 to 24756 without changing the managed files. Compact OBJ
+counters were zero in that frame; ordinary use remains unverified. Linux, USA
+and native Windows remain pending. No performance measurement was made.
+
+A conditional original-source route to ordinary use is now identified:
+`080a2450` dispatches `context+cc == 3` to `080a2e58`, which requests
+primary task 6. Its original descriptor points to callback `080e7cf5`, whose
+countdown path requests compact animation selectors 2 and 3. The direct
+caller `080a30da` reaches that dispatcher. Wine disassembly and independent
+ROM descriptor and branch reconciliation passed; the context producer, its
+state 3 and an appropriate retained scene/input are not yet established. This
+conditional chain is not an observation of ordinary use, and no replay or
+performance measurement was made.
+
+Further original EUR source inspection identifies the fixed context at
+`0200f770`: `080969b8/ca` initialize and step it through `080a30c0/d8`.
+Dispatcher state 6 reaches `080a2c5a`; when `08132e04` returns nonzero and
+the nested halfword at +18 is zero, that branch queues state 3 before the
+later task-6 path. Four retained snapshots did not contain state 3 or an EWRAM
+context pointer at this location at their captured instant. These are bounded
+snapshot observations, not evidence that later transitions cannot occur or
+that a particular ordinary scene reaches the resource. No replay or
+performance measurement was made; Linux and USA remain pending.
+
+The state-6 predicate `08132e04` wraps `080d1320`, which tests bit 04 of
+the nested actor's byte at +e8. The selected state-3 path also requires that
+actor's halfword at +18 be zero. In the retained F09 forecast snapshot, both
+previously identified actors have the bit clear and the halfword nonzero. This
+is a bounded initial-state check, not a claim about later actions or other
+actors. Original EUR Wine disassembly and a read-only snapshot check passed;
+no gameplay replay or performance measurement was made.
+
+Original setter `080d1794` clears actor byte +e8 bit 04 and sets it again
+when its byte argument is nonzero. Wine source windows identify conditional
+setters at `08132a16` and `08136128`, explicit clears at `0809a9c2` and
+`080a2cce`, and other calls with dynamic arguments. A bounded static search
+supports these call sites but cannot exclude aliases or indirect calls. No
+retained ordinary action has yet been connected to a setter and the later
+zero-halfword state; no replay or performance measurement was made.
+
+The original callback table at `083ad7e4` has 12-byte entries; entry 33
+points to `08136111`. Original `08137520..532` dispatches through that table
+using a parameter byte after an eligibility predicate, and the constructor at
+`08132eb8` resolves action metadata into the parameter pointer. Original Wine
+windows and an independent authenticated table/literal check establish this
+conditional route, not a specific ordinary action. Candidate retained
+Auto-Life/KO fixtures identified during investigation belong to USA and are
+not evidence for EUR. An eligible EUR target and subsequent zero halfword
+remain unproved; no gameplay replay or performance measurement was made.
+
+For selector 33, original `081376d0` checks 44 target status bits against
+selector-specific allowance bits. It can temporarily set target byte +e9 bit
+08, then restores the original words at +e8 and +ec before returning. The
+EUR allowance table rejects status indices 0, 6 and 11 in this range; index 2
+(the previously traced actor flag) is allowed. Two previously identified
+actors in the retained F09 forecast have none of those three disallowed bits
+in the static snapshot, but their halfword +18 is nonzero. The temporary
+condition, actual action target and later state were not observed. Wine source
+disassembly and authenticated table/snapshot reconciliation passed; no replay
+or performance measurement was made.
+
+## Conditional compact OBJ animation source at 6c6460
+
+Six original EUR callers pass this root to `080d98e4`, a distinct
+constructor using the same relative-u16 compact list and sequence format as
+the `6b9b80` source. Its repeat argument is 1. Caller-witnessed sequence
+selectors 0, 11, 12 and 13 contain 29 frames and reference 19 lists with 30
+objects. Their source projection occupies 334 bytes in five spans and has no
+overlap with the e101 manifest. The physically coherent candidate contains
+14 sequences and 29 lists, but selectors 1..10 and lists 1..10 lack caller
+witnesses; their shape does not impose a guest bound.
+
+Original Wine disassembly and independent authenticated source/manifest
+reconciliation passed under `target/rom-data-root-6c6460/`. A managed model,
+runtime publication and ordinary use remain open; Linux, USA and native
+Windows remain unverified. No performance measurement was made.
+
+The sparse `compact_obj_animations_secondary` model now authenticates the
+exact EUR source and reconstructs those five spans from typed lists and compact
+frames. Unwitnessed indices and source gaps are not modeled as guest bounds.
+A fresh isolated Windows build and focused Wine test passed all 334 bytes and
+gaps, JSON/shape and coherent-tamper checks, four original sequence-count
+prefixes, 29 frame list/duration prefixes and 19 list-pointer prefixes. An
+initial build attempt stopped before compilation because its temporary source
+snapshot had been retired. Runtime publication and ordinary use remain open;
+Linux, USA and native Windows remain pending. No performance measurement was
+made.
+
+EUR `e102-d101` publishes the witnessed bank as
+`graphics.conditional-compact-obj-animations-secondary`. The authenticated
+loader verifies typed content and five source bindings before publication;
+runtime reads compose owned bytes with previous owners and ROM in gaps. No
+guest selector cap is added. A focused Windows build and Wine test passed:
+all 91 e101 resource files stayed identical, every owned byte and mixed gap
+boundary matched, and a coherent data/manifest edit was rejected without
+changing the owner or machine state. One original native count-reader prefix
+matched the raw interpreter's full state and clock for selectors 0, 11, 12,
+13 and raw-fallback selector 1, serving 16 typed native bytes. Older
+generation/count assertions were updated but not individually rerun.
+Production CLI, ordinary use, Linux, USA and native Windows remain open;
+no performance measurement was made.
+
+The production Windows CLI passed isolated Wine create/reuse/startup checks:
+all 93 generation files equal the accepted e102 dataset, all 92 runtime
+resource identities and hashes match the manifest, and the retained neutral
+frame advances from 24755 to 24756 without changing managed files. The new
+bank's counters were zero in that frame, so ordinary use remains unverified.
+Linux, USA and native Windows remain pending; no performance measurement was
+made.
+
+## Conditional compact OBJ animation source at 6bf490
+
+Five original EUR callers pass selectors 2 and 3 through `080d98e4` for this
+root. The shared compact format yields 11 witnessed frames and eight lists
+with seven objects; list 16 is empty and its two-byte count remains part of
+the 108-byte projection across five spans. No span overlaps e102. The physical
+candidate contains four sequences and 24 lists, but selectors 0/1 and lists
+0..15 lack caller witnesses and do not establish a guest bound.
+
+Original Wine disassembly and independent authenticated source/manifest
+reconciliation passed under `target/rom-data-root-6bf490/`. A managed model,
+runtime publication and ordinary use remain open; Linux, USA and native
+Windows remain unverified. No performance measurement was made.
+
+The sparse `compact_obj_animations_tertiary` model now authenticates the EUR
+source and reconstructs the five witnessed spans, including the empty list.
+Unwitnessed indices and gaps remain outside the model. A fresh isolated
+Windows build and focused Wine test passed all 108 bytes and gaps, JSON/shape
+and coherent-tamper checks, two original sequence-count prefixes, 11 frame
+list/duration prefixes and eight list-pointer prefixes. An initial build
+stopped before compilation when a temporary cache copy exceeded the `/tmp`
+quota; incomplete and superseded cache copies were retired while datasets,
+logs, source snapshots and executables were retained. Runtime publication and
+ordinary use remain open; Linux, USA and native Windows remain pending. No
+performance measurement was made.
+
+EUR `e103-d102` publishes the witnessed bank as
+`graphics.conditional-compact-obj-animations-tertiary`. The authenticated
+loader checks typed content and five source bindings; runtime reads compose
+owned bytes with previous owners and ROM in gaps without adding a guest
+selector cap. A focused Windows build and Wine test passed: all 92 e102
+resource files stayed identical, owned bytes and mixed gap boundaries matched,
+and a coherent data/manifest edit was rejected without changing owner or
+machine state. One original native count-reader prefix matched the raw
+interpreter's full state and clock for selectors 2, 3 and raw-fallback 0,
+serving eight typed native bytes. Older generation/count assertions were
+updated but not individually rerun. Production CLI, ordinary use, Linux,
+USA and native Windows remain open; no performance measurement was made.
+
+The production Windows CLI passed isolated Wine create/reuse/startup checks:
+all 94 generation files equal the accepted e103 dataset, all 93 runtime
+resource identities and hashes match the manifest, and the retained neutral
+frame advances from 24755 to 24756 without changing managed files. The new
+bank's counters were zero in that frame, so ordinary use remains unverified.
+Linux, USA and native Windows remain pending; no performance measurement was
+made.
+
+A conditional source route to the second bank starts with metadata28 record
+222: selector 32 returns task ID 218. When context byte +9 is neither 10 nor
+11 and context halfword +4 has bits `c000` clear, the original dispatcher
+forwards that ID to `080d7018`. Its task descriptor points to `081072c1`,
+which can use bank selectors 11/12 and create children `08106cbd` and
+`08107021` that can use selectors 13/0. Original EUR Wine disassembly and
+independent ROM metadata, branch and callback checks passed. This proves only
+a conditional source chain; record production, action/actor identity,
+ordinary scene and actual reads remain unverified. No gameplay replay or
+performance measurement was made.
+
+Original source inspection traces the action index used by that route from UI
+halfword `020156b6`, through `080c4dac`, a wrapper field and the
+`080ab940`/`080a7a5c` path, to context +10 at `080a717e`, subject to the
+original branches. In the authenticated e103 descriptor data, bank 4 row 79
+is the sole declared record whose field 4 equals 222. Three retained EUR
+snapshots have neither the selected UI field nor its saved counterpart equal
+to 222 at the captured instant. This bounded observation does not prove
+unavailability or future behavior. Wine disassembly, descriptor reconciliation
+and read-only snapshot checks passed; no gameplay replay or performance
+measurement was made.
+
+The selected UI halfword can initially come from an evaluated candidate:
+state 3 constructs a result at base +5290 and copies the candidate's first
+halfword to result +8; state 4 invokes an indirect evaluator. If the subsequent
+base +5441 acceptance byte is nonzero, `080c4432` copies result +8 to selected
++54be. Other branches save or restore selection fields. The indirect evaluator
+can change the result, so the initial copy alone does not prove selection.
+Original EUR Wine windows and source pins passed; in three retained EUR
+snapshots, neither result +8 nor selected equals 222 at the captured instant.
+That check does not cover the full candidate lists or future transitions.
+No gameplay replay or performance measurement was made.
+
+The relevant candidate table is constructed by `080c61d8` with category
+`87`, flag zero and destination UI base +74. It takes its input from the
+context at +5c, orders existing records and copies selected groups into the
+destination; this establishes neither how action 222 enters the source nor
+whether the UI later accepts it. Authenticated EUR Wine disassembly and a
+read-only inspection of the counted output groups in three retained EUR
+snapshots passed: none contained a record with first halfword 222 at capture.
+The captured structures are not proof of initialization, liveness or future
+availability. No gameplay replay or performance measurement was made; Linux,
+USA and native Windows verification remain pending.
+
+The upstream producer conditionally copies descriptor field 4 to the action
+list at `08137cdc`, and `080c5ed6` places that value into a candidate record;
+the record count increases only after later checks. For record 222, the
+authenticated metadata category is 3. The producer attempts that category
+only when integer `100 * getter19 / getter20 <= 25`; further availability,
+duplicate, state and target checks apply. In its normal availability branch,
+bank row 79 also requires bit 80 of the unit's corresponding progress byte.
+Original EUR Wine disassembly, ROM call-target reconciliation and guarded
+snapshot inspection passed. For the unit at `020004a0` in two retained EUR
+snapshots, the two values are 37/37 and the row-79 bit is clear at capture.
+This does not prove actor liveness, future state or general unavailability;
+the alternate availability branch and later acceptance are not resolved by
+those values. No replay or performance measurement was made.
+
+## Conditional compact OBJ animation source at 6c87dc
+
+Five EUR references pass this root to original constructor `080d97d0`.
+One conditionally passes selector 2, three pass selector 3, and another
+selects 0 or 1 from 28 original table entries. The witnessed paths cover four
+sequences with 23 frames and ten object lists containing 16 objects. The
+header, offset tables and referenced lists/sequences form 202 contiguous bytes
+without overlap with accepted e103 owners. Wine disassembly and independent
+ROM, caller, table and manifest checks passed; caller reachability and ordinary
+use are unproved. The physical extent does not impose a guest selector bound.
+Model, runtime publication, Linux, USA and native Windows verification remain
+open. No gameplay replay or performance measurement was made.
+
+The source-authenticated `compact_obj_animations_quaternary` model now
+reconstructs those 202 bytes and leaves all other addresses outside its
+projection. A focused Windows build and Wine test passed byte and boundary
+checks, JSON/shape and coherent-tamper rejection, and original reader prefixes
+for all four selectors, 23 frame references and ten list pointers. Runtime
+publication and ordinary use remain open; Linux, USA and native Windows remain
+pending. No performance measurement was made.
+
+EUR `e104-d103` publishes the bank as
+`graphics.conditional-compact-obj-animations-quaternary`. The loader
+authenticates its decoded source binding, and runtime reads compose its bytes
+with earlier owners or ROM outside the projection. A focused Windows build
+and Wine test passed: all 93 e103 resources remained identical, the complete
+new interval and mixed boundaries matched, and coherent data/manifest tamper
+was rejected transactionally. One original native reader prefix matched the
+raw interpreter's full state and clock for selectors 0, 1, 2, 3 and fallback
+33, serving 16 typed native bytes. Older revision assertions were updated but
+not individually rerun. Production CLI and ordinary use, Linux, USA and
+native Windows remain open. No performance measurement was made.
+
+The production Windows CLI passed isolated Wine create, reuse and startup
+checks: all 95 generation files equal the accepted e104 dataset, all 94
+runtime identities and hashes match the manifest, and the retained neutral
+frame advances from 24755 to 24756 without changing managed files. The new
+bank's counters were zero in that frame, so ordinary use remains unverified.
+Linux, USA and native Windows remain pending; no performance measurement was
+made.

@@ -49,6 +49,7 @@ fn title(menu: &Menu) -> &str {
         Page::SwitchGameSave => "Usa salvataggio e riavvia",
         Page::ReplaceGameSave => "Sostituisci salvataggio cartuccia",
         Page::DebugCatalog => "Catalogo DS",
+        Page::CheatCatalog => "Catalogo cheat",
         Page::ContentSelector => "Selezione contenuti",
         Page::DebugTool => "Parametri dello strumento",
         Page::ToolInputs => "Input e selezioni correnti",
@@ -405,6 +406,7 @@ pub(super) fn draw(
         }
         match menu.page {
             Page::ContentSelector => content_selector::draw(&menu.content, &mut body, b.w, b.h),
+            Page::CheatCatalog => content_selector::draw(&menu.cheats, &mut body, b.w, b.h),
             Page::DebugTool => debug_tool::draw(&menu.tool, &mut body, b.w, b.h),
             Page::DebugCatalog => debug_catalog::draw(menu, &mut body, b.w, b.h),
             Page::SaveStates | Page::ReplaceState => save_states::draw(menu, &mut body, b.w, b.h),
@@ -520,7 +522,7 @@ fn draw_debug_details(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
         r.w.saturating_sub(24) as f32,
     );
     let description = if menu.atlas.selected_section() == 6 {
-        "Non disponibile. Catalogo, decoder e applicazione Cheat richiedono le attività DBG2 ancora pianificate. Nessun codice privato viene incluso."
+        "Catalogo locale consultabile in sola lettura. Voci disattivate; decoder e applicazione non disponibili. Nessun codice privato viene incluso."
     } else if menu.debug_session {
         "Copia isolata attiva. Conferma richiama gli handler esistenti; validazioni e prerequisiti vengono ricontrollati prima dell'operazione."
     } else {

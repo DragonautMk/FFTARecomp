@@ -26,6 +26,26 @@ Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md)
 
 [Change record](docs/changes/2026-10-31-verify-european-raw-transfers-boot.json)
 
+## 2026-10-31 — Verify European property-selected masks CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document production CLI creation, reuse and startup with the e100 mask resource.
+
+**Validation**
+
+- One isolated production Windows build and Wine create/reuse/one-frame startup matched all 91 accepted generation files and 90 runtime resource identities; managed and protected files remained unchanged.
+
+**Limitations**
+
+- The mask counter stayed zero in the neutral frame; ordinary use, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-property-selected-masks-cli.json)
+
 ## 2026-10-31 — Verify European dynamic raw fragments in the production CLI
 
 Type: changed. Platforms: Windows.
@@ -68,6 +88,184 @@ Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md)
 
 [Change record](docs/changes/2026-10-31-verify-european-dynamic-original-routine.json)
 
+## 2026-10-31 — Verify European dynamic fragment usage diagnostics
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document production CLI emission of the dynamic-fragment usage counters.
+
+**Validation**
+
+- An isolated Windows production build and one Wine neutral-frame startup emitted the new resource line with zero counters while reusing the accepted e100 directory; 93 managed files and all guarded inputs remained unchanged.
+
+**Limitations**
+
+- Zero counts cover only this frame; ordinary use, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-dynamic-fragment-usage-cli.json)
+
+## 2026-10-31 — Verify European conditional packed lookup CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production CLI creation, reuse and startup with the EUR e97-d96 packed lookup dataset.
+
+**Validation**
+
+- One isolated Windows build and one Wine create/reuse/startup sequence passed: 88 files match the accepted dataset, 87 runtime identities match, and managed files and guarded inputs remain unchanged.
+
+**Limitations**
+
+- Ordinary lookup use, Linux, USA and native Windows remain unverified; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-conditional-packed-cli.json)
+
+## 2026-10-31 — Verify European conditional lookup production CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production CLI registration, creation and reuse of the e96-d95 EUR conditional lookup dataset.
+
+**Validation**
+
+- One isolated Windows build and one focused Wine create/reuse/startup sequence passed: 87 files match the accepted dataset, 86 runtime identities match, and managed files and guarded inputs remain unchanged.
+
+**Limitations**
+
+- This does not prove ordinary lookup use; Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-conditional-lookup-cli.json)
+
+## 2026-10-31 — Verify European conditional descriptor CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production CLI creation, reuse and startup with the EUR e98-d97 conditional descriptor dataset.
+
+**Validation**
+
+- One isolated Windows build and one Wine create/reuse/startup sequence passed: 89 files match the accepted dataset, 88 runtime identities match, and managed files and guarded inputs remain unchanged.
+
+**Limitations**
+
+- The neutral frame had zero descriptor reads; ordinary use, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-conditional-descriptor-cli.json)
+
+## 2026-10-31 — Verify European descriptor bank zero CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production CLI creation, reuse and startup with the EUR e99-d98 conditional descriptor bank-zero dataset.
+
+**Validation**
+
+- One isolated Windows build and one Wine create/reuse/startup sequence passed: 90 files match the accepted dataset, 89 runtime identities match, and managed files and guarded inputs remained unchanged.
+
+**Limitations**
+
+- Ordinary bank-zero use, Linux, USA and native Windows remain unverified; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-conditional-descriptor-bank-zero-cli.json)
+
+## 2026-10-31 — Verify third European compact OBJ production CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production create, reuse and startup verification for the e103 tertiary compact OBJ resource.
+
+**Validation**
+
+- Isolated Windows production build and Wine create, reuse and one-frame startup passed with 94 identical generation files, 93 runtime resource identities and guarded inputs unchanged.
+
+**Limitations**
+
+- Tertiary compact OBJ usage was zero in the single neutral frame; ordinary use, unwitnessed data, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-compact-obj-third-cli.json)
+
+## 2026-10-31 — Verify second European compact OBJ production CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production create, reuse and startup verification for the e102 secondary compact OBJ resource.
+
+**Validation**
+
+- Isolated Windows production build and Wine create, reuse and one-frame startup passed with 93 identical generation files, 92 runtime resource identities and guarded inputs unchanged.
+
+**Limitations**
+
+- Secondary compact OBJ usage was zero in the single neutral frame; ordinary use, unwitnessed data, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-compact-obj-second-cli.json)
+
+## 2026-10-31 — Verify European compact OBJ fourth CLI
+
+Type: docs. Platforms: EUR; Wine.
+
+**Changes**
+
+- Record production CLI creation, reuse and startup with the fourth compact OBJ bank.
+
+**Validation**
+
+- Isolated Windows production build and Wine create, reuse and one-frame startup passed; all 95 generation files equal accepted e104 and all 94 resource identities match.
+
+**Limitations**
+
+- The new resource counters were zero in the neutral frame; ordinary use, Linux, USA and native Windows remain unverified; no performance measurements.
+
+[Change record](docs/changes/2026-10-31-verify-european-compact-obj-fourth-cli.json)
+
+## 2026-10-31 — Verify European compact OBJ production CLI
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record production create, reuse and startup verification for the e101 compact OBJ resource.
+
+**Validation**
+
+- Isolated Windows production build and Wine create, reuse and one-frame startup passed with 92 identical generation files, 91 runtime resource identities and guarded inputs unchanged.
+
+**Limitations**
+
+- Compact OBJ usage was zero in the single neutral frame; ordinary use, unwitnessed data, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-compact-obj-cli.json)
+
 ## 2026-10-31 — Verify translated European clan alias selectors
 
 Type: changed. Platforms: Windows.
@@ -89,6 +287,48 @@ Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DAT
 
 [Change record](docs/changes/2026-10-31-verify-european-clan-alias-native.json)
 
+## 2026-10-31 — Verify European clan alias production CLI
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Verify production CLI creation, reuse and startup with the European clan table alias in e95-d94.
+
+**Validation**
+
+- An isolated production Windows build and Wine orchestration create and reuse the e95 dataset, match all 86 accepted generation files, load all 85 resource identities and advance one neutral frame with the existing native cache.
+- All 88 managed files and the guarded ROM, input, checkpoint, dataset, cache, canonical runtime and frozen sources remain unchanged during reuse and startup.
+
+**Limitations**
+
+- This registration check does not prove ordinary alias consumption or full scene equivalence. Linux, USA and native Windows remain unverified; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-clan-alias-cli.json)
+
+## 2026-10-31 — Verify European clan alias during Bank entry
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Establish ordinary European Bank-entry use of the managed clan graphics table alias and compare the corresponding scene.
+
+**Validation**
+
+- A source-backed Wine audit of the retained 120-frame Bank entry records two typed four-byte alias reads, one at original interpreter instruction 0805e73a, with no dropped or truncated events.
+- A separate Wine pair using the same state, input, dataset and native cache matches all 120 complete states, clocks, central and wide images, OAM, dispatch and five audio outputs; 93 protected inputs and 688 frozen source hashes remain unchanged.
+
+**Limitations**
+
+- This covers one selected Bank entry and shared native cache, not every path, language or full helper ABI. Linux, USA and native Windows remain unverified; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-clan-alias-bank-entry.json)
+
 ## 2026-10-31 — Trace European dynamic transfer dispatcher lifecycle
 
 Type: changed. Platforms: Windows.
@@ -109,6 +349,659 @@ Type: changed. Platforms: Windows.
 Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-31-trace-european-dynamic-dispatch-lifecycle.json)
+
+## 2026-10-31 — Trace European compact OBJ candidate selection
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the conditional candidate construction, indirect evaluation and selected-field copy for the compact OBJ task route.
+
+**Validation**
+
+- Original EUR Wine disassembly and authenticated dispatch, constructor and callback pins passed; read-only checks of two fields in three retained snapshots preserved inputs.
+
+**Limitations**
+
+- Evaluator output, candidate-table production, an eligible retained input and ordinary resource use remain unproved. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-ui-selection.json)
+
+## 2026-10-31 — Trace European compact OBJ task 218 route
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a conditional metadata-to-task route and child callbacks for the second compact OBJ bank.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent metadata record, descriptor, callback and branch target reconciliation passed with source inputs unchanged.
+
+**Limitations**
+
+- The record producer, actor/action identity, actual task execution and ordinary resource use remain unproved. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-task218.json)
+
+## 2026-10-31 — Trace a conditional European compact OBJ task producer
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a conditional original task-6 producer leading to compact OBJ selectors 2 and 3.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent descriptor and branch target reconciliation passed; protected ROM and manifest remained unchanged.
+
+**Limitations**
+
+- Context state 3, a retained ordinary scene and actual resource use remain unproved. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-task-producer.json)
+
+## 2026-10-31 — Trace European compact OBJ record producer
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the conditional original UI-to-context path for metadata record 222 and its declared descriptor witness.
+
+**Validation**
+
+- Original EUR Wine disassembly, authenticated descriptor reconciliation and read-only checks of three retained snapshots passed with inputs unchanged.
+
+**Limitations**
+
+- The UI selection producer, actual task execution and ordinary resource use remain unproved; static snapshots do not establish later availability. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-record222.json)
+
+## 2026-10-31 — Trace European compact OBJ task context
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the fixed context and conditional state-6 path that queues the compact OBJ task-producing state.
+
+**Validation**
+
+- Wine disassembly, authenticated EUR descriptor and branch reconciliation, and read-only checks of four retained snapshot contexts passed without modifying guarded inputs.
+
+**Limitations**
+
+- The snapshots do not establish future transitions or ordinary use; the predicate and eligible scene remain unresolved. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-context.json)
+
+## 2026-10-31 — Trace European compact OBJ candidate table
+
+Type: docs. Platforms: EUR; Wine.
+
+**Changes**
+
+- Document the conditional upstream action producer, candidate table and captured gates for record 222.
+
+**Validation**
+
+- Authenticated original Wine disassembly, ROM metadata and call-target reconciliation passed; hash-guarded inspection covered counted groups in three EUR snapshots and two fixed-unit gate snapshots.
+
+**Limitations**
+
+- The alternate availability branch, UI acceptance, ordinary runtime use, future availability, Linux, USA and native Windows remain unverified; no performance measurements.
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-candidate-table.json)
+
+## 2026-10-31 — Trace European compact OBJ actor flag producer
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the original actor bit setter and its conditional, clear and dynamic caller cases.
+
+**Validation**
+
+- Original EUR Wine disassembly and bounded static candidate-call reconciliation passed with source inputs unchanged.
+
+**Limitations**
+
+- The scan is not exhaustive for aliases or indirect calls; no retained ordinary action or resource use is established. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-actor-flag.json)
+
+## 2026-10-31 — Trace European compact OBJ action callback
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the original selector 33 callback-table route to the compact OBJ actor flag setter.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent authenticated table entry and literal checks passed with guarded inputs unchanged.
+
+**Limitations**
+
+- Selector eligibility, an appropriate EUR target and ordinary resource use remain unproved; identified relevant USA fixtures were not used. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-trace-european-compact-obj-action-table.json)
+
+## 2026-10-31 — Show target and pending job progress in the command console
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Show the authenticated session label, ROM hash prefix and run alongside the current request ID, resolved parameters and available step or search progress; scans and selections show an indeterminate in-progress state.
+- Read the frontend's existing pending owner and budgets at most four times per second while the panel is visible, without issuing control requests or hashing guest state on each update. Verify the manifest against the running server identity before creating the panel.
+
+**Validation**
+
+- Initial and final isolated Windows GNU test and production builds passed without compiler messages. The final source snapshot contains 1514 files with no source or selected-overlay drift; a focused Wine test covers bounded formatting, progress and refusal of a changed manifest.
+- Wine/Xvfb opened a synthetic interpreter session and ran a bounded search from the real command panel. Two status observations showed the same pending ID and decreasing instruction budget; after exact-ID cancellation the paused full state and clock remained stable, and session pins matched on close.
+- Visually inspected 480×360 screenshots show the session and ROM prefix, run, complete test request ID, search parameters and progress; after cancellation the idle view and simulated XInput on-screen keyboard remained readable. The synthetic guest advanced intentionally during the search.
+
+**Limitations**
+
+- Long labels, IDs and displayed parameters may be abbreviated or clipped in narrow windows; the full pending ID and command remain in the copyable jobs status JSON. Scans and selections do not report fabricated percentage progress.
+- The Wine GUI check covered one interpreter search and simulated XInput. Native Windows/Linux, physical controllers, real IME and broad menu/CLI/console parity remain unverified; DBG2-13 through DBG2-28 remain open.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-show-debug-command-job-context.json)
+
+## 2026-10-31 — Report source-specific cheat master references
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Report bounded provenance-specific master links in readonly cheat show and assumed-plaintext inspection, distinguishing missing, invalid, self, unknown, mismatched-source and same-source references without selecting a dependency.
+- Include format and region metadata equality and the number of matching source records; preserve the original catalog and entry.
+
+**Validation**
+
+- Isolated Windows GNU test and runtime builds passed; a focused synthetic Wine test covered all reference states, and final Wine CLI checks confirmed show/inspect agreement, the operation description and unchanged source.
+- Operation inventory and Atlas inventory checks passed; no real catalog payload or guest execution was tested.
+
+**Limitations**
+
+- A source match does not verify device, encryption, master semantics or ROM behavior; recursive dependencies, decryption and guest application remain unimplemented. Native Windows and Linux runtime were not tested.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-report-cheat-source-master-links.json)
+
+## 2026-10-31 — Reconcile historical European ROM reads with e95
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Reclassify the preserved e71 F09 read-address sample against current e95 ownership and prior original-code support evidence.
+
+**Validation**
+
+- Read-only comparison identifies 74 now-owned and 1072 still-unowned bytes from the prior 1146-byte sample; all remaining bytes match earlier scoped literal, switch, hardware or IWRAM control witnesses reauthenticated against the EUR ROM.
+
+**Limitations**
+
+- This is a historical bounded sample, not new gameplay, dynamic attribution for static witnesses, a complete asset catalog or all ROM reads. Linux and USA remain pending; no performance measurement.
+
+Documentation: [rom_data_runtime.md](docs/rom_data_runtime.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-reconcile-european-historical-read-residue.json)
+
+## 2026-10-31 — Reconcile European descriptor bank kind observation
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document already observed typed descriptor-bank kind use in the retained battle Item-menu run.
+
+**Validation**
+
+- Rechecked the retained e99 Wine log and the resource hash in the accepted manifest; no replay or new test.
+
+**Limitations**
+
+- Aggregate counters do not identify records or executed PCs, and the corresponding scene pair did not assert this secondary resource; field 4 and byte 7, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-reconcile-european-descriptor-bank-kind-observation.json)
+
+## 2026-10-31 — Publish European property-selected masks
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish authenticated e100 mask data and serve its bytes through the runtime while preserving original guest selector arithmetic and adjacent owners.
+- Update generation assertions and result counts in prior focused tests for the new resource.
+
+**Validation**
+
+- After correcting a missing test trait import, one isolated Windows build and focused Wine test passed: 89 previous files unchanged, full byte and mixed-edge checks, transactional tamper refusal, and six original native-prefix cases matching raw state and clock.
+
+**Limitations**
+
+- Updated prior focused tests were not individually rerun; their result-count-only corrections followed the focused test build. Production CLI, ordinary use, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-property-selected-masks.json)
+
+## 2026-10-31 — Publish European conditional packed lookup
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish and strictly authenticate EUR packed lookup indices 1 through 33 in e97-d96, serving typed fields without bounding guest selectors or replacing existing aliases.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed 86 prior resource comparisons, all source bytes and mixed boundaries, coherent edit refusal and two original translated reader prefixes with full state and clock equality.
+- Poisoned metadata14 boundary and index251 alias remained served by the existing owner; guarded inputs and frozen sources unchanged.
+
+**Limitations**
+
+- Production CLI, ordinary gameplay, Linux, USA and native Windows remain unverified; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-conditional-packed-lookup.json)
+
+## 2026-10-31 — Publish European conditional four-byte lookup
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish and strictly authenticate the EUR 74-row conditional lookup in e96-d95; serve original guest reads from its typed fields without adding a selector cap.
+- Preserve previous resource records and files, expose per-field read counters and update dataset size guards and revision-aware tests.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed 85 prior resource comparisons, source bytes and edges, coherent tamper refusal, and three translated original prefixes over six inside/outside indices with complete state and clock equal to raw interpretation.
+- Protected inputs and frozen sources remained unchanged; local artifact completion removed no paths.
+
+**Limitations**
+
+- Ordinary gameplay, production CLI, Linux, USA and native Windows remain unverified; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-conditional-four-byte-lookup.json)
+
+## 2026-10-31 — Publish European conditional descriptor banks
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish and strictly authenticate 23 conditional EUR descriptor pointers and 684 records in e98-d97; preserve unrestricted guest arithmetic, bank0 and the bank22 gap.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed all 87 previous resource comparisons, source bytes and edges, coherent edit refusal, and five translated original prefixes with complete state and clock equality.
+- Selected source bytes were served from typed fields while separately poisoned bank0 pointer and bank22 gap remained raw; guarded inputs and frozen sources unchanged.
+
+**Limitations**
+
+- Production CLI, ordinary gameplay, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-conditional-descriptor-banks.json)
+
+## 2026-10-31 — Publish European conditional descriptor bank zero
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish EUR descriptor pointer0 and bank0 rows 1 through 15 in e99-d98 with authenticated typed reads, preserving row0 and original selectors.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed all 88 prior resource comparisons, mixed boundaries with the earlier descriptor owner, raw row0, coherent edit refusal and three original translated prefixes with state and clock equality.
+
+**Limitations**
+
+- Production CLI, ordinary use, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-conditional-descriptor-bank-zero.json)
+
+## 2026-10-31 — Publish third European compact OBJ source
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish the authenticated sparse compact OBJ projection including an empty list in e103 with typed byte composition and usage counters while preserving guest indexing and fallback.
+
+**Validation**
+
+- Isolated Windows build and focused Wine managed/native test passed: 92 previous resources unchanged, all source bytes and mixed boundaries, transactional tamper rejection and original prefix state and clock equivalence for three selectors.
+
+**Limitations**
+
+- Older generation/count assertions were updated but not individually rerun. Production CLI, ordinary use, unwitnessed data, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-compact-obj-third-root.json)
+
+## 2026-10-31 — Publish second European compact OBJ source
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish the authenticated sparse compact OBJ projection in e102 with typed byte composition and usage counters while preserving guest indexing and fallback.
+
+**Validation**
+
+- Isolated Windows build and focused Wine managed/native test passed: 91 previous resources unchanged, all source bytes and mixed boundaries, transactional tamper rejection and original prefix state and clock equivalence for five selectors.
+
+**Limitations**
+
+- Older generation/count assertions were updated but not individually rerun. Production CLI, ordinary use, unwitnessed data, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-compact-obj-second-root.json)
+
+## 2026-10-31 — Publish European compact OBJ fourth root
+
+Type: added. Platforms: EUR; Wine.
+
+**Changes**
+
+- Publish the 202-byte authenticated compact OBJ resource in e104-d103 and compose typed guest reads with prior owners and ROM fallback.
+
+**Validation**
+
+- Isolated Windows build and focused Wine managed/native test passed: all 93 prior resources unchanged, bytes and boundaries, transactional tamper rejection, full-state/clock equality and 16 typed native bytes.
+
+**Limitations**
+
+- Old revision assertions updated but not individually rerun; production CLI and ordinary use, Linux, USA and native Windows pending; no performance measurements.
+
+[Change record](docs/changes/2026-10-31-publish-european-compact-obj-fourth-root.json)
+
+## 2026-10-31 — Publish witnessed European compact OBJ animations
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Publish the authenticated compact OBJ projection in e101 with typed owner composition and usage counters while preserving guest indexing and fallback.
+
+**Validation**
+
+- Corrected isolated Windows build and focused Wine managed/native test passed: 90 prior files unchanged, all source bytes and mixed boundaries, transactional tamper rejection, and original prefix full-state and clock equivalence for eleven selectors.
+
+**Limitations**
+
+- First build failed on three missing budget-test arguments and was corrected. Older generation/count assertions were updated but not individually rerun. CLI, ordinary use, unwitnessed data, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-publish-european-compact-obj-animations.json)
+
+## 2026-10-31 — Add asynchronous debugger content selection by ID
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add an internal asynchronous ID selection worker that reuses the existing catalog reference preflight, holds picker ownership until completion, and discards cancelled or stale context and catalog results.
+- Route profile and catalog ID requests through a typed local-control action, with pending ownership, targeted cancellation and deadline handling; completion follows worker result.
+
+**Validation**
+
+- The initial and final isolated offline Windows GNU test builds passed without compiler messages; the final build includes the follow-up menu busy correction.
+- Wine ran two focused synthetic tests: valid catalog selection, wrong type, changed file, cancellation, busy ownership, and changed context/catalog rejection pass. The 1507 frozen source files and both selected working overlays match.
+- The artifact cleanup helper refused this debug-tools unit because its current scope accepts target/rom-data-* units only; no files were deleted.
+- Final isolated Windows GNU test and production builds pass without compiler messages; five focused Wine tests pass for selection and the control protocol. The 1507 frozen source hashes and selected overlays match.
+- Actual Wine/Xvfb GUI and CLI: after menu refresh, synthetic catalog ID selection succeeds with the expected hash; wrong type and unknown ID are refused, the prior pin stays selected, and full state/frame/clock are unchanged. The GUI/display close with session pins exact.
+- A later Wine/Xvfb session selected two different IDs for complete public synthetic replay profiles through CLI and the actual command panel. The selected hashes and full guest state/frame/clock matched; session pins and all 23 copied source payloads matched on close. No replay was requested. The initial selector-only metadata was correctly refused as an invalid replay profile; the separate menu navigation fixture needed debug=true.
+
+**Limitations**
+
+- DBG2-13 remains open: complete menu/CLI/console operation parity and broader command discovery and handling are not proven. Replay selection checks profile/session payloads and input parsing but does not execute the replay or prove decoded snapshot, runtime ABI or endpoint compatibility. Native Windows/Linux and physical input are unverified.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-prepare-debug-content-id-selection.json)
+
+## 2026-10-31 — Observe European property masks in headgear inventory
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a source-backed ordinary headgear scene that reads the e100 property masks.
+
+**Validation**
+
+- Authenticated original Wine source windows and ran one retained 560-frame Wine observation: 91 typed reads and 364 source bytes, with 224 guarded files and 707 frozen sources unchanged.
+
+**Limitations**
+
+- Aggregate counters do not identify distinct source bytes or exact PCs; a same-scene comparison, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-property-masks-headgear.json)
+
+## 2026-10-31 — Observe European packed lookup in F09 combat
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record a bounded negative observation for the EUR packed lookup during an existing F09 confirmed Fight.
+
+**Validation**
+
+- One Wine production run of the existing 500-frame state and input reports zero packed lookup reads; 206 guarded files and 695 frozen source hashes stayed unchanged.
+
+**Limitations**
+
+- This is a scene-limited negative, not a proof of global absence; positive ordinary use, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-packed-lookup-f09.json)
+
+## 2026-10-31 — Observe European descriptor field four in Steal menu
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document ordinary field-4 reads from descriptor banks 1 through 23 in the retained Steal menu.
+
+**Validation**
+
+- Authenticated original Wine source windows and ran one existing 280-frame Wine scene; 60 typed field-4 bytes were read with guarded inputs and frozen sources unchanged.
+
+**Limitations**
+
+- Aggregate counts do not identify exact records or PCs; the full scene comparison, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-descriptor-steal-field4.json)
+
+## 2026-10-31 — Observe European descriptor Battle Tech information
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document ordinary descriptor kind and byte-7 use in the retained Battle Tech information scene.
+
+**Validation**
+
+- One e99 Wine observation of the existing 800-frame scene served ten typed kind bytes and ten byte-7 bytes; guarded inputs and frozen sources were unchanged.
+
+**Limitations**
+
+- Field 4 and the same-scene full comparison remain open; aggregate counters do not identify records or PCs. Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-descriptor-battle-tech-info.json)
+
+## 2026-10-31 — Observe European descriptor bank zero in Item information
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Identify the original Item information path to bank zero and document its ordinary typed reads.
+
+**Validation**
+
+- One bounded 800-frame Wine observation served pointer, field 0, field 2, kind and byte 7; 219 protected files and 703 frozen sources remained unchanged.
+
+**Limitations**
+
+- Field 4 and a full raw versus managed comparison remain unverified; Linux, USA and native Windows are pending. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-descriptor-bank-zero-item-info.json)
+
+## 2026-10-31 — Observe European descriptors in Ability navigation
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record bounded ordinary Ability navigation using the EUR conditional descriptor banks.
+
+**Validation**
+
+- One focused Wine production run of an existing 540-frame input served 52 pointer bytes and six bytes from each of fields 0 and 2; 212 guarded files and 699 frozen source hashes remained unchanged.
+
+**Limitations**
+
+- Counters are aggregate and fields 4, kind and byte 7 were not exercised; full scene comparison, other fields, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-descriptor-ability.json)
+
+## 2026-10-31 — Observe European conditional lookup in Ability navigation
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record a bounded positive ordinary Ability navigation using the EUR conditional four-byte lookup.
+
+**Validation**
+
+- One focused Wine production run of an existing 540-frame input reports 55 typed bytes across both fields; 199 guarded files and 691 frozen source hashes remain unchanged.
+
+**Limitations**
+
+- Counters are aggregate and do not identify individual instructions. Full scene comparison, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-conditional-lookup-ability.json)
+
+## 2026-10-31 — Observe European clan alias during ordinary boot
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Record the bounded ordinary-boot reachability check for the European clan graphics table alias.
+
+**Validation**
+
+- One isolated Windows audit build and one Wine observation of the existing 1200-frame clean-boot input record no bus requests in the alias range and no dropped events; 92 protected inputs and 688 frozen source hashes remain unchanged.
+
+**Limitations**
+
+- The bus audit excludes folded constants and unselected host readers; this bounded negative does not prove global absence. Positive ordinary use, full scene comparison, Linux, USA and native Windows remain open; no performance measurement.
+
+Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-clan-alias-boot.json)
+
+## 2026-10-31 — Observe European bank zero field four in battle Item menu
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Identify the battle Item-menu route to bank-zero field 4 and document its ordinary typed reads.
+
+**Validation**
+
+- Wine disassembly authenticated the source path; one retained 340-frame Wine observation served 32 typed field-4 bytes, with guarded inputs and frozen sources unchanged.
+
+**Limitations**
+
+- Aggregate counters do not identify exact executed PCs or all records; a full scene comparison, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-observe-european-bank-zero-item-field4.json)
+
+## 2026-10-31 — Model European property-selected masks
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a source-authenticated lossless model for 35 property-selected EUR masks without capping guest selectors.
+
+**Validation**
+
+- An isolated Windows build and focused Wine test verified all 140 source bytes and boundaries, strict model validation, original reader indices inside and outside the projection, and three original metadata selectors.
+
+**Limitations**
+
+- These are conditional source-prefix tests; managed publication, ordinary use, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-model-european-property-selected-masks.json)
 
 ## 2026-10-31 — Model bounded European dynamic raw transfer fragments
 
@@ -132,6 +1025,164 @@ Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md)
 
 [Change record](docs/changes/2026-10-31-model-european-dynamic-raw-transfer-fragments.json)
 
+## 2026-10-31 — Model European conditional packed lookup
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict, lossless source model for EUR type-5 packed lookup indices 1 through 33, preserving unused bits and original selector arithmetic.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed source reconstruction, shape and coherent-edit guards, and original descriptor, packed-reader and type-check prefixes for indices 0, 1, 33 and alias 251.
+
+**Limitations**
+
+- The model is not yet published or used at runtime; ordinary use, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-model-european-conditional-packed-lookup.json)
+
+## 2026-10-31 — Model European conditional four-byte lookup
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add an authenticated typed model for the conditional European 74-row lookup while retaining original wrapping address arithmetic outside the projection.
+
+**Validation**
+
+- One isolated Windows build and one Wine filter pass source bytes, JSON and shape guards, original two-field and byte-reader prefixes for inside and outside indices, and the row77 metadata producer.
+
+**Limitations**
+
+- The model is not yet published or consumed by the runtime. Ordinary use, Linux, USA and native Windows remain open; no performance measurement.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-model-european-conditional-four-byte-lookup.json)
+
+## 2026-10-31 — Model European conditional descriptor banks
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict lossless EUR model for 23 conditional descriptor pointers and 684 records, retaining original u8 address arithmetic and excluding bank0 and the bank22 gap.
+
+**Validation**
+
+- One isolated Windows build and one Wine filter passed all source bytes and shape/source guards, the original bank count dispatcher and unit-count stores, and in-range and out-of-projection descriptor getter cases.
+
+**Limitations**
+
+- The model is not yet published or consumed by the runtime; ordinary use, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-model-european-conditional-descriptor-banks.json)
+
+## 2026-10-31 — Model European conditional descriptor bank zero
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict conditional EUR model for descriptor pointer0 and bank0 rows 1 through 15, preserving row0 and arbitrary guest selectors.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test passed source reconstruction and shape/source guards, original predicate and initializer, mode3 pointer/bounds, and conditional first/last record scans.
+
+**Limitations**
+
+- These are conditional original-code checks, not observed ordinary use; managed/runtime, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-model-european-conditional-descriptor-bank-zero.json)
+
+## 2026-10-31 — Model third European compact OBJ source
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict source-authenticated sparse model for the caller-witnessed compact OBJ bank at 6bf490, preserving its empty list and original guest indexing.
+
+**Validation**
+
+- Fresh isolated Windows build and focused Wine test passed all source bytes and gaps, JSON and tamper checks, and original sequence, frame and list reader prefixes; protected inputs remained unchanged.
+
+**Limitations**
+
+- The first build stopped before compilation when a temporary cache copy exceeded quota; only incomplete and superseded cache copies were removed. Runtime publication, ordinary use, unwitnessed data, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-model-european-compact-obj-third-root.json)
+
+## 2026-10-31 — Model second European compact OBJ source
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict source-authenticated sparse model for the caller-witnessed compact OBJ bank at 6c6460 without guest selector caps.
+
+**Validation**
+
+- Fresh isolated Windows build and focused Wine test passed all source bytes and gaps, JSON and tamper checks, and original sequence, frame and list reader prefixes; protected inputs remained unchanged.
+
+**Limitations**
+
+- The initial build stopped before compilation because its temporary snapshot was retired. Runtime publication, ordinary use, unwitnessed data, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-model-european-compact-obj-second-root.json)
+
+## 2026-10-31 — Model European compact OBJ fourth root
+
+Type: added. Platforms: EUR; Wine.
+
+**Changes**
+
+- Add a source-authenticated model for four compact OBJ sequences, ten lists and their 202 source bytes; preserve out-of-projection fallback.
+
+**Validation**
+
+- Isolated Windows build and focused Wine source, boundary, tamper and original reader-prefix checks passed; guarded inputs unchanged.
+
+**Limitations**
+
+- Runtime publication and ordinary use remain open; Linux, USA and native Windows pending; no performance measurements.
+
+[Change record](docs/changes/2026-10-31-model-european-compact-obj-fourth-root.json)
+
+## 2026-10-31 — Model witnessed European compact OBJ animations
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a source-authenticated lossless compact OBJ animation model for the five caller-witnessed source spans without imposing guest selector bounds.
+
+**Validation**
+
+- The corrected isolated Windows build and focused Wine test passed byte and boundary reconstruction, JSON and tamper checks, and original count, frame and list-reader prefixes; protected inputs remained unchanged.
+
+**Limitations**
+
+- An initial Wine shape check failed and was corrected. Managed runtime publication, ordinary use, the unwitnessed sequence and lists, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-model-european-compact-obj-animation.json)
+
 ## 2026-10-31 — Investigate European dynamic transfer reachability
 
 Type: changed. Platforms: Windows.
@@ -152,6 +1203,317 @@ Type: changed. Platforms: Windows.
 Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-31-investigate-european-dynamic-ordinary-reachability.json)
+
+## 2026-10-31 — Inspect CodeBreaker entries through an explicitly selected source master
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add readonly inspection tied to an explicitly selected entry provenance and its exact same-source master, with bounded source-line identity and atomic refusal of missing, mismatched or ambiguous links.
+- Decode supported seed/game-ID/hook master metadata and optionally compute the ROM byte SHA-256 and first-64-KiB checksum; the plan remains non-executable and does not install the hook.
+
+**Validation**
+
+- Isolated Windows GNU test/runtime builds passed with 1516 frozen source inputs; Wine passed 17 cheat tests with one private test ignored and three operation registry tests.
+- Readonly Wine CLI checks for CH-0321, 0323, 0324, 0325, 0331, 0334 and 0336 matched each full plan and the master checksum, hook offset and handler slot against mGBA decoding, matched the selected EUR ROM checksum, and preserved original catalog and ROM hashes; the recorded result contains no private code payload.
+- Python operation inventory, Atlas inventory, rustfmt and git diff whitespace checks passed.
+
+**Limitations**
+
+- The source device and actual game effects remain unverified; hook handling, controlled application, disable/restore, native Windows and Linux runtime remain open. No guest execution occurred.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-inspect-source-bound-codebreaker-masters.json)
+
+## 2026-10-31 — Inspect CodeBreaker blocks using an explicit seed
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add explicit caller-supplied seeded CodeBreaker decryption before readonly typed inspection, including encrypted continuation lines; reject invalid seeds, unsupported operations and conflicting plaintext/seeded modes atomically.
+- Keep device, ROM, master and key provenance unverified; never infer a seed, execute a plan or write guest memory, and expose a separate operation descriptor.
+
+**Validation**
+
+- An independent GBATEK-formula prototype matched 257 synthetic decryptions against unmodified mGBA cipher functions, including a public synthetic leading-nine collision.
+- Isolated Windows GNU test/runtime builds passed; Wine passed 15 decoder/catalog tests with one private test ignored and three operation registry tests. The Wine CLI matched 256 synthetic halfword writes across four seeds against mGBA, refused conflicting modes and unsupported blocks, and preserved the synthetic catalog.
+- Python operation inventory, Atlas inventory, rustfmt and git diff whitespace checks passed.
+
+**Limitations**
+
+- The source device, seed choice, master, exact ROM behavior and runtime effects are not verified; other opcodes, automatic reseeding and guest application remain open. No real cheat payload, ROM, guest execution, native Windows or Linux runtime was tested.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-inspect-explicit-seeded-codebreaker.json)
+
+## 2026-10-31 — Inspect European packed lookup Combo dispatch
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record the bounded inspection of the Combo menu callback and its unresolved connection to packed lookup readers.
+
+**Validation**
+
+- Authenticated four original-code windows with the Windows disassembler under Wine; no gameplay replay or build.
+
+**Limitations**
+
+- No downstream packed-reader invocation or participant identity was established; this is not global absence. Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-inspect-european-packed-combo-dispatch.json)
+
+## 2026-10-31 — Inspect European dynamic selector witnesses
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the bounded direct-call and task-byte producer evidence for dynamic fragment selectors.
+
+**Validation**
+
+- Rechecked all 24 known direct setter callsites and authenticated seven original Windows disassembly windows under Wine; inspected producers yield only 3, 7 or 8.
+
+**Limitations**
+
+- The local inspection does not exclude alias, indexed or external writers and does not establish a global selector bound or positive ordinary use; Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-inspect-european-dynamic-selector-witnesses.json)
+
+## 2026-10-31 — Inspect European dynamic fragment gate
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the original dynamic-transfer selector chain, its state-four gate callback and three additional bounded negative snapshots.
+
+**Validation**
+
+- Reviewed retained original Wine disassembly and independently authenticated three EUR states, all with the gate, selectors, phase and registration flag clear; no replay or build.
+
+**Limitations**
+
+- The producer of task state four and a positive ordinary scene remain unestablished; Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-inspect-european-dynamic-fragment-gate.json)
+
+## 2026-10-31 — Inspect explicitly assumed plaintext CodeBreaker blocks
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a readonly CLI inspection that requires an explicit plaintext assumption and returns a typed, non-executable plan for a bounded CodeBreaker subset; reject unsupported or incomplete blocks atomically.
+- Register the CLI operation and update the Atlas inventory without exposing an execution action.
+
+**Validation**
+
+- Isolated Windows GNU test and runtime builds passed; Wine synthetic decoder/catalog tests passed 11 with one private-catalog test ignored; final operation registry tests passed 3.
+- A synthetic Wine CLI proof verified the explicit assumption, conditional and slide plan, atomic refusal and unchanged catalog; operation inventory, Atlas inventory, rustfmt and diff checks passed.
+
+**Limitations**
+
+- Device version, encryption, masters and actual ROM behavior are unverified; other opcodes and all guest writes remain unsupported. No real catalog code, ROM, native Windows, Linux runtime or physical controller was tested.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-inspect-assumed-plaintext-codebreaker.json)
+
+## 2026-10-31 — Index the local cheat reference catalog without execution
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a bounded readonly in-memory schema-1 cheat catalog index and debug-cheats CLI with pagination, complete CH details and source metadata. Preserve ordered code lines, aliases, notes, provenance and master links without modifying or packaging the source.
+- Classify all entries as disabled and non-executable, with unknown ROM and device compatibility, unsupported decoder and unverified behavior. Accept an explicit ROM hash as context without inferring compatibility; provide an empty state and explicit catalog path.
+
+**Validation**
+
+- Isolated locked/offline Windows GNU test and production builds passed with 1515 frozen source files and exact overlays. Wine passed three focused synthetic importer, bounds, malformed-input, pagination and readonly tests.
+- A readonly Wine CLI check compared all 341 local entries and all catalog metadata with the source, verified paginated order and compatibility states, checked absent catalog and unknown ID, and confirmed the original source hash unchanged. Result records no private payload.
+
+**Limitations**
+
+- CLI browsing is a foundation for DBG2-17: menu/controller import and selection are not implemented. No cheat decoder, writes, master activation or ROM compatibility claim exists; DBG2-17 remains open.
+- Native Windows, Linux and physical input were not tested. The local third-party catalog and command output are private and excluded from versioned files and public packages.
+
+Documentation: [cheats.md](docs/cheats.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-index-local-cheat-catalog-readonly.json)
+
+## 2026-10-31 — Identify European packed lookup route candidate
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a source-backed F09 combat candidate for ordinary EUR packed lookup use, including wrapper identity and the corrected bitset gate.
+
+**Validation**
+
+- Checked exact retained state and input, authenticated RAM wrapper and descriptor values and original Wine disassemblies; no gameplay replay.
+
+**Limitations**
+
+- Callback and branch execution remain unobserved, and this is not a positive use claim. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-packed-lookup-route.json)
+
+## 2026-10-31 — Identify European packed lookup Combo candidate
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a retained battle seed with an assigned and learned type-5 Combo descriptor and the remaining dispatch uncertainty.
+
+**Validation**
+
+- Rechecked the authenticated seed unit and global bytes and reviewed focused read-only original-code diagnosis; no replay or new test.
+
+**Limitations**
+
+- The Combo callback is not yet connected to a packed reader or a justified ordinary input; the prior negative remains closed. Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-packed-combo-candidate.json)
+
+## 2026-10-31 — Identify European dynamic task state two entry
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document conditional original task paths into the dynamic-transfer menu state.
+
+**Validation**
+
+- Authenticated dispatcher table and five original Windows disassembly windows under Wine; no gameplay replay.
+
+**Limitations**
+
+- Task registration, a user-facing scene and an eligible menu entry remain unproved; Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-dynamic-state-two-entry.json)
+
+## 2026-10-31 — Identify European dynamic state four producer
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the conditional menu-result and queued-state path that enables the dynamic-transfer gate.
+
+**Validation**
+
+- Reviewed focused read-only diagnosis and independently authenticated eight original source windows with the Windows disassembler under Wine; no gameplay replay.
+
+**Limitations**
+
+- No retained ordinary scene is yet connected to the eligible menu and task state; Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-dynamic-state-four-producer.json)
+
+## 2026-10-31 — Identify European descriptor Ability route
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the existing EUR Ability panel as a source-backed candidate for descriptor bank reads.
+
+**Validation**
+
+- Authenticated the retained state and input, three renderer root literals and original Wine disassembly; no new gameplay replay.
+
+**Limitations**
+
+- New e98 descriptor reads and exact executed PCs remain unobserved; Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-descriptor-ability-route.json)
+
+## 2026-10-31 — Identify European conditional lookup route candidate
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document a source-supported candidate for ordinary EUR lookup use using an existing Ability navigation input and original category/list-builder path.
+
+**Validation**
+
+- Checked exact ROM, retained state and input hashes, original category map, original Wine disassembly and the existing Ability screenshot; no new gameplay replay.
+
+**Limitations**
+
+- The selected branch, nonempty list and lookup reads remain to be observed; Linux and USA remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-conditional-lookup-route.json)
+
+## 2026-10-31 — Identify European compact OBJ state predicate
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the original actor-bit and halfword conditions for the state-3 task route.
+
+**Validation**
+
+- Original EUR Wine disassembly and read-only checks of two previously identified actors in one retained forecast snapshot passed with source inputs intact.
+
+**Limitations**
+
+- The bounded initial-state negative does not establish later transitions, other actors or ordinary resource use. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-compact-obj-state-predicate.json)
+
+## 2026-10-31 — Identify European compact OBJ selector eligibility
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document original selector 33 target-status eligibility and restoration of its temporary target flags.
+
+**Validation**
+
+- Original EUR Wine disassembly and authenticated selector table and two retained actor snapshot checks passed with source inputs unchanged.
+
+**Limitations**
+
+- Temporary conditional state, actual action target, later zero-halfword transition and ordinary resource use remain unproved. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-identify-european-compact-obj-selector-eligibility.json)
 
 ## 2026-10-31 — Hide debug menus until a persistent directional unlock or config override
 
@@ -183,6 +1545,79 @@ Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [debug_tools.md](d
 
 [Change record](docs/changes/2026-10-31-hide-debug-until-persistent-menu-unlock.json)
 
+## 2026-10-31 — Correct terminal debugger job status
+
+Type: fixed. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Clear the completed job from pending_control in its terminal response and retain the original request/job correlation across response-publication retries.
+
+**Validation**
+
+- Wine/Xvfb bounded synthetic search verified live status, refusal of a different ID, console completion of the actual request ID and targeted cancellation; a separate 500ms request timed out at the client and then stopped at the server. Both original terminal replies exposed stale pending status, motivating this fix.
+- Corrected isolated Windows GNU test and production builds pass; all 18 Wine protocol tests pass, including cancellation, deadline and publication retry with original job correlation. Frozen 1512 sources and 22 overlays match.
+- A new bounded Wine/Xvfb search was cancelled by its observed request ID: terminal outcome was cancelled, pending_control was null and full terminal state matched a later status. The synthetic session and display closed with protected pins exact.
+
+**Limitations**
+
+- DBG2-13/15 remain open: duplicate-request retry semantics, live replay-profile selection and complete menu/CLI/console equivalence require further work.
+- Native Windows/Linux and physical input were not tested; a client timeout without acknowledgement is not proof that the server has stopped.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-fix-debug-control-terminal-job-status.json)
+
+## 2026-10-31 — Claim debugger requests before consuming mailbox files
+
+Type: fixed. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Atomically move each published request into a server-owned per-channel claim before reading and removing it, so a later publication cannot be deleted while an earlier request is being consumed.
+- Retain claims across transient read or removal failures, reject stale run identities before dispatch, consume oversized input and identify the channel and stage in errors. Existing publication outboxes and request identity ledger remain in use.
+
+**Validation**
+
+- Isolated Windows GNU test and production builds passed without compiler messages; 1513 frozen source files and the changed overlay matched exactly.
+- Wine passed all 25 protocol tests. New deterministic cases verify interleaved requests on both channels, a stale claim from a previous run, oversized claim recovery and a Windows file locked against sharing followed by successful retry without deleting the next request.
+- A read-only Sol consultation independently confirmed the read/remove replacement race and reviewed the bounded fixed-claim design under the existing exclusive session lock; effective model and effort were not independently visible.
+
+**Limitations**
+
+- The earlier clipboard session's isolated access-denied warning had no logged stage and cannot be attributed to this race. All retained queries in that session completed; no claim is made that this change eliminates that warning.
+- The mailbox remains a single pending publication per channel: an unacknowledged request not yet claimed can be replaced. Crash-durable delivery across runs is not promised; non-ordinary claim files may require intervention.
+- Native Windows and Linux runtimes were not tested; Wine protocol tests use synthetic sessions and do not establish physical-input or full GUI coverage. DBG2-13 through DBG2-28 remain open.
+
+Documentation: [debug_control.md](docs/debug_control.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-fix-debug-control-mailbox-claim.json)
+
+## 2026-10-31 — Expose readonly cheat snapshots through local debug control
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add typed cheat catalog selection by content ID, asynchronous source-pinned snapshot refresh and bounded list/detail queries to the isolated local channel and command console. Older servers refuse these actions before publication through an explicit capability check.
+- Keep source and ROM hashes plus a snapshot generation; invalidate the snapshot when selected content or ROM context changes. Reconstruct complete original entry JSON from bounded UTF-8 chunks with a digest and explicit offsets; list rows carry truncation indicators.
+- Keep readonly queries on the query mailbox during other jobs, use exact request IDs for refresh cancellation, preserve deadline and retry semantics, and add typed completion for cheat catalog IDs. The worker discards cancelled or context-stale results.
+
+**Validation**
+
+- Isolated locked/offline Windows GNU test and production builds passed with 1515 frozen inputs and exact overlays. Wine passed six cheat-index tests, 29 protocol tests, nine command tests, three completion tests and three registry tests; one explicitly private catalog test remained ignored.
+- A Wine/Xvfb session with two synthetic catalogs selected by ID, rejected a wrong type and stale generation, refreshed and retried identically, reconstructed a long Unicode entry from three chunks and refused a changed selection or changed source. A readonly query succeeded while a separate slow synthetic non-guest replay job was pending; that worker was then cancelled for cleanup.
+- The actual command panel submitted the same list query and copied JSON identical to the local channel response. Guest state, frame0, clock0, synthetic source files and session pins remained exact; owned session, worker and display closed. Python operation-registry and Atlas checks passed.
+
+**Limitations**
+
+- A refresh cancellation was verified in the worker/unit protocol, not during a live long-running refresh; a blocked filesystem read must return before its cancellation can be confirmed. Snapshots certify the source at refresh and do not continuously monitor later changes.
+- The menu catalog refresh currently uses a separate readonly path from the assistant snapshot worker. There is no cheat decoder, enablement or application; native Windows, Linux, physical controllers and actual private catalog use through this new channel remain unverified. DBG2-13..28 remain open.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-expose-cheat-snapshot-local-control.json)
+
 ## 2026-10-31 — Export a private portable Windows debug asset collection
 
 Type: added. Platforms: Windows portable archive; built locally with Python and validated through Wine.
@@ -212,6 +1647,31 @@ Documentation: [private_debug_assets.md](docs/private_debug_assets.md), [debug_t
 
 [Change record](docs/changes/2026-10-31-export-private-portable-debug-assets.json)
 
+## 2026-10-31 — Describe cheat target context and readonly operations
+
+Type: changed. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Use the project-known exact EUR and USA SHA-256 identities to compare the source-declared region against an explicit target. Keep unknown identities unknown and report declared-match or declared-mismatch as metadata only; device version remains unknown, decoder unsupported, every entry disabled and behavior unverified.
+- Show the loaded ROM and catalog hashes in the readonly menu; document five cheat operations and the existing local-control retry in the shared registry, with accurate handler sources and previously omitted content-list/retry options.
+- Include the public cheat guide in portable and Docker allowlists, retain the explicit no-payload whitelist and ignore imported cheats folders in extracted bundles.
+
+**Validation**
+
+- Offline isolated Windows GNU test and production builds passed with 1515 frozen inputs and matching overlays. Wine passed the focused target-context test and three registry tests; a final production-only rebuild corrected two registry source fields without changing runtime behavior.
+- A final Wine CLI test used a synthetic catalog and public hash constants to check EUR declared-match, USA declared-mismatch, unknown identity, disabled/unverified states and registry sources. A separate synthetic Wine/Xvfb view showed the loaded unknown-ROM and catalog hashes while preserving guest state, frame and clock.
+- Three Python registry checks and eleven synthetic portable packaging tests passed for Windows/Linux archive layouts, public guide inclusion, private catalog exclusion and Docker allowlists. No actual distribution package or third-party payload was created.
+
+**Limitations**
+
+- Region comparisons describe source declarations only; the CLI does not authenticate a caller-supplied hash against ROM bytes. Device versions, cheat decoding, application and actual compatibility remain unverified; DBG2-17 and subsequent work remain open.
+- Native Windows, Linux runtime, physical controllers and actual public deployment were not tested; existing closed catalog import/341-entry tests were not repeated.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-describe-cheat-target-and-public-guide.json)
+
 ## 2026-10-31 — Default menu transparency to10% and clarify sidebar focus with input-specific controls
 
 Type: changed. Platforms: Shared desktop menu; Windows GNU release validated through Wine.
@@ -240,6 +1700,26 @@ Type: changed. Platforms: Shared desktop menu; Windows GNU release validated thr
 Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md).
 
 [Change record](docs/changes/2026-10-31-default-menu-transparency-and-contextual-controls.json)
+
+## 2026-10-31 — Count European dynamic fragment usage
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Expose separate request, selector-byte and payload-byte counters for dynamic raw fragments in runtime and production diagnostics.
+
+**Validation**
+
+- One isolated Windows build and focused Wine test on the accepted e100 dataset verified exact counters for typed selector and payload reads, a mixed edge and an outside read; guarded inputs and frozen sources were unchanged.
+
+**Limitations**
+
+- The actual production log and positive ordinary use remain unverified; counts include repeated reads. Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md).
+
+[Change record](docs/changes/2026-10-31-count-european-dynamic-fragment-usage.json)
 
 ## 2026-10-31 — Publish and consume bounded European dynamic raw transfer fragments
 
@@ -283,6 +1763,190 @@ Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DAT
 
 [Change record](docs/changes/2026-10-31-consume-european-clan-table-alias.json)
 
+## 2026-10-31 — Connect supervised replay jobs to shared debug commands
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Run the selected replay, audit, capture or comparison profile through the same supervised handler used by the menu, without implicitly opening a selector. Expose worker progress and terminal report, exact-request cancellation, deadline handling, safe retry and a versioned capability; add command completion.
+
+**Validation**
+
+- Isolated locked/offline Windows GNU test and production builds passed with 1514 frozen source files and exact overlays. Wine passed 8 command tests, 27 protocol tests and the focused replay completion case.
+- A synthetic Wine/Xvfb session selected profiles by ID and exercised replay passed, capture captured, compare matched and audit diverged with its report. The replay retry returned identical JSON and worker run; an incorrect cancellation ID was refused while replay was pending. The zero-frame main guest and session pins were unchanged.
+- Separate Wine/Xvfb runs used a pinned sleeping synthetic child, which does not execute guest code, to confirm exact-ID cancellation produces interrupted/cancelled and server deadline produces interrupted/timeout after a client unacknowledged timeout. The copied source profile metadata and main guest state/frame/clock remained unchanged; owned sessions and displays closed.
+- A distinct Wine/Xvfb session submitted replay run in the integrated command panel, observed the synthetic zero-frame replay pass, and copied the identical terminal JSON through an isolated clipboard. Main guest state/frame/clock, source profile metadata and session pins stayed exact; the owned session and display closed.
+
+**Limitations**
+
+- The one-frame real worker finished before the exact cancellation request; cancellation and deadline were validated with a deliberately slow synthetic child, not with a replay actively executing guest frames. Audit reported an actual endpoint divergence rather than a successful match.
+- Native Windows, Linux, physical controllers and complete menu/CLI/console parity remain unverified. DBG2-13 through DBG2-28 remain open; no personal replay inputs used.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-connect-shared-replay-commands.json)
+
+## 2026-10-31 — Compare European property masks in headgear inventory
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add an optional positive property-mask usage assertion to the recorded-scene differential harness.
+
+**Validation**
+
+- An isolated Windows build and one Wine raw-versus-e100 comparison passed all 560 retained frames, matching complete state, clock, video, OAM, dispatch and five audio outputs while serving 91 typed mask reads.
+
+**Limitations**
+
+- Counts are aggregate and both arms share a native cache; broader scenes, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-property-masks-headgear.json)
+
+## 2026-10-31 — Compare European descriptor field four in Steal menu
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add an optional descriptor-bank field-4 assertion to the recorded-scene differential harness.
+
+**Validation**
+
+- One isolated Windows build and one Wine raw-versus-e99 comparison passed 280 retained frames, matching complete state, clock, video, OAM, dispatch and five audio outputs while reading 60 typed field-4 bytes.
+
+**Limitations**
+
+- Both arms shared a native cache; all-record and all-scene coverage, Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-descriptor-steal-field4.json)
+
+## 2026-10-31 — Compare European descriptor Battle Tech information
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the full recorded-scene comparison covering descriptor kind and byte 7.
+
+**Validation**
+
+- Reused the Windows harness for one Wine raw-versus-e99 comparison of 800 retained frames; complete state, clock, video, OAM, dispatch and five audio outputs matched, with kind and byte 7 counters positive.
+
+**Limitations**
+
+- Field 4 remains unobserved in this scene; both arms shared a native cache, and Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-descriptor-battle-tech-info.json)
+
+## 2026-10-31 — Compare European descriptor bank zero Item information
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add optional observed bank-zero field assertions to the recorded-scene differential harness.
+
+**Validation**
+
+- An isolated Windows build and one Wine raw-versus-e99 comparison passed for 800 Item-info frames, matching complete state, clock, video, OAM, dispatch and five audio outputs; protected inputs and frozen sources were unchanged.
+
+**Limitations**
+
+- Field 4 was not observed; both arms shared a native cache, and Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-descriptor-bank-zero-item-info.json)
+
+## 2026-10-31 — Compare European descriptor Ability scene
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add an opt-in differential-scene assertion for typed descriptor pointer, field0 and field2 reads.
+
+**Validation**
+
+- One isolated Windows build and one Wine comparison passed 540 complete state/clock, video, OAM, dispatch and audio frames; the same run served 64 typed pointer and field bytes with guarded inputs and sources unchanged.
+
+**Limitations**
+
+- Field4, kind and byte7 were not exercised; both arms share the native cache. Other scenes, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-descriptor-ability.json)
+
+## 2026-10-31 — Compare European conditional lookup in Ability scene
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add an opt-in assertion to the existing scene differential that requires reads of both fields of the conditional lookup.
+
+**Validation**
+
+- One isolated Windows build and one Wine comparison passed 540 complete state/clock, video, OAM, dispatch and audio frames; the same run served 55 lookup bytes from both fields with guarded inputs and sources unchanged.
+
+**Limitations**
+
+- Both arms use the same native cache; other scenes, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-conditional-lookup-ability.json)
+
+## 2026-10-31 — Compare European bank zero field four in battle Item menu
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Add an optional bank-zero field-4 assertion to the recorded-scene differential harness.
+
+**Validation**
+
+- An isolated Windows build and one Wine raw-versus-e99 comparison passed all 340 recorded frames, including complete state, clock, video, OAM, dispatch and five audio outputs; 32 typed field-4 bytes were observed and protected inputs were unchanged.
+
+**Limitations**
+
+- Both arms shared the native cache; Linux, USA and native Windows remain unverified. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-compare-european-bank-zero-item-field4.json)
+
+## 2026-10-31 — Classify European property-selected masks
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Identify the conditional 35-word mask table selected by metadata52 property 0x24.
+
+**Validation**
+
+- Reconciled all 116 decoded metadata rows against the EUR ROM and accepted e99 manifest, verified selectors 0 through 34, the 140-byte source hash and absence of source overlaps; original Wine disassembly was retained.
+
+**Limitations**
+
+- Dynamic and invalid selectors and all callers are not globally bounded; typed model, runtime use, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-property-selected-masks.json)
+
 ## 2026-10-31 — Classify bounded European dynamic raw transfer producers
 
 Type: docs. Platforms: Windows.
@@ -304,6 +1968,164 @@ Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md)
 
 [Change record](docs/changes/2026-10-31-classify-european-dynamic-raw-view-producers.json)
 
+## 2026-10-31 — Classify European descriptor bank zero
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document conditional source evidence for descriptor pointer0 and bank0 records 1 through 15 while keeping record0 and arbitrary guest indices separate.
+
+**Validation**
+
+- Authenticated original Wine producer, initializer and caller windows, exact EUR source hashes and e98 ownership; checked 62 retained snapshots without a matching slot or predicate witness.
+
+**Limitations**
+
+- The initializer path and record reads are conditional source evidence rather than observed ordinary use; model, runtime, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-descriptor-bank-zero.json)
+
+## 2026-10-31 — Classify European conditional packed lookup
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the source-backed EUR type-5 conditional lookup projection at indices 1 through 33 and preserve other readers and existing-owner aliases.
+
+**Validation**
+
+- Checked six original Wine disassemblies, exact EUR ROM and e96 manifest, and 42 type-5 source descriptors over 23 pointer intervals with witnesses for every selected index.
+
+**Limitations**
+
+- Source witnesses do not establish every ordinary selection, a global index limit, row zero or the final pointer interval. Runtime, Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-conditional-packed-lookup.json)
+
+## 2026-10-31 — Classify European conditional four-byte lookup
+
+Type: changed. Platforms: Windows.
+
+**Changes**
+
+- Identify a conditional 74-row European two-field lookup projection and its original metadata and zero-value producers without imposing a global selector bound.
+
+**Validation**
+
+- Exact-ROM source pins, existing metadata52 values, conditional original row search witnesses for indices 1 through 73 and the distinct conditional zero path establish 296 non-overlapping source bytes; retained windows were disassembled under Wine.
+
+**Limitations**
+
+- Original live and out-of-range indices remain uncapped and raw. Typed model, managed runtime, ordinary use, Linux and USA remain open; no gameplay or performance measurement.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-conditional-four-byte-lookup.json)
+
+## 2026-10-31 — Classify European conditional descriptor banks
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document 23 source-backed EUR descriptor bank pointers and 684 conditional eight-byte records with original count bounds, keeping bank0 and the bank22 gap separate.
+
+**Validation**
+
+- Checked the exact EUR ROM, original Wine disassemblies and jump table, each bank count and source digest against the e97 manifest; no overlapping owner.
+
+**Limitations**
+
+- Other guest selectors remain unrestricted; bank0, the bank22 gap, all-caller reachability, model, runtime, Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-conditional-descriptor-banks.json)
+
+## 2026-10-31 — Classify third European compact OBJ source
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the caller-witnessed compact OBJ animation projection rooted at 6bf490, including its empty list.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent source and e102 manifest reconciliation passed; guarded ROM and manifest unchanged.
+
+**Limitations**
+
+- Unwitnessed selectors and lists, managed model, runtime and ordinary use remain open. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-compact-obj-third-root.json)
+
+## 2026-10-31 — Classify second European compact OBJ source
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document the caller-witnessed compact OBJ animation projection rooted at 6c6460.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent source and e101 manifest reconciliation passed; guarded ROM and manifest unchanged.
+
+**Limitations**
+
+- Unwitnessed selectors and lists, managed model, runtime and ordinary use remain open. Linux, USA and native Windows remain pending; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-compact-obj-second-root.json)
+
+## 2026-10-31 — Classify European compact OBJ fourth root
+
+Type: docs. Platforms: EUR; Wine.
+
+**Changes**
+
+- Classify the source-backed 202-byte compact OBJ bank at 6c87dc and its four conditional selectors.
+
+**Validation**
+
+- Original Wine disassembly and independent authenticated ROM call, table, extent and accepted e103 ownership checks passed.
+
+**Limitations**
+
+- Reachability, ordinary use, model and runtime publication remain unverified; Linux, USA and native Windows pending; no performance measurements.
+
+[Change record](docs/changes/2026-10-31-classify-european-compact-obj-fourth-root.json)
+
+## 2026-10-31 — Classify witnessed European compact OBJ animation source
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Document original relative-u16 OBJ directories and the caller-witnessed compact animation projection at 6b9b80.
+
+**Validation**
+
+- Original EUR Wine disassembly and independent source and e100 manifest reconciliation passed; guarded ROM and manifest unchanged.
+
+**Limitations**
+
+- Sequence 8 and lists 61 through 70 lack caller witnesses; no global selector bound, managed model or ordinary-scene use is established. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_obj.md](docs/rom_data_obj.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-compact-obj-animation-source.json)
+
 ## 2026-10-31 — Classify European clan bank table alias
 
 Type: changed. Platforms: Windows.
@@ -324,6 +2146,74 @@ Type: changed. Platforms: Windows.
 Documentation: [rom_data_ui_graphics.md](docs/rom_data_ui_graphics.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
 
 [Change record](docs/changes/2026-10-31-classify-european-clan-table-alias.json)
+
+## 2026-10-31 — Distinguish local debugger command errors from server outcomes
+
+Type: fixed. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Give command and direct local-control clients structured parse, incompatibility and availability outcomes before publication; transport or worker failures report unknown delivery rather than claiming the action was not sent.
+- Keep server results including refusal, timeout and cancellation intact. In the panel, invalid drafts and local composition or worker-capacity guards produce a copyable current error without clearing or submitting the draft.
+
+**Validation**
+
+- Initial and final isolated Windows GNU test and production builds passed without compiler messages. Wine passed seven command and 26 protocol tests on the initial candidate, then seven affected command tests on the final guard correction; 1514 frozen source files and selected overlays matched.
+- In a synthetic Wine/Xvfb session, command and direct-control invalid syntax returned parse-error/not-sent, a wrong retry run returned incompatible/not-sent without a primary publication, and an actual server refusal retained its refused result. The real panel copied the new parse-error JSON after a prior successful result while retaining the invalid draft. Guest state/frame0/clock0 and session pins stayed exact; the exclusive test prefix and display closed.
+
+**Limitations**
+
+- Server-side content compatibility failures remain server refusals with explanatory text; this does not claim a complete domain-wide incompatibility taxonomy. If transport delivery is unknown, callers must inspect state before retrying.
+- The GUI proof covered parser error, preflight incompatibility and a server refusal. Prior separate Wine proofs cover timeout and cancellation; composition-active and four-worker-capacity guards were not exercised in the GUI.
+- Native Windows/Linux, physical input, real IME and full menu/CLI/console parity remain unverified; DBG2-13 through DBG2-28 remain open.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-classify-debug-command-local-errors.json)
+
+## 2026-10-31 — Census European e100 unowned candidates
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Record a bounded metadata-only census of potential unowned gameplay-region roots against the accepted e100 manifest.
+
+**Validation**
+
+- Scanned the authenticated EUR ROM and historical atlas interval for candidate Thumb PC-relative literal readers, excluding current source owners; all guarded inputs remained unchanged.
+
+**Limitations**
+
+- The 71 results are heuristic candidates, not proved code, extents, asset types or ordinary use; the atlas is historical. Linux, USA and native Windows remain open. No performance measurements.
+
+Documentation: [ROM_DATA_INVENTORY.md](docs/development/ROM_DATA_INVENTORY.md).
+
+[Change record](docs/changes/2026-10-31-census-european-e100-unowned-candidates.json)
+
+## 2026-10-31 — Browse an inactive cheat catalog in the debug menu
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a separate readonly Debug / Cheat catalog view using the existing searchable selector. An absent catalog has an explicit import flow; a selected catalog is type-checked, pinned and rechecked before loading. Entries only open scrollable details and cannot enable or execute codes.
+- Present disabled and unverified states and compatibility reasons before the original entry; preserve original ordering and metadata. The dedicated details panel suppresses hidden selector hitboxes and reports its visible focus rectangle.
+
+**Validation**
+
+- Isolated offline Windows GNU test and production builds passed with 1515 frozen source files and matching overlays. Wine passed focused typed-reference and menu-model tests including 600 rows, detail ordering, hidden clicks and focus geometry.
+- A synthetic Wine/Xvfb GUI scenario verified empty state, explicit selection and reload, 341 searchable entries and simulated XInput navigation; main guest state/frame/clock and source catalog remained unchanged. A separate readonly Wine test compared the menu conversion of every local catalog entry with its source without printing private payload.
+- A focused follow-up Wine/Xvfb screenshot verified the enlarged readable details view and scrolling without repeating the accepted import/controller scenario; guest state and session pins remained exact. The owned runtime, controller helper and display were closed.
+
+**Limitations**
+
+- All entries remain disabled and non-executable: exact ROM/device compatibility is unknown, decoder unsupported and runtime behavior unverified. Long individual records are visibly abbreviated in the menu and remain complete via the readonly CLI. DBG2-17 and later cheat tasks remain open.
+- Native Windows, Linux and physical controllers were not tested. Third-party cheat material remains local and excluded from tracked sources and public packages.
+
+Documentation: [cheats.md](docs/cheats.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-browse-local-cheat-catalog-in-menu.json)
 
 ## 2026-10-31 — Bound local artifact retention and retire superseded datasets
 
@@ -425,6 +2315,34 @@ Documentation: [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md)
 
 [Change record](docs/changes/2026-10-31-begin-debug-command-language.json)
 
+## 2026-10-31 — Begin the debugger command console
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a bounded Unicode command draft editor with selection, history, explicit submission, clipboard integration, IME and initial context-sensitive completion.
+- Add a debug-menu host panel that submits through the same identity-checked local-control client as the CLI and suppresses gamepad input while focused.
+- Consume synthetic focus-return key presses briefly after hiding the command panel, before main-window shortcut or held-key handling.
+
+**Validation**
+
+- Isolated Windows GNU test/menu/runtime builds passed without compiler messages; Wine editor2/parser2/protocol1/menu1 passed and 1510 frozen source hashes/20 overlays matched.
+- Wine/Xvfb synthetic GUI: malformed step 01 was not published, corrected step 1 matched the existing CLI complete state/clock; F9 stayed isolated and history recall/draft cancellation were visible.
+- Two intermediate visibility scripts accidentally resumed only the synthetic ROM after focus changed; both sessions were paused and closed with pinned inputs exact. UI trace then identified a synthetic Escape press delivered on focus return.
+- After the targeted fix, the Windows GNU test and production builds passed; one Wine/Xvfb traced hide/reopen/readonly help/window-close case preserved the selected Debug menu row and full guest state/frame0/clock0. An ordinary Escape still returned to Main. The synthetic press was observed and the isolated GUI/display closed with pins exact.
+- Atlas migration inventory check, project memory and whitespace checks are recorded separately at handoff.
+- A later synthetic Wine/Xvfb session with a new isolated prefix and display verified selection copy/cut, Unicode multiline clipboard paste and copied result JSON. The pasted draft round-tripped exactly, Enter refused it without publishing a primary command, and guest full state/frame0/clock0 and session pins stayed exact. The window and owned display closed and no process with the test prefix remained. The first cleanup command lacked wineserver in PATH and was corrected; the GUI log recorded one transient local-control access-denied warning while all tested queries returned successfully.
+
+**Limitations**
+
+- DBG2-13 and DBG2-14 remain open: real IME composition, complete menu/CLI/console equivalence and broader command coverage are not verified. Controller editing, context completion and replay-profile selection have separate bounded evidence.
+- The clipboard check used an isolated Wine prefix and Xvfb display; native Windows/Linux, physical input and real IME were not tested. A transient control-channel access-denied warning was observed without a failed query in this session; its cause was not established.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md), [MENU_ATLAS_INVENTORY.json](docs/development/MENU_ATLAS_INVENTORY.json).
+
+[Change record](docs/changes/2026-10-31-begin-debug-command-console.json)
+
 ## 2026-10-31 — Document safe retention of Wine test prefixes
 
 Type: docs. Platforms: Local development.
@@ -444,6 +2362,53 @@ Type: docs. Platforms: Local development.
 Documentation: [LOCAL_ARTIFACTS.md](docs/development/LOCAL_ARTIFACTS.md).
 
 [Change record](docs/changes/2026-10-31-audit-wine-prefix-retention.json)
+
+## 2026-10-31 — Preview and apply a cheat once in an isolated paused interpreter
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a source-bound, state-bound preview and explicit one-shot command shared by the debugger console and local control; recheck selected catalog, master checksum and exact ROM before applying.
+- Preflight all potential effects and apply ordered byte/halfword writes through the guest bus only to canonical EWRAM/IWRAM, with bounded RAM or KEYINPUT reads; reject unsupported native, IO-write, ROM and oversized paths.
+- Consume previews after success, preserve idempotent retries and refuse new recordings or state saves after an application until provenance support exists.
+- Report the one-shot lifecycle as partial coverage, including preparation, application and refusal boundaries.
+
+**Validation**
+
+- Frozen Windows GNU test/runtime builds passed; Wine passed cheat18 with one private test ignored, control30, command9, completion3 and registry3.
+- Wine/Xvfb isolated EUR interpreter proof used a synthetic block and verified three exact bus writes, unchanged frame/clock/registers during application, stale state/source/selection and wrong-token refusals, non-duplicating retry and unchanged protected originals; session and display closed.
+- A final frozen Windows build with event-coverage metadata passed; its targeted Wine coverage test passed without repeating the accepted GUI proof.
+- A separate Wine/Xvfb EUR isolated-copy observation applied CH-0334 once: both RAM values changed to the decoded plan, one frame advanced, and reopening the original seed restored complete state and both original values; guarded original inputs remained exact.
+- Operation inventory, Atlas inventory and whitespace checks passed.
+
+**Limitations**
+
+- This is a manual one-shot, not a hardware hook or maintained cheat; overlap management, provenance-aware replay, original-code game effects, disable/restore, native backend, broader memory and native Windows/Linux remain unverified.
+
+Documentation: [cheats.md](docs/cheats.md), [debug_control.md](docs/debug_control.md), [debug_events.md](docs/debug_events.md), [debug_operations.md](docs/debug_operations.md).
+
+[Change record](docs/changes/2026-10-31-apply-guarded-cheat-once.json)
+
+## 2026-10-31 — Align descriptor test with bank-zero owner
+
+Type: fixed. Platforms: Windows.
+
+**Changes**
+
+- Update the earlier descriptor integration test for e99: pointer0 is now typed while bank0 row0 and the bank22 gap remain raw.
+
+**Validation**
+
+- The existing e99 focused Wine integration already proved poisoned pointer0 and adjacent owner composition as well as raw row0; the earlier acceptance was not replayed.
+
+**Limitations**
+
+- This is a test-only expectation update; the earlier test itself was not rerun. Linux, USA and native Windows remain open; no performance measurements.
+
+Documentation: [rom_data_gameplay.md](docs/rom_data_gameplay.md).
+
+[Change record](docs/changes/2026-10-31-align-descriptor-test-with-bank-zero-owner.json)
 
 ## 2026-10-31 — Add Extra High Terra-led debugging with focused Sol diagnosis and return
 
@@ -497,6 +2462,132 @@ Type: docs. Platforms: Desktop documentation: Windows and Linux.
 Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [ROM_COVERAGE.md](docs/development/ROM_COVERAGE.md), [rom_data.md](docs/rom_data.md), [report_home.md](docs/report_home.md).
 
 [Change record](docs/changes/2026-10-31-add-readme-useful-commands-and-debug-unlock.json)
+
+## 2026-10-31 — Protect debugger request retries from duplicate execution
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add bounded per-run request identity tracking, fingerprint validation and retained-result replay; evicted results retain identity tombstones and never re-execute.
+- Add explicit debug-control retry with original run, request ID, deadline and typed action; preserve status and one reserved active cancellation when identity capacity is reached.
+
+**Validation**
+
+- Two standalone host ledger tests pass; the first direct rustc invocation lacked the parent module and was corrected.
+- Isolated Windows GNU test and production builds pass; Wine protocol 21 and ledger 2 tests pass. All 1513 frozen source hashes and 23 overlays remain exact (target/debug-tools-v2-request-idempotency-final).
+- Synthetic Wine/Xvfb: an explicit same-ID step retry returned the identical result without a second frame; changed parameters and a different run were refused without changing state.
+- A timed-out pending search retained its owner across same-ID retry; targeted cancellation and replay of its identical terminal result succeeded. Full final state and protected session pins remained exact, and the session and display closed.
+
+**Limitations**
+
+- DBG2-15 remains open for console-native recovery and broader menu/CLI/console parity; successful replay-profile selection and clipboard/IME validation are separate open criteria.
+- Identity and retained results are bounded and per-run: an evicted result is unavailable without re-execution; a distinct ID is a new action and a restarted run rejects the old identity. The caller must preserve the original run, ID, deadline and action.
+- Native Windows and Linux runtimes and physical controllers were not validated by this Wine test.
+
+Documentation: [debug_control.md](docs/debug_control.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-add-idempotent-debug-control-retry.json)
+
+## 2026-10-31 — Allow debugger clients to discover selectable content
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Expose an explicit asynchronous content refresh through the authenticated local-control channel and shared command language, reusing declared roots and existing bounded indexing. A cancelled or stale scan never replaces the current index.
+- Add a read-only paginated content list with exact generation checks, bounded display fields and stable selection IDs; keep listing available through the separate query mailbox during another job and reject unsupported older servers before publication.
+- Register content listing in the operation inventory and preserve every legacy Atlas contract while allowing uniquely named new operations.
+
+**Validation**
+
+- Two isolated Windows GNU test and production builds passed without compiler messages; the final build froze 1513 source files with no source or selected-overlay drift.
+- Wine passed the focused picker scan/page/cancellation/stale-context test and six command tests on the initial build; after correcting the new operation route metadata, the final build passed three registry and 22 protocol tests including old-server refusal without publication. The initial registry failure is retained in target/debug-tools-v2-content-discovery.
+- In a fresh synthetic Wine/Xvfb session, content listing before refresh was refused; explicit refresh and seven single-entry pages discovered a synthetic catalog, selection by the returned ID preserved its hash, and a mismatched generation was refused. No menu navigation, guest execution or state/frame/clock change occurred; session and source pins remained exact. An initial display-start pipe failure was diagnosed and retained; the corrected display launch succeeded.
+
+**Limitations**
+
+- DBG2-13 through DBG2-28 remain open: this covers discovery and selection, not full menu/CLI/console parity, all assistant procedures, clipboard/IME or physical controllers.
+- Scans use the existing declared roots and bounded budgets. The listing may be partial when the scanner reports truncation; names and paths can be display-truncated, and selection independently rechecks the full reference. Cancellation discards results after the worker returns rather than forcibly interrupting filesystem operations.
+- Native Windows and Linux runtime behavior were not tested. The live check covered successful refresh, pagination and selection; scan cancellation and stale-context rejection were exercised by the focused worker test.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-add-debug-content-discovery-commands.json)
+
+## 2026-10-31 — Allow explicit request retries from the debugger command console
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add a bounded textual retry command to the shared CLI and console parser, accepting the original run, request ID, deadline and typed action, including content selection by ID.
+- Reuse the authenticated, fingerprinted per-run mailbox and result ledger; reject nested retries, readonly status, help and malformed identity rather than sending them. Add command discovery and contextual syntax help.
+
+**Validation**
+
+- An isolated Windows GNU test and production build passed without compiler messages; 1513 frozen sources and the selected overlays remained exact.
+- Wine passed five command-parser tests and three completion tests, including retry selection, typed action equivalence, malformed, readonly and nested-command rejection.
+- In one synthetic Wine/Xvfb session a CLI step advanced exactly one frame, the real command panel retried the original identity and received the identical terminal JSON, and changed step parameters were refused as an identity conflict. Full guest state, frame and clock remained exact thereafter; the session closed and protected pins matched.
+
+**Limitations**
+
+- The caller must retain the original run, request ID, deadline and action; retries are explicit and results remain bounded and available only in the current run. A new ID creates a distinct action.
+- The Wine GUI proof covers a completed step; selection retry is covered by typed parser tests and the previously validated common ledger, not a separate live selection retry. Native Windows, Linux and physical controllers were not tested.
+- DBG2-13 through DBG2-28 remain open; broader command parity, result presentation and assistant procedures still need implementation and verification.
+
+Documentation: [debug_control.md](docs/debug_control.md), [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-add-debug-command-retry.json)
+
+## 2026-10-31 — Add controller editing to the debugger command console
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add an edge-triggered on-screen controller keyboard with punctuation pages, recent commands, presets, explicit submission and neutral arming.
+- Route selected controller navigation to the focused command panel while blocking guest and menu input; require neutral controller polls after the panel loses focus.
+
+**Validation**
+
+- Two new controller model tests pass under Wine and on the Linux host; isolated Windows GNU test and production builds pass without compiler messages.
+- Wine/Xvfb with simulated XInput selects and submits the status preset, recalls and cancels a draft, and closes with confirm held for 700ms while full guest state/frame0/clock0 and the underlying menu stay unchanged. Synthetic helpers and session pins remain exact.
+- The first small-window screenshot was cropped by a direct X11 resize, which was not valid Windows resize evidence. After replacing unsupported arrow glyphs, a rebuilt Windows runtime and SetWindowPos test at a 480×360 client area showed all 49 labels; guest state and session pins remained exact. The changed labels passed the two host controller tests and 1511 frozen sources/21 overlays matched.
+
+**Limitations**
+
+- DBG2-14 remains open: physical controllers, IME and clipboard interaction, complete contextual help/completion and full menu/CLI/console equivalence are unverified or incomplete.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-add-debug-command-controller-keyboard.json)
+
+## 2026-10-31 — Add contextual debugger command completion
+
+Type: added. Platforms: Windows GNU / Wine.
+
+**Changes**
+
+- Add bounded, quote-aware command completion for names, supported options, values, selected catalog/profile IDs and the current pending request ID, preserving tokens around the cursor.
+- Show contextual command syntax in the panel and reuse the same completion for keyboard and controller without submitting or executing the draft.
+- Allow repeated Tab or the controller Complete key to cycle ambiguous suggestions in the draft, invalidating the cycle when the draft or candidate sources change.
+
+**Validation**
+
+- Standalone host completion3/editor2 pass; an initial test used an invalid hard-coded cursor and was corrected.
+- Isolated Windows GNU test and production builds pass without compiler messages; Wine completion3/editor2/parser4 pass. The 1512 frozen source files and 22 overlays match.
+- Actual Wine/Xvfb console: completing --k at an interior cursor preserves the following value; keyboard Tab and simulated XInput Complete cycle watch read/write in the draft without publishing a command. Full guest state/frame0/clock0, runtime and synthetic helper match; GUI/display closed with session pins exact.
+- Win32 SetWindowPos at a 480×360 client showed the contextual watch syntax over two readable lines; keyboard grid remained visible.
+
+**Limitations**
+
+- DBG2-13/14 remain open: live replay profile selection, real pending cancellation/deadline and full menu/CLI/console equivalence are not verified.
+- Physical controllers, native Windows/Linux runtime and IME/clipboard interactions remain unverified; dynamic pending-request completion is covered by synthetic model tests, not an active-job GUI proof.
+
+Documentation: [debug_operations.md](docs/debug_operations.md), [DEBUG_TOOLS_V2_TODO.md](docs/development/DEBUG_TOOLS_V2_TODO.md).
+
+[Change record](docs/changes/2026-10-31-add-debug-command-context-completion.json)
 
 ## 2026-10-30 — Verify actual European world-record CLI creation and startup
 

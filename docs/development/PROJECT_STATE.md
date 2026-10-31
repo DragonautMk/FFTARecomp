@@ -12,6 +12,16 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
 
 ## Architecture and current scope
 
+- The readonly [cheat catalog](../cheats.md) has an explicit plaintext or
+  caller-supplied seeded inspection for a bounded CodeBreaker subset. A
+  source-bound plan can be manually applied once in a paused isolated interpreter
+  after a state-bound preview and source/ROM/checksum recheck. Explicit source/master inspection decodes master metadata and
+  can compare its checksum against supplied ROM bytes; seven priority EUR
+  entries have static source/CRC and mGBA comparison evidence; CH-0334 also has
+  a bounded isolated RAM before/after and fresh-seed restoration proof. Device
+  behavior, native hook handling and gameplay effects remain unverified.
+  Maintained cheats, conflict handling and provenance-aware replay remain open.
+
 - The explicitly requested [private debug-assets export](../private_debug_assets.md)
   builds a separate ignored Windows portable ZIP from the user's selected local
   catalog/saves/snapshots, verified source manifest and completed recordings.
@@ -30,7 +40,7 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   sections), fixed shell and internal list/detail scrolling. Legacy handlers,
   confirmations, DS/content selectors and 9/99 slots remain in use; the readonly
   operation and 28-task references do not execute CLI strings or future tools.
-  DBG2-01..12 retain their current completed status; later tasks remain planned.
+  DBG2-01..12 retain their current completed status; DBG2-13/14 are in progress.
   `ff.percent` adds100..800% in20-point steps while preserving legacy
   `ff.speed`2/4/8. The rational frame batch clock preserves each complete guest
   frame/clock; fast audio uses fractional playback ratios. Menu-only shoulder
@@ -71,7 +81,19 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   future work. Third-party source collections and their derivatives stay local
   while redistribution permissions are unverified. Regions/device formats and
   source-specific master codes remain distinct; static preservation checks do
-  not establish runtime compatibility. This adds no cheat execution support.
+  not establish runtime compatibility. The readonly `debug-cheats` CLI builds a
+  bounded in-memory index with ordered entries and source metadata, disabled
+  states and explicit unknown/unsupported/unverified compatibility. A separate
+  readonly Cheat view reuses the content selector for explicit import, search
+  and details; opening an entry never decodes or applies it. Exact known EUR/USA
+  ROM hashes now provide source-declared region comparisons without treating
+  them as code verification; device version stays unknown. The public portable
+  whitelist includes the guide, excludes catalog payloads and ignores imported
+  `cheats/` folders. The isolated local channel and command console can select
+  a catalog by ID and asynchronously refresh a pinned readonly snapshot, then
+  query bounded pages and UTF-8 detail chunks while another job is pending.
+  Source verification is at refresh, not continuously. Cheat execution and
+  verification remain unfinished.
 
 - The [integrated debug follow-up](DEBUG_TOOLS_V2_TODO.md) is in implementation.
   DBG2-01 adds the readonly [operation contract](../debug_operations.md):
@@ -134,8 +156,35 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   bounds retained/search data and shares immutable frozen entries; its Wine
   synthetic load and off/on state/clock comparison pass. Restored snapshots with
   channel taps disabled use faithful host audio/pacing without rewriting state;
-  short Wine queue observations pass, native/audible coverage remains open. The broader
-  checklist specifies built-in selection of existing
+  short Wine queue observations pass, native/audible coverage remains open.
+  DBG2-13/14 work now has a partial typed command parser, local-control adapter
+  and initial command panel; its Wine synthetic step, focus-return and simulated
+  XInput keyboard checks pass. Quote-aware option/ID completion and cycling
+  have selected Wine GUI/model coverage. An isolated Wine clipboard check covers
+  copy/cut, Unicode multiline paste, rejection on submit and copied result JSON;
+  actual IME composition remains unverified. Wine also verifies CLI and console
+  selection of synthetic replay profiles by ID without starting a replay;
+  physical-controller checks and full equivalence remain open. See
+  [the command operations](../debug_operations.md).
+  A bounded Wine search also verifies targeted cancellation and a client/server
+  deadline; terminal local-control replies no longer list the completed job as
+  pending. Same-run explicit CLI and textual-console retries use bounded
+  identity tracking; Wine confirms a console retry does not repeat a step.
+  Mailbox inputs are atomically claimed before reading, so consuming an older
+  request cannot remove a later publication; transient claim failures retry.
+  Explicit authenticated content refresh and generation-checked paginated
+  listing now allow Wine-tested ID selection without navigating the menu.
+  The command panel shows verified session/ROM identity and throttled pending
+  job parameters and progress; Wine verifies a search at minimum window size.
+  Local parse, compatibility and availability failures now have distinct
+  structured outcomes; transport failures do not claim delivery was prevented.
+  The selected replay profile can be run in four modes through the shared
+  command channel with worker progress, terminal result and request-ID cancel;
+  Wine synthetic profiles verify routing and retry, while a deliberately slow
+  synthetic child verifies supervisor cancellation and deadline handling. A
+  separate Wine panel submission verifies replay and copied terminal JSON.
+  Broader DBG2-15 result presentation and assistant procedures remain open.
+  The broader checklist specifies built-in selection of existing
   inputs/profiles/scripts with external file dialogs only from explicit buttons,
   editable tool parameters, optional live event and textual command consoles,
   shared menu/CLI/local-control operations and an isolated cheat menu grounded in
@@ -1676,7 +1725,37 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   alias without duplicating its banks. Wine verifies publication and 42 original
   interpreter selector prefixes with full state/clock. Six original translated
   prefixes also match raw interpreter state/clock in 24 selected cases with
-  typed callback reads; positive ordinary use, Linux and USA remain pending.
+  typed callback reads. The production CLI creates and reuses e95-d94 and
+  loads all 85 resources for a Wine neutral frame. One separate Bank entry
+  shows two typed alias reads; a 120-frame same-input pair matches complete
+  state/clock, video and audio. Other paths, Linux and USA remain pending.
+  EUR e96-d95 additionally owns the conditional 74-row lookup at `6e6dbc`;
+  outside-projection selectors preserve their original reads. Strict managed
+  activation, selected translated reader prefixes and production CLI
+  create/reuse/startup pass on Wine. An ordinary 540-frame Ability scene uses
+  both fields and matches raw state/clock, video and audio each frame; other
+  scenes and Linux/USA remain pending. See [lookup evidence](../rom_data_gameplay.md#ordinary-ability-scene-differential).
+  EUR e97-d96 adds the adjacent conditional packed lookup for indices 1–33;
+  Wine confirms managed publication, translated prefixes and production CLI,
+  including preservation of the existing metadata14 alias. Ordinary use remains to verify;
+  see [packed lookup evidence](../rom_data_gameplay.md#managed-conditional-packed-lookup).
+  EUR e98-d97 also projects 23 conditional descriptor pointers and 684 records;
+  the excluded bank-0 pointer and bank-22 gap stay raw. Wine validates managed
+  publication, original translated prefixes, production CLI and a 540-frame
+  Ability scene using pointers and fields 0/2. Later bounded Battle Tech and
+  Steal scenes also cover kind, byte 7 and field 4 with Wine full-frame pairs;
+  these do not establish all-record or all-scene coverage. See
+  [descriptor evidence](../rom_data_gameplay.md#ordinary-battle-tech-descriptor-information).
+  EUR e99-d98 adds descriptor pointer 0 and conditional bank-0 rows 1–15;
+  row 0 remains raw. Wine validates managed publication, adjacent-owner
+  composition and production CLI. Wine Item-info and battle Item-menu pairs
+  cover its pointer and all represented field types in bounded scenes. See
+  [bank-0 evidence](../rom_data_gameplay.md#ordinary-item-info-access-to-descriptor-bank-0).
+  EUR e100-d99 adds 35 property-selected u32 masks; managed activation,
+  adjacent-owner composition and an original native prefix pass on Wine.
+  Production CLI create/reuse/startup and a bounded headgear scene differential
+  also pass on Wine, with positive typed mask reads. See
+  [mask evidence](../rom_data_gameplay.md#conditional-property-selected-mask-table).
 
 
 

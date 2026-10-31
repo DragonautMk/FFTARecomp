@@ -50,7 +50,8 @@ mappa versionata dei produttori supportati, condizionali, parziali e mancanti.
 `status.event_clock` espone identità e prossimo numero. Restano mancanti gli
 hook raw Gilrs/DirectInput, i percorsi touch/pen assenti dal frontend, tutti i
 dati dei cicli di vita non strumentati, gli interni dei
-blocchi native, la cronologia CPU completa e callback audio/cheat futuri.
+blocchi native, la cronologia CPU completa, i callback audio grezzi e il ciclo
+di vita dei futuri cheat mantenuti.
 Un produttore non registrato è marcato `unknown/unregistered`.
 
 I limiti dei collector restano separati: [UI](debug_ui.md) conserva un prefisso
@@ -195,7 +196,9 @@ comportamento prolungato su Windows o Linux nativi.
 
 `runtime-event` aggiunge famiglia, fase, esito e dettagli limitati sul medesimo
 clock. `event_coverage.runtime_families` descrive origine, frequenza, requisiti e
-scope di18famiglie; cheat resta riservata finché esiste un handler verificato.
+scope di18famiglie. La famiglia cheat è parziale: l'handler manuale pubblica
+preparazione, applicazione singola e rifiuto; non copre toggle mantenuti,
+disattivazione o cronologia dell'hook originale.
 La disponibilità degli hook non equivale a validazione hardware o parità guest.
 
 `start_observed` indica che un consumer era attivo alla sorgente, non garantisce

@@ -47,7 +47,10 @@ def render():
     ops=json.loads((ROOT/'crates/recomp/src/debug_operations.json').read_text())['operations']
     commands=set(re.findall(r'\n\s*"([a-z][a-z0-9-]+)"\s*=>',cli)) | {o['cli']for o in ops if o['cli']}
     assert set(base['cli_commands'])<=commands
-    contracts=[{k:o[k]for k in base['operation_contracts'][0]}for o in ops]
+    ids=[o['id'] for o in ops]
+    assert len(ids)==len(set(ids)),'Duplicate operation IDs'
+    legacy_ids={o['id'] for o in base['operation_contracts']}
+    contracts=[{k:o[k]for k in base['operation_contracts'][0]}for o in ops if o['id'] in legacy_ids]
     assert contracts==base['operation_contracts'],'CLI handlers, parameters or safety contracts changed'
     return dict(schema=1,baseline_commit=base['baseline_commit'],legacy_pages=len(base['page_rows']),legacy_rows=len(mapping),legacy_actions=base['menu_actions'],new_actions=sorted(set(current_actions)-set(base['menu_actions'])),row_routes=mapping,operations=[dict(id=o['id'],handler=o['handler'],cli=o['cli'],current=o['menu']['current'],destination=o['menu']['destination'],menu_implemented=o['menu']['implemented'],reference='readonly')for o in ops])
 
@@ -56,4 +59,4 @@ if __name__=='__main__':
     result=json.dumps(render(),indent=2,ensure_ascii=False)+'\n'
     if args.check:assert DEST.read_text()==result,'Atlas inventory is stale; regenerate it'
     else:DEST.write_text(result)
-    print('Atlas inventory: 190 legacy row occurrences, 54 legacy actions and 97 operation contracts preserved')
+    print('Atlas inventory: 190 legacy row occurrences, 54 legacy actions and 97 legacy operation contracts preserved')

@@ -69,15 +69,21 @@ pub(crate) fn coverage()->Value{
             Family::Audio=>("frontend/existing audio diagnostic status","changed counters at most4Hz","audio diagnostic armed; actual stream availability remains explicit","Existing block/frame/byte counters only. No new callback I/O, host clock reads in callbacks or PCM dump from this producer"),
             Family::Ui|Family::Recent=>("frontend/existing collector owner","arm/freeze/report and changed lifecycle state at most4Hz","explicit collector action","Own event counts/clock deliberately excluded to avoid feedback. Existing consumer caps and freeze policies still apply"),
             Family::Report=>("frontend/graphics and issue report handlers","explicit publication/result boundary","existing readonly report preflight","New artifact path only when the handler actually changed its output; refused generation may still publish an error artifact"),
-            Family::Cheat=>("reserved common family","unavailable until cheat implementation","future verified cheat handler","No cheat execution support is added by this registry; future activation/apply/refusal/deactivation use the same channel"),
+            Family::Cheat=>("frontend guarded one-shot handlers","explicit prepare, apply and refusal boundaries","enabled collector and isolated paused interpreter session","Only manual one-shot preview/application/refusal; no maintained toggle, deactivation or guest hook chronology"),
         };
-        json!({"family":family.key(),"origin":origin,"frequency":frequency,"requires":requires,"scope":scope,"state":if family==Family::Cheat{"reserved"}else{"instrumented"}})
+        json!({"family":family.key(),"origin":origin,"frequency":frequency,"requires":requires,"scope":scope,"state":if family==Family::Cheat{"partial"}else{"instrumented"}})
     }).collect::<Vec<_>>();
     json!({"schema":1,"kind":"ffta-runtime-event-coverage","families":families,"max_active_jobs":MAX_ACTIVE,"max_detail_bytes":DETAIL_LIMIT,"progress_interval_ms":250,"notes":"Coverage describes hook availability; platform validation is recorded separately. Payload details are bounded; request/job identity and outcome remain outside truncated details. Registry never dispatches jobs or guest instructions"})
 }
 
 #[cfg(test)]mod tests {
     use super::*;
+    #[test]
+    fn cheat_coverage_describes_one_shot_as_partial(){
+        let value=coverage();let families=value["families"].as_array().unwrap();
+        let cheat=families.iter().find(|v|v["family"]=="cheat").unwrap();
+        assert_eq!(cheat["state"],"partial");assert!(cheat["scope"].as_str().unwrap().contains("one-shot"));
+    }
     #[test]
     fn async_context_survives_other_requests_and_cannot_overwrite_a_live_job(){
         let clock=Clock::default();let mut jobs=Jobs::default();

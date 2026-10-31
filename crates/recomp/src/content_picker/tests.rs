@@ -16,6 +16,7 @@ fn fixture() -> (tempfile::TempDir, Picker, menu::Menu) {
     let mut p = Picker::default();
     p.roots = vec![Root::new(t.path(), false).unwrap()];
     let mut m = menu::Menu::new(true, true);
+    m.set_debug_enabled(true);
     p.open(&mut m, "a".repeat(64)).unwrap();
     (t, p, m)
 }
@@ -249,7 +250,8 @@ fn saved_restore_fixture() -> (tempfile::TempDir, Picker, menu::Menu) {
     let memory = Memory::load(anchors, &"a".repeat(64)).unwrap();
     p.context = Some(memory.context.clone());
     p.memory = Some(memory);
-    (t, p, menu::Menu::new(true, true))
+    let mut menu=menu::Menu::new(true,true);menu.set_debug_enabled(true);
+    (t,p,menu)
 }
 #[test]
 fn saved_restore_survives_leaving_the_picker_without_opening_pages_or_selecting_content() {

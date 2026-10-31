@@ -130,6 +130,7 @@ fn missing_and_foreign_inputs_refuse_before_profile_or_preset_creation() {
 fn late_preset_read_after_back_and_reopen_cannot_replace_the_current_draft() {
     let t = tempfile::tempdir().unwrap();
     let mut menu = menu::Menu::new(true, true);
+    menu.set_debug_enabled(true);
     let mut w = Workbench::default();
     w.open(&mut menu, Tool::Step);
     let (_, _, revision) = menu.tool_values();

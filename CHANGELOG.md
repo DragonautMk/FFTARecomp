@@ -3,6 +3,163 @@
 Unreleased development changes. Generated from `docs/changes/*.json`.
 Edit the structured records, then run `python3 scripts/project_memory.py render`.
 
+## 2026-10-31 — Verify European raw transfers during ordinary boot
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Verify ordinary e93 raw UI transfer consumption during a retained European clean boot under Wine.
+
+**Validation**
+
+- Production CLI on the retained 1200-frame input reports 1372 reads, 5488 served bytes including 16 selector and 5472 payload bytes, four banks and four groups; 92 protected inputs and managed files retain hashes and modification times.
+- The existing runtime test executable compares all 1200 full serialized states and clocks, central and wide images, OAM, dispatch and five audio streams successfully using the same 605 sources, dataset, input and native cache. No new build or old acceptance replay.
+- A first Wine invocation could not create its server lock inside the sandbox and produced no game result; the two successful Wine checks used sandbox escalation.
+
+**Limitations**
+
+- The ordinary result covers one European boot; other paths, dynamic 6F8 domain and full caller ABI remain open. Both comparison arms use the same native cache and do not prove global interpreter/native parity.
+- New Linux, USA and native Windows checks remain pending, as does the broader ROM data TODO. No performance measurement.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-verify-european-raw-transfers-boot.json)
+
+## 2026-10-31 — Model bounded European dynamic raw transfer fragments
+
+Type: added. Platforms: Windows.
+
+**Changes**
+
+- Add a strict lossless source model for six selector rows and five bounded dynamic raw transfer bank prefixes without creating a runtime owner or guest index cap.
+
+**Validation**
+
+- One core-only Windows build from the retained runtime snapshot and one focused Wine test pass exact reconstruction and per-byte lookup of 1304 EUR source bytes, seven boundaries, JSON roundtrip, shape rejection and source/ROM authentication rejection; protected inputs unchanged.
+- Initial preparation stopped before compilation on an overly narrow inverse guard; the guard was corrected and the first actual build and test passed.
+
+**Limitations**
+
+- Source-only model; original transfer execution, managed extraction, native reads, actual CLI and ordinary dynamic use remain unverified. Other indices and global producer domain remain open.
+- New Linux, USA and native Windows checks remain pending. No performance measurement or old proof replay.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-model-european-dynamic-raw-transfer-fragments.json)
+
+## 2026-10-31 — Hide debug menus until a persistent directional unlock or config override
+
+Type: changed. Platforms: Shared desktop menu; Windows GNU release validated through Wine.
+
+**Changes**
+
+- Default av.cfg debug=false. Reveal Debug with Up Up Down Down Left Left Right Right on the shared menu input edges, set debug=true and use the existing overlay preference-save action. Support manual debug=true at startup and false to hide it again without deleting stored debug choices.
+- Hide and guard the Debug domain, planned Event/CMD controls, references/tools/selectors and debug-only Extended saves/Game saves entries while locked. Keep ordinary game menus/slots/backups and independent CLI/session ownership guards; F6/F7/F8 isolated-session shortcuts additionally require the unlocked flag.
+- Observe directions during normal menu navigation; handle overlapping prefixes and mismatches. Reset partial input on menu reset, Confirm/Cancel, focus/details and pointer interactions; capture, dropdown and text editors cannot unlock. Mouse-wheel navigation explicitly clears the sequence.
+- Use the actual locked constructor in three new visibility/sequence/exclusion tests, with a default/manual-roundtrip parser test. Adapt pre-existing Debug route and host Picker/Workbench fixtures to explicitly enable their intended unlocked context instead of weakening the production default.
+
+**Validation**
+
+- Locked/offline Windows GNU release production recomp/ffta-play and menu/config test builds passed without diagnostics. Wine parser1PASS and97distinct menu casesPASS with1optional export ignored. First run had96PASS/1legacyGameSaves fixture failure; corrected only its unlock setup and reran that single case successfully.
+- Final Windows recomp test build passed without diagnostics; ran only8content_picker cases and1late-preset Workbench case on Wine, allPASS, with the synthetic fixture factory ignored and the rest of the556-case runtime suite unrun.
+- Actual paused EUR GUI with simulated native XInput passes hidden initial domain/planned/save controls, keyboard and pad unlock only at the eighth direction, actual debug=true config publication, reopened unlocked Debug page, manual debug=false restart relock, and another pad unlock. Captures visually inspected; no tool execution or guest frame step.
+- All3private original input hashes and full guest state/frame/clock/keys/registers preserved across the three GUI openings. Runtime7b3b9f2ef2f4d42e615280950c49498a3c3ca842744ee951af3729858de82114 matches its immutable session pin; leases and owned runtime/display processes closed.
+- Preservation verifies293production-source identities with exact cfg(test)-only differences for3final fixture files; all final menu/config assets and host-test source snapshots match. The production-excluded test changes did not require repeating the accepted GUI or production build. Evidence under target/menu-debug-unlock: build/test results, gui/acceptance.json, images/text reports and final-preservation.json.
+- Atlas task/inventory checks retain28task references,190legacy row occurrences,54legacy actions and97operation contracts. Earlier menu/contextual-controls/workflow and concurrent ROM documentation changes are preserved, not reattributed or revalidated by this unit.
+
+**Limitations**
+
+- Linux, native Windows, physical controllers, DirectInput/Gilrs, USA and Android remain unverified. No benchmarks, gameplay/checkpoint derivation, original input writes, release packaging, commit or push.
+- This is persistent menu visibility, with existing debug action/session preflights unchanged. Manual config edits apply on restart; existing debug preferences and files remain intact while hidden.
+- Accepted/current/pinned executables, diagnostic failed-test output and private copied inputs remain under ignored target/menu-debug-unlock. No managed ROM interrupted/moved dataset copies exist; the known ROM-only cleanup-helper refusal is inapplicable and was not repeated or bypassed.
+
+Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md), [debug_tools.md](docs/debug_tools.md), [extended_saves.md](docs/extended_saves.md), [debug_selector.md](docs/debug_selector.md).
+
+[Change record](docs/changes/2026-10-31-hide-debug-until-persistent-menu-unlock.json)
+
+## 2026-10-31 — Default menu transparency to10% and clarify sidebar focus with input-specific controls
+
+Type: changed. Platforms: Shared desktop menu; Windows GNU release validated through Wine.
+
+**Changes**
+
+- Default menu.transparency to0.1 for missing/invalid settings while preserving explicit saved values, including0. Update the existing parser and pixel tests without altering user configuration files.
+- Distinguish the sidebar cursor from the active section with an opaque brass background, dark text and a leading marker. The cue also covers the domain/back controls and remains visible at full background transparency.
+- Follow the last intentional keyboard/mouse or existing XInput/Gilrs/DirectInput activity for menu hints, with the configured device only as initial fallback. Neutral connection/unchanged held states do not override a subsequent keyboard action; no new binding or profile persistence is introduced.
+- Show real keyboard navigation equivalents (arrows/Enter/Escape/Tab/F1/Shift+Tab) or the existing Xbox gamepad labels (D-pad/A/B/X/RS CLICK/Y/LB/RB/LT/RT), including the opening-menu binding, Back, Details, Debug tabs and reference hints. Keyboard volume/speed guidance uses the existing confirmed option editor, not nonexistent media hotkeys.
+
+**Validation**
+
+- Locked/offline Windows GNU release test and production recomp/ffta-play builds passed without diagnostics. Four focused Wine cases passed: existing transparency parser1, new contextual hints/focus2, existing explicit opaque/transparent pixel1. No full menu/recomp/Linux suite or older acceptance was repeated.
+- An initial synthetic test referenced a PlayStation enum removed by the current Xbox-only label policy. Corrected that test assumption without changing controller-layout support; compiler diagnostics/source hashes retained under target/menu-context-controls.
+- Actual paused EUR GUI with simulated native XInput passed: keyboard Left highlights the sidebar distinctly, pad Down moves the marker, labels/opening bindings switch by last input while profiles stay byte-identical, and keyboard hints survive a static held pad. Actual text metrics verify unclipped hint lines at854x480 and640x480; captures visually inspected.
+- GUI with no menu.transparency key displays10% in the picker. Cancel leaves av.cfg unchanged; full guest state/frame/clock/keys/registers and all3private original inputs retain identity. Current runtime matches its immutable session pin.
+- Final preservation verifies291frozen Rust source hashes, the pre-existing user comment indentation, private inputs and process/lease closure. Four unrelated workflow files received concurrent Extra High/xhigh wording updates; observed and retained, never written/reverted or attributed to this task.
+
+**Limitations**
+
+- Linux/Gilrs and DirectInput runtime paths, native Windows, physical controllers, USA and Android remain unverified. No performance measurements, guest stepping, game-data changes, release package, commit or push.
+- GUI evidence and current/diagnostic executables are local ignored files under target/menu-context-controls. No managed ROM interrupted/moved dataset copies exist; the known ROM-only cleanup-helper refusal is not repeated or bypassed.
+- Existing explicit transparency preferences are preserved; changing the default does not force previously saved0% or other values to10%. Controller labels retain the current project-wide Xbox policy.
+
+Documentation: [menu_clan_atlas.md](docs/menu_clan_atlas.md).
+
+[Change record](docs/changes/2026-10-31-default-menu-transparency-and-contextual-controls.json)
+
+## 2026-10-31 — Classify bounded European dynamic raw transfer producers
+
+Type: docs. Platforms: Windows.
+
+**Changes**
+
+- Trace the dynamic raw transfer setter and classify explicitly supplied selectors 7, 8 and 9 without inventing a global index bound.
+
+**Validation**
+
+- Static exact-ROM inspection authenticates 24 direct setter calls, six literal selector calls, two live-byte callers and the task transition/transfer instructions. Six four-byte rows and five 256-byte candidate bank fragments total 1304 bytes and do not overlap the 84 e93 manifest resources; 87 guarded files remain unchanged.
+
+**Limitations**
+
+- The source inspection does not prove ordinary dynamic-path execution, global bounds, full ABI, other indices or a new managed runtime owner. Two callers obtain an unconstrained live byte; helper/task-state gates remain active.
+- No build, guest replay, performance measurement or old proof repeated; new Linux and USA verification remain pending.
+
+Documentation: [rom_data_ui_raw_transfers.md](docs/rom_data_ui_raw_transfers.md), [ROM_DATA_TODO.md](docs/development/ROM_DATA_TODO.md).
+
+[Change record](docs/changes/2026-10-31-classify-european-dynamic-raw-view-producers.json)
+
+## 2026-10-31 — Add Extra High Terra-led debugging with focused Sol diagnosis and return
+
+Type: added. Platforms: Codex agent workflow.
+
+**Changes**
+
+- Add the discoverable ffta-debugging project skill: GPT-6.1 Terra leads debugging and consults GPT-6.1 Sol when diagnosis or a useful next check is unclear, two targeted attempts stall, or evidence contradicts a proposed fix. Both require Extra High (xhigh) thinking; Sol delegation explicitly sets xhigh and only matching consultants can be reused.
+- Define a bounded self-contained diagnostic packet, independent Sol context, read-only consultant contract, explicit model request and telemetry limits; Terra resumes implementation and focused validation with new evidence required before another consultation.
+- Route debugging through AGENTS and an Italian operating guide, preserving user changes and paused/completed tasks; document app startup, per-run CLI model and xhigh overrides, existing Windows/Linux game startup, unavailable-tool/model/effort fallback and CLI compatibility without changing global configuration.
+- Update project memory entry points and selected-task handoff conventions for consultation evidence and return actions.
+
+**Validation**
+
+- Final bundled skill quick validation passes; AGENTS routing is reviewed and all 18 local links in AGENTS, the new skill and operating guide resolve.
+- The original synthetic smoke requested a Terra primary with medium reasoning and exactly one Sol consultant with high reasoning; the menu fixture first failed with P dispatching replay, Sol diagnosed late-bound action closures, and the primary applied the minimal binding fix and passed all three distinct menu actions. Receipt: target/agent-workflow-terra-sol/smoke-result.json. This accepted smoke was not repeated for the later xhigh policy requirement.
+- Initial git diff inspection identifies only the user-owned menu_transparency documentation indentation in crates/input-config/src/lib.rs; this workflow leaves it untouched and does not claim coverage for it.
+- Project-memory metadata-only validation and git diff --check pass. At the latest full check, user/concurrent coverage gaps are crates/input-config/src/lib.rs, crates/menu/src/atlas_theme.rs, crates/menu/src/controls.rs, crates/menu/src/controls/tests.rs, crates/menu/src/interaction/tests.rs, crates/menu/src/lib.rs and crates/recomp/src/play.rs. All workflow implementation paths are covered; the unrelated files are not attributed to this unit.
+- Final inspection retains the original menu_transparency comment indentation and observes additional concurrent menu/runtime changes, including transparency defaults and native control work; all are preserved and excluded from this workflow record. This workflow does not resume DBG2-10.
+- Parse the updated startup command with shell tokenization and TOML: Terra model and xhigh effort, Sol default model and xhigh default effort are correct. Parse the actual skill JSON payload: Sol model, independent context and explicit xhigh effort are correct. No model session is launched for this static validation.
+- Read current play command dispatch/help, launcher implementation, README and portable guide; verify that target/release/recomp and dist/docker-windows/FFTARecomp-windows-portable.zip exist. Startup instructions are source/artifact inspection, not a game launch or rebuilt executable claim.
+
+**Limitations**
+
+- The collaboration API returns agent handles without effective-model/effort metadata; exact model requests and the original delegation/return sequence are observed, while actual resolved settings are not independently confirmed. The later xhigh requirement is validated as workflow/launch configuration, not by rerunning that smoke.
+- Synthetic routing validation does not establish diagnostic quality on real game bugs, native Windows/Linux behavior, or deterministic stall detection. No game build, replay, GUI session, package, commit or push is part of this workflow unit.
+- The inspected local codex-cli is 0.110.0; official documentation requires 0.159.0 or later for Terra CLI use. Initial primary-model selection and model/tool availability remain client/account prerequisites; no global upgrade is performed.
+- The full working-tree memory check remains nonzero because unrelated user/concurrent input-config, menu and runtime changes lack their own changed records at the observed checkpoint. This workflow neither attributes those changes to itself nor changes checker policy to hide them.
+
+Documentation: [AGENTS.md](AGENTS.md), [SKILL.md](.cursor/skills/ffta-debugging/SKILL.md), [DEBUGGING_WORKFLOW.md](docs/development/DEBUGGING_WORKFLOW.md), [MEMORY_WORKFLOW.md](docs/development/MEMORY_WORKFLOW.md), [TASK_HANDOFF.md](docs/development/TASK_HANDOFF.md).
+
+[Change record](docs/changes/2026-10-31-add-terra-sol-debugging-workflow.json)
+
 ## 2026-10-30 — Verify actual European world-record CLI creation and startup
 
 Type: docs. Platforms: Windows.

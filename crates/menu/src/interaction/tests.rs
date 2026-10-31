@@ -93,7 +93,7 @@ fn input_device_tabs_are_navigation_until_confirm() {
 #[test]
 fn transparency_reveals_game_pixels_and_preserves_foreground_and_scope() {
     let menu = Menu::new(true, true);
-    let mut av = AvConfig::default();
+    let mut av = AvConfig {menu_transparency:0.,..Default::default()};
     let cfg = InputConfig::default();
     let mut opaque = vec![[110, 70, 190, 255]; 854 * 480];
     let mut transparent = opaque.clone();
@@ -113,7 +113,7 @@ fn transparency_reveals_game_pixels_and_preserves_foreground_and_scope() {
 
 #[test]
 fn tool_choices_require_ok_and_cancel_never_changes_the_committed_draft() {
-    let mut menu = Menu::new(true, true);
+    let mut menu = Menu::unlocked_for_test(true, true);
     let mut av = AvConfig::default();
     menu.open_tool(
         DebugTool::Inspect,

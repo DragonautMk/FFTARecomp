@@ -1,5 +1,8 @@
 # Selettore integrato dei contenuti debug
 
+La scheda richiede lo [sblocco persistente di Debug](menu_clan_atlas.md#sblocco-permanente-di-debug):
+**↑ ↑ ↓ ↓ ← ← → →** nel menu, oppure `debug = true` in `av.cfg` e riavvio.
+
 DBG2-03 aggiunge **Debug > Content selector**, una pagina riutilizzabile sopra
 il [catalogo comune](debug_content.md). La scelta confermata è un riferimento
 host: nessun replay, script, caricamento di stato o cheat parte selezionandola.

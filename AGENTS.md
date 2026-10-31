@@ -34,6 +34,21 @@ directly when the client has not listed it in its skill catalog:
   Windows builds, runtime checks, performance comparisons and packaging.
 - [ffta-project-memory](.cursor/skills/ffta-project-memory/SKILL.md): recording
   implemented changes, validation and durable development knowledge.
+- [ffta-debugging](.cursor/skills/ffta-debugging/SKILL.md): Terra-led debugging
+  with a focused Sol consultation when diagnosis or progress stalls.
+
+## Debugging model workflow
+
+For debugging, read `ffta-debugging` and use GPT-6.1 Terra as the primary model
+with Extra High thinking (`xhigh`), selected in the client or CLI. Require
+`xhigh` for the Sol consultant too, explicitly setting its delegation effort;
+do not silently lower either model's effort. If the cause or next discriminating
+check is unclear, delegate a focused diagnosis to GPT-6.1 Sol, then resume implementation
+and validation in Terra. This authorizes that diagnostic delegation without
+asking again at each handoff. Follow the skill's triggers, evidence packet and
+consultant contract; disclose unavailable model/delegation support. Workflow
+setup alone does not resume paused runtime tasks. See the
+[operating guide](docs/development/DEBUGGING_WORKFLOW.md).
 
 ## Finish a change
 

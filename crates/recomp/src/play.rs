@@ -1257,6 +1257,8 @@ impl PlayApp {
             }
         }
 
+        let mut hint_pad_activity=gilrs_activity;
+
         // DirectInput has no event queue, so poll each attached pad and use
         // whichever currently reports intentional activity. This avoids
         // getting stuck on a saved controller name after the user swaps pads.
@@ -1276,6 +1278,7 @@ impl PlayApp {
             let new_activity =
                 self.last_direct_activity.as_ref() != Some(&(name.clone(), tokens.clone()));
             if !gilrs_activity && new_activity {
+                hint_pad_activity=true;
                 self.active_controller = Some(ActiveController::DirectInput);
                 let layout = input_config::GamepadLayout::detect(name);
                 if self.icfg.gamepad_name != *name
@@ -1345,6 +1348,7 @@ impl PlayApp {
                     }
                 }
             }
+            hint_pad_activity |= activity_slot.is_some();
             let active_slot = activity_slot
                 .or_else(|| {
                     self.icfg
@@ -1673,6 +1677,7 @@ impl PlayApp {
             let mut held=self.held.iter().map(|k|format!("{k:?}")).collect::<Vec<_>>();held.sort();
             self.ui_event("mapped-poll",serde_json::json!({"held_keyboard":held,"mapped_keys":keys,"controller_backend":if native_xinput{"XInput"}else if direct_requested{"DirectInput"}else if self.pad.is_some(){"Gilrs"}else{"unavailable"},"controller_device":self.icfg.gamepad_name,"navigation_source":"Keyboard OR selected controller; simultaneous sources not causally separated","nav":[nav.up,nav.down,nav.left,nav.right,nav.confirm,nav.cancel,nav.open],"rising_confirm":nav.confirm&&!self.nav_prev.confirm,"paused":self.paused,"suppression":self.suppress,"binding_capture":format!("{:?}",self.menu.capturing()),"menu_shortcut":self.menu_shortcut_held,"menu":self.ui_focus()}));
         }
+        if hint_pad_activity {self.menu_dirty |= self.menu.note_input(input_config::Device::Gamepad);}
         (keys, nav)
     }
 
@@ -3209,6 +3214,12 @@ impl PlayApp {
             if self.events_enabled(){self.ui_event("modal-input-consumed",serde_json::json!({"guest_input":false,"reason":"Returning from explicit host dialog"}));}
             return;
         }
+        if matches!(&event,
+            WindowEvent::KeyboardInput{event:KeyEvent{state:ElementState::Pressed,repeat:false,..},is_synthetic:false,..}
+            | WindowEvent::MouseInput{state:ElementState::Pressed,..}
+            | WindowEvent::MouseWheel{..}) {
+            self.menu.note_input(input_config::Device::Keyboard);
+        }
         match event {
             WindowEvent::Focused(true)=>self.modal_input.focus_return(Instant::now()),
             WindowEvent::CloseRequested => event_loop.exit(),
@@ -3263,7 +3274,7 @@ impl PlayApp {
                 ElementState::Pressed => {
                     if self.paused && !repeat && code==KeyCode::Tab && !menu_key_member && self.menu.capturing().is_none() && !self.menu.content_text_focus() && (!self.menu.host_panel_active() || self.held.contains(&KeyCode::ControlLeft)||self.held.contains(&KeyCode::ControlRight)) {if self.held.contains(&KeyCode::ShiftLeft)||self.held.contains(&KeyCode::ShiftRight){self.menu.atlas_reference_tab();}else{self.menu.focus_next();}self.menu_dirty=true;return;}
                     // Consume debugger shortcuts before text input, bindings, Fast or menu capture.
-                    if self.debug_session && matches!(code,KeyCode::F6|KeyCode::F7|KeyCode::F8) {
+                    if self.debug_session && self.av.debug && matches!(code,KeyCode::F6|KeyCode::F7|KeyCode::F8) {
                         if self.events_enabled(){self.ui_event("shortcut-consumed",serde_json::json!({"key":format!("{code:?}"),"repeat":repeat,"guest_input":false}));}
                         if !repeat {
                             let action=match code {
@@ -3693,6 +3704,7 @@ impl PlayApp {
                     self.observe_menu("mouse-capture-cancel");
                     continue;
                 }
+                if !matches!(m,MouseEv::Move(_)){self.menu.cancel_debug_unlock();}
                 match m {
                     MouseEv::Move(p) => {
                         if let Some((x, y)) = self.window_to_frame(p) {
@@ -3719,6 +3731,7 @@ impl PlayApp {
                         if let Some(a) = self.menu.handle(ev, &mut self.av) {
                             acts.push((a,correlation.clone()));
                         }
+                        self.menu.cancel_debug_unlock();
                     }
                 }
                 if !matches!(m,MouseEv::Move(_))&&self.events_enabled(){self.ui_event("host-pointer-dispatch",serde_json::json!({"kind":if matches!(m,MouseEv::Click(..)){"click"}else{"wheel"},"outcome":"routed-to-existing-menu-handler","guest_input":false}));}
@@ -4767,6 +4780,7 @@ Place your own dump as gba_bios.bin next to the executable:\n  {}",
         error: None,
     };
 
+    app.menu.set_debug_enabled(app.av.debug);
     app.menu.set_debug_session(session.is_some());
     if debug_start_state.is_some() { app.after_state_restore(); }
     if start_paused {app.debug_action(&crate::debug_control::Action::Pause)?;}

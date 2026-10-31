@@ -6,7 +6,8 @@ sinistra e i footer sono indipendenti dallo scroll del contenuto. Il minimo
 tecnico del canvas è 480×360 pixel fisici; sotto questa misura appare una
 richiesta di ingrandire la finestra con Escape di recupero.
 
-La sidebar mantiene esattamente otto sezioni per scheda. **Gioco** contiene
+La sidebar mantiene esattamente otto sezioni per scheda. Debug è inizialmente
+nascosto e compare solo dopo lo sblocco descritto sotto. **Gioco** contiene
 Panoramica, Salvataggi, Fast Forward, Finestre di testo, Audio, Video, Controlli
 e Sistema. **Debug** contiene Panoramica, Sessioni e casi, Replay e confronti,
 Esecuzione e memoria, Tracce e ispettori, Console e script, Cheat, Report e
@@ -32,12 +33,38 @@ cartuccia numerati e backup. Le forme e gli handler precedenti conservano
 anteprime, conferme e Undo. Sistema raccoglie riavvio, cambio ROM e uscita.
 I binding e i tre profili di input rimangono in Controlli.
 
-**Gioco > Video > Trasparenza menu** regola gli sfondi dallo 0% (opachi,
-valore iniziale) al 100% (trasparenti), in passi del 10%. Testi, bordi e
+**Gioco > Video > Trasparenza menu** regola gli sfondi dallo 0% (opachi)
+al 100% (trasparenti), in passi del 10%. Il valore iniziale è **10%**. Testi, bordi e
 anteprime restano opachi. La preferenza viene salvata come
 `menu.transparency = 0.0..1.0` in `av.cfg`, anche in modalità portable.
+Un file precedente senza questa chiave usa il 10%; un valore esplicito già
+salvato, compreso 0%, mantiene la scelta dell’utente.
 Il gioco visibile sotto il menu resta fermo; ogni ridisegno riparte dal frame
 congelato, senza accumulare la trasparenza del disegno precedente.
+
+## Sblocco permanente di Debug
+
+Nel menu aperto premere, con pressioni separate delle frecce o della croce:
+
+**↑ ↑ ↓ ↓ ← ← → →**
+
+L'ultima direzione rende visibile Debug e salva **`debug = true`** in `av.cfg`
+(`Data/config/av.cfg` in modalità portable). Basta una volta: chiudere il menu,
+cambiare ROM o riavviare mantiene lo sblocco nella stessa configurazione.
+In alternativa aggiungere direttamente `debug = true` al file e riavviare.
+Il valore iniziale è `false`; impostarlo manualmente a `false` nasconde di
+nuovo le schermate al riavvio senza cancellare dati o preferenze Debug.
+
+Prima dello sblocco sono assenti la scheda Debug, i controlli previsti Eventi/CMD,
+i riferimenti Debug e le opzioni **Extended saves / Game saves** di Salvataggi.
+I normali slot, backup e controlli di gioco restano disponibili. La navigazione
+continua normalmente durante la sequenza; una direzione errata riparte dal
+prefisso ancora valido. Chiusura/riapertura, Conferma/Annulla, cambio focus,
+Dettagli, click e rotella interrompono la sequenza. Cattura dei binding,
+editor e dropdown non contribuiscono. I comandi F6/F7/F8 della copia isolata
+richiedono anche il flag sbloccato. I comandi CLI e i controlli di proprietà
+delle copie isolate conservano i propri contratti: questa è una preferenza di
+visibilità del menu.
 
 ## Comandi e Fast Forward
 
@@ -50,7 +77,9 @@ Debug. OK usa il comando condiviso della periferica (per esempio South sul
 gamepad), senza dipendere dal solo tasto Invio. Un click su una riga apre la
 scelta; un click sull'opzione la conferma, il click destro annulla.
 Sinistra dal margine del contenuto raggiunge la sidebar; su una sezione,
-Destra torna al suo contenuto. Nei layout a due colonne sinistra/destra
+Destra torna al suo contenuto. Il cursore laterale ha fondo ottone pieno,
+testo scuro e un indicatore `›`, distinti dalla sola sezione attiva; resta
+riconoscibile anche al 100% di trasparenza. Nei layout a due colonne sinistra/destra
 raggiungono prima il controllo adiacente. In Controlli, Su dal primo binding
 raggiunge le linguette dei dispositivi: le direzioni evidenziano, OK seleziona.
 Shift+Tab o Y/North cambia la vista Debug fra strumenti e riferimenti V2;
@@ -75,7 +104,15 @@ precedenza alla pressione quasi simultanea; il rilascio parziale non ripete
 la chord. La cattura di un binding e l'editing di testo o di una scelta nei
 moduli host restano esclusivi. Questi pulsanti dorsali restano shortcut dedicate.
 Questi controlli globali non consumano pulsanti quando il menu è chiuso.
-Il footer sinistro mostra il binding attuale della periferica selezionata,
+I suggerimenti seguono **l’ultimo input usato**: tastiera o mouse mostrano
+Frecce, Invio, Esc, Tab e F1; il gamepad mostra D-pad, A/B, X, RS CLICK e i
+dorsali Xbox già previsti dal progetto. Le linguette Debug mostrano Shift+Tab
+o Y e Dettagli mostra F1 o RS CLICK. La connessione di un pad e una pressione
+statica già rilevata non sostituiscono un successivo comando da tastiera.
+Le etichette non cambiano il profilo o i binding di gioco. Con la tastiera,
+volume e Fast Forward si regolano scegliendo la voce e premendo Invio; i
+suggerimenti non pubblicizzano scorciatoie da tastiera inesistenti.
+Il footer sinistro mostra il binding attuale della periferica usata,
 compreso il binding appena acquisito. Escape resta sempre un recupero.
 
 La velocità effettiva è 100–800%, in passi del 20%. Un accumulatore razionale
@@ -209,3 +246,41 @@ Evidenze locali: `target/menu-transparency-navigation/` (log di build e test,
 Due errori dell'harness relativi al puntatore e al prefisso delle etichette sono
 conservati; i prefissi già riusciti non sono stati ripetuti. Nessun benchmark.
 Linux, Windows nativo, controller fisici e versione USA restano **da verificare**.
+
+
+## Default e suggerimenti contestuali (31 ottobre 2026)
+
+Quattro casi mirati Windows GNU/Wine passano: default/compatibilità di
+`menu.transparency`, sorgente dei suggerimenti senza modifiche a binding o
+cattura, evidenziazione dopo Sinistra anche con sfondi trasparenti e il caso
+pixel precedente reso esplicitamente opaco. Build di test e produzione senza
+warning. La GUI EUR con XInput simulato verifica alternanza tastiera/pad,
+focus laterale distinto, etichette non tagliate a 854×480 e 640×480, tastiera
+usata mentre il pad resta premuto e scelta iniziale 10% senza chiave nel file.
+Le catture sono state ispezionate. Configurazione e binding della copia restano
+identici; stato completo, frame, clock e input guest e i tre originali privati
+restano invariati. Evidenze locali: `target/menu-context-controls/`.
+Linux, DirectInput/Gilrs reali, Windows nativo, controller fisici e USA restano
+da verificare. Nessun benchmark o ripetizione delle prove di salvataggio/ROM.
+
+
+## Verifica dello sblocco (31 ottobre 2026)
+
+Windows GNU/Wine: un caso del parser e 97 casi del menu passano, con una prova
+opzionale di esportazione ignorata. I test preesistenti dei percorsi Debug usano
+una fixture esplicitamente sbloccata; tre nuovi casi usano il vero costruttore
+bloccato e verificano visibilità/ingressi, sequenza/persistenza e reset/esclusività.
+Il primo giro aveva un solo test di salvataggi numerati ancora senza lo sblocco;
+è stato corretto e ripetuto da solo, conservando i 96 risultati già riusciti.
+Le correzioni finali sono solo nelle fixture di test e non modificano il codice
+della produzione. Anche gli otto casi del selettore host e il caso di bozza
+Workbench interessati passano su Wine, senza ripetere l’intera suite runtime.
+
+Build di produzione e test senza warning. La GUI EUR con XInput simulato
+verifica schermate nascoste, assenza delle opzioni Debug in Salvataggi,
+sblocco all'ottava direzione su tastiera e pad, scrittura `debug = true`,
+riapertura sbloccata e rimozione con `debug = false` al riavvio della stessa copia.
+Le immagini sono ispezionate; stato completo/frame/clock/input e i tre originali
+privati rimangono invariati. Evidenze locali: `target/menu-debug-unlock/`.
+Linux, Windows nativo, pad fisici, DirectInput/Gilrs e USA restano da verificare.
+Nessun benchmark, passo guest o nuova prova di ROM/salvataggi personali.

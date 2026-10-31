@@ -1,5 +1,10 @@
 # Strumenti di debug portable — guida comune
 
+La scheda Debug è inizialmente nascosta: nel menu premere
+**↑ ↑ ↓ ↓ ← ← → →**, oppure impostare `debug = true` in `av.cfg` e riavviare.
+Lo sblocco è persistente; in modalità portable il file è `Data/config/av.cfg`.
+Vedere [lo sblocco del menu](menu_clan_atlas.md#sblocco-permanente-di-debug).
+
 Usare una copia isolata e un caso scelto esplicitamente. Questi percorsi non
 modificano automaticamente lo stato delle prove DS e non avviano campagne
 generali. I dati di gioco si aggiungono localmente dopo l'estrazione del pacchetto.

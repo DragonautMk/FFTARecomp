@@ -1,6 +1,6 @@
 # Project skills and change memory
 
-The repository contains three local skills, routed by [AGENTS.md](../../AGENTS.md):
+The repository contains local skills, routed by [AGENTS.md](../../AGENTS.md):
 
 - [ffta-development](../../.cursor/skills/ffta-development/SKILL.md) identifies
   code entry points and implementation checks.
@@ -8,6 +8,9 @@ The repository contains three local skills, routed by [AGENTS.md](../../AGENTS.m
   guides builds, realistic validation and packaging.
 - [ffta-project-memory](../../.cursor/skills/ffta-project-memory/SKILL.md)
   records implemented behavior, evidence and lasting knowledge.
+- [ffta-debugging](../../.cursor/skills/ffta-debugging/SKILL.md) keeps Terra
+  responsible for debugging and consults Sol when diagnosis stalls; see the
+  [operating guide](DEBUGGING_WORKFLOW.md).
 
 Clients supporting `.cursor/skills` can discover them locally. Other agents
 should read the paths in AGENTS.md directly. No global skill installation or
@@ -69,7 +72,7 @@ when those files are unavailable. Missing local artifacts are an availability
 issue, not automatic reversal of completed work.
 
 The handoff is agent-maintained. There is no compaction hook or background
-process writing it automatically; AGENTS and all three local skills require its
+process writing it automatically; AGENTS and the local skills require its
 use. The memory checker validates records and coverage, not whether an agent
 actually read the handoff or chose useful work. Revalidate only the scope
 affected by new evidence, and update the handoff and underlying TODO together

@@ -3,6 +3,8 @@ use super::{SourceRange, ui_graphics::table_selected::Table};
 use crate::ffta_rom;
 use serde::{Deserialize, Serialize};
 
+pub mod dynamic_fragments;
+
 pub const ROOTS: [u32; 7] = [
     0x71e5f4, 0x71e608, 0x71e66c, 0x71e694, 0x71e6a8, 0x71e6e4, 0x71e6f8,
 ];

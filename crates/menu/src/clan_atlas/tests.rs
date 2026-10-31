@@ -29,7 +29,7 @@ fn shell_is_bounded_and_fixed_for_all_supported_viewports() {
                 g.body
             );
         }
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         for _ in 0..25 {
             menu.handle(MenuInput::Down, &mut av);
@@ -45,7 +45,7 @@ fn all_legacy_debug_actions_have_at_least_one_group_and_tabs_retain_focus() {
             "orphan {old:?}"
         );
     }
-    let mut m = Menu::new(true, true);
+    let mut m = Menu::unlocked_for_test(true, true);
     m.atlas_section(Domain::Debug, 4);
     m.selected = 5;
     m.scroll.set(3);
@@ -56,7 +56,7 @@ fn all_legacy_debug_actions_have_at_least_one_group_and_tabs_retain_focus() {
 }
 #[test]
 fn overview_slot_selection_is_readonly_and_overwrite_remains_confirmed() {
-    let mut m = Menu::new(true, true);
+    let mut m = Menu::unlocked_for_test(true, true);
     m.set_state_slots(vec![
         crate::StateSlot {
             occupied: true,
@@ -89,7 +89,7 @@ fn overview_slot_selection_is_readonly_and_overwrite_remains_confirmed() {
 }
 #[test]
 fn global_chords_preserve_preferences_and_work_from_debug() {
-    let mut m = Menu::new(true, true);
+    let mut m = Menu::unlocked_for_test(true, true);
     m.atlas_section(Domain::Debug, 7);
     let mut av = AvConfig::default();
     let volume = av.audio_volume;
@@ -125,7 +125,7 @@ fn render_native_atlas_viewports() {
     let root = std::path::PathBuf::from(std::env::var_os("FFTA_ATLAS_RENDER_DIR").unwrap());
     assert!(!root.exists());
     std::fs::create_dir_all(&root).unwrap();
-    let mut menu = Menu::new(true, true);
+    let mut menu = Menu::unlocked_for_test(true, true);
     let av = AvConfig::default();
     let input = crate::InputConfig::default();
     for (w, h) in [(1280, 720), (1024, 768), (854, 480), (640, 480),(480,640)] {
@@ -159,7 +159,7 @@ fn render_native_atlas_viewports() {
 
 #[test]
 fn columns_and_readonly_reference_lists_keep_shared_pointer_rectangles() {
-    let mut m=Menu::new(true,true);let mut av=AvConfig::default();
+    let mut m=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();
     for (w,h)in [(1280,720),(1024,768),(854,480),(640,480),(480,640)] {
         m.atlas_section(Domain::Game,5);
         for index in 0..m.rows().len(){
@@ -194,7 +194,7 @@ fn columns_and_readonly_reference_lists_keep_shared_pointer_rectangles() {
 
 #[test]
 fn switching_sections_preserves_subform_parent_and_scroll() {
-    let mut m=Menu::new(true,true);let mut av=AvConfig::default();
+    let mut m=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();
     m.atlas_section(Domain::Game,1);m.selected=0;m.scroll.set(2);
     m.handle(MenuInput::Confirm,&mut av);assert_eq!(m.page,Page::SaveStates);
     m.atlas_section(Domain::Debug,0);m.atlas_section(Domain::Game,1);
@@ -205,7 +205,7 @@ fn switching_sections_preserves_subform_parent_and_scroll() {
 
 #[test]
 fn dropdown_owns_focus_and_reference_detail_scroll_stops_at_its_limit() {
-    let mut m=Menu::new(true,true);let mut av=AvConfig::default();
+    let mut m=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();
     m.atlas_section(Domain::Game,5);m.selected=2;
     m.handle(MenuInput::Confirm,&mut av);assert!(m.dropdown.is_some());
     let g=geometry(854,480);m.hover(g.nav[0].x+5,g.nav[0].y+5,854,480);
@@ -220,7 +220,7 @@ fn dropdown_owns_focus_and_reference_detail_scroll_stops_at_its_limit() {
 
 #[test]
 fn information_keeps_full_text_and_returns_without_changing_selection_or_config() {
-    let mut m=Menu::new(true,true);let av=AvConfig::default();let mut cfg=crate::InputConfig::default();
+    let mut m=Menu::unlocked_for_test(true,true);let av=AvConfig::default();let mut cfg=crate::InputConfig::default();
     cfg.menu_key="LeftControl+LeftShift+LeftAlt+F10".into();
     m.atlas_section(Domain::Game,5);m.selected=7;m.scroll.set(3);m.atlas.sidebar_focus=true;
     let message=format!("{}FINE DETTAGLIO","Synthetic long validation message: ".repeat(600));m.diagnosis_result(message.clone());
@@ -247,7 +247,7 @@ fn real_atlas_geometry_and_fonts_scale_from_hd_to_4k() {
         assert!(b.x.abs_diff(2*a.x)<=8 && b.y.abs_diff(2*a.y)<=8);
         assert!(b.w.abs_diff(2*a.w)<=10 && b.h.abs_diff(2*a.h)<=10);
     }
-    let m=Menu::new(true,true);let a=list_layout(&m,1920,1080);let b=list_layout(&m,3840,2160);assert!(b.line_h.abs_diff(2*a.line_h)<=1);
+    let m=Menu::unlocked_for_test(true,true);let a=list_layout(&m,1920,1080);let b=list_layout(&m,3840,2160);assert!(b.line_h.abs_diff(2*a.line_h)<=1);
 }
 
 #[test]
@@ -256,7 +256,7 @@ fn nested_selectors_and_catalog_keep_readable_bounded_shared_rectangles() {
         let body=geometry(w,h).body;let g=crate::content_selector::geometry(body.w,body.h);
         assert!(13.*g.scale>=10.5);
         for r in [g.panel,g.search,g.list,g.details].into_iter().chain(g.controls).chain(g.actions){assert!(r[0]+r[2]<=body.w&&r[1]+r[3]<=body.h,"{w}x{h} {r:?} {body:?}");}
-        let mut m=Menu::new(true,true);m.atlas_section(Domain::Debug,1);m.open(Page::DebugCatalog);
+        let mut m=Menu::unlocked_for_test(true,true);m.atlas_section(Domain::Debug,1);m.open(Page::DebugCatalog);
         for index in 0..m.rows().len(){let r=row_rect(&m,index,w,h).unwrap();assert!(r.x+r.w<=body.x+body.w&&r.y+r.h<=body.y+body.h);assert_eq!(m.row_at(r.x+r.w/2,r.y+r.h/2,w,h),Some(index));}
     }
 }

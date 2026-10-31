@@ -3914,3 +3914,22 @@ azione/navigation/vecchia prova ripetuta/metrica. Positivoordinario/fullABI/
 dominio6F8-metadata-prefix-tail/alias71E5E0/indirect/globalcatalog/fullTODO aperti;
 nuoviLinux-USA-Windowsnativo-32:9 da fare.
 [CLI e limiti](../rom_data_ui_raw_transfers.md#actual-cli-registration).
+
+**ROMDATA-04-LOCALIZED-RAW-TRANSFERS-ORDINARY completato per un avvio
+EUR/Wine (2026-10-31).** Il CLI e93 osserva 5.488 byte serviti, inclusi
+selettori e payload di quattro gruppi; una coppia di 1.200 frame con lo stesso
+dataset verifica stato/clock/video/OAM/dispatch/audio. La stessa cache nativa
+è usata in entrambi i rami; altri percorsi e Linux/USA restano da verificare.
+[Prove e limiti](../rom_data_ui_raw_transfers.md#ordinary-european-boot-equivalence).
+
+**ROMDATA-01-LOCALIZED-RAW-DYNAMIC-DOMAIN parziale (2026-10-31).** Le chiamate
+originali documentano selettori 7/8/9 e 1.304 byte candidati non sovrapposti;
+altri produttori leggono valori vivi e il limite globale non è noto. Non esiste
+ancora un owner runtime per questi frammenti.
+[Dettagli](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery).
+
+**ROMDATA-02-LOCALIZED-RAW-DYNAMIC-FRAGMENTS completato per il modello
+EUR/Wine (2026-10-31).** Righe e prefissi hanno un modello tipizzato lossless
+con verifica sorgente/confini per 1.304 byte. La pubblicazione e l'uso runtime
+restano aperti; nessun limite globale dei selettori è dedotto.
+[Modello](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model).

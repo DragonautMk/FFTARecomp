@@ -4,7 +4,7 @@ fn state(menu:&Menu,av:&AvConfig,cfg:&InputConfig)->BTreeMap<String,String>{menu
 
 #[test]
 fn dropdown_selection_value_and_cancel_are_semantic_and_observation_is_readonly(){
-    let mut menu=Menu::new(true,false);let mut av=AvConfig::default();let cfg=InputConfig::default();
+    let mut menu=Menu::unlocked_for_test(true,false);let mut av=AvConfig::default();let cfg=InputConfig::default();
     menu.atlas_section(clan_atlas::Domain::Debug,1);menu.selected=0;
     let initial=state(&menu,&av,&cfg);assert_eq!(initial["item_id"],"Debug/ExtendedSaves");assert_eq!(initial["value"],"OFF");
     let config_before=cfg.serialize();let av_before=av.serialize();
@@ -21,7 +21,7 @@ fn dropdown_selection_value_and_cancel_are_semantic_and_observation_is_readonly(
 
 #[test]
 fn duplicate_content_labels_keep_distinct_ids_and_repeated_hover_does_not_change_state(){
-    let mut menu=Menu::new(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
+    let mut menu=Menu::unlocked_for_test(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
     let entry=|id:&str|ContentEntry{id:id.into(),name:"same label".into(),kind:"snapshot".into(),..Default::default()};
     menu.open_content("Synthetic".into(),vec![entry("content-a"),entry("content-b")],String::new(),1);
     let body=clan_atlas::geometry(940,620).body;let mut g=content_selector::geometry(body.w,body.h);g.list[0]+=body.x;g.list[1]+=body.y;
@@ -34,7 +34,7 @@ fn duplicate_content_labels_keep_distinct_ids_and_repeated_hover_does_not_change
 
 #[test]
 fn tool_editor_reports_draft_preedit_commit_cancel_and_field_identity(){
-    let mut menu=Menu::new(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
+    let mut menu=Menu::unlocked_for_test(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
     menu.open_tool(DebugTool::Inspect,vec![ToolField{key:"labels".into(),label:"Label".into(),value:"old".into(),help:String::new(),kind:ToolFieldKind::Text}],String::new());
     let original=state(&menu,&av,&cfg);assert_eq!(original["item_id"],"tool/Inspect/field/labels");
     menu.content_start_search();menu.content_text(" è");menu.content_preedit("候補");
@@ -46,7 +46,7 @@ fn tool_editor_reports_draft_preedit_commit_cancel_and_field_identity(){
 
 #[test]
 fn current_binding_value_and_capture_lifecycle_use_config_without_draw_side_effects(){
-    let mut menu=Menu::new(true,false);let av=AvConfig::default();let mut cfg=InputConfig::default();
+    let mut menu=Menu::unlocked_for_test(true,false);let av=AvConfig::default();let mut cfg=InputConfig::default();
     menu.open(Page::Inputs);menu.selected=1;
     let row=rows_of(menu.page)[menu.selected];assert!(matches!(row,Row::Key(_)));
     let before=state(&menu,&av,&cfg);if let Row::Key(button)=row{cfg.keys[button.index()]="F4".into();}
@@ -57,7 +57,7 @@ fn current_binding_value_and_capture_lifecycle_use_config_without_draw_side_effe
 
 #[test]
 fn actual_page_feedback_and_slot_availability_are_observed_without_mutating_slots(){
-    let mut menu=Menu::new(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
+    let mut menu=Menu::unlocked_for_test(true,false);let av=AvConfig::default();let cfg=InputConfig::default();
     menu.open(Page::SaveStates);let before=state(&menu,&av,&cfg);assert_eq!(before["state_slot.occupied"],"false");
     menu.state_result("Refused: no state".into());menu.set_state_undo(Some("Undo save".into()));
     let after=state(&menu,&av,&cfg);assert_eq!(after["feedback"],"Refused: no state");assert_eq!(after["state_undo"],"Undo save");assert_eq!(after["state_slot.occupied"],before["state_slot.occupied"]);

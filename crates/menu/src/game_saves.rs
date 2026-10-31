@@ -19,7 +19,7 @@ mod tests {
     #[test]
     fn game_save_picker_draws_and_mouse_actions_match_at_supported_sizes() {
         for (w, h) in [(480, 640), (640, 480), (1280, 720), (3840, 2160)] {
-            let mut menu = Menu::new(true, true);
+            let mut menu = Menu::unlocked_for_test(true, true);
             menu.set_game_saves(
                 (1..=99)
                     .map(|slot| GameSaveSlot {

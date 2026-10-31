@@ -32,6 +32,8 @@ mod debug_tool;
 mod selection;
 mod information;
 mod interaction;
+mod controls;
+mod debug_unlock;
 pub use debug_tool::{DebugTool,ToolRequest,ToolField,ToolFieldKind};
 pub use tool_inputs::ContentSlot;
 pub use content_selector::{ContentEntry,ContentViewPreferences,ContentHistory};
@@ -693,6 +695,9 @@ pub struct Menu {
     viewport: std::cell::Cell<(usize, usize)>,
     input_tabs_focus: Option<u8>,
     input_gamepad: std::cell::Cell<u8>,
+    hint_device: std::cell::Cell<Option<Device>>,
+    debug_enabled: std::cell::Cell<bool>,
+    unlock_progress: usize,
     mouse_mode: std::cell::Cell<bool>,
     controller_layout: std::cell::Cell<GamepadLayout>,
     menu_binding: std::cell::RefCell<String>,
@@ -755,6 +760,9 @@ impl Menu {
             viewport: std::cell::Cell::new((854, 480)),
             input_tabs_focus: None,
             input_gamepad: std::cell::Cell::new(0),
+            hint_device: std::cell::Cell::new(None),
+            debug_enabled: std::cell::Cell::new(false),
+            unlock_progress: 0,
             mouse_mode: std::cell::Cell::new(false),
             controller_layout: std::cell::Cell::new(GamepadLayout::Xbox),
             menu_binding: std::cell::RefCell::new("Escape".into()),
@@ -784,6 +792,7 @@ impl Menu {
     /// Reset to the top of the main page (called on each open so the cursor
     /// doesn't persist a stale position across pauses).
     pub fn reset(&mut self) {
+        self.cancel_debug_unlock();
         let root=clan_atlas::root_page(self.atlas.domain,self.atlas.selected_section());
         let selected=if self.page==root {self.selected}else{0};
         self.navigation.page=root;self.navigation.selected=selected.min(self.rows().len()-1);self.navigation.parents.clear();
@@ -806,9 +815,9 @@ impl Menu {
     }
     /// Move between the permanent sidebar and content without executing a row.
     pub fn escape_goes_back(&self)->bool {self.page!=Page::Main || self.dropdown.is_some() || self.atlas.sidebar_focus}
-    pub fn focus_next(&mut self) {if self.capture.is_none() && self.dropdown.is_none() && !self.content_text_focus() {self.input_tabs_focus=None;self.atlas.sidebar_focus=!self.atlas.sidebar_focus;}}
+    pub fn focus_next(&mut self) {self.cancel_debug_unlock();if self.capture.is_none() && self.dropdown.is_none() && !self.content_text_focus() {self.input_tabs_focus=None;self.atlas.sidebar_focus=!self.atlas.sidebar_focus;}}
     pub fn atlas_section(&mut self, domain:clan_atlas::Domain, section:usize) {
-        if section>=8 || self.capture.is_some() {return;}
+        if section>=8 || self.capture.is_some() || (domain==clan_atlas::Domain::Debug && !self.debug_enabled()) {return;}
         self.input_tabs_focus=None;
         let old=self.atlas.index();let prior=self.atlas.selected_section();
         self.atlas.saved[old][prior]=Some(clan_atlas::Saved{page:self.page,selected:self.selected,scroll:self.scroll.get(),parents:self.navigation.parents.clone()});
@@ -946,6 +955,10 @@ impl Menu {
     pub fn session_result(&mut self, message: String) { self.session_message = message; }
 
     fn rows(&self) -> &'static [Row] {
+        if !self.debug_enabled() {
+            if debug_unlock::debug_page(self.page){return &[Row::Back];}
+            if self.page==Page::Saves{return &[Row::SaveStatesMenu,Row::SaveBackupsMenu,Row::Back];}
+        }
         match self.page {
             Page::Main => clan_atlas::OVERVIEW_ROWS,
             Page::Debug => clan_atlas::debug_rows(self.atlas.selected_section()),
@@ -988,6 +1001,7 @@ impl Menu {
     }
 
     fn open(&mut self, page: Page) {
+        if debug_unlock::debug_page(page) && !self.debug_enabled(){return;}
         let scroll=self.scroll.get();
         self.navigation.open(page);
         if let Some(parent)=self.navigation.parents.last_mut(){parent.scroll=scroll;}
@@ -1055,6 +1069,11 @@ impl Menu {
     /// While a key capture is pending every event is ignored — the play
     /// loop decides what ends it.
     pub fn handle(&mut self, input: MenuInput, av: &mut AvConfig) -> Option<MenuAction> {
+        if av.debug && !self.debug_enabled(){self.set_debug_enabled(true);}
+        if self.observe_debug_unlock(input) {
+            self.set_debug_enabled(true);av.debug=true;self.debug_message="Debug sbloccato".into();
+            return Some(MenuAction::Changed(Changed::Overlay));
+        }
         if self.capture.is_some() {return None;}
         if let Some(mut dd)=self.dropdown.take() {
             match input {
@@ -1397,6 +1416,7 @@ impl Menu {
         left: bool,
         av: &mut AvConfig,
     ) -> Option<MenuAction> {
+        self.cancel_debug_unlock();
         let g=clan_atlas::geometry(w,h);
         if let Some(dd) = self.dropdown.as_ref() {
             let hit = theme::dropdown_hit(dd, x, y, w, h);
@@ -1413,7 +1433,7 @@ impl Menu {
             if matches!(self.page,Page::Debug|Page::CliReference) && g.debug_tabs.hit(x,y){self.atlas.planned=x>=g.debug_tabs.x+g.debug_tabs.w/2;self.atlas.detail_scroll=0;return None;}
             if self.atlas_reference_active() && g.body.hit(x,y){self.atlas_reference_hover(x,y,w,h);return None;}
             if g.domain.hit(x,y) {
-                let domain=if x<g.domain.x+g.domain.w/2 {clan_atlas::Domain::Game}else{clan_atlas::Domain::Debug};
+                let domain=if !self.debug_enabled() || x<g.domain.x+g.domain.w/2 {clan_atlas::Domain::Game}else{clan_atlas::Domain::Debug};
                 self.atlas_section(domain,self.atlas.section[usize::from(domain==clan_atlas::Domain::Debug)]);self.atlas.sidebar_focus=false;return None;
             }
             if let Some(i)=g.nav.iter().position(|r|r.hit(x,y)){self.atlas_section(self.atlas.domain,i);self.atlas.sidebar_focus=false;return None;}
@@ -1481,7 +1501,8 @@ impl Menu {
     }
 
     fn atlas_binding(&self,cfg:&InputConfig) {
-        *self.menu_binding.borrow_mut()=if cfg.device==Device::Gamepad {cfg.menu_pad.clone()}else{cfg.menu_key.clone()};
+        if self.hint_device.get().is_none(){self.note_input(cfg.device);}
+        *self.menu_binding.borrow_mut()=if self.hints_gamepad() {cfg.menu_pad.clone()}else{cfg.menu_key.clone()};
     }
     pub fn draw_inputs(
         &self,
@@ -1491,10 +1512,10 @@ impl Menu {
         w: usize,
         h: usize,
     ) {
+        if av.debug {self.debug_enabled.set(true);}
         self.atlas_binding(cfg);
         self.mouse_mode.set(cfg.mouse_keyboard);
         self.controller_layout.set(cfg.gamepad_layout);
-        *self.menu_binding.borrow_mut() = if cfg.device == Device::Gamepad { cfg.menu_pad.clone() } else { cfg.menu_key.clone() };
         if !matches!(self.page, Page::Inputs | Page::Gamepad | Page::MouseKeyboard) {
             self.input_gamepad.set(if cfg.device==Device::Gamepad {1}else if cfg.mouse_keyboard {2}else{0});
         }
@@ -1878,7 +1899,7 @@ mod tests {
     use super::*;
     #[test]
     fn debug_focus_reports_actual_dropdown_option_and_existing_geometry() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
         at(&mut menu,Row::ExtendedSaves);
         assert!(menu.debug_focus(852,480).dropdown.is_none());
         menu.handle(MenuInput::Confirm,&mut av);
@@ -1905,7 +1926,7 @@ mod tests {
     }
     #[test]
     fn dropdown_cancel_and_commit_use_real_video_settings() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Video);
         at(&mut menu, Row::Screen);
@@ -1930,7 +1951,7 @@ mod tests {
 
     #[test]
     fn fullscreen_menu_and_mouse_toggle_without_rebuilding_video_or_losing_scroll() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Video);
         menu.handle(MenuInput::Down, &mut av);
@@ -1953,7 +1974,7 @@ mod tests {
 
     #[test]
     fn fps_dropdown_commits_and_cycles_without_rebuilding_video() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Video);
         at(&mut menu, Row::Fps);
@@ -1977,7 +1998,7 @@ mod tests {
 
     #[test]
     fn menu_shortcut_capture_is_available_for_keyboard_mouse_and_gamepad() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         for (page, expected) in [(Page::Inputs, Bind::Menu), (Page::MouseKeyboard, Bind::Menu), (Page::Gamepad, Bind::GamepadMenu)] {
             menu.end_capture();
@@ -1991,7 +2012,7 @@ mod tests {
     }
     #[test]
     fn scrolled_input_hit_test_and_tabs_keep_binding_targets() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Gamepad);
         at(&mut menu, Row::FfToggleKey);
@@ -2018,7 +2039,7 @@ mod tests {
     }
     #[test]
     fn third_input_tab_selects_independent_mouse_keyboard_profile() {
-        let mut menu=Menu::new(true,true);
+        let mut menu=Menu::unlocked_for_test(true,true);
         let mut av=AvConfig::default();
         menu.open(Page::Gamepad);
         assert_eq!(select_tab(&mut menu,&mut av,MenuInput::Right),None);
@@ -2040,7 +2061,7 @@ mod tests {
     }
     #[test]
     fn segmented_controls_set_exact_values_by_mouse() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::FastForward);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::FastForward);
         at(&mut menu,Row::FastForward);
         let r=clan_atlas::row_rect(&menu,menu.selected,854,480).unwrap();
         menu.click(r.x+10,r.y+5,854,480,true,&mut av);assert!(menu.dropdown.is_some());
@@ -2056,7 +2077,7 @@ mod tests {
 
     #[test]
     fn input_submenus_keep_keyboard_and_gamepad_captures_separate() {
-        let mut menu = Menu::new(true, false);
+        let mut menu = Menu::unlocked_for_test(true, false);
         let mut av = AvConfig::default();
         menu.atlas_section(clan_atlas::Domain::Game,6);
         assert_eq!(
@@ -2122,7 +2143,7 @@ mod tests {
     #[test]
     fn enhanced_audio_lives_in_audio_submenu() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.atlas_section(clan_atlas::Domain::Game,4);
         assert_eq!(menu.page, Page::Audio);
         at(&mut menu, Row::Audio);
@@ -2134,7 +2155,7 @@ mod tests {
     #[test]
     fn mute_navigation_keeps_volume_and_reports_live_audio_change() {
         let mut av = AvConfig { audio_volume: 0.6, ..Default::default() };
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Audio);
         menu.handle(MenuInput::Down, &mut av);
         assert_eq!(menu.rows()[menu.selected], Row::Mute);
@@ -2155,7 +2176,7 @@ mod tests {
     #[test]
     fn volume_steps_clamps_and_reports_audio() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Audio);
         at(&mut menu, Row::Volume);
         assert_eq!(adjust(&mut menu,&mut av,MenuInput::Right), None);
@@ -2175,7 +2196,7 @@ mod tests {
     fn fast_forward_multiplier_cycles_without_enabling() {
         let mut av = AvConfig::default();
         assert_eq!(av.ff_speed, 4);
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::FastForward);
         at(&mut menu, Row::FastForward);
         let seq: Vec<u32> = (0..5)
@@ -2201,7 +2222,7 @@ mod tests {
     }
     #[test]
     fn submenus_open_and_cancel_goes_back() {
-        let mut av=AvConfig::default();let mut menu=Menu::new(true,true);
+        let mut av=AvConfig::default();let mut menu=Menu::unlocked_for_test(true,true);
         for(section,page)in [(2,Page::FastForward),(3,Page::TextBubbles),(4,Page::Audio),(5,Page::Video),(6,Page::Inputs)] {
             menu.atlas_section(clan_atlas::Domain::Game,section);assert_eq!(menu.page,page);
             assert_eq!(menu.handle(MenuInput::Cancel,&mut av),None);assert_eq!(menu.page,Page::Main);
@@ -2211,7 +2232,7 @@ mod tests {
 
     #[test]
     fn state_slots_cycle_and_emit_correct_controller_actions() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.atlas_section(clan_atlas::Domain::Game,1);
         at(&mut menu, Row::SaveStatesMenu);
@@ -2235,7 +2256,7 @@ mod tests {
 
     #[test]
     fn isolated_session_actions_preserve_the_normal_game_and_require_explicit_close() {
-        let mut menu = Menu::new(true,true);
+        let mut menu = Menu::unlocked_for_test(true,true);
         let mut av = AvConfig::default();
         menu.open(Page::Debug);
         at(&mut menu, Row::CloseDebugSession);
@@ -2260,7 +2281,7 @@ mod tests {
 
     #[test]
     fn recording_actions_require_an_isolated_copy_and_keep_the_menu_paused() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Debug);
         at(&mut menu, Row::StartInputRecording);
@@ -2280,7 +2301,7 @@ mod tests {
 
     #[test]
     fn code_trace_actions_require_isolated_copy() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
         at(&mut menu,Row::StartRecentEvents);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         at(&mut menu,Row::SaveRecentEvents);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         at(&mut menu,Row::StartGameplayTrace);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
@@ -2300,7 +2321,7 @@ mod tests {
 
     #[test]
     fn frame_steps_are_isolated_actions_and_leave_menu_open() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
         at(&mut menu,Row::DebugStepOne);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         assert!(menu.debug_message.contains("isolated"));
         at(&mut menu,Row::StartAudioCapture);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
@@ -2316,7 +2337,7 @@ mod tests {
 
     #[test]
     fn replay_actions_are_available_in_the_normal_menu_without_extended_saves() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
         for (row,action) in [(Row::CompareReplay,MenuAction::CompareReplay),(Row::CaptureReplay,MenuAction::CaptureReplay),(Row::AuditReplay,MenuAction::AuditReplay),(Row::ReplayCase,MenuAction::ReplayCase),(Row::ChooseReplayProfile,MenuAction::ChooseReplayProfile),(Row::CancelReplay,MenuAction::CancelReplay)] {
             at(&mut menu,row);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),Some(action));assert_eq!(menu.page,Page::Debug);
         }
@@ -2327,7 +2348,7 @@ mod tests {
 
     #[test]
     fn diagnosis_is_available_without_extended_saves_and_keeps_menu_paused() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::Debug);
         at(&mut menu, Row::CopyDiagnosis);
@@ -2346,7 +2367,7 @@ mod tests {
 
     #[test]
     fn debug_toggle_gates_game_saves_and_snapshot_picker_reaches_99_then_clamps() {
-        let mut menu = Menu::new(true,true);
+        let mut menu = Menu::unlocked_for_test(true,true);
         let mut av = AvConfig::default();
         menu.open(Page::Debug);
         at(&mut menu,Row::GameSavesMenu);
@@ -2375,7 +2396,7 @@ mod tests {
 
     #[test]
     fn numbered_game_save_actions_require_confirmation_and_keep_slot_identity() {
-        let mut menu=Menu::new(true,true);
+        let mut menu=Menu::unlocked_for_test(true,true);
         let mut av=AvConfig{debug_extended_saves:true,..Default::default()};
         menu.set_game_saves((1..=99).map(|slot| GameSaveSlot {
             name:format!("ffta-slot-{slot:02}.sav"),status:"Saved".into(),
@@ -2409,7 +2430,7 @@ mod tests {
 
     #[test]
     fn undo_action_tracks_last_operation_independently_of_selected_slot() {
-        let mut menu = Menu::new(true,true);
+        let mut menu = Menu::unlocked_for_test(true,true);
         let mut av = AvConfig::default();
         menu.open(Page::SaveStates);
         at(&mut menu,Row::UndoState);
@@ -2431,7 +2452,7 @@ mod tests {
 
     #[test]
     fn restoring_backup_requires_confirmation_and_pins_the_chosen_generation() {
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();
         menu.set_save_backups([BackupInfo{generation:Some(7),status:"Ready".into()},BackupInfo::default()]);
         menu.open(Page::SaveBackups);
         assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
@@ -2451,7 +2472,7 @@ mod tests {
 
     #[test]
     fn main_and_video_have_distinct_correct_layouts() {
-        let mut menu=Menu::new(true,true);let fixed=clan_atlas::geometry(1280,720);
+        let mut menu=Menu::unlocked_for_test(true,true);let fixed=clan_atlas::geometry(1280,720);
         assert_eq!(crate::atlas_theme::overview_rects(1280,720).len(),9);
         menu.open(Page::Video);let video=menu.page_layout(1280,720);
         assert_eq!(video.panel_x,fixed.body.x);assert_eq!(video.panel_w,fixed.body.w);
@@ -2461,7 +2482,7 @@ mod tests {
 
     #[test]
     fn replacing_a_slot_requires_explicit_controller_confirmation() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let mut av = AvConfig::default();
         menu.open(Page::SaveStates);
         menu.state_slots[0].occupied = true;
@@ -2481,7 +2502,7 @@ mod tests {
     fn screen_cycles_through_known_models() {
         let mut av = AvConfig::default();
         av.screen = "frontlit".into();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Video);
         at(&mut menu, Row::Screen);
         adjust(&mut menu, &mut av, MenuInput::Right);
@@ -2495,7 +2516,7 @@ mod tests {
     #[test]
     fn brightness_steps_within_range_and_rebuilds_video() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Video);
         at(&mut menu, Row::Brightness);
         assert_eq!(
@@ -2512,7 +2533,7 @@ mod tests {
     #[test]
     fn key_row_starts_capture_and_freezes_menu() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Inputs);
         at(&mut menu, Row::Key(Button::Start));
         assert_eq!(menu.capturing(), None);
@@ -2541,7 +2562,7 @@ mod tests {
     #[test]
     fn confirm_opens_pending_choice_and_second_confirm_applies_it() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Audio);
         at(&mut menu, Row::Audio);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
@@ -2561,7 +2582,7 @@ mod tests {
     #[test]
     fn ff_key_row_captures_the_fast_forward_binding() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::Inputs);
         at(&mut menu, Row::FfKey);
         menu.handle(MenuInput::Confirm, &mut av);
@@ -2576,7 +2597,7 @@ mod tests {
     #[test]
     fn toggle_key_and_fast_forward_audio_are_configurable() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.open(Page::FastForward);
         at(&mut menu, Row::FastForwardAudio);
         adjust(&mut menu, &mut av, MenuInput::Right);
@@ -2595,7 +2616,7 @@ mod tests {
     #[test]
     fn resume_and_quit_actions() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         at(&mut menu, Row::Resume);
         assert_eq!(
             menu.handle(MenuInput::Confirm, &mut av),
@@ -2625,7 +2646,7 @@ mod tests {
     #[test]
     fn restart_is_a_main_menu_action_and_errors_keep_navigation_available() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.atlas_section(clan_atlas::Domain::Game,7);
         at(&mut menu, Row::RestartRom);
         assert_eq!(menu.handle(MenuInput::Left, &mut av), None);
@@ -2651,7 +2672,7 @@ mod tests {
     #[test]
     fn switch_rom_submenu_can_resume_or_return_to_launcher() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.atlas_section(clan_atlas::Domain::Game,7);
         at(&mut menu, Row::SwitchRomMenu);
         assert_eq!(menu.handle(MenuInput::Confirm, &mut av), None);
@@ -2691,7 +2712,7 @@ mod tests {
     #[test]
     fn navigation_wraps() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.selected = 0;
         menu.handle(MenuInput::Up, &mut av);
         assert_eq!(menu.selected, clan_atlas::OVERVIEW_ROWS.len() - 1);
@@ -2701,7 +2722,7 @@ mod tests {
 
     #[test]
     fn tool_input_slots_keep_parent_cursor_and_only_request_internal_selection(){
-        let mut menu=Menu::new(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
+        let mut menu=Menu::unlocked_for_test(true,true);let mut av=AvConfig::default();menu.open(Page::Debug);
         at(&mut menu,Row::ToolInputsMenu);assert_eq!(menu.handle(MenuInput::Confirm,&mut av),None);
         assert_eq!(menu.page,Page::ToolInputs);
         for slot in ContentSlot::ALL {
@@ -2716,7 +2737,7 @@ mod tests {
 
     #[test]
     fn tool_identity_and_editor_footer_use_their_actual_custom_geometry(){
-        let mut menu=Menu::new(true,true);menu.set_debug_session(true);
+        let mut menu=Menu::unlocked_for_test(true,true);menu.set_debug_session(true);
         menu.open_tool(DebugTool::Step,vec![ToolField{key:"frames".into(),label:"frames".into(),value:"1".into(),help:String::new(),kind:ToolFieldKind::Text}],String::new());
         let mut px=vec![[0,0,0,255];940*620];
         for editing in [false,true]{
@@ -2731,7 +2752,7 @@ mod tests {
     #[test]
     fn draw_does_not_panic_on_any_page() {
         let av = AvConfig::default();
-        let mut menu = Menu::new(false, false);
+        let mut menu = Menu::unlocked_for_test(false, false);
         for page in [
             Page::Debug,
             Page::ToolInputs,
@@ -2774,7 +2795,7 @@ mod tests {
     #[test]
     fn mouse_hover_and_click_hit_rows() {
         let mut av = AvConfig::default();
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         let (w, h) = (854usize, 480usize);
 
         // Main page: hover selects, left click on "Audio >" opens it.

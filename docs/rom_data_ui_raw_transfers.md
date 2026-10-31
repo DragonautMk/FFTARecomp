@@ -212,5 +212,71 @@ executable. The private adopted generation is e93-d92/generation-5FQy4l under
 `target/rom-data-localized-raw-transfers-cli/windows-cli/resources/`; receipts
 and logs are retained in that ignored unit. No new checkpoint endpoint, game
 action/navigation, earlier acceptance replay or performance/space campaign
-is involved. Positive ordinary use, dynamic index domain/full helper ABI and
-all previously listed platform/catalog limitations remain pending.
+is involved. At this stage positive ordinary use, dynamic index domain/full
+helper ABI and all previously listed platform/catalog limitations remained pending.
+
+## Ordinary European boot equivalence
+
+The existing EUR e93-d92 production CLI now demonstrates ordinary consumption
+on the retained 1200-frame clean-boot input under Wine. The six resource counters
+report 1,372 reads and 5,488 served source bytes: 16 selector bytes and 5,472
+payload bytes, with four banks and four groups observed. These counts include
+repeated reads; they do not establish distinct-byte or whole-catalog coverage.
+
+One Wine comparison using the already accepted runtime test executable and
+the same 605 source files, dataset and input matches every complete serialized
+state and clock, central and wide image, OAM, dispatch and five audio streams
+for all 1,200 frames. Both arms use the same retained native translation cache;
+this does not establish global interpreter/native parity. The 92 guarded ROM,
+cache, loader, input, executable and managed files retain their hashes and
+modification times. The sandbox initially prevented Wine from creating its
+server lock; that failed invocation produced no game result, and the successful
+checks used the necessary sandbox escalation. No new build or earlier proof was
+repeated. Private receipts are in `target/rom-data-raw-ordinary-boot/`.
+
+This closes the selected ordinary EUR/Wine case, not all ordinary paths. The
+dynamic seventh-group domain, remaining groups, full caller ABI, global catalog,
+new Linux and USA verification, native Windows and the broader TODO remain open.
+No performance measurements were taken.
+
+## Bounded dynamic-view producer discovery
+
+The dynamic `71e6f8` transfer path has a concrete producer chain. Original
+`0cac18` passes the object at `02015744` to `0c9194`; transitions preserve a
+pending selector in byte3 and copy it to byte2. Setter `0caafc` truncates its
+input to a byte, and its 24 direct Thumb callers include six explicit calls
+with values 7, 8 or 9. Two other callers load a live structure byte, so these
+examples do not establish a global upper bound. Original helper and task-state
+gates remain relevant; static callers do not prove ordinary execution.
+
+For values 7, 8 and 9, each of the two original tables at `3996f4` and
+`39970c` supplies one authenticated four-byte row. The four resulting distinct
+64-byte offsets cover bank-relative `0100..0200`; the five declared language
+slots therefore provide five candidate 256-byte prefix fragments. The six rows
+and five prefixes total 1,304 bytes, disjoint from all e93 resource source
+spans. Values 7..9 and those candidates are a bounded source discovery, not a
+new runtime owner, a six-row table limit or proof of all possible indices.
+The other live-byte producers, full table extent and remaining lower prefix and
+tails stay open. Private source evidence is in
+`target/rom-data-raw-dynamic-domain/source-result.json`; the exact ROM and 86
+other guarded inputs remain unchanged. No build, Wine test or guest replay was
+needed for this static inspection. Linux and USA verification remain pending.
+
+## Dynamic fragment source model
+
+`ui_raw_transfers::dynamic_fragments` models the six discovered selector rows
+and five bank prefixes as seven explicit source spans. It preserves the full
+little-endian halfwords and words, validates that each described 64-byte view
+fits the declared prefix, and returns no byte for positions outside these
+fragments. Shape validation and exact EUR source authentication are separate;
+the latter requires the exact ROM identity. The model adds no runtime owner,
+guest selector cap or new managed dataset revision.
+
+One core-only Windows build and one focused Wine check pass exact reconstruction
+and byte lookup of all 1,304 bytes, seven boundaries, strict JSON roundtrip,
+shape rejection and independently authenticated source/ROM rejection. The
+test uses isolated source inputs and does not execute the original transfer
+routine. A preparation guard was corrected before compilation; no earlier proof
+was repeated. Private receipts are in `target/rom-data-raw-dynamic-domain/`.
+Managed extraction, typed guest/native reads, actual CLI and ordinary dynamic
+use remain open, as do the other indices, Linux and USA checks.

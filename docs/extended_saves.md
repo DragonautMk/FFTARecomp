@@ -1,5 +1,9 @@
 # Extended saves (desktop debug option)
 
+First unlock Debug in the pause menu with **Up Up Down Down Left Left Right Right**,
+or set `debug = true` in `av.cfg` and restart. The unlock is persistent.
+See [menu visibility](menu_clan_atlas.md#sblocco-permanente-di-debug).
+
 Open the pause menu, choose **Gioco > Salvataggi** (also available under
 **Debug > Sessioni e casi**), then enable **Extended saves** with
 Confirm, choose ON in the selector, then Confirm again. The default is OFF. The choice

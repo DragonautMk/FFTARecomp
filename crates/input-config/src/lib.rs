@@ -713,8 +713,10 @@ pub fn pad_binding(name: &str) -> PadBinding<'_> {
 /// frontends parse through it. "auto" means "the screen model's default".
 #[derive(Clone, PartialEq, Debug)]
 pub struct AvConfig {
-    /// Native menu background transparency,0..1; text/borders remain readable.
+        /// Native menu background transparency,0..1; text/borders remain readable.
     pub menu_transparency: f32,
+    /// Persistently reveal desktop debug menus after the directional sequence.
+    pub debug: bool,
     /// Debug tools: expose 99 snapshot and numbered cartridge-save slots.
     pub debug_extended_saves: bool,
     /// Selected portable cartridge slot; numeric so moving the bundle is safe.
@@ -766,7 +768,8 @@ pub struct AvConfig {
 impl Default for AvConfig {
     fn default() -> Self {
         Self {
-            menu_transparency: 0.0,
+            menu_transparency: 0.1,
+            debug: false,
             debug_extended_saves: false,
             debug_game_save_slot: 1,
             audio_enhanced: false,
@@ -807,6 +810,7 @@ impl AvConfig {
                         if value.is_finite() { cfg.menu_transparency = value.clamp(0.0, 1.0); }
                     }
                 }
+                "debug" => cfg.debug = v.eq_ignore_ascii_case("true"),
                 "debug.extended_saves" => cfg.debug_extended_saves = v.eq_ignore_ascii_case("true"),
                 "debug.game_save_slot" => {
                     if let Ok(slot @ 1..=99) = v.parse::<u8>() { cfg.debug_game_save_slot = slot; }
@@ -868,6 +872,7 @@ impl AvConfig {
         format!(
             "# gba-recomp a/v settings\n\
              menu.transparency = {}\n\
+             debug = {}\n\
              debug.extended_saves = {}\n\
              debug.game_save_slot = {}\n\
              audio.enhanced = {}\n\
@@ -890,6 +895,7 @@ impl AvConfig {
              bubble.size = {}\n\
              bubble.length = {}\n",
             self.menu_transparency,
+            self.debug,
             self.debug_extended_saves,
             self.debug_game_save_slot,
             self.audio_enhanced,
@@ -1067,12 +1073,25 @@ pub fn install_bios(src: &std::path::Path) -> Result<PathBuf, String> {
 #[cfg(test)]
 mod tests {
     #[test]
+    fn debug_visibility_defaults_hidden_and_roundtrips_manual_override() {
+        assert!(!super::AvConfig::default().debug);
+        assert!(!super::AvConfig::parse("debug.extended_saves = true\n").debug);
+        assert!(!super::AvConfig::parse("debug = invalid\n").debug);
+        let cfg=super::AvConfig::parse("debug = TRUE # manual unlock\nmenu.transparency = 0.6\n");
+        assert!(cfg.debug);assert_eq!(cfg.menu_transparency,0.6);
+        assert_eq!(super::AvConfig::parse(&cfg.serialize()),cfg);
+        assert!(!super::AvConfig::parse("debug = false\n").debug);
+    }
+
+    #[test]
     fn menu_transparency_defaults_roundtrips_and_rejects_nonfinite_values() {
-        assert_eq!(super::AvConfig::default().menu_transparency, 0.0);
+        assert_eq!(super::AvConfig::default().menu_transparency, 0.1);
+        assert_eq!(super::AvConfig::parse("audio.volume = 0.6\n").menu_transparency,0.1);
+        assert_eq!(super::AvConfig::parse("menu.transparency = 0\n").menu_transparency,0.0);
         let cfg=super::AvConfig::parse("menu.transparency = 0.6\n");
         assert_eq!(cfg.menu_transparency, 0.6);
         assert_eq!(super::AvConfig::parse(&cfg.serialize()),cfg);
-        for (value,expected) in [("-1",0.0),("2",1.0),("NaN",0.0),("inf",0.0),("bad",0.0)] {
+        for (value,expected) in [("-1",0.0),("2",1.0),("NaN",0.1),("inf",0.1),("bad",0.1)] {
             assert_eq!(super::AvConfig::parse(&format!("menu.transparency = {value}\n")).menu_transparency,expected);
         }
     }

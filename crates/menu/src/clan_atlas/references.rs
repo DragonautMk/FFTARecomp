@@ -156,6 +156,8 @@ impl Menu {
     }
     /// Select the planned reference with the keyboard, without entering an action row.
     pub fn atlas_reference_tab(&mut self) {
+        self.cancel_debug_unlock();
+        if !self.debug_enabled(){return;}
         if matches!(self.page, Page::Debug | Page::CliReference) {
             self.atlas.planned = !self.atlas.planned;
             self.atlas.detail_scroll = 0;

@@ -22,11 +22,22 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   `ff.speed`2/4/8. The rational frame batch clock preserves each complete guest
   frame/clock; fast audio uses fractional playback ratios. Menu-only shoulder
   chords preserve preferences and yield to binding capture/text editing.
+  Debug UI is hidden by default (av.cfg debug=false). Up Up Down Down Left Left
+  Right Right in the open menu reveals it and persists debug=true; direct config
+  editing works on restart. Debug-only save options and planned controls are
+  hidden too, while stored preferences and separate CLI/session guards remain.
+  Capture/editors/dropdowns and pointer navigation cannot complete the sequence.
   Directions navigate; Confirm opens a pending value, Confirm applies and Cancel
   discards (AV, slots, catalog filters, host choices and input-device tabs).
   Left at the content edge reaches the sidebar; Right enters a section.
-  Video exposes persisted menu.transparency0..1 (default0 opaque), affecting
-  background fills while text, borders and previews retain their foreground.
+  The sidebar cursor has opaque brass fill/dark text/marker distinct from the
+  active page. Hints and the menu binding follow the last intentional keyboard,
+  mouse or controller activity, independently of the persisted gameplay profile;
+  connected/unchanged held pads do not steal keyboard hints. Xbox labels follow
+  the current shared controller-label policy. Keyboard hints show actual menu
+  navigation rather than advertise nonexistent shoulder-key equivalents.
+  Video exposes persisted menu.transparency0..1 (default0.1; explicit old values
+  retained), affecting background fills while text, borders and previews retain their foreground.
   Complete selected values are available through readonly Dettagli/F1/R3;
   capture, editors, dropdowns and busy host owners keep priority. Native font
   scaling follows HD/4K, with readable nested catalog/selector/tool controls.
@@ -1619,8 +1630,17 @@ before rebuilding, rerecording fixtures or rerunning an unchanged benchmark.
   three child0/create-reuse-neutral1:85 runtime files84 IDhash87 managed paths
   unchanged/native cache28859 exact. Guest24755→24756/all six raw counts0,
   registration only.203 guards605 CLI+605runtime/85 accepted originals exact.
-  Ordinary positive/fullpair, dynamic domain/full caller ABI and deferred
-  platform checks remain pending; no old proof/gameplay/fixture/metrics replay.
+  One EUR/Wine 1200-frame clean boot now positively consumes the raw transfer
+  resource (16 selector/5472 payload bytes served; four groups), with a matching
+  per-frame full-state/clock/video/OAM/audio pair using the same native cache.
+  [Scope and evidence](../rom_data_ui_raw_transfers.md#ordinary-european-boot-equivalence).
+  Other ordinary paths, dynamic domain/full caller ABI and deferred platform
+  checks remain pending; no performance measurement.
+  Bounded [dynamic-view source discovery](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery)
+  identifies explicit selectors 7/8/9 and 1304 non-overlapping candidate bytes;
+  the [bounded typed source model](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model)
+  passes a focused EUR/Wine source check. Live-byte producers leave the global
+  index domain open; managed extraction and a runtime owner remain pending.
 
 
 
@@ -3028,6 +3048,15 @@ captures. Evidence is tracked in the [record](../changes/2026-10-21-align-native
 This is not an AI-turn or native Windows performance claim.
 
 ## Maintaining this knowledge
+
+The [debugging model workflow](DEBUGGING_WORKFLOW.md), routed by AGENTS and
+`ffta-debugging`, keeps GPT-6.1 Terra as the client-selected primary agent and
+consults GPT-6.1 Sol for stalled diagnosis before Terra resumes implementation
+and validation. Both require Extra High (`xhigh`) reasoning: Terra is set in
+the client/CLI and Sol by an explicit delegation override. Model/effort
+overrides require supported tools; the skill does not switch the primary
+settings or resume paused work. Consultation evidence
+and the return action belong to the selected task's handoff entry.
 
 Platform-specific root-workspace scripts are grouped under `scripts/linux/`,
 `scripts/windows/`, `scripts/android/` and `scripts/unix/`; shared tools remain

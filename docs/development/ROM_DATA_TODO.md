@@ -5565,3 +5565,29 @@ azione/navigation/vecchia prova ripetuta/metrica. Positivoordinario/fullABI/
 dominio6F8-metadata-prefix-tail/alias71E5E0/indirect/globalcatalog/fullTODO aperti;
 nuoviLinux-USA-Windowsnativo-32:9 da fare.
 [CLI e limiti](../rom_data_ui_raw_transfers.md#actual-cli-registration).
+
+**ROMDATA-04-LOCALIZED-RAW-TRANSFERS-ORDINARY completato per l'avvio EUR/Wine
+selezionato (2026-10-31).** CLI e93 usa il normale input di avvio conservato:
+1.372 letture, 5.488 byte serviti (16 selettori, 5.472 payload), quattro banchi
+e quattro gruppi. Una coppia di 1.200 frame con lo stesso dataset confronta
+stato completo, clock, video, OAM, dispatch e audio: tutti uguali. Entrambi i
+rami usano la stessa cache nativa; 92 file protetti invariati. Nessuna nuova
+build o misura di performance. Altri percorsi, dominio dinamico, ABI completa,
+Linux, USA e Windows nativo restano aperti.
+[Prove e limiti](../rom_data_ui_raw_transfers.md#ordinary-european-boot-equivalence).
+
+**ROMDATA-01-LOCALIZED-RAW-DYNAMIC-DOMAIN parziale (2026-10-31).** I chiamanti
+originali forniscono esplicitamente selettori 7, 8 e 9; altri due leggono un
+byte vivo senza limite dimostrato. Sei righe e cinque prefissi candidati coprono
+1.304 byte senza sovrapporsi alle risorse e93. Nessun limite globale, uso
+ordinario o consumo runtime nuovo è dedotto dalla sola analisi statica. Modello,
+integrazione, dominio residuo e verifiche Linux/USA restano aperti.
+[Dettagli](../rom_data_ui_raw_transfers.md#bounded-dynamic-view-producer-discovery).
+
+**ROMDATA-02-LOCALIZED-RAW-DYNAMIC-FRAGMENTS completato per il modello
+EUR/Wine dichiarato (2026-10-31).** Sette intervalli/1.304 byte ricostruiti e
+verificati da ROM; controllo mirato di forma, JSON, autenticazione e confini
+passato su Wine. Nessun nuovo owner runtime, limite guest o test di esecuzione
+delle routine originali. Estrazione gestita, consumo e dominio globale restano
+aperti; Linux/USA da verificare.
+[Modello e limiti](../rom_data_ui_raw_transfers.md#dynamic-fragment-source-model).

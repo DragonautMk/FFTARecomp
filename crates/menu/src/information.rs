@@ -12,6 +12,7 @@ impl Menu {
     }
     /// Capture the selected context without executing it or leaving an editor/capture.
     pub fn information(&mut self, av: &AvConfig, cfg: &InputConfig) {
+        self.cancel_debug_unlock();
         if !self.information_available() {
             return;
         }

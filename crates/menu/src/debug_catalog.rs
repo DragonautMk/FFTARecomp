@@ -433,7 +433,7 @@ mod tests {
     }
     #[test]
     fn catalog_details_preview_and_actions_render_with_shared_hit_geometry() {
-        let mut menu = Menu::new(true, true);
+        let mut menu = Menu::unlocked_for_test(true, true);
         menu.set_catalog(entries(), "EUR");
         menu.catalog_preview(vec![[70, 90, 120, 255]; 240 * 160]);
         let av = input_config::AvConfig::default();

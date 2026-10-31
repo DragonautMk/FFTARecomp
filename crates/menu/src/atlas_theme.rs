@@ -11,6 +11,10 @@ const TEXT: [u8; 3] = [233, 239, 236];
 const MUTED: [u8; 3] = [168, 189, 199];
 const BRASS: [u8; 3] = [209, 175, 117];
 const EDGE: [u8; 3] = [89, 121, 139];
+fn focused_panel(c: &mut Canvas, r: Rect) {
+    // Focus must remain distinguishable from the active page, even at100% transparency.
+    canvas::with_panel_alpha(255,||c.rect(r.x as f32,r.y as f32,r.w as f32,r.h as f32,2.,BRASS,BRASS,TEXT));
+}
 pub(super) fn panel(c: &mut Canvas, r: Rect, on: bool) {
     c.rect(
         r.x as f32,
@@ -218,16 +222,18 @@ pub(super) fn draw(
         false,
         g.sidebar.w as f32 - 20.,
     );
-    let half = g.domain.w / 2;
-    for (i, label) in ["Gioco", "Debug"].iter().enumerate() {
+    let domains=if menu.debug_enabled(){2}else{1};
+    let half = g.domain.w / domains;
+    for (i, label) in ["Gioco", "Debug"].iter().take(domains).enumerate() {
         let r = Rect {
             x: g.domain.x + i * half,
             w: if i == 0 { half } else { g.domain.w - half },
             ..g.domain
         };
         let on = menu.atlas.index() == i;
-        panel(&mut c, r, on);
-        text(&mut c, r, label, fs, true, if on { BRASS } else { TEXT });
+        let focused=menu.atlas.sidebar_focus && menu.atlas.nav_cursor==0 && on;
+        if focused {focused_panel(&mut c,r);} else {panel(&mut c, r, on);}
+        text(&mut c, r, label, fs, true, if focused {BG} else if on { BRASS } else { TEXT });
     }
     let labels = if menu.atlas.domain == atlas::Domain::Game {
         atlas::GAME_SECTIONS
@@ -236,19 +242,16 @@ pub(super) fn draw(
     };
     for (i, r) in g.nav.iter().copied().enumerate() {
         let on = menu.atlas.selected_section() == i;
-        panel(
-            &mut c,
-            r,
-            on || (menu.atlas.sidebar_focus && menu.atlas.nav_cursor == i + 1),
-        );
-        let label = format!("{:02}  {}", i + 1, labels[i]);
+        let focused=menu.atlas.sidebar_focus && menu.atlas.nav_cursor==i+1;
+        if focused {focused_panel(&mut c,r);} else {panel(&mut c,r,on);}
+        let label = format!("{}{:02}  {}",if focused {"› "}else{""}, i + 1, labels[i]);
         text(
             &mut c,
             r,
             &label,
             fs * 0.90,
             false,
-            if on { BRASS } else { TEXT },
+            if focused {BG} else if on { BRASS } else { TEXT },
         );
     }
     panel(&mut c, g.binding, false);
@@ -265,7 +268,7 @@ pub(super) fn draw(
     let shown = binding
         .split('+')
         .map(|v| {
-            if menu.input_gamepad.get() == 1 {
+            if menu.hints_gamepad() {
                 gamepad_label(v, menu.controller_layout.get())
             } else {
                 v.to_uppercase()
@@ -285,8 +288,8 @@ pub(super) fn draw(
     c.text(
         (g.binding.x + 8) as f32,
         (g.binding.y + (47. * s) as usize) as f32,
-        if menu.input_gamepad.get() == 1 {
-            "Gamepad · Esc recupero"
+        if menu.hints_gamepad() {
+            "Gamepad"
         } else {
             "Tastiera · Esc recupero"
         },
@@ -295,18 +298,17 @@ pub(super) fn draw(
         false,
         g.binding.w.saturating_sub(16) as f32,
     );
-    panel(
-        &mut c,
-        g.back,
-        menu.atlas.sidebar_focus && menu.atlas.nav_cursor == 9,
-    );
+    let back_focused=menu.atlas.sidebar_focus && menu.atlas.nav_cursor==9;
+    if back_focused {focused_panel(&mut c,g.back);}else{panel(&mut c,g.back,false);}
+    let back=menu.hint_button("East","Esc");let focus=menu.hint_button("West","Tab");
+    let back_hint=if g.back.w<160 {format!("{back}: indietro")}else{format!("{back} indietro · {focus} focus")};
     text(
         &mut c,
         g.back,
-        "‹ Indietro  ·  Tab / X focus",
+        &back_hint,
         fs * 0.8,
         false,
-        TEXT,
+        if back_focused {BG}else{TEXT},
     );
     text(
         &mut c,
@@ -343,10 +345,11 @@ pub(super) fn draw(
     text(&mut c, g.title, title(menu), (22. * s).max(15.), true, TEXT);
     panel(&mut c, g.body, false);
     panel(&mut c, g.shortcuts, false);
+    let hints=menu.control_hints();
     c.text(
         (g.shortcuts.x + 10) as f32,
         (g.shortcuts.y + 8) as f32,
-        "VOLUME  L1 [−]   L1+R1 [MUTE]   R1 [+]",
+        &hints[0],
         TEXT,
         fs * 0.9,
         false,
@@ -355,7 +358,7 @@ pub(super) fn draw(
     c.text(
         (g.shortcuts.x + 10) as f32,
         (g.shortcuts.y + (30. * s) as usize) as f32,
-        "FAST  L2 [−]   L2+R2 [ON/OFF]   R2 [+]",
+        &hints[1],
         MUTED,
         fs * 0.9,
         false,
@@ -373,8 +376,9 @@ pub(super) fn draw(
     .unwrap_or("Frecce: naviga · OK: modifica/conferma · Annulla: indietro");
     text(&mut c, Rect{w:g.feedback.w.saturating_sub(g.information.w+5),..g.feedback}, feedback, fs * 0.85, false, MUTED);
     panel(&mut c,g.information,menu.atlas.information_hover&&menu.information_available());
-    text(&mut c,g.information,if menu.page==Page::Information{"Chiudi"}else{"Dettagli"},fs*0.85,false,if menu.information_available(){TEXT}else{MUTED});
-    if g.breadcrumb.w > 300 {
+    let info=if menu.page==Page::Information {format!("{back} Chiudi")}else{format!("{} Info",menu.hint_button("RightThumb","F1"))};
+    text(&mut c,g.information,&info,fs*0.85,false,if menu.information_available(){TEXT}else{MUTED});
+    if menu.debug_enabled() && g.breadcrumb.w > 300 {
         let bw = (90. * s) as usize;
         for (i, label) in ["Eventi · previsto", "CMD · previsto"].iter().enumerate() {
             let r = Rect {
@@ -545,7 +549,7 @@ fn draw_debug_tabs(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
     let mut c = Canvas::new(px, w, h);
     let fs = (g.scale_milli as f32 / 1000. * 12.).max(9.);
     let half = g.debug_tabs.w / 2;
-    for (i, label) in ["Menu/CLI · Shift+Tab / Y", "Debug V2 · riferimenti"]
+    for (i, label) in [format!("Menu/CLI · {}",menu.hint_button("North","Shift+Tab")), "Debug V2 · riferimenti".into()]
         .iter()
         .enumerate()
     {
@@ -635,7 +639,7 @@ fn draw_references(menu: &Menu, px: &mut [[u8; 4]], w: usize, h: usize) {
     c.text(
         (r.x + 10) as f32,
         (r.y + r.h.saturating_sub(25)) as f32,
-        "↑↓ elenco · ←→ dettagli · Esc indietro",
+        &format!("↑↓ elenco · ←→ dettagli · {} indietro",menu.hint_button("East","Esc")),
         MUTED,
         fs * 0.72,
         false,
